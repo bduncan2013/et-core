@@ -16,7 +16,7 @@
     }
 
     // Utility function to return json attr count
-    exports.jsonLength = jsonLength = var jsonLength = function(obj) {
+    exports.jsonLength = jsonLength = function(obj) {
         return Object.keys(obj).length; 
     };
 
