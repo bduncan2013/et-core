@@ -62,7 +62,7 @@
         return true;
     };
 
-    function MatchDelete(TargetList, TargetParameter) {      // delete all parameters starting with targetparameter
+    exports.MatchDelete = function MatchDelete(TargetList, TargetParameter) {      // delete all parameters starting with targetparameter
         var output = [];
         //proxyprinttodiv('Function MatchDelete : TargetList ', TargetList);
         //proxyprinttodiv('Function MatchDelete : TargetParameter ', TargetParameter);
@@ -77,7 +77,7 @@
         return output;
     }
 
-    function MatchPrefixDelete(TargetList, TargetParameter) {
+    exports.MatchPrefixDelete = function MatchPrefixDelete(TargetList, TargetParameter) {
         var targetobject=listToObject(TargetList);
         var split=MatchPrefix(targetobject,TargetParameter);
         var out1=DeletePrefix(split.match, TargetParameter)
@@ -88,7 +88,7 @@
         };
     }
 
-    function DeletePrefix(arr, kw ) {
+    exports.DeletePrefix = function DeletePrefix(arr, kw ) {
         if (kw=="") {return arr}
         else{
 
@@ -165,7 +165,7 @@
 // is not attr, it will be put into the ParentdtoList. As soon
 // as the first parameter of 'onetomany' is found, the rest of 
 // the list will be put into the childDTOlist.
-    function SplitKeywordSet(list, attr ){
+    exports.SplitKeywordSet = SplitKeywordSet =  function SplitKeywordSet(list, attr ){
         if(typeof(attr) == undefined){
             attr = 'onetomany';
         }
@@ -195,7 +195,7 @@
 // The sort will be ascending (a,b as opposed to b,a) unless
 // the function returns a value other than 1. To see more
 // goto: http://www.javascriptkit.com/javatutors/arraysort2.shtml#.UkF_G4b2qSo
-    function Sortonetomanys(list, attr){
+    exports.Sortonetomanys = Sortonetomanys =  function Sortonetomanys(list, attr){
         proxyprinttodiv('Function Sortonetomanys()  list : ',  list);
         proxyprinttodiv('Function Sortonetomanys()  attr : ',  attr);
         if(typeof(attr) == undefined){
@@ -225,7 +225,7 @@
 // Looks for the key word in the input and returns those fields that match the DTO in
 // the match hash, and those that don't in the nomatch hash. This is used to filter out
 // the parameters that the DTO is filtering for.
-    function MatchPrefix(input, kw) {
+    exports.MatchPrefix = MatchPrefix = function MatchPrefix(input, kw) {
         var match = [];
         var nomatch = [];
 
