@@ -200,31 +200,29 @@ $('#debugon').change(function() {
 //This defines how data is stored and retrieved with local storage.
 //clearLocalStorage()
 $(document).ready(function() {
-	// $('#data_set').change(function(){
-	// 	loadLocalData($("#data_set").val());
-	// });
+
 	Debug = 'false';
 	bootprocess();
 });
 
-//	 if (typeof window[value["executethis"]] == 'function') {
-//   result = window[value["executethis"]]();
-
 $('#execute_function').click(function() {
+	bootprocess();
 	$('#resultDiv').text("");
 	$('#test_result_message').text("");
 	$('#divprint').text("");
+
 	var function_to_execute = $('#function_to_run').val();
-	// var result = execute_function(function_to_execute);
 	var result = executethis({"executethis":function_to_execute});
-	// if (result !== undefined && result !== "") { showPassFail(result) };
-	if (Object.keys(result).length > 0) { showPassFail(result) };
+
+	var y = verifysummary("test_results");
+	if (Object.keys(result).length > 0) { showPassFail(y) };
+
 	var x = getfromlocal({"wid":"test_results"});
 	console.log('x=' + JSON.stringify(x));
+	$('#Function_Output').text(JSON.stringify(result));
 	$('#resultDiv').text(JSON.stringify(x));
+	
 	displayAllWids();
-	document.getElementById("divwidsdisplay_from_memory").innerHTML = "";
-	document.getElementById("divwidsdisplay_from_local_storage").innerHTML = "";
 	displaylocalStore();
 });
 
@@ -234,23 +232,9 @@ $('#rerun').click(function() {
 	updateMemory();
 })
 
+// LM: Please leave this here
 // $(document).keypress(function(e) {
 //     if(e.which == 13) {
-// 	$('#resultDiv').text("");
-// 	$('#test_result_message').text("");
-// 	$('#divprint').text("");
-// 	var function_to_execute = $('#function_to_run').val();
-// 	$('#working_gif').css("display: block");
-// 	var result = execute_function(function_to_execute);
-// 	if (result !== undefined && result !== "") { showPassFail(result) };
-// 	var x = getfromlocal({"wid":"test_results"});
-// 	console.log('x=' + JSON.stringify(x));
-// 	$('#resultDiv').text(JSON.stringify(x));
-// 	$('#working_gif').css("display: none");
-// 	// displayAllWids();
-// 	document.getElementById("divwidsdisplay_from_memory").innerHTML = "";
-// 	document.getElementById("divwidsdisplay_from_local_storage").innerHTML = "";
-// 	displaylocalStore();
 //     };
 // });
 
@@ -261,11 +245,12 @@ function showPassFail (result) {
 		document.getElementById("test_result_message").style.color="green";
 		document.getElementById("test_result_message").style.fontSize="250%";
 		document.getElementById("test_result_message").innerHTML="PASS";
-	} else {
+	} else 
+	if (result['resultwid'] == 'FAIL') {
 		document.getElementById("test_result_message").style.color="red";
 		document.getElementById("test_result_message").style.fontSize="250%";
 		document.getElementById("test_result_message").innerHTML="FAIL";
-	}
+	} 
 }
 
 function testgetwidmaster() {

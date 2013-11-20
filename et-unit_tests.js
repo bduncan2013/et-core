@@ -9,22 +9,24 @@ exports.at = at = function (params, callback) {
 	result.push(astt());
 	result.push(ctt());
 	result.push(alphatt());
+
 	// rt1();
-	var all_test_result = "PASS";
-	for (r in result) {
-		if (result[r]['resultwid'] != "PASS") {
-			all_test_result = "FAIL";
-		}
-	}
-	var x = {'resultwid':all_test_result};
+	// var all_test_result = "PASS";
+	// for (r in result) {
+	// 	if (result[r]['resultwid'] != "PASS") {
+	// 		all_test_result = "FAIL";
+	// 	}
+	// }
+	// var x = {'resultwid':all_test_result, 'testresults':test_results};
+
 	
     if (callback instanceof Function) { 
-    	callback(x); 
+    	callback(result); 
     } else { if (params) {
-    	return x; 
+    	return result; 
     	}
     }
-    return x;
+    return result;
 }
 // This test uses a gojs
 exports.rt1 = rt1 = function (params, callback) {
@@ -66,7 +68,7 @@ exports.tt = tt = function tt (params, callback) {
 	t4a();
 	t5();
 	t6();
-	var x = verifysummary("test_results");
+	var x = test_results;
     if (callback instanceof Function) { 
     	callback(x); 
     } else {  
@@ -85,7 +87,7 @@ exports.astt = astt =function astt (params, callback) {
 	ast4a();
 	ast5();
 	ast6();
-	var x = verifysummary("test_results");
+	var x = test_results;
     if (callback instanceof Function) { 
     	callback(x); 
     } else { 
@@ -104,12 +106,12 @@ exports.ctt = ctt = function ctt (params, callback) {
 	ct4a();
 	ct5();
 	ct6();
-	ct7();
+	// ct7();
 	ct8();
-	ct9();
-	ct10();
-	ct11();
-	var x = verifysummary("test_results");
+	// ct9();
+	// ct10();
+	// ct11();
+	var x = test_results;
     if (callback instanceof Function) { 
     	callback(x); 
     } else { 
@@ -124,7 +126,7 @@ exports.ctt = ctt = function ctt (params, callback) {
 exports.alphatt = alphatt = function alphatt (params, callback) {
 	testb();
 	teste();
-	var x = verifysummary("test_results");
+	var x = test_results;
     if (callback instanceof Function) { 
     	callback(x); 
     } else { 

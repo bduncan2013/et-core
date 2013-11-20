@@ -152,27 +152,13 @@ exports.verifysummary = verifysummary = function verifysummary(resultwid) {
 					proxyprinttodiv('Test Failed: testname:',result, 5);
 					}
 				}
-			} else {
-
-				// document.getElementById("test_result_message").style.color="red";
-				// document.getElementById("test_result_message").style.fontSize="250%";
-				// document.getElementById("test_result_message").innerHTML="error...failed to find test";
-			}
+			} 
 		}
 	if (testfailflag=='false') {
 		return {resultwid:'PASS'}
-		// proxyprinttodiv('Test passed',resultwid, true);
-		// document.getElementById("test_result_message").style.color="green";
-		// document.getElementById("test_result_message").style.fontSize="250%";
-		// document.getElementById("test_result_message").innerHTML="PASS";
 	} else {
 		return {resultwid:'FAIL'}
-		// document.getElementById("test_result_message").style.color="red";
-		// document.getElementById("test_result_message").style.fontSize="250%";
-		// document.getElementById("test_result_message").innerHTML="FAIL";
 	}
-	// Debug=olddebug;
-	// document.getElementById("resultDiv").innerHTML = JSON.stringify(test_results);
 }
 
 exports.logverify = logverify =  function logverify(testname, resultwid, parmwid1, parameterobj1, parmwid2, parameterobj2){
@@ -298,11 +284,10 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 	}
 };
 
-
 // logic to get things from Local storage
 exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
  	var output = {};
- 	proxyprinttodiv('getfromlocal',inputWidgetObject,99);
+ 				proxyprinttodiv('getfromlocal',inputWidgetObject,99);
 	if(inputWidgetObject["wid"]) {
 	var widKey = inputWidgetObject["wid"].toLowerCase();
 	output = localStore.get(widMasterKey + widKey);
@@ -313,7 +298,6 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
 	//if (!x) {x={}};
 	return output
 };
-
 
 // logic to clear things from Local storage
 exports.testclearstorage = testclearstorage = function testclearstorage(){
