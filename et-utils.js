@@ -1,6 +1,6 @@
 (function (window) {
     // Utility function to return json with all keys in lowercase
-    function toLowerKeys(obj){
+    exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj){
         if(obj){
             var key, keys = Object.keys(obj);
             var n = keys.length;
@@ -16,12 +16,12 @@
     }
 
     // Utility function to return json attr count
-    var jsonLength = function(obj) {
+    exports.jsonLength = jsonLength = var jsonLength = function(obj) {
         return Object.keys(obj).length; 
     };
 
     // Utility function to cleanup mentioned attr:val pairs from JSON passed in
-    var cleanupParameters = function(inboundParameters,paramsToClean){
+    exports.cleanupParameters =  cleanupParameters = function(inboundParameters,paramsToClean){
         var outBoundParameters = inboundParameters;
         
         for(var i=0;i<paramsToClean.length;i++){
@@ -33,7 +33,7 @@
     };
 
     // utility function to merge two JSON objects
-    var mergeParameters = function(c1,c2){
+    exports.mergeParameters =   mergeParameters = function(c1,c2){
         var mergedMap = c1;
         for(var attr in c2){
             mergedMap[attr] = c2[attr];
@@ -43,7 +43,7 @@
         return mergedMap;
     };
     
-    var getParamArray = function(data){
+    exports.getParamArray =  getParamArray = function(data){
         var returnArray = new Array();
 
         for(var attr in data){
@@ -53,7 +53,7 @@
         return returnArray;
     };
 
-    var isJson = function(str) {
+    exports.isJson =   isJson = function(str) {
         try {
             JSON.parse(str);
         } catch (e) {
