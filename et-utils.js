@@ -269,7 +269,7 @@
 // inside....and so on. In the meantime, add the values of the 
 // onject into parameters of 'res' (result).
 //http://scott.donnel.ly/javascript-function-to-convert-a-string-in-dot-andor-array-notation-into-a-reference/
-    function ConvertToDOTdri(obj) {        //dotize
+    exports.ConvertToDOTdri = ConvertToDOTdri = function ConvertToDOTdri(obj) {        //dotize
         var res = {};
         (function recurse(obj, current) {
             for (var key in obj) {
@@ -288,7 +288,7 @@
     }
 
 // Deconstructs the dot.notation string into an object that has properties.
-    function ConvertFromDOTdri(input) {        //Expands to Real javascript object
+    exports.ConvertFromDOTdri = ConvertFromDOTdri = function ConvertFromDOTdri(input) {        //Expands to Real javascript object
         var keys = Object.keys(input);
         var result = {};
 
