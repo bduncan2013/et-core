@@ -173,9 +173,7 @@ exports.logverify = logverify =  function logverify(testname, resultwid, parmwid
 	if (parmwid2.length!=0) {parameterobj2 = getfromlocal({'wid': parmwid2})};
 					proxyprinttodiv('logverify - parameterobj1',parameterobj1);
 					proxyprinttodiv('logverify - parameterobj2',parameterobj2);
-	var temp = JSON.stringify(parameterobj1);
 	var result = compareJSON(parameterobj1, parameterobj2);
-	localStore.push("widmaster_" + parmwid1, JSON.parse(temp));
 					proxyprinttodiv('logverify - result',result);
 					proxyprinttodiv('logverify - result.length',Object.keys(result).length);
 	var testresults = "PASS";

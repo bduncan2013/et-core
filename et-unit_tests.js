@@ -282,13 +282,6 @@ function ast6 () {
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2","preexecute":"async_func_c","postexecute":"async_func_c"}, "as_t6_output", "");
 	logverify("as_unit_tests","as_t6_result","as_t6_output","","",{"executethis":"async_func_c","d":"1","h":"5","g":"4"});
 }
-// Call async_func_d that will, in turn, call async_func_e   -----------------------------------------------------------------
-function ast7 () {
-	testclearstorage();
-	config = setconfig1();
-	executetest("executethis", {"executethis":"async_func_d", "c":"0", "d":"1", "e":"2"}, "as_t7_output", "");
-	logverify("as_unit_tests","as_t7_result","as_t7_output","","",{"executethis":"async_func_e","c":"0","h":"5"});
-}
 
 // Call redir_b with no pre or post
 function ct1 () {
@@ -404,55 +397,6 @@ function ct11 () {
 	logverify("c_unit_tests","ct11_result","ct11_output","","",{"executethis":"func_c","f":"3","h":"5","g":"4"});
 }
 
-// This test is to send in a config as parameter of a config. This allows for the server to recieve a config
-// from a config that is passed in the parameters.
-function ct12 () {
-	testclearstorage();
-	config = setconfig1();
-
-	executetest ("executethis", 
-				{"executethis":"func_b", "c":"0", "d":"1", "e":"2", "preexecute": "a",
-				    "configuration": {
-								        "preexecute": [
-								            {
-								                "dothis": "executeFn",
-								                "tryorder": "0",
-								                "executeorder": "0"
-								            }
-								        ],
-								        "a": [
-								            {
-								                "dothis": "alertFn1",
-								                "tryorder": "0",
-								                "executeorder": "0"
-								            }
-								        ],
-								        "configparams": [
-								            {
-								                "a": "b",
-								                "c": "d",
-								                "e": "f"
-								            }
-								        ]}},
-				"c_t12_output",
-				"");
-
-	logverify("c_unit_tests","c_t12_result","c_t12_output","","",{"c":"0","d":"1","executethis":"func_b","ct12":"did some alerting","g":"4"});
-}
-// Template for a new test, yet to be determined
-function ct13 () {
-	testclearstorage();
-	config = setconfig1();
-	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "ct13_output", "");
-	logverify("c_unit_tests","ct13_result","ct13_output","","",{"executethis":"func_b","c":"0","d":"1","g":"4"});
-}
-
-
-
-
-
-
-
 
 
 function other_func(params, callback) {
@@ -513,24 +457,6 @@ function async_func_c (parameters,  callback) {
 	parameters ["h"] = "5";
 	//sleep(500);
 	callback (parameters);
-}
-
-function async_func_d (parameters,  callback) {
-	var t = parameters["d"];
-	parameters['executethis'] = 'async_func_e';
-	parameters = executethis(parameters);
-	sleep(500);
-	if (parameters["d"] == t) parameters["d"] = t + ":added";
-	delete parameters["e"];
-	parameters ["h"] = "5";
-	callback (parameters);
-}
-
-function async_func_e (parameters) {
-	sleep(500);
-	delete parameters["d"];
-	parameters ["h"] = "7";
-	return parameters;
 }
 
 function jasontesta() {
