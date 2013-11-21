@@ -418,7 +418,6 @@
         //	delete resultObj["wid"];
         //	delete resultObj["metadata.method"];
         //}
-//		Debug=olddebug;
 
         proxyprinttodiv('Function AddWidParameters() dtoobject return: ',  dtoobject);
         //proxyprinttodiv('Function AddWidParameters() metadata : ',  metadata);
@@ -440,11 +439,9 @@
         //proxyprinttodiv('Function AddWidParameters()  inputList : ',  inputList);
         //proxyprinttodiv('Function AddWidParameters()  metadata : ',  metadata);
         olddebug=Debug;
-//   	Debug=olddebug;
         proxyprinttodiv('Function AddWidParameters()  all parms to addmaster : ',  {"dtolist":dtoList, "inputlist":inputList, "metadata": metadata});
-//	Debug=olddebug;
         if (inputParametersObject["wid"]===undefined) {inputParametersObject["wid"]="";}
-        Wid = AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata);
+        var Wid = AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata);
 
         proxyprinttodiv('Function AddWidParameters() came back from addmaster : ',  Wid);
 
@@ -615,13 +612,13 @@
                     //if (ParametersToAdd.length!==0) {		****
                     if (countKeys(ParametersToAdd)!==0) {
                         widtoadd='';
-                        if ((editflag='true') && (widlist!="")) {
+                        if ((editflag = 'true') && (widlist !== "")) {
                             if (widlist[currentchild]!==undefined) {   // removed -1
                                 for (var widName in widlist[currentchild]) {  // removed -1
                                     widtoadd=widName;
                                 }
                             }
-                        };
+                        }
                         proxyprinttodiv('Function AddMaster : ChildrendtoList - 222 wid+childdto A-', {"widtoadd":widtoadd, "ChildrendtoList":ChildrendtoList});
                         proxyprinttodiv('Function AddMaster : ParametersToAdd - 222, childdto+childparameters A- ', {"childrentype":childrentype, "ParametersToAdd": ParametersToAdd});
                         ChildWid = AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype);
@@ -649,7 +646,7 @@
                             widtoadd=widName;
                         }
                     }
-                };
+                }
                 proxyprinttodiv('Function AddMaster : ChildrendtoList - 444 wid+childdto B- ', {"widtoadd":widtoadd, "ChildrendtoList":ChildrendtoList});
                 proxyprinttodiv('Function AddMaster : ParametersToAdd - 444, childdto+childparameters B-', {"childrentype":childrentype, "ParametersToAdd": ParametersToAdd});
                 ChildWid = AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype);
