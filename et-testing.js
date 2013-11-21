@@ -129,8 +129,7 @@ exports.executetest = executetest = function executetest(myfunc, inputparameters
     if ((inputwidname!==undefined) && (inputwidname != "")) {addtolocal(inputwidname, inputparameters)}
     if(outwidname && outwidname !== undefined) { proxyprinttodiv('execute - outwidname',outwidname); }
     if(output && output !== undefined) { proxyprinttodiv('execute - output',output); }
-    updateMemory();
-}
+};
 
 
 exports.verifysummary = verifysummary = function verifysummary(resultwid) {

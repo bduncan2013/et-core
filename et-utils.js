@@ -13,7 +13,7 @@
         }else{
             return obj;
         }
-    }
+    };
 
     // Utility function to return json attr count
     exports.jsonLength = jsonLength = function(obj) {
@@ -75,7 +75,7 @@
         // only items that are not equal to the '.' survive
         proxyprinttodiv('Function MatchDelete : output ', output);
         return output;
-    }
+    };
 
     exports.MatchPrefixDelete = function MatchPrefixDelete(TargetList, TargetParameter) {
         var targetobject=listToObject(TargetList);
@@ -86,7 +86,7 @@
             match : out1,
             nomatch : out2
         };
-    }
+    };
 
     exports.DeletePrefix = function DeletePrefix(arr, kw ) {
         if (kw=="") {return arr}
@@ -147,19 +147,20 @@
             }
             //proxyprinttodiv('Function DeletePrefix result : ',  result);
             return result;
-        }}
+        }
+    };
 
 // Add all the parameters of b to a. This is the exact same function as
 // jsonConcat around line 550-650. Since extend is not used yet, it would be 
 // a good idea to just use jsonConcat as it is already in use elsewhere.
-    function extend(a, b){
+    exports.extend = extend = function extend(a, b){
         for(var key in b){
             if(b.hasOwnProperty(key)){
                 a[key] = b[key];
             }
         }
         return a;
-    }
+    };
 
 // Splits a list of parameters. If the value of a parameter
 // is not attr, it will be put into the ParentdtoList. As soon
@@ -189,7 +190,7 @@
             "childrenlist" : ChildrendtoList
         };
         return objChildParentdtoList;
-    }
+    };
 
 // Sorts a list of arrays based on the length of the array
 // The sort will be ascending (a,b as opposed to b,a) unless
@@ -220,7 +221,7 @@
         });
         proxyprinttodiv('Function Sortonetomanys()  output : ',  output);
         return output;
-    }
+    };
 
 // Looks for the key word in the input and returns those fields that match the DTO in
 // the match hash, and those that don't in the nomatch hash. This is used to filter out
@@ -254,13 +255,13 @@
                 } else {
                     nomatch.push({ "key": key, "value": input[key] });
                 }
-            };
+            }
             return {
                 match: match,
                 nomatch: nomatch
             };
-        }}
-
+        }
+    };
 
     /* lib.js functions */
 
@@ -281,11 +282,9 @@
                     res[newKey] = value;  // it's not an object, so set the property
                 }
             }
-        }
-            (obj)
-            );
+        }(obj));
         return res;
-    }
+    };
 
 // Deconstructs the dot.notation string into an object that has properties.
     exports.ConvertFromDOTdri = ConvertFromDOTdri = function ConvertFromDOTdri(input) {        //Expands to Real javascript object
@@ -296,12 +295,12 @@
             createObjects(result, keys[i].split('.'), input[keys[i]]);
         }
         return result;
-    }
+    };
 
 // Creates an object with a hash parent:value. If the chain array is more that 1, 
 // recurse until there is only 1 chain so you get chain:value returned. This is called only 
 // from ConvertFrom DOT, so you can see it part of the process of deconstructing the dot.notaion string.
-    function createObjects(parent, chainArray, value) {
+    exports.createObjects = createObjects = function createObjects(parent, chainArray, value) {
         if (chainArray.length == 1) {
             parent[chainArray[0]] = value;
             return parent;
@@ -310,11 +309,11 @@
             parent[chainArray[0]] = parent[chainArray[0]] || {};
             return createObjects(parent[chainArray[0]], chainArray.slice(1, chainArray.length), value);
         }
-    }
+    };
 
 // Strips the numbers from hash keys. It returns 3 arrays: input list, index list, and original input list.
 // Used by addWidParameters.
-    function RemoveIndex(input) {
+    exports.RemoveIndex = RemoveIndex = function RemoveIndex(input) {
         var result = [];
 
         //input = { 'a<1>': 'x', 'b<3>': 'y', 'c': 'z', 'd.e': 't', 'f<4>': 'y' };
@@ -362,12 +361,12 @@
         result.push(list3);
 
         return result;
-    }
+    };
 
 // Looks to move each item in the input into an object that
 // has a match and nomatch hash to see what the DTO has 
 // filtered out of the list as relevent fields.
-    function SplitObjectList(input, dto) {
+    exports.SplitObjectList = SplitObjectList = function SplitObjectList(input, dto) {
         var match = [];
         var nomatch = [];
         for (i = 0; i < input.length; i++) {
@@ -393,7 +392,7 @@
         };
     };
 
-    function SplitObject(input, dto) { // added 10-5 not used for anything yet
+    exports.SplitObject = SplitObject = function SplitObject(input, dto) { // added 10-5 not used for anything yet
         var match = {};
         var nomatch = {};
         var item = "";
@@ -412,7 +411,7 @@
     };
 
 // Returns an object made from an array
-    function listToObject(arrayOfObjects){
+    exports.listToObject = listToObject = function listToObject(arrayOfObjects){
         var finalObject ={};
         if(arrayOfObjects){
             for (var i = 0; i < arrayOfObjects.length; i++) {
@@ -421,16 +420,16 @@
             }
         }
         return finalObject;
-    }
+    };
 
 // Returns an array made from an object
-    function objectToList(object){
+    exports.objectToList = objectToList = function objectToList(object){
         var finalArray = [];
         for(key in object){
             finalArray.push({"key":key, "value":object[key]});
         }
         return finalArray;
-    }
+    };
 
 // Counts the number of hashes in an object
     exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
@@ -440,7 +439,7 @@
             if (parameters.hasOwnProperty(key)) size++;
         }
         return size;
-    }
+    };
 
 // Returns true if the parameter is lower case
     exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
@@ -457,10 +456,10 @@
                 return true;
             }
         }
-    }
+    };
 
 // Finds the first key in parameters that matches the string, or nothing if none is found	
-    function firstOrDefault(parameters, str) {
+    exports.firstOrDefault = firstOrDefault = function firstOrDefault(parameters, str) {
         var length;
         if(parameters.length === undefined) {
             length = getObjectSize(parameters);
@@ -472,7 +471,7 @@
                 return key;
             }
         }
-    }
+    };
 
 // Deletes a hash from an object	
     exports.remove = remove = function remove(parameters, str) {
@@ -488,12 +487,12 @@
         }else {
             length = parameters.length
         }
-    }
+    };
 
 // Creates output based on whether the flas is DTO or JSON. It formates
 // the DTO strings with quotes around the values. For JSON, it checks to make sure that
 // numbers are actual numbers, and strings have quotes around them.
-    function CleanBasedOnCheckflagList(flag, input, dto) {
+    exports.CleanBasedOnCheckflagList = CleanBasedOnCheckflagList = function CleanBasedOnCheckflagList(flag, input, dto) {
         output  = input;
 
         if (flag === "dto") {
@@ -534,9 +533,9 @@
         }
         //console.log(output);
         return output;
-    }
+    };
 
-    function tolowerparameters(parameters, rightparameters) {
+    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters) {
         //proxyprinttodiv('Function tolowerparameters : input parameters',  parameters);
         //proxyprinttodiv('Function tolowerparameters : input rightparameters',  rightparameters);
         var outputparameters = {};
@@ -558,7 +557,7 @@
         }
         //proxyprinttodiv('Function tolowerparameters : output outputparameters',  outputparameters);
         return outputparameters;
-    }
+    };
 
 //rightparameters && rightparameters[eachparameter] && 
 
@@ -573,38 +572,38 @@
             i++;
         }
         return null;
-    }
+    };
 
 // Adds the key of object2 to object 1
-    function jsonConcat(o1, o2) {
+    exports.jsonConcat = jsonConcat = function jsonConcat(o1, o2) {
         for (var key in o2) {
             if ((o1[key]===undefined) || (o1[key]=="")) {
                 o1[key] = o2[key];
             }
         }
         return o1;
-    }
+    };
 
 // Returns if o is a string or not
-    function isString(o) {
+    exports.isString = isString = function isString(o) {
         return typeof o == "string" || (typeof o == "object" && o.constructor === String);
-    }
+    };
 
 // Returns true if the val is an int, or false
-    function isInteger(val) {
+    exports.isInteger = isInteger = function isInteger(val) {
         return val.match(/^[0-9]$/);
-    }
+    };
 
 // Returns the number of hashes in an object
-    function countKeys(obj) {
+    exports.countKeys = countKeys = function countKeys(obj) {
         var size = 0, key;
         for (key in obj) {
             if (obj.hasOwnProperty(key)) size++;
         }
         return size;
-    }
+    };
 
-    function isEmpty(obj) {
+    exports.isEmpty = isEmpty = function isEmpty(obj) {
         if(isSet(obj)) {
             if (obj.length && obj.length > 0) {
                 return false;
@@ -619,7 +618,7 @@
         return true;
     };
 
-    function isSet(val) {
+    exports.isSet = isSet = function isSet(val) {
         if ((val != undefined) && (val != null)){
             return true;
         }
@@ -632,9 +631,9 @@
         for (var i = 0; i < arr.length; ++i)
             if (arr[i] !== undefined) rv[i] = arr[i];
         return rv;
-    }
+    };
 
-        exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv =  function proxyprinttodiv(text, obj, debugone){// **** making code node compatible
+    exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv =  function proxyprinttodiv(text, obj, debugone){// **** making code node compatible
         if ((typeof config !== "undefined") && (config.configuration.environment === "local")) {//{return mongoquery(parameters)}
 //    if(typeof require !== "undefined"){// **** making code node compatible
             printToDiv(text, obj, debugone);    // **** making code node compatible
