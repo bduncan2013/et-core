@@ -16,12 +16,12 @@
     };
 
     // Utility function to return json attr count
-    exports.jsonLength = jsonLength = function(obj) {
+    exports.jsonLength = jsonLength = function jsonLength(obj) {
         return Object.keys(obj).length; 
     };
 
     // Utility function to cleanup mentioned attr:val pairs from JSON passed in
-    exports.cleanupParameters =  cleanupParameters = function(inboundParameters,paramsToClean){
+    exports.cleanupParameters =  cleanupParameters = function cleanupParameters(inboundParameters,paramsToClean){
         var outBoundParameters = inboundParameters;
         
         for(var i=0;i<paramsToClean.length;i++){
@@ -33,7 +33,7 @@
     };
 
     // utility function to merge two JSON objects
-    exports.mergeParameters =   mergeParameters = function(c1,c2){
+    exports.mergeParameters = mergeParameters = function mergeParameters(c1,c2){
         var mergedMap = c1;
         for(var attr in c2){
             mergedMap[attr] = c2[attr];
@@ -43,7 +43,7 @@
         return mergedMap;
     };
     
-    exports.getParamArray =  getParamArray = function(data){
+    exports.getParamArray =  getParamArray = function getParamArray(data){
         var returnArray = new Array();
 
         for(var attr in data){
@@ -53,7 +53,7 @@
         return returnArray;
     };
 
-    exports.isJson =   isJson = function(str) {
+    exports.isJson = isJson = function isJson(str) {
         try {
             JSON.parse(str);
         } catch (e) {
@@ -62,7 +62,7 @@
         return true;
     };
 
-    exports.MatchDelete = function MatchDelete(TargetList, TargetParameter) {      // delete all parameters starting with targetparameter
+    exports.MatchDelete = MatchDelete = function MatchDelete(TargetList, TargetParameter) {      // delete all parameters starting with targetparameter
         var output = [];
         //proxyprinttodiv('Function MatchDelete : TargetList ', TargetList);
         //proxyprinttodiv('Function MatchDelete : TargetParameter ', TargetParameter);
@@ -77,7 +77,7 @@
         return output;
     };
 
-    exports.MatchPrefixDelete = function MatchPrefixDelete(TargetList, TargetParameter) {
+    exports.MatchPrefixDelete = MatchPrefixDelete = function MatchPrefixDelete(TargetList, TargetParameter) {
         var targetobject=listToObject(TargetList);
         var split=MatchPrefix(targetobject,TargetParameter);
         var out1=DeletePrefix(split.match, TargetParameter)
@@ -88,7 +88,7 @@
         };
     };
 
-    exports.DeletePrefix = function DeletePrefix(arr, kw ) {
+    exports.DeletePrefix = DeletePrefix = function DeletePrefix(arr, kw ) {
         if (kw=="") {return arr}
         else{
 
