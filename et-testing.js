@@ -89,7 +89,6 @@ function executelist(functionlist) {
 		}
 	}
 	verifysummary("resultwid");
-	updateMemory();
 }
 
 exports.executetest = executetest = function executetest(myfunc, inputparameters, outwidname, inputwidname){
