@@ -152,7 +152,7 @@
 // Add all the parameters of b to a. This is the exact same function as
 // jsonConcat around line 550-650. Since extend is not used yet, it would be 
 // a good idea to just use jsonConcat as it is already in use elsewhere.
-    exports.extend = extend = function extend(a, b){
+    function extend(a, b){
         for(var key in b){
             if(b.hasOwnProperty(key)){
                 a[key] = b[key];
@@ -301,7 +301,7 @@
 // Creates an object with a hash parent:value. If the chain array is more that 1, 
 // recurse until there is only 1 chain so you get chain:value returned. This is called only 
 // from ConvertFrom DOT, so you can see it part of the process of deconstructing the dot.notaion string.
-    exports.createObjects = createObjects = function createObjects(parent, chainArray, value) {
+    function createObjects(parent, chainArray, value) {
         if (chainArray.length == 1) {
             parent[chainArray[0]] = value;
             return parent;
@@ -314,7 +314,7 @@
 
 // Strips the numbers from hash keys. It returns 3 arrays: input list, index list, and original input list.
 // Used by addWidParameters.
-    exports.RemoveIndex = RemoveIndex = function RemoveIndex(input) {
+    function RemoveIndex(input) {
         var result = [];
 
         //input = { 'a<1>': 'x', 'b<3>': 'y', 'c': 'z', 'd.e': 't', 'f<4>': 'y' };
@@ -367,7 +367,7 @@
 // Looks to move each item in the input into an object that
 // has a match and nomatch hash to see what the DTO has 
 // filtered out of the list as relevent fields.
-    exports.SplitObjectList = SplitObjectList = function SplitObjectList(input, dto) {
+    function SplitObjectList(input, dto) {
         var match = [];
         var nomatch = [];
         for (i = 0; i < input.length; i++) {
@@ -393,7 +393,7 @@
         };
     };
 
-    exports.SplitObject = SplitObject = function SplitObject(input, dto) { // added 10-5 not used for anything yet
+    function SplitObject(input, dto) { // added 10-5 not used for anything yet
         var match = {};
         var nomatch = {};
         var item = "";
@@ -412,7 +412,7 @@
     };
 
 // Returns an object made from an array
-    exports.listToObject = listToObject = function listToObject(arrayOfObjects){
+    function listToObject(arrayOfObjects){
         var finalObject ={};
         if(arrayOfObjects){
             for (var i = 0; i < arrayOfObjects.length; i++) {
@@ -424,7 +424,7 @@
     }
 
 // Returns an array made from an object
-    exports.objectToList = objectToList = function objectToList(object){
+    function objectToList(object){
         var finalArray = [];
         for(key in object){
             finalArray.push({"key":key, "value":object[key]});
@@ -452,35 +452,35 @@
         }else {
             length = parameters.length
         }
-        for (key in parameters) {   //rewritten
+        for (key in parameters) {	//rewritten
             if(key.toLowerCase()==str){
                 return true;
             }
         }
     }
 
-// Finds the first key in parameters that matches the string, or nothing if none is found   
-    exports.firstOrDefault = function firstOrDefault(parameters, str) {
+// Finds the first key in parameters that matches the string, or nothing if none is found	
+    function firstOrDefault(parameters, str) {
         var length;
         if(parameters.length === undefined) {
             length = getObjectSize(parameters);
         }else {
             length = parameters.length
         }
-        for (key in parameters) {   //rewritten
+        for (key in parameters) {	//rewritten
             if(key.toLowerCase()==str){
                 return key;
             }
         }
     }
 
-// Deletes a hash from an object    
+// Deletes a hash from an object	
     exports.remove = remove = function remove(parameters, str) {
 //function remove(parameters, str){
         var length;
         if(parameters.length === undefined) {
             length = getObjectSize(parameters);
-            for (key in parameters) {   //rewritten
+            for (key in parameters) {	//rewritten
                 if(key.toLowerCase()==str){
                     delete  parameters[key];
                 }
@@ -493,7 +493,7 @@
 // Creates output based on whether the flas is DTO or JSON. It formates
 // the DTO strings with quotes around the values. For JSON, it checks to make sure that
 // numbers are actual numbers, and strings have quotes around them.
-    exports.CleanBasedOnCheckflagList = function CleanBasedOnCheckflagList(flag, input, dto) {
+    function CleanBasedOnCheckflagList(flag, input, dto) {
         output  = input;
 
         if (flag === "dto") {
@@ -536,7 +536,7 @@
         return output;
     }
 
-    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters) {
+    function tolowerparameters(parameters, rightparameters) {
         //proxyprinttodiv('Function tolowerparameters : input parameters',  parameters);
         //proxyprinttodiv('Function tolowerparameters : input rightparameters',  rightparameters);
         var outputparameters = {};
@@ -576,7 +576,7 @@
     }
 
 // Adds the key of object2 to object 1
-    exports.jsonConcat = jsonConcat = function jsonConcat(o1, o2) {
+    function jsonConcat(o1, o2) {
         for (var key in o2) {
             if ((o1[key]===undefined) || (o1[key]=="")) {
                 o1[key] = o2[key];
@@ -586,17 +586,17 @@
     }
 
 // Returns if o is a string or not
-    exports.isString = isString = function isString(o) {
+    function isString(o) {
         return typeof o == "string" || (typeof o == "object" && o.constructor === String);
     }
 
 // Returns true if the val is an int, or false
-    exports.isInteger = isInteger = function isInteger(val) {
+    function isInteger(val) {
         return val.match(/^[0-9]$/);
     }
 
 // Returns the number of hashes in an object
-    exports.countKeys = countKeys = function countKeys(obj) {
+    function countKeys(obj) {
         var size = 0, key;
         for (key in obj) {
             if (obj.hasOwnProperty(key)) size++;
@@ -604,7 +604,7 @@
         return size;
     }
 
-    exports.isEmpty = isEmpty =function isEmpty(obj) {
+    function isEmpty(obj) {
         if(isSet(obj)) {
             if (obj.length && obj.length > 0) {
                 return false;
@@ -619,7 +619,7 @@
         return true;
     };
 
-    exports.isSet = isSet =function isSet(val) {
+    function isSet(val) {
         if ((val != undefined) && (val != null)){
             return true;
         }
@@ -634,7 +634,7 @@
         return rv;
     }
 
-    exports.proxyprinttodiv = proxyprinttodiv =  function proxyprinttodiv(text, obj, debugone){// **** making code node compatible
+        exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv =  function proxyprinttodiv(text, obj, debugone){// **** making code node compatible
         if ((typeof config !== "undefined") && (config.configuration.environment === "local")) {//{return mongoquery(parameters)}
 //    if(typeof require !== "undefined"){// **** making code node compatible
             printToDiv(text, obj, debugone);    // **** making code node compatible
