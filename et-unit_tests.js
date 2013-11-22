@@ -536,7 +536,7 @@ exports.async_func_e = async_func_e = function async_func_e (parameters) {
 
 exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
 	parameters['executethis'] = 'async_func_e1';
-	parameters = executethis(parameters, execute);
+	parameters = executethis(parameters, "execute");
 	sleep(500);
 	parameters ["h"] = "5";
 	return parameters;
@@ -662,6 +662,45 @@ exports.teste = teste = function teste () {
 	logverify("alpha_unit_tests","teste_result","get_color1_result","","", {"hue":"red","wid":"color1","metadata.method":"defaultdto"});
 	return verifysummary("test_results");
 }
+
+exports.testf = testf = function testf () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {};
+	parameters ["wid"] = "green";
+	parameters ['executethis'] = addwidmaster;
+	var abc = executethis(parameters);
+	delete parameters['executethis'];
+	parameters ["wid"] = "blue";
+	var def = executethis(parameters, addwidmaster);
+	parameters ["wid"] = "red";
+	var ghi = 'boo'; //executethis(parameters, "addwidmaster");
+	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+	logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
+}
+
+exports.testf_fail = testf_fail = function testf_fail () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {};
+	parameters ["wid"] = "green";
+	parameters ['executethis'] = addwidmaster;
+	var abc = executethis(parameters);
+	delete parameters['executethis'];
+	parameters ["wid"] = "blue";
+	var def = executethis(parameters, addwidmaster);
+	parameters ["wid"] = "red";
+	var ghi = executethis(parameters, "addwidmaster");
+	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+	logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
+}
+
+
+
+
+
 // This will test the ability to have a relationship between 2 wids and use that
 // relationship to get the related wids.
 
