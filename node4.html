@@ -12,9 +12,13 @@
     <script src="./bootstrap/js/bootstrap.min.js"></script>
 	
     <script src="config-local.js"></script>
+    <script src="et-utils.js"></script>
     <script src="executethis.js"></script>
 	<script src="et-testing.js" type="text/javascript"></script>
-	<script src="addget.js" type="text/javascript"></script>
+
+	<script src="et-add.js" type="text/javascript"></script>
+	<script src="et-get.js" type="text/javascript"></script>
+
 	<script src="et-query.js" type="text/javascript"></script>
     <script src="et-local.js" type="text/javascript"></script>
 	<script src="et-test.js" type="text/javascript"></script>
@@ -214,14 +218,14 @@ $('#execute_function').click(function() {
 	var function_to_execute = $('#function_to_run').val();
 	var result = executethis({"executethis":function_to_execute});
 
-	var y = verifysummary("test_results");
-	if (Object.keys(result).length > 0) { showPassFail(y) };
+	// var y = verifysummary("test_results");
+	// if (Object.keys(result).length > 0) { showPassFail(y) };
 
 	var x = getfromlocal({"wid":"test_results"});
 	console.log('x=' + JSON.stringify(x));
 	$('#Function_Output').text(JSON.stringify(result));
 	$('#resultDiv').text(JSON.stringify(x));
-	
+
 	displayAllWids();
 	displaylocalStore();
 });

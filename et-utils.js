@@ -633,12 +633,20 @@
         return rv;
     };
 
-    exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv =  function proxyprinttodiv(text, obj, debugone){// **** making code node compatible
-        if ((typeof config !== "undefined") && (config.configuration.environment === "local")) {//{return mongoquery(parameters)}
-//    if(typeof require !== "undefined"){// **** making code node compatible
-            printToDiv(text, obj, debugone);    // **** making code node compatible
-        }// **** making code node compatible
-    };// **** making code node compatible
+    exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
+        if (!debugone) { debugone = -1; }
+        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+            console.log(text);
+            console.log(obj);
+            document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+        }
+    };
 
+    exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv =  function proxyprinttodiv(text, obj, debugone){// **** making code node compatible
+        if (exports.environment === "local") {
+            printToDiv(text, obj, debugone);   
+        }
+    }
 
 })(typeof window === "undefined" ? global : window);
