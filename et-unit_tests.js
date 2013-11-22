@@ -670,6 +670,10 @@ exports.testf = testf = function testf () {
 	parameters ["wid"] = "green";
 	parameters ['executethis'] = addwidmaster;
 	var abc = executethis(parameters);
+	var jkl = executethis(parameters, execute);
+	parameters ["wid"] = "yellow";
+	parameters ['executethis'] = "addwidmaster";
+	var mno = executethis(parameters, execute);
 	delete parameters['executethis'];
 	parameters ["wid"] = "blue";
 	var def = executethis(parameters, addwidmaster);
@@ -684,20 +688,45 @@ exports.testf_fail = testf_fail = function testf_fail () {
 	testclearstorage();
 	config = setconfig1();
 	var parameters = {};
-	parameters ["wid"] = "green";
-	parameters ['executethis'] = addwidmaster;
-	var abc = executethis(parameters);
-	delete parameters['executethis'];
-	parameters ["wid"] = "blue";
-	var def = executethis(parameters, addwidmaster);
+	// parameters ["wid"] = "green";
+	// parameters ['executethis'] = addwidmaster;
+	// var abc = executethis(parameters);
+	// delete parameters['executethis'];
+	// parameters ["wid"] = "blue";
+	// var def = executethis(parameters, addwidmaster);
 	parameters ["wid"] = "red";
 	var ghi = executethis(parameters, "addwidmaster");
 	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
 	logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
 	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
 }
-
-
+// To test executethis by sending a function
+exports.testg = testg = function testg () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {"wid":"green", "executethis": addwidmaster};
+	var abc = executethis(parameters);
+	executetest("addwidmaster", {"this_wid_was_added":abc }, "testg_output", "");
+	logverify("unit_tests","testg_result","testg_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+}
+// This test passes since execute is not in quotes
+exports.testh = testh = function testh () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {"executethis": addwidmaster, "wid":"green"};
+	var abc = executethis(parameters, execute);
+	executetest("addwidmaster", {"this_wid_was_added":abc }, "testh_output", "");
+	logverify("unit_tests","testh_result","testh_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+}
+// This test fails since execute is in quotes
+exports.testi = testi = function testi () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {"executethis": addwidmaster, "wid":"green"};
+	var abc = executethis(parameters, "execute");
+	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+	logverify("unit_tests","testi_result","testi_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+}
 
 
 
