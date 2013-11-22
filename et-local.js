@@ -1,4 +1,4 @@
-if ((typeof config !== "undefined") && (config.configuration.environment === "local")) {localStorage.clear();}
+if (exports.environment === "local") {localStorage.clear();}
 
 //exports.mongoquery = mongoquery = function(queryString) {
 exports.mongoquery = mongoquery = function mongoquery(queryString, callback) {

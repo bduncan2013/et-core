@@ -158,7 +158,7 @@ exports.test99 = test99 = function test99 () {
 
 // functions a,b,c manipulate parameters
 // Call func_b with no pre or post
-function t1 () {
+exports.t1 = t1 = function t1 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "t1_output", "");
@@ -176,7 +176,7 @@ function fail () {
 }
 
 // Call func_b with pre and post
-function t2 () {
+exports.t2 = t2 = function t2 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_a","postexecute":"func_c"}, "t2_output", "");
@@ -185,42 +185,42 @@ function t2 () {
 	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
 }
 // Call func_b with only pre func_a
-function t3 () {
+exports.t3 = t3 = function t3 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_a"}, "t3_output", "");
 	logverify("unit_tests","t3_result","t3_output","","",{"executethis":"func_b","c":"0","f":"3","g":"4"});
 }
 // Call func_b with only post func_a -- same result as t3
-function t3a () {
+exports.t3a = t3a = function t3a () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","postexecute":"func_a"}, "t3a_output", "");
 	logverify("unit_tests","t3a_result","t3a_output","","",{"executethis":"func_a","c":"0","g":"4","f":"3"});
 }
 // Call func_b with only post
-function t4 () {
+exports.t4 = t4 = function t4 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","postexecute":"func_c"}, "t4_output", "");
 	logverify("unit_tests","t4_result","t4_output","","",{"executethis":"func_c","d":"1","g":"4","h":"5"});
 }
 // Call func_b with only pre func_c -- same result as t4
-function t4a () {
+exports.t4a = t4a = function t4a () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_c"}, "t4a_output", "");
 	logverify("unit_tests","t4a_result","t4a_output","","",{"executethis":"func_b","d":"1","g":"4","h":"5"});
 }
 // Call func_b with func_a for pre and post
-function t5 () {
+exports.t5 = t5 = function t5 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_a","postexecute":"func_a"}, "t5_output", "");
 	logverify("unit_tests","t5_result","t5_output","","",{"executethis":"func_a","c":"0","f":"3","g":"4"});
 }
 // Call func_b with func_c for pre and post
-function t6 () {
+exports.t6 = t6 = function t6 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_c","postexecute":"func_c"}, "t6_output", "");
@@ -422,7 +422,7 @@ function func_a (parameters) {
 	return parameters;
 }
 
-function func_b (parameters) {
+exports.func_b = func_b = function func_b (parameters) {
 	console.log('from func_b');
 	delete parameters["e"];
 	parameters["g"] = "4";
