@@ -289,6 +289,15 @@ exports.ast7 = ast7 = function ast7 () {
 	executetest("executethis", {"executethis":"async_func_d", "c":"0", "d":"1", "e":"2"}, "as_t7_output", "");
 	logverify("as_unit_tests","as_t7_result","as_t7_output","","",{"executethis":"async_func_e","c":"0","h":"5"});
 }
+// Call async_func_d_1 that will, in turn, call async_func_e_1, and then async_func_f, async_func_g, and async_func_h.
+// If the diamond makes out of async_func_h...it will show executethis can go five layers deep into et and return with a parameter
+// to the as_t8_output...pretty cool 
+exports.ast8 = ast8 = function ast8 () {
+	testclearstorage();
+	config = setconfig1();
+	executetest("executethis", {"executethis":"async_func_d1", "c":"0", "d":"1", "e":"2"}, "as_t8_output", "");
+	logverify("as_unit_tests","as_t8_result","as_t8_output","","",{"c":"0","d":"1","e":"2","rubies":"red","emeralds":"green","diamonds":"you are rich!!","h":"5"});
+}
 // Call redir_b with no pre or post
 exports.ct1 = ct1 = function ct1 () {
 	testclearstorage();
@@ -519,11 +528,59 @@ exports.async_func_d = async_func_d = function async_func_d (parameters,  callba
 
 exports.async_func_e = async_func_e = function async_func_e (parameters) {
 	sleep(500);
+	// alert('func_e');
 	delete parameters["d"];
 	parameters ["h"] = "7";
 	return parameters;
 }
 
+exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
+	parameters['executethis'] = 'async_func_e1';
+	parameters = executethis(parameters, execute);
+	sleep(500);
+	parameters ["h"] = "5";
+	return parameters;
+	// callback (parameters);
+}
+
+exports.async_func_e1 = async_func_e1 = function async_func_e1 (parameters, callback) {
+	sleep(500);
+	// alert('func_e1');
+	parameters['executethis'] = 'async_func_f';
+	parameters = executethis(parameters, execute);
+	callback (parameters);
+	// return parameters;
+}
+
+exports.async_func_f = async_func_f = function async_func_f (parameters, callback) {
+	sleep(500);
+	// alert('func_f');
+	parameters ["rubies"] = "red";
+	parameters['executethis'] = async_func_g;
+	parameters = executethis(parameters, execute);
+	callback (parameters);
+	// return parameters;
+}
+
+exports.async_func_g = async_func_g = function async_func_g (parameters, callback) {
+	sleep(500);
+	// alert('func_g');
+	parameters ["emeralds"] = "green";
+	parameters ['executethis'] = async_func_h;
+	parameters = executethis(parameters, execute);
+	callback (parameters);
+	// return parameters;
+}
+
+exports.async_func_h = async_func_h = function async_func_h (parameters, callback) {
+	sleep(500);
+	// alert('diamonds');
+	parameters ["diamonds"] = "you are rich!!";
+	console.log('Struck diamonds -- five levels deep in executethis ****************************************************************************');
+	callback (parameters);
+	// return parameters;
+}
+//--------------------------
 exports.jasontesta = jasontesta = function jasontesta() {
     executetest('updatewid', {wid:'jasontestwid',this:'that',something:'else'}, '', '');
     executetest('getwid', {wid:'jasontestwid'});
