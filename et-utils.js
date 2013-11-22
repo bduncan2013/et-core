@@ -644,11 +644,9 @@
     };
 
     exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv =  function proxyprinttodiv(text, obj, debugone){// **** making code node compatible
-        if ((typeof config !== "undefined") && (config.configuration.environment === "local")) {//{return mongoquery(parameters)}
-//    if(typeof require !== "undefined"){// **** making code node compatible
-            printToDiv(text, obj, debugone);    // **** making code node compatible
-        }// **** making code node compatible
-    };// **** making code node compatible
-
+        if (exports.environment === "local") {
+            printToDiv(text, obj, debugone);   
+        }
+    }
 
 })(typeof window === "undefined" ? global : window);

@@ -158,7 +158,7 @@ exports.test99 = test99 = function test99 () {
 
 // functions a,b,c manipulate parameters
 // Call func_b with no pre or post
-function t1 () {
+exports.t1 = t1 = function t1 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "t1_output", "");
@@ -167,7 +167,7 @@ function t1 () {
 
 }
 
-function fail () {
+exports.fail = fail = function fail () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "t1_output", "");
@@ -176,7 +176,7 @@ function fail () {
 }
 
 // Call func_b with pre and post
-function t2 () {
+exports.t2 = t2 = function t2 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_a","postexecute":"func_c"}, "t2_output", "");
@@ -185,155 +185,161 @@ function t2 () {
 	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
 }
 // Call func_b with only pre func_a
-function t3 () {
+exports.t3 = t3 = function t3 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_a"}, "t3_output", "");
 	logverify("unit_tests","t3_result","t3_output","","",{"executethis":"func_b","c":"0","f":"3","g":"4"});
 }
 // Call func_b with only post func_a -- same result as t3
-function t3a () {
+exports.t3a = t3a = function t3a () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","postexecute":"func_a"}, "t3a_output", "");
 	logverify("unit_tests","t3a_result","t3a_output","","",{"executethis":"func_a","c":"0","g":"4","f":"3"});
 }
 // Call func_b with only post
-function t4 () {
+exports.t4 = t4 = function t4 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","postexecute":"func_c"}, "t4_output", "");
 	logverify("unit_tests","t4_result","t4_output","","",{"executethis":"func_c","d":"1","g":"4","h":"5"});
 }
 // Call func_b with only pre func_c -- same result as t4
-function t4a () {
+exports.t4a = t4a = function t4a () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_c"}, "t4a_output", "");
 	logverify("unit_tests","t4a_result","t4a_output","","",{"executethis":"func_b","d":"1","g":"4","h":"5"});
 }
 // Call func_b with func_a for pre and post
-function t5 () {
+exports.t5 = t5 = function t5 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_a","postexecute":"func_a"}, "t5_output", "");
 	logverify("unit_tests","t5_result","t5_output","","",{"executethis":"func_a","c":"0","f":"3","g":"4"});
 }
 // Call func_b with func_c for pre and post
-function t6 () {
+exports.t6 = t6 = function t6 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_c","postexecute":"func_c"}, "t6_output", "");
 	logverify("unit_tests","t6_result","t6_output","","",{"executethis":"func_c","d":"1","h":"5","g":"4"});
 }
 
-function ast1 () {
+exports.ast1 = ast1 = function ast1 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2"}, "as_t1_output", "");
 	logverify("as_unit_tests","as_t1_result","as_t1_output","","",{"executethis":"async_func_b","d":"1","c":"0","g":"4"});
 }
 // Call async_func_b with pre and post
-function ast2 () {
+exports.ast2 = ast2 = function ast2 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2","preexecute":"async_func_a","postexecute":"async_func_c"}, "as_t2_output", "");
 	logverify("as_unit_tests","as_t2_result","as_t2_output","","",{"executethis":"async_func_c","f":"3","g":"4","h":"5"});
 }
 // Call async_func_b with only pre async_func_a
-function ast3 () {
+exports.ast3 = ast3 = function ast3 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2","preexecute":"async_func_a"}, "as_t3_output", "");
 	logverify("as_unit_tests","as_t3_result","as_t3_output","","",{"executethis":"async_func_b","c":"0","f":"3","g":"4"});
 }
 // Call async_func_b with only post async_func_a -- same result as t3
-function ast3a () {
+exports.ast3a = ast3a = function ast3a () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2","postexecute":"async_func_a"}, "as_t3a_output", "");
 	logverify("as_unit_tests","as_t3a_result","as_t3a_output","","",{"executethis":"async_func_a","c":"0","g":"4","f":"3"});
 }
 // Call async_func_b with only post
-function ast4 () {
+exports.ast4 = ast4 = function ast4 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2","postexecute":"async_func_c"}, "as_t4_output", "");
 	logverify("as_unit_tests","as_t4_result","as_t4_output","","",{"executethis":"async_func_c","d":"1","g":"4","h":"5"});
 }
 // Call async_func_b with only pre async_func_c -- same result as t4
-function ast4a () {
+exports.ast4a = ast4a = function ast4a () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2","preexecute":"async_func_c"}, "as_t4a_output", "");
 	logverify("as_unit_tests","as_t4a_result","as_t4a_output","","",{"executethis":"async_func_b","d":"1","g":"4","h":"5"});
 }
 // Call async_func_b with async_func_a for pre and post
-function ast5 () {
+exports.ast5 = ast5 = function ast5 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2","preexecute":"async_func_a","postexecute":"async_func_a"}, "as_t5_output", "");
 	logverify("as_unit_tests","as_t5_result","as_t5_output","","",{"executethis":"async_func_a","c":"0","f":"3","g":"4"});
 }
 // Call async_func_b with async_func_c for pre and post
-function ast6 () {
+exports.ast6 = ast6 = function ast6 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_b", "c":"0", "d":"1", "e":"2","preexecute":"async_func_c","postexecute":"async_func_c"}, "as_t6_output", "");
 	logverify("as_unit_tests","as_t6_result","as_t6_output","","",{"executethis":"async_func_c","d":"1","h":"5","g":"4"});
 }
-
+// Call async_func_d that will, in turn, call async_func_e   -----------------------------------------------------------------
+exports.ast7 = ast7 = function ast7 () {
+	testclearstorage();
+	config = setconfig1();
+	executetest("executethis", {"executethis":"async_func_d", "c":"0", "d":"1", "e":"2"}, "as_t7_output", "");
+	logverify("as_unit_tests","as_t7_result","as_t7_output","","",{"executethis":"async_func_e","c":"0","h":"5"});
+}
 // Call redir_b with no pre or post
-function ct1 () {
+exports.ct1 = ct1 = function ct1 () {
 	testclearstorage();
 	config = setconfig2();
 	executetest("executethis", {"executethis":"redir_b", "c":"0", "d":"1", "e":"2"}, "c_t1_output", "");
 	logverify("c_unit_tests","c_t1_result","c_t1_output","","",{"executethis":"func_b","d":"1","c":"0","g":"4"});
 }
 // Call redir_b with pre and post
-function ct2 () {
+exports.ct2 = ct2 = function ct2 () {
 	testclearstorage();
 	config = setconfig2();
 	executetest("executethis", {"executethis":"redir_b", "c":"0", "d":"1", "e":"2","preexecute":"redir_a","postexecute":"redir_c"}, "c_t2_output", "");
 	logverify("c_unit_tests","c_t2_result","c_t2_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
 }
 // Call redir_b with only pre redir_a
-function ct3 () {
+exports.ct3 = ct3 = function ct3 () {
 	testclearstorage();
 	config = setconfig2();
 	executetest("executethis", {"executethis":"redir_b", "c":"0", "d":"1", "e":"2","preexecute":"redir_a"}, "c_t3_output", "");
 	logverify("c_unit_tests","c_t3_result","c_t3_output","","",{"executethis":"func_b","c":"0","f":"3","g":"4"});
 }
 // Call redir_b with only post redir_a -- same result as t3
-function ct3a () {
+exports.ct3a = ct3a = function ct3a () {
 	testclearstorage();
 	config = setconfig2();
 	executetest("executethis", {"executethis":"redir_b", "c":"0", "d":"1", "e":"2","postexecute":"redir_a"}, "c_t3a_output", "");
 	logverify("c_unit_tests","c_t3a_result","c_t3a_output","","",{"executethis":"func_a","c":"0","g":"4","f":"3"});
 }
 // Call redir_b with only post
-function ct4 () {
+exports.ct4 = ct4 = function ct4 () {
 	testclearstorage();
 	config = setconfig2();
 	executetest("executethis", {"executethis":"redir_b", "c":"0", "d":"1", "e":"2","postexecute":"redir_c"}, "c_t4_output", "");
 	logverify("c_unit_tests","c_t4_result","c_t4_output","","",{"executethis":"func_c","d":"1","g":"4","h":"5"});
 }
 // Call redir_b with only pre redir_c -- same result as t4
-function ct4a () {
+exports.ct4a = ct4a = function ct4a () {
 	testclearstorage();
 	config = setconfig2();
 	executetest("executethis", {"executethis":"redir_b", "c":"0", "d":"1", "e":"2","preexecute":"redir_c"}, "c_t4a_output", "");
 	logverify("c_unit_tests","c_t4a_result","c_t4a_output","","",{"executethis":"func_b","d":"1","g":"4","h":"5"});
 }
 // Call redir_b with redir_a for pre and post
-function ct5 () {
+exports.ct5 = ct5 = function ct5 () {
 	testclearstorage();
 	config = setconfig2();
 	executetest("executethis", {"executethis":"redir_b", "c":"0", "d":"1", "e":"2","preexecute":"redir_a","postexecute":"redir_a"}, "c_t5_output", "");
 	logverify("c_unit_tests","c_t5_result","c_t5_output","","",{"executethis":"func_a","c":"0","f":"3","g":"4"});
 }
 // Call redir_b with redir_c for pre and post
-function ct6 () {
+exports.ct6 = ct6 = function ct6 () {
 	testclearstorage();
 	config = setconfig2();
 	executetest("executethis", {"executethis":"redir_b", "c":"0", "d":"1", "e":"2","preexecute":"redir_c","postexecute":"redir_c"}, "c_t6_output", "");
@@ -341,7 +347,7 @@ function ct6 () {
 }
 // This will try pre with func a, but remapped with a configuration that
 // is passed into executethis...it still wants to hit func_b with mid
-function ct7 () {
+exports.ct7 = ct7 = function ct7 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2", "preexecute": "a",
@@ -366,14 +372,14 @@ function ct7 () {
 }
 // This test asserts that the tryorder in the config is successful
 // and causes executethis to call executeFn, not server, or the others
-function ct8 () {
+exports.ct8 = ct8 = function ct8 () {
 	testclearstorage();
 	config = setconfig5();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "ct8_output", "");
 	logverify("c_unit_tests","ct8_result","ct8_output","","",{"executethis":"func_b","d":"1","c":"0","g":"4"});
 }
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
-function ct9 () {
+exports.ct9 = ct9 = function ct9 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"does_not_exist", "does_not_exist":"func_b", "c":"0", "d":"1", "e":"2"}, "ct9_output", "");
@@ -381,7 +387,7 @@ function ct9 () {
 }
 
 // This test is to call func_b, remap does_not_exist to func_a and execute params to func_a and then to func_b
-function ct10 () {
+exports.ct10 = ct10 = function ct10 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "preexecute":"does_not_exist","does_not_exist":"func_a", "c":"0", "d":"1", "e":"2"}, "ct10_output", "");
@@ -390,22 +396,63 @@ function ct10 () {
 
 // This test is to call func_b, remap does_not_exist_1 to func_a,
 // remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c.
-function ct11 () {
+exports.ct11 = ct11 = function ct11 () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "preexecute":"does_not_exist","does_not_exist_1":"func_a", "postexecute":"does_not_exist_2","does_not_exist_2":"func_c", "c":"0", "d":"1", "e":"2"}, "ct11_output", "");
 	logverify("c_unit_tests","ct11_result","ct11_output","","",{"executethis":"func_c","f":"3","h":"5","g":"4"});
 }
 
+// This test is to send in a config as parameter of a config. This allows for the server to recieve a config
+// from a config that is passed in the parameters.
+exports.ct12 = ct12 = function ct12 () {
+	testclearstorage();
+	config = setconfig1();
 
+	executetest ("executethis", 
+				{"executethis":"func_b", "c":"0", "d":"1", "e":"2", "preexecute": "a",
+				    "configuration": {
+								        "preexecute": [
+								            {
+								                "dothis": "executeFn",
+								                "tryorder": "0",
+								                "executeorder": "0"
+								            }
+								        ],
+								        "a": [
+								            {
+								                "dothis": "alertFn1",
+								                "tryorder": "0",
+								                "executeorder": "0"
+								            }
+								        ],
+								        "configparams": [
+								            {
+								                "a": "b",
+								                "c": "d",
+								                "e": "f"
+								            }
+								        ]}},
+				"c_t12_output",
+				"");
 
-function other_func(params, callback) {
+	logverify("c_unit_tests","c_t12_result","c_t12_output","","",{"c":"0","d":"1","executethis":"func_b","ct12":"did some alerting","g":"4"});
+}
+// Template for a new test, yet to be determined
+exports.ct13 = ct13 = function ct13 () {
+	testclearstorage();
+	config = setconfig1();
+	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "ct13_output", "");
+	logverify("c_unit_tests","ct13_result","ct13_output","","",{"executethis":"func_b","c":"0","d":"1","g":"4"});
+}
+
+exports.other_func = other_func = function other_func(params, callback) {
 	params['howtodooverride'] = 'you got your hottodooverwritten';
 	window[params['executethis']] (params, callback);
 	callback(params);
 }
 
-function alertFn1 (params, callback) {
+exports.alertFn1 = alertFn1 = function alertFn1 (params, callback) {
 	// alert('ct7 has alerted');
 	params["ct7"] = "did some alerting";
 	// delete params["configuration"];
@@ -414,7 +461,7 @@ function alertFn1 (params, callback) {
 
 // ---------------------- Functions to use in pre, mid and post
 // to test the flow of parameters through executethis
-function func_a (parameters) {
+exports.func_a = func_a = function func_a (parameters) {
 	console.log('from func_a');
 	printToDiv('func_a',parameters,1);
 	delete parameters["d"];
@@ -422,7 +469,7 @@ function func_a (parameters) {
 	return parameters;
 }
 
-function func_b (parameters) {
+exports.func_b = func_b = function func_b (parameters) {
 	console.log('from func_b');
 	delete parameters["e"];
 	parameters["g"] = "4";
@@ -430,7 +477,7 @@ function func_b (parameters) {
 	return parameters;
 }
 
-function func_c (parameters) {
+exports.func_c = func_c = function func_c (parameters) {
 	console.log('from func_c');
 	printToDiv('func_c',parameters,1);
 	delete parameters["c"];
@@ -438,38 +485,56 @@ function func_c (parameters) {
 	return parameters;
 }
 // These are the async versions of the above calls
-function async_func_a (parameters,   callback) {
+exports.async_func_a = async_func_a = function async_func_a (parameters,   callback) {
 	delete parameters["d"];
 	parameters["f"] = "3";
 	//sleep(500);
 	callback(parameters);
 }
 
-function async_func_b (parameters,  callback) {
+exports.async_func_b = async_func_b = function async_func_b (parameters,  callback) {
 	delete parameters["e"];
 	parameters["g"] = "4";
 	sleep(500);
 	callback (parameters);
 }
 
-function async_func_c (parameters,  callback) {
+exports.async_func_c = async_func_c = function async_func_c (parameters,  callback) {
 	delete parameters["c"];
 	parameters ["h"] = "5";
 	//sleep(500);
 	callback (parameters);
 }
 
-function jasontesta() {
+exports.async_func_d = async_func_d = function async_func_d (parameters,  callback) {
+	var t = parameters["d"];
+	parameters['executethis'] = 'async_func_e';
+	parameters = executethis(parameters);
+	sleep(500);
+	if (parameters["d"] == t) parameters["d"] = t + ":added";
+	delete parameters["e"];
+	parameters ["h"] = "5";
+	callback (parameters);
+}
+
+exports.async_func_e = async_func_e = function async_func_e (parameters) {
+	sleep(500);
+	delete parameters["d"];
+	parameters ["h"] = "7";
+	return parameters;
+}
+
+exports.jasontesta = jasontesta = function jasontesta() {
     executetest('updatewid', {wid:'jasontestwid',this:'that',something:'else'}, '', '');
     executetest('getwid', {wid:'jasontestwid'});
 }
 
-function jasontestb() {
+exports.jasontestb = jasontestb = function jasontestb() {
     executetest('addwidmaster', {wid:'jasontestwid5',testnum:'5',black:'white',pair:'3'});
     executetest('getwidmaster', {wid:'jasontestwid5'});
 }
 
-function testa () {
+exports.testa = testa = function testa () {
 		// executetest("test2",{"wid":"colordto"}, "blue", "");
 		// executetest("test2",{"wid":"colordto"}, "", "");
 		// the above 2 work as of oct 30
@@ -484,38 +549,38 @@ function testa () {
 //		logverify("this_test","test_result","actual","","",getFromLocalStorage("assertion"));
 }
 
-function testb_setup () {
+exports.testb_setup = testb_setup = function testb_setup () {
     executetest("addwidmaster",{"wid":"sounddto","metadata.method":"sounddto","note":"string"}, "", "");
     executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
 }
 
-function testc_setup () {
+exports.testc_setup = testc_setup = function testc_setup () {
 		executetest("addwidmaster",{"wid":"colordto","metadata.method":"colordto","hue":"string"}, "", "");
 		executetest("addwidmaster",{"wid":"color1","hue":"red"}, "", "");
 }
 
-function testd_setup () {
+exports.testd_setup = testd_setup = function testd_setup () {
 		executetest("addwidmaster",{"wid":"colordto","metadata.method":"colordto","hue":"string"}, "", "");
 		executetest("addwidmaster",{"wid":"color1","hue":"red"}, "", "");
 		executetest("addwidmaster",{"wid":"color2","hue":"blue"}, "", "");
 }
 
-function teste_setup () {
+exports.teste_setup = teste_setup = function teste_setup () {
 		executetest("addwidmaster",{"wid":"colordto","metadata.method":"colordto","hue":"string"}, "", "");
 		executetest("addwidmaster",{"wid":"color1","hue":"red"}, "", "");
 		executetest("addwidmaster",{"wid":"color2","hue":"blue"}, "", "");
 	    executetest("getwidmaster", {"wid":"color1"}, "get_color1_result", "");	
 }
 
-function testg_setup () {
+exports.testg_setup = testg_setup = function testg_setup () {
 	executetest("addwidmaster",{"wid":"defaultforauthor","name":"roger"});
 }
 
-function testh_setup () {
+exports.testh_setup = testh_setup = function testh_setup () {
 	executetest("addwidmaster",{"wid":"defaultforauthor","name":"roger","metadata.method":"test"});
 	executetest("getwidmaster", {"wid":"defaultforauthor"}, "get_color1_result", "");
 }
-function testi_setup () {
+exports.testi_setup = testi_setup = function testi_setup () {
     executetest("addwidmaster",{"wid":"sounddto","metadata.method":"sounddto","note":"string"}, "", "");
 	// executetest("addwidmaster",{"wid":"colordto","metadata.method":"colordto","hue":"string","sounddto":"onetomany"}, "", "");
 	// executetest("addwidmaster",{"wid":"color1","hue":"red","metadata.method":"colordto"}, "", "");
@@ -524,7 +589,7 @@ function testi_setup () {
     // executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
 }
 // This will test the ability to write a dto to the db and retrieve it
-function testb () {
+exports.testb = testb = function testb () {
 	config = setconfig1();
 	testclearstorage();
 	testb_setup();
@@ -533,7 +598,7 @@ function testb () {
 }
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
-function teste () {
+exports.teste = teste = function teste () {
 	config = setconfig1();
 	testclearstorage();
 	teste_setup();
@@ -544,7 +609,7 @@ function teste () {
 // relationship to get the related wids.
 
 //------------------------
-function ex1 () {
+exports.ex1 = ex1 = function ex1 () {
 	var data = null; 
 	data = func_a ({"d":"1", "e":"2"});
 	data = func_b (data);
@@ -552,7 +617,7 @@ function ex1 () {
 	return data;
 }
 
-function ex3 () {
+exports.ex3 = ex3 = function ex3 () {
 	var data = null; 
 	data = {"executethis":"func_a", "d":"1", "e":"2"};
 	data = executethis (data);
@@ -561,7 +626,7 @@ function ex3 () {
 	return data;
 }
 
-function ex4 () {
+exports.ex4 = ex4 = function ex4 () {
 	var data = null; 
 	data = {"executethis":"func_a", "d":"1", "e":"2"};
 		data = executethis (data);
@@ -574,14 +639,14 @@ function ex4 () {
 	return data;
 }
 
-function ex5 () {
+exports.ex5 = ex5 = function ex5 () {
 	var data = null; 
 	data = {"executethis":"func_a", "d":"1", "e":"2"};
 	data = execute (data, callback);
 	return data;
 }
 // Required for the delay in testing the async portionis
-function sleep(milliseconds) {
+exports.sleep = sleep = function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
     if ((new Date().getTime() - start) > milliseconds){
@@ -592,7 +657,7 @@ function sleep(milliseconds) {
 
 // Here are the different configs used in the tests
 
-function setconfig1() {
+exports.setconfig1 = setconfig1 = function setconfig1() {
     configuration = {};
 	configuration.environment='local';
 
@@ -713,7 +778,7 @@ function setconfig1() {
 // tests make calls to redir_a mapped to func_a, redir_b to func_b and
 // redir_c to func_c. The idea is that the tests will have the same output 
 // as the tt tests, but with calling all the redir_(x) functions instead.
-function setconfig2() {
+exports.setconfig2 = setconfig2 = function setconfig2() {
     configuration = {};
 	configuration.environment='local';
 
@@ -813,7 +878,7 @@ function setconfig2() {
    }
 
 // This config is to test redirecting preexecute to function_f and see what happens
-function setconfig3() {
+exports.setconfig3 = setconfig3 = function setconfig3() {
     configuration = {};
 	configuration.environment='local';
 
@@ -891,7 +956,7 @@ function setconfig3() {
     }
 }
 
-function setconfig4() {
+exports.setconfig4 = setconfig4 = function setconfig4() {
     configuration = {};
 
     configuration.getwid = [];
@@ -971,7 +1036,7 @@ function setconfig4() {
 // mid has the usual settings in an order that should
 // be resorted by dothis...if successful, the mid order should
 // be the same as it always is, not the way this config is set
-function setconfig5() {
+exports.setconfig5 = setconfig5 = function setconfig5() {
     configuration = {};
 	configuration.environment='local';
 
@@ -1034,16 +1099,14 @@ function setconfig5() {
     }
 }
 
-
-
-function func_f (parameters,  callback) {
+exports.func_f = func_f = function func_f (parameters,  callback) {
 	delete parameters["d"];
 	parameters["l"] = "you hijacked preexecute...cool";
 	printToDiv('func_f',parameters,1);	
 	callback(parameters);
 }
 
-function func_g (parameters,  callback) {
+exports.func_g = func_g = function func_g (parameters,  callback) {
 	delete parameters["d"];
 	parameters ["l"] = "you hijacked preexecute...cool";
 	//func_h (parameters,  callback);
@@ -1051,7 +1114,7 @@ function func_g (parameters,  callback) {
 	callback(func_h (parameters,  callback));
 }
 
-function func_h (parameters,  callback) {
+exports.func_h = func_h = function func_h (parameters,  callback) {
 	delete parameters["d"];
 	sleep(1000);
 	parameters["m"] = "now you waited for 1000 ms";
@@ -1060,21 +1123,21 @@ function func_h (parameters,  callback) {
 	target(parameters);
 }
 
-function func_j (parameters,  callback) {
+exports.func_j = func_j = function func_j (parameters,  callback) {
 	delete parameters["d"];
 	parameters["j"] = "you hijacked preexecute...hot";
 	printToDiv('func_j',parameters,1);	
 	callback(parameters);
 }
 
-function func_k (parameters,  callback) {
+exports.func_k = func_k = function func_k (parameters,  callback) {
 	delete parameters["d"];
 	parameters["j"] = "did this happen last";
 	printToDiv('func_k',parameters,1);	
 	callback(parameters);
 }
 
-function func_m (parameters) {
+exports.func_m = func_m = function func_m (parameters) {
 	delete parameters["d"];
 	parameters["m"] = "single parameters";
 	printToDiv('func_m',parameters,1);	
@@ -1082,7 +1145,7 @@ function func_m (parameters) {
 	return executethis(parameters,'func_async');
 }
 
-function func_async (parameters,  callback) {
+exports.func_async = func_async = function func_async (parameters,  callback) {
 	delete parameters["d"];
 	console.log('from func_async');
 	// var f = function(){
@@ -1110,8 +1173,7 @@ function func_async (parameters,  callback) {
 	callback(parameters);
 }
 
-
-function echoCall(url, type,asyncVal, successCallback, errorCallback) {
+exports.echoCall = echoCall = function echoCall(url, type,asyncVal, successCallback, errorCallback) {
   jQuery.ajax({
     url: url,
     tupe: type,
@@ -1123,36 +1185,36 @@ function echoCall(url, type,asyncVal, successCallback, errorCallback) {
   });
 }
 
-function pt2 () {
+exports.pt2 = pt2 = function pt2 () {
 	config = setconfig3();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_a","postexecute":"func_c"}, "pt2_output", "");
 	logverify("unit_tests","pt2_result","pt2_output","","",{"f":"3","g":"4","h":"5"});
 }
 
-function pt3 () {
+exports.pt3 = pt3 = function pt3 () {
 	config = setconfig1();
 	executetest("executethis", {"preexecute":"func_j","postexecute":"func_f","executethis":"func_g", "c":"0", "d":"1", "e":"2"}, "pt3_output", "");
 	executetest("executethis", {"executethis":"func_k", "x":"0", "y":"1", "z":"2"}, "pt4_output", "");
 	logverify("unit_tests","pt3_result","pt3_output","","",{"f":"3","g":"4","h":"5"});
 }
 
-function pt4 () {
+exports.pt4 = pt4 = function pt4 () {
 	config = setconfig3();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2","preexecute":"func_a","postexecute":"func_c"}, "pt2_output", "");
 	logverify("unit_tests","pt2_result","pt2_output","","",{"f":"3","g":"4","h":"5"});
 }
 
-function pt5 () {
+exports.pt5 = pt5 = function pt5 () {
 	config = setconfig3();
 	executetest("executethis", {"executethis":"func_m", "c":"0", "d":"1", "e":"2","preexecute":"testa","postexecute":"testc"}, "pt5_output", "");
 	// logverify("unit_tests","pt5_result","pt5_output","","",{"f":"3","g":"4","h":"5"});
 }
 
-function q1 () {
+exports.q1 = q1 = function q1 () {
 	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","action":"string"}, "", "");
 }
 
-function rogeri () {
+exports.rogeri = rogeri = function rogeri () {
 	//executetest("debugon");
 	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","action":"string"}, "", "");
 	executetest("addwidmaster",{"metadata.method":"palettedto","wid":"palettedto","widname":"string","category":"string","subcategory":"string"}, "", "");
@@ -1232,7 +1294,3 @@ function rogeri () {
 	executetest("getwidmaster", {"wid":"startwid","command.dtotype":"bottomarray"}, "startwid_bottomarray", "");
 	executetest("getwidmaster", {"wid":"startwid","command.dtotype":"toparray"}, "startwid_toparray", "");
 }
-
-
-
-

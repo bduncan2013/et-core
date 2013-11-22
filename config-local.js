@@ -3,6 +3,50 @@ if(!exports){
     var exports = {};
 }
 
+exports.environment='local';
+
+// var config123 = function() {
+//     var configuration = {};
+        
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 4;
+//     configuration.preExecute[0].dothis = 'executeFn';
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 2;
+//     configuration.preExecute[1].dothis = 'executeParam';
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 3;
+//     configuration.preExecute[2].dothis = 'executeDefault';
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'server';
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 4;
+//     configuration.postExecute[0].dothis = 'executeFn';
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 2;
+//     configuration.postExecute[1].dothis = 'executeFn';
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 3;
+//     configuration.postExecute[2].dothis = 'executeFn';
+
+//     return {
+//         "configuration": configuration
+//     }
+// };
+
 var config123 = function() {
     var configuration = {};
 
@@ -67,6 +111,7 @@ configuration.postExecute[2].dothis = 'server';
     }
 };
 
+
 exports.config  = config =  config123();
 
 
@@ -125,7 +170,11 @@ function toLowerKeys(obj){
     return newobj;
 }
 
-function server(params, callback) {
+// <<<<<<< HEAD
+// exports.server = function server(params, callback) {
+// =======
+exports.server = server = function server(params, callback) {
+// >>>>>>> 1243b8d8e8fe8e20570302a3eef352aaabd8b6bd
     console.log('execute server called with ' + JSON.stringify(params));
     // delete params['configuration'];
     var params = toLowerKeys(params);
@@ -142,7 +191,7 @@ function server(params, callback) {
 
 function config555() {
     var configuration = {};
-    configuration.environment='local';
+
     
     configuration.getwid = [];
     configuration.getwid[0] = {};
