@@ -167,12 +167,11 @@ exports.t1 = t1 = function t1 () {
 
 }
 
-exports.fail = fail = function fail () {
+exports.tfail = tfail = function tfail () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "t1_output", "");
 	logverify("unit_tests","t1_result","t1_output","","",{"executethis":"func_b","d":"1","c":"0","g":"5"});
-	return verifysummary("test_results");
 }
 
 // Call func_b with pre and post
@@ -586,13 +585,10 @@ exports.getwidtest = getwidtest = function getwidtest() {
     executetest('getwid', {wid:'test1'});
 }
 
-
-
 exports.updatewidtest = updatewidtest = function updatewidtest() {
     executetest('updatewid', {wid:'test1',this:'that',something:'else'}, '', '');
 }
 
->>>>>>> 5ec18c4b0b83e521a5eb14846e00b0d787c296f4
 exports.jasontesta = jasontesta = function jasontesta() {
     executetest('updatewid', {wid:'jasontestwid',this:'that',something:'else'}, '', '');
     executetest('getwid', {wid:'jasontestwid'});
