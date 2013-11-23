@@ -515,13 +515,24 @@ exports.async_func_d = async_func_d = function async_func_d (parameters,  callba
 	delete parameters["e"];
 	parameters ["h"] = "5";
 	callback (parameters);
-}
+}	
 
 exports.async_func_e = async_func_e = function async_func_e (parameters) {
 	sleep(500);
 	delete parameters["d"];
 	parameters ["h"] = "7";
 	return parameters;
+}
+
+
+exports.getwidtest = getwidtest = function getwidtest() {
+    executetest('getwid', {wid:'test1'});
+}
+
+
+
+exports.updatewidtest = updatewidtest = function updatewidtest() {
+    executetest('updatewid', {wid:'test1',this:'that',something:'else'}, '', '');
 }
 
 exports.jasontesta = jasontesta = function jasontesta() {
