@@ -16,7 +16,7 @@
 
     // add test ****
     // execute method --- method called numbered (1)
-    exports.execute = window.execute = execute = function (incomingparams, callback) {
+    exports.execute = window.execute = execute = function execute(incomingparams, callback) {
         console.log('arrived in execute ' + incomingparams);
         incomingparams = toLowerKeys(incomingparams);
 
@@ -63,7 +63,7 @@
     // Primary execute function called from doThis
     // this is a function router, it looks inside parm executethis...accepts strings or functions
     // it is the reponsability of what gets called to remove paramter executethis from results
-    exports.executeFn = window.executeFn = executeFn = function (params, callback) {
+    exports.executeFn = window.executeFn = executeFn = function executeFn(params, callback) {
 
        //*** add if 'test3'
         console.log(' *** test3  '+ JSON.stringify(params));
@@ -88,7 +88,7 @@
     };
 
     // primary command router based on what it reads from config and execeptions sent in parameter configuration.
-    exports.doThis = doThis = function (params, target, callback) {
+    exports.doThis = doThis = function doThis(params, target, callback) {
         var w,
             h,
             whatToDo,
@@ -138,7 +138,7 @@
                 config0[target] = incomingConfig[target];
                 // delete params['configuration'];
                 // delete incomingConfig[target];
-                delete params['configuration.'+target]
+                delete params['configuration'][target]
             }
 
             // Load up our how to do list based on what stage we are in (pre, mid, post), then sort it
@@ -177,7 +177,7 @@
                     config0[targetfunction] = incomingConfig[targetfunction];
                     //delete params['configuration'];
                     //delete incomingConfig[targetfunction];
-                    delete params['configuration.'+targetfunction];
+                    delete params['configuration'][targetfunction];
                 }
 
                 //whatToDoList = config0[params[target]]; -- changed by roger **
@@ -248,7 +248,7 @@
         }
     };
 
-    var addthisfn = function (inputWidgetObject, callback) {
+    var addthisfn = function addthisfn(inputWidgetObject, callback) {
         proxyprinttodiv('Function addthis in : inputWidgetObject', inputWidgetObject);
         inputWidgetObject["wid"] = inputWidgetObject["addthis"];
         delete inputWidgetObject["addthis"];
@@ -332,7 +332,7 @@
     // executeParam remaps from the params and then trys to execute a function by that name
     // {"executeThis":"a", "a":"functionToExecute"} maps to {"executeThis":"functionToExecute"}
 
-    exports.executeParam = window.executeParam = executeParam = function (params, callback) {
+    exports.executeParam = window.executeParam = executeParam = function executeParam(params, callback) {
         if ((params['executethis'] !== undefined) && (params['executethis'] !== "")) {
             //params['executethis']=params[params['executethis']];// ***** Saurabh says this line is unnecessary and makes the system fail in finding functions from other files
             executeFn(params,callback);
