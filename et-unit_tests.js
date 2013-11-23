@@ -2,7 +2,7 @@
 
 // at stands for 'all tests', this will run a suite 
 // of tests that are known to pass
-exports.at = at = function (params, callback) {
+exports.at = at = function at(params, callback) {
 	var result=[];
 	result.push(tt());
 	// result.push(fail());
@@ -29,7 +29,7 @@ exports.at = at = function (params, callback) {
     return result;
 }
 // This test uses a gojs
-exports.rt1 = rt1 = function (params, callback) {
+exports.rt1 = rt1 = function rt1(params, callback) {
 	testclearstorage();
 	// Set up the gojs object in local storage
 	rogeri();
