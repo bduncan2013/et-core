@@ -1,5 +1,5 @@
-(function (window) {
 
+(function (window) {
 
     exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
         delete inputWidgetObject['executethis'];// ** added by Saurabh 11/9
@@ -7,19 +7,31 @@
         proxyprinttodiv('Function getwid in : inputWidgetObject',  inputWidgetObject,1);
         var outobject = {};
 
-        getfrommongo(inputWidgetObject, function(results) {
-            if (results) {
-                if (results["data"]) { outobject = results["data"]; }
+        // getfrommongo(inputWidgetObject, function(results) {
+        //     if (results) {
+        //         if (results["data"]) { outobject = results["data"]; }
 
-                if (results['wid']) { outobject['wid'] = results['wid']; }
-                else { outobject['wid']=""; }
+        //         if (results['wid']) { outobject['wid'] = results['wid']; }
+        //         else { outobject['wid']=""; }
 
-                if (results['metadata.method']) { outobject['metadata.method'] = results['metadata.method']; }
-                else { outobject['metadata.method']=""; }
+        //         if (results['metadata.method']) { outobject['metadata.method'] = results['metadata.method']; }
+        //         else { outobject['metadata.method']=""; }
 
-                callback(outobject);
-            }
-        });
+        //         callback(outobject);
+        //     }
+        // });
+        var results = executethis(inputWidgetObject,getfrommongo);
+        if (results) {
+            if (results["data"]) { outobject = results["data"]; }
+
+            if (results['wid']) { outobject['wid'] = results['wid']; }
+            else { outobject['wid']=""; }
+
+            if (results['metadata.method']) { outobject['metadata.method'] = results['metadata.method']; }
+            else { outobject['metadata.method']=""; }
+
+        }
+        callback(outobject);
     };
 
 

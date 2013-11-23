@@ -30,10 +30,11 @@
         if (inputWidgetObject) { saveobject['data'] = inputWidgetObject; }
         else { saveobject['data']=""; }
 
-        addtomongo(saveobject, function(results) {
-            proxyprinttodiv('Function updatewid in : x', results, 10);
-            callback(results);
-        });
+        // addtomongo(saveobject, function(results) {
+        //     proxyprinttodiv('Function updatewid in : x', results, 10);
+        //     callback(results);
+        // });
+        callback (executethis(saveobject,addtomongo));
     };
 
 

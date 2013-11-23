@@ -2,7 +2,7 @@
 
 // at stands for 'all tests', this will run a suite 
 // of tests that are known to pass
-exports.at = at = function (params, callback) {
+exports.at = at = function at(params, callback) {
 	var result=[];
 	result.push(tt());
 	// result.push(fail());
@@ -29,7 +29,7 @@ exports.at = at = function (params, callback) {
     return result;
 }
 // This test uses a gojs
-exports.rt1 = rt1 = function (params, callback) {
+exports.rt1 = rt1 = function rt1(params, callback) {
 	testclearstorage();
 	// Set up the gojs object in local storage
 	rogeri();
@@ -524,7 +524,7 @@ exports.async_func_d = async_func_d = function async_func_d (parameters,  callba
 	delete parameters["e"];
 	parameters ["h"] = "5";
 	callback (parameters);
-}
+}	
 
 exports.async_func_e = async_func_e = function async_func_e (parameters) {
 	sleep(500);
@@ -581,6 +581,18 @@ exports.async_func_h = async_func_h = function async_func_h (parameters, callbac
 	// return parameters;
 }
 //--------------------------
+
+exports.getwidtest = getwidtest = function getwidtest() {
+    executetest('getwid', {wid:'test1'});
+}
+
+
+
+exports.updatewidtest = updatewidtest = function updatewidtest() {
+    executetest('updatewid', {wid:'test1',this:'that',something:'else'}, '', '');
+}
+
+>>>>>>> 5ec18c4b0b83e521a5eb14846e00b0d787c296f4
 exports.jasontesta = jasontesta = function jasontesta() {
     executetest('updatewid', {wid:'jasontestwid',this:'that',something:'else'}, '', '');
     executetest('getwid', {wid:'jasontestwid'});
