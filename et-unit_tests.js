@@ -167,12 +167,11 @@ exports.t1 = t1 = function t1 () {
 
 }
 
-exports.fail = fail = function fail () {
+exports.tfail = tfail = function tfail () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "t1_output", "");
 	logverify("unit_tests","t1_result","t1_output","","",{"executethis":"func_b","d":"1","c":"0","g":"5"});
-	return verifysummary("test_results");
 }
 
 // Call func_b with pre and post
@@ -288,6 +287,15 @@ exports.ast7 = ast7 = function ast7 () {
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_d", "c":"0", "d":"1", "e":"2"}, "as_t7_output", "");
 	logverify("as_unit_tests","as_t7_result","as_t7_output","","",{"executethis":"async_func_e","c":"0","h":"5"});
+}
+// Call async_func_d_1 that will, in turn, call async_func_e_1, and then async_func_f, async_func_g, and async_func_h.
+// If the diamond makes out of async_func_h...it will show executethis can go five layers deep into et and return with a parameter
+// to the as_t8_output...pretty cool 
+exports.ast8 = ast8 = function ast8 () {
+	testclearstorage();
+	config = setconfig1();
+	executetest("executethis", {"executethis":"async_func_d1", "c":"0", "d":"1", "e":"2"}, "as_t8_output", "");
+	logverify("as_unit_tests","as_t8_result","as_t8_output","","",{"c":"0","d":"1","e":"2","rubies":"red","emeralds":"green","diamonds":"you are rich!!","h":"5"});
 }
 // Call redir_b with no pre or post
 exports.ct1 = ct1 = function ct1 () {
@@ -519,17 +527,63 @@ exports.async_func_d = async_func_d = function async_func_d (parameters,  callba
 
 exports.async_func_e = async_func_e = function async_func_e (parameters) {
 	sleep(500);
+	// alert('func_e');
 	delete parameters["d"];
 	parameters ["h"] = "7";
 	return parameters;
 }
 
+exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
+	parameters['executethis'] = 'async_func_e1';
+	parameters = executethis(parameters, "execute");
+	sleep(500);
+	parameters ["h"] = "5";
+	return parameters;
+	// callback (parameters);
+}
+
+exports.async_func_e1 = async_func_e1 = function async_func_e1 (parameters, callback) {
+	sleep(500);
+	// alert('func_e1');
+	parameters['executethis'] = 'async_func_f';
+	parameters = executethis(parameters, execute);
+	callback (parameters);
+	// return parameters;
+}
+
+exports.async_func_f = async_func_f = function async_func_f (parameters, callback) {
+	sleep(500);
+	// alert('func_f');
+	parameters ["rubies"] = "red";
+	parameters['executethis'] = async_func_g;
+	parameters = executethis(parameters, execute);
+	callback (parameters);
+	// return parameters;
+}
+
+exports.async_func_g = async_func_g = function async_func_g (parameters, callback) {
+	sleep(500);
+	// alert('func_g');
+	parameters ["emeralds"] = "green";
+	parameters ['executethis'] = async_func_h;
+	parameters = executethis(parameters, execute);
+	callback (parameters);
+	// return parameters;
+}
+
+exports.async_func_h = async_func_h = function async_func_h (parameters, callback) {
+	sleep(500);
+	// alert('diamonds');
+	parameters ["diamonds"] = "you are rich!!";
+	console.log('Struck diamonds -- five levels deep in executethis ****************************************************************************');
+	callback (parameters);
+	// return parameters;
+}
+//--------------------------
 
 exports.getwidtest = getwidtest = function getwidtest() {
     executetest('getwid', {wid:'test1'});
 }
-
-
 
 exports.updatewidtest = updatewidtest = function updatewidtest() {
     executetest('updatewid', {wid:'test1',this:'that',something:'else'}, '', '');
@@ -616,6 +670,74 @@ exports.teste = teste = function teste () {
 	logverify("alpha_unit_tests","teste_result","get_color1_result","","", {"hue":"red","wid":"color1","metadata.method":"defaultdto"});
 	return verifysummary("test_results");
 }
+
+exports.testf = testf = function testf () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {};
+	parameters ["wid"] = "green";
+	parameters ['executethis'] = addwidmaster;
+	var abc = executethis(parameters);
+	var jkl = executethis(parameters, execute);
+	parameters ["wid"] = "yellow";
+	parameters ['executethis'] = "addwidmaster";
+	var mno = executethis(parameters, execute);
+	delete parameters['executethis'];
+	parameters ["wid"] = "blue";
+	var def = executethis(parameters, addwidmaster);
+	parameters ["wid"] = "red";
+	var ghi = 'boo'; //executethis(parameters, "addwidmaster");
+	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+	logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
+}
+
+exports.testf_fail = testf_fail = function testf_fail () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {};
+	// parameters ["wid"] = "green";
+	// parameters ['executethis'] = addwidmaster;
+	// var abc = executethis(parameters);
+	// delete parameters['executethis'];
+	// parameters ["wid"] = "blue";
+	// var def = executethis(parameters, addwidmaster);
+	parameters ["wid"] = "red";
+	var ghi = executethis(parameters, "addwidmaster");
+	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+	logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
+}
+// To test executethis by sending a function
+exports.testg = testg = function testg () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {"wid":"green", "executethis": addwidmaster};
+	var abc = executethis(parameters);
+	executetest("addwidmaster", {"this_wid_was_added":abc }, "testg_output", "");
+	logverify("unit_tests","testg_result","testg_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+}
+// This test passes since execute is not in quotes
+exports.testh = testh = function testh () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {"executethis": addwidmaster, "wid":"green"};
+	var abc = executethis(parameters, execute);
+	executetest("addwidmaster", {"this_wid_was_added":abc }, "testh_output", "");
+	logverify("unit_tests","testh_result","testh_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+}
+// This test fails since execute is in quotes
+exports.testi = testi = function testi () {
+	testclearstorage();
+	config = setconfig1();
+	var parameters = {"executethis": addwidmaster, "wid":"green"};
+	var abc = executethis(parameters, "execute");
+	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+	logverify("unit_tests","testi_result","testi_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+}
+
+
+
 // This will test the ability to have a relationship between 2 wids and use that
 // relationship to get the related wids.
 

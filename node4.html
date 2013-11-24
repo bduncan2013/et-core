@@ -217,9 +217,14 @@ $('#execute_function').click(function() {
 
 	var function_to_execute = $('#function_to_run').val();
 	var result = executethis({"executethis":function_to_execute});
+	var result_count = Object.keys(result).length;
 
-	// var y = verifysummary("test_results");
-	// if (Object.keys(result).length > 0) { showPassFail(y) };
+	var y = verifysummary("test_results");
+	if (result.hasOwnProperty('executethis') && result_count == 1) {
+		alert ('Something when wrong with the test...all your function returned was ' + JSON.stringify(result));
+	} else if (y['resultwid'] == "PASS" || y['resultwid'] == "FAIL") { 
+		showPassFail(y) 
+	};
 
 	var x = getfromlocal({"wid":"test_results"});
 	console.log('x=' + JSON.stringify(x));
