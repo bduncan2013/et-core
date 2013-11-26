@@ -120,7 +120,7 @@ function querywidlocal(sq, callback){
 	}
 	//proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery',  returnfromSimpleQuery);
 	if (returnfromSimpleQuery.length>0) {
-    returnfromSimpleQuery=returnfromSimpleQuery.sort(function(aObj, bObj) {
+    returnfromSimpleQuery=returnfromSimpleQuery.sort(function (aObj, bObj) {
             var a = getAttributeByIndex(aObj, 0);
             var b = getAttributeByIndex(bObj, 0);
             if (a < b) return -1;
@@ -129,13 +129,18 @@ function querywidlocal(sq, callback){
  		});
     	}
     if (returnfromSimpleQuery.length>0) {
-    	if (mongorelationshipmethod='first') {enhancedreturn=returnfromSimpleQuery[0]};
-   	 	if (mongorelationshipmethod='last') {enhancedreturn=returnfromSimpleQuery[returnfromSimpleQuery.length]};
-		if (mongorelationshipmethod='all') {enhancedreturn=returnfromSimpleQuery};
+    	if (mongorelationshipmethod==='first') {enhancedreturn=returnfromSimpleQuery[0];};
+   	 	if (mongorelationshipmethod==='last') {enhancedreturn=returnfromSimpleQuery[returnfromSimpleQuery.length];};
+		if (mongorelationshipmethod==='all') {enhancedreturn=returnfromSimpleQuery;};
 		}
-	proxyprinttodiv('Function simpleQuery in : enhancedreturn',  enhancedreturn, 30);
+
+	if ((!enhancedreturn) || (enhancedreturn==[]) || 
+		(enhancedreturn===null) || (returnfromSimpleQuery.length==0)){enhancedreturn={"etstatus":"empty"}};
+
+	proxyprinttodiv('Function simpleQuery in : enhancedreturn',  enhancedreturn, 99);
 	//return enhancedreturn;
 	//enhancedreturn.push({'a':'b'});
+	proxyprinttodiv('Function simpleQuery in : callback',  String(callback),99);		
 	callback(enhancedreturn);
 }
 

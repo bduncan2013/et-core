@@ -1,3 +1,42 @@
+exports.w1 = w1 = function w1 () {
+	testclearstorage();
+	var result;
+	//result = executethis({"executethis":"func_bbb", "c":"0", "d":"1", "e":"2"}, func_bbb);
+	result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+	proxyprinttodiv('from test', result, 99);
+}
+//{"d":"1","c":"0","executethis":"func_b","g":"4"}
+
+exports.w2 = w2 = function w2 () {
+	testclearstorage();
+	var result;
+	result = executethis({"executethis":"async_func_bbb", "c":"0", "d":"1", "e":"2"}, async_func_bbb);
+	//result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+	proxyprinttodiv('from test', result, 99);
+}
+
+//"executethis":"async_func_b","d":"1","g":"4","h":"5"
+
+exports.async_func_bbb = async_func_bbb = function async_func_bbb (parameters,  callback) {
+	//added
+	delete parameters["executethis"];
+	delete parameters["e"];
+	parameters["g"] = "4";
+	sleep(100000);
+	proxyprinttodiv('in synch parameters', parameters, 99);
+	proxyprinttodiv('in synch callback', String(callback), 99);
+	callback (parameters);
+}
+
+exports.w3 = w3 = function w3 () {
+	testclearstorage();
+	debuglevel=11;
+	var result;
+	result = executethis({"executethis":"async_func_bbb", "c":"0", "d":"1", "e":"2"}, execute);
+	//result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+	proxyprinttodiv('from test', result, 99);
+}
+
 
 exports.testhhh = testhhh = function testhhh () {
 	console.log(" *** fro testhhh ");
@@ -169,9 +208,9 @@ exports.dtoadd = dtoadd = function dtoadd(){ //widviewer
 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 
-// 	debuglevel=10;
+// 	debuglevel=20;
 	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
-// 	debuglevel=0
+ 	debuglevel=30;
 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
 //	gets really slow it down
 }

@@ -5,52 +5,10 @@ if(!exports){
 
 exports.environment='local';
 
-// var config123 = function() {
-//     var configuration = {};
-        
-//     configuration.preExecute = [];
-//     configuration.preExecute[0] = {};
-//     configuration.preExecute[0].executeorder = 0;
-//     configuration.preExecute[0].tryorder = 4;
-//     configuration.preExecute[0].dothis = 'executeFn';
-//     configuration.preExecute[1] = {};
-//     configuration.preExecute[1].executeorder = 0;
-//     configuration.preExecute[1].tryorder = 2;
-//     configuration.preExecute[1].dothis = 'executeParam';
-//     configuration.preExecute[2] = {};
-//     configuration.preExecute[2].executeorder = 0;
-//     configuration.preExecute[2].tryorder = 3;
-//     configuration.preExecute[2].dothis = 'executeDefault';
-
-//     configuration.midExecute = [];
-//     configuration.midExecute[0] = {};
-//     configuration.midExecute[0].executeorder = 0;
-//     configuration.midExecute[0].tryorder = 0;
-//     configuration.midExecute[0].dothis = 'server';
-
-//     configuration.postExecute = [];
-//     configuration.postExecute[0] = {};
-//     configuration.postExecute[0].executeorder = 0;
-//     configuration.postExecute[0].tryorder = 4;
-//     configuration.postExecute[0].dothis = 'executeFn';
-//     configuration.postExecute[1] = {};
-//     configuration.postExecute[1].executeorder = 0;
-//     configuration.postExecute[1].tryorder = 2;
-//     configuration.postExecute[1].dothis = 'executeFn';
-//     configuration.postExecute[2] = {};
-//     configuration.postExecute[2].executeorder = 0;
-//     configuration.postExecute[2].tryorder = 3;
-//     configuration.postExecute[2].dothis = 'executeFn';
-
-//     return {
-//         "configuration": configuration
-//     }
-// };
-
 var config123 = function() {
     var configuration = {};
 
-configuration.environment='local';
+// notice server try order is first on this version
 
 configuration.preExecute = [];
 configuration.preExecute[0] = {};
@@ -61,14 +19,14 @@ configuration.preExecute[1] = {};
 configuration.preExecute[1].executeorder = 0;
 configuration.preExecute[1].tryorder = 2;
 configuration.preExecute[1].dothis = 'executeParam';
+
+// extra parameters
+configuration.preExecute[1].params = {'a':'b'};
+
 configuration.preExecute[2] = {};
 configuration.preExecute[2].executeorder = 0;
 configuration.preExecute[2].tryorder = 3;
-configuration.preExecute[2].dothis = 'executeDefault';
-configuration.preExecute[3] = {};
-configuration.preExecute[3].executeorder = 0;
-configuration.preExecute[3].tryorder = 4;
-configuration.preExecute[3].dothis = 'server';
+configuration.preExecute[2].dothis = 'server';
 
 configuration.midExecute = [];
 configuration.midExecute[0] = {};
@@ -82,11 +40,7 @@ configuration.midExecute[1].dothis = 'executeParam';
 configuration.midExecute[2] = {};
 configuration.midExecute[2].executeorder = 1;
 configuration.midExecute[2].tryorder = 3;
-configuration.midExecute[2].dothis = 'executeDefault';
-configuration.midExecute[3] = {};
-configuration.midExecute[3].executeorder = 1;
-configuration.midExecute[3].tryorder = 4;
-configuration.midExecute[3].dothis = 'server';
+configuration.midExecute[2].dothis = 'server';
 
 configuration.postExecute = [];
 configuration.postExecute[0] = {};
@@ -96,14 +50,10 @@ configuration.postExecute[0].dothis = 'executeFn';
 configuration.postExecute[1] = {};
 configuration.postExecute[1].executeorder = 0;
 configuration.postExecute[1].tryorder = 2;
-configuration.postExecute[1].dothis = 'executeFn';
+configuration.postExecute[1].dothis = 'executeParam';
 configuration.postExecute[2] = {};
 configuration.postExecute[2].executeorder = 0;
 configuration.postExecute[2].tryorder = 3;
-configuration.postExecute[2].dothis = 'executeFn';
-configuration.postExecute[2] = {};
-configuration.postExecute[2].executeorder = 0;
-configuration.postExecute[2].tryorder = 4;
 configuration.postExecute[2].dothis = 'server';
 
     return {
@@ -189,43 +139,43 @@ exports.server = server = function server(params, callback) {
     });
 }
 
-function config555() {
-    var configuration = {};
+// function config555() {
+//     var configuration = {};
 
     
-    configuration.getwid = [];
-    configuration.getwid[0] = {};
-    configuration.getwid[0].order = 0;
-    configuration.getwid[0].dothis = 'getwid';  
+//     configuration.getwid = [];
+//     configuration.getwid[0] = {};
+//     configuration.getwid[0].order = 0;
+//     configuration.getwid[0].dothis = 'getwid';  
 
-    configuration.updatewid = [];
-    configuration.updatewid[0] = {};
-    configuration.updatewid[0].order = 0;
-    configuration.updatewid[0].dothis = 'updatewid';
+//     configuration.updatewid = [];
+//     configuration.updatewid[0] = {};
+//     configuration.updatewid[0].order = 0;
+//     configuration.updatewid[0].dothis = 'updatewid';
 
-    configuration.querywid = [];
-    configuration.querywid[0] = {};
-    configuration.querywid[0].order = 0;
-    configuration.querywid[0].dothis = 'querywid';
+//     configuration.querywid = [];
+//     configuration.querywid[0] = {};
+//     configuration.querywid[0].order = 0;
+//     configuration.querywid[0].dothis = 'querywid';
 
-    configuration.preexecute = [];
-    configuration.preexecute[0] = {};
-    configuration.preexecute[0].order = 0;
-    configuration.preexecute[0].dothis = 'executeFn';
+//     configuration.preexecute = [];
+//     configuration.preexecute[0] = {};
+//     configuration.preexecute[0].order = 0;
+//     configuration.preexecute[0].dothis = 'executeFn';
 
-    configuration.midexecute = [];
-    configuration.midexecute[0] = {};
-    configuration.midexecute[0].order = 0;
-    configuration.midexecute[0].dothis = 'executeFn';
+//     configuration.midexecute = [];
+//     configuration.midexecute[0] = {};
+//     configuration.midexecute[0].order = 0;
+//     configuration.midexecute[0].dothis = 'executeFn';
 
 
-    configuration.postexecute = [];
-    configuration.postexecute[0] = {};
-    configuration.postexecute[0].order = 0;
-    configuration.postexecute[0].dothis = 'executeFn';
+//     configuration.postexecute = [];
+//     configuration.postexecute[0] = {};
+//     configuration.postexecute[0].order = 0;
+//     configuration.postexecute[0].dothis = 'executeFn';
 
-    return {
-        "configuration": configuration
-    }
-} 
+//     return {
+//         "configuration": configuration
+//     }
+// } 
 

@@ -10,7 +10,7 @@
 // if what is being executed is not a string exeuctehis=
 // () at end
 
-//x
+
     exports.updatewid =  updatewid = function updatewid(inputWidgetObject, callback) {
         delete inputWidgetObject['executethis'];
         proxyprinttodiv('Function updatewid in : inputWidgetObject',  inputWidgetObject,10);
@@ -30,11 +30,10 @@
         if (inputWidgetObject) { saveobject['data'] = inputWidgetObject; }
         else { saveobject['data']=""; }
 
-        // addtomongo(saveobject, function(results) {
-        //     proxyprinttodiv('Function updatewid in : x', results, 10);
-        //     callback(results);
-        // });
-        callback (executethis(saveobject,addtomongo));
+        addtomongo(saveobject, function (results) {
+            proxyprinttodiv('Function updatewid in : x', results, 10);
+            callback(results);
+        });
     };
 
 
@@ -236,6 +235,7 @@
             executeobject["command.convertmethod"]="dto";
             executeobject["command.dtotype"]=childdto;
             //dtoobject=executethis(executeobject,execute);
+            getwidmaster=window["getwidmaster"];
             dtoobject=executethis(executeobject,getwidmaster);
             proxyprinttodiv('Function addcleanparameteres()  result dtoobject ',  dtoobject,80);
             //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
@@ -247,6 +247,7 @@
         childdto=dtotype;
         if (dtotype!=="") {
             proxyprinttodiv('Function addcleanparameteres()  dtotype check ',  dtotype);
+            aggressivedto=window['aggressivedto'];
             otherdtoobject = aggressivedto(dtotype, "", 10);
             proxyprinttodiv('Function addcleanparameteres()  otherdtoobject ',  otherdtoobject);
             proxyprinttodiv('Function addcleanparameteres()  countKeys(otherdtoobject) ',  countKeys(otherdtoobject));
@@ -419,6 +420,7 @@
         //	delete resultObj["wid"];
         //	delete resultObj["metadata.method"];
         //}
+//		Debug=olddebug;
 
         proxyprinttodiv('Function AddWidParameters() dtoobject return: ',  dtoobject);
         //proxyprinttodiv('Function AddWidParameters() metadata : ',  metadata);
@@ -440,9 +442,11 @@
         //proxyprinttodiv('Function AddWidParameters()  inputList : ',  inputList);
         //proxyprinttodiv('Function AddWidParameters()  metadata : ',  metadata);
         olddebug=Debug;
+//   	Debug=olddebug;
         proxyprinttodiv('Function AddWidParameters()  all parms to addmaster : ',  {"dtolist":dtoList, "inputlist":inputList, "metadata": metadata});
+//	Debug=olddebug;
         if (inputParametersObject["wid"]===undefined) {inputParametersObject["wid"]="";}
-        var Wid = AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata);
+        Wid = AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata);
 
         proxyprinttodiv('Function AddWidParameters() came back from addmaster : ',  Wid);
 
@@ -613,13 +617,13 @@
                     //if (ParametersToAdd.length!==0) {		****
                     if (countKeys(ParametersToAdd)!==0) {
                         widtoadd='';
-                        if ((editflag = 'true') && (widlist !== "")) {
+                        if ((editflag='true') && (widlist!="")) {
                             if (widlist[currentchild]!==undefined) {   // removed -1
                                 for (var widName in widlist[currentchild]) {  // removed -1
                                     widtoadd=widName;
                                 }
                             }
-                        }
+                        };
                         proxyprinttodiv('Function AddMaster : ChildrendtoList - 222 wid+childdto A-', {"widtoadd":widtoadd, "ChildrendtoList":ChildrendtoList});
                         proxyprinttodiv('Function AddMaster : ParametersToAdd - 222, childdto+childparameters A- ', {"childrentype":childrentype, "ParametersToAdd": ParametersToAdd});
                         ChildWid = AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype);
@@ -647,7 +651,7 @@
                             widtoadd=widName;
                         }
                     }
-                }
+                };
                 proxyprinttodiv('Function AddMaster : ChildrendtoList - 444 wid+childdto B- ', {"widtoadd":widtoadd, "ChildrendtoList":ChildrendtoList});
                 proxyprinttodiv('Function AddMaster : ParametersToAdd - 444, childdto+childparameters B-', {"childrentype":childrentype, "ParametersToAdd": ParametersToAdd});
                 ChildWid = AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype);
