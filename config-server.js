@@ -3,11 +3,10 @@ if(!exports){
     var exports = {};
 }
 
+exports.environment='server';
+
 var config123 = function() {
     var configuration = {};
-
-// notice server try order is first on this version
-exports.environment ='local';
 
 configuration.preExecute = [];
 configuration.preExecute[0] = {};
@@ -18,14 +17,10 @@ configuration.preExecute[1] = {};
 configuration.preExecute[1].executeorder = 0;
 configuration.preExecute[1].tryorder = 2;
 configuration.preExecute[1].dothis = 'executeParam';
-
-// extra parameters
-configuration.preExecute[1].params = {'a':'b'};
-
 configuration.preExecute[2] = {};
 configuration.preExecute[2].executeorder = 0;
-configuration.preExecute[2].tryorder = 3;
-configuration.preExecute[2].dothis = 'server';
+configuration.preExecute[2].tryorder = 4;
+configuration.preExecute[2].dothis = 'executegetwid';
 
 configuration.midExecute = [];
 configuration.midExecute[0] = {};
@@ -38,8 +33,8 @@ configuration.midExecute[1].tryorder = 2;
 configuration.midExecute[1].dothis = 'executeParam';
 configuration.midExecute[2] = {};
 configuration.midExecute[2].executeorder = 1;
-configuration.midExecute[2].tryorder = 3;
-configuration.midExecute[2].dothis = 'server';
+configuration.midExecute[2].tryorder = 4;
+configuration.midExecute[2].dothis = 'executegetwid';
 
 configuration.postExecute = [];
 configuration.postExecute[0] = {};
@@ -52,8 +47,8 @@ configuration.postExecute[1].tryorder = 2;
 configuration.postExecute[1].dothis = 'executeParam';
 configuration.postExecute[2] = {};
 configuration.postExecute[2].executeorder = 0;
-configuration.postExecute[2].tryorder = 3;
-configuration.postExecute[2].dothis = 'server';
+configuration.postExecute[2].tryorder = 4;
+configuration.postExecute[2].dothis = 'executegetwid';
 
     return {
         "configuration": configuration
@@ -62,7 +57,6 @@ configuration.postExecute[2].dothis = 'server';
 
 
 exports.config  = config =  config123();
-exports.environment ='local';
 
 
 function executeAjax(allConfig,executeItem,callback,returnCallback) {

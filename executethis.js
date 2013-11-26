@@ -19,7 +19,9 @@
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
         console.log('arrived in execute ' + incomingparams);
         incomingparams = toLowerKeys(incomingparams);
-
+        proxyprinttodiv("execute - inboundparms",incomingparams,5);
+        //proxyprinttodiv("execute - callback ",callback.name,5);
+        proxyprinttodiv("execute - callback fn ",String(callback),5);
         //*** add if 'test2'
         console.log(' *** test2  '+ JSON.stringify(incomingparams));
         if (incomingparams["executethis"]==="test2") {
@@ -33,23 +35,23 @@
             }
             else {
                 incomingparams['midexecute'] = incomingparams['executethis'];
-                // ** roger added line below 11-10
+                // ** roger added line below 5-10
                 delete incomingparams['executethis'];
                 console.log('starting preexecute ' + incomingparams);
                 // pre-execute method --- method called numbered (2)
                 doThis(incomingparams, 'preexecute', function (preResults) {
-                    console.log(' after preexecute >> '+ nonCircularStringify(preResults));
+                    //console.log(' after preexecute >> '+ nonCircularStringify(preResults));
                     console.log('starting midexecute ' + preResults);
                     if(!preResults){preResults={};} // ** added by Roger
                     // mid-execute method --- method called numbered (3)
                     doThis(preResults, 'midexecute', function (midResults) {
-                        console.log(' after midexecute >> ' + nonCircularStringify(midResults));
+                        //console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                         //if (midResults && midResults.midexecute) { delete midResults['midexecute']; }
                         // line above take anway by Roger, added below *** not sure why needed, but needed
                         if(!midResults){midResults={};}
                         // post-execute method --- method called numbered (4)
-                        doThis(midResults, 'postexecute', function(postResults) {
-                            console.log(' after postexecute >> ' + nonCircularStringify(postResults));
+                        doThis(midResults, 'postexecute', function (postResults) {
+                            //console.log(' after postexecute >> ' + nonCircularStringify(postResults));
                             if(!postResults){postResults={};} // ** added by Roger
                             callback(postResults);
                         });
@@ -64,7 +66,7 @@
     // this is a function router, it looks inside parm executethis...accepts strings or functions
     // it is the reponsability of what gets called to remove paramter executethis from results
     exports.executeFn = window.executeFn = executeFn = function executeFn(params, callback) {
-
+        var resultObj;
        //*** add if 'test3'
         console.log(' *** test3  '+ JSON.stringify(params));
         if (params["executethis"]==="test3") {
@@ -76,12 +78,18 @@
                 if(params['executethis'] instanceof Function) { windowFunc = params['executethis']; }  // function was passed in
                 else { windowFunc = window[params['executethis']]; }  // function name was passed in as string
 
+                proxyprinttodiv('calling fn ', windowFunc.name,5);
+                proxyprinttodiv('calling params ', params,5);
                 if (windowFunc.length === 1) {
-                    callback(windowFunc(params));
+                    resultObj=windowFunc(params);
+                    proxyprinttodiv('calling result ', resultObj,5);
+                    callback(resultObj);
                 } else {
+                    proxyprinttodiv('calling callback ',String(callback),5);
                     windowFunc(params, callback);
                 }
             } else {
+                proxyprinttodiv('calling params II', params,5);
                 callback(params);
             }
         }
@@ -99,6 +107,9 @@
             incomingConfig,
             targetfunction; // added by roger
 
+        proxyprinttodiv("dothis - inboundparms",params,5);
+        proxyprinttodiv("dothis - target ",target,5);
+        proxyprinttodiv("dothis - callback ",String(callback),5);
         //*** add if 'test4'
         console.log(' *** test4  '+ JSON.stringify(params));
         if (params["midexecute"]==="test4") {
@@ -110,7 +121,7 @@
             if(params[target] instanceof Function) { targetfunction = params[target].name; }  // function was passed in
                 else { targetfunction = params[target]; }  // function name was passed in as string
 
-            console.log(' Beginning doThis => '+ target +' >>> '+ nonCircularStringify(params));
+            //console.log(' Beginning doThis => '+ target +' >>> '+ nonCircularStringify(params));
 
             console.log(JSON.stringify(config.configuration));
             config0 = toLowerKeys(config.configuration);
@@ -144,7 +155,7 @@
             // Load up our how to do list based on what stage we are in (pre, mid, post), then sort it
             howToDoList = config0[target];
             if (howToDoList != undefined && howToDoList.length > 1) {
-                howToDoList = howToDoList.sort(function(a, b) {
+                howToDoList = howToDoList.sort(function (a, b) {
                     if ( a.executeorder > b.executeorder )
                         return 1;
                     else if ( a.executeorder < b.executeorder)
@@ -184,7 +195,7 @@
                 whatToDoList = config0[targetfunction];
                 if (whatToDoList !== undefined && whatToDoList.length > 1) {
                     // sort by executeorder and tryorder
-                    whatToDoList = whatToDoList.sort(function(a, b) {
+                    whatToDoList = whatToDoList.sort(function (a, b) {
                         if ( a.tryorder > b.tryorder )
                             return 1;
                         else if ( a.tryorder < b.tryorder)
@@ -216,6 +227,8 @@
                         delete params[target];
                         if (howToDo instanceof Function) {
                             //howToDo(params, function(results) { callback(results); });  *** changed by roger
+                            proxyprinttodiv("dothis II - inboundparms",params,5);
+                            proxyprinttodiv("dothis II - callback ",String(callback),5);
                             howToDo(params, callback);
                         }
                     }
@@ -231,6 +244,8 @@
                         delete params[target];
                         if (howToDo instanceof Function) {
                             // howToDo(params, function(results) { callback(results); }); *** changed by roger
+                            proxyprinttodiv("dothis III - parms",params,5);
+                            proxyprinttodiv("dothis III - callback ",String(callback),5);
                             howToDo(params, callback);
                         }
 
@@ -252,25 +267,25 @@
         proxyprinttodiv('Function addthis in : inputWidgetObject', inputWidgetObject);
         inputWidgetObject["wid"] = inputWidgetObject["addthis"];
         delete inputWidgetObject["addthis"];
-        updatewid(inputWidgetObject, callback)
+        updatewid(inputWidgetObject, callback);
         proxyprinttodiv('Function addthis in : x', resultObj);
         callback(results);
     };
 
-    function nonCircularStringify(obj) {
-        var cache = [];
+    // function nonCircularStringify(obj) {
+    //     var cache = [];
 
-        return JSON.stringify(obj, function(key, value) {
-            if (typeof value === 'object' && value !== null) {
-                if (cache.indexOf(value) !== -1) {
-                    //found circular reference, discard key
-                    return;
-                }
-                cache.push(value);
-            }
-            return value;
-        });
-    }
+    //     return JSON.stringify(obj, function(key, value) {
+    //         if (typeof value === 'object' && value !== null) {
+    //             if (cache.indexOf(value) !== -1) {
+    //                 //found circular reference, discard key
+    //                 return;
+    //             }
+    //             cache.push(value);
+    //         }
+    //         return value;
+    //     });
+    // }
 
     /// executethis is a function router that will return result synchronously
     /// 1st argument -- input parameters, 2nd parameter -- callback function
@@ -282,56 +297,67 @@
         if (inboundparms["executethis"]==="test1") {
             return {'test1':'Reached test1 code.. executethis function'};
         }
+        else
 
-        console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
-        if (!targetfunction || !targetfunction instanceof Function) { targetfunction = execute; }
+        {
+            //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
+            if (!targetfunction || !targetfunction instanceof Function) { targetfunction = execute; }
 
-        var params = toLowerKeys(inboundparms)
-            , argCount = 0
-            , result;
+            var params = toLowerKeys(inboundparms)
+                , argCount = 0;
 
-        proxyprinttodiv('Function executethis params',  params,70);
-        proxyprinttodiv('Function executethis fn', String(targetfunction),70);
-        console.log('targetfunction length => ' + targetfunction.length);
-        if (targetfunction.length !== undefined) { argCount = targetfunction.length; }
+            proxyprinttodiv('Function executethis params',  params,5);
+            proxyprinttodiv('Function executethis fn', targetfunction.name,5);
+            proxyprinttodiv('Function executethis length', targetfunction.length,5);
+            console.log('targetfunction length => ' + targetfunction.length);
+            if (targetfunction.length !== undefined) { argCount = targetfunction.length; }
 
-        if (argCount === 1) {
-            return targetfunction(params);
-        } else if (argCount > 1) {
-            targetfunction(params, function(data) {
-                if (data) {result = data} else {result={}}
-            });
-
-            var retResult = undefined;
-            var cnt=0;
-            
-            function counter()
-            {
-               retResult = result;
-               cnt++;
+            if (argCount == 1) {
+                return targetfunction (params); // if targetfn has only one parameter then fn is synchronous
             }
-            
-            if(result){
-                return result;
-            }else{
-                var idx = setInterval(function() {
-                    if((!result) && (cnt<50)) {
-                        counter();
-                    }else{
-                        clearInterval(idx);
-                        retResult = result;
+
+            else if (argCount > 1) {
+                var retResult = undefined
+                    , funcDone = false
+                    , funcCalled = false;
+
+                while (!funcDone) {
+                    if(!funcCalled) {
+                        funcCalled = true;
+                        targetfunction(params, function (results) {
+                            console.log(' ------- callback called ');
+                            funcDone = true;
+                            retResult = results;
+                        });
                     }
-                }, 100);
-                
-                if(!retResult){retResult={}}
-                return retResult;    
+                }
+
+                if (retResult === undefined){ retResult={}; }
+                if (retResult["etstatus"]=="empty") {retResult={}}
+                return retResult;
+
+                // var retResult = undefined;
+
+                // targetfunction(params, function (results) {
+                //     retResult = results;
+                // }
+
+                //     var idx = setInterval(function(){
+                //         waitIfNeeded(){
+                //             if(retResult){
+                //                 clearInterval(idx);
+                //             }else{
+                //                 waitIfNeeded();
+                //             }
+                //         }
+                //     },100);
+                // }
             }
         }
     };
 
     // executeParam remaps from the params and then trys to execute a function by that name
     // {"executeThis":"a", "a":"functionToExecute"} maps to {"executeThis":"functionToExecute"}
-
     exports.executeParam = window.executeParam = executeParam = function executeParam(params, callback) {
         if ((params['executethis'] !== undefined) && (params['executethis'] !== "")) {
             //params['executethis']=params[params['executethis']];// ***** Saurabh says this line is unnecessary and makes the system fail in finding functions from other files

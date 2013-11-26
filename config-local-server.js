@@ -3,57 +3,76 @@ if(!exports){
     var exports = {};
 }
 
+exports.environment='local';
+
 var config123 = function() {
     var configuration = {};
 
 // notice server try order is first on this version
-exports.environment ='local';
 
 configuration.preExecute = [];
 configuration.preExecute[0] = {};
 configuration.preExecute[0].executeorder = 0;
 configuration.preExecute[0].tryorder = 1;
-configuration.preExecute[0].dothis = 'executeFn';
-configuration.preExecute[1] = {};
-configuration.preExecute[1].executeorder = 0;
-configuration.preExecute[1].tryorder = 2;
-configuration.preExecute[1].dothis = 'executeParam';
+configuration.preExecute[0].dothis = 'server';
 
 // extra parameters
-configuration.preExecute[1].params = {'a':'b'};
-
-configuration.preExecute[2] = {};
-configuration.preExecute[2].executeorder = 0;
-configuration.preExecute[2].tryorder = 3;
-configuration.preExecute[2].dothis = 'server';
 
 configuration.midExecute = [];
 configuration.midExecute[0] = {};
-configuration.midExecute[0].executeorder = 1;
+configuration.midExecute[0].executeorder = 0;
 configuration.midExecute[0].tryorder = 1;
-configuration.midExecute[0].dothis = 'executeFn';
-configuration.midExecute[1] = {};
-configuration.midExecute[1].executeorder = 1;
-configuration.midExecute[1].tryorder = 2;
-configuration.midExecute[1].dothis = 'executeParam';
-configuration.midExecute[2] = {};
-configuration.midExecute[2].executeorder = 1;
-configuration.midExecute[2].tryorder = 3;
-configuration.midExecute[2].dothis = 'server';
+configuration.midExecute[0].dothis = 'server';
+configuration.midExecute[0].params = {'a':'b'};
 
 configuration.postExecute = [];
 configuration.postExecute[0] = {};
 configuration.postExecute[0].executeorder = 0;
 configuration.postExecute[0].tryorder = 1;
-configuration.postExecute[0].dothis = 'executeFn';
-configuration.postExecute[1] = {};
-configuration.postExecute[1].executeorder = 0;
-configuration.postExecute[1].tryorder = 2;
-configuration.postExecute[1].dothis = 'executeParam';
-configuration.postExecute[2] = {};
-configuration.postExecute[2].executeorder = 0;
-configuration.postExecute[2].tryorder = 3;
-configuration.postExecute[2].dothis = 'server';
+configuration.postExecute[0].dothis = 'server';
+
+
+// configuration.preExecute = [];
+// configuration.preExecute[0] = {};
+// configuration.preExecute[0].executeorder = 0;
+// configuration.preExecute[0].tryorder = 1;
+// configuration.preExecute[0].dothis = 'executeFn';
+// configuration.preExecute[1] = {};
+// configuration.preExecute[1].executeorder = 0;
+// configuration.preExecute[1].tryorder = 2;
+// configuration.preExecute[1].dothis = 'executeParam';
+// configuration.preExecute[2] = {};
+// configuration.preExecute[2].executeorder = 0;
+// configuration.preExecute[2].tryorder = 3;
+// configuration.preExecute[2].dothis = 'server';
+
+// configuration.midExecute = [];
+// configuration.midExecute[0] = {};
+// configuration.midExecute[0].executeorder = 1;
+// configuration.midExecute[0].tryorder = 1;
+// configuration.midExecute[0].dothis = 'executeFn';
+// configuration.midExecute[1] = {};
+// configuration.midExecute[1].executeorder = 1;
+// configuration.midExecute[1].tryorder = 2;
+// configuration.midExecute[1].dothis = 'executeParam';
+// configuration.midExecute[2] = {};
+// configuration.midExecute[2].executeorder = 1;
+// configuration.midExecute[2].tryorder = 3;
+// configuration.midExecute[2].dothis = 'server';
+
+// configuration.postExecute = [];
+// configuration.postExecute[0] = {};
+// configuration.postExecute[0].executeorder = 0;
+// configuration.postExecute[0].tryorder = 1;
+// configuration.postExecute[0].dothis = 'executeFn';
+// configuration.postExecute[1] = {};
+// configuration.postExecute[1].executeorder = 0;
+// configuration.postExecute[1].tryorder = 2;
+// configuration.postExecute[1].dothis = 'executeParam';
+// configuration.postExecute[2] = {};
+// configuration.postExecute[2].executeorder = 0;
+// configuration.postExecute[2].tryorder = 3;
+// configuration.postExecute[2].dothis = 'server';
 
     return {
         "configuration": configuration
@@ -62,7 +81,6 @@ configuration.postExecute[2].dothis = 'server';
 
 
 exports.config  = config =  config123();
-exports.environment ='local';
 
 
 function executeAjax(allConfig,executeItem,callback,returnCallback) {

@@ -4,8 +4,8 @@ exports.widMasterKey = widMasterKey = "widmaster_";
 exports.test_results =  test_results = {};
 exports.potentialwid =  potentialwid = 0;
 
-
-if(!window){var window=global}
+(function (window) {
+// if(!window){var window=global}
 
 // if(typeof localStorage === "undefined"){
 var localStore = function(){
@@ -49,7 +49,9 @@ if(typeof window === "undefined"){
 
 function bootprocess(){
 	testclearstorage();
-	clearLocalStorage();
+	if(exports.environment === 'local'){
+		clearLocalStorage();
+	}
 	test_results = {};
 	//testAddWids();
 	//displayAllWids();
@@ -171,9 +173,12 @@ exports.logverify = logverify =  function logverify(testname, resultwid, parmwid
 	if (parmwid2.length!=0) {parameterobj2 = getfromlocal({'wid': parmwid2})};
 					proxyprinttodiv('logverify - parameterobj1',parameterobj1);
 					proxyprinttodiv('logverify - parameterobj2',parameterobj2);
+	// Hold the object of scrutiny in a string....
 	var temp = JSON.stringify(parameterobj1);
 	var result = compareJSON(parameterobj1, parameterobj2);
+	// Restore the memory object with the original data
 	localStore.push("widmaster_" + parmwid1, JSON.parse(temp));
+
 					proxyprinttodiv('logverify - result',result);
 					proxyprinttodiv('logverify - result.length',Object.keys(result).length);
 	var testresults = "PASS";
@@ -327,3 +332,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage(){
 // 	localStore.clear();
 // 	potentialwid = 0;
 // }
+
+
+})(typeof window == "undefined" ? global : window);

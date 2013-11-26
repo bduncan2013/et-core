@@ -167,11 +167,12 @@ exports.t1 = t1 = function t1 () {
 
 }
 
-exports.tfail = tfail = function tfail () {
+exports.fail = fail = function fail () {
 	testclearstorage();
 	config = setconfig1();
 	executetest("executethis", {"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, "t1_output", "");
 	logverify("unit_tests","t1_result","t1_output","","",{"executethis":"func_b","d":"1","c":"0","g":"5"});
+	return verifysummary("test_results");
 }
 
 // Call func_b with pre and post
@@ -287,15 +288,6 @@ exports.ast7 = ast7 = function ast7 () {
 	config = setconfig1();
 	executetest("executethis", {"executethis":"async_func_d", "c":"0", "d":"1", "e":"2"}, "as_t7_output", "");
 	logverify("as_unit_tests","as_t7_result","as_t7_output","","",{"executethis":"async_func_e","c":"0","h":"5"});
-}
-// Call async_func_d_1 that will, in turn, call async_func_e_1, and then async_func_f, async_func_g, and async_func_h.
-// If the diamond makes out of async_func_h...it will show executethis can go five layers deep into et and return with a parameter
-// to the as_t8_output...pretty cool 
-exports.ast8 = ast8 = function ast8 () {
-	testclearstorage();
-	config = setconfig1();
-	executetest("executethis", {"executethis":"async_func_d1", "c":"0", "d":"1", "e":"2"}, "as_t8_output", "");
-	logverify("as_unit_tests","as_t8_result","as_t8_output","","",{"c":"0","d":"1","e":"2","rubies":"red","emeralds":"green","diamonds":"you are rich!!","h":"5"});
 }
 // Call redir_b with no pre or post
 exports.ct1 = ct1 = function ct1 () {
@@ -527,63 +519,17 @@ exports.async_func_d = async_func_d = function async_func_d (parameters,  callba
 
 exports.async_func_e = async_func_e = function async_func_e (parameters) {
 	sleep(500);
-	// alert('func_e');
 	delete parameters["d"];
 	parameters ["h"] = "7";
 	return parameters;
 }
 
-exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
-	parameters['executethis'] = 'async_func_e1';
-	parameters = executethis(parameters, "execute");
-	sleep(500);
-	parameters ["h"] = "5";
-	return parameters;
-	// callback (parameters);
-}
-
-exports.async_func_e1 = async_func_e1 = function async_func_e1 (parameters, callback) {
-	sleep(500);
-	// alert('func_e1');
-	parameters['executethis'] = 'async_func_f';
-	parameters = executethis(parameters, execute);
-	callback (parameters);
-	// return parameters;
-}
-
-exports.async_func_f = async_func_f = function async_func_f (parameters, callback) {
-	sleep(500);
-	// alert('func_f');
-	parameters ["rubies"] = "red";
-	parameters['executethis'] = async_func_g;
-	parameters = executethis(parameters, execute);
-	callback (parameters);
-	// return parameters;
-}
-
-exports.async_func_g = async_func_g = function async_func_g (parameters, callback) {
-	sleep(500);
-	// alert('func_g');
-	parameters ["emeralds"] = "green";
-	parameters ['executethis'] = async_func_h;
-	parameters = executethis(parameters, execute);
-	callback (parameters);
-	// return parameters;
-}
-
-exports.async_func_h = async_func_h = function async_func_h (parameters, callback) {
-	sleep(500);
-	// alert('diamonds');
-	parameters ["diamonds"] = "you are rich!!";
-	console.log('Struck diamonds -- five levels deep in executethis ****************************************************************************');
-	callback (parameters);
-	// return parameters;
-}
-//--------------------------
 
 exports.getwidtest = getwidtest = function getwidtest() {
-    executetest('getwid', {wid:'test1'});
+    executetest('getwid', {wid:'test1','etlocal':true});
 }
+
+
 
 exports.updatewidtest = updatewidtest = function updatewidtest() {
     executetest('updatewid', {wid:'test1',this:'that',something:'else'}, '', '');
@@ -592,12 +538,20 @@ exports.updatewidtest = updatewidtest = function updatewidtest() {
 exports.jasontesta = jasontesta = function jasontesta() {
     executetest('updatewid', {wid:'jasontestwid',this:'that',something:'else'}, '', '');
     executetest('getwid', {wid:'jasontestwid'});
-}
+};
 
 exports.jasontestb = jasontestb = function jasontestb() {
     executetest('addwidmaster', {wid:'jasontestwid5',testnum:'5',black:'white',pair:'3'});
     executetest('getwidmaster', {wid:'jasontestwid5'});
-}
+};
+
+exports.jasontestc = jasontestc = function jasontestc() {
+    executetest('addwidmaster', {wid:'jasontestwid5',testnum:'5',black:'white',pair:'3'});
+};
+
+exports.jasontestd = jasontestd = function jasontestd() {
+    executetest('getwidmaster', {wid:'jasontestwid5'});
+};
 
 exports.testa = testa = function testa () {
 		// executetest("test2",{"wid":"colordto"}, "blue", "");
@@ -670,74 +624,6 @@ exports.teste = teste = function teste () {
 	logverify("alpha_unit_tests","teste_result","get_color1_result","","", {"hue":"red","wid":"color1","metadata.method":"defaultdto"});
 	return verifysummary("test_results");
 }
-
-exports.testf = testf = function testf () {
-	testclearstorage();
-	config = setconfig1();
-	var parameters = {};
-	parameters ["wid"] = "green";
-	parameters ['executethis'] = addwidmaster;
-	var abc = executethis(parameters);
-	var jkl = executethis(parameters, execute);
-	parameters ["wid"] = "yellow";
-	parameters ['executethis'] = "addwidmaster";
-	var mno = executethis(parameters, execute);
-	delete parameters['executethis'];
-	parameters ["wid"] = "blue";
-	var def = executethis(parameters, addwidmaster);
-	parameters ["wid"] = "red";
-	var ghi = 'boo'; //executethis(parameters, "addwidmaster");
-	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
-	logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
-	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
-}
-
-exports.testf_fail = testf_fail = function testf_fail () {
-	testclearstorage();
-	config = setconfig1();
-	var parameters = {};
-	// parameters ["wid"] = "green";
-	// parameters ['executethis'] = addwidmaster;
-	// var abc = executethis(parameters);
-	// delete parameters['executethis'];
-	// parameters ["wid"] = "blue";
-	// var def = executethis(parameters, addwidmaster);
-	parameters ["wid"] = "red";
-	var ghi = executethis(parameters, "addwidmaster");
-	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
-	logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
-	// logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
-}
-// To test executethis by sending a function
-exports.testg = testg = function testg () {
-	testclearstorage();
-	config = setconfig1();
-	var parameters = {"wid":"green", "executethis": addwidmaster};
-	var abc = executethis(parameters);
-	executetest("addwidmaster", {"this_wid_was_added":abc }, "testg_output", "");
-	logverify("unit_tests","testg_result","testg_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
-}
-// This test passes since execute is not in quotes
-exports.testh = testh = function testh () {
-	testclearstorage();
-	config = setconfig1();
-	var parameters = {"executethis": addwidmaster, "wid":"green"};
-	var abc = executethis(parameters, execute);
-	executetest("addwidmaster", {"this_wid_was_added":abc }, "testh_output", "");
-	logverify("unit_tests","testh_result","testh_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
-}
-// This test fails since execute is in quotes
-exports.testi = testi = function testi () {
-	testclearstorage();
-	config = setconfig1();
-	var parameters = {"executethis": addwidmaster, "wid":"green"};
-	var abc = executethis(parameters, "execute");
-	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
-	logverify("unit_tests","testi_result","testi_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
-}
-
-
-
 // This will test the ability to have a relationship between 2 wids and use that
 // relationship to get the related wids.
 
@@ -780,12 +666,14 @@ exports.ex5 = ex5 = function ex5 () {
 }
 // Required for the delay in testing the async portionis
 exports.sleep = sleep = function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
+	for (var i = 0; i < milliseconds*10000; i++)
+		{}
+  // var start = new Date().getTime();
+  // for (var i = 0; i < 1e7; i++) {
+  //   if ((new Date().getTime() - start) > milliseconds){
+  //     break;
+  //   }
+  // }
 }
 
 // Here are the different configs used in the tests
@@ -809,60 +697,51 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
     // configuration.querywid[0].order = 0;
     // configuration.querywid[0].dothis = 'querywid';
 
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'executeFn';
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeParam';
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executeDefault';
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
+configuration.preExecute = [];
+configuration.preExecute[0] = {};
+configuration.preExecute[0].executeorder = 0;
+configuration.preExecute[0].tryorder = 1;
+configuration.preExecute[0].dothis = 'executeFn';
+configuration.preExecute[1] = {};
+configuration.preExecute[1].executeorder = 0;
+configuration.preExecute[1].tryorder = 2;
+configuration.preExecute[1].dothis = 'executeParam';
 
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'executeFn';
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeParam';
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    configuration.midExecute[2].dothis = 'executeDefault';
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
-    configuration.midExecute[3].dothis = 'server';
+// extra parameters
+configuration.preExecute[1].params = {'a':'b'};
 
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'executeFn';
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeFn';
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executeFn';
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
+configuration.preExecute[2] = {};
+configuration.preExecute[2].executeorder = 0;
+configuration.preExecute[2].tryorder = 3;
+configuration.preExecute[2].dothis = 'server';
 
+configuration.midExecute = [];
+configuration.midExecute[0] = {};
+configuration.midExecute[0].executeorder = 1;
+configuration.midExecute[0].tryorder = 1;
+configuration.midExecute[0].dothis = 'executeFn';
+configuration.midExecute[1] = {};
+configuration.midExecute[1].executeorder = 1;
+configuration.midExecute[1].tryorder = 2;
+configuration.midExecute[1].dothis = 'executeParam';
+configuration.midExecute[2] = {};
+configuration.midExecute[2].executeorder = 1;
+configuration.midExecute[2].tryorder = 3;
+configuration.midExecute[2].dothis = 'server';
+
+configuration.postExecute = [];
+configuration.postExecute[0] = {};
+configuration.postExecute[0].executeorder = 0;
+configuration.postExecute[0].tryorder = 1;
+configuration.postExecute[0].dothis = 'executeFn';
+configuration.postExecute[1] = {};
+configuration.postExecute[1].executeorder = 0;
+configuration.postExecute[1].tryorder = 2;
+configuration.postExecute[1].dothis = 'executeParam';
+configuration.postExecute[2] = {};
+configuration.postExecute[2].executeorder = 0;
+configuration.postExecute[2].tryorder = 3;
+configuration.postExecute[2].dothis = 'server';
     return {
         "configuration": configuration
     }

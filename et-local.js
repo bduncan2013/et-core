@@ -58,15 +58,16 @@ function querywidlocal(sq, callback){
 	var dtotype=sq["dtotype"];
 
 	var returnfromSimpleQuery=[];
-	var enhancedreturn=[];
+	var enhancedreturn;
+	var outobject=[];
 
-	proxyprinttodiv('Function simpleQuery in : widInput',  widInput);
-	proxyprinttodiv('Function simpleQuery in : mongorelationshiptype',  mongorelationshiptype);
-	proxyprinttodiv('Function simpleQuery in : mongorelationshipmethod',  mongorelationshipmethod);
-	proxyprinttodiv('Function simpleQuery in : mongorelationshipdirection',  mongorelationshipdirection);			
-	proxyprinttodiv('Function simpleQuery in : mongowidmethod',  mongowidmethod);
-	proxyprinttodiv('Function simpleQuery in : convertmethod',  convertmethod);	
-	proxyprinttodiv('Function simpleQuery in : dtotype',  dtotype);		
+	proxyprinttodiv('Function simpleQuery in : widInput',  widInput, 30);
+	proxyprinttodiv('Function simpleQuery in : mongorelationshiptype',  mongorelationshiptype,30);
+	proxyprinttodiv('Function simpleQuery in : mongorelationshipmethod',  mongorelationshipmethod,30);
+	proxyprinttodiv('Function simpleQuery in : mongorelationshipdirection',  mongorelationshipdirection,30);			
+	proxyprinttodiv('Function simpleQuery in : mongowidmethod',  mongowidmethod,30);
+	proxyprinttodiv('Function simpleQuery in : convertmethod',  convertmethod,30);	
+	proxyprinttodiv('Function simpleQuery in : dtotype',  dtotype,30);		
 	if(mongorelationshipdirection == "forward") {
 		// step through local storage looking for
 	   	var widset=getwidcopy(); // get a copy of all local storage ***
@@ -91,13 +92,17 @@ function querywidlocal(sq, callback){
 			if (myvalue["primarywid"] == widInput) {
                var widName = myvalue["primarywid"];
 			   var key = myvalue["secondarywid"];
+			     proxyprinttodiv('Function simpleQuery in : widName',  widName, 30);
+			     proxyprinttodiv('Function simpleQuery in : key',  key, 30);
 			   //var value = getfrommongo({wid:key}); // , dtotype:mongowidmethod
 				executeobject={};
 				executeobject["wid"]=key;
 			   //var value = executethis({wid:key}, getfrommongo);
+			   proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
+			   proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
 			   var value = executethis(executeobject, x);
 			   //var value = executethis(executeobject, getfrommongo);
-			   proxyprinttodiv('Function simpleQuery in : value',  value);
+			   proxyprinttodiv('Function simpleQuery in : value',  value, 30);
                delete value.wid;
                var resultObj = {};
 			   resultObj[key]= value;
@@ -118,9 +123,10 @@ function querywidlocal(sq, callback){
 			// }
 		}
 	}
+	proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery before', returnfromSimpleQuery, 30);
 	//proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery',  returnfromSimpleQuery);
 	if (returnfromSimpleQuery.length>0) {
-    returnfromSimpleQuery=returnfromSimpleQuery.sort(function(aObj, bObj) {
+    returnfromSimpleQuery=returnfromSimpleQuery.sort(function (aObj, bObj) {
             var a = getAttributeByIndex(aObj, 0);
             var b = getAttributeByIndex(bObj, 0);
             if (a < b) return -1;
@@ -128,15 +134,22 @@ function querywidlocal(sq, callback){
             return 0;
  		});
     	}
+    proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery aftersort', returnfromSimpleQuery, 30);
+    proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery length', returnfromSimpleQuery.length, 30);
     if (returnfromSimpleQuery.length>0) {
-    	if (mongorelationshipmethod='first') {enhancedreturn=returnfromSimpleQuery[0]};
-   	 	if (mongorelationshipmethod='last') {enhancedreturn=returnfromSimpleQuery[returnfromSimpleQuery.length]};
-		if (mongorelationshipmethod='all') {enhancedreturn=returnfromSimpleQuery};
+    	if (mongorelationshipmethod=='first') {outobject.push(returnfromSimpleQuery[0])};
+   	 	if (mongorelationshipmethod=='last') {outobject.push(returnfromSimpleQuery[returnfromSimpleQuery.length-1])};
+		if (mongorelationshipmethod=='all') {outobject=returnfromSimpleQuery};
 		}
-	proxyprinttodiv('Function simpleQuery in : enhancedreturn',  enhancedreturn, 30);
+	proxyprinttodiv('Function simpleQuery in : enhancedreturn before',  outobject, 30);
+	if ((!outobject) || (outobject==[]) || 
+		(outobject===null) || (returnfromSimpleQuery.length==0)){outobject.push({"":""})};
+	if (Object.keys(outobject).length == 0) {outobject.push({"":""})};	
+	proxyprinttodiv('Function simpleQuery in : enhancedreturn after',  outobject, 30);
 	//return enhancedreturn;
 	//enhancedreturn.push({'a':'b'});
-	callback(enhancedreturn);
+	proxyprinttodiv('Function simpleQuery in : callback',  String(callback),30);	
+	callback(outobject);
 }
 
 // function addtomongo(widName, widobject) {

@@ -5,7 +5,7 @@
         delete inputWidgetObject['executethis'];// ** added by Saurabh 11/9
 
         proxyprinttodiv('Function getwid in : inputWidgetObject',  inputWidgetObject,1);
-        var outobject = {"etstatus":"empty"};
+        var outobject = {};
 
 
         // getfrommongo(inputWidgetObject, function(results) {
@@ -21,18 +21,24 @@
         //         callback(outobject);
         //     }
         // });
-        var results = executethis(inputWidgetObject,getfrommongo);
-        if (results && results["etstatus"]!="empty") {
-            if (results["data"]) { outobject = results["data"]; }
 
-            if (results['wid']) { outobject['wid'] = results['wid']; }
-            else { outobject['wid']=""; }
+        getfrommongo(inputWidgetObject, function (results) {
 
-            if (results['metadata.method']) { outobject['metadata.method'] = results['metadata.method']; }
-            else { outobject['metadata.method']=""; }
+            //var results = executethis(inputWidgetObject,getfrommongo);
+            if (results && results["etstatus"]!="empty") {
+                if (results["data"]) { outobject = results["data"]; }
 
-        }
-        callback(outobject);
+                if (results['wid']) { outobject['wid'] = results['wid']; }
+                else { outobject['wid']=""; }
+
+                if (results['metadata.method']) { outobject['metadata.method'] = results['metadata.method']; }
+                else { outobject['metadata.method']=""; }
+
+            }
+
+            callback(outobject);
+
+        });
     };
 
 
@@ -55,10 +61,8 @@
 
 
 
-    function aggressivedto(widInput, preamble, level) { // returns a made up dto base on maximum number of relationships, etc
+exports.aggressivedto = window.aggressivedto = aggressivedto = function aggressivedto(widInput, preamble, level) { // returns a made up dto base on maximum number of relationships, etc
         //Debug='true';
-        proxyprinttodiv('Function aggressivedto()  widInput' , widInput,20);
-        proxyprinttodiv('Function aggressivedto()  preamble' , preamble,20);
         var moreDTOParameters={};
         var targetwid="";
         var nexttargetwid="";
@@ -68,6 +72,9 @@
         var rightparameters={};
         dtoGlobalParameters={};
 
+        proxyprinttodiv('Function aggressivedto()  level' , level, 20);
+        proxyprinttodiv('Function aggressivedto()  widInput' , widInput,20);
+        proxyprinttodiv('Function aggressivedto()  preamble' , preamble,20);
         if (!level) {level=99} else {level = level - 1}; //how many levels to try
 
         if (preamble === undefined) {preamble = "";}
@@ -99,8 +106,8 @@
         }
 
         //for (eachresult in parameterObject) {
-        //	parameterObject[eachresult] = 'string';
-        //	}
+        //  parameterObject[eachresult] = 'string';
+        //  }
         proxyprinttodiv('Function aggressivedto()  parameterObject III' , parameterObject);
         proxyprinttodiv('Function aggressivedto()  targetwid' , targetwid);
 
@@ -154,16 +161,16 @@
             for (key in moreDTOParameters[eachresult]) {
                 rightparameters=moreDTOParameters[eachresult][key];
             }
-            proxyprinttodiv('Function getWidMongo() left- ', key);
-            proxyprinttodiv('Function getWidMongo() right ', rightparameters);
+            proxyprinttodiv('Function getWidMongo() left- ', key, 20);
+            proxyprinttodiv('Function getWidMongo() right ', rightparameters, 20);
 
             // from dto create outgoing object
             if (moreDTOParameters[key]) {
                 parameterObject[key]=moreDTOParameters[key]
             }
 
-            proxyprinttodiv('Function aggressivedto()  parameterObject V' , parameterObject);
-            proxyprinttodiv('Function aggressivedto()  key key' , key);
+            proxyprinttodiv('Function aggressivedto()  parameterObject V' , parameterObject, 20);
+            proxyprinttodiv('Function aggressivedto()  key key' , key, 20);
             if (level > 0) {parameterObject = jsonConcat(parameterObject, aggressivedto(key, key, level))};
         }
 
@@ -206,7 +213,7 @@
                 ((resultObj['wid']!==resultObj['metadata.method']) || (dtotype="defaultdto"))
             )
         {
-            dtoobject=aggressivedto(resultObj['wid'],"");
+            dtoobject=aggressivedto(resultObj['wid'],"",10);
             proxyprinttodiv('Function getcleanparameteres()  aggressivedto ' , dtoobject, 83);
             proxyprinttodiv('Function getcleanparameteres()  resultObj ' , resultObj,83);
 
@@ -313,7 +320,7 @@
         proxyprinttodiv('Function getwidmaster() incoming parameters, now go to getwidmasterLevel ' , parameters, 10);
 
         var wid = parameters.wid;
-//	var resultObj = {};
+//  var resultObj = {};
         proxyprinttodiv('Function getwidmasterLevel() incoming parameters, to getWidMongo' , parameters,10);
 
         var dtotype=parameters["command.dtotype"];
@@ -349,7 +356,7 @@
         }
 
         olddebug=Debug;
-//	Debug=olddebug;
+//  Debug=olddebug;
         proxyprinttodiv('Function getwidmasterLevel() ** before ' , resultObj,10);
         //if (Object.keys(resultObj).length !== 0) {
         if ((Object.keys(resultObj).length !== 0) && (resultObj['wid']!=resultObj['metadata.method'])) {
@@ -364,7 +371,7 @@
             delete resultObj["metadata.method"];
         }
 
-//	Debug=olddebug;
+//  Debug=olddebug;
 
         if(callback instanceof Function) { callback(resultObj); }
         else { return resultObj; }
@@ -428,8 +435,8 @@
             //dtoGlobalParameters = getFromMongo({'wid':dtotype});
         }
         proxyprinttodiv('Function getWidMongo() dtoGlobalParameters isEmpty', (isEmpty(dtoGlobalParameters)));
-//	if (Object.keys(dtoGlobalParameters).length === 0) {
-//	if (isEmpty(dtoGlobalParameters)) {
+//  if (Object.keys(dtoGlobalParameters).length === 0) {
+//  if (isEmpty(dtoGlobalParameters)) {
         //if (dtotype!="") {createid=dtotype}
         //dtotype='defaultdto'
         // executeobject={};
@@ -442,22 +449,22 @@
         // executeobject["dtotype"]="";
         // executeobject["executethis"]=querywid;
         // proxyprinttodiv('Function getWidMongo()  executeobject III' , executeobject);
-        // //moreDTOParameters=querywidlocal(executeobject);	// ** mongoquery
+        // //moreDTOParameters=querywidlocal(executeobject);    // ** mongoquery
         // proxyprinttodiv('Function getWidMongo()  executeobject III-result' , moreDTOParameters);
         // moreDTOParameters=executethis(executeobject,execute);
         // //*****10-31
         // //moreDTOParameters = simpleQuery(widInput, "attributes", "all", "forward", "", "", "");
         // for (eachresult in moreDTOParameters) {
-        // 	for (key in moreDTOParameters[eachresult]) {
-        // 		proxyprinttodiv('Function getWidMongo()eachresult[0] ',key);
-        // 		//dtoGlobalParameters[key] = 'onetomany'
-        // 		moreParameters[key] = 'onetomany'
-        // 		}
-        // 	}
+        //  for (key in moreDTOParameters[eachresult]) {
+        //      proxyprinttodiv('Function getWidMongo()eachresult[0] ',key);
+        //      //dtoGlobalParameters[key] = 'onetomany'
+        //      moreParameters[key] = 'onetomany'
+        //      }
+        //  }
         // for (eachresult in currentLevelObject) {
-        // 	//dtoGlobalParameters[eachresult] = 'string'
-        // 	moreParameters[eachresult] = 'string'
-        // 	}
+        //  //dtoGlobalParameters[eachresult] = 'string'
+        //  moreParameters[eachresult] = 'string'
+        //  }
 
         proxyprinttodiv('Function getWidMongo() widInput ', widInput,10);
         moreParameters=aggressivedto(widInput,"",1);
@@ -501,16 +508,16 @@
                     nextLevelParameters = getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin); //removed dtoGlobalParameters
                 } // 11-9 readded inherit from cleanparms here:
                 // if ((attr == "inherit") && (convertMethod != 'dto')) {
-                //          	executeobject={};
-                //          	executeobject["executethis"]="getwidmaster"; // changed from getwidmaster
-                //          	executeobject["wid"]=item;
-                //          	executeobject["command.convertmethod"]="nowid";
-                //          	var x = window['execute'];
-                //          	nextLevelParameters=executethis(executeobject,x);
-                //          	proxyprinttodiv('Function getWidMongo nextLevelParameters - inherit', nextLevelParameters,1);
-                //          	}
-                //	nextLevelParameters = getwidmaster({'wid':item, 'command.convertmethod':'nowid'});
-                //	};
+                //              executeobject={};
+                //              executeobject["executethis"]="getwidmaster"; // changed from getwidmaster
+                //              executeobject["wid"]=item;
+                //              executeobject["command.convertmethod"]="nowid";
+                //              var x = window['execute'];
+                //              nextLevelParameters=executethis(executeobject,x);
+                //              proxyprinttodiv('Function getWidMongo nextLevelParameters - inherit', nextLevelParameters,1);
+                //              }
+                //  nextLevelParameters = getwidmaster({'wid':item, 'command.convertmethod':'nowid'});
+                //  };
                 // 11-15 line below commented
                 //if (nextLevelParameters=="") {AddMongoRelationship(widInput,item,"attributes");} // if DTO existed, but no relationship at place hoder
                 proxyprinttodiv('Function getWidMongo() came back from getAndFormatNextLevel, nextLevelParameters= ', nextLevelParameters);
@@ -563,11 +570,11 @@
 
         if (Object.keys(relatedParameters).length == 0) {return nextLevelParametersObject};
         //if (relatedParameters == "") {
-        //	return;
+        //  return;
         //}
 
         //for (var rowresult in relatedParameters) { // for this iteration: wid1: {a:b, c:d}
-//	for(iteration = 0 ; (iteration< relatedParameters.length ) ; iteration++ ) {
+//  for(iteration = 0 ; (iteration< relatedParameters.length ) ; iteration++ ) {
         for(iteration = 0 ; (iteration< countKeys(relatedParameters)) ; iteration++ ) {
             rowresult=relatedParameters[iteration];
 
@@ -576,8 +583,8 @@
 
             //var rowObject = relatedParameters[rowresult];
             //for (item in rowObject) {
-            //	var proposedLeft = item;
-            //	var proposedRight = rowObject[item];
+            //  var proposedLeft = item;
+            //  var proposedRight = rowObject[item];
             //}
             for (key in rowresult) {
                 proposedLeft = key;
@@ -591,11 +598,11 @@
             // LM: Found commented. Should delete?
             // ************
             //if (dtotype == 'onetomany') {
-            //	proposedLeft == proposedLeft + "<" + iteration + ">"; // if dtotype=x then proposedLeft x<1>
+            //  proposedLeft == proposedLeft + "<" + iteration + ">"; // if dtotype=x then proposedLeft x<1>
             //}
 
             //if (convertmethod = "" && relatedParameters.length == 1) {
-            //	proposedLeft = dtotype; // proposedLeft=x if only one related and convertmethod="" -- change it to just widdto
+            //  proposedLeft = dtotype; // proposedLeft=x if only one related and convertmethod="" -- change it to just widdto
             //}
             // ************
             //var proposedObject ={};
@@ -610,7 +617,7 @@
 
                 nextLevelParameters.push({"key":mongowidmethod,"value":proposedLeft});
 
-                //		proxyprinttodiv('----------Function getAndFormatNextLevel() proposed wid object', proposedObject);
+                //      proxyprinttodiv('----------Function getAndFormatNextLevel() proposed wid object', proposedObject);
 
             }
             //alert(convertmethod);
@@ -621,7 +628,7 @@
 
                 nextLevelParameters.push({"key":mongowidmethod,"value":JSON.stringify(proposedRight)});
 
-                //		proxyprinttodiv('----------Function getAndFormatNextLevel() proposed json object', proposedObject);
+                //      proxyprinttodiv('----------Function getAndFormatNextLevel() proposed json object', proposedObject);
 
             }
 
@@ -647,7 +654,7 @@
                     else {
 
                         proposedLeft = mongowidmethod + "." + String(iteration) + "." + item;  // removed +1
-//					if ((convertmethod == "dto") && (relatedParameters.length == 1)) { 
+//                  if ((convertmethod == "dto") && (relatedParameters.length == 1)) { 
 
                         // added 11-18
                         proxyprinttodiv('Function getAndFormatNextLevel() mongorelationshipmethod', mongorelationshipmethod,11);
