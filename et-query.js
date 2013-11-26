@@ -18,8 +18,10 @@ exports.querywid = querywid = function querywid(parameters, callback) { // can c
 	delete parameters['executethis']; //** added 11/2
 
 	var x = window['mongoquery'];
-	if ((typeof config !== "undefined") && (config.configuration.environment === "local")) //{return mongoquery(parameters)}
-		 {return executethis(parameters, x);}
+    if (exports.environment=== "local") {
+        if (callback instanceof Function) { mongoquery(parameters, callback); }
+        else { return executethis(parameters, x); }
+    }
 
 // if (parameters['mongorawquery']) {
 // 		return mongoquery(parameters);

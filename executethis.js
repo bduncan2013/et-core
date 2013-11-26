@@ -287,8 +287,7 @@
         if (!targetfunction || !targetfunction instanceof Function) { targetfunction = execute; }
 
         var params = toLowerKeys(inboundparms)
-            , argCount = 0
-            , result;
+            , argCount = 0;
 
         proxyprinttodiv('Function executethis params',  params,70);
         proxyprinttodiv('Function executethis fn', String(targetfunction),70);
@@ -298,40 +297,27 @@
         if (argCount === 1) {
             return targetfunction(params);
         } else if (argCount > 1) {
-            targetfunction(params, function(data) {
-                if (data) {result = data} else {result={}}
-            });
+            var retResult = undefined
+                , funcDone = false
+                , funcCalled = false;
 
-            var retResult = undefined;
-            var cnt=0;
-            
-            function counter()
-            {
-               retResult = result;
-               cnt++;
+            while (!funcDone) {
+                if(!funcCalled) {
+                    funcCalled = true;
+                    targetfunction(params, function (results) {
+                        funcDone = true;
+                        retResult = results;
+                    });
+                }
             }
-            
-            if(result){
-                return result;
-            }else{
-                var idx = setInterval(function() {
-                    if((!result) && (cnt<50)) {
-                        counter();
-                    }else{
-                        clearInterval(idx);
-                        retResult = result;
-                    }
-                }, 100);
-                
-                if(!retResult){retResult={}}
-                return retResult;    
-            }
+
+            if (retResult === undefined){ retResult={}; }
+            return retResult;
         }
     };
 
     // executeParam remaps from the params and then trys to execute a function by that name
     // {"executeThis":"a", "a":"functionToExecute"} maps to {"executeThis":"functionToExecute"}
-
     exports.executeParam = window.executeParam = executeParam = function executeParam(params, callback) {
         if ((params['executethis'] !== undefined) && (params['executethis'] !== "")) {
             //params['executethis']=params[params['executethis']];// ***** Saurabh says this line is unnecessary and makes the system fail in finding functions from other files
