@@ -272,7 +272,7 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
     for (var i in widsToGet) {
         var paramObject = {};
         paramObject.wid = widsToGet[i];
-        executeService.executeThis('getwid', paramObject, $scope);
+        executeService.executeThis('getwidmaster', paramObject, $scope);
     }
 
     $scope.executeOffer = function () {
@@ -391,7 +391,7 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
 
         if ($scope.deleteWid) { updateParams.Status = '5'; }
 
-        executeService.executeThis('UpdateWid', updateParams, $scope, function() {
+        executeService.executeThis('addwidmaster', updateParams, $scope, function() {
             $scope.clearAddWidForm();
             self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
         });
