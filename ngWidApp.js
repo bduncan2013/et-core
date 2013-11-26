@@ -272,6 +272,7 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
     for (var i in widsToGet) {
         var paramObject = {};
         paramObject.wid = widsToGet[i];
+        paramObject['command.convertmethod'] = 'toobject';
         executeService.executeThis('getwidmaster', paramObject, $scope);
     }
 
