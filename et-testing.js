@@ -309,6 +309,15 @@ exports.testclearstorage = testclearstorage = function testclearstorage(){
 	localStore.clear();
 };
 
+// logic to clear things from Local storage
+exports.testclearallstorage = testclearallstorage = function testclearallstorage() {
+    widMasterKey = "widmaster_";
+    potentialwid = 0;
+    localStore.clear();
+    localStorage.clear();
+    var userstuff = { "username": "", "at": "abc7850a-7023-4046-8b5e-654e5af53c2a", "loggedin": false };
+    localStorage.setItem("driUser", JSON.stringify(userstuff));
+};
 
 // exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 // 	addToLocalStorage((widMasterKey + widName), widobject);
