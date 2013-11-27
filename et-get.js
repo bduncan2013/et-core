@@ -35,7 +35,6 @@
                 else { outobject['metadata.method']=""; }
 
             }
-
             callback(outobject);
 
         });
@@ -371,6 +370,8 @@ exports.aggressivedto = window.aggressivedto = aggressivedto = function aggressi
             delete resultObj["metadata.method"];
         }
 
+        if (convertMethod == "toobject") { resultObj = ConvertFromDOTdri(resultObj); }
+
 //  Debug=olddebug;
 
         if(callback instanceof Function) { callback(resultObj); }
@@ -632,19 +633,19 @@ exports.aggressivedto = window.aggressivedto = aggressivedto = function aggressi
 
             }
 
-            if ((convertmethod == "") || (convertmethod == "dto") ||
+            if ((convertmethod == "") || (convertmethod == "dto") || (convertmethod == "toobject") ||
                 (convertmethod == "num") || (convertmethod == "dtonum")) {
-                proxyprinttodiv('Function getAndFormatNextLevel() in convertmethod=blank, about to get drilldown: ', proposedLeft,11);
+                proxyprinttodiv('Function getAndFormatNextLevel() in convertmethod=blank, about to get drilldown: ', proposedLeft, 11);
                 drillDownParameters = getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin); //dtoGlobalParameters, mongowidmethod);
-                proxyprinttodiv('Function getAndFormatNextLevel() after drillDown object: ', drillDownParameters,11);
+                proxyprinttodiv('Function getAndFormatNextLevel() after drillDown object: ', drillDownParameters, 11);
                 //proxyprinttodiv('----------Function getAndFormatNextLevel() mongowidmethod: ', mongowidmethod);
-                proxyprinttodiv('Function getAndFormatNextLevel() arriving widInput II', widInput,11);
-                proxyprinttodiv('-------Function getAndFormatNextLevel() in : mongowidmethod II', mongowidmethod,11);
-                proxyprinttodiv('-------Function getAndFormatNextLevel() in : convertmethod II', convertmethod,11);
-                proxyprinttodiv('-------Function getAndFormatNextLevel() in : dtoin II', dtoin,11);
-                proxyprinttodiv('-------Function getAndFormatNextLevel() in : mongorelationshipmethod II', mongorelationshipmethod,11);
-                proxyprinttodiv('Function getAndFormatNextLevel() in : proposedLeft II', proposedLeft,11);
-                proxyprinttodiv('Function getAndFormatNextLevel() in : proposedRight II', proposedRight,11);
+                proxyprinttodiv('Function getAndFormatNextLevel() arriving widInput II', widInput, 11);
+                proxyprinttodiv('-------Function getAndFormatNextLevel() in : mongowidmethod II', mongowidmethod, 11);
+                proxyprinttodiv('-------Function getAndFormatNextLevel() in : convertmethod II', convertmethod, 11);
+                proxyprinttodiv('-------Function getAndFormatNextLevel() in : dtoin II', dtoin, 11);
+                proxyprinttodiv('-------Function getAndFormatNextLevel() in : mongorelationshipmethod II', mongorelationshipmethod, 11);
+                proxyprinttodiv('Function getAndFormatNextLevel() in : proposedLeft II', proposedLeft, 11);
+                proxyprinttodiv('Function getAndFormatNextLevel() in : proposedRight II', proposedRight, 11);
 
                 for(item in drillDownParameters) {
                     // LM: original line
