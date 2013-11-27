@@ -144,21 +144,21 @@ widApp.factory('executeService', function($http, dataService) {
         executeThis: function(action, parameters, scope, callback) {
             var user = dataService.user.getLocal();
             parameters.executethis = action;
-            parameters.ac = user.at;
+//            parameters.ac = user.at;
 
             execute(parameters, function(results) {
-                    if (results.error) {
-                        console.log(results.error);
+                if (results.error) {
+                    console.log(results.error);
+                }
+                else {
+                    // if not logged in at this point send browser to login.html
+                    if (results.status && results.status === 'unauthorized') {
+                        window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
                     }
-                    else {
-                        // if not logged in at this point send browser to login.html
-                        if (results.status && results.status === 'unauthorized') {
-                            window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
-                        }
 
-                        dataService.storeData(results, scope);
-                        if (typeof callback === 'function') { callback(); }
-                    }
+                    dataService.storeData(results, scope);
+                    if (callback instanceof Function) { callback(results); }
+                }
             });
         }
     }
@@ -192,234 +192,240 @@ widApp.directive('ngBlur', function() {
 
 widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
     function($scope, dataService, executeService) {
-    // adding model information to console for more transparency
-    console.log('**ngModelData**  These logs show you what is bind-able from the current AngularJS model  **ngModelData**');
+        // adding model information to console for more transparency
+        console.log('**ngModelData**  These logs show you what is bind-able from the current AngularJS model  **ngModelData**');
 
-    $scope.data = {};
-    $scope.widNames = helper.getUrlParam('wid') != ''
-        ? (helper.getUrlParam('wid')).split(',')
-        : typeof widForView !== 'undefined' ? widForView.split(',') : [];
-    $scope.screenWids = typeof screenwid !== 'undefined' ? screenwid.split(',') : [];
-    $scope.baseWids = typeof widForBase !== 'undefined' ? widForBase.split(',') : [];
-    $scope.backgroundWids = typeof widForBackground !== 'undefined' ? widForBackground.split(',') : [];
-    var currentUser = dataService.user.getLocal();
-    var widsToGet = [];
+        $scope.data = {};
+        $scope.widNames = helper.getUrlParam('wid') != ''
+            ? (helper.getUrlParam('wid')).split(',')
+            : typeof widForView !== 'undefined' ? widForView.split(',') : [];
+        $scope.screenWids = typeof screenwid !== 'undefined' ? screenwid.split(',') : [];
+        $scope.baseWids = typeof widForBase !== 'undefined' ? widForBase.split(',') : [];
+        $scope.backgroundWids = typeof widForBackground !== 'undefined' ? widForBackground.split(',') : [];
+        var currentUser = dataService.user.getLocal();
+        var widsToGet = [];
 
-    // ajax config settings
-    $scope.ajax = {};
-    $scope.ajax.loading = false;
+        // ajax config settings
+        $scope.ajax = {};
+        $scope.ajax.loading = false;
 
-    // resolve accessToken if none yet exists
-    if (!currentUser || !currentUser.at || currentUser.at === '') {
-        dataService.user.getNewAt(function(results) {
-            if (currentUser) {
-                currentUser.at = results[0].Value;
-            } else {
-                dataService.user.putLocal('', results[0].Value, false);
-            }
-        });
-    }
-
-    // package current users info into the model
-    if (currentUser && currentUser.loggedin) {
-        dataService.user.getInfo(currentUser.at, function(results) {
-            $scope.userinfo = JSON.parse(results[0].Value);
-            console.log('**ngModelData** data for current userinfo :');
-            console.log($scope.userinfo);
-        });
-    }
-
-    // package dataForView data into model
-    var dataFV = typeof dataForView !== 'undefined' ? dataForView : {};
-    $scope.dataForView = dataFV;
-    console.log('**ngModelData** dataForView data :');
-    console.log($scope.dataForView);
-
-    for (var prop in dataFV) {
-        if (dataFV.hasOwnProperty(prop)) {
-            $scope.data[prop] = dataFV[prop];
-        }
-    }
-
-    // package url parameters into model
-    if (Object.size(helper.qryStrToObject(location.search)) > 0) {
-        dataService.storeData({wid:'urlparameters',data:helper.qryStrToObject(location.search)}, $scope);
-    }
-
-    // restrict page access to login status if page contains 'checklogin' variable
-    if (typeof checklogin !== 'undefined' ? checklogin : false) {
-        if (!currentUser || !currentUser.loggedin) {
-            window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
-        }
-    }
-
-    // queue up widForView wids
-    for (var i in $scope.widNames) {
-        widsToGet.push($scope.widNames[i]);
-    }
-
-    // queue up widForBase wids
-    for (var i in $scope.baseWids) {
-        widsToGet.push($scope.baseWids[i]);
-    }
-
-    // queue up widForBackground wids
-    for (var i in $scope.backgroundWids) {
-        widsToGet.push($scope.backgroundWids[i]);
-    }
-
-    // get data for queued wids and package it into the model
-    for (var i in widsToGet) {
-        var paramObject = {};
-        paramObject.wid = widsToGet[i];
-        paramObject['command.convertmethod'] = 'toobject';
-        executeService.executeThis('getwidmaster', paramObject, $scope);
-    }
-
-    $scope.executeOffer = function () {
-        var parameters = [];
-        parameters.push({ ParameterName: 'offerid', ParameterValue: $('#offerid').val() },
-            { ParameterName: 'offersn', ParameterValue: $('#offersn').val() },
-            { ParameterName: 'offertagline', ParameterValue: $('#tagline').val() },
-            { ParameterName: 'offershortdescription', ParameterValue: $('#shortdesc').val() },
-            { ParameterName: 'offerdescription', ParameterValue: $('#longdesc').val() });
-
-        $scope.ajax.loading = true;
-        dataService.executeOffer(parameters, function (results) {
-            $('#results').html('').append(JSON.stringify(results));
-            alert("Your coupon was created");
-            $scope.ajax.loading = false;
-        });
-    };
-
-    //<editor-fold desc='login section'>
-
-    $scope.loginGuid = '';
-
-    $scope.login1 = function() {
-        $scope.clearlogs();
-        var at = '';
-        var parameters = [];
-        var user = dataService.user.getLocal();
-        parameters.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
-
-        if (user) { at = user.at; }
-        else {
-            dataService.user.getNewAt(function(results) { at = results[0].Value; });
-            dataService.user.putLocal('', at, false);
-        }
-
-        $scope.ajax.loading = true;
-        $.ajax({
-            url: '/getdata/login1?apiKey=2FFA4085C7994016913F8589B765D4E5',
-            type: 'PUT',
-            headers: {'content-type':'Application/json'},
-            cache: false,
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify(parameters),
-            success: function(results) {
-                $('#pin,#pingrp').show();
-                $('#phonegrp').hide();
-
-                $scope.loginGuid = results[0].Value;
-                $scope.ajax.loading = false;
-            },
-            error: function(response) { console.log(response.responseText); }
-        });
-    };
-
-    $scope.login2 = function() {
-        $scope.clearlogs();
-        var user = dataService.user.getLocal();
-        var parameters = [];
-        parameters.push({ParameterName:'accesstoken',ParameterValue:user.at},
-            {ParameterName:'pin',ParameterValue:$('#pin').val()},
-            {ParameterName:'guid',ParameterValue:$scope.loginGuid});
-
-        $scope.ajax.loading = true;
-        $.ajax({
-            url: '/getdata/login2?apiKey=2FFA4085C7994016913F8589B765D4E5',
-            type: 'PUT',
-            headers: {'content-type':'Application/json'},
-            cache: false,
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify(parameters),
-            success: function(results) {
-                if (results[0].Value === 'True') {
-                    dataService.user.putLocal('', user.at, true);
-                    $('#successlog').html("Thank you for logging into DRI!");
+        // resolve accessToken if none yet exists
+        if (!currentUser || !currentUser.at || currentUser.at === '') {
+            dataService.user.getNewAt(function(results) {
+                if (currentUser) {
+                    currentUser.at = results[0].Value;
                 } else {
-                    var error = results[7].Value !== '' ? results[7].Value : 'An error has occurred.';
-                    $('#errorlog').html(error);
+                    dataService.user.putLocal('', results[0].Value, false);
                 }
+            });
+        }
 
+        // package current users info into the model
+        if (currentUser && currentUser.loggedin) {
+            dataService.user.getInfo(currentUser.at, function(results) {
+                $scope.userinfo = JSON.parse(results[0].Value);
+                console.log('**ngModelData** data for current userinfo :');
+                console.log($scope.userinfo);
+            });
+        }
+
+        // package dataForView data into model
+        var dataFV = typeof dataForView !== 'undefined' ? dataForView : {};
+        $scope.dataForView = dataFV;
+        console.log('**ngModelData** dataForView data :');
+        console.log($scope.dataForView);
+
+        for (var prop in dataFV) {
+            if (dataFV.hasOwnProperty(prop)) {
+                $scope.data[prop] = dataFV[prop];
+            }
+        }
+
+        // package url parameters into model
+        if (Object.size(helper.qryStrToObject(location.search)) > 0) {
+            $scope.urlparameters = helper.qryStrToObject(location.search);
+        }
+
+        // restrict page access to login status if page contains 'checklogin' variable
+        if (typeof checklogin !== 'undefined' ? checklogin : false) {
+            if (!currentUser || !currentUser.loggedin) {
+                window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
+            }
+        }
+
+        // queue up widForView wids
+        for (var i in $scope.widNames) {
+            widsToGet.push($scope.widNames[i]);
+        }
+
+        // queue up widForBase wids
+        for (var i in $scope.baseWids) {
+            widsToGet.push($scope.baseWids[i]);
+        }
+
+        // queue up widForBackground wids
+        for (var i in $scope.backgroundWids) {
+            widsToGet.push($scope.backgroundWids[i]);
+        }
+
+        // get data for queued wids and package it into the model
+        for (var i in widsToGet) {
+            var paramObject = {};
+            paramObject.wid = widsToGet[i];
+            paramObject['command.convertmethod'] = 'toobject';
+            executeService.executeThis('getwidmaster', paramObject, $scope);
+        }
+
+        $scope.addwidmaster = function(widObj) {
+            executeService.executeThis('addwidmaster', widObj, $scope, function(results) {
+                $('#successlog').html("Successfully added or updated!");
+            });
+        };
+
+        $scope.executeOffer = function () {
+            var parameters = [];
+            parameters.push({ ParameterName: 'offerid', ParameterValue: $('#offerid').val() },
+                { ParameterName: 'offersn', ParameterValue: $('#offersn').val() },
+                { ParameterName: 'offertagline', ParameterValue: $('#tagline').val() },
+                { ParameterName: 'offershortdescription', ParameterValue: $('#shortdesc').val() },
+                { ParameterName: 'offerdescription', ParameterValue: $('#longdesc').val() });
+
+            $scope.ajax.loading = true;
+            dataService.executeOffer(parameters, function (results) {
+                $('#results').html('').append(JSON.stringify(results));
+                alert("Your coupon was created");
                 $scope.ajax.loading = false;
-                var returnUrl = helper.getUrlParam('returnUrl');
-                if (returnUrl !== '') { window.location = returnUrl; }
-            },
-            error: function(response) { console.log(response.responseText); }
-        });
-    };
+            });
+        };
 
-    $scope.logout = function() {
-        dataService.user.removeLocal();
-        $('#successlog').html('You are now logged out.');
-        window.location = '../login.html';
-    };
+        //<editor-fold desc='login section'>
 
-    $scope.cancelLogin = function() {
-        $scope.clearlogs();
-        $('#phonenumber,#pin').val('');
-        $('#pin,#pingrp').hide();
-        $('#phonegrp').show();
-    };
+        $scope.loginGuid = '';
 
-    //</editor-fold>
+        $scope.login1 = function() {
+            $scope.clearlogs();
+            var at = '';
+            var parameters = [];
+            var user = dataService.user.getLocal();
+            parameters.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
 
-    //<editor-fold desc='addDataWid section'>
+            if (user) { at = user.at; }
+            else {
+                dataService.user.getNewAt(function(results) { at = results[0].Value; });
+                dataService.user.putLocal('', at, false);
+            }
 
-    $scope.addWidName = "";
-    $scope.deleteWid = false;
+            $scope.ajax.loading = true;
+            $.ajax({
+                url: '/getdata/login1?apiKey=2FFA4085C7994016913F8589B765D4E5',
+                type: 'PUT',
+                headers: {'content-type':'Application/json'},
+                cache: false,
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify(parameters),
+                success: function(results) {
+                    $('#pin,#pingrp').show();
+                    $('#phonegrp').hide();
 
-    $scope.addWid = function () {
-        var pNames = $('.pname');
-        var pValues = $('.pvalue');
-        var updateParams = {wid:$scope.addWidName};
+                    $scope.loginGuid = results[0].Value;
+                    $scope.ajax.loading = false;
+                },
+                error: function(response) { console.log(response.responseText); }
+            });
+        };
 
-        for (var i = 0; i < pNames.length; i++) { updateParams[pNames[i].value] = pValues[i].value; }
+        $scope.login2 = function() {
+            $scope.clearlogs();
+            var user = dataService.user.getLocal();
+            var parameters = [];
+            parameters.push({ParameterName:'accesstoken',ParameterValue:user.at},
+                {ParameterName:'pin',ParameterValue:$('#pin').val()},
+                {ParameterName:'guid',ParameterValue:$scope.loginGuid});
 
-        if ($scope.deleteWid) { updateParams.Status = '5'; }
+            $scope.ajax.loading = true;
+            $.ajax({
+                url: '/getdata/login2?apiKey=2FFA4085C7994016913F8589B765D4E5',
+                type: 'PUT',
+                headers: {'content-type':'Application/json'},
+                cache: false,
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify(parameters),
+                success: function(results) {
+                    if (results[0].Value === 'True') {
+                        dataService.user.putLocal('', user.at, true);
+                        $('#successlog').html("Thank you for logging into DRI!");
+                    } else {
+                        var error = results[7].Value !== '' ? results[7].Value : 'An error has occurred.';
+                        $('#errorlog').html(error);
+                    }
 
-        executeService.executeThis('addwidmaster', updateParams, $scope, function() {
-            $scope.clearAddWidForm();
-            self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
-        });
-    };
+                    $scope.ajax.loading = false;
+                    var returnUrl = helper.getUrlParam('returnUrl');
+                    if (returnUrl !== '') { window.location = returnUrl; }
+                },
+                error: function(response) { console.log(response.responseText); }
+            });
+        };
 
-    $scope.newPropRow = function() {
-        $('#propertyList').append(helper.newPropRowHtml);
-        $('.pname').last().focus();
-    };
+        $scope.logout = function() {
+            dataService.user.removeLocal();
+            $('#successlog').html('You are now logged out.');
+            window.location = '../login.html';
+        };
 
-    $scope.clearAddWidForm = function() {
-        $('.added').remove();
-        $('#widname,.pname,.pvalue').val('');
-    };
+        $scope.cancelLogin = function() {
+            $scope.clearlogs();
+            $('#phonenumber,#pin').val('');
+            $('#pin,#pingrp').hide();
+            $('#phonegrp').show();
+        };
 
-    //</editor-fold>
+        //</editor-fold>
 
-    //<editor-fold desc='misc scoped helper functions'>
+        //<editor-fold desc='addDataWid section'>
 
-    $scope.widFromUrl = function() { return $scope[helper.getUrlParam('wid')]; };
+        $scope.addWidName = "";
+        $scope.deleteWid = false;
 
-    $scope.clearlogs = function() { $('#errorlog,#successlog').html(''); };
+        $scope.addWid = function () {
+            var pNames = $('.pname');
+            var pValues = $('.pvalue');
+            var updateParams = {wid:$scope.addWidName};
 
-    $scope.listLength = function(list) { return Object.size(list); };
+            for (var i = 0; i < pNames.length; i++) { updateParams[pNames[i].value] = pValues[i].value; }
 
-    //</editor-fold>
-}]);
+            if ($scope.deleteWid) { updateParams.Status = '5'; }
+
+            executeService.executeThis('addwidmaster', updateParams, $scope, function() {
+                $scope.clearAddWidForm();
+                self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
+            });
+        };
+
+        $scope.newPropRow = function() {
+            $('#propertyList').append(helper.newPropRowHtml);
+            $('.pname').last().focus();
+        };
+
+        $scope.clearAddWidForm = function() {
+            $('.added').remove();
+            $('#widname,.pname,.pvalue').val('');
+        };
+
+        //</editor-fold>
+
+        //<editor-fold desc='misc scoped helper functions'>
+
+        $scope.widFromUrl = function() { return $scope[helper.getUrlParam('wid')]; };
+
+        $scope.clearlogs = function() { $('#errorlog,#successlog').html(''); };
+
+        $scope.listLength = function(list) { return Object.size(list); };
+
+        //</editor-fold>
+    }]);
 
 //</editor-fold>
 
