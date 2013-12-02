@@ -137,7 +137,11 @@ exports.server = server = function server(params, callback) {
         console.log("Return from server: " + JSON.stringify(data));
         callback(data);
     });
-}
+};
+
+exports.getFromAngular = getFromAngular = function getFromAngular(wid) {
+    return $(body).scope().ripFromModel(wid);
+};
 
 // function config555() {
 //     var configuration = {};

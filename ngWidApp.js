@@ -282,6 +282,10 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
             });
         };
 
+        $scope.ripFromModel = function(wid) {
+            return $scope[wid];
+        };
+
         $scope.executeOffer = function () {
             var parameters = [];
             parameters.push({ ParameterName: 'offerid', ParameterValue: $('#offerid').val() },
