@@ -3,70 +3,46 @@
 var widApp = angular.module('widApp', []);
 
 widApp.factory('dataService', function($http) {
+    var storeAllData = function(obj, scope, objName) {
+        var thisWid = objName
+            ? objName
+            : obj.wid
+            ? obj.wid
+            : undefined;
+
+        if (thisWid) {
+            console.log('********************************************');
+            console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
+            console.log(obj);
+            console.log('********************************************');
+
+            scope[thisWid] = obj;
+        }
+
+        for (var prop in obj) {
+            if (obj[prop] instanceof Object) {
+                console.log('********************************************');
+                console.log('**ngModelData** bind-able data for ' + prop + ' :');
+                console.log(obj[prop]);
+                console.log('********************************************');
+
+                scope[prop] = obj[prop];
+
+                storeAllData(obj[prop], scope, prop);
+            } else {
+                scope.data[prop] = obj[prop];
+            }
+        }
+    };
+
     return {
         storeData: function(results, scope) {
-            if (results instanceof Object) {
-                var thisWid = scope.screenWids[i] ? scope.screenWids[i] : results.wid;
-                scope[thisWid] = results;
-
-                console.log('********************************************');
-                console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
-                console.log(results);
-                console.log('********************************************');
-
-                for (var prop in results) {
-                    if (results.hasOwnProperty(prop)) {
-                        scope.data[prop] = results[prop];
-                    }
-
-                    // if value is an object then store it in model data
-                    if (results[prop] instanceof Object) {
-                        scope[prop] = results[prop];
-
-                        console.log('********************************************');
-                        console.log('**ngModelData** bind-able data for ' + prop + ' :');
-                        console.log(results[prop]);
-                        console.log('********************************************');
-
-                        for (var innerprop in results[prop]) {
-                            if (results[prop].hasOwnProperty(innerprop)) {
-                                scope.data[innerprop] = results[prop][innerprop];
-                            }
-                        }
-                    }
-                }
+            if (results !== null && results instanceof Object) {
+                storeAllData(results, scope);
             } else if (Array.isArray(results)) {
                 for (var i = 0; i < results.length; i++) {
-                    if (results[i].data !== null && typeof results[i].data !== 'undefined' && typeof results[i].data === 'object') {
-                        var thisWid = scope.screenWids[i] ? scope.screenWids[i] : results[i].wid;
-                        scope[thisWid] = results[i];
-
-                        console.log('********************************************');
-                        console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
-                        console.log(results[i]);
-                        console.log('********************************************');
-
-                        for (var prop in results[i]) {
-                            if (results[i].hasOwnProperty(prop)) {
-                                scope.data[prop] = results[i][prop];
-                            }
-
-                            // if value is an object then store it in model data
-                            if (results[i][prop] instanceof Object) {
-                                scope[prop] = results[i][prop];
-
-                                console.log('********************************************');
-                                console.log('**ngModelData** bind-able data for ' + prop + ' :');
-                                console.log(results[i][prop]);
-                                console.log('********************************************');
-
-                                for (var innerprop in results[i][prop]) {
-                                    if (results[i][prop].hasOwnProperty(innerprop)) {
-                                        scope.data[innerprop] = results[i][prop][innerprop];
-                                    }
-                                }
-                            }
-                        }
+                    if (results[i] !== null && results[i] instanceof Object) {
+                        storeAllData(results[i], scope);
                     }
                 }
             }
