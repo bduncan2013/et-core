@@ -244,14 +244,22 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
 
         // handle action binding from links variable
         for (var i = 0; i < $scope.links.length; i++) {
-            var element = document.getElementById($scope.links[i].id); // get element by links id
-            var action = $scope[$scope.links[i].action] instanceof Function
-                ? $scope[$scope.links[i].action]  // get function by name from scope if exists
-                : window[$scope.links[i].action];  // otherwise get function by name from window
-            var trigger = $scope.links[i].trigger;  // get event name
+            var identifier = $scope.links[i].id  // get jquery identifier bassed on id or class passsed in   
+                    ? '#' + $scope.links[i].id
+                    : $scope.links[i].class
+                        ? '.' + $scope.links[i].class
+                        : 'idAndClassMissing'
+                , action = $scope[$scope.links[i].action] instanceof Function
+                    ? $scope[$scope.links[i].action]  // get function by name from scope if exists
+                    : window[$scope.links[i].action]  // otherwise get function by name from window
+                , trigger = $scope.links[i].trigger;  // get event name
+
+            if (identifier === 'idAndClassMissing') {
+                console.log('links object must contain an id or class property. => ' + JSON.stringify($scope.links[i]));
+            }
 
             // add event listener to element
-            element.addEventListener(trigger, action);
+            $(identifier).on(trigger, action);
         }
 
         $scope.addwidmaster = function(widObj) {
