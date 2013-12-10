@@ -132,6 +132,14 @@ widApp.factory('executeService', function($http, dataService) {
     }
 });
 
+widApp.directive('ngBlur', function() {
+    return function( scope, elem, attrs ) {
+        elem.bind('blur', function() {
+            scope.$apply(attrs.ngBlur);
+        });
+    };
+});
+
 widApp.directive('appendcode', function($compile) {
     return function(scope, element, attrs) {
         scope.$watch(
