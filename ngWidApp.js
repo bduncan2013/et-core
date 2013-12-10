@@ -1,3 +1,13 @@
+if(!exports){ var exports = {}; }
+
+exports.getFromAngular = getFromAngular = function getFromAngular(wid) {
+    return $(body).scope().ripFromModel(wid);
+};
+
+exports.addToAngular = addToAngular = function addToAngular(name, obj) {
+    $(body).scope()[name] = obj;
+};
+
 //<editor-fold desc="App, Factories, and Directives">
 
 var widApp = angular.module('widApp', []);
@@ -49,7 +59,7 @@ widApp.factory('dataService', function($http) {
         },
 
         executeOffer: function(parameters, callback) {
-            parameters.parameterDTOs.push({ParameterName:'apikey',ParameterValue:'2FFA4085C7994016913F8589B765D4E5'});
+//            parameters.parameterDTOs.push({ParameterName:'apikey',ParameterValue:'2FFA4085C7994016913F8589B765D4E5'});
 
             return getDriApiData('executeofferid?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff', parameters, function(err, results) {
                 if (err) { console.log(err); }
@@ -146,6 +156,7 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
         console.log('**ngModelData**  These logs show you what is bind-able from the current AngularJS model  **ngModelData**');
 
         $scope.data = {};
+        $scope.links = typeof links !== 'undefined' ? links : [];
         $scope.widNames = helper.getUrlParam('wid') != ''
             ? (helper.getUrlParam('wid')).split(',')
             : typeof widForView !== 'undefined' ? widForView.split(',') : [];
@@ -209,32 +220,48 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
         }
 
         // queue up widForView wids
-        for (var i in $scope.widNames) {
-            widsToGet.push($scope.widNames[i]);
+        for (var key in $scope.widNames) {
+            widsToGet.push($scope.widNames[key]);
         }
 
         // queue up widForBase wids
-        for (var i in $scope.baseWids) {
-            widsToGet.push($scope.baseWids[i]);
+        for (var key in $scope.baseWids) {
+            widsToGet.push($scope.baseWids[key]);
         }
 
         // queue up widForBackground wids
-        for (var i in $scope.backgroundWids) {
-            widsToGet.push($scope.backgroundWids[i]);
+        for (var key in $scope.backgroundWids) {
+            widsToGet.push($scope.backgroundWids[key]);
         }
 
         // get data for queued wids and package it into the model
-        for (var i in widsToGet) {
+        for (var key in widsToGet) {
             var paramObject = {};
-            paramObject.wid = widsToGet[i];
+            paramObject.wid = widsToGet[key];
             paramObject['command.convertmethod'] = 'toobject';
             executeService.executeThis('getwidmaster', paramObject, $scope);
+        }
+
+        // handle action binding from links variable
+        for (var i = 0; i < $scope.links.length; i++) {
+            var element = document.getElementById($scope.links[i].id); // get element by links id
+            var action = $scope[$scope.links[i].action] instanceof Function
+                ? $scope[$scope.links[i].action]  // get function by name from scope if exists
+                : window[$scope.links[i].action];  // otherwise get function by name from window
+            var trigger = $scope.links[i].trigger;  // get event name
+
+            // add event listener to element
+            element.addEventListener(trigger, action);
         }
 
         $scope.addwidmaster = function(widObj) {
             executeService.executeThis('addwidmaster', widObj, $scope, function(results) {
                 $('#successlog').html("Successfully added or updated!");
             });
+        };
+
+        $scope.angularExecuteThis = function(action, paramObj, callback) {
+            executeService.executeThis(action, paramObj, $scope, callback);
         };
 
         $scope.ripFromModel = function(wid) {

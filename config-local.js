@@ -139,14 +139,6 @@ exports.server = server = function server(params, callback) {
     });
 };
 
-exports.getFromAngular = getFromAngular = function getFromAngular(wid) {
-    return $(body).scope().ripFromModel(wid);
-};
-
-exports.addToAngular = addToAngular = function addToAngular(name, obj) {
-    $(body).scope()[name] = obj;
-};
-
 exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
     params.actionQueryString = action;
     $.ajax({
