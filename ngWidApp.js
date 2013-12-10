@@ -49,23 +49,24 @@ widApp.factory('dataService', function($http) {
         },
 
         executeOffer: function(parameters, callback) {
-            parameters.push({ParameterName:'apikey',ParameterValue:'2FFA4085C7994016913F8589B765D4E5'});
+            parameters.parameterDTOs.push({ParameterName:'apikey',ParameterValue:'2FFA4085C7994016913F8589B765D4E5'});
 
-            return $http.put('/getdata/executeofferid?apiKey=2FFA4085C7994016913F8589B765D4E5&at=f52a89ed-7163-47de-901c-e8bd0b96b7ff', parameters)
-                .success(callback)
-                .error(function(data, status, headers, config) { alert('an ' + status + ' error has occurred'); console.log(data.responseText); $scope.ajax.loading = false;});
+            return getDriApiData('executeofferid?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff', parameters, function(err, results) {
+                if (err) { console.log(err); }
+                else { callback(results); }
+            });
         },
 
         user: {
             getLocal: function() {
                 if (window.localStorage) {
                     return JSON.parse(window.localStorage.getItem('driUser'));
-                }
+                } else { return null; }
             },
 
-            putLocal: function(userName, accessToken, isLoggedIn) {
+            putLocal: function(userId, accessToken, isLoggedIn) {
                 if (window.localStorage) {
-                    var driUser = {username:userName,at:accessToken,loggedin:isLoggedIn};
+                    var driUser = {userid:userId,at:accessToken,loggedin:isLoggedIn};
                     window.localStorage.setItem('driUser', JSON.stringify(driUser));
                 }
             },
@@ -77,38 +78,19 @@ widApp.factory('dataService', function($http) {
             },
 
             getInfo: function(accessToken, callback) {
-                var parameters = [];
-                parameters.push({ParameterName:'accesstoken',ParameterValue:accessToken});
+                var parameters = {parameterDTOs:[]};
+                parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:accessToken});
 
-                return $.ajax({
-                    url: '/getdata/getuserinfo?apiKey=2FFA4085C7994016913F8589B765D4E5&at=f52a89ed-7163-47de-901c-e8bd0b96b7ff',
-                    type: 'PUT',
-                    headers: {'content-type':'Application/json'},
-                    cache: false,
-                    async: false,
-                    dataType: 'json',
-                    data: JSON.stringify(parameters),
-                    success: callback,
-                    error: function(data) {
-                        alert('an ' + data.status + ' ' + data.statusText + ' error has occurred');
-                        console.log(data.responseText);
-                    }
+                return getDriApiData('getuserinfo?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff', parameters, function(err, results) {
+                    if (err) { console.log(err); }
+                    else { callback(results); }
                 });
             },
 
             getNewAt: function(callback) {
-                return $.ajax({
-                    url: '/getdata/getnewaccesstoken?apiKey=2FFA4085C7994016913F8589B765D4E5',
-                    type: 'PUT',
-                    headers: {'content-type':'Application/json'},
-                    cache: false,
-                    async: false,
-                    dataType: 'json',
-                    data: {},
-                    success: callback,
-                    error: function(response, status, error) {
-                        console.log(response.responseText);
-                    }
+                return getDriApiData('getnewaccesstoken', {}, function(err, results) {
+                    if (err) { console.log(err); }
+                    else { callback(results); }
                 });
             }
         }
@@ -154,14 +136,6 @@ widApp.directive('appendcode', function($compile) {
     }
 });
 
-widApp.directive('ngBlur', function() {
-    return function( scope, elem, attrs ) {
-        elem.bind('blur', function() {
-            scope.$apply(attrs.ngBlur);
-        });
-    };
-});
-
 //</editor-fold>
 
 //<editor-fold desc="wid controller">
@@ -175,7 +149,6 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
         $scope.widNames = helper.getUrlParam('wid') != ''
             ? (helper.getUrlParam('wid')).split(',')
             : typeof widForView !== 'undefined' ? widForView.split(',') : [];
-        $scope.screenWids = typeof screenwid !== 'undefined' ? screenwid.split(',') : [];
         $scope.baseWids = typeof widForBase !== 'undefined' ? widForBase.split(',') : [];
         $scope.backgroundWids = typeof widForBackground !== 'undefined' ? widForBackground.split(',') : [];
         var currentUser = dataService.user.getLocal();
@@ -199,9 +172,15 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
         // package current users info into the model
         if (currentUser && currentUser.loggedin) {
             dataService.user.getInfo(currentUser.at, function(results) {
-                $scope.userinfo = JSON.parse(results[0].Value);
+                var info = JSON.parse(results[0].Value);
+                $scope.userinfo = info;
                 console.log('**ngModelData** data for current userinfo :');
                 console.log($scope.userinfo);
+
+                // update userid in local user object
+                var user = dataService.user.getLocal();
+                user.userid = info.UserId;
+                dataService.user.putLocal(user.userid, user.at, user.loggedin);
             });
         }
 
@@ -263,8 +242,8 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
         };
 
         $scope.executeOffer = function () {
-            var parameters = [];
-            parameters.push({ ParameterName: 'offerid', ParameterValue: $('#offerid').val() },
+            var parameters = {parameterDTOs:[]};
+            parameters.parameterDTOs.push({ ParameterName: 'offerid', ParameterValue: $('#offerid').val() },
                 { ParameterName: 'offersn', ParameterValue: $('#offersn').val() },
                 { ParameterName: 'offertagline', ParameterValue: $('#tagline').val() },
                 { ParameterName: 'offershortdescription', ParameterValue: $('#shortdesc').val() },
@@ -284,10 +263,11 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
 
         $scope.login1 = function() {
             $scope.clearlogs();
-            var at = '';
-            var parameters = [];
-            var user = dataService.user.getLocal();
-            parameters.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
+            var at = ''
+                , parameters = {parameterDTOs:[]}
+                , user = dataService.user.getLocal();
+
+            parameters.parameterDTOs.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
 
             if (user) { at = user.at; }
             else {
@@ -296,43 +276,32 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
             }
 
             $scope.ajax.loading = true;
-            $.ajax({
-                url: '/getdata/login1?apiKey=2FFA4085C7994016913F8589B765D4E5',
-                type: 'PUT',
-                headers: {'content-type':'Application/json'},
-                cache: false,
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify(parameters),
-                success: function(results) {
+
+            getDriApiData('login1', parameters, function(err, results) {
+                if (err) { console.log(err); }
+                else {
                     $('#pin,#pingrp').show();
                     $('#phonegrp').hide();
 
                     $scope.loginGuid = results[0].Value;
                     $scope.ajax.loading = false;
-                },
-                error: function(response) { console.log(response.responseText); }
+                }
             });
         };
 
         $scope.login2 = function() {
             $scope.clearlogs();
             var user = dataService.user.getLocal();
-            var parameters = [];
-            parameters.push({ParameterName:'accesstoken',ParameterValue:user.at},
+            var parameters = {parameterDTOs:[]};
+            parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:user.at},
                 {ParameterName:'pin',ParameterValue:$('#pin').val()},
                 {ParameterName:'guid',ParameterValue:$scope.loginGuid});
 
             $scope.ajax.loading = true;
-            $.ajax({
-                url: '/getdata/login2?apiKey=2FFA4085C7994016913F8589B765D4E5',
-                type: 'PUT',
-                headers: {'content-type':'Application/json'},
-                cache: false,
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify(parameters),
-                success: function(results) {
+
+            getDriApiData('login2', parameters, function(err, results) {
+                if (err) { console.log(err); }
+                else {
                     if (results[0].Value === 'True') {
                         dataService.user.putLocal('', user.at, true);
                         $('#successlog').html("Thank you for logging into DRI!");
@@ -344,8 +313,7 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService',
                     $scope.ajax.loading = false;
                     var returnUrl = helper.getUrlParam('returnUrl');
                     if (returnUrl !== '') { window.location = returnUrl; }
-                },
-                error: function(response) { console.log(response.responseText); }
+                }
             });
         };
 

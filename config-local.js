@@ -143,6 +143,25 @@ exports.getFromAngular = getFromAngular = function getFromAngular(wid) {
     return $(body).scope().ripFromModel(wid);
 };
 
+exports.addToAngular = addToAngular = function addToAngular(name, obj) {
+    $(body).scope()[name] = obj;
+};
+
+exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
+    params.actionQueryString = action;
+    $.ajax({
+        url: '/getdata',
+        type: 'PUT',
+        headers: {'content-type':'application/json'},
+        cache: false,
+        async: false,
+        dataType: 'json',
+        data: JSON.stringify(params),
+        success: function(results) { callback(null, results); },
+        error: function(err) { callback(err.responseText, null); }
+    });
+};
+
 // function config555() {
 //     var configuration = {};
 
