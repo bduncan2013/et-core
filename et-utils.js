@@ -53,15 +53,6 @@
         return returnArray;
     };
 
-    exports.isJson = isJson = function isJson(str) {
-        try {
-            JSON.parse(str);
-        } catch (e) {
-            return false;
-        }
-        return true;
-    };
-
     exports.MatchDelete = MatchDelete = function MatchDelete(TargetList, TargetParameter) {      // delete all parameters starting with targetparameter
         var output = [];
         //proxyprinttodiv('Function MatchDelete : TargetList ', TargetList);
@@ -153,14 +144,14 @@
 // Add all the parameters of b to a. This is the exact same function as
 // jsonConcat around line 550-650. Since extend is not used yet, it would be 
 // a good idea to just use jsonConcat as it is already in use elsewhere.
-    exports.extend = extend = function extend(a, b){
-        for(var key in b){
-            if(b.hasOwnProperty(key)){
-                a[key] = b[key];
-            }
-        }
-        return a;
-    };
+//    exports.extend = extend = function extend(a, b){
+//        for(var key in b){
+//            if(b.hasOwnProperty(key)){
+//                a[key] = b[key];
+//            }
+//        }
+//        return a;
+//    };
 
 // Splits a list of parameters. If the value of a parameter
 // is not attr, it will be put into the ParentdtoList. As soon
@@ -265,11 +256,170 @@
 
     /* lib.js functions */
 
-// Examine the object, if you find a value of 'object', look
-// inside that object. If you find a value of 'object', look
-// inside....and so on. In the meantime, add the values of the 
-// onject into parameters of 'res' (result).
-//http://scott.donnel.ly/javascript-function-to-convert-a-string-in-dot-andor-array-notation-into-a-reference/
+    var recurFunc = function(arr, val) {
+
+    // stop condition
+    if (arr.length <= 0) {
+            return val;
+    }
+    // check if array
+    // pop the first item of the array;
+    var first = arr[0];
+    var rest = arr.slice(1);
+
+    var result = {};
+    //if (_.isUndefined(result[first]) ) {
+    if (isUndefined(result[first]) ) {
+            result[first] = {};
+    }
+
+    var temp = recurFunc(rest, val);
+    result[first] = temp;
+    return result;
+}
+
+exports.converttojson = converttojson = function converttojson(data) {
+    var output = {};
+    
+    // Take data as an object with dot notation key
+    if (isObject(data) && !isArray(data)) {
+        for (var item in data) {
+                if (data.hasOwnProperty(item)) {
+                        var iArray = item.split(".");
+                        var value = data[item];
+                        // Copy all of the properties in the source objects over to the destination object, and return the destination object. 
+                        // It's in-order, so the last source will override properties of the same name in previous arguments.
+                        extend(true, output, recurFunc(iArray, value));                    
+                }
+        }
+    }
+    return output;
+}
+
+// https://github.com/justmoon/node-extend
+var hasOwn = Object.prototype.hasOwnProperty;
+var toString = Object.prototype.toString;
+
+function isPlainObject(obj) {
+        if (!obj || toString.call(obj) !== '[object Object]' || obj.nodeType || obj.setInterval)
+                return false;
+
+        var has_own_constructor = hasOwn.call(obj, 'constructor');
+        var has_is_property_of_method = hasOwn.call(obj.constructor.prototype, 'isPrototypeOf');
+        // Not own constructor property must be Object
+        if (obj.constructor && !has_own_constructor && !has_is_property_of_method)
+                return false;
+
+        // Own properties are enumerated firstly, so to speed up,
+        // if last one is own, then all properties are own.
+        var key;
+        for ( key in obj ) {}
+
+        return key === undefined || hasOwn.call( obj, key );
+};
+
+exports.extend = extend = function extend() { // similar to jquery exetend()
+        var options, name, src, copy, copyIsArray, clone,
+            target = arguments[0] || {},
+            i = 1,
+            length = arguments.length,
+            deep = false;
+
+        // Handle a deep copy situation
+        if ( typeof target === "boolean" ) {
+                deep = target;
+                target = arguments[1] || {};
+                // skip the boolean and the target
+                i = 2;
+        }
+
+        // Handle case when target is a string or something (possible in deep copy)
+        if ( typeof target !== "object" && typeof target !== "function") {
+                target = {};
+        }
+
+        for ( ; i < length; i++ ) {
+                // Only deal with non-null/undefined values
+                if ( (options = arguments[ i ]) != null ) {
+                        // Extend the base object
+                        for ( name in options ) {
+                                src = target[ name ];
+                                copy = options[ name ];
+
+                                // Prevent never-ending loop
+                                if ( target === copy ) {
+                                        continue;
+                                }
+
+                                // Recurse if we're merging plain objects or arrays
+                                if ( deep && copy && ( isPlainObject(copy) || (copyIsArray = Array.isArray(copy)) ) ) {
+                                        if ( copyIsArray ) {
+                                                copyIsArray = false;
+                                                clone = src && Array.isArray(src) ? src : [];
+
+                                        } else {
+                                                clone = src && isPlainObject(src) ? src : {};
+                                        }
+
+                                        // Never move original objects, clone them
+                                        target[ name ] = extend( deep, clone, copy );
+
+                                // Don't bring in undefined values
+                                } else if ( copy !== undefined ) {
+                                        target[ name ] = copy;
+                                }
+                        }
+                }
+        }
+        // Return the modified object
+        return target;
+};
+    
+ 
+ // Deconstructs the dot.notation string into an object that has properties.
+    exports.ConvertFromDOTdri = ConvertFromDOTdri = function ConvertFromDOTdri(input) {        //Expands to Real javascript object
+        var keys = Object.keys(input);
+        var result = {};
+
+        for (var i = 0, l = keys.length; i < l; i++) {
+            createObjects(result, keys[i].split('.'), input[keys[i]]);
+        }
+        return result;
+    };
+
+       exports.ConvertFromDOTdriadd = ConvertFromDOTdriadd = function ConvertFromDOTdriadd(input) {        //Expands to Real javascript object
+       var keys = Object.keys(input);
+       var result = {};
+       var temparray=[];
+
+       for (var i = 0, l = keys.length; i < l; i++) {
+           temparray=keys[i].split('.');
+           for (var j = 0, la = temparray.length; j < la; j++) {
+               if ((temparray[j]=="")||(temparray[j]=="add")) {temparray[j]=getnewwid()}
+               }
+           createObjects(result, temparray, input[keys[i]]);
+       }
+       return result;
+   };
+    
+
+// Creates an object with a hash parent:value. If the chain array is more that 1, 
+// recurse until there is only 1 chain so you get chain:value returned. This is called only 
+// from ConvertFrom DOT, so you can see it part of the process of deconstructing the dot.notaion string.
+    exports.createObjects = createObjects = function createObjects(parent, chainArray, value) {
+        //proxyprinttodiv('createobject parent',  parent,99);
+        //proxyprinttodiv('createobject chainArray',  chainArray,99);
+        if (chainArray.length == 1) {
+            parent[chainArray[0]] = value;
+            return parent;
+        }
+        else {
+            parent[chainArray[0]] = parent[chainArray[0]] || {};
+            return createObjects(parent[chainArray[0]], chainArray.slice(1, chainArray.length), value);
+        }
+    };
+    
+    //http://scott.donnel.ly/javascript-function-to-convert-a-string-in-dot-andor-array-notation-into-a-reference/
     exports.ConvertToDOTdri = ConvertToDOTdri = function ConvertToDOTdri(obj) {        //dotize
         var res = {};
         (function recurse(obj, current) {
@@ -286,30 +436,10 @@
         return res;
     };
 
-// Deconstructs the dot.notation string into an object that has properties.
-    exports.ConvertFromDOTdri = ConvertFromDOTdri = function ConvertFromDOTdri(input) {        //Expands to Real javascript object
-        var keys = Object.keys(input);
-        var result = {};
-
-        for (var i = 0, l = keys.length; i < l; i++) {
-            createObjects(result, keys[i].split('.'), input[keys[i]]);
+    exports.getnewwid = getnewwid = function getnewwid() { 
+        potentialwid++;
+        return String(potentialwid);
         }
-        return result;
-    };
-
-// Creates an object with a hash parent:value. If the chain array is more that 1, 
-// recurse until there is only 1 chain so you get chain:value returned. This is called only 
-// from ConvertFrom DOT, so you can see it part of the process of deconstructing the dot.notaion string.
-    exports.createObjects = createObjects = function createObjects(parent, chainArray, value) {
-        if (chainArray.length == 1) {
-            parent[chainArray[0]] = value;
-            return parent;
-        }
-        else {
-            parent[chainArray[0]] = parent[chainArray[0]] || {};
-            return createObjects(parent[chainArray[0]], chainArray.slice(1, chainArray.length), value);
-        }
-    };
 
 // Strips the numbers from hash keys. It returns 3 arrays: input list, index list, and original input list.
 // Used by addWidParameters.
@@ -624,6 +754,33 @@
         }
         return false;
     };
+    
+       
+  exports.isUndefined = isUndefined = function isUndefined(obj) {
+    return obj === void 0;
+    }
+    
+  exports.isArray = isArray = function isArray(obj) {  //nativeIsArray
+    return toString.call(obj) == '[object Array]';
+  };
+
+  exports.isObject = isObject = function isObject(obj) {
+    return obj === Object(obj);
+  };
+    
+  exports.isFunction = isFunction = function isFunction(obj) {
+    return typeof obj === 'function';
+  };
+    
+  exports.isJson = isJson = function isJson(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    };
+
 
     exports.toObject = toObject = function toObject(arr) {
 //function toObject(arr) {
@@ -639,9 +796,7 @@
             printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
             console.log(text);
             console.log(obj);
-            if (document.getElementById('divprint')) {
-                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
-            }
+            document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
         }
     };
 

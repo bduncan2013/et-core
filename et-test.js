@@ -1,76 +1,190 @@
 
-    exports.ca1 = ca1 = function ca1() {
-        testclearstorage();
 
-        /* Setting up the structure for a user account & surveys */
+exports.dtotest = dtotest = function dtotest(params, callback){ //widviewer 
 
-        // Create the answer dto
-        executetest("addwidmaster", { "wid": "answerdto", "metadata.method": "answerdto", "answer": "string" }, "", "");
+	testclearstorage();	
 
-        // Create the responses dto
-        executetest("addwidmaster", { "wid": "responsedto", "metadata.method": "responsedto", "response": "string", "user": "string" }, "", "");
+	debugon = true;
+	debugname = "";
+	debugsubcat = "";
+	debugcat = "all";
+	debugfilter = "all";
+	debugdestination = 1;
+	//debuglevel=15;
+	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
+	debuglevel=0;
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
 
-        // Create the question dto
-        executetest("addwidmaster", { "wid": "questiondto", "metadata.method": "questiondto", "question": "string", "answerdto": "onetomany", "responsedto": "onetomany" }, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
 
-        // Create the survey dto
-        executetest("addwidmaster", { "wid": "surveydto", "metadata.method": "surveydto", "title": "string", "description": "string", "questiondto": "onetomany" }, "", "");
-
-        // Relate the question dto to the answer dto (questions can have multiple answers) and the response dto (questions can have multiple responses)
-        executetest("addwidmaster", { "wid": "relationshipdto1", "metadata.method": "relationshipdto1", "primarywid": "questiondto", "secondarywid": "answerdto" }, "", "");
-        executetest("addwidmaster", { "wid": "relationshipdto2", "metadata.method": "relationshipdto2", "primarywid": "questiondto", "secondarywid": "responsedto" }, "", "");
-
-        // Relate the survey dto to the question dto (surveys can have multiple questions)
-        executetest("addwidmaster", { "wid": "relationshipdto3", "metadata.method": "relationshipdto3", "primarywid": "surveydto", "secondarywid": "questiondto" }, "", "");
-
-        // Create the user dto	
-        executetest("addwidmaster", { "wid": "userdto", "metadata.method": "userdto", "first": "string", "last": "string", "surveydto": "onetomany" }, "", "");
-
-        // Relate the survey dto to the question dto (surveys can have multiple questions)
-        executetest("addwidmaster", { "wid": "relationshipdto4", "metadata.method": "relationshipdto4", "primarywid": "userdto", "secondarywid": "surveydto" }, "", "");
-
-        // Create three user accounts
-        executetest("addwidmaster", { "wid": "tim", "metadata.method": "userdto", "first": "Tim", "last": "Lee" }, "", "");
-        executetest("addwidmaster", { "wid": "tom", "metadata.method": "userdto", "first": "Tom", "last": "Jones" }, "", "");
-        executetest("addwidmaster", { "wid": "tony", "metadata.method": "userdto", "first": "Tony", "last": "Gates" }, "", "");
-
-        /*
-        // Tim creates a survey and adds a question (method #1 - the one liner)
-        executetest("addwidmaster",{"wid":"tim","metadata.method":"userdto","surveydto.0.title":"All About Restaurants","surveydto.0.description":"Questions about popular restaurants","surveydto.0.questiondto.0.question":"Favorite Restaurant?","surveydto.0.questiondto.0.answerdto.0.answer":"Ponderosa","surveydto.0.questiondto.0.answerdto.1.answer":"Outback","surveydto.0.questiondto.0.answerdto.2.answer":"Applebees","surveydto.0.questiondto.0.answerdto.3.answer":"Hard Rock Cafe"}, "", "");
-        */
-
-        // Tim creates a second survey and adds a question (method #2 - the multi liner)
-        executetest("addwidmaster", { "wid": "tim", "metadata.method": "userdto", "surveydto.title": "All About Fast Food Restaurants", "surveydto.description": "Questions about popular fast food restaurants" }, "", "");
-//        executetest("addwidmaster", { "wid": "tim", "metadata.method": "userdto", "surveydto.0.questiondto.0.question": "Which of these fast food restaurants do you like the most?" }, "", "");
-//        executetest("addwidmaster", { "wid": "tim", "metadata.method": "userdto", "surveydto.0.questiondto.0.answerdto.0.answer": "McDonald's" }, "", "");
-//        executetest("addwidmaster", { "wid": "tim", "metadata.method": "userdto", "surveydto.0.questiondto.0.answerdto.1.answer": "Burger King" }, "", "");
-//        executetest("addwidmaster", { "wid": "tim", "metadata.method": "userdto", "surveydto.0.questiondto.0.answerdto.2.answer": "Arby's" }, "", "");
-//        executetest("addwidmaster", { "wid": "tim", "metadata.method": "userdto", "surveydto.0.questiondto.0.answerdto.3.answer": "Wendy's" }, "", "");
-
-        /*
-        // Tim creates a final survey and adds a question (method #3 - inherit)
-        executetest("addwidmaster",{"wid":"fastfoodfrequency","metadata.method":"questiondto","question":"How often do you eat at fast food restaurants?"}, "", "");
-        executetest("addwidmaster",{"wid":"fastfoodfrequency","metadata.method":"questiondto","answerdto.0.answer":"Very Often"}, "", "");
-        executetest("addwidmaster",{"wid":"fastfoodfrequency","metadata.method":"questiondto","answerdto.1.answer":"Often"}, "", "");
-        executetest("addwidmaster",{"wid":"fastfoodfrequency","metadata.method":"questiondto","answerdto.2.answer":"Sometimes"}, "", "");
-        executetest("addwidmaster",{"wid":"fastfoodfrequency","metadata.method":"questiondto","answerdto.3.answer":"Not Very Often"}, "", "");
-        executetest("addwidmaster",{"wid":"fastfoodfrequency","metadata.method":"questiondto","answerdto.4.answer":"Never"}, "", "");
 	
-        executetest("addwidmaster",{"wid":"tim","metadata.method":"userdto","surveydto.2.title":"More About Fast Food Restaurants","surveydto.2.description":"Questions about popular fast food restaurants"}, "", "");
-        executetest("addwidmaster",{"wid":"tim","metadata.method":"userdto","surveydto.2.questiondto.0.inherit":"fastfoodfrequency"}, "", "");
-        */
+   	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.wid":"add","booksdto.title":"none","booksdto.pages":"00"}, "", "");
+	
+ 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
-        //executetest("getwidmaster", {"wid":"tim"}, "tim_get", "");
+	
+	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 
-        // Tom answer's Tim's Survey
-        executetest("addwidmaster", { "wid": "tim", "metadata.method": "userdto", "surveydto.0.questiondto.0.responsedto.0.response": "Burger King111", "surveydto.0.questiondto.0.responsedto.0.user": "tom" }, "", "");
-        //executetest("addwidmaster",{"wid":"tim","metadata.method":"responsedto","response":"Burger King","user":"tom"}, "", "");
 
-        executeobject = {};
-        executeobject["wid"] = "tim";
-        resultobject = executethis(executeobject, getwidmaster);
-        printToDiv("end",resultobject,99);
-    };
+debuglevel=10;
+	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
+
+	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+	params={'test':'PASS'};
+	callback(params)
+//	gets really slow it down
+}
+
+
+exports.dtoadd = dtoadd = function dtoadd(params, callback){ //widviewer 
+// 	testclearstorage();	
+
+// 	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
+
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
+
+//    	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
+//  	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+// 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+
+// executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+// executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+
+// // 	debuglevel=10;
+// 	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
+// // 	debuglevel=0
+// 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+// }
+
+// function dtoadd(){ //widviewer 
+	testclearstorage();	
+debuglevel=15;
+	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
+
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
+
+   	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
+ 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+
+	debuglevel=0;
+	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+	debuglevel=0;
+
+	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+
+ 	debuglevel=83;
+	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
+ 	debuglevel=0;
+	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+	params={'test':'PASS'};
+	callback(params)
+//	gets really slow it down
+}
+
+
+
+
+exports.ca1 = ca1 = function ca1(params, callback) {
+    //testclearallstorage();
+    testclearstorage();
+
+    /* Setting up the structure for a user account & surveys */
+
+    // Create the answer dto
+    executetest("addwidmaster", { "wid": "answerdto", "metadata.method": "answerdto", "answer": "string" }, "", "");
+
+    // Create the responses dto
+    executetest("addwidmaster", { "wid": "responsedto", "metadata.method": "responsedto", "response": "string", "user": "string" }, "", "");
+
+    // Create the question dto
+    executetest("addwidmaster", { "wid": "questiondto", "metadata.method": "questiondto", "question": "string", "answerdto": "onetomany", "responsedto": "onetomany" }, "", "");
+
+    // Create the survey dto
+    executetest("addwidmaster", { "wid": "surveydto", "metadata.method": "surveydto", "title": "string", "description": "string", "questiondto": "onetomany" }, "", "");
+
+    // Relate the question dto to the answer dto (questions can have multiple answers) and the response dto (questions can have multiple responses)
+    executetest("addwidmaster", { "wid": "relationshipdto1", "metadata.method": "relationshipdto", "primarywid": "questiondto", "secondarywid": "answerdto" }, "", "");
+    executetest("addwidmaster", { "wid": "relationshipdto2", "metadata.method": "relationshipdto", "primarywid": "questiondto", "secondarywid": "responsedto" }, "", "");
+
+    // Relate the survey dto to the question dto (surveys can have multiple questions)
+    executetest("addwidmaster", { "wid": "relationshipdto3", "metadata.method": "relationshipdto", "primarywid": "surveydto", "secondarywid": "questiondto" }, "", "");
+
+    // Create the user dto	
+    executetest("addwidmaster", { "wid": "userdto", "metadata.method": "userdto", "first": "string", "last": "string", "surveydto": "onetomany" }, "", "");
+
+    // Relate the survey dto to the question dto (surveys can have multiple questions)
+    executetest("addwidmaster", { "wid": "relationshipdto4", "metadata.method": "relationshipdto", "primarywid": "userdto", "secondarywid": "surveydto" }, "", "");
+
+    // Create three user accounts
+    executetest("addwidmaster", { "wid": "roger", "metadata.method": "userdto", "first": "roger", "last": "Lee" }, "", "");
+
+    // roger creates a survey and adds a question (method #1 - the one liner)
+    executetest("addwidmaster",
+            {
+                "wid": "roger",
+                "metadata.method": "userdto",
+                "surveydto.0.title": "All About Restaurants",
+                "surveydto.0.description": "Questions about popular restaurants",
+                "surveydto.0.questiondto.0.question": "Favorite Restaurant?",
+                "surveydto.0.questiondto.0.answerdto.0.answer": "Ponderosa",
+                "surveydto.0.questiondto.0.answerdto.1.answer": "Outback",
+                "surveydto.0.questiondto.0.answerdto.2.answer": "Applebees",
+                "surveydto.0.questiondto.0.answerdto.3.answer": "Hard Rock Cafe",
+                "surveydto.0.questiondto.0.answerdto.4.answer": "Red Lobster",
+                "surveydto.0.questiondto.1.question": "Which of these toppings do you prefer on your pizza?",
+                "surveydto.0.questiondto.1.answerdto.0.answer": "sausage",
+                "surveydto.0.questiondto.1.answerdto.1.answer": "cheese",
+                "surveydto.0.questiondto.1.answerdto.2.answer": "mushrooms",
+                "surveydto.0.questiondto.1.answerdto.3.answer": "pineapple",
+                "surveydto.0.questiondto.1.answerdto.4.answer": "Onions"
+            }, "", "");
+
+
+    //        executetest("addwidmaster",
+    //            {
+    //                "wid": "roger",
+    //                "metadata.method": "userdto",
+    //                "command.dtotype": "questiondto",
+    //                "question": "Which of these toppings do you prefer on your pizza?"
+    //            }, "", "");
+
+    //        executetest("addwidmaster",
+    //            {
+    //                "wid": "roger",
+    //                "metadata.method": "userdto",
+    //                "command.dtotype": "answerdto",
+    //                "0.answer": "sausage",
+    //                "1.answer": "cheese",
+    //                "2.answer": "mushrooms",
+    //                "3.answer": "pineapple",
+    //                "4.answer": "Onions"
+    //            }, "", "");
+
+    executetest("getwidmaster", { "wid": "roger" }, "roger_get", "");
+
+    executeobject = {};
+    executeobject["wid"] = "roger";
+    resultobject = executethis(executeobject, getwidmaster);
+    proxyprinttodiv("end", resultobject, 99);
+    callback(params);
+}
+
 
 
 exports.w1 = w1 = function w1 () {
@@ -116,8 +230,9 @@ exports.w3 = w3 = function w3 () {
 exports.testhhh = testhhh = function testhhh () {
 	console.log(" *** fro testhhh ");
 	testclearstorage();
+    	debuglevel=10;
 	executetest("addwidmaster",{"wid":"defaultforauthor","name":"roger","a":"b","c":"d"});
-	debuglevel=10;
+
 	executetest("getwidmaster", {"wid":"defaultforauthor"}, "get_color1_result", "");		
 }
 
@@ -168,6 +283,8 @@ exports.testaaa = testaaa = function testaaa () {
 		executetest("addwidmaster",{"wid":"colordto","metadata.method":"colordto","hue":"string","m":"o"}, "", "");
 		// executetest("updatewid",{"wid":"colordto","metadata.method":"colordto","hue":"string"}, "", "");
 		executetest("updatewid",{"wid":"color1","hue":"red"}, "", "");
+		executetest("updatewid",{"wid":"color2","hue":"red"}, "", "");
+		executetest("updatewid",{"wid":"color3","hue":"red"}, "", "");
 		executetest("addwidmaster",{"wid":"color2","hue":"blue","metadata.method":"colordto"}, "", "");
 	    // executetest("getwidmaster", {"wid":"color1"}, "", "");	
 
@@ -239,69 +356,39 @@ exports.test111 = test111 = function test111 () {
 }
 
 
-exports.dtoadd = dtoadd = function dtoadd(){ //widviewer 
-// 	testclearstorage();	
-
-// 	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
-
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
-
-//    	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
-//  	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-// 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-
-// executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-// executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-
-// // 	debuglevel=10;
-// 	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
-// // 	debuglevel=0
-// 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
-// }
-
-// function dtoadd(){ //widviewer 
-	testclearstorage();	
-
-	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
-
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
-
-   	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
- 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-
-	debuglevel=20;
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-	debuglevel=0;
-
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-
-// 	debuglevel=11;
-	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
- 	debuglevel=0;
-	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
-//	gets really slow it down
-}
 
 //function wv(){ //widviewer 
-exports.wv = wv = function wv(){ //widviewer 
+exports.wv = wv = function wv(params, callback){ //widviewer 
 	testclearstorage();	
 
 	// create defaults
 	// default actions at the actiondto
-	executetest("addwidmaster",{"wid":"defaultmasteractions","metadata.method":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
-	executetest("addwidmaster",{"wid":"defaultmasteractions","metadata.method":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
-	executetest("addwidmaster",{"wid":"defaultmasteractions","metadata.method":"actiondto","displayname":"4Open As Wid","actiondescription":"desc4", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
+	executetest("addwidmaster",
+{
+    "metadata.method": "actiondto",
+    "wid": "defaultmasteractions",
+    "adddto.actiondto.0.widname": "startwid",
+    "adddto.actiondto.0.displayname": "1 Process Blur",
+    "adddto.actiondto.0.actiondescription": "string",
+    "adddto.actiondto.0.category": "blur",
+    "adddto.actiondto.0.subcategory": "name",
+    "adddto.actiondto.0.dtotype": "",
+    "adddto.actiondto.0.convertmethod": "wid",
+    "adddto.actiondto.0.addthis.preexecute": "",
+    "adddto.actiondto.0.addthis.executethis": "fieldrequired",
+    "adddto.actiondto.0.addthis.postexecute": "getwidmaster",
+
+    "adddto.actiondto.1.widname": "startwid",
+    "adddto.actiondto.1.displayname": "2 Open As Json",
+    "adddto.actiondto.1.actiondescription": "string",
+    "adddto.actiondto.1.category": "string",
+    "adddto.actiondto.1.subcategory": "string",
+    "adddto.actiondto.1.dtotype": "",
+    "adddto.actiondto.1.convertmethod": "json",
+    "adddto.actiondto.1.addthis.preexecute": "",
+    "adddto.actiondto.1.addthis.executethis": "open_as_wid",
+    "adddto.actiondto.1.addthis.postexecute": "getwidmaster"
+});
 	// default actions added at adddto
 	executetest("addwidmaster",{"wid":"defaultadddtoactions","metadata.method":"adddto","command.dtotype":"actiondto","displayname":"5Open As Wid","actiondescription":"desc5", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
 	// default actions added at authordto level
@@ -345,22 +432,24 @@ exports.wv = wv = function wv(){ //widviewer
 
 	// // add me authors and books
  	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
-	// executetest("addwidmaster",{"metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"}, "", "");
-	// executetest("addwidmaster",{"metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"}, "", "");
-	// executetest("addwidmaster",{"metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"}, "", "");
-	// executetest("addwidmaster",{"metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"}, "", "");
-	// executetest("addwidmaster",{"metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}, "", "");
 
 	// // add actions to specific wids
-	// executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"888Open As Wid","adddto.actiondto.actiondescription":"desc888", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o888","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
- // 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"999Open As Wid","adddto.actiondto.actiondescription":"desc999", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o999","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"888Open As Wid","adddto.actiondto.actiondescription":"desc888", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o888","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+ 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"999Open As Wid","adddto.actiondto.actiondescription":"desc999", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o999","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
 	// // check startwid with all the additions
-	 executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
+	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get", "");
 
-	 debuglevel=10;
-	 executetest("getwidmaster", {"wid":"startwid", "command.dtotype":"defaultdto"}, "author_get_result2", "");
+	debuglevel=83;
+	executetest("getwidmaster", {"wid":"startwid", "command.dtotype":"defaultdto"}, "author_get", "");
 
+	params={'test':'PASS'};
+	callback(params)
 }
 
 // 	testclearstorage();	
