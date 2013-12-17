@@ -1,7 +1,6 @@
 exports.Debug = Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
 exports.debuglevel = debuglevel = 0;
 exports.widMasterKey = widMasterKey = "widmaster_";
-<<<<<<< HEAD
 exports.test_results = test_results = {};
 exports.potentialwid = potentialwid = 0;
 
@@ -15,13 +14,6 @@ exports.debugdestination= debugdestination = 1;
 if (!window) {
 	var window = global
 }
-=======
-exports.test_results =  test_results = {};
-exports.potentialwid =  potentialwid = 0;
-
-(function (window) {
-// if(!window){var window=global}
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
 
 // if(typeof localStorage === "undefined"){
 var localStore = function() {
@@ -68,11 +60,7 @@ if (typeof window === "undefined") {
 
 function bootprocess() {
 	testclearstorage();
-<<<<<<< HEAD
 	if (exports.environment === 'local') {
-=======
-	if(exports.environment === 'local'){
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
 		clearLocalStorage();
 	}
 	test_results = {};
@@ -202,7 +190,6 @@ exports.verifysummary = verifysummary = function verifysummary(resultwid) {
 
 exports.logverify = logverify = function logverify(testname, resultwid, parmwid1, parameterobj1, parmwid2, parameterobj2) {
 	var resultsobject = {};
-<<<<<<< HEAD
 	olddebug = Debug;
 	Debug = olddebug;
 	if (resultwid === undefined) {
@@ -225,31 +212,14 @@ exports.logverify = logverify = function logverify(testname, resultwid, parmwid1
 	};
 	proxyprinttodiv('logverify - parameterobj1', parameterobj1);
 	proxyprinttodiv('logverify - parameterobj2', parameterobj2);
-=======
-	olddebug=Debug;
-	Debug=olddebug;
-	if (resultwid === undefined) {resultwid = "resultwid"};
-	if (testname === undefined) {testname = "defaulttest"};
-					proxyprinttodiv('logverify - parmwid1',parmwid1);	
-					proxyprinttodiv('logverify - parmwid2',parmwid2);	
-	if (parmwid1.length!=0) {parameterobj1 = getfromlocal({'wid': parmwid1})};
-	if (parmwid2.length!=0) {parameterobj2 = getfromlocal({'wid': parmwid2})};
-					proxyprinttodiv('logverify - parameterobj1',parameterobj1);
-					proxyprinttodiv('logverify - parameterobj2',parameterobj2);
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
 	// Hold the object of scrutiny in a string....
 	var temp = JSON.stringify(parameterobj1);
 	var result = compareJSON(parameterobj1, parameterobj2);
 	// Restore the memory object with the original data
 	localStore.push("widmaster_" + parmwid1, JSON.parse(temp));
 
-<<<<<<< HEAD
 	proxyprinttodiv('logverify - result', result);
 	proxyprinttodiv('logverify - result.length', Object.keys(result).length);
-=======
-					proxyprinttodiv('logverify - result',result);
-					proxyprinttodiv('logverify - result.length',Object.keys(result).length);
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
 	var testresults = "PASS";
 	if (Object.keys(result).length !== 0) {
 		testresults = "FAIL"
@@ -398,15 +368,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 	localStore.clear();
 };
 
-// logic to clear things from Local storage
-exports.testclearallstorage = testclearallstorage = function testclearallstorage() {
-    widMasterKey = "widmaster_";
-    potentialwid = 0;
-    localStore.clear();
-    localStorage.clear();
-    var userstuff = { "username": "", "at": "abc7850a-7023-4046-8b5e-654e5af53c2a", "loggedin": false };
-    localStorage.setItem("driUser", JSON.stringify(userstuff));
-};
 
 exports.debugfn = debugfn = function debugfn() {
 	var processdebug = false;
@@ -634,11 +595,6 @@ function syntaxHighlight(json) {
 // 	potentialwid = 0;
 // }
 
-<<<<<<< HEAD
 // Link to example code: https://docs.google.com/document/d/1mDrn7oBX5LQ8bvds-W2J63M4h-rqlIgG-D3BsJz2JqU/edit
 
 // https://docs.google.com/spreadsheet/ccc?key=0ArR-qM_6x3QVdE96TkFQRUlENEMyN3I0REdKTzVJMFE&usp=sharing
-=======
-
-})(typeof window == "undefined" ? global : window);
->>>>>>> 57dd7a409299853809e8afafc518b68591736044

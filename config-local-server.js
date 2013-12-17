@@ -139,7 +139,11 @@ function toLowerKeys(obj){
     return newobj;
 }
 
+// <<<<<<< HEAD
+// exports.server = function server(params, callback) {
+// =======
 exports.server = server = function server(params, callback) {
+// >>>>>>> 1243b8d8e8fe8e20570302a3eef352aaabd8b6bd
     console.log('execute server called with ' + JSON.stringify(params));
     // delete params['configuration'];
     var params = toLowerKeys(params);

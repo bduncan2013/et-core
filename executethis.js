@@ -24,16 +24,9 @@
     exports.execute = window.execute = execute = function execute(incomingparams,callback) {
 
         incomingparams = toLowerKeys(incomingparams);
-<<<<<<< HEAD
 
         proxyprinttodiv("execute - inboundparms",incomingparams,11);
         proxyprinttodiv("execute - callback fn ",String(callback),11);
-=======
-        proxyprinttodiv("execute - inboundparms",incomingparams,5);
-        //proxyprinttodiv("execute - callback ",callback.name,5);
-        proxyprinttodiv("execute - callback fn ",String(callback),5);
-        //*** add if 'test2'
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
         console.log(' *** test2  '+ JSON.stringify(incomingparams));
 
         if ((incomingparams !== undefined) && (incomingparams["executethis"] === "test2")) {
@@ -56,26 +49,16 @@
                 callback(result);
             }
             else {
-<<<<<<< HEAD
 
                 incomingparams['midexecute'] = incomingparams['executethis'];            
-=======
-                incomingparams['midexecute'] = incomingparams['executethis'];
-                // ** roger added line below 5-10
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
                 delete incomingparams['executethis'];
                 console.log('starting preexecute ' + incomingparams);
                 doThis(incomingparams, 'preexecute', function (preResults) {
-<<<<<<< HEAD
 
                     console.log(' after preexecute >> '+ nonCircularStringify(preResults));
-=======
-                    //console.log(' after preexecute >> '+ nonCircularStringify(preResults));
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
                     console.log('starting midexecute ' + preResults);
                     if(!preResults){preResults={};} // 
                     doThis(preResults, 'midexecute', function (midResults) {
-<<<<<<< HEAD
                         
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                         if(!midResults){midResults={};}
@@ -85,16 +68,6 @@
 
                             if(!postResults){postResults={};}
 
-=======
-                        //console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-                        //if (midResults && midResults.midexecute) { delete midResults['midexecute']; }
-                        // line above take anway by Roger, added below *** not sure why needed, but needed
-                        if(!midResults){midResults={};}
-                        // post-execute method --- method called numbered (4)
-                        doThis(midResults, 'postexecute', function (postResults) {
-                            //console.log(' after postexecute >> ' + nonCircularStringify(postResults));
-                            if(!postResults){postResults={};} // ** added by Roger
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
                             callback(postResults);
                         });
                     });
@@ -136,7 +109,6 @@
                     , funcCalled = false
                     , count = 0;
 
-<<<<<<< HEAD
                 var cbfunction = function (results, results2) {
                     funcDone = true; 
                     if (results2) {retResult = results2}
@@ -155,37 +127,6 @@
                 if (retResult === undefined){ retResult={}; }
                 if (retResult["etstatus"]=="empty") {retResult={}}
                 return retResult;
-=======
-    // Primary execute function called from doThis
-    // this is a function router, it looks inside parm executethis...accepts strings or functions
-    // it is the reponsability of what gets called to remove paramter executethis from results
-    exports.executeFn = window.executeFn = executeFn = function executeFn(params, callback) {
-        var resultObj;
-       //*** add if 'test3'
-        console.log(' *** test3  '+ JSON.stringify(params));
-        if (params["executethis"]==="test3") {
-            callback({'test3':'Reached test3 code.. executeFn function '});
-        }else{
-            if ((params['executethis'] !== undefined) && (params['executethis'] !== "")
-                && (window[params['executethis']] || params['executethis'] instanceof Function)) {  // ** added ()
-                var windowFunc;
-                if(params['executethis'] instanceof Function) { windowFunc = params['executethis']; }  // function was passed in
-                else { windowFunc = window[params['executethis']]; }  // function name was passed in as string
-
-                proxyprinttodiv('calling fn ', windowFunc.name,5);
-                proxyprinttodiv('calling params ', params,5);
-                if (windowFunc.length === 1) {
-                    resultObj=windowFunc(params);
-                    proxyprinttodiv('calling result ', resultObj,5);
-                    callback(resultObj);
-                } else {
-                    proxyprinttodiv('calling callback ',String(callback),5);
-                    windowFunc(params, callback);
-                }
-            } else {
-                proxyprinttodiv('calling params II', params,5);
-                callback(params);
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
             }
         }
     };
@@ -196,20 +137,11 @@
             targetname,
             targetfunction;
 
-<<<<<<< HEAD
         proxyprinttodiv("dothis - inboundparms", params, 11);
         proxyprinttodiv("dothis - target ", target, 11);
         proxyprinttodiv("dothis - callback ", String(callback), 11);
 
         if (params["midexecute"] === "test4") {         // for debug purposes
-=======
-        proxyprinttodiv("dothis - inboundparms",params,5);
-        proxyprinttodiv("dothis - target ",target,5);
-        proxyprinttodiv("dothis - callback ",String(callback),5);
-        //*** add if 'test4'
-        console.log(' *** test4  '+ JSON.stringify(params));
-        if (params["midexecute"]==="test4") {
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
             callback({'test4':'Reached test4 code.. doThis function '});
         }
 
@@ -272,13 +204,9 @@
             proxyprinttodiv("CreateDoList - incomingConfig ", incomingConfig, 11);
         }
 
-<<<<<<< HEAD
         if (incomingConfig) {
             config0[configtarget] = incomingConfig; // ** Joe - only load incoming config if there is an incoming config
         } // added by roger *******
-=======
-            //console.log(' Beginning doThis => '+ target +' >>> '+ nonCircularStringify(params));
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
 
         // // If there is no config object for current target make one
         // *** Joe - moved above
@@ -317,7 +245,6 @@
              // in example deletes midexecute : <something>
         }
 
-<<<<<<< HEAD
         proxyprinttodiv("CreateDoList - config0 ", config0, 11);
 
         var list = config0[configtarget];
@@ -382,23 +309,6 @@
             list[0].dofn = configfn;
             if((list[0].dofn === "") && (window[list[0].dothis])) {
                 list[0].dofn = window[list[0].dothis];
-=======
-            // Load up our how to do list based on what stage we are in (pre, mid, post), then sort it
-            howToDoList = config0[target];
-            if (howToDoList != undefined && howToDoList.length > 1) {
-                howToDoList = howToDoList.sort(function (a, b) {
-                    if ( a.executeorder > b.executeorder )
-                        return 1;
-                    else if ( a.executeorder < b.executeorder)
-                        return -1;
-                    else if ( a.tryorder > b.tryorder )
-                        return 1;
-                    else if ( a.tryorder < b.tryorder)
-                        return -1;
-                    else
-                        return 0;
-                });
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
             }
         }
 
@@ -420,7 +330,6 @@
         return list;
     }
 
-<<<<<<< HEAD
     function executelist(howToDoList, whatToDoList, callback) {
         var 
         h,
@@ -478,24 +387,6 @@
 
             if (synchflag) { // if callback then call synch
                 callback(executethis(params, targetfn));
-=======
-                //whatToDoList = config0[params[target]]; -- changed by roger **
-                whatToDoList = config0[targetfunction];
-                if (whatToDoList !== undefined && whatToDoList.length > 1) {
-                    // sort by executeorder and tryorder
-                    whatToDoList = whatToDoList.sort(function (a, b) {
-                        if ( a.tryorder > b.tryorder )
-                            return 1;
-                        else if ( a.tryorder < b.tryorder)
-                            return -1;
-                        else if ( a.executeorder > b.executeorder )
-                            return 1;
-                        else if ( a.executeorder < b.executeorder)
-                            return -1;
-                        else
-                            return 0;
-                    });
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
                 }
             else { // else call asynch
                 targetfn(params, callback)
@@ -513,7 +404,6 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
         var synchflag;
         var fncheck=false;
 
-<<<<<<< HEAD
         proxyprinttodiv("getexecuteobject",whatToDo,11);
         if ((howToDo) && (whatToDo)) {
             
@@ -534,37 +424,6 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
                         targetfn = undefined;
                         break;
                     }
-=======
-                        if (whatToDoList.hasOwnProperty(w)){
-                            whatToDo = whatToDoList[w]['dothis'];
-                        }
-                        params['executethis'] = whatToDo;
-                        // clean up params
-                        delete params[target];
-                        if (howToDo instanceof Function) {
-                            //howToDo(params, function(results) { callback(results); });  *** changed by roger
-                            proxyprinttodiv("dothis II - inboundparms",params,5);
-                            proxyprinttodiv("dothis II - callback ",String(callback),5);
-                            howToDo(params, callback);
-                        }
-                    }
-                }
-                else {
-                    // console.log("No config for whatToDo trying to execute directly: " + JSON.stringify(howToDo) + ' with: {"executethis":"' + params[target] + '"}');
-                    if (howToDo instanceof Function && params[target]) {
-                        params['executethis'] = params[target]; 
-                        //params['executethis'] = targetfunction; 
-                        // ** we really should use this line, but lukes tests check for returned executethis, thus we need string
-                        //
-                        // Clean up the params, do not want executethis: something and a midexecute : something
-                        delete params[target];
-                        if (howToDo instanceof Function) {
-                            // howToDo(params, function(results) { callback(results); }); *** changed by roger
-                            proxyprinttodiv("dothis III - parms",params,5);
-                            proxyprinttodiv("dothis III - callback ",String(callback),5);
-                            howToDo(params, callback);
-                        }
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
 
                     targetfn = params[whatToDo];
                     
@@ -631,145 +490,24 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
         }
     }// fn
 
-<<<<<<< HEAD
 
     exports.executeerror = window.executeerror = executeerror = function executeerror(params, callback) {
         callback({"etstatus":"executeerror"});
     }
-=======
-    var addthisfn = function addthisfn(inputWidgetObject, callback) {
-        proxyprinttodiv('Function addthis in : inputWidgetObject', inputWidgetObject);
-        inputWidgetObject["wid"] = inputWidgetObject["addthis"];
-        delete inputWidgetObject["addthis"];
-        updatewid(inputWidgetObject, callback);
-        proxyprinttodiv('Function addthis in : x', resultObj);
-        callback(results);
-    };
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
 
-    // function nonCircularStringify(obj) {
-    //     var cache = [];
+    function nonCircularStringify(obj) {
+        var cache = [];
 
-    //     return JSON.stringify(obj, function(key, value) {
-    //         if (typeof value === 'object' && value !== null) {
-    //             if (cache.indexOf(value) !== -1) {
-    //                 //found circular reference, discard key
-    //                 return;
-    //             }
-    //             cache.push(value);
-    //         }
-    //         return value;
-    //     });
-    // }
-
-<<<<<<< HEAD
-=======
-    /// executethis is a function router that will return result synchronously
-    /// 1st argument -- input parameters, 2nd parameter -- callback function
-    /// second parameter must be a function, if not sent in will be defaulted to 'execute'
-    /// if the function to be called has only one input object then this fn will wait for results (act asynch)
-    exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
-
-        // if test1 ***
-        if (inboundparms["executethis"]==="test1") {
-            return {'test1':'Reached test1 code.. executethis function'};
-        }
-        else
-
-        {
-            //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
-            if (!targetfunction || !targetfunction instanceof Function) { targetfunction = execute; }
-
-            var params = toLowerKeys(inboundparms)
-                , argCount = 0;
-
-            proxyprinttodiv('Function executethis params',  params,5);
-            proxyprinttodiv('Function executethis fn', targetfunction.name,5);
-            proxyprinttodiv('Function executethis length', targetfunction.length,5);
-            console.log('targetfunction length => ' + targetfunction.length);
-            if (targetfunction.length !== undefined) { argCount = targetfunction.length; }
-
-            if (argCount == 1) {
-                return targetfunction (params); // if targetfn has only one parameter then fn is synchronous
-            }
-
-            else if (argCount > 1) {
-                var retResult = undefined
-                    , funcDone = false
-                    , funcCalled = false;
-
-                while (!funcDone) {
-                    if(!funcCalled) {
-                        funcCalled = true;
-                        targetfunction(params, function (results) {
-                            console.log(' ------- callback called ');
-                            funcDone = true;
-                            retResult = results;
-                        });
-                    }
+        return JSON.stringify(obj, function(key, value) {
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    //found circular reference, discard key
+                    return;
                 }
-
-                if (retResult === undefined){ retResult={}; }
-                if (retResult["etstatus"]=="empty") {retResult={}}
-                return retResult;
-
-                // var retResult = undefined;
-
-                // targetfunction(params, function (results) {
-                //     retResult = results;
-                // }
-
-                //     var idx = setInterval(function(){
-                //         waitIfNeeded(){
-                //             if(retResult){
-                //                 clearInterval(idx);
-                //             }else{
-                //                 waitIfNeeded();
-                //             }
-                //         }
-                //     },100);
-                // }
+                cache.push(value);
             }
-        }
-    };
+            return value;
+        });
+    }
 
-    // executeParam remaps from the params and then trys to execute a function by that name
-    // {"executeThis":"a", "a":"functionToExecute"} maps to {"executeThis":"functionToExecute"}
-    exports.executeParam = window.executeParam = executeParam = function executeParam(params, callback) {
-        if ((params['executethis'] !== undefined) && (params['executethis'] !== "")) {
-            //params['executethis']=params[params['executethis']];// ***** Saurabh says this line is unnecessary and makes the system fail in finding functions from other files
-            executeFn(params,callback);
-        }
-    };
-
-
-    // exports.executeParam = window.executeParam = executeParam = function (params, callback) {
-    //     // if ((params['executethis'] !== undefined) && (params['executethis'] !== "" && params['targetFn'] !== undefined)) {
-    //     if ((params['executethis'] !== undefined) && (params['executethis'] !== "")) {
-
-
-        
-    //         var paramToFind = params['executethis'];
-    //         var targetFn = params[paramToFind];
-
-    //         // remap: delete old param set and make set value on execute this
-    //         delete params["targetFn"];
-    //         params.executethis = targetFn;
-
-    //         var windowFunc = window[targetFn];
-    //         if (windowFunc !== undefined) {
-    //             if (windowFunc.length === 1) {
-    //                 callback(windowFunc(params));
-    //             }
-    //             else {
-    //                 windowFunc(params, callback);
-    //             }
-    //         }        
-    //     }
-    //     else {
-    //         callback(params);
-    //     }
-    // };
-
->>>>>>> 57dd7a409299853809e8afafc518b68591736044
 })(typeof window == "undefined" ? global : window);
