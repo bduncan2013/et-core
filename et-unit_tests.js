@@ -1012,6 +1012,7 @@ exports.async_func_e = async_func_e = function async_func_e (parameters) {
 	return parameters;
 }
 
+<<<<<<< HEAD
 exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
 	parameters['executethis'] = 'async_func_e1';
 	parameters = executethis(parameters, "execute");
@@ -1019,6 +1020,11 @@ exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
 	parameters ["h"] = "5";
 	return parameters;
 	// callback (parameters);
+=======
+
+exports.getwidtest = getwidtest = function getwidtest() {
+    executetest('getwid', {wid:'test1','etlocal':true});
+>>>>>>> 57dd7a409299853809e8afafc518b68591736044
 }
 
 exports.async_func_e1 = async_func_e1 = function async_func_e1 (parameters, callback) {
@@ -1204,22 +1210,38 @@ exports.updatewidtest = updatewidtest = function updatewidtest(params, callback)
 exports.jasontesta = jasontesta = function jasontesta(params, callback) {
     executetest('updatewid', {wid:'jasontestwid',this:'that',something:'else'}, '', '');
     executetest('getwid', {wid:'jasontestwid'});
+<<<<<<< HEAD
     if (callback instanceof Function) { 
     	callback(params); 
     } else { 
     	return params; 
     }
 }
+=======
+};
+>>>>>>> 57dd7a409299853809e8afafc518b68591736044
 
 exports.jasontestb = jasontestb = function jasontestb(params, callback) {
     executetest('addwidmaster', {wid:'jasontestwid5',testnum:'5',black:'white',pair:'3'});
     executetest('getwidmaster', {wid:'jasontestwid5'});
+<<<<<<< HEAD
     if (callback instanceof Function) { 
     	callback(params); 
     } else { 
     	return params; 
     }
 }
+=======
+};
+
+exports.jasontestc = jasontestc = function jasontestc() {
+    executetest('addwidmaster', {wid:'jasontestwid5',testnum:'5',black:'white',pair:'3'});
+};
+
+exports.jasontestd = jasontestd = function jasontestd() {
+    executetest('getwidmaster', {wid:'jasontestwid5'});
+};
+>>>>>>> 57dd7a409299853809e8afafc518b68591736044
 
 exports.testa = testa = function testa (params, callback) {
 		// executetest("test2",{"wid":"colordto"}, "blue", "");
@@ -1520,12 +1542,14 @@ exports.ex5 = ex5 = function ex5 () {
 }
 // Required for the delay in testing the async portionis
 exports.sleep = sleep = function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
+	for (var i = 0; i < milliseconds*10000; i++)
+		{}
+  // var start = new Date().getTime();
+  // for (var i = 0; i < 1e7; i++) {
+  //   if ((new Date().getTime() - start) > milliseconds){
+  //     break;
+  //   }
+  // }
 }
 
 // Here are the different configs used in the tests
@@ -1734,6 +1758,7 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
     configuration = {};
 	configuration.environment='local';
 
+<<<<<<< HEAD
     configuration.preExecute = [];
     configuration.preExecute[0] = {};
     configuration.preExecute[0].executeorder = 0;
@@ -1830,6 +1855,72 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 
    //  configuration.getAndFormatNextLevel = {};
    //  configuration.getAndFormatNextLevel.synchronous = true;  
+=======
+    // configuration.getwid = [];
+    // configuration.getwid[0] = {};
+    // configuration.getwid[0].order = 0;
+    // configuration.getwid[0].dothis = 'getfrommongo';	
+
+    // configuration.updatewid = [];
+    // configuration.updatewid[0] = {};
+    // configuration.updatewid[0].order = 0;
+    // configuration.updatewid[0].dothis = 'addtomongo';
+
+    // configuration.querywid = [];
+    // configuration.querywid[0] = {};
+    // configuration.querywid[0].order = 0;
+    // configuration.querywid[0].dothis = 'querywid';
+
+configuration.preExecute = [];
+configuration.preExecute[0] = {};
+configuration.preExecute[0].executeorder = 0;
+configuration.preExecute[0].tryorder = 1;
+configuration.preExecute[0].dothis = 'executeFn';
+configuration.preExecute[1] = {};
+configuration.preExecute[1].executeorder = 0;
+configuration.preExecute[1].tryorder = 2;
+configuration.preExecute[1].dothis = 'executeParam';
+
+// extra parameters
+configuration.preExecute[1].params = {'a':'b'};
+
+configuration.preExecute[2] = {};
+configuration.preExecute[2].executeorder = 0;
+configuration.preExecute[2].tryorder = 3;
+configuration.preExecute[2].dothis = 'server';
+
+configuration.midExecute = [];
+configuration.midExecute[0] = {};
+configuration.midExecute[0].executeorder = 1;
+configuration.midExecute[0].tryorder = 1;
+configuration.midExecute[0].dothis = 'executeFn';
+configuration.midExecute[1] = {};
+configuration.midExecute[1].executeorder = 1;
+configuration.midExecute[1].tryorder = 2;
+configuration.midExecute[1].dothis = 'executeParam';
+configuration.midExecute[2] = {};
+configuration.midExecute[2].executeorder = 1;
+configuration.midExecute[2].tryorder = 3;
+configuration.midExecute[2].dothis = 'server';
+
+configuration.postExecute = [];
+configuration.postExecute[0] = {};
+configuration.postExecute[0].executeorder = 0;
+configuration.postExecute[0].tryorder = 1;
+configuration.postExecute[0].dothis = 'executeFn';
+configuration.postExecute[1] = {};
+configuration.postExecute[1].executeorder = 0;
+configuration.postExecute[1].tryorder = 2;
+configuration.postExecute[1].dothis = 'executeParam';
+configuration.postExecute[2] = {};
+configuration.postExecute[2].executeorder = 0;
+configuration.postExecute[2].tryorder = 3;
+configuration.postExecute[2].dothis = 'server';
+    return {
+        "configuration": configuration
+    }
+}
+>>>>>>> 57dd7a409299853809e8afafc518b68591736044
 
    //  configuration.addcleanparameters = {};
    //  configuration.addcleanparameters.synchronous = true;

@@ -137,6 +137,7 @@ function querywidlocal(sq, callback){
     proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery aftersort', returnfromSimpleQuery, 30);
     proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery length', returnfromSimpleQuery.length, 30);
     if (returnfromSimpleQuery.length>0) {
+<<<<<<< HEAD
     	if (mongorelationshipmethod=='first') {outobject.push(returnfromSimpleQuery[0]);}
    	 	if (mongorelationshipmethod=='last') {outobject.push(returnfromSimpleQuery[returnfromSimpleQuery.length-1]);}
 		if (mongorelationshipmethod=='all') {outobject=returnfromSimpleQuery;}
@@ -145,6 +146,16 @@ function querywidlocal(sq, callback){
 	if ((!outobject) || (outobject==[]) || 
 		(outobject===null) || (returnfromSimpleQuery.length==0)){outobject.push({"":""});}
 	if (Object.keys(outobject).length == 0) {outobject.push({"":""});}
+=======
+    	if (mongorelationshipmethod=='first') {outobject.push(returnfromSimpleQuery[0])};
+   	 	if (mongorelationshipmethod=='last') {outobject.push(returnfromSimpleQuery[returnfromSimpleQuery.length-1])};
+		if (mongorelationshipmethod=='all') {outobject=returnfromSimpleQuery};
+		}
+	proxyprinttodiv('Function simpleQuery in : enhancedreturn before',  outobject, 30);
+	if ((!outobject) || (outobject==[]) || 
+		(outobject===null) || (returnfromSimpleQuery.length==0)){outobject.push({"":""})};
+	if (Object.keys(outobject).length == 0) {outobject.push({"":""})};	
+>>>>>>> 57dd7a409299853809e8afafc518b68591736044
 	proxyprinttodiv('Function simpleQuery in : enhancedreturn after',  outobject, 30);
 	//return enhancedreturn;
 	//enhancedreturn.push({'a':'b'});
