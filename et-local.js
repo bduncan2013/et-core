@@ -193,26 +193,44 @@ exports.getfrommongo = getfrommongo = function getfrommongo(inputWidgetObject, c
 function getwidcopy() {
 // step through local storage looking for
 	var set={}; // get a copy of all local storage ***
+    var resultobject={};
+    var wid="";
 	for (var key in localStorage){
 		if (key.indexOf(widMasterKey) == 0) {
 			key = key.substring(10);
-			// set[key]=getfrommongo({wid:key});
-
-				var executeobject={};
-    			executeobject["wid"]=key;
-    			var x = window['getwid'];
-    			//var x = window['getfrommongo'];
-    			//set[key] = executethis(executeobject, x);
-    			set[key] = getFromLocalStorage(widMasterKey + key);
-    			//set[key]=executethis(executeobject,getfrommongo);
-
-			//set[key]=executethis({wid:key},getfrommongo);
-			}
-		}
-	//set['a']='b';
-	//set.push({'a':'b'});
+				resultobject=getFromLocalStorage(widMasterKey + key);
+                wid = resultobject['wid'];
+    			set[wid] = resultobject;
+            // $$$$$
+        }
+    }
 	return set
 }
+
+//function getwidcopy() {
+//// step through local storage looking for
+//	var set={}; // get a copy of all local storage ***
+//	for (var key in localStorage){
+//		if (key.indexOf(widMasterKey) == 0) {
+//			key = key.substring(10);
+//			// set[key]=getfrommongo({wid:key});
+//
+//				var executeobject={};
+//    			executeobject["wid"]=key;
+//    			var x = window['getwid'];
+//    			//var x = window['getfrommongo'];
+//    			//set[key] = executethis(executeobject, x);
+//    			set[key] = getFromLocalStorage(widMasterKey + key);
+//    			//set[key]=executethis(executeobject,getfrommongo);
+//
+//			//set[key]=executethis({wid:key},getfrommongo);
+//			}
+//		}
+//	//set['a']='b';
+//	//set.push({'a':'b'});
+//	return set
+//}
+
 
 function getFromLocalStorage(key){
 	return JSON.parse(localStorage.getItem(key));
