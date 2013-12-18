@@ -1,5 +1,46 @@
 
 
+exports.dtott = dtott = function dtott(params, callback){ //widviewer 
+
+	testclearstorage();	
+
+	debugcolor = 0;
+	debugon = true;
+	debugname = "";
+	debugsubcat = "";
+	debugcat = "";
+	debugfilter = "";
+	debugdestination = 1;
+	//debuglevel=15;
+
+
+	executetest("addwidmaster",{"wid":"roger","name":"colburn", "a":"b"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+
+	//debugname = "addwidparameters";
+		// debuglevel=20;
+	// debugcat = "add";
+	debugsubcat = "core";
+	debugname = "addmaster";
+	//debuglevel = 10;
+	executetest("getwidmaster", {"wid":"authordto", "command.convertmethod":"dto"}, "author_get_result", "");
+	//{"name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","booksdto.onetomany.title":"string","booksdto.onetomany.pages":"string"}
+	//debuglevel=80;
+   	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.wid":"add","booksdto.title":"none","booksdto.pages":"00"}, "", "");
+	
+	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
+
+	//executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+	//{"name":"string","age":"string","metadata.method":"authordto","wid":"authordto","booksdto":"onetomany","adddto":"onetoone","booksdto.booksdto.title":"string","booksdto.booksdto.pages":"string","booksdto.booksdto.metadata.method":"booksdto","booksdto.booksdto.wid":"booksdto"}
+	params={'test':'PASS'};
+	callback(params)
+//	gets really slow it down
+}
+
+
+
 exports.dtotest = dtotest = function dtotest(params, callback){ //widviewer 
 
 	testclearstorage();	
@@ -7,8 +48,8 @@ exports.dtotest = dtotest = function dtotest(params, callback){ //widviewer
 	debugon = true;
 	debugname = "";
 	debugsubcat = "";
-	debugcat = "all";
-	debugfilter = "all";
+	debugcat = "";
+	debugfilter = "";
 	debugdestination = 1;
 	//debuglevel=15;
 	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
@@ -24,14 +65,18 @@ exports.dtotest = dtotest = function dtotest(params, callback){ //widviewer
 	
    	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.wid":"add","booksdto.title":"none","booksdto.pages":"00"}, "", "");
 	
+	//debugsubcat = "add";
  	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
-	
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-
-
+// these added later
 debuglevel=10;
+debugsubcat = "get";
+	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+	//executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+	
+
+//debugsubcat = "get";
 	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
 
 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
@@ -83,10 +128,6 @@ debuglevel=15;
 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
 	debuglevel=0;
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-	debuglevel=0;
-
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 
  	debuglevel=83;
 	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
@@ -98,6 +139,137 @@ debuglevel=15;
 }
 
 
+//function wv(){ //widviewer 
+exports.wv = wv = function wv(params, callback){ //widviewer 
+	testclearstorage();	
+
+	// create defaults
+	// default actions at the actiondto
+	executetest("addwidmaster",
+{
+    "metadata.method": "actiondto",
+    "wid": "defaultmasteractions",
+    "adddto.actiondto.0.widname": "startwid",
+    "adddto.actiondto.0.displayname": "1 Process Blur",
+    "adddto.actiondto.0.actiondescription": "string",
+    "adddto.actiondto.0.category": "blur",
+    "adddto.actiondto.0.subcategory": "name",
+    "adddto.actiondto.0.dtotype": "",
+    "adddto.actiondto.0.convertmethod": "wid",
+    "adddto.actiondto.0.addthis.preexecute": "",
+    "adddto.actiondto.0.addthis.executethis": "fieldrequired",
+    "adddto.actiondto.0.addthis.postexecute": "getwidmaster",
+
+    "adddto.actiondto.1.widname": "startwid",
+    "adddto.actiondto.1.displayname": "2 Open As Json",
+    "adddto.actiondto.1.actiondescription": "string",
+    "adddto.actiondto.1.category": "string",
+    "adddto.actiondto.1.subcategory": "string",
+    "adddto.actiondto.1.dtotype": "",
+    "adddto.actiondto.1.convertmethod": "json",
+    "adddto.actiondto.1.addthis.preexecute": "",
+    "adddto.actiondto.1.addthis.executethis": "open_as_wid",
+    "adddto.actiondto.1.addthis.postexecute": "getwidmaster"
+});
+	// default actions added at adddto
+	executetest("addwidmaster",{"wid":"defaultadddtoactions","metadata.method":"adddto","command.dtotype":"actiondto","displayname":"5Open As Wid","actiondescription":"desc5", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
+	// default actions added at authordto level
+	executetest("addwidmaster",{"wid":"defaultauthordtoactions","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"6Open As Wid","actiondescription":"desc6", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
+	// default field valeus at addfield level
+	executetest("addwidmaster",{"wid":"defaultfieldvalue","metadata.method":"addfield","fieldname":"name","display":"true","editable":"true","onreadactions":"none","oneditactions":"pop_up_alert"}, "", "");
+
+	// create dtos
+	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"nodeDataArray","wid":"nodeDataArray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"leftArray","wid":"leftArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"topArray","wid":"topArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"bottomArray","wid":"bottomArray","portColor":"string", "portId":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"rightArray","wid":"rightArray","portColor":"string", "portId":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"linkDataArray","wid":"linkDataArray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"}, "", "");			
+	executetest("addwidmaster",{"metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultmasteractions":"inherit"}, "", "");
+
+	// create relationships
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules"}, "", "");
+
+	// check to  see if complete dto was entered completely
+
+	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+
+
+	// // add me authors and books
+ 	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"}, "", "");
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}, "", "");
+
+	// // add actions to specific wids
+	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"888Open As Wid","adddto.actiondto.actiondescription":"desc888", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o888","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+ 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"999Open As Wid","adddto.actiondto.actiondescription":"desc999", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o999","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+
+	// // check startwid with all the additions
+	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get", "");
+
+	debuglevel=83;
+	executetest("getwidmaster", {"wid":"startwid", "command.dtotype":"defaultdto"}, "author_get", "");
+
+	params={'test':'PASS'};
+	callback(params)
+}
+
+// 	testclearstorage();	
+
+// 	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}, "", "");
+
+// 	// create dtos
+// 	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","addfielddefault":"inherit"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"nodeDataArray","wid":"nodeDataArray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"leftArray","wid":"leftArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"topArray","wid":"topArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"bottomArray","wid":"bottomArray","portColor":"string", "portId":"string"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"rightArray","wid":"rightArray","portColor":"string", "portId":"string"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"linkDataArray","wid":"linkDataArray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"}, "", "");			
+// 	executetest("addwidmaster",{"metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultaction":"inherit"}, "", "");
+// 	// addthis was used in the last two since we needed to add parameters executethis, etc. -- we did not want the system to act on those parameters
+// 	// addthis could have been used to add all of these
+	
+// 	// create relationships
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject"}, "", "");
+// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules"}, "", "");
+// 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+	
+// }
 
 
 exports.ca1 = ca1 = function ca1(params, callback) {
@@ -357,137 +529,6 @@ exports.test111 = test111 = function test111 () {
 
 
 
-//function wv(){ //widviewer 
-exports.wv = wv = function wv(params, callback){ //widviewer 
-	testclearstorage();	
-
-	// create defaults
-	// default actions at the actiondto
-	executetest("addwidmaster",
-{
-    "metadata.method": "actiondto",
-    "wid": "defaultmasteractions",
-    "adddto.actiondto.0.widname": "startwid",
-    "adddto.actiondto.0.displayname": "1 Process Blur",
-    "adddto.actiondto.0.actiondescription": "string",
-    "adddto.actiondto.0.category": "blur",
-    "adddto.actiondto.0.subcategory": "name",
-    "adddto.actiondto.0.dtotype": "",
-    "adddto.actiondto.0.convertmethod": "wid",
-    "adddto.actiondto.0.addthis.preexecute": "",
-    "adddto.actiondto.0.addthis.executethis": "fieldrequired",
-    "adddto.actiondto.0.addthis.postexecute": "getwidmaster",
-
-    "adddto.actiondto.1.widname": "startwid",
-    "adddto.actiondto.1.displayname": "2 Open As Json",
-    "adddto.actiondto.1.actiondescription": "string",
-    "adddto.actiondto.1.category": "string",
-    "adddto.actiondto.1.subcategory": "string",
-    "adddto.actiondto.1.dtotype": "",
-    "adddto.actiondto.1.convertmethod": "json",
-    "adddto.actiondto.1.addthis.preexecute": "",
-    "adddto.actiondto.1.addthis.executethis": "open_as_wid",
-    "adddto.actiondto.1.addthis.postexecute": "getwidmaster"
-});
-	// default actions added at adddto
-	executetest("addwidmaster",{"wid":"defaultadddtoactions","metadata.method":"adddto","command.dtotype":"actiondto","displayname":"5Open As Wid","actiondescription":"desc5", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
-	// default actions added at authordto level
-	executetest("addwidmaster",{"wid":"defaultauthordtoactions","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"6Open As Wid","actiondescription":"desc6", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
-	// default field valeus at addfield level
-	executetest("addwidmaster",{"wid":"defaultfieldvalue","metadata.method":"addfield","fieldname":"name","display":"true","editable":"true","onreadactions":"none","oneditactions":"pop_up_alert"}, "", "");
-
-	// create dtos
-	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"nodeDataArray","wid":"nodeDataArray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"leftArray","wid":"leftArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"topArray","wid":"topArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"bottomArray","wid":"bottomArray","portColor":"string", "portId":"string"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"rightArray","wid":"rightArray","portColor":"string", "portId":"string"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"linkDataArray","wid":"linkDataArray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"}, "", "");			
-	executetest("addwidmaster",{"metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultmasteractions":"inherit"}, "", "");
-
-	// create relationships
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules"}, "", "");
-
-	// check to  see if complete dto was entered completely
-
-	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
-
-
-	// // add me authors and books
- 	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"}, "", "");
-	executetest("addwidmaster",{"metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}, "", "");
-
-	// // add actions to specific wids
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"888Open As Wid","adddto.actiondto.actiondescription":"desc888", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o888","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
- 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"999Open As Wid","adddto.actiondto.actiondescription":"desc999", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o999","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-
-	// // check startwid with all the additions
-	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get", "");
-
-	debuglevel=83;
-	executetest("getwidmaster", {"wid":"startwid", "command.dtotype":"defaultdto"}, "author_get", "");
-
-	params={'test':'PASS'};
-	callback(params)
-}
-
-// 	testclearstorage();	
-
-// 	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}, "", "");
-
-// 	// create dtos
-// 	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","addfielddefault":"inherit"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"nodeDataArray","wid":"nodeDataArray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"leftArray","wid":"leftArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"topArray","wid":"topArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"bottomArray","wid":"bottomArray","portColor":"string", "portId":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"rightArray","wid":"rightArray","portColor":"string", "portId":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"linkDataArray","wid":"linkDataArray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"}, "", "");			
-// 	executetest("addwidmaster",{"metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultaction":"inherit"}, "", "");
-// 	// addthis was used in the last two since we needed to add parameters executethis, etc. -- we did not want the system to act on those parameters
-// 	// addthis could have been used to add all of these
-	
-// 	// create relationships
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules"}, "", "");
-// 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
-	
-// }
 
 exports.addi = addi = function addi(){
 	testclearstorage();
