@@ -61,7 +61,7 @@ if (typeof window === "undefined") {
 	var window = global;
 };
 
-function bootprocess() {
+exports.bootprocess = bootprocess = function bootprocess() {
 	testclearstorage();
 	if (exports.environment === 'local') {
 		clearLocalStorage();
