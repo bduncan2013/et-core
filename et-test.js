@@ -180,7 +180,7 @@ exports.ca1 = ca1 = function ca1(params, callback) {
 
     executeobject = {};
     executeobject["wid"] = "roger";
-    resultobject = executethis(executeobject, getwidmaster); // TODO :: check if this is fine
+    resultobject = executethis(executeobject, getwidmaster);
     proxyprinttodiv("end", resultobject, 99);
     callback(params);
 }
@@ -191,7 +191,7 @@ exports.w1 = w1 = function w1 () {
 	testclearstorage();
 	var result;
 	//result = executethis({"executethis":"func_bbb", "c":"0", "d":"1", "e":"2"}, func_bbb);
-	result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b); 
+	result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
 	proxyprinttodiv('from test', result, 99);
 }
 //{"d":"1","c":"0","executethis":"func_b","g":"4"}

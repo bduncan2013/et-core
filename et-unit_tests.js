@@ -904,7 +904,7 @@ exports.cict1 = cict1 = function cict1(params, callback) {
 
 // mock_server resolves to this function
 exports.cic_output = cic_output = function cic_output(params) {
-    
+    alert(JSON.stringify(params));
     return params;
 }
 
