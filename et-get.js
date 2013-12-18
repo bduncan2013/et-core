@@ -1,5 +1,9 @@
 (function(window) {
 
+    // if (typeof configuration === "undefined") {
+    //     configuration = config.configuration;
+    // }
+
     exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
         delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
 
@@ -394,7 +398,7 @@
                                                         cb2(null, 'one');
                                                     });
                                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
-                                                }else{
+                                                } else {
                                                     cb2(null, 'one');
                                                 }
                                             }
@@ -509,6 +513,7 @@
                     convertMethod = parameters["command.convertmethod"];
 
 
+
                     var isSynchronous = configuration.getWidMongo.synchronous;
 
                     if (isSynchronous) {
@@ -560,7 +565,7 @@
                     olddebug = Debug;
 
                     if ((Object.keys(resultObj).length !== 0) && (resultObj['wid'] != resultObj['metadata.method'])) {
-                        var isSynchronous = configuration.getcleanparameters.synchronous; 
+                        var isSynchronous = configuration.getcleanparameters.synchronous;
 
                         if (isSynchronous) {
                             resultObj = getcleanparameters(resultObj, dtotype, accesstoken, "remove", convertMethod); //TODO -- DONE
@@ -591,9 +596,9 @@
             function(err, results) {
                 var isSynchronous = configuration.getwidmaster.synchronous; /// TODO :: CHECKI THIS ERROR, WHEN removed, causes fail
                 if (!isSynchronous) {
-                // if (callback instanceof Function) {
+                    // if (callback instanceof Function) {
                     callback(ret);
-                // }
+                    // }
                 }
             });
 
@@ -726,7 +731,7 @@
                                             nextLevelParameters = getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin); //removed dtoGlobalParameters
 
                                         } else {
-                                            getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin, function(err,res) {
+                                            getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin, function(err, res) {
                                                 nextLevelParameters = res;
                                             });
                                         }
@@ -750,7 +755,7 @@
                     }
                 ],
                 function(err, results) {
-                    var isSynchronous = configuration.getWidMongo.synchronous; 
+                    var isSynchronous = configuration.getWidMongo.synchronous;
                     if (!isSynchronous) {
                         callback(err, ret);
                     }
@@ -917,7 +922,7 @@
                 var isSynchronous = configuration.getAndFormatNextLevel.synchronous;
 
                 if (!isSynchronous) {
-                    callback(err,ret);
+                    callback(err, ret);
                 }
             });
 
