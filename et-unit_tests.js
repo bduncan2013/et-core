@@ -123,9 +123,9 @@ exports.ctt = ctt = function ctt (params, callback) {
 
 // These are the add/get tests to stress out the dto/dot notation system
 exports.agtt = agtt =function agtt (params, callback) {
-	ag1();
-	ag2();
-	ag3();
+	agt1();
+	agt2();
+	agt3();
 
 	var x = test_results;
     if (callback instanceof Function) { 
@@ -904,7 +904,7 @@ exports.cict1 = cict1 = function cict1(params, callback) {
 
 // mock_server resolves to this function
 exports.cic_output = cic_output = function cic_output(params) {
-    alert(JSON.stringify(params));
+    
     return params;
 }
 
