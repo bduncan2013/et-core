@@ -1,6 +1,26 @@
 function cody() {
 	alert('Cody says hello');
 }
+
+
+exports.ca2 = ca2 = function ca2(){
+	testclearstorage();
+	
+	executetest("addwidmaster",{"wid":"cdto","metadata.method":"cdto","fieldc":"string"}, "", "");
+	executetest("addwidmaster",{"wid":"bdto","metadata.method":"bdto","fieldb":"string","cdto":"onetomany"}, "", "");
+	executetest("addwidmaster",{"wid":"adto","metadata.method":"adto","fielda":"string","bdto":"onetomany"}, "", "");
+	
+	executetest("addwidmaster",{"wid":"relatedto1","metadata.method":"relatedto1","primarywid":"bdto","secondarywid":"cdto"}, "", "");
+	executetest("addwidmaster",{"wid":"relatedto2","metadata.method":"relatedto2","primarywid":"adto","secondarywid":"bdto"}, "", "");
+	
+	executetest("addwidmaster",{"wid":"a","metadata.method":"adto","fielda":"hello","bdto.0.fieldb":"world","bdto.0.cdto.0.fieldc":"!!!!"}, "", "");
+	//executetest("addwidmaster",{"wid":"a","metadata.method":"adto","fielda":"hello","bdto.fieldb":"world","bdto.cdto.fieldc":"!!!!"}, "", "");
+
+	executeobject={};     
+	executeobject["wid"]="a";
+	resultobject = executethis(executeobject, getwidmaster);
+	printToDiv(resultobject);
+}	
 // THESE ARE THE TEST SUITES
 
 
