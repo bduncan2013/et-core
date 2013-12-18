@@ -123,9 +123,9 @@ exports.ctt = ctt = function ctt (params, callback) {
 
 // These are the add/get tests to stress out the dto/dot notation system
 exports.agtt = agtt =function agtt (params, callback) {
-	agt1();
-	agt2();
-	agt3();
+	ag1();
+	ag2();
+	ag3();
 
 	var x = test_results;
     if (callback instanceof Function) { 
@@ -1115,7 +1115,7 @@ exports.ag3_setup = ag3_setup = function ag3_setup (params, callback) {
 	debuglevel=90;
     executetest("addwidmaster",{"wid":"sounddto","metadata.method":"sounddto","note":"string"}, "", "");
     executetest("addwidmaster",{"wid":"songdto", "metadata.method":"songdto", "title":"string", "sounddto":"onetomany"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_sound_to_song", "primarywid":"songdto", "secondarywid":"sounddto", "relationshiptype":"attributes"}, "", "");
+    executetest("addwidmaster",{"wid":"rel_sound_to_song", "primarywid":"songdto", "secondarywid":"sounddto", "relationshiptype":"attributes"}, "", "");
 
     executetest("addwidmaster",{"wid":"song1",
     							"metadata.method" : "songdto", 
@@ -1146,8 +1146,7 @@ exports.ag3 = ag3 = function ag3 (params, callback) {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag4_setup = ag4_setup = function ag4_setup (params, callback) {
     executetest("addwidmaster",{"wid":"measuredto","metadata.method":"measuredto","duration":"string"}, "", "");
-    executetest("addwidmaster",{"wid":"rel_sound_to_song", "primarywid":"sounddto", "secondarywid":"measuredto", "relationshiptype":"attributes"}, "", "");
-
+    executetest("addwidmaster",{"wid":"rel_measure_to_sound", "primarywid":"sounddto", "secondarywid":"measuredto", "relationshiptype":"attributes"}, "", "");
     executetest("addwidmaster",{"wid":"sounddto","metadata.method":"sounddto","note":"string"}, "", "");
     executetest("addwidmaster",{"wid":"songdto", "metadata.method":"songdto", "title":"string", "sounddto":"onetomany"}, "", "");
     executetest("addwidmaster",{"wid":"rel_sound_to_song", "primarywid":"songdto", "secondarywid":"sounddto", "relationshiptype":"attributes"}, "", "");
@@ -1167,12 +1166,52 @@ exports.ag4_setup = ag4_setup = function ag4_setup (params, callback) {
     	return params; 
     }
 }
+
+function aggressivedto_emulator (params, callback) {
+
+	var myval = aggressivedto(params['x'],"",10);
+	callback (myval);
+}
 // This is a 3 level test where song1 will have data from a songdto, that uses a sounddto, and the sounddto will use a measuredto 
 exports.ag4 = ag4 = function ag4 (params, callback) {
 	config = setconfig1();
 	testclearstorage();
 	ag4_setup();
-	params = logverify("alpha_unit_tests","ag4_result","get_song1_result","","", {"title":"Highway to Hell","wid":"song1","metadata.method":"songdto","sounddto.0.note":"A flat","sounddto.0.wid":"1","sounddto.0.metadata.method":"sounddto","sounddto.1.note":"B sharp","sounddto.1.wid":"3","sounddto.1.metadata.method":"sounddto","sounddto.2.note":"C flat","sounddto.2.wid":"5","sounddto.2.metadata.method":"sounddto"});
+    executetest("aggressivedto_emulator",{"x":"songdto"}, "aggressive_result", "");
+	params = logverify("alpha_unit_tests","ag4_result","aggressive_result","","",{"title":"string","sounddto":"onetomany","wid":"songdto","metadata.method":"songdto","sounddto.note":"string","sounddto.wid":"sounddto","sounddto.metadata.method":"sounddto","sounddto.measuredto.duration":"string","sounddto.measuredto.wid":"measuredto","sounddto.measuredto.metadata.method":"measuredto"} );
+    if (callback instanceof Function) { 
+    	callback(params); 
+    } else { 
+    	return params; 
+    }
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+exports.ag5_setup = ag5_setup = function ag5_setup (params, callback) {
+    executetest("addwidmaster",{"wid":"measuredto","metadata.method":"measuredto","duration":"string"}, "", "");
+    executetest("addwidmaster",{"wid":"rel_measure_to_sound", "primarywid":"sounddto", "secondarywid":"measuredto", "relationshiptype":"attributes"}, "", "");
+    executetest("addwidmaster",{"wid":"sounddto","metadata.method":"sounddto","note":"string"}, "", "");
+    executetest("addwidmaster",{"wid":"songdto", "metadata.method":"songdto", "title":"string", "sounddto":"onetomany"}, "", "");
+    executetest("addwidmaster",{"wid":"rel_sound_to_song", "primarywid":"songdto", "secondarywid":"sounddto", "relationshiptype":"attributes"}, "", "");
+
+    if (callback instanceof Function) { 
+    	callback(params); 
+    } else { 
+    	return params; 
+    }
+}
+
+function aggressivedto_emulator (params, callback) {
+
+	var myval = aggressivedto(params['x'],"",10);
+	callback (myval);
+}
+// This is a 3 level test where song1 will have data from a songdto, that uses a sounddto, and the sounddto will use a measuredto 
+exports.ag5 = ag5 = function ag5 (params, callback) {
+	config = setconfig1();
+	testclearstorage();
+	ag5_setup();
+    executetest("aggressivedto_emulator",{"x":"songdto"}, "aggressive_result", "");
+	params = logverify("alpha_unit_tests","ag5_result","aggressive_result","","",{} );
     if (callback instanceof Function) { 
     	callback(params); 
     } else { 
@@ -1320,6 +1359,13 @@ exports.testb = testb = function testb (params, callback) {
 	config = setconfig1();
 	testclearstorage();
 	testb_setup();
+
+ 	debugname = "addwid";
+ 	debugcat = debugcat = "add";
+ 	debugsubcat = debugsubcat = "core";
+ 	debugfilter= debugfilter = "all";
+ 	debugdestination= debugdestination = "print";
+
 	params = logverify("alphagetwidmaster_unit_tests","testb_result","get_sounddto_result","","", {"note":"string","wid":"sounddto","metadata.method":"sounddto"});
     if (callback instanceof Function) { 
     	callback(params); 
