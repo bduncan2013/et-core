@@ -1,0 +1,2656 @@
+Searching 145 files for "executethis("
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/addhoc.js:
+   47      executeobject["wid"] = "startwid";
+   48      executeobject["command.dtotype"] = "actiondto";
+   49:     resultobject = executethis(executeobject, getwidmaster);
+   50      proxyprinttodiv("end", resultobject, 99);
+   51  
+   ..
+   61      /* executethis -- start */
+   62      executeobject = {"exeuctethis":"addwidmaster","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"};
+   63:     resultobject = executethis(executeobject, addwidmaster);
+   64      proxyprinttodiv("end", resultobject, 99);   
+   65      /* executethis -- end */
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/Backup/executethis-original.js:
+  334          /// second parameter must be a function, if not sent in will be defaulted to 'execute'
+  335          /// if the function to be called has only one input object then this fn will wait for results (act asynch)
+  336:     exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+  337  
+  338          // if test1 ***
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/Backup/local.js:
+   82  			//var x = window['getfrommongo'];
+   83  			var x = window['getwid'];
+   84: 			//var myvalue = executethis({wid:widkey}, getfrommongo);
+   85: 			//var myvalue = executethis(executeobject, getfrommongo);
+   86: 			var myvalue = executethis(executeobject, x);
+   87  			//proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   88  			proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   ..
+   93  				executeobject={};
+   94  				executeobject["wid"]=key;
+   95: 			   //var value = executethis({wid:key}, getfrommongo);
+   96: 			   var value = executethis(executeobject, x);
+   97: 			   //var value = executethis(executeobject, getfrommongo);
+   98  			   proxyprinttodiv('Function simpleQuery in : value',  value);
+   99                 delete value.wid;
+  ...
+  188      			var x = window['getwid'];
+  189      			//var x = window['getfrommongo'];
+  190:     			//set[key] = executethis(executeobject, x);
+  191      			set[key] = getFromLocalStorage(widMasterKey + key);
+  192:     			//set[key]=executethis(executeobject,getfrommongo);
+  193  
+  194: 			//set[key]=executethis({wid:key},getfrommongo);
+  195  			}
+  196  		}
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/Backup/querym.js:
+   20  	var x = window['mongoquery'];
+   21  	if ((typeof config !== "undefined") && (config.configuration.environment === "local")) //{return mongoquery(parameters)}
+   22: 		 {return executethis(parameters, x);}
+   23  
+   24  // if (parameters['mongorawquery']) {
+   ..
+   69  //        wid = queParams['singlemongoquery'];
+   70  //        targetfunction = getfrommongo;
+   71: //        var widObject = executethis(wid, getfrommongo);
+   72  //        // var widObject = getFromMongo({'wid':wid});
+   73  //        delete widObject['wid'];
+   ..
+   76  //        mQueryString = output.substring(0, output.length -1);
+   77  //        targetfunction = mongoquery;
+   78: //        output = executethis(mQueryString, mongoquery);
+   79  //        //output = mongoquery(mQueryString);
+   80  //        //output = mQueryString;
+   ..
+   96  //        for (w in listOfWids) {
+   97  //        targetfunction = getfrommongo;
+   98: //            var tempwid = executethis(w, getfrommongo);
+   99  //            delete tempwid["wid"];
+  100  //            delete tempwid["metadata.method"];
+  ...
+  110  //        mQueryString = BuildMultipleQuery(ListOfLists);
+  111  //        targetfunction = mongoquery;
+  112: //        output = executethis(mQueryString, mongoquery);
+  113  //        //output = mongoquery(mQueryString);
+  114  //        //output = mQueryString;
+  ...
+  120  //        mQueryString = BuildMultipleQuery(ListOfLists);
+  121  //        targetfunction = mongoquery;
+  122: //        output = executethis(mQueryString, mongoquery);
+  123  //        //output = mongoquery(mQueryString);
+  124  //    }
+  ...
+  139  //        mQueryString = relationShipQuery(relParams,output);
+  140  //        targetfunction = mongoquery;
+  141: //        output = executethis(mQueryString, mongoquery);
+  142  //        //output = mongoquery(mQueryString,target,callback);
+  143  //    }
+  ...
+  148  //        mQueryString = queryafterrelationship(relafterParams, output);
+  149  //        targetfunction = mongoquery;
+  150: //        output = executethis(mQueryString, mongoquery);
+  151  //        //output = mongoquery(mQueryString,target,callback);
+  152  //    }
+  ...
+  173  //    proxyprinttodiv('Function MongoDataQuery output : ', output);
+  174  //    targetfunction = mongoquery;
+  175: //    queryresults = executethis(output, mongoquery);
+  176  //    //queryresults=mongoquery(output,target,callback);
+  177  //    return queryresults; // whatever happens, return the output
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/Backup/Unit_Tests.js:
+ 1077  	parameters["m"] = "single parameters";
+ 1078  	printToDiv('func_m',parameters,1);	
+ 1079: 	// return executethis(parameters,'func_h');
+ 1080: 	return executethis(parameters,'func_async');
+ 1081  }
+ 1082  
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/cody.js:
+   19  	executeobject={};     
+   20  	executeobject["wid"]="a";
+   21: 	resultobject = executethis(executeobject, getwidmaster);
+   22  	printToDiv(resultobject);
+   23  }	
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-add-joe.js:
+  399                      executeobject["command.convertmethod"] = "dto";
+  400                      executeobject["command.dtotype"] = childdto;
+  401:                     //dtoobject=executethis(executeobject,execute);
+  402                      getwidmaster = window["getwidmaster"];
+  403                      cb1("");
+  ...
+  409                          dtoobject = res;
+  410                          proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+  411:                         //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
+  412                          //                      'command.convertmethod':'dto',
+  413                          //                      'command.dtotype':metadata}); // not sure if this ever worked
+  ...
+  974                              executeobject["executethis"] = querywid;
+  975                              //var widlist=querywidlocal(executeobject);  // **
+  976:                             widlist = executethis(executeobject, querywid);
+  977                              // **** 10-31
+  978                              //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-add-prepare.js:
+  111      //         executeobject["wid"] = InListObj["wid"];
+  112      //         var x = window['execute'];
+  113:     //         rawobject = executethis(executeobject, x);
+  114      //         if (((rawobject["metadata.method"] !== undefined) || (rawobject["metadata.method"] != "")) &&
+  115      //             ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == ""))) {
+  ...
+  128      //                 executeobject["wid"] = item.key;
+  129      //                 var x = window['execute'];
+  130:     //                 rawobject = executethis(executeobject, x);
+  131      //                 //rawobject = getfrommongo({"wid":item.key});
+  132      //                 rawobject = jsonConcat(rawobject, rawobject);
+  ...
+  150      //     InListObj["wid"] = InListObj["wid"].toLowerCase();
+  151  
+  152:     //     var addresult = executethis(InListObj, updatewid);
+  153      //     proxyprinttodiv('Function MongoAddEditPrepare, ******************* InListObj : ', InListObj, 90);
+  154      //     return InListObj;
+  ...
+  365          };
+  366          executeobject["executethis"] = querywid;
+  367:         //var widset=executethis(executeobject,execute);
+  368          proxyprinttodiv('Function AddMongoRelationship - executeobject', executeobject, 75);
+  369:         var widset = executethis(executeobject, querywid);
+  370          proxyprinttodiv('Function MongoAddEditPrepare, ******************* 1 : ', widset, 90);
+  371          var widobject = {};
+  ...
+  388          //      executeobject["executethis"]="getwid";
+  389          //      executeobject["wid"]=widkey;
+  390:         //      var myvalue=executethis(executeobject,execute);
+  391          //var myvalue = getfrommongo({wid:widkey});
+  392  
+  ...
+  438              executeobject["command.convertmethod"] = "dto";
+  439              executeobject["command.dtotype"] = childdto;
+  440:             //dtoobject=executethis(executeobject,execute);
+  441              getwidmaster = window["getwidmaster"];
+  442:             dtoobject = executethis(executeobject, getwidmaster);
+  443              proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+  444:             //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
+  445              //                      'command.convertmethod':'dto',
+  446              //                      'command.dtotype':metadata}); // not sure if this ever worked
+  ...
+  659              executeobject["executethis"] = getwid;
+  660              executeobject["wid"] = inherit;
+  661:             var moreParameters = executethis(executeobject, getwid);
+  662              //var moreParameters = getfrommongo({'wid':inherit});
+  663              if (moreParameters) {
+  ...
+  835                  executeobject["executethis"] = querywid;
+  836                  //var widlist=querywidlocal(executeobject);  // **
+  837:                 var widlist = executethis(executeobject, querywid);
+  838                  // **** 10-31
+  839                  //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-add-pristine.js:
+  109              executeobject["wid"] = InListObj["wid"];
+  110              var x = window['execute'];
+  111:             rawobject = executethis(executeobject, x);
+  112              if (((rawobject["metadata.method"] !== undefined) || (rawobject["metadata.method"] != "")) &&
+  113                  ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == ""))) {
+  ...
+  126                      executeobject["wid"] = item.key;
+  127                      var x = window['execute'];
+  128:                     rawobject = executethis(executeobject, x);
+  129                      //rawobject = getfrommongo({"wid":item.key});
+  130                      rawobject = jsonConcat(rawobject, rawobject);
+  ...
+  148          InListObj["wid"] = InListObj["wid"].toLowerCase();
+  149  
+  150:         var addresult = executethis(InListObj, updatewid);
+  151          proxyprinttodiv('Function MongoAddEditPrepare, ******************* InListObj : ', InListObj, 90);
+  152          return InListObj;
+  ...
+  188          };
+  189          executeobject["executethis"] = querywid;
+  190:         //var widset=executethis(executeobject,execute);
+  191          proxyprinttodiv('Function AddMongoRelationship - executeobject', executeobject, 75);
+  192:         var widset = executethis(executeobject, querywid);
+  193          proxyprinttodiv('Function MongoAddEditPrepare, ******************* 1 : ', widset, 90);
+  194          var widobject = {};
+  ...
+  211          //      executeobject["executethis"]="getwid";
+  212          //      executeobject["wid"]=widkey;
+  213:         //      var myvalue=executethis(executeobject,execute);
+  214          //var myvalue = getfrommongo({wid:widkey});
+  215  
+  ...
+  261              executeobject["command.convertmethod"] = "dto";
+  262              executeobject["command.dtotype"] = childdto;
+  263:             //dtoobject=executethis(executeobject,execute);
+  264              getwidmaster = window["getwidmaster"];
+  265:             dtoobject = executethis(executeobject, getwidmaster);
+  266              proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+  267:             //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
+  268              //                      'command.convertmethod':'dto',
+  269              //                      'command.dtotype':metadata}); // not sure if this ever worked
+  ...
+  482              executeobject["executethis"] = getwid;
+  483              executeobject["wid"] = inherit;
+  484:             var moreParameters = executethis(executeobject, getwid);
+  485              //var moreParameters = getfrommongo({'wid':inherit});
+  486              if (moreParameters) {
+  ...
+  658                  executeobject["executethis"] = querywid;
+  659                  //var widlist=querywidlocal(executeobject);  // **
+  660:                 var widlist = executethis(executeobject, querywid);
+  661                  // **** 10-31
+  662                  //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-add.js:
+   88      //                 executeobject["command.convertmethod"] = "dto";
+   89      //                 executeobject["command.dtotype"] = childdto;
+   90:     //                 //dtoobject=executethis(executeobject,execute);
+   91      //                 getwidmaster = window["getwidmaster"];
+   92      //                 cb1("");
+   ..
+   98      //                     dtoobject = res;
+   99      //                     proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+  100:     //                     //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
+  101      //                     //                      'command.convertmethod':'dto',
+  102      //                     //                      'command.dtotype':metadata}); // not sure if this ever worked
+  ...
+ 1008                                              executeobject["executethis"] = 'querywid';
+ 1009                                              //var widlist=querywidlocal(executeobject);  // **
+ 1010:                                             // widlist = executethis(executeobject, querywid);
+ 1011                                              etexecute(executeobject, function(err, res) {
+ 1012                                                  widlist = res;
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/addhoc.js:
+   47      executeobject["wid"] = "startwid";
+   48      executeobject["command.dtotype"] = "actiondto";
+   49:     resultobject = executethis(executeobject, getwidmaster);
+   50      proxyprinttodiv("end", resultobject, 99);
+   51  
+   ..
+   61      /* executethis -- start */
+   62      executeobject = {"exeuctethis":"addwidmaster","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"};
+   63:     resultobject = executethis(executeobject, addwidmaster);
+   64      proxyprinttodiv("end", resultobject, 99);   
+   65      /* executethis -- end */
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/cody.js:
+   19  	executeobject={};     
+   20  	executeobject["wid"]="a";
+   21: 	resultobject = executethis(executeobject, getwidmaster);
+   22  	printToDiv(resultobject);
+   23  }	
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-add-joe.js:
+  399                      executeobject["command.convertmethod"] = "dto";
+  400                      executeobject["command.dtotype"] = childdto;
+  401:                     //dtoobject=executethis(executeobject,execute);
+  402                      getwidmaster = window["getwidmaster"];
+  403                      cb1("");
+  ...
+  409                          dtoobject = res;
+  410                          proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+  411:                         //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
+  412                          //                      'command.convertmethod':'dto',
+  413                          //                      'command.dtotype':metadata}); // not sure if this ever worked
+  ...
+  974                              executeobject["executethis"] = querywid;
+  975                              //var widlist=querywidlocal(executeobject);  // **
+  976:                             widlist = executethis(executeobject, querywid);
+  977                              // **** 10-31
+  978                              //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-add-prepare.js:
+  111      //         executeobject["wid"] = InListObj["wid"];
+  112      //         var x = window['execute'];
+  113:     //         rawobject = executethis(executeobject, x);
+  114      //         if (((rawobject["metadata.method"] !== undefined) || (rawobject["metadata.method"] != "")) &&
+  115      //             ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == ""))) {
+  ...
+  128      //                 executeobject["wid"] = item.key;
+  129      //                 var x = window['execute'];
+  130:     //                 rawobject = executethis(executeobject, x);
+  131      //                 //rawobject = getfrommongo({"wid":item.key});
+  132      //                 rawobject = jsonConcat(rawobject, rawobject);
+  ...
+  150      //     InListObj["wid"] = InListObj["wid"].toLowerCase();
+  151  
+  152:     //     var addresult = executethis(InListObj, updatewid);
+  153      //     proxyprinttodiv('Function MongoAddEditPrepare, ******************* InListObj : ', InListObj, 90);
+  154      //     return InListObj;
+  ...
+  365          };
+  366          executeobject["executethis"] = querywid;
+  367:         //var widset=executethis(executeobject,execute);
+  368          proxyprinttodiv('Function AddMongoRelationship - executeobject', executeobject, 75);
+  369:         var widset = executethis(executeobject, querywid);
+  370          proxyprinttodiv('Function MongoAddEditPrepare, ******************* 1 : ', widset, 90);
+  371          var widobject = {};
+  ...
+  388          //      executeobject["executethis"]="getwid";
+  389          //      executeobject["wid"]=widkey;
+  390:         //      var myvalue=executethis(executeobject,execute);
+  391          //var myvalue = getfrommongo({wid:widkey});
+  392  
+  ...
+  438              executeobject["command.convertmethod"] = "dto";
+  439              executeobject["command.dtotype"] = childdto;
+  440:             //dtoobject=executethis(executeobject,execute);
+  441              getwidmaster = window["getwidmaster"];
+  442:             dtoobject = executethis(executeobject, getwidmaster);
+  443              proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+  444:             //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
+  445              //                      'command.convertmethod':'dto',
+  446              //                      'command.dtotype':metadata}); // not sure if this ever worked
+  ...
+  659              executeobject["executethis"] = getwid;
+  660              executeobject["wid"] = inherit;
+  661:             var moreParameters = executethis(executeobject, getwid);
+  662              //var moreParameters = getfrommongo({'wid':inherit});
+  663              if (moreParameters) {
+  ...
+  835                  executeobject["executethis"] = querywid;
+  836                  //var widlist=querywidlocal(executeobject);  // **
+  837:                 var widlist = executethis(executeobject, querywid);
+  838                  // **** 10-31
+  839                  //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-add-pristine.js:
+  109              executeobject["wid"] = InListObj["wid"];
+  110              var x = window['execute'];
+  111:             rawobject = executethis(executeobject, x);
+  112              if (((rawobject["metadata.method"] !== undefined) || (rawobject["metadata.method"] != "")) &&
+  113                  ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == ""))) {
+  ...
+  126                      executeobject["wid"] = item.key;
+  127                      var x = window['execute'];
+  128:                     rawobject = executethis(executeobject, x);
+  129                      //rawobject = getfrommongo({"wid":item.key});
+  130                      rawobject = jsonConcat(rawobject, rawobject);
+  ...
+  148          InListObj["wid"] = InListObj["wid"].toLowerCase();
+  149  
+  150:         var addresult = executethis(InListObj, updatewid);
+  151          proxyprinttodiv('Function MongoAddEditPrepare, ******************* InListObj : ', InListObj, 90);
+  152          return InListObj;
+  ...
+  188          };
+  189          executeobject["executethis"] = querywid;
+  190:         //var widset=executethis(executeobject,execute);
+  191          proxyprinttodiv('Function AddMongoRelationship - executeobject', executeobject, 75);
+  192:         var widset = executethis(executeobject, querywid);
+  193          proxyprinttodiv('Function MongoAddEditPrepare, ******************* 1 : ', widset, 90);
+  194          var widobject = {};
+  ...
+  211          //      executeobject["executethis"]="getwid";
+  212          //      executeobject["wid"]=widkey;
+  213:         //      var myvalue=executethis(executeobject,execute);
+  214          //var myvalue = getfrommongo({wid:widkey});
+  215  
+  ...
+  261              executeobject["command.convertmethod"] = "dto";
+  262              executeobject["command.dtotype"] = childdto;
+  263:             //dtoobject=executethis(executeobject,execute);
+  264              getwidmaster = window["getwidmaster"];
+  265:             dtoobject = executethis(executeobject, getwidmaster);
+  266              proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+  267:             //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
+  268              //                      'command.convertmethod':'dto',
+  269              //                      'command.dtotype':metadata}); // not sure if this ever worked
+  ...
+  482              executeobject["executethis"] = getwid;
+  483              executeobject["wid"] = inherit;
+  484:             var moreParameters = executethis(executeobject, getwid);
+  485              //var moreParameters = getfrommongo({'wid':inherit});
+  486              if (moreParameters) {
+  ...
+  658                  executeobject["executethis"] = querywid;
+  659                  //var widlist=querywidlocal(executeobject);  // **
+  660:                 var widlist = executethis(executeobject, querywid);
+  661                  // **** 10-31
+  662                  //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-add.js:
+   88      //                 executeobject["command.convertmethod"] = "dto";
+   89      //                 executeobject["command.dtotype"] = childdto;
+   90:     //                 //dtoobject=executethis(executeobject,execute);
+   91      //                 getwidmaster = window["getwidmaster"];
+   92      //                 cb1("");
+   ..
+   98      //                     dtoobject = res;
+   99      //                     proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+  100:     //                     //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
+  101      //                     //                      'command.convertmethod':'dto',
+  102      //                     //                      'command.dtotype':metadata}); // not sure if this ever worked
+  ...
+ 1008                                              executeobject["executethis"] = 'querywid';
+ 1009                                              //var widlist=querywidlocal(executeobject);  // **
+ 1010:                                             // widlist = executethis(executeobject, querywid);
+ 1011                                              etexecute(executeobject, function(err, res) {
+ 1012                                                  widlist = res;
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-get-12-13.js:
+   11          getfrommongo(inputWidgetObject, function (results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"]!="empty") {
+   15                  if (results["data"]) { outobject = results["data"]; }
+   ..
+  245                  executeobject["wid"] = widInput;
+  246  
+  247:                 parameterObject = executethis(executeobject,getwid);
+  248  
+  249                  cb(null, 'one');
+  ...
+  254                      executeobject = {};
+  255                      executeobject["wid"] = targetwid;
+  256:                     moreDTOParameters = executethis(executeobject,getwid);
+  257  
+  258                      if (Object.keys(moreDTOParameters).length !=0) {
+  ...
+  272  
+  273                  x = window['querywid'];
+  274:                 moreDTOParameters = executethis(executeobject,x);
+  275  
+  276                  cb(null, 'two');
+  ...
+  369                              //executeobject["executethis"]=getwid;
+  370                              executeobject["wid"]=proposedLeft;
+  371:                             //moreParameters=executethis(executeobject,execute);
+  372:                             moreParameters=executethis(executeobject,getwidmaster);
+  373                              proxyprinttodiv('Function getcleanparameteres()  moreParameters----' , moreParameters,83);
+  374                              for (eafield in moreParameters) {
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-get-broken.js:
+   11          getfrommongo(inputWidgetObject, function (results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"]!="empty") {
+   15                  if (results["data"]) { outobject = results["data"]; }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-get-inventory.js:
+   10          getfrommongo(inputWidgetObject, function (results) {
+   11  
+   12:             //var results = executethis(inputWidgetObject,getfrommongo);
+   13              if (results && results["etstatus"]!="empty") {
+   14                  if (results["data"]) { outobject = results["data"]; }
+   ..
+   76                  executeobject["wid"] = widInput;
+   77  
+   78:                 parameterObject = executethis(executeobject,getwid);
+   79  
+   80                  cb(null, 'one');
+   ..
+   85                      executeobject = {};
+   86                      executeobject["wid"] = targetwid;
+   87:                     moreDTOParameters = executethis(executeobject,getwid);
+   88  
+   89                      if (Object.keys(moreDTOParameters).length !=0) {
+   ..
+  103  
+  104                  x = window['querywid'];
+  105:                 moreDTOParameters = executethis(executeobject,x);
+  106  
+  107                  cb(null, 'two');
+  ...
+  218                              executeobject["command.convertmethod"]="nowid";
+  219                              executeobject["wid"]=proposedLeft;
+  220:                             moreParameters=executethis(executeobject,getwidmaster);
+  221  
+  222                              for (eafield in moreParameters) {
+  ...
+  321  	                executeobject["executethis"]=getwid;
+  322  	                executeobject["wid"]=inherit;
+  323: 	                moreParameters=executethis(executeobject,getwid);
+  324  	                //moreParameters = getfrommongo({'wid':inherit}); // if we find some, add them to the return object
+  325  	                if(moreParameters) {
+  ...
+  403  	        	function part1(cb) {
+  404  			        executeobject["wid"]=widInput;
+  405: 			        currentLevelObject = executethis(executeobject,getwid);
+  406  	    			cb(null, 'one');
+  407  	    		},
+  ...
+  412  			            executeobject={};
+  413  			            executeobject["wid"]=dtotype;
+  414: 			            dtoGlobalParameters= executethis(executeobject,getwid);
+  415  			            console.log(dtoGlobalParameters);
+  416  			        }
+  ...
+  503  		        executeobject["dtotype"]="";
+  504  		        executeobject["executethis"]=querywid;
+  505: 		       	relatedParameters = executethis(executeobject,querywid);
+  506  		        cb(null, 'one')
+  507  	    	},
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-get-joe.js:
+   11          getfrommongo(inputWidgetObject, function(results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"] != "empty") {
+   15                  if (results["data"]) {
+   ..
+  116                      executeobject = {};
+  117                      executeobject["wid"] = targetwid;
+  118:                     moreDTOParameters = executethis(executeobject,getwid);// TODO
+  119  
+  120                      if (Object.keys(moreDTOParameters).length !=0) {
+  ...
+  134  
+  135                  x = window['querywid'];
+  136:                 moreDTOParameters = executethis(executeobject,x);// TODO
+  137  
+  138                  cb(null, 'two');
+  ...
+  248                              executeobject["command.convertmethod"]="nowid";
+  249                              executeobject["wid"]=proposedLeft;
+  250:                             moreParameters=executethis(executeobject,getwidmaster);// TODO
+  251  
+  252                              for (eafield in moreParameters) {
+  ...
+  350                      executeobject["executethis"]=getwid;
+  351                      executeobject["wid"]=inherit;
+  352:                     moreParameters=executethis(executeobject,getwid);//TODO
+  353                      //moreParameters = getfrommongo({'wid':inherit}); // if we find some, add them to the return object
+  354                      if(moreParameters) {
+  ...
+  434                  function part1(cb) {
+  435                      executeobject["wid"]=widInput;
+  436:                     currentLevelObject = executethis(executeobject,getwid);//TODO
+  437                      cb(null, 'one');
+  438                  },
+  ...
+  443                          executeobject={};
+  444                          executeobject["wid"]=dtotype;
+  445:                         dtoGlobalParameters= executethis(executeobject,getwid);//TODO
+  446                          console.log(dtoGlobalParameters);
+  447                      }
+  ...
+  534                  executeobject["dtotype"]="";
+  535                  executeobject["executethis"]=querywid;
+  536:                 relatedParameters = executethis(executeobject,querywid);//TODO
+  537                  cb(null, 'one')
+  538              },
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-get-last-good-load.js:
+   11          getfrommongo(inputWidgetObject, function (results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"]!="empty") {
+   15                  if (results["data"]) { outobject = results["data"]; }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-get-pristine.js:
+   25          getfrommongo(inputWidgetObject, function (results) {
+   26  
+   27:             //var results = executethis(inputWidgetObject,getfrommongo);
+   28              if (results && results["etstatus"]!="empty") {
+   29                  if (results["data"]) { outobject = results["data"]; }
+   ..
+   86          executeobject["wid"]=widInput;
+   87          proxyprinttodiv('Function aggressivedto()  executeobject I' , executeobject, 20);
+   88:         var parameterObject=executethis(executeobject,getwid);
+   89          // ** 11-1
+   90          //var parameterObject=getfrommongo({"wid":widInput});
+   ..
+   98              executeobject["wid"]=targetwid;
+   99              proxyprinttodiv('Function aggressivedto()  executeobject II' , executeobject);
+  100:             moreDTOParameters=executethis(executeobject,getwid);
+  101              if (Object.keys(moreDTOParameters).length !=0) {parameterObject=jsonConcat(parameterObject, moreDTOParameters)}
+  102              // ** 11-1
+  ...
+  123          proxyprinttodiv('Function aggressivedto()  executeobject III' , executeobject,20);
+  124          // it does NOT seem to like this:
+  125:         //moreDTOParameters = executethis(executeobject,execute);
+  126  
+  127          //it does NOT seem to like:
+  128          //var x = window['execute'];
+  129:         //moreDTOParameters = executethis(executeobject,x);
+  130  
+  131          // did NOT like this:
+  132          //executeobject["executethis"] = "querywid";
+  133:         //moreDTOParameters = executethis(executeobject,execute);
+  134  
+  135          // did NOT like:
+  136          //var x = window['execute'];
+  137          //executeobject["executethis"] = "querywid";
+  138:         //moreDTOParameters = executethis(executeobject,x);
+  139  
+  140          //it seems to like the two below--then it did not
+  141          var x = window['querywid'];
+  142:         moreDTOParameters = executethis(executeobject,x);
+  143  
+  144          //it seems to like the two below:
+  145          //var x = window['querywidlocal'];
+  146:         //moreDTOParameters = executethis(executeobject,x);
+  147  
+  148          //it seems to like the two below:-- not any more
+  149          //var x = window['mongoquery'];
+  150:         //moreDTOParameters = executethis(executeobject,x);
+  151  
+  152          proxyprinttodiv('Function aggressivedto()  moreDTOParameters' , moreDTOParameters, 20);
+  ...
+  234                      //executeobject["executethis"]=getwid;
+  235                      executeobject["wid"]=proposedLeft;
+  236:                     //moreParameters=executethis(executeobject,execute);
+  237:                     moreParameters=executethis(executeobject,getwidmaster);
+  238                      proxyprinttodiv('Function getcleanparameteres()  moreParameters----' , moreParameters,83);
+  239                      for (eafield in moreParameters) {
+  ...
+  341              executeobject["executethis"]=getwid;
+  342              executeobject["wid"]=inherit;
+  343:             moreParameters=executethis(executeobject,getwid);
+  344              //moreParameters = getfrommongo({'wid':inherit}); // if we find some, add them to the return object
+  345              if(moreParameters) {
+  ...
+  413          proxyprinttodiv('Function getWidMongo()  executeobject' , executeobject);
+  414          //var x = window['execute'];
+  415:         //var currentLevelObject=executethis(executeobject,execute);
+  416:         var currentLevelObject=executethis(executeobject,getwid);
+  417  
+  418          //var currentLevelObject = getfrommongo({'wid': widInput});
+  ...
+  429              //executeobject["executethis"]=getwid;
+  430              executeobject["wid"]=dtotype;
+  431:             //dtoGlobalParameters=executethis(executeobject,execute);
+  432:             dtoGlobalParameters=executethis(executeobject,getwid);
+  433              console.log(dtoGlobalParameters);
+  434              proxyprinttodiv('Function getWidMongo() dtoGlobalParameters -- 111', dtoGlobalParameters,10);
+  ...
+  453          // //moreDTOParameters=querywidlocal(executeobject);    // ** mongoquery
+  454          // proxyprinttodiv('Function getWidMongo()  executeobject III-result' , moreDTOParameters);
+  455:         // moreDTOParameters=executethis(executeobject,execute);
+  456          // //*****10-31
+  457          // //moreDTOParameters = simpleQuery(widInput, "attributes", "all", "forward", "", "", "");
+  ...
+  515                  //              executeobject["command.convertmethod"]="nowid";
+  516                  //              var x = window['execute'];
+  517:                 //              nextLevelParameters=executethis(executeobject,x);
+  518                  //              proxyprinttodiv('Function getWidMongo nextLevelParameters - inherit', nextLevelParameters,1);
+  519                  //              }
+  ...
+  554          proxyprinttodiv('Function getAndFormatNextLevel()  executeobject III' , executeobject);
+  555          //var relatedParameters=querywidlocal(executeobject); //
+  556:         //var relatedParameters=executethis(executeobject,execute);
+  557:         var relatedParameters=executethis(executeobject,querywid);
+  558          // ***** 10-31
+  559          //var relatedParameters = simpleQuery(widInput, mongorelationshiptype, mongorelationshipmethod, mongorelationshipdirection, mongowidmethod, convertmethod, ""); // removed dto type from end
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-get-rbroken (copy).js:
+   11          getfrommongo(inputWidgetObject, function (results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"]!="empty") {
+   15                  if (results["data"]) { outobject = results["data"]; }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-get.js:
+    9          getfrommongo(inputWidgetObject, function(results) {
+   10  
+   11:             //var results = executethis(inputWidgetObject,getfrommongo);
+   12              if (results && results["etstatus"] != "empty") {
+   13                  if (results["data"]) {
+   ..
+   94                      //         }
+   95                      //     });
+   96:                     //     // moreDTOParameters = executethis(executeobject, getwid); // TODO -- DONE
+   97                      //     // if (Object.keys(moreDTOParameters).length != 0) {
+   98                      //     //     parameterObject = jsonConcat(parameterObject, moreDTOParameters)
+   ..
+  115                      //     cb(null, 'two');
+  116                      // });
+  117:                     // // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+  118:                     // // moreDTOParameters = executethis(executeobject, x); // TODO -- DONE
+  119  
+  120  
+  ...
+  310                                          }
+  311                                      });
+  312:                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+  313                                  }
+  314                              }
+  ...
+  349  
+  350                                  //         });
+  351:                                 //         // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+  352                                  //     }
+  353                                  //     cb(null, 'one');
+  ...
+  394                                                          cb2(null, 'one');
+  395                                                      });
+  396:                                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+  397                                                  }else{
+  398                                                      cb2(null, 'one');
+  ...
+  648                          executeobject["wid"] = widInput;
+  649                          executeobject["executethis"] = 'getwid';
+  650:                         // currentLevelObject = executethis(executeobject, getwid); //TODO -- DONE
+  651                          // cb(null);
+  652                          etexecute(executeobject, function(err, res) {
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-local-bak.js:
+   85  			//var x = window['getfrommongo'];
+   86  			var x = window['getwid'];
+   87: 			//var myvalue = executethis({wid:widkey}, getfrommongo);
+   88: 			//var myvalue = executethis(executeobject, getfrommongo);
+   89: 			var myvalue = executethis(executeobject, x);
+   90  			//proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   91  			proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   ..
+   98  				executeobject={};
+   99  				executeobject["wid"]=key;
+  100: 			   //var value = executethis({wid:key}, getfrommongo);
+  101  			   proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
+  102  			   proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
+  103: 			   var value = executethis(executeobject, x);
+  104: 			   //var value = executethis(executeobject, getfrommongo);
+  105  			   proxyprinttodiv('Function simpleQuery in : value',  value, 30);
+  106                 delete value.wid;
+  ...
+  203      			var x = window['getwid'];
+  204      			//var x = window['getfrommongo'];
+  205:     			//set[key] = executethis(executeobject, x);
+  206      			set[key] = getFromLocalStorage(widMasterKey + key);
+  207:     			//set[key]=executethis(executeobject,getfrommongo);
+  208  
+  209: 			//set[key]=executethis({wid:key},getfrommongo);
+  210  			}
+  211  		}
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-local.js:
+   85  			//var x = window['getfrommongo'];
+   86  			var x = window['getwid'];
+   87: 			//var myvalue = executethis({wid:widkey}, getfrommongo);
+   88: 			//var myvalue = executethis(executeobject, getfrommongo);
+   89: 			var myvalue = executethis(executeobject, x);
+   90  			//proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   91  			proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   ..
+   98  				executeobject={};
+   99  				executeobject["wid"]=key;
+  100: 			   //var value = executethis({wid:key}, getfrommongo);
+  101  			   proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
+  102  			   proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
+  103: 			   var value = executethis(executeobject, x);
+  104: 			   //var value = executethis(executeobject, getfrommongo);
+  105  			   proxyprinttodiv('Function simpleQuery in : value',  value, 30);
+  106                 delete value.wid;
+  ...
+  203      			var x = window['getwid'];
+  204      			//var x = window['getfrommongo'];
+  205:     			//set[key] = executethis(executeobject, x);
+  206      			set[key] = getFromLocalStorage(widMasterKey + key);
+  207:     			//set[key]=executethis(executeobject,getfrommongo);
+  208  
+  209: 			//set[key]=executethis({wid:key},getfrommongo);
+  210  			}
+  211  		}
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-query.js:
+   21  	if (exports.environment=== "local") {
+   22          if (callback instanceof Function) { mongoquery(parameters, callback); }
+   23:         else { return executethis(parameters, x); }
+   24      }
+   25      else
+   ..
+   73  //        wid = queParams['singlemongoquery'];
+   74  //        targetfunction = getfrommongo;
+   75: //        var widObject = executethis(wid, getfrommongo);
+   76  //        // var widObject = getFromMongo({'wid':wid});
+   77  //        delete widObject['wid'];
+   ..
+   80  //        mQueryString = output.substring(0, output.length -1);
+   81  //        targetfunction = mongoquery;
+   82: //        output = executethis(mQueryString, mongoquery);
+   83  //        //output = mongoquery(mQueryString);
+   84  //        //output = mQueryString;
+   ..
+  100  //        for (w in listOfWids) {
+  101  //        targetfunction = getfrommongo;
+  102: //            var tempwid = executethis(w, getfrommongo);
+  103  //            delete tempwid["wid"];
+  104  //            delete tempwid["metadata.method"];
+  ...
+  114  //        mQueryString = BuildMultipleQuery(ListOfLists);
+  115  //        targetfunction = mongoquery;
+  116: //        output = executethis(mQueryString, mongoquery);
+  117  //        //output = mongoquery(mQueryString);
+  118  //        //output = mQueryString;
+  ...
+  124  //        mQueryString = BuildMultipleQuery(ListOfLists);
+  125  //        targetfunction = mongoquery;
+  126: //        output = executethis(mQueryString, mongoquery);
+  127  //        //output = mongoquery(mQueryString);
+  128  //    }
+  ...
+  143  //        mQueryString = relationShipQuery(relParams,output);
+  144  //        targetfunction = mongoquery;
+  145: //        output = executethis(mQueryString, mongoquery);
+  146  //        //output = mongoquery(mQueryString,target,callback);
+  147  //    }
+  ...
+  152  //        mQueryString = queryafterrelationship(relafterParams, output);
+  153  //        targetfunction = mongoquery;
+  154: //        output = executethis(mQueryString, mongoquery);
+  155  //        //output = mongoquery(mQueryString,target,callback);
+  156  //    }
+  ...
+  177  //    proxyprinttodiv('Function MongoDataQuery output : ', output);
+  178  //    targetfunction = mongoquery;
+  179: //    queryresults = executethis(output, mongoquery);
+  180  //    //queryresults=mongoquery(output,target,callback);
+  181  //    return queryresults; // whatever happens, return the output
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-test.js:
+  181      executeobject = {};
+  182      executeobject["wid"] = "roger";
+  183:     resultobject = executethis(executeobject, getwidmaster);
+  184      proxyprinttodiv("end", resultobject, 99);
+  185      callback(params);
+  ...
+  191  	testclearstorage();
+  192  	var result;
+  193: 	//result = executethis({"executethis":"func_bbb", "c":"0", "d":"1", "e":"2"}, func_bbb);
+  194: 	result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+  195  	proxyprinttodiv('from test', result, 99);
+  196  }
+  ...
+  200  	testclearstorage();
+  201  	var result;
+  202: 	result = executethis({"executethis":"async_func_bbb", "c":"0", "d":"1", "e":"2"}, async_func_bbb);
+  203: 	//result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+  204  	proxyprinttodiv('from test', result, 99);
+  205  }
+  ...
+  222  	debuglevel=11;
+  223  	var result;
+  224: 	result = executethis({"executethis":"async_func_bbb", "c":"0", "d":"1", "e":"2"}, execute);
+  225: 	//result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+  226  	proxyprinttodiv('from test', result, 99);
+  227  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-testing.js:
+  131  
+  132  	proxyprinttodiv('executeTest - inputparameters', inputparameters, 99);
+  133: 	// var output = executethis(inputparameters, myfunc); // added
+  134  	inputparameters['executethis']=myfunc;
+  135  	etexecute(inputparameters, function(err,res){
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-unit_tests-back.js:
+  876  	var t = parameters["d"];
+  877  	parameters['executethis'] = 'async_func_e';
+  878: 	parameters = executethis(parameters);
+  879  	sleep(500);
+  880  	if (parameters["d"] == t) parameters["d"] = t + ":added";
+  ...
+  894  exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
+  895  	parameters['executethis'] = 'async_func_e1';
+  896: 	parameters = executethis(parameters, "execute");
+  897  	sleep(500);
+  898  	parameters ["h"] = "5";
+  ...
+  905  	// alert('func_e1');
+  906  	parameters['executethis'] = 'async_func_f';
+  907: 	parameters = executethis(parameters, execute);
+  908  	callback (parameters);
+  909  	// return parameters;
+  ...
+  915  	parameters ["rubies"] = "red";
+  916  	parameters['executethis'] = async_func_g;
+  917: 	parameters = executethis(parameters, execute);
+  918  	callback (parameters);
+  919  	// return parameters;
+  ...
+  925  	parameters ["emeralds"] = "green";
+  926  	parameters ['executethis'] = async_func_h;
+  927: 	parameters = executethis(parameters, execute);
+  928  	callback (parameters);
+  929  	// return parameters;
+  ...
+ 1121  	parameters ["wid"] = "green";
+ 1122  	parameters ['executethis'] = addwidmaster;
+ 1123: 	var abc = executethis(parameters);
+ 1124: 	var jkl = executethis(parameters, execute);
+ 1125  	parameters ["wid"] = "yellow";
+ 1126  	parameters ['executethis'] = "addwidmaster";
+ 1127: 	var mno = executethis(parameters, execute);
+ 1128  	delete parameters['executethis'];
+ 1129  	parameters ["wid"] = "blue";
+ 1130: 	var def = executethis(parameters, addwidmaster);
+ 1131  	parameters ["wid"] = "red";
+ 1132: 	var ghi = 'boo'; //executethis(parameters, "addwidmaster");
+ 1133  	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+ 1134  	params = logverify("unit_tests","testf_result","testf_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1147  	// parameters ["wid"] = "green";
+ 1148  	// parameters ['executethis'] = addwidmaster;
+ 1149: 	// var abc = executethis(parameters);
+ 1150  	// delete parameters['executethis'];
+ 1151  	// parameters ["wid"] = "blue";
+ 1152: 	// var def = executethis(parameters, addwidmaster);
+ 1153  	parameters ["wid"] = "red";
+ 1154: 	var ghi = executethis(parameters, "addwidmaster");
+ 1155  	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+ 1156  	params = logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+ ....
+ 1167  	config = setconfig1();
+ 1168  	var parameters = {"wid":"green", "executethis": addwidmaster};
+ 1169: 	var abc = executethis(parameters);
+ 1170  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testg_output", "");
+ 1171  	params = logverify("unit_tests","testg_result","testg_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1181  	config = setconfig1();
+ 1182  	var parameters = {"executethis": addwidmaster, "wid":"green"};
+ 1183: 	var abc = executethis(parameters, execute);
+ 1184  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testh_output", "");
+ 1185  	params = logverify("unit_tests","testh_result","testh_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1195  	config = setconfig1();
+ 1196  	var parameters = {"executethis": addwidmaster, "wid":"green"};
+ 1197: 	var abc = executethis(parameters, "execute");
+ 1198  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+ 1199  	params = logverify("unit_tests","testi_result","testi_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1210  
+ 1211  	var parameters = {"executethis": executeParam, "wid":"green"};
+ 1212: 	var abc = executethis(parameters, "execute");
+ 1213  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+ 1214  	params = logverify("unit_tests","testi_result","testi_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1317  	parameters["m"] = "single parameters";
+ 1318  	printToDiv('func_m',parameters,1);	
+ 1319: 	// return executethis(parameters,'func_h');
+ 1320: 	return executethis(parameters,'func_async');
+ 1321  }
+ 1322  
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/et-unit_tests.js:
+  997  	var t = parameters["d"];
+  998  	parameters['executethis'] = 'async_func_e';
+  999: 	parameters = executethis(parameters);
+ 1000  	sleep(500);
+ 1001  	if (parameters["d"] == t) parameters["d"] = t + ":added";
+ ....
+ 1015  exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
+ 1016  	parameters['executethis'] = 'async_func_e1';
+ 1017: 	parameters = executethis(parameters, "execute");
+ 1018  	sleep(500);
+ 1019  	parameters ["h"] = "5";
+ ....
+ 1026  	// alert('func_e1');
+ 1027  	parameters['executethis'] = 'async_func_f';
+ 1028: 	parameters = executethis(parameters, execute);
+ 1029  	callback (parameters);
+ 1030  	// return parameters;
+ ....
+ 1036  	parameters ["rubies"] = "red";
+ 1037  	parameters['executethis'] = async_func_g;
+ 1038: 	parameters = executethis(parameters, execute);
+ 1039  	callback (parameters);
+ 1040  	// return parameters;
+ ....
+ 1046  	parameters ["emeralds"] = "green";
+ 1047  	parameters ['executethis'] = async_func_h;
+ 1048: 	parameters = executethis(parameters, execute);
+ 1049  	callback (parameters);
+ 1050  	// return parameters;
+ ....
+ 1378  	parameters ["wid"] = "green";
+ 1379  	parameters ['executethis'] = addwidmaster;
+ 1380: 	var abc = executethis(parameters);
+ 1381: 	var jkl = executethis(parameters, execute);
+ 1382  	parameters ["wid"] = "yellow";
+ 1383  	parameters ['executethis'] = "addwidmaster";
+ 1384: 	var mno = executethis(parameters, execute);
+ 1385  	delete parameters['executethis'];
+ 1386  	parameters ["wid"] = "blue";
+ 1387: 	var def = executethis(parameters, addwidmaster);
+ 1388  	parameters ["wid"] = "red";
+ 1389: 	var ghi = 'boo'; //executethis(parameters, "addwidmaster");
+ 1390  	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+ 1391  	params = logverify("unit_tests","testf_result","testf_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1404  	// parameters ["wid"] = "green";
+ 1405  	// parameters ['executethis'] = addwidmaster;
+ 1406: 	// var abc = executethis(parameters);
+ 1407  	// delete parameters['executethis'];
+ 1408  	// parameters ["wid"] = "blue";
+ 1409: 	// var def = executethis(parameters, addwidmaster);
+ 1410  	parameters ["wid"] = "red";
+ 1411: 	var ghi = executethis(parameters, "addwidmaster");
+ 1412  	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+ 1413  	params = logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+ ....
+ 1424  	config = setconfig1();
+ 1425  	var parameters = {"wid":"green", "executethis": addwidmaster};
+ 1426: 	var abc = executethis(parameters);
+ 1427  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testg_output", "");
+ 1428  	params = logverify("unit_tests","testg_result","testg_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1438  	config = setconfig1();
+ 1439  	var parameters = {"executethis": addwidmaster, "wid":"green"};
+ 1440: 	var abc = executethis(parameters, execute);
+ 1441  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testh_output", "");
+ 1442  	params = logverify("unit_tests","testh_result","testh_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1452  	config = setconfig1();
+ 1453  	var parameters = {"executethis": addwidmaster, "wid":"green"};
+ 1454: 	var abc = executethis(parameters, "execute");
+ 1455  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+ 1456  	params = logverify("unit_tests","testi_result","testi_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1467  
+ 1468  	var parameters = {"executethis": executeParam, "wid":"green"};
+ 1469: 	var abc = executethis(parameters, "execute");
+ 1470  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+ 1471  	params = logverify("unit_tests","testi_result","testi_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1574  	parameters["m"] = "single parameters";
+ 1575  	printToDiv('func_m',parameters,1);	
+ 1576: 	// return executethis(parameters,'func_h');
+ 1577: 	return executethis(parameters,'func_async');
+ 1578  }
+ 1579  
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/executethis-bak.js:
+   34                          x = window[incomingparams["executethis"]];
+   35                      }
+   36:                     result = executethis(incomingparams, x);
+   37                  }else{
+   38                      result = incomingparams;
+   ..
+   58                      proxyprinttodiv("execute - etbypass incomingparams",incomingparams,11);
+   59                      // var executeFn = window[incomingparams["executethis"]];
+   60:                     // var result = executethis(incomingparams, x);
+   61                      // proxyprinttodiv("execute - etbypass result",result,11);
+   62                      // callback(result)
+   ..
+   69                              x = window[incomingparams["executethis"]];
+   70                          }
+   71:                         result = executethis(incomingparams, x);
+   72                      }else{
+   73                          result = incomingparams;
+   ..
+  106      /// second parameter must be a function, if not sent in will be defaulted to 'execute'
+  107      /// if the function to be called has only one input object then this fn will wait for results (act asynch)
+  108:     exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+  109  
+  110          // if test1 ***
+  ...
+  332  
+  333              if (synchflag) { // if callback then call synch
+  334:                 callback(executethis(params, targetfn));
+  335                  }
+  336              else { // else call asynch
+  ...
+  383                      
+  384                  case "executegetwid":
+  385:                     tempobject = executethis({'wid':whatToDo}, getwid);
+  386                      targetfn=tempobject['js'];
+  387                      if (!targetfn instanceof Function){
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/executethis-old.js:
+  292      /// second parameter must be a function, if not sent in will be defaulted to 'execute'
+  293      /// if the function to be called has only one input object then this fn will wait for results (act asynch)
+  294:     exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+  295  
+  296          // if test1 ***
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/executethis.js:
+   43                          x = window[incomingparams["executethis"]];
+   44                      }
+   45:                     result = executethis(incomingparams, x);
+   46                  }else{
+   47                      result = incomingparams;
+   ..
+   81      /// second parameter must be a function, if not sent in will be defaulted to 'execute'
+   82      /// if the function to be called has only one input object then this fn will wait for results (act asynch)
+   83:     exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+   84  
+   85          // if test1 ***
+   ..
+  387  
+  388              if (synchflag) { // if callback then call synch
+  389:                 callback(executethis(params, targetfn));
+  390                  }
+  391              else { // else call asynch
+  ...
+  438                      
+  439                  case "executegetwid":
+  440:                     tempobject = executethis({'wid':whatToDo}, getwid);
+  441                      if ((tempobject === undefined) && (!tempobject['js'])) {targetfn = executeerror} 
+  442                          else {targetfn = tempobject['js']};
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/ngWidApp.js:
+  248              paramObject.wid = widsToGet[key];
+  249              paramObject['command.convertmethod'] = 'toobject';
+  250:             executeService.executeThis('getwidmaster', paramObject, $scope);
+  251          }
+  252  
+  ...
+  272  
+  273          $scope.addwidmaster = function(widObj) {
+  274:             executeService.executeThis('addwidmaster', widObj, $scope, function(results) {
+  275                  $('#successlog').html("Successfully added or updated!");
+  276              });
+  ...
+  278  
+  279          $scope.angularExecuteThis = function(action, paramObj, callback) {
+  280:             executeService.executeThis(action, paramObj, $scope, callback);
+  281          };
+  282  
+  ...
+  390              if ($scope.deleteWid) { updateParams.Status = '5'; }
+  391  
+  392:             executeService.executeThis('addwidmaster', updateParams, $scope, function() {
+  393                  $scope.clearAddWidForm();
+  394                  self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/node1-local-back.html:
+  133  	</div>
+  134  	<br>
+  135: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
+  136  	<input class='btn btn-mini btn-info' type="button" value="getwidmaster" onclick="javascript:testgetwidmaster()"/>
+  137  	<input class='btn btn-mini btn-info' type="button" value="addwidmaster" onclick="javascript:testaddwidmaster()"/>
+  ...
+  219  
+  220  	var function_to_execute = $('#function_to_run').val();
+  221: 	var result = executethis({"executethis":function_to_execute});
+  222  	var result_count = Object.keys(result).length;
+  223  
+  ...
+  320  	// 	widParameters["executethis"] = "getwidmaster";
+  321  	// x = window['execute']
+  322: 	// var getwidresult = executethis(widParameters, x);
+  323: 	// //var getwidresult = executethis(widParameters);
+  324  	// updateMemory();
+  325  	// Display_Output(getwidresult);
+  ...
+  348  
+  349  	// x = window['execute']
+  350: 	// var getwidresult = executethis(widParameters, x);
+  351  
+  352: 	// //var getwidresult = executethis(widParameters);
+  353  	// updateMemory();
+  354  	// Display_Output(getwidresult);
+  ...
+  372  // 		widParameters["executethis"] = "addwidmaster";
+  373  
+  374: // 	var getwidresult = executethis(widParameters);
+  375  // 	updateMemory();
+  376  // 	Display_Output(getwidresult);
+  ...
+  387  //****************************************************************
+  388  
+  389: function testexecutethis() {
+  390  		try {
+  391  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  404  	// //widParameters["executethis"] = "addwidmaster";
+  405  
+  406: 	// var getwidresult = executethis(widParameters);
+  407  
+  408  	// //updateMemory();
+  ...
+  413  	// document.getElementById("divprint").innerHTML = "";
+  414  	// var data = $("#function_parameters").val().split('&&');
+  415: 	// var getwidresult = executethis(data);
+  416  	// Display_Output(getwidresult);
+  417  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/node1-local-joe.html:
+  137  	</div>
+  138  	<br>
+  139: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
+  140  
+  141  	<input class='btn btn-mini btn-info' type="button" value="ConvertToDOT" onclick="javascript:testconverttodot()" style='float:right;'/>
+  ...
+  263  	}
+  264  
+  265: 	var result = executethis(my_execute_object);
+  266  	var result_count = Object.keys(result).length;
+  267  
+  ...
+  395  	// 	widParameters["executethis"] = "getwidmaster";
+  396  	// x = window['execute']
+  397: 	// var getwidresult = executethis(widParameters, x);
+  398: 	// //var getwidresult = executethis(widParameters);
+  399  	// updateMemory();
+  400  	// Display_Output(getwidresult);
+  ...
+  423  
+  424  	// x = window['execute']
+  425: 	// var getwidresult = executethis(widParameters, x);
+  426  
+  427: 	// //var getwidresult = executethis(widParameters);
+  428  	// updateMemory();
+  429  	// Display_Output(getwidresult);
+  ...
+  447  // 		widParameters["executethis"] = "addwidmaster";
+  448  
+  449: // 	var getwidresult = executethis(widParameters);
+  450  // 	updateMemory();
+  451  // 	Display_Output(getwidresult);
+  ...
+  462  //****************************************************************
+  463  
+  464: function testexecutethis() {
+  465  		try {
+  466  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  479  	// //widParameters["executethis"] = "addwidmaster";
+  480  
+  481: 	// var getwidresult = executethis(widParameters);
+  482  
+  483  	// //updateMemory();
+  ...
+  488  	// document.getElementById("divprint").innerHTML = "";
+  489  	// var data = $("#function_parameters").val().split('&&');
+  490: 	// var getwidresult = executethis(data);
+  491  	// Display_Output(getwidresult);
+  492  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/node1-local-pristine.html:
+  143  	</div>
+  144  	<br>
+  145: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
+  146  
+  147  	<input class='btn btn-mini btn-info' type="button" value="ConvertToDOT" onclick="javascript:testconverttodot()" style='float:right;'/>
+  ...
+  281  	}
+  282  
+  283: 	var result = executethis(my_execute_object);
+  284  	var result_count = Object.keys(result).length;
+  285  
+  ...
+  413  	// 	widParameters["executethis"] = "getwidmaster";
+  414  	// x = window['execute']
+  415: 	// var getwidresult = executethis(widParameters, x);
+  416: 	// //var getwidresult = executethis(widParameters);
+  417  	// updateMemory();
+  418  	// Display_Output(getwidresult);
+  ...
+  441  
+  442  	// x = window['execute']
+  443: 	// var getwidresult = executethis(widParameters, x);
+  444  
+  445: 	// //var getwidresult = executethis(widParameters);
+  446  	// updateMemory();
+  447  	// Display_Output(getwidresult);
+  ...
+  465  // 		widParameters["executethis"] = "addwidmaster";
+  466  
+  467: // 	var getwidresult = executethis(widParameters);
+  468  // 	updateMemory();
+  469  // 	Display_Output(getwidresult);
+  ...
+  480  //****************************************************************
+  481  
+  482: function testexecutethis() {
+  483  		try {
+  484  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  497  	// //widParameters["executethis"] = "addwidmaster";
+  498  
+  499: 	// var getwidresult = executethis(widParameters);
+  500  
+  501  	// //updateMemory();
+  ...
+  506  	// document.getElementById("divprint").innerHTML = "";
+  507  	// var data = $("#function_parameters").val().split('&&');
+  508: 	// var getwidresult = executethis(data);
+  509  	// Display_Output(getwidresult);
+  510  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/node1-local.html:
+  137  	</div>
+  138  	<br>
+  139: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
+  140  
+  141  	<input class='btn btn-mini btn-info' type="button" value="ConvertToDOT" onclick="javascript:testconverttodot()" style='float:right;'/>
+  ...
+  263  	}
+  264  
+  265: 	var result = executethis(my_execute_object);
+  266  	var result_count = Object.keys(result).length;
+  267  
+  ...
+  395  	// 	widParameters["executethis"] = "getwidmaster";
+  396  	// x = window['execute']
+  397: 	// var getwidresult = executethis(widParameters, x);
+  398: 	// //var getwidresult = executethis(widParameters);
+  399  	// updateMemory();
+  400  	// Display_Output(getwidresult);
+  ...
+  423  
+  424  	// x = window['execute']
+  425: 	// var getwidresult = executethis(widParameters, x);
+  426  
+  427: 	// //var getwidresult = executethis(widParameters);
+  428  	// updateMemory();
+  429  	// Display_Output(getwidresult);
+  ...
+  447  // 		widParameters["executethis"] = "addwidmaster";
+  448  
+  449: // 	var getwidresult = executethis(widParameters);
+  450  // 	updateMemory();
+  451  // 	Display_Output(getwidresult);
+  ...
+  462  //****************************************************************
+  463  
+  464: function testexecutethis() {
+  465  		try {
+  466  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  479  	// //widParameters["executethis"] = "addwidmaster";
+  480  
+  481: 	// var getwidresult = executethis(widParameters);
+  482  
+  483  	// //updateMemory();
+  ...
+  488  	// document.getElementById("divprint").innerHTML = "";
+  489  	// var data = $("#function_parameters").val().split('&&');
+  490: 	// var getwidresult = executethis(data);
+  491  	// Display_Output(getwidresult);
+  492  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/node2-server.html:
+  135  	</div>
+  136  	<br>
+  137: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis() "/>
+  138  	<input class='btn btn-mini btn-info' type="button" value="getwidmaster" onclick="javascript:testgetwidmaster()"/>
+  139  	<input class='btn btn-mini btn-info' type="button" value="addwidmaster" onclick="javascript:testaddwidmaster()"/>
+  ...
+  225  	var function_to_execute = $('#function_to_run').val();
+  226  	var p = {"executethis":function_to_execute};
+  227: 	// var result = executethis({"executethis":function_to_execute}); // executethis({},function_to_execute)
+  228  
+  229  	execute({"executethis":function_to_execute}, show_function_output);
+  ...
+  316  	var getwidresult = execute(widParameters, show_function_output);
+  317  	// x = window['execute']
+  318: 	// var getwidresult = executethis(widParameters, x);
+  319  	// Display_Output(getwidresult);
+  320  }
+  ...
+  334  
+  335  	// x = window['execute']
+  336: 	// var getwidresult = executethis(widParameters, x);
+  337  	// Display_Output(getwidresult);
+  338  }
+  ...
+  345  // 		widParameters["executethis"] = "addwidmaster";
+  346  
+  347: // 	var getwidresult = executethis(widParameters);
+  348  // 	updateMemory();
+  349  // 	Display_Output(getwidresult);
+  ...
+  360  //****************************************************************
+  361  
+  362: function testexecutethis(params, Display_Output) {
+  363  	try {
+  364  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/node2-server.html~57dd7a409299853809e8afafc518b68591736044:
+  139  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconverttodot();" />
+  140  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconvertfromdot();" />
+  141: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis() " /><br><br>
+  142  
+  143  	<div class='row'>
+  ...
+  221  	var function_to_execute = $('#function_to_run').val();
+  222  	var p = {"executethis":function_to_execute};
+  223: 	// var result = executethis({"executethis":function_to_execute}); // executethis({},function_to_execute)
+  224  
+  225  	execute({"executethis":function_to_execute}, show_function_output);
+  ...
+  293  		widParameters["executethis"] = "getwidmaster";
+  294  	x = window['execute']
+  295: 	var getwidresult = executethis(widParameters, x);
+  296: 	//var getwidresult = executethis(widParameters);
+  297  	updateMemory();
+  298  	Display_Output(getwidresult);
+  ...
+  309  
+  310  	x = window['execute']
+  311: 	var getwidresult = executethis(widParameters, x);
+  312  
+  313: 	//var getwidresult = executethis(widParameters);
+  314  	updateMemory();
+  315  	Display_Output(getwidresult);
+  ...
+  333  // 		widParameters["executethis"] = "addwidmaster";
+  334  
+  335: // 	var getwidresult = executethis(widParameters);
+  336  // 	updateMemory();
+  337  // 	Display_Output(getwidresult);
+  ...
+  348  //****************************************************************
+  349  
+  350: function testexecutethis() {
+  351  	try {
+  352  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  356  	//widParameters["executethis"] = "addwidmaster";
+  357  
+  358: 	var getwidresult = executethis(widParameters);
+  359  
+  360  	//updateMemory();
+  ...
+  365  	// document.getElementById("divprint").innerHTML = "";
+  366  	// var data = $("#function_parameters").val().split('&&');
+  367: 	// var getwidresult = executethis(data);
+  368  	// Display_Output(getwidresult);
+  369  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-core/node4.html:
+  136  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconverttodot();" />
+  137  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconvertfromdot();" />
+  138: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis() " /><br><br>
+  139  
+  140  	<div class='row'>
+  ...
+  217  
+  218  	var function_to_execute = $('#function_to_run').val();
+  219: 	var result = executethis({"executethis":function_to_execute});
+  220  	var result_count = Object.keys(result).length;
+  221  
+  ...
+  271  		widParameters["executethis"] = "getwidmaster";
+  272  	x = window['execute']
+  273: 	var getwidresult = executethis(widParameters, x);
+  274: 	//var getwidresult = executethis(widParameters);
+  275  	updateMemory();
+  276  	Display_Output(getwidresult);
+  ...
+  287  
+  288  	x = window['execute']
+  289: 	var getwidresult = executethis(widParameters, x);
+  290  
+  291: 	//var getwidresult = executethis(widParameters);
+  292  	updateMemory();
+  293  	Display_Output(getwidresult);
+  ...
+  311  // 		widParameters["executethis"] = "addwidmaster";
+  312  
+  313: // 	var getwidresult = executethis(widParameters);
+  314  // 	updateMemory();
+  315  // 	Display_Output(getwidresult);
+  ...
+  326  //****************************************************************
+  327  
+  328: function testexecutethis() {
+  329  	try {
+  330  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  334  	//widParameters["executethis"] = "addwidmaster";
+  335  
+  336: 	var getwidresult = executethis(widParameters);
+  337  
+  338  	//updateMemory();
+  ...
+  343  	// document.getElementById("divprint").innerHTML = "";
+  344  	// var data = $("#function_parameters").val().split('&&');
+  345: 	// var getwidresult = executethis(data);
+  346  	// Display_Output(getwidresult);
+  347  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-get-12-13.js:
+   11          getfrommongo(inputWidgetObject, function (results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"]!="empty") {
+   15                  if (results["data"]) { outobject = results["data"]; }
+   ..
+  245                  executeobject["wid"] = widInput;
+  246  
+  247:                 parameterObject = executethis(executeobject,getwid);
+  248  
+  249                  cb(null, 'one');
+  ...
+  254                      executeobject = {};
+  255                      executeobject["wid"] = targetwid;
+  256:                     moreDTOParameters = executethis(executeobject,getwid);
+  257  
+  258                      if (Object.keys(moreDTOParameters).length !=0) {
+  ...
+  272  
+  273                  x = window['querywid'];
+  274:                 moreDTOParameters = executethis(executeobject,x);
+  275  
+  276                  cb(null, 'two');
+  ...
+  369                              //executeobject["executethis"]=getwid;
+  370                              executeobject["wid"]=proposedLeft;
+  371:                             //moreParameters=executethis(executeobject,execute);
+  372:                             moreParameters=executethis(executeobject,getwidmaster);
+  373                              proxyprinttodiv('Function getcleanparameteres()  moreParameters----' , moreParameters,83);
+  374                              for (eafield in moreParameters) {
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-get-broken.js:
+   11          getfrommongo(inputWidgetObject, function (results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"]!="empty") {
+   15                  if (results["data"]) { outobject = results["data"]; }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-get-inventory.js:
+   10          getfrommongo(inputWidgetObject, function (results) {
+   11  
+   12:             //var results = executethis(inputWidgetObject,getfrommongo);
+   13              if (results && results["etstatus"]!="empty") {
+   14                  if (results["data"]) { outobject = results["data"]; }
+   ..
+   76                  executeobject["wid"] = widInput;
+   77  
+   78:                 parameterObject = executethis(executeobject,getwid);
+   79  
+   80                  cb(null, 'one');
+   ..
+   85                      executeobject = {};
+   86                      executeobject["wid"] = targetwid;
+   87:                     moreDTOParameters = executethis(executeobject,getwid);
+   88  
+   89                      if (Object.keys(moreDTOParameters).length !=0) {
+   ..
+  103  
+  104                  x = window['querywid'];
+  105:                 moreDTOParameters = executethis(executeobject,x);
+  106  
+  107                  cb(null, 'two');
+  ...
+  218                              executeobject["command.convertmethod"]="nowid";
+  219                              executeobject["wid"]=proposedLeft;
+  220:                             moreParameters=executethis(executeobject,getwidmaster);
+  221  
+  222                              for (eafield in moreParameters) {
+  ...
+  321  	                executeobject["executethis"]=getwid;
+  322  	                executeobject["wid"]=inherit;
+  323: 	                moreParameters=executethis(executeobject,getwid);
+  324  	                //moreParameters = getfrommongo({'wid':inherit}); // if we find some, add them to the return object
+  325  	                if(moreParameters) {
+  ...
+  403  	        	function part1(cb) {
+  404  			        executeobject["wid"]=widInput;
+  405: 			        currentLevelObject = executethis(executeobject,getwid);
+  406  	    			cb(null, 'one');
+  407  	    		},
+  ...
+  412  			            executeobject={};
+  413  			            executeobject["wid"]=dtotype;
+  414: 			            dtoGlobalParameters= executethis(executeobject,getwid);
+  415  			            console.log(dtoGlobalParameters);
+  416  			        }
+  ...
+  503  		        executeobject["dtotype"]="";
+  504  		        executeobject["executethis"]=querywid;
+  505: 		       	relatedParameters = executethis(executeobject,querywid);
+  506  		        cb(null, 'one')
+  507  	    	},
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-get-joe.js:
+   11          getfrommongo(inputWidgetObject, function(results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"] != "empty") {
+   15                  if (results["data"]) {
+   ..
+  116                      executeobject = {};
+  117                      executeobject["wid"] = targetwid;
+  118:                     moreDTOParameters = executethis(executeobject,getwid);// TODO
+  119  
+  120                      if (Object.keys(moreDTOParameters).length !=0) {
+  ...
+  134  
+  135                  x = window['querywid'];
+  136:                 moreDTOParameters = executethis(executeobject,x);// TODO
+  137  
+  138                  cb(null, 'two');
+  ...
+  248                              executeobject["command.convertmethod"]="nowid";
+  249                              executeobject["wid"]=proposedLeft;
+  250:                             moreParameters=executethis(executeobject,getwidmaster);// TODO
+  251  
+  252                              for (eafield in moreParameters) {
+  ...
+  350                      executeobject["executethis"]=getwid;
+  351                      executeobject["wid"]=inherit;
+  352:                     moreParameters=executethis(executeobject,getwid);//TODO
+  353                      //moreParameters = getfrommongo({'wid':inherit}); // if we find some, add them to the return object
+  354                      if(moreParameters) {
+  ...
+  434                  function part1(cb) {
+  435                      executeobject["wid"]=widInput;
+  436:                     currentLevelObject = executethis(executeobject,getwid);//TODO
+  437                      cb(null, 'one');
+  438                  },
+  ...
+  443                          executeobject={};
+  444                          executeobject["wid"]=dtotype;
+  445:                         dtoGlobalParameters= executethis(executeobject,getwid);//TODO
+  446                          console.log(dtoGlobalParameters);
+  447                      }
+  ...
+  534                  executeobject["dtotype"]="";
+  535                  executeobject["executethis"]=querywid;
+  536:                 relatedParameters = executethis(executeobject,querywid);//TODO
+  537                  cb(null, 'one')
+  538              },
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-get-last-good-load.js:
+   11          getfrommongo(inputWidgetObject, function (results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"]!="empty") {
+   15                  if (results["data"]) { outobject = results["data"]; }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-get-pristine.js:
+   25          getfrommongo(inputWidgetObject, function (results) {
+   26  
+   27:             //var results = executethis(inputWidgetObject,getfrommongo);
+   28              if (results && results["etstatus"]!="empty") {
+   29                  if (results["data"]) { outobject = results["data"]; }
+   ..
+   86          executeobject["wid"]=widInput;
+   87          proxyprinttodiv('Function aggressivedto()  executeobject I' , executeobject, 20);
+   88:         var parameterObject=executethis(executeobject,getwid);
+   89          // ** 11-1
+   90          //var parameterObject=getfrommongo({"wid":widInput});
+   ..
+   98              executeobject["wid"]=targetwid;
+   99              proxyprinttodiv('Function aggressivedto()  executeobject II' , executeobject);
+  100:             moreDTOParameters=executethis(executeobject,getwid);
+  101              if (Object.keys(moreDTOParameters).length !=0) {parameterObject=jsonConcat(parameterObject, moreDTOParameters)}
+  102              // ** 11-1
+  ...
+  123          proxyprinttodiv('Function aggressivedto()  executeobject III' , executeobject,20);
+  124          // it does NOT seem to like this:
+  125:         //moreDTOParameters = executethis(executeobject,execute);
+  126  
+  127          //it does NOT seem to like:
+  128          //var x = window['execute'];
+  129:         //moreDTOParameters = executethis(executeobject,x);
+  130  
+  131          // did NOT like this:
+  132          //executeobject["executethis"] = "querywid";
+  133:         //moreDTOParameters = executethis(executeobject,execute);
+  134  
+  135          // did NOT like:
+  136          //var x = window['execute'];
+  137          //executeobject["executethis"] = "querywid";
+  138:         //moreDTOParameters = executethis(executeobject,x);
+  139  
+  140          //it seems to like the two below--then it did not
+  141          var x = window['querywid'];
+  142:         moreDTOParameters = executethis(executeobject,x);
+  143  
+  144          //it seems to like the two below:
+  145          //var x = window['querywidlocal'];
+  146:         //moreDTOParameters = executethis(executeobject,x);
+  147  
+  148          //it seems to like the two below:-- not any more
+  149          //var x = window['mongoquery'];
+  150:         //moreDTOParameters = executethis(executeobject,x);
+  151  
+  152          proxyprinttodiv('Function aggressivedto()  moreDTOParameters' , moreDTOParameters, 20);
+  ...
+  234                      //executeobject["executethis"]=getwid;
+  235                      executeobject["wid"]=proposedLeft;
+  236:                     //moreParameters=executethis(executeobject,execute);
+  237:                     moreParameters=executethis(executeobject,getwidmaster);
+  238                      proxyprinttodiv('Function getcleanparameteres()  moreParameters----' , moreParameters,83);
+  239                      for (eafield in moreParameters) {
+  ...
+  341              executeobject["executethis"]=getwid;
+  342              executeobject["wid"]=inherit;
+  343:             moreParameters=executethis(executeobject,getwid);
+  344              //moreParameters = getfrommongo({'wid':inherit}); // if we find some, add them to the return object
+  345              if(moreParameters) {
+  ...
+  413          proxyprinttodiv('Function getWidMongo()  executeobject' , executeobject);
+  414          //var x = window['execute'];
+  415:         //var currentLevelObject=executethis(executeobject,execute);
+  416:         var currentLevelObject=executethis(executeobject,getwid);
+  417  
+  418          //var currentLevelObject = getfrommongo({'wid': widInput});
+  ...
+  429              //executeobject["executethis"]=getwid;
+  430              executeobject["wid"]=dtotype;
+  431:             //dtoGlobalParameters=executethis(executeobject,execute);
+  432:             dtoGlobalParameters=executethis(executeobject,getwid);
+  433              console.log(dtoGlobalParameters);
+  434              proxyprinttodiv('Function getWidMongo() dtoGlobalParameters -- 111', dtoGlobalParameters,10);
+  ...
+  453          // //moreDTOParameters=querywidlocal(executeobject);    // ** mongoquery
+  454          // proxyprinttodiv('Function getWidMongo()  executeobject III-result' , moreDTOParameters);
+  455:         // moreDTOParameters=executethis(executeobject,execute);
+  456          // //*****10-31
+  457          // //moreDTOParameters = simpleQuery(widInput, "attributes", "all", "forward", "", "", "");
+  ...
+  515                  //              executeobject["command.convertmethod"]="nowid";
+  516                  //              var x = window['execute'];
+  517:                 //              nextLevelParameters=executethis(executeobject,x);
+  518                  //              proxyprinttodiv('Function getWidMongo nextLevelParameters - inherit', nextLevelParameters,1);
+  519                  //              }
+  ...
+  554          proxyprinttodiv('Function getAndFormatNextLevel()  executeobject III' , executeobject);
+  555          //var relatedParameters=querywidlocal(executeobject); //
+  556:         //var relatedParameters=executethis(executeobject,execute);
+  557:         var relatedParameters=executethis(executeobject,querywid);
+  558          // ***** 10-31
+  559          //var relatedParameters = simpleQuery(widInput, mongorelationshiptype, mongorelationshipmethod, mongorelationshipdirection, mongowidmethod, convertmethod, ""); // removed dto type from end
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-get-rbroken (copy).js:
+   11          getfrommongo(inputWidgetObject, function (results) {
+   12  
+   13:             //var results = executethis(inputWidgetObject,getfrommongo);
+   14              if (results && results["etstatus"]!="empty") {
+   15                  if (results["data"]) { outobject = results["data"]; }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-get.js:
+    9          getfrommongo(inputWidgetObject, function(results) {
+   10  
+   11:             //var results = executethis(inputWidgetObject,getfrommongo);
+   12              if (results && results["etstatus"] != "empty") {
+   13                  if (results["data"]) {
+   ..
+   94                      //         }
+   95                      //     });
+   96:                     //     // moreDTOParameters = executethis(executeobject, getwid); // TODO -- DONE
+   97                      //     // if (Object.keys(moreDTOParameters).length != 0) {
+   98                      //     //     parameterObject = jsonConcat(parameterObject, moreDTOParameters)
+   ..
+  115                      //     cb(null, 'two');
+  116                      // });
+  117:                     // // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+  118:                     // // moreDTOParameters = executethis(executeobject, x); // TODO -- DONE
+  119  
+  120  
+  ...
+  310                                          }
+  311                                      });
+  312:                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+  313                                  }
+  314                              }
+  ...
+  349  
+  350                                  //         });
+  351:                                 //         // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+  352                                  //     }
+  353                                  //     cb(null, 'one');
+  ...
+  394                                                          cb2(null, 'one');
+  395                                                      });
+  396:                                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+  397                                                  }else{
+  398                                                      cb2(null, 'one');
+  ...
+  648                          executeobject["wid"] = widInput;
+  649                          executeobject["executethis"] = 'getwid';
+  650:                         // currentLevelObject = executethis(executeobject, getwid); //TODO -- DONE
+  651                          // cb(null);
+  652                          etexecute(executeobject, function(err, res) {
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-local-bak.js:
+   85  			//var x = window['getfrommongo'];
+   86  			var x = window['getwid'];
+   87: 			//var myvalue = executethis({wid:widkey}, getfrommongo);
+   88: 			//var myvalue = executethis(executeobject, getfrommongo);
+   89: 			var myvalue = executethis(executeobject, x);
+   90  			//proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   91  			proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   ..
+   98  				executeobject={};
+   99  				executeobject["wid"]=key;
+  100: 			   //var value = executethis({wid:key}, getfrommongo);
+  101  			   proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
+  102  			   proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
+  103: 			   var value = executethis(executeobject, x);
+  104: 			   //var value = executethis(executeobject, getfrommongo);
+  105  			   proxyprinttodiv('Function simpleQuery in : value',  value, 30);
+  106                 delete value.wid;
+  ...
+  203      			var x = window['getwid'];
+  204      			//var x = window['getfrommongo'];
+  205:     			//set[key] = executethis(executeobject, x);
+  206      			set[key] = getFromLocalStorage(widMasterKey + key);
+  207:     			//set[key]=executethis(executeobject,getfrommongo);
+  208  
+  209: 			//set[key]=executethis({wid:key},getfrommongo);
+  210  			}
+  211  		}
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-local.js:
+   85  			//var x = window['getfrommongo'];
+   86  			var x = window['getwid'];
+   87: 			//var myvalue = executethis({wid:widkey}, getfrommongo);
+   88: 			//var myvalue = executethis(executeobject, getfrommongo);
+   89: 			var myvalue = executethis(executeobject, x);
+   90  			//proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   91  			proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
+   ..
+   98  				executeobject={};
+   99  				executeobject["wid"]=key;
+  100: 			   //var value = executethis({wid:key}, getfrommongo);
+  101  			   proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
+  102  			   proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
+  103: 			   var value = executethis(executeobject, x);
+  104: 			   //var value = executethis(executeobject, getfrommongo);
+  105  			   proxyprinttodiv('Function simpleQuery in : value',  value, 30);
+  106                 delete value.wid;
+  ...
+  203      			var x = window['getwid'];
+  204      			//var x = window['getfrommongo'];
+  205:     			//set[key] = executethis(executeobject, x);
+  206      			set[key] = getFromLocalStorage(widMasterKey + key);
+  207:     			//set[key]=executethis(executeobject,getfrommongo);
+  208  
+  209: 			//set[key]=executethis({wid:key},getfrommongo);
+  210  			}
+  211  		}
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-query.js:
+   21  	if (exports.environment=== "local") {
+   22          if (callback instanceof Function) { mongoquery(parameters, callback); }
+   23:         else { return executethis(parameters, x); }
+   24      }
+   25      else
+   ..
+   73  //        wid = queParams['singlemongoquery'];
+   74  //        targetfunction = getfrommongo;
+   75: //        var widObject = executethis(wid, getfrommongo);
+   76  //        // var widObject = getFromMongo({'wid':wid});
+   77  //        delete widObject['wid'];
+   ..
+   80  //        mQueryString = output.substring(0, output.length -1);
+   81  //        targetfunction = mongoquery;
+   82: //        output = executethis(mQueryString, mongoquery);
+   83  //        //output = mongoquery(mQueryString);
+   84  //        //output = mQueryString;
+   ..
+  100  //        for (w in listOfWids) {
+  101  //        targetfunction = getfrommongo;
+  102: //            var tempwid = executethis(w, getfrommongo);
+  103  //            delete tempwid["wid"];
+  104  //            delete tempwid["metadata.method"];
+  ...
+  114  //        mQueryString = BuildMultipleQuery(ListOfLists);
+  115  //        targetfunction = mongoquery;
+  116: //        output = executethis(mQueryString, mongoquery);
+  117  //        //output = mongoquery(mQueryString);
+  118  //        //output = mQueryString;
+  ...
+  124  //        mQueryString = BuildMultipleQuery(ListOfLists);
+  125  //        targetfunction = mongoquery;
+  126: //        output = executethis(mQueryString, mongoquery);
+  127  //        //output = mongoquery(mQueryString);
+  128  //    }
+  ...
+  143  //        mQueryString = relationShipQuery(relParams,output);
+  144  //        targetfunction = mongoquery;
+  145: //        output = executethis(mQueryString, mongoquery);
+  146  //        //output = mongoquery(mQueryString,target,callback);
+  147  //    }
+  ...
+  152  //        mQueryString = queryafterrelationship(relafterParams, output);
+  153  //        targetfunction = mongoquery;
+  154: //        output = executethis(mQueryString, mongoquery);
+  155  //        //output = mongoquery(mQueryString,target,callback);
+  156  //    }
+  ...
+  177  //    proxyprinttodiv('Function MongoDataQuery output : ', output);
+  178  //    targetfunction = mongoquery;
+  179: //    queryresults = executethis(output, mongoquery);
+  180  //    //queryresults=mongoquery(output,target,callback);
+  181  //    return queryresults; // whatever happens, return the output
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-test.js:
+  181      executeobject = {};
+  182      executeobject["wid"] = "roger";
+  183:     resultobject = executethis(executeobject, getwidmaster);
+  184      proxyprinttodiv("end", resultobject, 99);
+  185      callback(params);
+  ...
+  191  	testclearstorage();
+  192  	var result;
+  193: 	//result = executethis({"executethis":"func_bbb", "c":"0", "d":"1", "e":"2"}, func_bbb);
+  194: 	result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+  195  	proxyprinttodiv('from test', result, 99);
+  196  }
+  ...
+  200  	testclearstorage();
+  201  	var result;
+  202: 	result = executethis({"executethis":"async_func_bbb", "c":"0", "d":"1", "e":"2"}, async_func_bbb);
+  203: 	//result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+  204  	proxyprinttodiv('from test', result, 99);
+  205  }
+  ...
+  222  	debuglevel=11;
+  223  	var result;
+  224: 	result = executethis({"executethis":"async_func_bbb", "c":"0", "d":"1", "e":"2"}, execute);
+  225: 	//result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+  226  	proxyprinttodiv('from test', result, 99);
+  227  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-testing.js:
+  131  
+  132  	proxyprinttodiv('executeTest - inputparameters', inputparameters, 99);
+  133: 	var output = executethis(inputparameters, myfunc); // added
+  134  
+  135  	//var output={"a":"b"};
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-unit_tests-back.js:
+  876  	var t = parameters["d"];
+  877  	parameters['executethis'] = 'async_func_e';
+  878: 	parameters = executethis(parameters);
+  879  	sleep(500);
+  880  	if (parameters["d"] == t) parameters["d"] = t + ":added";
+  ...
+  894  exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
+  895  	parameters['executethis'] = 'async_func_e1';
+  896: 	parameters = executethis(parameters, "execute");
+  897  	sleep(500);
+  898  	parameters ["h"] = "5";
+  ...
+  905  	// alert('func_e1');
+  906  	parameters['executethis'] = 'async_func_f';
+  907: 	parameters = executethis(parameters, execute);
+  908  	callback (parameters);
+  909  	// return parameters;
+  ...
+  915  	parameters ["rubies"] = "red";
+  916  	parameters['executethis'] = async_func_g;
+  917: 	parameters = executethis(parameters, execute);
+  918  	callback (parameters);
+  919  	// return parameters;
+  ...
+  925  	parameters ["emeralds"] = "green";
+  926  	parameters ['executethis'] = async_func_h;
+  927: 	parameters = executethis(parameters, execute);
+  928  	callback (parameters);
+  929  	// return parameters;
+  ...
+ 1121  	parameters ["wid"] = "green";
+ 1122  	parameters ['executethis'] = addwidmaster;
+ 1123: 	var abc = executethis(parameters);
+ 1124: 	var jkl = executethis(parameters, execute);
+ 1125  	parameters ["wid"] = "yellow";
+ 1126  	parameters ['executethis'] = "addwidmaster";
+ 1127: 	var mno = executethis(parameters, execute);
+ 1128  	delete parameters['executethis'];
+ 1129  	parameters ["wid"] = "blue";
+ 1130: 	var def = executethis(parameters, addwidmaster);
+ 1131  	parameters ["wid"] = "red";
+ 1132: 	var ghi = 'boo'; //executethis(parameters, "addwidmaster");
+ 1133  	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+ 1134  	params = logverify("unit_tests","testf_result","testf_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1147  	// parameters ["wid"] = "green";
+ 1148  	// parameters ['executethis'] = addwidmaster;
+ 1149: 	// var abc = executethis(parameters);
+ 1150  	// delete parameters['executethis'];
+ 1151  	// parameters ["wid"] = "blue";
+ 1152: 	// var def = executethis(parameters, addwidmaster);
+ 1153  	parameters ["wid"] = "red";
+ 1154: 	var ghi = executethis(parameters, "addwidmaster");
+ 1155  	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+ 1156  	params = logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+ ....
+ 1167  	config = setconfig1();
+ 1168  	var parameters = {"wid":"green", "executethis": addwidmaster};
+ 1169: 	var abc = executethis(parameters);
+ 1170  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testg_output", "");
+ 1171  	params = logverify("unit_tests","testg_result","testg_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1181  	config = setconfig1();
+ 1182  	var parameters = {"executethis": addwidmaster, "wid":"green"};
+ 1183: 	var abc = executethis(parameters, execute);
+ 1184  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testh_output", "");
+ 1185  	params = logverify("unit_tests","testh_result","testh_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1195  	config = setconfig1();
+ 1196  	var parameters = {"executethis": addwidmaster, "wid":"green"};
+ 1197: 	var abc = executethis(parameters, "execute");
+ 1198  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+ 1199  	params = logverify("unit_tests","testi_result","testi_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1210  
+ 1211  	var parameters = {"executethis": executeParam, "wid":"green"};
+ 1212: 	var abc = executethis(parameters, "execute");
+ 1213  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+ 1214  	params = logverify("unit_tests","testi_result","testi_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1317  	parameters["m"] = "single parameters";
+ 1318  	printToDiv('func_m',parameters,1);	
+ 1319: 	// return executethis(parameters,'func_h');
+ 1320: 	return executethis(parameters,'func_async');
+ 1321  }
+ 1322  
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/et-unit_tests.js:
+  997  	var t = parameters["d"];
+  998  	parameters['executethis'] = 'async_func_e';
+  999: 	parameters = executethis(parameters);
+ 1000  	sleep(500);
+ 1001  	if (parameters["d"] == t) parameters["d"] = t + ":added";
+ ....
+ 1015  exports.async_func_d1 = async_func_d1 = function async_func_d1 (parameters) {
+ 1016  	parameters['executethis'] = 'async_func_e1';
+ 1017: 	parameters = executethis(parameters, "execute");
+ 1018  	sleep(500);
+ 1019  	parameters ["h"] = "5";
+ ....
+ 1026  	// alert('func_e1');
+ 1027  	parameters['executethis'] = 'async_func_f';
+ 1028: 	parameters = executethis(parameters, execute);
+ 1029  	callback (parameters);
+ 1030  	// return parameters;
+ ....
+ 1036  	parameters ["rubies"] = "red";
+ 1037  	parameters['executethis'] = async_func_g;
+ 1038: 	parameters = executethis(parameters, execute);
+ 1039  	callback (parameters);
+ 1040  	// return parameters;
+ ....
+ 1046  	parameters ["emeralds"] = "green";
+ 1047  	parameters ['executethis'] = async_func_h;
+ 1048: 	parameters = executethis(parameters, execute);
+ 1049  	callback (parameters);
+ 1050  	// return parameters;
+ ....
+ 1378  	parameters ["wid"] = "green";
+ 1379  	parameters ['executethis'] = addwidmaster;
+ 1380: 	var abc = executethis(parameters);
+ 1381: 	var jkl = executethis(parameters, execute);
+ 1382  	parameters ["wid"] = "yellow";
+ 1383  	parameters ['executethis'] = "addwidmaster";
+ 1384: 	var mno = executethis(parameters, execute);
+ 1385  	delete parameters['executethis'];
+ 1386  	parameters ["wid"] = "blue";
+ 1387: 	var def = executethis(parameters, addwidmaster);
+ 1388  	parameters ["wid"] = "red";
+ 1389: 	var ghi = 'boo'; //executethis(parameters, "addwidmaster");
+ 1390  	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+ 1391  	params = logverify("unit_tests","testf_result","testf_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1404  	// parameters ["wid"] = "green";
+ 1405  	// parameters ['executethis'] = addwidmaster;
+ 1406: 	// var abc = executethis(parameters);
+ 1407  	// delete parameters['executethis'];
+ 1408  	// parameters ["wid"] = "blue";
+ 1409: 	// var def = executethis(parameters, addwidmaster);
+ 1410  	parameters ["wid"] = "red";
+ 1411: 	var ghi = executethis(parameters, "addwidmaster");
+ 1412  	executetest("addwidmaster", {"wid":"different_add_wids","a":abc,"b":def,"a":ghi }, "testf_output", "");
+ 1413  	params = logverify("unit_tests","testf_result","testf_output","","",{"executethis":"func_c","f":"3","g":"4","h":"5"});
+ ....
+ 1424  	config = setconfig1();
+ 1425  	var parameters = {"wid":"green", "executethis": addwidmaster};
+ 1426: 	var abc = executethis(parameters);
+ 1427  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testg_output", "");
+ 1428  	params = logverify("unit_tests","testg_result","testg_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1438  	config = setconfig1();
+ 1439  	var parameters = {"executethis": addwidmaster, "wid":"green"};
+ 1440: 	var abc = executethis(parameters, execute);
+ 1441  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testh_output", "");
+ 1442  	params = logverify("unit_tests","testh_result","testh_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1452  	config = setconfig1();
+ 1453  	var parameters = {"executethis": addwidmaster, "wid":"green"};
+ 1454: 	var abc = executethis(parameters, "execute");
+ 1455  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+ 1456  	params = logverify("unit_tests","testi_result","testi_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1467  
+ 1468  	var parameters = {"executethis": executeParam, "wid":"green"};
+ 1469: 	var abc = executethis(parameters, "execute");
+ 1470  	executetest("addwidmaster", {"this_wid_was_added":abc }, "testi_output", "");
+ 1471  	params = logverify("unit_tests","testi_result","testi_output","","",{"f":"3","g":"4","h":"5"});
+ ....
+ 1574  	parameters["m"] = "single parameters";
+ 1575  	printToDiv('func_m',parameters,1);	
+ 1576: 	// return executethis(parameters,'func_h');
+ 1577: 	return executethis(parameters,'func_async');
+ 1578  }
+ 1579  
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/executethis-bak.js:
+   34                          x = window[incomingparams["executethis"]];
+   35                      }
+   36:                     result = executethis(incomingparams, x);
+   37                  }else{
+   38                      result = incomingparams;
+   ..
+   58                      proxyprinttodiv("execute - etbypass incomingparams",incomingparams,11);
+   59                      // var executeFn = window[incomingparams["executethis"]];
+   60:                     // var result = executethis(incomingparams, x);
+   61                      // proxyprinttodiv("execute - etbypass result",result,11);
+   62                      // callback(result)
+   ..
+   69                              x = window[incomingparams["executethis"]];
+   70                          }
+   71:                         result = executethis(incomingparams, x);
+   72                      }else{
+   73                          result = incomingparams;
+   ..
+  106      /// second parameter must be a function, if not sent in will be defaulted to 'execute'
+  107      /// if the function to be called has only one input object then this fn will wait for results (act asynch)
+  108:     exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+  109  
+  110          // if test1 ***
+  ...
+  332  
+  333              if (synchflag) { // if callback then call synch
+  334:                 callback(executethis(params, targetfn));
+  335                  }
+  336              else { // else call asynch
+  ...
+  383                      
+  384                  case "executegetwid":
+  385:                     tempobject = executethis({'wid':whatToDo}, getwid);
+  386                      targetfn=tempobject['js'];
+  387                      if (!targetfn instanceof Function){
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/executethis-old.js:
+  292      /// second parameter must be a function, if not sent in will be defaulted to 'execute'
+  293      /// if the function to be called has only one input object then this fn will wait for results (act asynch)
+  294:     exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+  295  
+  296          // if test1 ***
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/executethis.js:
+   43                          x = window[incomingparams["executethis"]];
+   44                      }
+   45:                     result = executethis(incomingparams, x);
+   46                  }else{
+   47                      result = incomingparams;
+   ..
+   81      /// second parameter must be a function, if not sent in will be defaulted to 'execute'
+   82      /// if the function to be called has only one input object then this fn will wait for results (act asynch)
+   83:     exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+   84  
+   85          // if test1 ***
+   ..
+  387  
+  388              if (synchflag) { // if callback then call synch
+  389:                 callback(executethis(params, targetfn));
+  390                  }
+  391              else { // else call asynch
+  ...
+  438                      
+  439                  case "executegetwid":
+  440:                     tempobject = executethis({'wid':whatToDo}, getwid);
+  441                      if ((tempobject === undefined) && (!tempobject['js'])) {targetfn = executeerror} 
+  442                          else {targetfn = tempobject['js']};
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/ngWidApp.js:
+  248              paramObject.wid = widsToGet[key];
+  249              paramObject['command.convertmethod'] = 'toobject';
+  250:             executeService.executeThis('getwidmaster', paramObject, $scope);
+  251          }
+  252  
+  ...
+  272  
+  273          $scope.addwidmaster = function(widObj) {
+  274:             executeService.executeThis('addwidmaster', widObj, $scope, function(results) {
+  275                  $('#successlog').html("Successfully added or updated!");
+  276              });
+  ...
+  278  
+  279          $scope.angularExecuteThis = function(action, paramObj, callback) {
+  280:             executeService.executeThis(action, paramObj, $scope, callback);
+  281          };
+  282  
+  ...
+  390              if ($scope.deleteWid) { updateParams.Status = '5'; }
+  391  
+  392:             executeService.executeThis('addwidmaster', updateParams, $scope, function() {
+  393                  $scope.clearAddWidForm();
+  394                  self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node1-local-back.html:
+  133  	</div>
+  134  	<br>
+  135: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
+  136  	<input class='btn btn-mini btn-info' type="button" value="getwidmaster" onclick="javascript:testgetwidmaster()"/>
+  137  	<input class='btn btn-mini btn-info' type="button" value="addwidmaster" onclick="javascript:testaddwidmaster()"/>
+  ...
+  219  
+  220  	var function_to_execute = $('#function_to_run').val();
+  221: 	var result = executethis({"executethis":function_to_execute});
+  222  	var result_count = Object.keys(result).length;
+  223  
+  ...
+  320  	// 	widParameters["executethis"] = "getwidmaster";
+  321  	// x = window['execute']
+  322: 	// var getwidresult = executethis(widParameters, x);
+  323: 	// //var getwidresult = executethis(widParameters);
+  324  	// updateMemory();
+  325  	// Display_Output(getwidresult);
+  ...
+  348  
+  349  	// x = window['execute']
+  350: 	// var getwidresult = executethis(widParameters, x);
+  351  
+  352: 	// //var getwidresult = executethis(widParameters);
+  353  	// updateMemory();
+  354  	// Display_Output(getwidresult);
+  ...
+  372  // 		widParameters["executethis"] = "addwidmaster";
+  373  
+  374: // 	var getwidresult = executethis(widParameters);
+  375  // 	updateMemory();
+  376  // 	Display_Output(getwidresult);
+  ...
+  387  //****************************************************************
+  388  
+  389: function testexecutethis() {
+  390  		try {
+  391  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  404  	// //widParameters["executethis"] = "addwidmaster";
+  405  
+  406: 	// var getwidresult = executethis(widParameters);
+  407  
+  408  	// //updateMemory();
+  ...
+  413  	// document.getElementById("divprint").innerHTML = "";
+  414  	// var data = $("#function_parameters").val().split('&&');
+  415: 	// var getwidresult = executethis(data);
+  416  	// Display_Output(getwidresult);
+  417  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node1-local-joe.html:
+  137  	</div>
+  138  	<br>
+  139: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
+  140  
+  141  	<input class='btn btn-mini btn-info' type="button" value="ConvertToDOT" onclick="javascript:testconverttodot()" style='float:right;'/>
+  ...
+  263  	}
+  264  
+  265: 	var result = executethis(my_execute_object);
+  266  	var result_count = Object.keys(result).length;
+  267  
+  ...
+  395  	// 	widParameters["executethis"] = "getwidmaster";
+  396  	// x = window['execute']
+  397: 	// var getwidresult = executethis(widParameters, x);
+  398: 	// //var getwidresult = executethis(widParameters);
+  399  	// updateMemory();
+  400  	// Display_Output(getwidresult);
+  ...
+  423  
+  424  	// x = window['execute']
+  425: 	// var getwidresult = executethis(widParameters, x);
+  426  
+  427: 	// //var getwidresult = executethis(widParameters);
+  428  	// updateMemory();
+  429  	// Display_Output(getwidresult);
+  ...
+  447  // 		widParameters["executethis"] = "addwidmaster";
+  448  
+  449: // 	var getwidresult = executethis(widParameters);
+  450  // 	updateMemory();
+  451  // 	Display_Output(getwidresult);
+  ...
+  462  //****************************************************************
+  463  
+  464: function testexecutethis() {
+  465  		try {
+  466  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  479  	// //widParameters["executethis"] = "addwidmaster";
+  480  
+  481: 	// var getwidresult = executethis(widParameters);
+  482  
+  483  	// //updateMemory();
+  ...
+  488  	// document.getElementById("divprint").innerHTML = "";
+  489  	// var data = $("#function_parameters").val().split('&&');
+  490: 	// var getwidresult = executethis(data);
+  491  	// Display_Output(getwidresult);
+  492  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node1-local-pristine.html:
+  143  	</div>
+  144  	<br>
+  145: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
+  146  
+  147  	<input class='btn btn-mini btn-info' type="button" value="ConvertToDOT" onclick="javascript:testconverttodot()" style='float:right;'/>
+  ...
+  281  	}
+  282  
+  283: 	var result = executethis(my_execute_object);
+  284  	var result_count = Object.keys(result).length;
+  285  
+  ...
+  413  	// 	widParameters["executethis"] = "getwidmaster";
+  414  	// x = window['execute']
+  415: 	// var getwidresult = executethis(widParameters, x);
+  416: 	// //var getwidresult = executethis(widParameters);
+  417  	// updateMemory();
+  418  	// Display_Output(getwidresult);
+  ...
+  441  
+  442  	// x = window['execute']
+  443: 	// var getwidresult = executethis(widParameters, x);
+  444  
+  445: 	// //var getwidresult = executethis(widParameters);
+  446  	// updateMemory();
+  447  	// Display_Output(getwidresult);
+  ...
+  465  // 		widParameters["executethis"] = "addwidmaster";
+  466  
+  467: // 	var getwidresult = executethis(widParameters);
+  468  // 	updateMemory();
+  469  // 	Display_Output(getwidresult);
+  ...
+  480  //****************************************************************
+  481  
+  482: function testexecutethis() {
+  483  		try {
+  484  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  497  	// //widParameters["executethis"] = "addwidmaster";
+  498  
+  499: 	// var getwidresult = executethis(widParameters);
+  500  
+  501  	// //updateMemory();
+  ...
+  506  	// document.getElementById("divprint").innerHTML = "";
+  507  	// var data = $("#function_parameters").val().split('&&');
+  508: 	// var getwidresult = executethis(data);
+  509  	// Display_Output(getwidresult);
+  510  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node1-local.html:
+  137  	</div>
+  138  	<br>
+  139: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
+  140  
+  141  	<input class='btn btn-mini btn-info' type="button" value="ConvertToDOT" onclick="javascript:testconverttodot()" style='float:right;'/>
+  ...
+  263  	}
+  264  
+  265: 	var result = executethis(my_execute_object);
+  266  	var result_count = Object.keys(result).length;
+  267  
+  ...
+  395  	// 	widParameters["executethis"] = "getwidmaster";
+  396  	// x = window['execute']
+  397: 	// var getwidresult = executethis(widParameters, x);
+  398: 	// //var getwidresult = executethis(widParameters);
+  399  	// updateMemory();
+  400  	// Display_Output(getwidresult);
+  ...
+  423  
+  424  	// x = window['execute']
+  425: 	// var getwidresult = executethis(widParameters, x);
+  426  
+  427: 	// //var getwidresult = executethis(widParameters);
+  428  	// updateMemory();
+  429  	// Display_Output(getwidresult);
+  ...
+  447  // 		widParameters["executethis"] = "addwidmaster";
+  448  
+  449: // 	var getwidresult = executethis(widParameters);
+  450  // 	updateMemory();
+  451  // 	Display_Output(getwidresult);
+  ...
+  462  //****************************************************************
+  463  
+  464: function testexecutethis() {
+  465  		try {
+  466  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  479  	// //widParameters["executethis"] = "addwidmaster";
+  480  
+  481: 	// var getwidresult = executethis(widParameters);
+  482  
+  483  	// //updateMemory();
+  ...
+  488  	// document.getElementById("divprint").innerHTML = "";
+  489  	// var data = $("#function_parameters").val().split('&&');
+  490: 	// var getwidresult = executethis(data);
+  491  	// Display_Output(getwidresult);
+  492  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node1.html:
+  125  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconverttodot();" />
+  126  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconvertfromdot();" />
+  127: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis() " /><br><br>
+  128  
+  129  	<div class='row'>
+  ...
+  262  		widParameters["executethis"] = "getwidmaster";
+  263  	x = window['execute']
+  264: 	var getwidresult = executethis(widParameters, x);
+  265: 	//var getwidresult = executethis(widParameters);
+  266  	updateMemory();
+  267  	Display_Output(getwidresult);
+  ...
+  278  
+  279  	x = window['execute']
+  280: 	var getwidresult = executethis(widParameters, x);
+  281  
+  282: 	//var getwidresult = executethis(widParameters);
+  283  	updateMemory();
+  284  	Display_Output(getwidresult);
+  ...
+  302  // 		widParameters["executethis"] = "addwidmaster";
+  303  
+  304: // 	var getwidresult = executethis(widParameters);
+  305  // 	updateMemory();
+  306  // 	Display_Output(getwidresult);
+  ...
+  317  //****************************************************************
+  318  
+  319: function testexecutethis() {
+  320  	try {
+  321  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  326  
+  327  	x = window['execute']
+  328: 	var getwidresult = executethis(widParameters, x);
+  329  	//updateMemory();
+  330  
+  ...
+  334  	// document.getElementById("divprint").innerHTML = "";
+  335  	// var data = $("#function_parameters").val().split('&&');
+  336: 	// var getwidresult = executethis(data);
+  337  	// Display_Output(getwidresult);
+  338  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node2-server.html:
+  135  	</div>
+  136  	<br>
+  137: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis() "/>
+  138  	<input class='btn btn-mini btn-info' type="button" value="getwidmaster" onclick="javascript:testgetwidmaster()"/>
+  139  	<input class='btn btn-mini btn-info' type="button" value="addwidmaster" onclick="javascript:testaddwidmaster()"/>
+  ...
+  225  	var function_to_execute = $('#function_to_run').val();
+  226  	var p = {"executethis":function_to_execute};
+  227: 	// var result = executethis({"executethis":function_to_execute}); // executethis({},function_to_execute)
+  228  
+  229  	execute({"executethis":function_to_execute}, show_function_output);
+  ...
+  316  	var getwidresult = execute(widParameters, show_function_output);
+  317  	// x = window['execute']
+  318: 	// var getwidresult = executethis(widParameters, x);
+  319  	// Display_Output(getwidresult);
+  320  }
+  ...
+  334  
+  335  	// x = window['execute']
+  336: 	// var getwidresult = executethis(widParameters, x);
+  337  	// Display_Output(getwidresult);
+  338  }
+  ...
+  345  // 		widParameters["executethis"] = "addwidmaster";
+  346  
+  347: // 	var getwidresult = executethis(widParameters);
+  348  // 	updateMemory();
+  349  // 	Display_Output(getwidresult);
+  ...
+  360  //****************************************************************
+  361  
+  362: function testexecutethis(params, Display_Output) {
+  363  	try {
+  364  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node2-server.html~57dd7a409299853809e8afafc518b68591736044:
+  139  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconverttodot();" />
+  140  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconvertfromdot();" />
+  141: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis() " /><br><br>
+  142  
+  143  	<div class='row'>
+  ...
+  221  	var function_to_execute = $('#function_to_run').val();
+  222  	var p = {"executethis":function_to_execute};
+  223: 	// var result = executethis({"executethis":function_to_execute}); // executethis({},function_to_execute)
+  224  
+  225  	execute({"executethis":function_to_execute}, show_function_output);
+  ...
+  293  		widParameters["executethis"] = "getwidmaster";
+  294  	x = window['execute']
+  295: 	var getwidresult = executethis(widParameters, x);
+  296: 	//var getwidresult = executethis(widParameters);
+  297  	updateMemory();
+  298  	Display_Output(getwidresult);
+  ...
+  309  
+  310  	x = window['execute']
+  311: 	var getwidresult = executethis(widParameters, x);
+  312  
+  313: 	//var getwidresult = executethis(widParameters);
+  314  	updateMemory();
+  315  	Display_Output(getwidresult);
+  ...
+  333  // 		widParameters["executethis"] = "addwidmaster";
+  334  
+  335: // 	var getwidresult = executethis(widParameters);
+  336  // 	updateMemory();
+  337  // 	Display_Output(getwidresult);
+  ...
+  348  //****************************************************************
+  349  
+  350: function testexecutethis() {
+  351  	try {
+  352  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  356  	//widParameters["executethis"] = "addwidmaster";
+  357  
+  358: 	var getwidresult = executethis(widParameters);
+  359  
+  360  	//updateMemory();
+  ...
+  365  	// document.getElementById("divprint").innerHTML = "";
+  366  	// var data = $("#function_parameters").val().split('&&');
+  367: 	// var getwidresult = executethis(data);
+  368  	// Display_Output(getwidresult);
+  369  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node2.html:
+  124  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconverttodot();" />
+  125  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconvertfromdot();" />
+  126: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis() " /><br><br>
+  127  
+  128  	<div class='row'>
+  ...
+  261  		widParameters["executethis"] = "getwidmaster";
+  262  	x = window['execute']
+  263: 	var getwidresult = executethis(widParameters, x);
+  264: 	//var getwidresult = executethis(widParameters);
+  265  	updateMemory();
+  266  	Display_Output(getwidresult);
+  ...
+  277  
+  278  	x = window['execute']
+  279: 	var getwidresult = executethis(widParameters, x);
+  280  
+  281: 	//var getwidresult = executethis(widParameters);
+  282  	updateMemory();
+  283  	Display_Output(getwidresult);
+  ...
+  301  // 		widParameters["executethis"] = "addwidmaster";
+  302  
+  303: // 	var getwidresult = executethis(widParameters);
+  304  // 	updateMemory();
+  305  // 	Display_Output(getwidresult);
+  ...
+  316  //****************************************************************
+  317  
+  318: function testexecutethis() {
+  319  	try {
+  320  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  325  
+  326  	x = window['execute']
+  327: 	var getwidresult = executethis(widParameters, x);
+  328  	//updateMemory();
+  329  
+  ...
+  333  	// document.getElementById("divprint").innerHTML = "";
+  334  	// var data = $("#function_parameters").val().split('&&');
+  335: 	// var getwidresult = executethis(data);
+  336  	// Display_Output(getwidresult);
+  337  }
+
+/Users/saurshaz/Dropbox/dripoint/Staff_local/saurabh/node4.html:
+  136  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconverttodot();" />
+  137  	<input class='btn btn-mini btn-info' type="button" value="Converttodot" onclick="javascript:testconvertfromdot();" />
+  138: 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis() " /><br><br>
+  139  
+  140  	<div class='row'>
+  ...
+  217  
+  218  	var function_to_execute = $('#function_to_run').val();
+  219: 	var result = executethis({"executethis":function_to_execute});
+  220  	var result_count = Object.keys(result).length;
+  221  
+  ...
+  271  		widParameters["executethis"] = "getwidmaster";
+  272  	x = window['execute']
+  273: 	var getwidresult = executethis(widParameters, x);
+  274: 	//var getwidresult = executethis(widParameters);
+  275  	updateMemory();
+  276  	Display_Output(getwidresult);
+  ...
+  287  
+  288  	x = window['execute']
+  289: 	var getwidresult = executethis(widParameters, x);
+  290  
+  291: 	//var getwidresult = executethis(widParameters);
+  292  	updateMemory();
+  293  	Display_Output(getwidresult);
+  ...
+  311  // 		widParameters["executethis"] = "addwidmaster";
+  312  
+  313: // 	var getwidresult = executethis(widParameters);
+  314  // 	updateMemory();
+  315  // 	Display_Output(getwidresult);
+  ...
+  326  //****************************************************************
+  327  
+  328: function testexecutethis() {
+  329  	try {
+  330  		var widParameters = JSON.parse(document.getElementById("function_parameters").value);
+  ...
+  334  	//widParameters["executethis"] = "addwidmaster";
+  335  
+  336: 	var getwidresult = executethis(widParameters);
+  337  
+  338  	//updateMemory();
+  ...
+  343  	// document.getElementById("divprint").innerHTML = "";
+  344  	// var data = $("#function_parameters").val().split('&&');
+  345: 	// var getwidresult = executethis(data);
+  346  	// Display_Output(getwidresult);
+  347  }
+
+523 matches across 70 files

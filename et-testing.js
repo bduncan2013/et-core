@@ -130,29 +130,33 @@ exports.executetest = executetest = function executetest(myfunc, inputparameters
 	proxyprinttodiv('type of fn', (myfunc instanceof Function), 1);
 
 	proxyprinttodiv('executeTest - inputparameters', inputparameters, 99);
-	var output = executethis(inputparameters, myfunc); // added
+	// var output = executethis(inputparameters, myfunc); // added
+	inputparameters['executethis']=myfunc;
+	etexecute(inputparameters, function(err,res){
+		var output = res;
+		//var output={"a":"b"};
+		proxyprinttodiv('results of executeTest =>', output, 99);
+		if ((outwidname !== undefined) && (outwidname != "")) {
+			proxyprinttodiv('results of executeTest outwidname', outwidname, 99);
+			addtolocal(outwidname, output)
+		};
+		// 	}
+		// else
+		// 	{
+		// 	alert('I could not find your function -- test');
+		// 	}
 
-	//var output={"a":"b"};
-	proxyprinttodiv('results of executeTest =>', output, 99);
-	if ((outwidname !== undefined) && (outwidname != "")) {
-		proxyprinttodiv('results of executeTest outwidname', outwidname, 99);
-		addtolocal(outwidname, output)
-	};
-	// 	}
-	// else
-	// 	{
-	// 	alert('I could not find your function -- test');
-	// 	}
+		if ((inputwidname !== undefined) && (inputwidname != "")) {
+			addtolocal(inputwidname, inputparameters)
+		}
+		if (outwidname && outwidname !== undefined) {
+			proxyprinttodiv('execute - outwidname', outwidname);
+		}
+		if (output && output !== undefined) {
+			proxyprinttodiv('execute - output', output);
+		}
+	}); // added
 
-	if ((inputwidname !== undefined) && (inputwidname != "")) {
-		addtolocal(inputwidname, inputparameters)
-	}
-	if (outwidname && outwidname !== undefined) {
-		proxyprinttodiv('execute - outwidname', outwidname);
-	}
-	if (output && output !== undefined) {
-		proxyprinttodiv('execute - output', output);
-	}
 };
 
 

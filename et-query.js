@@ -20,7 +20,7 @@ exports.querywid = querywid = function querywid(parameters, callback) { // can c
 	var x = window['mongoquery'];
 	if (exports.environment=== "local") {
         if (callback instanceof Function) { mongoquery(parameters, callback); }
-        else { return executethis(parameters, x); }
+        else { return executethis(parameters, x); } // TODO :: check if this is fine
     }
     else
     {

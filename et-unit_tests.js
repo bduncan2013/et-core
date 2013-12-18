@@ -123,9 +123,9 @@ exports.ctt = ctt = function ctt (params, callback) {
 
 // These are the add/get tests to stress out the dto/dot notation system
 exports.agtt = agtt =function agtt (params, callback) {
-	agt1();
-	agt2();
-	agt3();
+	ag1();
+	ag2();
+	ag3();
 
 	var x = test_results;
     if (callback instanceof Function) { 
