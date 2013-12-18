@@ -8,8 +8,11 @@ exports.debugon = debugon = false;
 exports.debugname = debugname = "";
 exports.debugsubcat = debugsubcat = "";
 exports.debugcat = debugcat = "";
-exports.debugfilter= debugfilter = "all";
+exports.debugfilter= debugfilter = "";
 exports.debugdestination= debugdestination = 1;
+exports.debugcolor= debugcolor = 0;
+exports.debugindent= debugindent = 0;
+
 
 if (!window) {
 	var window = global
@@ -130,12 +133,8 @@ exports.executetest = executetest = function executetest(myfunc, inputparameters
 	proxyprinttodiv('type of fn', (myfunc instanceof Function), 1);
 
 	proxyprinttodiv('executeTest - inputparameters', inputparameters, 99);
-	var output = executethis(inputparameters,  myfunc);
-	// etexecute(inputparameters, function(err,res){
-	// 	inputparameters['executethis'] = myfunc;
-	// 	var output = res;
+	var output = executethis(inputparameters, myfunc); // added
 
-	// }); // added
 	//var output={"a":"b"};
 	proxyprinttodiv('results of executeTest =>', output, 99);
 	if ((outwidname !== undefined) && (outwidname != "")) {
@@ -392,23 +391,31 @@ exports.debugfn = debugfn = function debugfn() {
 		"purple"
 	]
 
-	var indebugdesc = arguments[0] || "",	// 
-		indebugname = arguments[1] || "", 	// main fn
-		indebugcat = arguments[2] || "", 	// add/get
-		indebugsubcat = arguments[3] || "", // sub fn
-		indebugcolor = color_list[arguments[4]] || "", 	// level
-		indebugindent = arguments[5] || "" 	// level
+	var indebugdesc = String(arguments[0]) || "";	// 
+	var	indebugname = String(arguments[1]) || ""; 	// main fn
+	var	indebugcat = String(arguments[2]) || ""; 	// add/get
+	var	indebugsubcat = String(arguments[3]) || ""; // sub fn
+	var	indebugcolor = color_list[arguments[4]] || ""; 	// level
+	var	indebugindent = arguments[5] || "";	// level
 	var debugobjectlist = (arguments[6]) ? arguments[6] : {"data":"none"};
+	var displaycolor = indebugcolor;
+	var tempdebugname = (debugname!="") ? debugname : indebugname;
+	var tempdebugcat = (debugcat!="") ? debugcat : indebugcat;
+	var tempdebugsubcat = (debugsubcat!="") ? debugsubcat : indebugsubcat;
+	
 
-		proxyprinttodiv('************', "HI", 99);
-
-	if (indebugname==debugname || indebugcat==debugcat || indebugsubcat==debugsubcat || debugon) {processdebug = true};
+	if (indebugname==tempdebugname && indebugcat==tempdebugcat && indebugsubcat==tempdebugsubcat) {
+				processdebug = true
+			} else {
+				processdebug=false
+			};
+	if (debugname+debugcat+debugsubcat=="") {processdebug=false}
  	if (!processdebug) return; 
 	
 
 	
-	// If the color goes over 11, turn it back to black
-	if (indebugcolor > 11) indebugcolor = 0;
+	// If the color goes over 10, turn it back to black
+	if (displaycolor > 10) displaycolor = 0;
 
 		length = arguments.length;
 
@@ -496,7 +503,7 @@ exports.debugfn = debugfn = function debugfn() {
 	switch (debugdestination) // 1 for print, 2 for googlespreadsheets, 3 for both
 		{
 			case 1:
-				dbug_print(indebugindent);
+				dbug_print(indebugindent, displaycolor);
 			break;
 
 			case 2:
@@ -504,28 +511,32 @@ exports.debugfn = debugfn = function debugfn() {
 			break;
 
 			case 3:
-				dbug_print(indebugindent);
+				dbug_print(indebugindent, displaycolor);
 				store_to_google(indebugname, outobject);
 			break;
 		}
 
-	function dbug_print(indent){
+	function dbug_print(indent, displaycolor){
 
-		if (indebugcolor == "") indebugcolor = "pink";
+		if (displaycolor == "") {displaycolor = "pink"};
 		var jsonPretty = JSON.stringify(outobject, "-", 4);
 
 		if (indent > 0) {
-			var temp_HTML = "<div style='color:" + indebugcolor + "; padding-left:" + (4 * indent) + "em'>"
+			var temp_HTML = indebugdesc
+			+ "<br>"
+			+ "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>"
             + syntaxHighlight(jsonPretty)
-			+ "</div>";
+			+ displaycolor + "</div>";
 		} else {
-			var temp_HTML = "<div style='color:" + indebugcolor + "'>"
+			var temp_HTML = indebugdesc
+			+ "<br>"
+			+ "<div style='color:" + displaycolor + "'>"
 	        + syntaxHighlight(jsonPretty)
-			+ "</div>";
+			+ displaycolor + "</div>";
 		}
 
 		$('#divprint').append(temp_HTML);
-		proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
+		//proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
 	}       
 
 
