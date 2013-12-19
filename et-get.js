@@ -1085,8 +1085,8 @@
                                     (convertmethod == "num") || (convertmethod == "dtonum")) {
 
 
-                                    var isSynchronous = configuration.getWidMongo.synchronous;    
-                                    if (isSynchronous) {      
+                                    var isSynchronous = configuration.getWidMongo.synchronous;
+                                    if (isSynchronous) {
                                         ret = drillDownParameters = getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin);
                                         for (item in drillDownParameters) {
                                             if ((convertmethod == "dto") && ((item == "wid") || (item == "metadata.method"))) {} // left empty by design
@@ -1106,7 +1106,7 @@
                                                 "key": proposedLeft,
                                                 "value": proposedRight
                                             });
-                                        }    
+                                        }
                                     } else {
                                         getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin, function(err, res) {
                                             ret = drillDownParameters = res;
@@ -1129,7 +1129,7 @@
                                                 "key": proposedLeft,
                                                 "value": proposedRight
                                             });
-                                        }    
+                                        }
                                     }
                                 }
                                 cbMap(null);

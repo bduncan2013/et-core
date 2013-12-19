@@ -1911,8 +1911,8 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
     configuration.getWidMongo.synchronous = false;
 
     configuration.getAndFormatNextLevel = {};
-    configuration.getAndFormatNextLevel.synchronous = false;  
-
+    configuration.getAndFormatNextLevel.synchronous = false;
+    
     return {
         "configuration": configuration
     }

@@ -50,77 +50,141 @@ exports.environment='local';
 var config123 = function() {
     var configuration = {};
 
-configuration.environment='local';
+    configuration.environment='local';
 
-configuration.preExecute = [];
-configuration.preExecute[0] = {};
-configuration.preExecute[0].executeorder = 0;
-configuration.preExecute[0].tryorder = 1;
-configuration.preExecute[0].dothis = 'executeFn';
-configuration.preExecute[0].params = {};
-configuration.preExecute[1] = {};
-configuration.preExecute[1].executeorder = 0;
-configuration.preExecute[1].tryorder = 2;
-configuration.preExecute[1].dothis = 'executeParam';
-configuration.preExecute[1].params = {};
-configuration.preExecute[2] = {};
-configuration.preExecute[2].executeorder = 0;
-configuration.preExecute[2].tryorder = 3;
-configuration.preExecute[2].dothis = 'executeDefault';
-configuration.preExecute[2].params = {};
-configuration.preExecute[3] = {};
-configuration.preExecute[3].executeorder = 0;
-configuration.preExecute[3].tryorder = 4;
-configuration.preExecute[3].dothis = 'server';
-configuration.preExecute[3].params = {};
+    configuration.preExecute = [];
+    configuration.preExecute[0] = {};
+    configuration.preExecute[0].executeorder = 0;
+    configuration.preExecute[0].tryorder = 0;
+    configuration.preExecute[0].dothis = 'executeFn';
+    configuration.preExecute[0].params = {};
+    configuration.preExecute[1] = {};
+    configuration.preExecute[1].executeorder = 0;
+    configuration.preExecute[1].tryorder = 0;
+    configuration.preExecute[1].dothis = 'executeParam';
+    configuration.preExecute[1].params = {};
+    configuration.preExecute[2] = {};
+    configuration.preExecute[2].executeorder = 0;
+    configuration.preExecute[2].tryorder = 0;
+    configuration.preExecute[2].dothis = 'executeDefault';
+    configuration.preExecute[2].params = {};
+    configuration.preExecute[3] = {};
+    configuration.preExecute[3].executeorder = 0;
+    configuration.preExecute[3].tryorder = 0;
+    configuration.preExecute[3].dothis = 'server';
+    configuration.preExecute[3].params = {};
 
-configuration.midExecute = [];
-configuration.midExecute[0] = {};
-configuration.midExecute[0].executeorder = 1;
-configuration.midExecute[0].tryorder = 1;
-configuration.midExecute[0].dothis = 'executeFn';
-configuration.midExecute[0].params = {};
-configuration.midExecute[1] = {};
-configuration.midExecute[1].executeorder = 1;
-configuration.midExecute[1].tryorder = 2;
-configuration.midExecute[1].dothis = 'executeParam';
-configuration.midExecute[1].params = {};
-configuration.midExecute[2] = {};
-configuration.midExecute[2].executeorder = 1;
-configuration.midExecute[2].tryorder = 3;
-configuration.midExecute[2].dothis = 'executeDefault';
-configuration.midExecute[2].params = {};
-configuration.midExecute[3] = {};
-configuration.midExecute[3].executeorder = 1;
-configuration.midExecute[3].tryorder = 4;
-configuration.midExecute[3].dothis = 'server';
-configuration.midExecute[3].params = {};
+    configuration.midExecute = [];
+    configuration.midExecute[0] = {};
+    configuration.midExecute[0].executeorder = 0;
+    configuration.midExecute[0].tryorder = 0;
+    configuration.midExecute[0].dothis = 'executeFn';
+    configuration.midExecute[0].params = {};
+    configuration.midExecute[1] = {};
+    configuration.midExecute[1].executeorder = 0;
+    configuration.midExecute[1].tryorder = 0;
+    configuration.midExecute[1].dothis = 'executeParam';
+    configuration.midExecute[1].params = {};
+    configuration.midExecute[2] = {};
+    configuration.midExecute[2].executeorder = 0;
+    configuration.midExecute[2].tryorder = 0;
+    configuration.midExecute[2].dothis = 'executeDefault';
+    configuration.midExecute[2].params = {};
+    configuration.midExecute[3] = {};
+    configuration.midExecute[3].executeorder = 0;
+    configuration.midExecute[3].tryorder = 0;
+    configuration.midExecute[3].dothis = 'server';
+    configuration.midExecute[3].params = {};
 
-configuration.postExecute = [];
-configuration.postExecute[0] = {};
-configuration.postExecute[0].executeorder = 0;
-configuration.postExecute[0].tryorder = 1;
-configuration.postExecute[0].dothis = 'executeFn';
-configuration.postExecute[0].params = {};
-configuration.postExecute[1] = {};
-configuration.postExecute[1].executeorder = 0;
-configuration.postExecute[1].tryorder = 2;
-configuration.postExecute[1].dothis = 'executeFn';
-configuration.postExecute[1].params = {};
-configuration.postExecute[2] = {};
-configuration.postExecute[2].executeorder = 0;
-configuration.postExecute[2].tryorder = 3;
-configuration.postExecute[2].dothis = 'executeFn';
-configuration.postExecute[2].params = {};
-configuration.postExecute[3] = {};
-configuration.postExecute[3].executeorder = 0;
-configuration.postExecute[3].tryorder = 4;
-configuration.postExecute[3].dothis = 'server';
-configuration.postExecute[3].params = {};
+    configuration.postExecute = [];
+    configuration.postExecute[0] = {};
+    configuration.postExecute[0].executeorder = 0;
+    configuration.postExecute[0].tryorder = 0;
+    configuration.postExecute[0].dothis = 'executeFn';
+    configuration.postExecute[0].params = {};
+    configuration.postExecute[1] = {};
+    configuration.postExecute[1].executeorder = 0;
+    configuration.postExecute[1].tryorder = 0;
+    configuration.postExecute[1].dothis = 'executeParam';
+    configuration.postExecute[1].params = {};
+    configuration.postExecute[2] = {};
+    configuration.postExecute[2].executeorder = 0;
+    configuration.postExecute[2].tryorder = 0;
+    configuration.postExecute[2].dothis = 'executeDefault';
+    configuration.postExecute[2].params = {};
+    configuration.postExecute[2] = {};
+    configuration.postExecute[2].executeorder = 0;
+    configuration.postExecute[2].tryorder = 0;
+    configuration.postExecute[2].dothis = 'server';
+    configuration.postExecute[2].params = {};
 
-configuration.MongoAddEditPrepare = [];     
-configuration.MongoAddEditPrepare[0] = {};
-configuration.MongoAddEditPrepare[0].synchronous = false;
+    // configuration.MongoAddEditPrepare = {};
+   //  configuration.MongoAddEditPrepare.synchronous = false;
+
+   //  configuration.AddMongoRelationship = {};
+   //  configuration.AddMongoRelationship.synchronous = false;
+
+   //  configuration.addwidmaster = {};
+   //  configuration.addwidmaster.synchronous = false;
+
+   //  configuration.AddWidParameters = {};
+   //  configuration.AddWidParameters.synchronous = false;
+
+   //  configuration.AddMaster = {};
+   //  configuration.AddMaster.synchronous = false;
+
+   //  configuration.aggressivedto = {};
+   //  configuration.aggressivedto.synchronous = false;
+
+   //  configuration.getcleanparameters = {};
+   //  configuration.getcleanparameters.synchronous = false;
+
+   //  configuration.getwidmaster = {};
+   //  configuration.getwidmaster.synchronous = false;
+
+
+   //  configuration.getWidMongo = {};
+   //  configuration.getWidMongo.synchronous = false;
+
+   //  configuration.getAndFormatNextLevel = {};
+   //  configuration.getAndFormatNextLevel.synchronous = true;  
+
+   //  configuration.addcleanparameters = {};
+   //  configuration.addcleanparameters.synchronous = true;
+
+    configuration.MongoAddEditPrepare = {};
+    configuration.MongoAddEditPrepare.synchronous = false;
+
+    configuration.AddMongoRelationship = {};
+    configuration.AddMongoRelationship.synchronous = false;
+
+    configuration.addcleanparameters = {};
+    configuration.addcleanparameters.synchronous = false;
+
+    configuration.addwidmaster = {};
+    configuration.addwidmaster.synchronous = false;
+
+    configuration.AddWidParameters = {};
+    configuration.AddWidParameters.synchronous = false;
+
+    configuration.AddMaster = {};
+    configuration.AddMaster.synchronous = false;
+
+    configuration.aggressivedto = {};
+    configuration.aggressivedto.synchronous = false;
+
+    configuration.getcleanparameters = {};
+    configuration.getcleanparameters.synchronous = false;
+
+    configuration.getwidmaster = {};
+    configuration.getwidmaster.synchronous = false;
+
+    configuration.getWidMongo = {};
+    configuration.getWidMongo.synchronous = false;
+
+    configuration.getAndFormatNextLevel = {};
+    configuration.getAndFormatNextLevel.synchronous = false;
+    
     return {
         "configuration": configuration
     }
