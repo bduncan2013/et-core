@@ -1,4 +1,5 @@
 (function(window) {
+    var configuration = config.configuration;
 
     // This tears apart an object with properties that are objects.
     // It opens up all the nested objects to create a flat list of properties

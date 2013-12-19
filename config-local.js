@@ -266,7 +266,23 @@ exports.server = window.server = server = function server(params, callback) {
         console.log("Return from server: " + JSON.stringify(data));
         callback(data);
     });
-}
+};
+
+exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
+    params.actionQueryString = action;
+    $.ajax({
+        url: '/getdata',
+        type: 'PUT',
+        headers: {'content-type':'application/json'},
+        cache: false,
+        async: false,
+        dataType: 'json',
+        data: JSON.stringify(params),
+        success: function(results) { callback(null, results); },
+        error: function(err) { callback(err.responseText, null); }
+    });
+};
+
 
 function config555() {
     var configuration = {};
