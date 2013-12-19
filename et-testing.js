@@ -75,7 +75,7 @@ function execute_function(myfunc) {
 	if (typeof window[myfunc] == 'function') {
 		//alert("I found the function...let's go run it!");
 		// result = window[myfunc]();
-		result = window[myfunc]();
+		var output = window['executethis'](inputparameters, myfunc);
 		// LM: added the return result for unit testing.
 		// It was not returning before...
 		// I can take it out if code starts breaking...but 
