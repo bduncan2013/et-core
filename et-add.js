@@ -325,6 +325,46 @@
         // first try to get dtoobject from method
         inputParametersObject = resultObj;
 
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "outputparameters":outputparameters,
+                    "dtoloc":dtoloc,
+                    "proposedLeft":proposedLeft,
+                    "proposedRight":proposedRight,
+                    "dtoobject":dtoobject,
+                    "inputParametersObject":inputParametersObject,
+                    "childdto":childdto,
+                    "preAmble":preAmble,
+                    "item":item,
+                    "moreParameters":moreParameters,
+                    "executeobject":executeobject,
+                    "eafield":eafield,
+                    "otherdtoobject":otherdtoobject,
+                    "resultlist":resultlist
+                },
+            2:
+                {
+                    "eafield":eafield,
+                    "otherdtoobject":otherdtoobject,
+                    "resultlist":resultlist
+                }
+            }
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
+        }
 
         async.series([
 
@@ -338,10 +378,12 @@
                     executeobject['executethis']='getwidmaster';
                     etexecute(executeobject, function(err, res) {
                         dtoobject = res;
-                        proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+                            proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
+                            debugfn("addcleanparameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb("", 'one');
                     });
                 } else {
+                        debugfn("addcleanparameters", "step1a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("", 'one');
                 }
 
@@ -363,6 +405,7 @@
                             dtoobject = otherdtoobject;
                             childdto = inputParametersObject['metadata.method'];
                         }
+                        debugfn("addcleanparameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb("", 'two');
                     } else {
                         aggressivedto(dtotype, "", 10, function(err, res) {
@@ -374,10 +417,12 @@
                                 dtoobject = otherdtoobject;
                                 childdto = inputParametersObject['metadata.method'];
                             }
+                            debugfn("addcleanparameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                             cb("", 'two');
                         });
                     }
                 } else {
+                    debugfn("addcleanparameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("", 'two')
                 }
             },
@@ -449,7 +494,7 @@
                     parms: outputparameters,
                     dto: dtoobject
                 };
-
+                    debugfn("addcleanparameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("", 'three')
             }
 
@@ -478,16 +523,39 @@
         var ret = undefined;
         var err;
 
-        function debugvars() {
-            var debugvars = {
-                "AddedObject": AddedObject,
-                "widset": widset,
-                "relationshipdto": relationshipdto,
-                "executeobject": executeobject,
-                "InList": InList,
-                "widset": widset
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "AddedObject":AddedObject,
+                    "widset":widset,
+                    "relationshipdto":relationshipdto,
+                    "executeobject":executeobject,
+                    "InList":InList,
+                    "widset":widset,
+                    "ret":ret,
+                    "err":err
+                },
+            2:
+                {
+                    "widset":widset,
+                    "ret":ret,
+                    "err":err
+                }
             }
-            return debugvars;
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
         }
 
         function step1(cb) {
@@ -528,6 +596,7 @@
             executeobject["executethis"] = querywid;
             etexecute(executeobject, function(err, res) {
                 widset = res;
+                    debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("");
             });
         }
@@ -543,7 +612,8 @@
             InList.push(widobject);
 
             widset = InList;
-            proxyprinttodiv('Function AddMongoRelationship, ******************* 2 : ', widset, 90);
+                proxyprinttodiv('Function AddMongoRelationship, ******************* 2 : ', widset, 90);
+                debugfn("AddMongoRelationship", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
             cb("");
         }
 
@@ -552,10 +622,12 @@
             if (!isSynchronous) {
                 MongoAddEditPrepare([], widset, "", attr, function(err, res) {
                     AddedObject = res;
+                        debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("");
                 });
             } else {
                 AddedObject = MongoAddEditPrepare([], widset, "", attr);
+                    debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("");
             }
         }
@@ -563,22 +635,22 @@
         async.series({
                 one: step1,
                 check1: function(cbcheck) {
-                    debugfn("AddMongoRelationship after step1", "desc", true, "from parent1", 99, debugvars());
+                    debugfn("AddMongoRelationship", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 },
                 two: step2,
                 check2: function(cbcheck) {
-                    debugfn("AddMongoRelationship after step2", "desc", true, "from parent1", 99, debugvars());
+                    debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 },
                 three: step3,
                 check3: function(cbcheck) {
-                    debugfn("AddMongoRelationship after step3", "desc", true, "from parent1", 99, debugvars());
+                    debugfn("AddMongoRelationship", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 },
                 four: step4,
                 check4: function(cbcheck) {
-                    debugfn("AddMongoRelationship after step4", "desc", true, "from parent1", 99, debugvars());
+                    debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 }
 
@@ -607,6 +679,38 @@
         var ret = undefined;
         var err;
 
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "OutParameters":OutParameters,
+                    "Wid":Wid,
+                    "ret":ret,
+                    "err":err
+                },
+            2:
+                {
+                    "OutParameters":OutParameters,
+                    "Wid":Wid,
+                    "ret":ret,
+                    "err":err
+                }
+            }
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
+        }
+
         var isSynchronous = configuration.AddWidParameters.synchronous;
         if (isSynchronous) {
             AddedObject = AddWidParameters(OutParameters);
@@ -617,6 +721,7 @@
 
                 var isSynchronous = configuration.addwidmaster.synchronous;
                 if (!isSynchronous) {
+                    debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     callback(err, ret);
                 }
             });
@@ -626,6 +731,7 @@
         if (isSynchronous) {
             if (exports.environment === "local") {
                 while (ret === undefined) {}
+                debugfn("addwidmaster", "isSynchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 return ret;
             }
         }
@@ -652,12 +758,14 @@
         var Wid;
         var dtoList;
         var inputList;
-        var moreParameters;
         var ret = undefined;
         var err;
 
-        function debugvars() {
-            var debugvars = {
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
                 "obj": obj,
                 "inputParametersList": inputParametersList,
                 "commandList": commandList,
@@ -672,9 +780,30 @@
                 "accesstoken": accesstoken,
                 "inherit": inherit,
                 "dtotype": dtotype,
+                "dtoList":dtoList,
+                "ret":ret,
+                "err":err,
                 "convertmethod": convertmethod
+                },
+            2:
+                {
+                "inherit": inherit,
+                "dtotype": dtotype,
+                "convertmethod": convertmethod
+                }
             }
-            return debugvars;
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
         }
 
         commandobject = tolowerparameters(commandobject, {
@@ -798,21 +927,20 @@
             }
         }
 
-
         async.series({
                 one: step1,
                 check1: function(cbcheck) {
-                    debugfn("AddWidParameters after step1", "desc", true, "from parent1", 99, debugvars());
+                    debugfn("AddWidParameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 },
                 two: step2,
                 check2: function(cbcheck) {
-                    debugfn("AddWidParameters after step2", "desc", true, "from parent1", 99, debugvars());
+                    debugfn("AddWidParameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 },
                 three: step3,
                 check3: function(cbcheck) {
-                    debugfn("AddWidParameters after step3", "desc", true, "from parent1", 99, debugvars());
+                    debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 }
             },
@@ -866,6 +994,61 @@
         var err;
         var res;
 
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "ChildrenListobj":ChildrenListobj,
+                    "dtoobject":dtoobject,
+                    "ParentdtoList":ParentdtoList,
+                    "ParentList":ParentList,
+                    "ParentObject":ParentObject,
+                    "ParentWid":ParentWid,
+                    "attrtype":attrtype,
+                    "editflag":editflag,
+                    "attr":attr,
+                    "ParametersToAdd":ParametersToAdd,
+                    "SplitParameters":SplitParameters,
+                    "ChildrendtoList":ChildrendtoList,
+                    "ChildWid":ChildWid,
+                    "widtoadd":widtoadd,
+                    "widlist":widlist,
+                    "parameterindexobj":parameterindexobj,
+                    "currentparameter":currentparameter,
+                    "splitkey":splitkey,
+                    "currentNumber":currentNumber,
+                    "sortable":sortable,
+                    "currentitem":currentitem,
+                    "childrentype":childrentype,
+                    "RelatedListParameters":RelatedListParameters,
+                    "RelatedListdto":RelatedListdto,
+                    "executeobject":executeobject,
+                    "widlist":widlist,
+                    "err":err,
+                    "res":res
+                },
+            2:
+                {
+                    "widlist":widlist,
+                    "err":err,
+                    "res":res
+                }
+            }
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
+        }
+
         async.series([
 
                 function step1(cb) {
@@ -895,6 +1078,8 @@
                     ParentObject = {}; // add survivors -- that is the parent
                     ParentWid = '';
 
+                        debugfn("AddMaster", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
+
                     cb(null, 'one');
                 },
                 function step2(cb) {
@@ -903,11 +1088,13 @@
                     if (isSynchronous) {
                         ParentObject = MongoAddEditPrepare(ParentdtoList, ParentList, widName, dtotype);
                         ParentWid = ParentObject["wid"];
+                            debugfn("AddMaster", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null);
                     } else {
                         MongoAddEditPrepare(ParentdtoList, ParentList, widName, dtotype, function(err, res) {
                             ParentObject = res;
                             ParentWid = ParentObject["wid"];
+                                debugfn("AddMaster", "step2a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null);
                         });
                     }
@@ -917,6 +1104,7 @@
                     RelatedListParameters = RelatedListParameters.nomatch;
                     RelatedListdto = SplitObjectList(dtoList, ParentdtoList);
                     RelatedListdto = RelatedListdto.nomatch;
+                        debugfn("AddMaster", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 },
                 function step4(cb) { // create work
@@ -990,7 +1178,7 @@
                                             attrtype = 'all' // onetomany --- read all records
                                         }
                                         widlist = [];
-
+                                            debugfn("AddMaster", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
                                     function step4n2(cb) {
@@ -1013,9 +1201,11 @@
                                                 // **** 10-31
                                                 //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
                                                 proxyprinttodiv('Function AddMaster : widlist, these are the wids related to parent and current child', widlist);
+                                                    debugfn("AddMaster", "step4n2a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                 cb(null);
                                             })
                                         } else {
+                                                debugfn("AddMaster", "step4n2b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                             cb(null);
                                         }
                                     },
@@ -1030,6 +1220,7 @@
                                         proxyprinttodiv('Function AddMaster : ChildrendtoList - 111, parameters for current child', ChildrendtoList);
                                         proxyprinttodiv('Function AddMaster : RelatedListdto - 111, dto for current child, now determine if number or not A/B', RelatedListdto);
 
+                                        debugfn("AddMaster", "step4n3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
                                     function step4n4(cb) {
@@ -1061,16 +1252,19 @@
                                                                                     }
                                                                                 }
                                                                             }
+                                                                                debugfn("AddMaster", "step4n4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                             cb(null);
                                                                         },
                                                                         function step4n4n1n2(cb) {
                                                                             var isSynchronous = configuration.AddMaster.synchronous;
                                                                             if (isSynchronous) {
                                                                                 ChildWid = AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype);
+                                                                                    debugfn("AddMaster", "step4n1n2a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                 cb(null);
                                                                             } else {
                                                                                 AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function(err, res) {
                                                                                     ChildWid = res;
+                                                                                        debugfn("AddMaster", "step4n1n2b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                     cb("");
                                                                                 });
                                                                             }
@@ -1079,9 +1273,11 @@
                                                                             var isSynchronous = configuration.AddMongoRelationship.synchronous;
                                                                             if (isSynchronous) {
                                                                                 AddMongoRelationship(ParentWid, ChildWid, "attributes");
+                                                                                    debugfn("AddMaster", "step4n4n1n3a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                 cb(null);
                                                                             } else {
                                                                                 AddMongoRelationship(ParentWid, ChildWid, "attributes", function(err, res) {
+                                                                                        debugfn("AddMaster", "step4n4n1n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                     cb("");
                                                                                 });
                                                                             }
@@ -1113,6 +1309,7 @@
                                         SplitParameters = MatchPrefixDelete(RelatedListParameters, childrentype); // split parameters based on childtype
                                         ParametersToAdd = SplitParameters.match; // do right now
                                         RelatedListParameters = SplitParameters.nomatch; // do next iteration
+                                            debugfn("AddMaster", "step4n4n5", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
                                     function step4n6(cb) {
@@ -1128,16 +1325,19 @@
                                                                 }
                                                             }
                                                         };
+                                                            debugfn("AddMaster", "step4n6", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                         cb(null);
                                                     },
                                                     function step4n6n2(cb) {
                                                         var isSynchronous = configuration.AddMaster.synchronous;
                                                         if (isSynchronous) {
                                                             ChildWid = AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype);
+                                                                debugfn("AddMaster", "step4n62a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                             cb(null);
                                                         } else {
                                                             AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function(err, res) {
                                                                 ChildWid = res;
+                                                                    debugfn("AddMaster", "step4n62b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                 cb("");
                                                             });
                                                         }
@@ -1146,9 +1346,11 @@
                                                         var isSynchronous = configuration.AddMongoRelationship.synchronous;
                                                         if (isSynchronous) {
                                                             AddMongoRelationship(ParentWid, ChildWid, "attributes");
+                                                                debugfn("AddMaster", "step4n6n3a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                             cb(null);
                                                         } else {
                                                             AddMongoRelationship(ParentWid, ChildWid, "attributes", function(err, res) {
+                                                                    debugfn("AddMaster", "step4n6n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                 cb("");
                                                             });
                                                         }
@@ -1158,19 +1360,20 @@
 
                                                 }); // end async series
                                         } //end if
+                                            debugfn("AddMaster", "if (Object.keys(parameterindexobj)", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     }
                                 ],
                                 function(err, results) {
 
                                 }); // end step 4 async series
-
                             cbMap(null); // step 4 map callback
 
                         },
                         function(err, results) {
 
                         }); // end map at step 4
+                        debugfn("AddMaster", "end map at step 4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null); // step 4 function callback
                 }
             ], //end step 4 function
