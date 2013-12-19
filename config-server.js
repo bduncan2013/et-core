@@ -59,7 +59,7 @@ configuration.postExecute[2].dothis = 'executegetwid';
 exports.config  = config =  config123();
 
 
-function executeAjax(allConfig,executeItem,callback,returnCallback) {
+/* function executeAjax(allConfig,executeItem,callback,returnCallback) {
     var result;
     var success = false;
     result = "";
@@ -94,7 +94,7 @@ function executeAjax(allConfig,executeItem,callback,returnCallback) {
             callback(data,allConfig,'html',returnCallback);
         }
     });
-}
+} */
 
 // Primary execute function called after doThis
 function test2(params, callback){

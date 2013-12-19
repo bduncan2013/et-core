@@ -611,7 +611,6 @@
         if (isSynchronous) {
             AddedObject = AddWidParameters(OutParameters);
         } else {
-
             AddWidParameters(OutParameters, function(err, ret) {
                 AddedObject = ret;
 

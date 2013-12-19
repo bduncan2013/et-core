@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Node-1-Local</title>
@@ -12,18 +12,21 @@
     <script src="./bootstrap/js/bootstrap.min.js"></script>
     <script src="./async.js" type="text/javascript"></script>
 	
+	
     <script src="config-local.js"></script>
     <script src="et-utils.js"></script>
     <script src="executethis.js"></script>
 	<script src="et-testing.js" type="text/javascript"></script>
+
 	<script src="et-get.js" type="text/javascript"></script>
 	<script src="et-add.js" type="text/javascript"></script>
 	<script src="et-query.js" type="text/javascript"></script>
     <script src="et-local.js" type="text/javascript"></script>
+
 	<script src="et-test.js" type="text/javascript"></script>
 	<script src="et-unit_tests.js" type="text/javascript"></script>
 	<script src="cody.js" type="text/javascript"></script>
-	<script src="et-security.js" type="text/javascript"></script>
+	
 
 <style  type="text/css">
         body {
@@ -43,6 +46,14 @@
 	    background-color: #7BA1E2; 
 	    width: 0%;
 	}
+
+	pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+	.string { color: green; }
+	.number { color: darkorange; }
+	.boolean { color: blue; }
+	.null { color: magenta; }
+	.key { color: red; }
+
 </style>
 <script type="text/javascript">
 
@@ -89,6 +100,7 @@ function test4(params) {
 			<br><br>
 			<label>Function: </label>
 			<input id='function_to_run' size='20' value=''>
+			<label>Debug on ? </label><input type='checkbox' id='debugon'>
 <!--
 			<label>Server call ? </label><input type='checkbox' id='server_caller'>
 -->		
@@ -97,27 +109,10 @@ function test4(params) {
 		</div> <!-- end of col-md-12> -->
 	</div> <!-- end of row -->
 	<br>
+
+	<br>
 	<div>
 
-	<div class='row'>   
-	    <div class="col-md-12">
-	        <span class="label label-default well_hider">Debug</span>
-	            <div class="well" style='display: none;'>
-					<label>Debug? </label>				<input type='checkbox' id='debugon'>
-					<label>Destination: Print? </label>	<input type='checkbox' id='dest_print' checked>
-					<label> Google? </label>			<input type='checkbox' id='dest_google'>
-					<label> Debug Level? </label>		<input id='dbug_level' size='3' value=''>
-					<br>
-					<label>Name: </label>				<input id='dbug_name' size='20' value=''>
-					<label>Category: </label>			<input id='dbug_category' size='20' value=''>
-					<label>Subcategory: </label>		<input id='dbug_subcategory' size='20' value=''>
-					<label>Filter: </label>				<input id='dbug_filter' size='20' value=''>
-	            	<!-- <textarea id="function_parameters" class='test_content col-md-12 col-sm-12' rows='3'></textarea> -->
-
-	            </div>
-		</div> <!-- end of col-md-12 -->
-	</div> <!-- end row -->
-	<br>
 
 
 	<!--
@@ -135,7 +130,7 @@ function test4(params) {
 		            <div class="well" style='display: block;'>
 		            	<textarea id="function_parameters" class='test_content col-md-12 col-sm-12' rows='3'></textarea>
 		            </div>
-			</div> <!-- end of col-md-12 -->
+			</div> <!-- end of col-md-6 -->
 		</div> <!-- end row -->
 
 
@@ -241,23 +236,10 @@ $('#debugon').change(function() {
 $(document).ready(function() {
 	Debug = 'false';
 	bootprocess();
-	// $('dest_print').prop("checked", true);
 });
 
 function execute_stuff(isTest, isServer) {
 	bootprocess();
-
-	// Pulling values out of the debug area
-	debugname = $('#dbug_name').val(); 
-	debugcat = $('#dbug_category').val();
-	debugsubcat = $('#dbug_subcategory').val();
-	debugfilter = $('#dbug_filter').val();
-	if ($('#dbug_level').val() != "") debuglevel = parseInt($('#dbug_level').val());
-
-	if ( $('#dest_print').is(':checked') && !$('#dest_google').is(':checked') ) debugdestination = 1;
-	if ( !$('#dest_print').is(':checked') && $('#dest_google').is(':checked') ) debugdestination = 2;
-	if ( $('#dest_print').is(':checked') && $('#dest_google').is(':checked') ) debugdestination = 3;
-
 	// localStorage.clear();
 	$('#resultDiv').text("");
 	$('#test_result_message').text("");
@@ -650,42 +632,7 @@ exports.verifysummary_local = verifysummary_local = function verifysummary_local
 		return {"resultwid":'FAIL'}
 	}
 }
+
 </script>
-<script>
-function isNumeric(elem, helperMsg){
-	var numericExpression = /^[0-9]+$/;
-	if(elem.value.match(numericExpression)){
-		return true;
-	}else{
-		alert(helperMsg);
-		elem.focus();
-		return false;
-	}
-}
-function checkBeforeSubmit(){
-	if ((isNumeric(document.getElementById('numbers'), 'Please enter a number'))){
-		document.getElementById('theForm').submit();
-		document.getElementById('success').innerHTML='Submitted';
-	}
-}
-</script>
-
-<div id='google_data' style='display:none'>
-	<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-	<form method="post" action="https://script.google.com/macros/s/AKfycbyy6Nu3M6EQZ7wyx4vIGOoe8xAZUkzKC1f2wlRcdn6VcatTc9w/exec" name="theForm" id="theForm" target="hidden_iframe" id="GoogleForm">
-	<!-- <form method="post" action="https://script.google.com/macros/s/AKfycbwVOpk9j4HDMGsgHOw7BzGvpTBXYQLkZgVBpWxiVQo7oBvQmHEh/exec" name="theForm" id="theForm" target="hidden_iframe" id="GoogleForm"> -->
-	  Name:
-	  <input type="text" name="name" id="name"/>
-	  <br />Comment:
-	  <textarea name="comment" id="comment"></textarea>
-	  <br />
-	  Basic spam prevention (enter any 4 digit number): <input name="numbers" id="numbers" type="text">
-	  <input type="button" value="Submit" class="submit"  onclick="checkBeforeSubmit();"/>
-	  <span id="success"></span>
-	  </div>
-	</form>
-</div>
-
-
 </body>
 </html>
