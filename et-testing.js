@@ -75,7 +75,7 @@ function execute_function(myfunc) {
 	if (typeof window[myfunc] == 'function') {
 		//alert("I found the function...let's go run it!");
 		// result = window[myfunc]();
-		var output = window['executethis'](inputparameters, myfunc);
+		result = window[myfunc]();
 		// LM: added the return result for unit testing.
 		// It was not returning before...
 		// I can take it out if code starts breaking...but 
@@ -133,7 +133,8 @@ exports.executetest = executetest = function executetest(myfunc, inputparameters
 	proxyprinttodiv('type of fn', (myfunc instanceof Function), 1);
 
 	proxyprinttodiv('executeTest - inputparameters', inputparameters, 99);
-	var output = executethis(inputparameters, myfunc); // added
+	// var output = executethis(inputparameters, myfunc); // added
+	var output = window['executethis'](inputparameters, myfunc);
 
 	//var output={"a":"b"};
 	proxyprinttodiv('results of executeTest =>', output, 99);
