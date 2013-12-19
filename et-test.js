@@ -1,14 +1,14 @@
 
 
 exports.dtott = dtott = function dtott(params, callback){ //widviewer 
-
+	config = setconfig1();
 	testclearstorage();	
 
 	debugcolor = 0;
 	debugon = true;
 	debugname = "";
 	debugsubcat = "";
-	debugcat = "";
+	debugcat = "add";
 	debugfilter = "";
 	debugdestination = 1;
 	//debuglevel=15;

@@ -52,6 +52,45 @@
         // does this need to be global ?
         dtoGlobalParameters = {};
 
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "moreDTOParameters":moreDTOParameters,
+                    "targetwid":targetwid,
+                    "nexttargetwid":nexttargetwid,
+                    "nextpreamble":nextpreamble,
+                    "eachresult":eachresult,
+                    "key":key,
+                    "rightparameters":rightparameters,
+                    "executeobject":executeobject,
+                    "parameterObject":parameterObject,
+                    "x":x,
+                    "ret":ret,
+                    "err":err
+                },
+            2:
+                {
+                    "moreDTOParameters":moreDTOParameters,
+                    "targetwid":targetwid,
+                    "nexttargetwid":nexttargetwid
+                }
+            }
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
+        }
+
         async.series([
 
                 function step1(cb) {
@@ -72,6 +111,7 @@
                     executeobject['executethis'] = 'getwid';
                     etexecute(executeobject, function(err, res) {
                         parameterObject = res;
+                            debugfn("aggressivedto", "step1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null);
                     });
                 },
@@ -133,6 +173,7 @@
                                         if (Object.keys(moreDTOParameters).length != 0) {
                                             parameterObject = jsonConcat(parameterObject, moreDTOParameters)
                                         }
+                                            debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb1(null, 'step2n1');
                                     });
 
@@ -151,6 +192,7 @@
                                     // x = window['querywid'];
                                     etexecute(executeobject, function(err, res) {
                                         moreParameters = res;
+                                            debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb1(null, 'step2n1');
                                     });
                                 }
@@ -160,9 +202,11 @@
                                 if (err) {
                                     throw err;
                                 }
+                                    debugfn("aggressivedto", "if ((parameterObject !== undefined)  A", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'two');
                             });
                     } else {
+                            debugfn("aggressivedto", "if ((parameterObject !== undefined)  B", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     }
                 },
@@ -193,16 +237,19 @@
                                             var isSynchronous = configuration.aggressivedto.synchronous;
                                             if (isSynchronous) {
                                                 params = aggressivedto(key, key, level);
+                                                    debugfn("aggressivedto", "step3a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                 cbn1(null);
                                             } else {
                                                 aggressivedto(key, key, level, function(err, data) { //TODO consider -- DONE
                                                     params = data;
+                                                        debugfn("aggressivedto", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                     cbn1(null);
                                                 });
                                             }
                                         },
                                         function step3n2(cbn2) {
                                             parameterObject = jsonConcat(parameterObject, params);
+                                                debugfn("aggressivedto", "step3n2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                             cbn2(null);
                                         }
                                     ],
@@ -227,7 +274,7 @@
                         dtoGlobalParameters[preamble + eachresult] = parameterObject[eachresult];
                     }
                     ret = dtoGlobalParameters;
-
+                        debugfn("aggressivedto", "step4", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'four');
                 }
             ],
@@ -265,6 +312,52 @@
         var ret = undefined;
         var err;
         var isSynchronous;
+
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "outputparameters":outputparameters,
+                    "dtoloc":dtoloc,
+                    "proposedLeft":proposedLeft,
+                    "proposedRight":proposedRight,
+                    "dtoobject":dtoobject,
+                    "inputParametersObject":inputParametersObject,
+                    "childdto":childdto,
+                    "preAmble":preAmble,
+                    "item":item,
+                    "moreParameters":moreParameters,
+                    "executeobject":executeobject,
+                    "eafield":eafield,
+                    "otherdtoobject":otherdtoobject,
+                    "resultlist":resultlist,
+                    "ret":ret,
+                    "err":err,
+                    "isSynchronous":isSynchronous
+                },
+            2:
+                {
+                    "outputparameters":outputparameters,
+                    "dtoloc":dtoloc,
+                    "proposedLeft":proposedLeft,
+                    "proposedRight":proposedRight
+                }
+            }
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
+        }
+
 
         // goal of this section is to get inherited parameters
         async.series([
@@ -312,7 +405,7 @@
                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
                                 }
                             }
-
+                                debugfn("getcleanparameters", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'one');
                         } else {
                             aggressivedto(resultObj['wid'], "", 10, function(err, res) {
@@ -391,10 +484,12 @@
                                                                 resultObj[preamble + '.' + eafield] = moreParameters[eafield];
                                                             }
                                                         }
+                                                            debugfn("getcleanparameters", "step1n1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                         cb2(null, 'one');
                                                     });
                                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
                                                 }else{
+                                                        debugfn("getcleanparameters", "step1n1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                     cb2(null, 'one');
                                                 }
                                             }
@@ -447,6 +542,7 @@
                     } else { // if resultObj["metadata.method"] = dtotype)
                         outputparameters = resultObj;
                     }
+                        debugfn("getcleanparameters", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
                 }, // end step2
                 function step3(cb) {
@@ -454,6 +550,7 @@
                         parms: outputparameters,
                         dto: dtoobject
                     };
+                        debugfn("getcleanparameters", "step3", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 }
             ],
@@ -488,6 +585,43 @@
         var ret;
         var err;
 
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "ret":ret,
+                    "resultObj":resultObj,
+                    "inherit":inherit,
+                    "checkflag":checkflag,
+                    "convertMethod":convertMethod,
+                    "dtotype":dtotype,
+                    "wid":wid,
+                    "accesstoken":accesstoken,
+                    "ret":ret,
+                    "err":err
+                },
+            2:
+                {
+                    "ret":ret,
+                    "resultObj":resultObj,
+                    "inherit":inherit
+                }
+            }
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
+        }
+
         async.series([
 
                 function step1(cb) {
@@ -508,15 +642,16 @@
                     checkflag = parameters["command.checkflag"];
                     convertMethod = parameters["command.convertmethod"];
 
-
                     var isSynchronous = configuration.getWidMongo.synchronous;
 
                     if (isSynchronous) {
                         resultObj = getWidMongo(wid, convertMethod, accesstoken, dtotype); //TODO consider -- DONE
+                            debugfn("getwidmaster", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'one');
                     } else {
                         getWidMongo(wid, convertMethod, accesstoken, dtotype, function(err, data) { //TODO consider -- DONE
                             resultObj = data;
+                                debugfn("getwidmaster", "step1b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'one');
                         });
                     }
@@ -535,6 +670,7 @@
                             if (moreParameters) {
                                 resultObj = jsonConcat(resultObj, moreParameters);
                             }
+                                debugfn("getwidmaster", "step2a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'two');
                         });
                         // getwid(OutParameters, function(res) {
@@ -546,6 +682,7 @@
                         //     });
 
                     } else {
+                            debugfn("getwidmaster", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     }
                 },
@@ -585,6 +722,7 @@
 
                     ret = resultObj;
 
+                        debugfn("getwidmaster", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 }
             ],
@@ -631,6 +769,54 @@
         var err;
         var ret;
 
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "dtoGlobalParameters":dtoGlobalParameters,
+                    "attr":attr,
+                    "nextLevelParameters":nextLevelParameters,
+                    "outgoingParameters":outgoingParameters,
+                    "moreDTOParameters":moreDTOParameters,
+                    "moreParameters":moreParameters,
+                    "currentLevelObjectList":currentLevelObjectList,
+                    "dtoGlobalParametersList":dtoGlobalParametersList,
+                    "addedobject":addedobject,
+                    "eachresult":eachresult,
+                    "createdto":createdto,
+                    "createrelationships":createrelationships,
+                    "savedto":savedto,
+                    "createid":createid,
+                    "dtotype":dtotype,
+                    "currentLevelObject":currentLevelObject,
+                    "item":item,
+                    "executeobject":executeobject,
+                    "olddebug":olddebug,
+                    "err":err,
+                    "ret":ret
+                },
+            2:
+                {
+                    "nextLevelParameters":nextLevelParameters,
+                    "outgoingParameters":outgoingParameters,
+                    "moreDTOParameters":moreDTOParameters
+                }
+            }
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
+        }
+
         if (!widInput) {
             ret = "";
             if (callback instanceof Function) {
@@ -651,6 +837,7 @@
                         // cb(null);
                         etexecute(executeobject, function(err, res) {
                             currentLevelObject = res;
+                                debugfn("getWidMongo", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'part1');
                         });
                     },
@@ -665,10 +852,12 @@
                             etexecute(executeobject, function(err, res) {
                                 dtoGlobalParameters = res; //TODO -- DONE
                                 console.log(dtoGlobalParameters);
+                                    debugfn("getWidMongo", "step2a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'two');
                             }); //TODO -- DONE
 
                         } else {
+                                debugfn("getWidMongo", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'two');
                         }
 
@@ -678,10 +867,12 @@
 
                         if (isSynchronous) {
                             moreParameters = aggressivedto(widInput, "", 1); //TODO -- done
+                                debugfn("getWidMongo", "step3a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'three');
                         } else {
                             aggressivedto(widInput, "", 1, function(err, res) {
                                 moreParameters = res;
+                                    debugfn("getWidMongo", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'three');
                             });
                         }
@@ -697,6 +888,7 @@
                         currentLevelObject = listToObject(currentLevelObjectList);
                         outgoingParameters = currentLevelObject;
                         dtoGlobalParameters = moreParameters; // line added 11-9 -- step through an agressive dto
+                            debugfn("getWidMongo", "step4", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'four');
                     },
                     function step5(cb) {
@@ -734,6 +926,7 @@
                                     //TODO -- DONE
                                     outgoingParameters = jsonConcat(outgoingParameters, nextLevelParameters);
                                 } // if
+                                    debugfn("getWidMongo", "step5", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                 cbMap(null);
                             },
                             function(err, res) {
@@ -746,6 +939,7 @@
                     function step6(cb) {
                         Debug = olddebug;
                         ret = outgoingParameters;
+                            debugfn("getWidMongo", "step6", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'six');
                     }
                 ],
@@ -785,6 +979,46 @@
         var ret = undefined;
         var err;
 
+        function debugvars(varlist) {
+            var allvars = 
+            {
+            1:
+                {
+                    "executeobject":executeobject,
+                    "drillDownParameters":drillDownParameters,
+                    "rowresult":rowresult,
+                    "nextLevelParameters":nextLevelParameters,
+                    "nextLevelParametersObject":nextLevelParametersObject,
+                    "proposedLeft":proposedLeft,
+                    "proposedRight":proposedRight,
+                    "item":item,
+                    "iteration":iteration,
+                    "relatedParameters":relatedParameters,
+                    "listToDo":listToDo,
+                    "ret":ret,
+                    "err":err
+                },
+            2:
+                {
+                    "executeobject":executeobject,
+                    "drillDownParameters":drillDownParameters,
+                    "rowresult":rowresult
+                }
+            }
+            var resultObj={};
+            var eachgroup;
+            var vargroup;
+            if (!varlist) {
+                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                }
+            
+            for (eachgroup in varlist) {
+                vargroup = varlist[eachgroup]
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+            return resultObj;
+        }
+
         async.series([
 
                 function part1(cb) {
@@ -800,6 +1034,7 @@
 
                     etexecute(executeobject, function(err, res) {
                         relatedParameters = res; //TODO -- DONE
+                            debugfn("getAndFormatNextLevel", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null)
                     })
 
@@ -905,11 +1140,13 @@
                                 }
                             });
                     }
+                        debugfn("getAndFormatNextLevel", "part2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
                 },
                 function part3(cb) {
                     nextLevelParametersObject = listToObject(nextLevelParameters);
                     ret = nextLevelParametersObject;
+                        debugfn("getAndFormatNextLevel", "part3", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 }
             ],
