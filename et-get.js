@@ -1,4 +1,5 @@
 (function(window) {
+    var configuration = config.configuration;
 
     exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
         delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
