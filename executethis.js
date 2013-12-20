@@ -167,9 +167,14 @@
                 delete params[target]; // ** moved by Roger
                 delete params[targetfunction]; // ** added by Roger
 
-                howToDoList = CreateDoList(params, target, targetfunction);       // generate list based on pre, mid, post
+                var tempHowToDoList = CreateDoList(params, target, targetfunction);       // generate list based on pre, mid, post
+                howToDoList = extend(howToDoList, tempHowToDoList);
+                
                 proxyprinttodiv("dothis - howToDoList ", howToDoList, 11);
-                whatToDoList =  CreateDoList(params, targetname, targetfunction); // generate list based on fn name
+                
+                var tempWhatToDoList =  CreateDoList(params, targetname, targetfunction); // generate list based on fn name
+                whatToDoList = extend(whatToDoList, tempWhatToDoList);
+                
                 proxyprinttodiv("dothis - whatToDoList ", whatToDoList, 11);
                 executelist(howToDoList, whatToDoList, callback);                 // execute list
 
