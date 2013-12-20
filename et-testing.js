@@ -507,7 +507,7 @@ exports.debugfn = debugfn = function debugfn() {
 	        + syntaxHighlight(jsonPretty)
 			+ displaycolor + "</div>";
 		}
-		console.log(jsonPretty);
+		console.log('***** Look here *****' + jsonPretty);
 		$('#divprint').append(temp_HTML);
 		//proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
 	}       
