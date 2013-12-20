@@ -16,8 +16,11 @@
       , executethis
       , etexecute;
 
-    exports.etexecute=window.etexecute = etexecute = function etexecute(params, callback) {
-        execute(params, function (results) { var err = {}; callback(err, results)});
+    exports.etexecute = window.etexecute = etexecute = function etexecute(params, callback) {
+        execute(params, function (results) { 
+                var err = {}; 
+                callback(err, results);
+            });
     }
 
 
@@ -35,7 +38,9 @@
         else { 
             if ((incomingparams !== undefined) && (incomingparams['etbypass'])) {
                 proxyprinttodiv("execute - etbypass incomingparams",incomingparams,11);
-                var x = undefined;          
+                
+                var x = undefined;
+
                 if(incomingparams["executethis"]){
                     if (incomingparams["executethis"] instanceof Function) {
                         x = incomingparams["executethis"];
@@ -94,8 +99,8 @@
         var tempParams = toLowerKeys(inboundparms)
         var argCount = 0
         
+        // cloning inbound params
         params = extend(params, tempParams);
-
 
         proxyprinttodiv('Function executethis params',  params,11);
         proxyprinttodiv('Function executethis fn', targetfunction.name,11);
@@ -194,7 +199,10 @@
         if ((configfn === undefined) || (configfn==="")) {configfn=""};
 
         // get saved configuration
-        var config0 = toLowerKeys(config.configuration); // config0 is working copy of current configuration
+        var tempConfig0 = toLowerKeys(config.configuration); // config0 is working copy of current configuration
+
+        // cloning config
+        var config0 = extend(config0, tempConfig0);
 
         // If there is no config object for current target make one
         if (typeof config0[configtarget] !== 'object') {
