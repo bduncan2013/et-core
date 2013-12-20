@@ -796,7 +796,9 @@ exports.extend = extend = function extend() { // similar to jquery exetend()
             printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
             console.log(text);
             console.log(obj);
-            document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+            if (document.getElementById('divprint')) {
+                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+            }
         }
     };
 
