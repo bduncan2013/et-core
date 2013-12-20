@@ -451,34 +451,6 @@ exports.debugfn = debugfn = function debugfn() {
 			case 3:
 				// level
 			break;
-
-			case 4:
-				// level
-			break;
-
-			case 5:
-				// level
-			break;
-
-			case 6:
-				// level
-			break;
-
-			case 7:
-				// level
-			break;
-
-			case 8:
-				// level
-			break;
-
-			case 9:
-				// level
-			break;
-
-			case 10:
-				// level
-			break;
 		}
 
 
@@ -535,7 +507,7 @@ exports.debugfn = debugfn = function debugfn() {
 	        + syntaxHighlight(jsonPretty)
 			+ displaycolor + "</div>";
 		}
-
+		console.log(jsonPretty);
 		$('#divprint').append(temp_HTML);
 		//proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
 	}       
