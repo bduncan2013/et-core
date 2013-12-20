@@ -141,7 +141,7 @@
         async.series([
 
    function step1(cb) {
-                if (queParams['mongowid'] != undefined) {
+                if (queParams['mongowid'] !== undefined) {
                     output = queParams['mongowid'];
                     //output = {mongowid:mongowid};
                     // var temp = queParams['mongowid'];
