@@ -90,8 +90,12 @@
         //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
         if (!targetfunction || !targetfunction instanceof Function) { targetfunction = execute; }
 
-        var params = toLowerKeys(inboundparms)
-            , argCount = 0
+        var params;
+        var tempParams = toLowerKeys(inboundparms)
+        var argCount = 0
+        
+        params = extend(params, tempParams);
+
 
         proxyprinttodiv('Function executethis params',  params,11);
         proxyprinttodiv('Function executethis fn', targetfunction.name,11);
@@ -374,7 +378,7 @@
                 executeobject = getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn); // get status of that fn
                 proxyprinttodiv("executelist executeobject ",executeobject,11);
                 if (executeobject) {break}; // if fnparams sent back (fn found) then end
-                } // for w
+            } // for w
             if (executeobject) {break}; 
             } // for h
         
