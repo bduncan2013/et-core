@@ -679,41 +679,42 @@
         var Wid;
         var ret = undefined;
         var err;
+        var AddedObject = {};
 
         function debugvars(varlist) {
             var allvars = 
             {
-            1:
-                {
-                    "OutParameters":OutParameters,
-                    "Wid":Wid,
-                    "ret":ret,
-                    "err":err
-                },
-            2:
-                {
-                    "OutParameters":OutParameters,
-                    "Wid":Wid,
-                    "ret":ret,
-                    "err":err
-                }
-            }
+                1:
+                    {
+                        "OutParameters":OutParameters,
+                        "Wid":Wid,
+                        "ret":ret,
+                        "err":err
+                    },
+                2:
+                    {
+                        "OutParameters":OutParameters,
+                        "Wid":Wid,
+                        "ret":ret,
+                        "err":err
+                    }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
+
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
+            }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
+            }
             return resultObj;
         }
 
-        var isSynchronous = configuration.AddWidParameters.synchronous;
-        if (isSynchronous) {
+        var isAddWidPSynchronous = configuration.AddWidParameters.synchronous;
+        if (isAddWidPSynchronous) {
             AddedObject = AddWidParameters(OutParameters);
         } else {
 
@@ -728,8 +729,8 @@
             });
         }
 
-        var isSynchronous = configuration.addwidmaster.synchronous;
-        if (isSynchronous) {
+        var isAddWidMSynchronous = configuration.addwidmaster.synchronous;
+        if (isAddWidMSynchronous) {
             if (exports.environment === "local") {
                 while (ret === undefined) {}
                 debugfn("addwidmaster", "isSynchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
@@ -765,45 +766,46 @@
         function debugvars(varlist) {
             var allvars = 
             {
-            1:
-                {
-                "obj": obj,
-                "inputParametersList": inputParametersList,
-                "commandList": commandList,
-                "commandobject": commandobject,
-                "inputParametersObject": inputParametersObject,
-                "parameterObject": parameterObject,
-                "dtoobject": dtoobject,
-                "metadata": metadata,
-                "moreParameters": moreParameters,
-                "Wid": Wid,
-                "checkflag": checkflag,
-                "accesstoken": accesstoken,
-                "inherit": inherit,
-                "dtotype": dtotype,
-                "dtoList":dtoList,
-                "ret":ret,
-                "err":err,
-                "convertmethod": convertmethod
-                },
-            2:
-                {
-                "inherit": inherit,
-                "dtotype": dtotype,
-                "convertmethod": convertmethod
-                }
-            }
+                1:
+                    {
+                    "obj": obj,
+                    "inputParametersList": inputParametersList,
+                    "commandList": commandList,
+                    "commandobject": commandobject,
+                    "inputParametersObject": inputParametersObject,
+                    "parameterObject": parameterObject,
+                    "dtoobject": dtoobject,
+                    "metadata": metadata,
+                    "moreParameters": moreParameters,
+                    "Wid": Wid,
+                    "checkflag": checkflag,
+                    "accesstoken": accesstoken,
+                    "inherit": inherit,
+                    "dtotype": dtotype,
+                    "dtoList":dtoList,
+                    "ret":ret,
+                    "err":err,
+                    "convertmethod": convertmethod
+                    },
+                2:
+                    {
+                    "inherit": inherit,
+                    "dtotype": dtotype,
+                    "convertmethod": convertmethod
+                    }
+            };
+
             var resultObj={};
-            var eachgroup;
             var vargroup;
+
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
+            }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
+            }
             return resultObj;
         }
 
@@ -814,6 +816,7 @@
             'command.inherit': 'add',
             'command.accesstoken': 'add'
         });
+
         inputParametersObject = tolowerparameters(inputParametersObject, {
             'metadata.method': 'add',
             'metadata.style': 'true',
@@ -822,7 +825,9 @@
             'secondarywid': 'true',
             'relationshiptype': 'true'
         });
+
         delete inputParametersObject['executethis']; //** added 11/2
+
         if (inputParametersObject["wid"] === undefined) {
             inputParametersObject["wid"] = "";
         }
@@ -932,17 +937,17 @@
                 one: step1,
                 check1: function(cbcheck) {
                     debugfn("AddWidParameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("")
+                    cbcheck("");
                 },
                 two: step2,
                 check2: function(cbcheck) {
                     debugfn("AddWidParameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("")
+                    cbcheck("");
                 },
                 three: step3,
                 check3: function(cbcheck) {
                     debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("")
+                    cbcheck("");
                 }
             },
             function(err, results) {
@@ -963,7 +968,7 @@
                 return ret;
             }
         }
-    };
+    }
 
     function AddMaster(dtoList, parameterList, widName, dtotype, callback) {
         var ChildrenListobj = {};
@@ -982,8 +987,7 @@
         var widtoadd = '';
         var widlist = [];
         var parameterindexobj = {};
-        var currentparameter = '';
-        var splitkey = ''
+        var splitkey = '';
         var currentNumber = 0;
         var sortable = [];
         var currentitem = '';
@@ -991,62 +995,59 @@
         var RelatedListParameters;
         var RelatedListdto;
         var executeobject;
-        var widlist;
         var err;
         var res;
 
         function debugvars(varlist) {
             var allvars = 
             {
-            1:
-                {
-                    "ChildrenListobj":ChildrenListobj,
-                    "dtoobject":dtoobject,
-                    "ParentdtoList":ParentdtoList,
-                    "ParentList":ParentList,
-                    "ParentObject":ParentObject,
-                    "ParentWid":ParentWid,
-                    "attrtype":attrtype,
-                    "editflag":editflag,
-                    "attr":attr,
-                    "ParametersToAdd":ParametersToAdd,
-                    "SplitParameters":SplitParameters,
-                    "ChildrendtoList":ChildrendtoList,
-                    "ChildWid":ChildWid,
-                    "widtoadd":widtoadd,
-                    "widlist":widlist,
-                    "parameterindexobj":parameterindexobj,
-                    "currentparameter":currentparameter,
-                    "splitkey":splitkey,
-                    "currentNumber":currentNumber,
-                    "sortable":sortable,
-                    "currentitem":currentitem,
-                    "childrentype":childrentype,
-                    "RelatedListParameters":RelatedListParameters,
-                    "RelatedListdto":RelatedListdto,
-                    "executeobject":executeobject,
-                    "widlist":widlist,
-                    "err":err,
-                    "res":res
-                },
-            2:
-                {
-                    "widlist":widlist,
-                    "err":err,
-                    "res":res
-                }
-            }
+                1:
+                    {
+                        "ChildrenListobj":ChildrenListobj,
+                        "dtoobject":dtoobject,
+                        "ParentdtoList":ParentdtoList,
+                        "ParentList":ParentList,
+                        "ParentObject":ParentObject,
+                        "ParentWid":ParentWid,
+                        "attrtype":attrtype,
+                        "editflag":editflag,
+                        "attr":attr,
+                        "ParametersToAdd":ParametersToAdd,
+                        "SplitParameters":SplitParameters,
+                        "ChildrendtoList":ChildrendtoList,
+                        "ChildWid":ChildWid,
+                        "widtoadd":widtoadd,
+                        "widlist":widlist,
+                        "parameterindexobj":parameterindexobj,
+                        "currentparameter":currentparameter,
+                        "splitkey":splitkey,
+                        "currentNumber":currentNumber,
+                        "sortable":sortable,
+                        "currentitem":currentitem,
+                        "childrentype":childrentype,
+                        "RelatedListParameters":RelatedListParameters,
+                        "RelatedListdto":RelatedListdto,
+                        "executeobject":executeobject,
+                        "err":err,
+                        "res":res
+                    },
+                2:
+                    {
+                        "widlist":widlist,
+                        "err":err,
+                        "res":res
+                    }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
+            }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
+            }
             return resultObj;
         }
 
@@ -1071,7 +1072,7 @@
                     ParentdtoList = dtoList; // now go through childrent list and delete from copy of incoming parameters
                     ParentList = parameterList; // anything related to these children
 
-                    for (currentparameter in ChildrenListobj) {
+                    for (var currentparameter in ChildrenListobj) {
                         ParentList = MatchDelete(ParentList, currentparameter);
                         ParentdtoList = MatchDelete(ParentdtoList, currentparameter);
                     }
@@ -1123,15 +1124,15 @@
 
                                         for (currentcount in RelatedListParameters) {
                                             //proxyprinttodiv('Function AddMaster : currentcount', currentcount);
-                                            currentparameter = RelatedListParameters[currentcount].key;
+                                            var currentparameter = RelatedListParameters[currentcount].key;
                                             //proxyprinttodiv('Function AddMaster : currentparameter', currentparameter);
                                             splitkey = currentparameter.split(".");
                                             //proxyprinttodiv('Function AddMaster : splitkey', splitkey);
                                             if (splitkey[0] == childrentype) {
                                                 currentNumber = 0;
                                                 if (splitkey[1] !== undefined) {
-                                                    currentNumber = Number(splitkey[1])
-                                                };
+                                                    currentNumber = Number(splitkey[1]);
+                                                }
                                                 //proxyprinttodiv('Function AddMaster : currentNumber', currentNumber);
                                                 if (currentNumber >= 0) {
                                                     //proxyprinttodiv('Function AddMaster : currentNumber II ', currentNumber);
@@ -1167,7 +1168,7 @@
 
 
                                         if (Object.keys(parameterindexobj).length !== 0) { // for this children, any parameters with number?
-                                            editflag = 'true' // if we had parameterindex, then edit must be true
+                                            editflag = 'true'; // if we had parameterindex, then edit must be true
                                         }
 
                                         //proxyprinttodiv('Function AddMaster : editflag', editflag);
@@ -1176,7 +1177,7 @@
                                             attrtype = 'last'; // onetoone -- read last record
                                         }
                                         if (attr == 'onetomany') {
-                                            attrtype = 'all' // onetomany --- read all records
+                                            attrtype = 'all'; // onetomany --- read all records
                                         }
                                         widlist = [];
                                             debugfn("AddMaster", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
@@ -1325,7 +1326,7 @@
                                                                     widtoadd = widName;
                                                                 }
                                                             }
-                                                        };
+                                                        }
                                                             debugfn("AddMaster", "step4n6", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                         cb(null);
                                                     },
@@ -1398,7 +1399,7 @@
                 return ret;
             }
         }
-    }; // end addMaster
+    } // end addMaster
 
 
     // function MongoAddEditPrepare(Indto, InList, widid, widdto, callback) {
