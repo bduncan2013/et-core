@@ -105,7 +105,7 @@
         proxyprinttodiv('Function executethis params',  params,11);
         proxyprinttodiv('Function executethis fn', targetfunction.name,11);
         proxyprinttodiv('Function executethis length', targetfunction.length,11);
-        console.log('targetfunction length => ' + targetfunction.length);
+//        console.log('targetfunction length => ' + targetfunction.length);  // cluttering up the console.
         if (targetfunction.length !== undefined) { argCount = targetfunction.length; }
 
             if (argCount == 1) {
