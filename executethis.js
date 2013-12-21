@@ -21,7 +21,7 @@
                 var err = {}; 
                 callback(err, results);
             });
-    }
+    };
 
 
     exports.execute = window.execute = execute = function execute(incomingparams,callback) {
@@ -96,11 +96,11 @@
         if (!targetfunction || !targetfunction instanceof Function) { targetfunction = execute; }
 
         var params;
-        var tempParams = toLowerKeys(inboundparms)
-        var argCount = 0
+        var tempParams = toLowerKeys(inboundparms);
+        var argCount = 0;
         
         // cloning inbound params
-        params = extend(params, tempParams);
+        params = extend(true, params, tempParams);
 
         proxyprinttodiv('Function executethis params',  params,11);
         proxyprinttodiv('Function executethis fn', targetfunction.name,11);
@@ -120,17 +120,17 @@
 
                 var cbfunction = function (results, results2) {
                     funcDone = true; 
-                    if (results2) {retResult = results2}
-                             else {retResult = results};
-                    }
+                    if (results2) {retResult = results2;}
+                    else {retResult = results;}
+                };
 
                 while(!funcDone) {
                     if(!funcCalled) {
                         funcCalled = true;
                         targetfunction(params, cbfunction);
                     }
-                    count++
-                    if (count>100){funcDone=true}
+                    count++;
+                    if (count>100){funcDone=true;}
                 }
 
                 if (retResult === undefined){ retResult={}; }
@@ -173,12 +173,12 @@
                 delete params[targetfunction]; // ** added by Roger
 
                 var tempHowToDoList = CreateDoList(params, target, targetfunction);       // generate list based on pre, mid, post
-                howToDoList = extend(howToDoList, tempHowToDoList);
+                howToDoList = extend(true, howToDoList, tempHowToDoList);
                 
                 proxyprinttodiv("dothis - howToDoList ", howToDoList, 11);
                 
                 var tempWhatToDoList =  CreateDoList(params, targetname, targetfunction); // generate list based on fn name
-                whatToDoList = extend(whatToDoList, tempWhatToDoList);
+                whatToDoList = extend(true, whatToDoList, tempWhatToDoList);
                 
                 proxyprinttodiv("dothis - whatToDoList ", whatToDoList, 11);
                 executelist(howToDoList, whatToDoList, callback);                 // execute list
@@ -194,20 +194,20 @@
 
     function CreateDoList(params, configtarget, configfn) {
 
-        if ((params === undefined) || (params==="")) {params={}};
-        if ((configtarget === undefined) || (configtarget==="")) {configtarget="executeerror"};
-        if ((configfn === undefined) || (configfn==="")) {configfn=""};
+        if ((params === undefined) || (params==="")) {params={};}
+        if ((configtarget === undefined) || (configtarget==="")) {configtarget="executeerror";}
+        if ((configfn === undefined) || (configfn==="")) {configfn="";}
 
         // get saved configuration
         var tempConfig0 = toLowerKeys(config.configuration); // config0 is working copy of current configuration
 
-        // cloning config
-        var config0 = extend(config0, tempConfig0);
+        // deep cloning config
+        var config0 = extend(true, config0, tempConfig0);  // true is used to specify a deep clone
 
         // If there is no config object for current target make one
         if (typeof config0[configtarget] !== 'object') {
             config0[configtarget] = [];
-        }   
+        }
 
 // fish out incoming configuraton
         if ((params['configuration'] !== undefined) && (params['configuration'][configtarget] !== undefined)){
@@ -351,7 +351,8 @@
         var 
         h,
         w,
-        cb, 
+        cb,
+        params,
         whatToDo,
         whatToDoFn,
         howToDo,
@@ -370,7 +371,7 @@
             proxyprinttodiv("dothis - h ",h,11);
             howToDo = howToDoList[h]['dothis']; // get specific howToDo from list
             howToDoParams = howToDoList[h]['params']; // get params that were stored
-            if ((howToDoParams === undefined) || (howToDoParams==="")) {howToDoParams={}};
+            if ((howToDoParams === undefined) || (howToDoParams==="")) {howToDoParams={};}
             proxyprinttodiv("executelist Hparams ",howToDoParams,11);
             proxyprinttodiv("executelist howToDo ",howToDo,11);
 
@@ -378,7 +379,7 @@
                 whatToDo = whatToDoList[w]['dothis']; // get specific whattodo
                 whatToDoFn = whatToDoList[w]['dofn'];
                 whatToDoParams = whatToDoList[w]['params'];
-                if ((whatToDoParams === undefined) || (whatToDoParams==="")) {whatToDoParams={}};
+                if ((whatToDoParams === undefined) || (whatToDoParams==="")) {whatToDoParams={};}
                 // if((params !== undefined) && (whatToDoList !== undefined)) {
                 //     params = jsonConcat(params, whatToDoList[w]['params']); // concatenate with other pararms
                 // } 
@@ -390,9 +391,9 @@
                 proxyprinttodiv("executelist whatToDoFn ",whatToDoFn,11);
                 executeobject = getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn); // get status of that fn
                 proxyprinttodiv("executelist executeobject ",executeobject,11);
-                if (executeobject) {break}; // if fnparams sent back (fn found) then end
+                if (executeobject) {break;} // if fnparams sent back (fn found) then end
             } // for w
-            if (executeobject) {break}; 
+            if (executeobject) {break;}
             } // for h
         
         if (typeof executeobject ===  'object' && Object.keys(executeobject).length !=0)  { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
@@ -433,7 +434,7 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
                         // we want to return undefined here so we try the next case
                         targetfn = undefined;
                         break;
-                    };
+                    }
                     break;
 
                 case "executeParam" :
@@ -456,7 +457,7 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
                 case "executegetwid":
                     tempobject = executethis({'wid':whatToDo}, getwid);
                     if ((tempobject === undefined) && (!tempobject['js'])) {targetfn = executeerror} 
-                        else {targetfn = tempobject['js']};
+                        else {targetfn = tempobject['js'];}
                     break;
 
                 case "server":
@@ -496,11 +497,10 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
                     whatToDo: whatToDo,
                     params: params,
                     synchflag: synchflag
-                    }
-            }
-            else{
+                };
+            } else {
                return undefined
-               }
+            }
         }
         else { // if no exeucte this
             return undefined
@@ -510,7 +510,7 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
 
     exports.executeerror = window.executeerror = executeerror = function executeerror(params, callback) {
         callback({"etstatus":"executeerror"});
-    }
+    };
 
     function nonCircularStringify(obj) {
         var cache = [];
