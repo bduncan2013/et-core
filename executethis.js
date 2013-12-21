@@ -57,11 +57,11 @@
 
                 incomingparams['midexecute'] = incomingparams['executethis'];            
                 delete incomingparams['executethis'];
-                console.log('starting preexecute ' + incomingparams);
+                console.log('starting preexecute ' + nonCircularStringify(incomingparams));
                 doThis(incomingparams, 'preexecute', function (preResults) {
 
                     console.log(' after preexecute >> '+ nonCircularStringify(preResults));
-                    console.log('starting midexecute ' + preResults);
+                    console.log('starting midexecute ' + nonCircularStringify(preResults));
                     if(!preResults){preResults={};} // 
                     doThis(preResults, 'midexecute', function (midResults) {
                         
