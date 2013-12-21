@@ -352,7 +352,6 @@
         h,
         w,
         cb,
-        params,
         whatToDo,
         whatToDoFn,
         howToDo,

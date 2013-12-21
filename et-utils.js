@@ -1,7 +1,7 @@
 (function (window) {
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj){
-        if(obj){
+        if(obj && obj instanceof Object){
             var key, keys = Object.keys(obj);
             var n = keys.length;
             var newobj={}
