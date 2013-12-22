@@ -1,14 +1,14 @@
 
 
 exports.dtott = dtott = function dtott(params, callback){ //widviewer 
-	config = setconfig1();
+
 	testclearstorage();	
 
 	debugcolor = 0;
 	debugon = true;
 	debugname = "";
 	debugsubcat = "";
-	debugcat = "add";
+	debugcat = "";
 	debugfilter = "";
 	debugdestination = 1;
 	//debuglevel=15;
@@ -22,8 +22,8 @@ exports.dtott = dtott = function dtott(params, callback){ //widviewer
 	//debugname = "addwidparameters";
 		// debuglevel=20;
 	// debugcat = "add";
-	debugsubcat = "core";
-	debugname = "addmaster";
+	//debugsubcat = "core";
+	debugname = "AddMongoRelationship";
 	//debuglevel = 10;
 	executetest("getwidmaster", {"wid":"authordto", "command.convertmethod":"dto"}, "author_get_result", "");
 	//{"name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","booksdto.onetomany.title":"string","booksdto.onetomany.pages":"string"}
@@ -62,24 +62,28 @@ exports.dtotest = dtotest = function dtotest(params, callback){ //widviewer
 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
 
-	
-   	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.wid":"add","booksdto.title":"none","booksdto.pages":"00"}, "", "");
-	
-	//debugsubcat = "add";
- 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
-// these added later
-debuglevel=10;
-debugsubcat = "get";
-	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-	//executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+	debugsubcat = "core";
+	debugname = "addmaster";
+	
+	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.wid":"add","booksdto.title":"none","booksdto.pages":"00"}, "", "");
+	
+// 	//debugsubcat = "add";
+//  	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+// 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+
+// // these added later
+// debuglevel=10;
+// debugsubcat = "get";
+// 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+// 	//executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 	
 
-//debugsubcat = "get";
-	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
+// //debugsubcat = "get";
+ 	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
 
 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+	executetest("getwidmaster", {"wid":"authordto", "command.convertmethod":"dto"}, "author_get_result_dto", "");
 	params={'test':'PASS'};
 	callback(params)
 //	gets really slow it down

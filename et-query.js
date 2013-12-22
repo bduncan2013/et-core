@@ -12,7 +12,7 @@
     }
 
     //Starting of querywid function...formerly MongoDataQuery
-    //exports.querywid = querywid = function(parameters,target,callback) {
+    //exports.querywid = querywid = function (parameters,target,callback) {
     exports.querywid = querywid = function querywid(parameters, callback) { // can change to call back
 
         delete parameters['executethis']; //** added 11/2

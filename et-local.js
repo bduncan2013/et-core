@@ -1,6 +1,6 @@
 //if (exports.environment === "local") {localStorage.clear();}
 
-//exports.mongoquery = mongoquery = function(queryString) {
+//exports.mongoquery = mongoquery = function (queryString) {
 exports.mongoquery = mongoquery = function mongoquery(queryString, callback) {
 	delete queryString['executethis']; // **** needed?
 //function mongoquery(queryString, target, callback) {
