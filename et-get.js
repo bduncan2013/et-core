@@ -41,9 +41,6 @@
         var targetwid = "";
         var nexttargetwid = "";
         var nextpreamble = "";
-        var eachresult = "";
-        var key = "";
-        var rightparameters = {};
         var executeobject = {};
         var parameterObject;
         var x;
@@ -57,39 +54,38 @@
         function debugvars(varlist) {
             var allvars = 
             {
-            1:
-                {
-                    "moreDTOParameters":moreDTOParameters,
-                    "targetwid":targetwid,
-                    "nexttargetwid":nexttargetwid,
-                    "nextpreamble":nextpreamble,
-                    "eachresult":eachresult,
-                    "key":key,
-                    "rightparameters":rightparameters,
-                    "executeobject":executeobject,
-                    "parameterObject":parameterObject,
-                    "x":x,
-                    "ret":ret,
-                    "err":err
-                },
-            2:
-                {
-                    "moreDTOParameters":moreDTOParameters,
-                    "targetwid":targetwid,
-                    "nexttargetwid":nexttargetwid
-                }
-            }
+                1:
+                    {
+                        "moreDTOParameters":moreDTOParameters,
+                        "targetwid":targetwid,
+                        "nexttargetwid":nexttargetwid,
+                        "nextpreamble":nextpreamble,
+                        "eachresult":'',
+                        "key":'',
+                        "rightparameters":{},
+                        "executeobject":executeobject,
+                        "parameterObject":parameterObject,
+                        "x":x,
+                        "ret":ret,
+                        "err":err
+                    },
+                2:
+                    {
+                        "moreDTOParameters":moreDTOParameters,
+                        "targetwid":targetwid,
+                        "nexttargetwid":nexttargetwid
+                    }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
+            }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
+            }
             return resultObj;
         }
 
@@ -99,8 +95,8 @@
                     if (!level) {
                         level = 99
                     } else {
-                        level = level - 1
-                    }; //how many levels to try
+                        level = level - 1;
+                    } //how many levels to try
                     if (preamble === undefined) {
                         preamble = "";
                     }
@@ -113,7 +109,7 @@
                     executeobject['executethis'] = 'getwid';
                     etexecute(executeobject, function (err, res) {
                         parameterObject = res;
-                            debugfn("aggressivedto", "step1", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("aggressivedto", "step1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null);
                     });
                 },
@@ -151,7 +147,7 @@
                     // executeobject["dtotype"] = "";
                     // executeobject["executethis"] = querywid;
 
-                    // // x = window['querywid'];
+                    // // var x = window['querywid'];
                     // etexecute(executeobject, function (err, res) {
                     //     moreParameters = res;
                     //     cb(null, 'two');
@@ -175,7 +171,7 @@
                                         if (Object.keys(moreDTOParameters).length != 0) {
                                             parameterObject = jsonConcat(parameterObject, moreDTOParameters)
                                         }
-                                            debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                        debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb1(null, 'step2n1');
                                     });
 
@@ -193,8 +189,8 @@
 
                                     // x = window['querywid'];
                                     etexecute(executeobject, function (err, res) {
-                                        moreParameters = res;
-                                            debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                        var moreParameters = res;
+                                        debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb1(null, 'step2n1');
                                     });
                                 }
@@ -208,7 +204,7 @@
                                 cb(null, 'two');
                             });
                     } else {
-                            debugfn("aggressivedto", "if ((parameterObject !== undefined)  B", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("aggressivedto", "if ((parameterObject !== undefined)  B", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     }
                 },
@@ -216,13 +212,13 @@
                 function step3(cb) {
                     var listToDo = [];
 
-                    for (eachresult in moreDTOParameters) {
+                    for (var eachresult in moreDTOParameters) {
                         listToDo.push(eachresult);
                     }
 
                     async.mapSeries(listToDo, function (eachresult, cbMap) {
-                            rightparameters = {};
-                            for (key in moreDTOParameters[eachresult]) {
+                            var rightparameters = {};
+                            for (var key in moreDTOParameters[eachresult]) {
                                 rightparameters = moreDTOParameters[eachresult][key];
                             }
 
@@ -239,19 +235,19 @@
                                             var isSynchronous = configuration.aggressivedto.synchronous;
                                             if (isSynchronous) {
                                                 params = aggressivedto(key, key, level);
-                                                    debugfn("aggressivedto", "step3a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                                debugfn("aggressivedto", "step3a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                 cbn1(null);
                                             } else {
                                                 aggressivedto(key, key, level, function (err, data) { //TODO consider -- DONE
                                                     params = data;
-                                                        debugfn("aggressivedto", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                                    debugfn("aggressivedto", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                     cbn1(null);
                                                 });
                                             }
                                         },
                                         function step3n2(cbn2) {
                                             parameterObject = jsonConcat(parameterObject, params);
-                                                debugfn("aggressivedto", "step3n2", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                            debugfn("aggressivedto", "step3n2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                             cbn2(null);
                                         }
                                     ],
@@ -270,13 +266,12 @@
                     cb(null, 'three')
                 },
                 function step4(cb) {
-
                     var dtoGlobalParameters = {};
-                    for (eachresult in parameterObject) {
+                    for (var eachresult in parameterObject) {
                         dtoGlobalParameters[preamble + eachresult] = parameterObject[eachresult];
                     }
                     ret = dtoGlobalParameters;
-                        debugfn("aggressivedto", "step4", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                    debugfn("aggressivedto", "step4", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'four');
                 }
             ],
@@ -294,7 +289,7 @@
                 return ret;
             }
         }
-    }
+    };
 
     function getcleanparameters(resultObj, dtotype, accesstoken, cleanmethod, convertmethod, callback) {
         var outputparameters = {};
@@ -304,79 +299,71 @@
         var dtoobject = {};
         var inputParametersObject = {};
         var childdto = dtotype;
-        var preAmble = "";
-        var item = "";
         var moreParameters = {};
         var executeobject = {};
-        var eafield = "";
         var otherdtoobject = {};
         var resultlist = [];
         var ret = undefined;
         var err;
-        var isSynchronous;
 
         function debugvars(varlist) {
             var allvars = 
             {
-            1:
-                {
-                    "outputparameters":outputparameters,
-                    "dtoloc":dtoloc,
-                    "proposedLeft":proposedLeft,
-                    "proposedRight":proposedRight,
-                    "dtoobject":dtoobject,
-                    "inputParametersObject":inputParametersObject,
-                    "childdto":childdto,
-                    "preAmble":preAmble,
-                    "item":item,
-                    "moreParameters":moreParameters,
-                    "executeobject":executeobject,
-                    "eafield":eafield,
-                    "otherdtoobject":otherdtoobject,
-                    "resultlist":resultlist,
-                    "ret":ret,
-                    "err":err,
-                    "isSynchronous":isSynchronous
-                },
-            2:
-                {
-                    "outputparameters":outputparameters,
-                    "dtoloc":dtoloc,
-                    "proposedLeft":proposedLeft,
-                    "proposedRight":proposedRight
-                }
-            }
+                1:
+                    {
+                        "outputparameters":outputparameters,
+                        "dtoloc":dtoloc,
+                        "proposedLeft":proposedLeft,
+                        "proposedRight":proposedRight,
+                        "dtoobject":dtoobject,
+                        "inputParametersObject":inputParametersObject,
+                        "childdto":childdto,
+                        "preAmble":'',
+                        "item":'',
+                        "moreParameters":moreParameters,
+                        "executeobject":executeobject,
+                        "eafield":'',
+                        "otherdtoobject":otherdtoobject,
+                        "resultlist":resultlist,
+                        "ret":ret,
+                        "err":err,
+                        "isSynchronous":isSynchronous
+                    },
+                2:
+                    {
+                        "outputparameters":outputparameters,
+                        "dtoloc":dtoloc,
+                        "proposedLeft":proposedLeft,
+                        "proposedRight":proposedRight
+                    }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup)};
+            }
             
-            for (eachgroup in varlist) {
+            for (var eachgroup in varlist) {
                 vargroup = varlist[eachgroup]
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
+            }
             return resultObj;
         }
 
 
         // goal of this section is to get inherited parameters
         async.series([
-
                 function step1(cb) {
-                    if (
-                        ((resultObj['wid'] !== undefined)) &&
-                        ((resultObj['wid'] !== resultObj['metadata.method']) || (dtotype = "defaultdto"))
-                    ) {
+                    if (((resultObj['wid'] !== undefined)) &&
+                        ((resultObj['wid'] !== resultObj['metadata.method']) || (dtotype = "defaultdto"))) {
 
                         var isSynchronous = configuration.aggressivedto.synchronous;
 
                         if (isSynchronous) {
                             dtoobject = aggressivedto(resultObj['wid'], "", 10); //todo -- done
 
-                            for (item in dtoobject) {
-                                preamble = "";
+                            for (var item in dtoobject) {
+                                var preamble = "";
                                 proposedLeft = item;
                                 proposedRight = dtoobject[item];
 
@@ -396,7 +383,7 @@
                                     etexecute(executeobject, function (err, res) {
                                         moreParameters = res;
 
-                                        for (eafield in moreParameters) {
+                                        for (var eafield in moreParameters) {
                                             if (preamble == "") {
                                                 resultObj[eafield] = moreParameters[eafield];
                                             } else {
@@ -407,7 +394,7 @@
                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
                                 }
                             }
-                                debugfn("getcleanparameters", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getcleanparameters", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'one');
                         } else {
                             aggressivedto(resultObj['wid'], "", 10, function (err, res) {
@@ -449,8 +436,8 @@
                                 // }
 
 
-                                listtodo = [];
-                                for (item in dtoobject) {
+                                var listtodo = [];
+                                for (var item in dtoobject) {
                                     listtodo.push(item);
                                 }
 
@@ -479,14 +466,14 @@
                                                     etexecute(executeobject, function (err, res) {
                                                         moreParameters = res;
 
-                                                        for (eafield in moreParameters) {
+                                                        for (var eafield in moreParameters) {
                                                             if (preamble == "") {
                                                                 resultObj[eafield] = moreParameters[eafield];
                                                             } else {
                                                                 resultObj[preamble + '.' + eafield] = moreParameters[eafield];
                                                             }
                                                         }
-                                                            debugfn("getcleanparameters", "step1n1", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                                        debugfn("getcleanparameters", "step1n1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                         cb2(null, 'one');
                                                     });
                                                     // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
@@ -504,7 +491,7 @@
                                             throw err;
                                         }
                                         cb(null, 'one');
-                                    }) // end of map series
+                                    }); // end of map series
                             });
                         }
                     }
@@ -512,12 +499,12 @@
                 function step2(cb) {
                     // read dto -- and delete what should not surive
                     if (dtotype == "") {
-                        dtotype = resultObj["metadata.method"]
-                    };
+                        dtotype = resultObj["metadata.method"];
+                    }
 
                     if (resultObj["metadata.method"] != dtotype) {
 
-                        for (item in resultObj) { // now step through each record that could be changed
+                        for (var item in resultObj) { // now step through each record that could be changed
                             proposedLeft = item;
                             proposedRight = resultObj[item];
                             proposedLeft = ""; // work on left first...check if add or remvove
@@ -544,7 +531,7 @@
                     } else { // if resultObj["metadata.method"] = dtotype)
                         outputparameters = resultObj;
                     }
-                        debugfn("getcleanparameters", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                    debugfn("getcleanparameters", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
                 }, // end step2
                 function step3(cb) {
@@ -552,7 +539,7 @@
                         parms: outputparameters,
                         dto: dtoobject
                     };
-                        debugfn("getcleanparameters", "step3", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                    debugfn("getcleanparameters", "step3", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 }
             ],
@@ -584,41 +571,38 @@
         var dtotype;
         var wid;
         var accesstoken;
-        var ret;
         var err;
 
         function debugvars(varlist) {
             var allvars = 
             {
-            1:
-                {
-                    "ret":ret,
-                    "resultObj":resultObj,
-                    "inherit":inherit,
-                    "checkflag":checkflag,
-                    "convertMethod":convertMethod,
-                    "dtotype":dtotype,
-                    "wid":wid,
-                    "accesstoken":accesstoken,
-                    "ret":ret,
-                    "err":err
-                },
-            2:
-                {
-                    "ret":ret,
-                    "resultObj":resultObj,
-                    "inherit":inherit
-                }
-            }
+                1:
+                    {
+                        "ret":ret,
+                        "resultObj":resultObj,
+                        "inherit":inherit,
+                        "checkflag":checkflag,
+                        "convertMethod":convertMethod,
+                        "dtotype":dtotype,
+                        "wid":wid,
+                        "accesstoken":accesstoken,
+                        "err":err
+                    },
+                2:
+                    {
+                        "ret":ret,
+                        "resultObj":{},
+                        "inherit":inherit
+                    }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
+            }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
                 }
             return resultObj;
@@ -648,12 +632,12 @@
 
                     if (isSynchronous) {
                         resultObj = getWidMongo(wid, convertMethod, accesstoken, dtotype); //TODO consider -- DONE
-                            debugfn("getwidmaster", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getwidmaster", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'one');
                     } else {
                         getWidMongo(wid, convertMethod, accesstoken, dtotype, function (err, data) { //TODO consider -- DONE
                             resultObj = data;
-                                debugfn("getwidmaster", "step1b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getwidmaster", "step1b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'one');
                         });
                     }
@@ -663,16 +647,16 @@
                 function step2(cb) {
                     // could be moved inside clean parm?
                     if (inherit) { // inherit points to wid with more datan- Grab the params from mongo(local storage)
-                        executeobject = {};
+                        var executeobject = {};
                         executeobject["executethis"] = getwid;
                         executeobject["wid"] = inherit;
 
                         etexecute(executeobject, function (err, res) {
-                            moreParameters = res;
+                            var moreParameters = res;
                             if (moreParameters) {
                                 resultObj = jsonConcat(resultObj, moreParameters);
                             }
-                                debugfn("getwidmaster", "step2a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getwidmaster", "step2a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'two');
                         });
                         // getwid(OutParameters, function (res) {
@@ -684,14 +668,14 @@
                         //     });
 
                     } else {
-                            debugfn("getwidmaster", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getwidmaster", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     }
                 },
                 function step3(cb) {
                     if (checkflag != "") { // see if right side of output needs to be made mongo compatible
-                        dtoList = objectToList(dtoGlobalParameters);
-                        resultList = objectToList(resultObj);
+                        var dtoList = objectToList(dtoGlobalParameters);
+                        var resultList = objectToList(resultObj);
                         resultList = CleanBasedOnCheckflagList(checkflag, resultList, dtoList);
                         resultObj = listToObject(resultList);
                     }
@@ -745,7 +729,7 @@
                 return ret;
             }
         }
-    }
+    };
 
 
     function getWidMongo(widInput, convertMethod, accessToken, dtoin, callback) {
@@ -765,55 +749,53 @@
         var createid = widInput;
         var dtotype = "";
         var currentLevelObject;
-        var item;
         var executeobject = {};
         var olddebug = Debug;
         var err;
-        var ret;
+        var ret = undefined;
 
         function debugvars(varlist) {
             var allvars = 
             {
-            1:
-                {
-                    "dtoGlobalParameters":dtoGlobalParameters,
-                    "attr":attr,
-                    "nextLevelParameters":nextLevelParameters,
-                    "outgoingParameters":outgoingParameters,
-                    "moreDTOParameters":moreDTOParameters,
-                    "moreParameters":moreParameters,
-                    "currentLevelObjectList":currentLevelObjectList,
-                    "dtoGlobalParametersList":dtoGlobalParametersList,
-                    "addedobject":addedobject,
-                    "eachresult":eachresult,
-                    "createdto":createdto,
-                    "createrelationships":createrelationships,
-                    "savedto":savedto,
-                    "createid":createid,
-                    "dtotype":dtotype,
-                    "currentLevelObject":currentLevelObject,
-                    "item":item,
-                    "executeobject":executeobject,
-                    "olddebug":olddebug,
-                    "err":err,
-                    "ret":ret
-                },
-            2:
-                {
-                    "nextLevelParameters":nextLevelParameters,
-                    "outgoingParameters":outgoingParameters,
-                    "moreDTOParameters":moreDTOParameters
-                }
-            }
+                1:
+                    {
+                        "dtoGlobalParameters":dtoGlobalParameters,
+                        "attr":attr,
+                        "nextLevelParameters":nextLevelParameters,
+                        "outgoingParameters":outgoingParameters,
+                        "moreDTOParameters":moreDTOParameters,
+                        "moreParameters":moreParameters,
+                        "currentLevelObjectList":currentLevelObjectList,
+                        "dtoGlobalParametersList":dtoGlobalParametersList,
+                        "addedobject":addedobject,
+                        "eachresult":eachresult,
+                        "createdto":createdto,
+                        "createrelationships":createrelationships,
+                        "savedto":savedto,
+                        "createid":createid,
+                        "dtotype":dtotype,
+                        "currentLevelObject":currentLevelObject,
+                        "item":'',
+                        "executeobject":executeobject,
+                        "olddebug":olddebug,
+                        "err":err,
+                        "ret":ret
+                    },
+                2:
+                    {
+                        "nextLevelParameters":nextLevelParameters,
+                        "outgoingParameters":outgoingParameters,
+                        "moreDTOParameters":moreDTOParameters
+                    }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
                 }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
                 }
             return resultObj;
@@ -839,7 +821,7 @@
                         // cb(null);
                         etexecute(executeobject, function (err, res) {
                             currentLevelObject = res;
-                                debugfn("getWidMongo", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getWidMongo", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'part1');
                         });
                     },
@@ -855,12 +837,12 @@
                             etexecute(executeobject, function (err, res) {
                                 dtoGlobalParameters = res; //TODO -- DONE
                                 console.log(dtoGlobalParameters);
-                                    debugfn("getWidMongo", "step2a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                debugfn("getWidMongo", "step2a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'two');
                             }); //TODO -- DONE
 
                         } else {
-                                debugfn("getWidMongo", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getWidMongo", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'two');
                         }
 
@@ -870,12 +852,12 @@
 
                         if (isSynchronous) {
                             moreParameters = aggressivedto(widInput, "", 1); //TODO -- done
-                                debugfn("getWidMongo", "step3a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getWidMongo", "step3a", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'three');
                         } else {
                             aggressivedto(widInput, "", 1, function (err, res) {
                                 moreParameters = res;
-                                    debugfn("getWidMongo", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                debugfn("getWidMongo", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'three');
                             });
                         }
@@ -891,12 +873,12 @@
                         currentLevelObject = listToObject(currentLevelObjectList);
                         outgoingParameters = currentLevelObject;
                         dtoGlobalParameters = moreParameters; // line added 11-9 -- step through an agressive dto
-                            debugfn("getWidMongo", "step4", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getWidMongo", "step4", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'four');
                     },
                     function step5(cb) {
                         var listToDo = [];
-                        for (item in dtoGlobalParameters) {
+                        for (var item in dtoGlobalParameters) {
                             listToDo.push(item);
                         }
                         async.mapSeries(listToDo, function (item, cbMap) {
@@ -929,7 +911,7 @@
                                     //TODO -- DONE
                                     outgoingParameters = jsonConcat(outgoingParameters, nextLevelParameters);
                                 } // if
-                                    debugfn("getWidMongo", "step5", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                debugfn("getWidMongo", "step5", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                 cbMap(null);
                             },
                             function (err, res) {
@@ -942,7 +924,7 @@
                     function step6(cb) {
                         Debug = olddebug;
                         ret = outgoingParameters;
-                            debugfn("getWidMongo", "step6", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getWidMongo", "step6", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'six');
                     }
                 ],
@@ -970,12 +952,11 @@
     function getAndFormatNextLevel(widInput, mongorelationshiptype, mongorelationshipmethod, mongorelationshipdirection, mongowidmethod, convertmethod, accesstoken, dtoin, callback) {
         var executeobject = {};
         var drillDownParameters = {};
-        var rowresult = ""
+        var rowresult = "";
         var nextLevelParameters = [];
         var nextLevelParametersObject = {};
         var proposedLeft = "";
         var proposedRight = "";
-        var item = "";
         var iteration = 0;
         var relatedParameters;
         var listToDo;
@@ -985,40 +966,39 @@
         function debugvars(varlist) {
             var allvars = 
             {
-            1:
-                {
-                    "executeobject":executeobject,
-                    "drillDownParameters":drillDownParameters,
-                    "rowresult":rowresult,
-                    "nextLevelParameters":nextLevelParameters,
-                    "nextLevelParametersObject":nextLevelParametersObject,
-                    "proposedLeft":proposedLeft,
-                    "proposedRight":proposedRight,
-                    "item":item,
-                    "iteration":iteration,
-                    "relatedParameters":relatedParameters,
-                    "listToDo":listToDo,
-                    "ret":ret,
-                    "err":err
-                },
-            2:
-                {
-                    "executeobject":executeobject,
-                    "drillDownParameters":drillDownParameters,
-                    "rowresult":rowresult
-                }
-            }
+                1:
+                    {
+                        "executeobject":executeobject,
+                        "drillDownParameters":drillDownParameters,
+                        "rowresult":rowresult,
+                        "nextLevelParameters":nextLevelParameters,
+                        "nextLevelParametersObject":nextLevelParametersObject,
+                        "proposedLeft":proposedLeft,
+                        "proposedRight":proposedRight,
+                        "item":'',
+                        "iteration":iteration,
+                        "relatedParameters":relatedParameters,
+                        "listToDo":listToDo,
+                        "ret":ret,
+                        "err":err
+                    },
+                2:
+                    {
+                        "executeobject":executeobject,
+                        "drillDownParameters":drillDownParameters,
+                        "rowresult":rowresult
+                    }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
+            }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
+            }
             return resultObj;
         }
 
@@ -1065,7 +1045,7 @@
                         async.mapSeries(listToDo, function (iteration, cbMap) {
                                 rowresult = relatedParameters[iteration];
 
-                                for (key in rowresult) {
+                                for (var key in rowresult) {
                                     proposedLeft = key;
                                     proposedRight = rowresult[key];
                                 }
@@ -1091,7 +1071,7 @@
                                     var isSynchronous = configuration.getWidMongo.synchronous;
                                     if (isSynchronous) {
                                         ret = drillDownParameters = getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin);
-                                        for (item in drillDownParameters) {
+                                        for (var item in drillDownParameters) {
                                             if ((convertmethod == "dto") && ((item == "wid") || (item == "metadata.method"))) {} // left empty by design
                                             else {
                                                 proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; // removed +1
@@ -1114,7 +1094,7 @@
                                         getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin, function (err, res) {
                                             ret = drillDownParameters = res;
                                         });
-                                        for (item in drillDownParameters) {
+                                        for (var item in drillDownParameters) {
                                             if ((convertmethod == "dto") && ((item == "wid") || (item == "metadata.method"))) {} // left empty by design
                                             else {
                                                 proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; // removed +1
@@ -1143,7 +1123,7 @@
                                 }
                             });
                     }
-                        debugfn("getAndFormatNextLevel", "part2", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                    debugfn("getAndFormatNextLevel", "part2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
                 },
                 function part3(cb) {
