@@ -316,12 +316,12 @@
         var inputParametersObject = {};
         var childdto = dtotype;
         var preAmble = "";
-        var item = "";
         var moreParameters = {};
         var executeobject = {};
         var eafield = "";
         var otherdtoobject = {};
         var resultlist = [];
+        var ret = undefined;
 
         // first try to get dtoobject from method
         inputParametersObject = resultObj;
@@ -352,18 +352,17 @@
                     "otherdtoobject":otherdtoobject,
                     "resultlist":resultlist
                 }
-            }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
+            }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
+            }
             return resultObj;
         }
 
@@ -435,16 +434,15 @@
 
                 // if dtotype was blank then just adopt it from method
                 if (dtotype == "") {
-                    dtotype = resultObj["metadata.method"]
-                };
+                    dtotype = resultObj["metadata.method"];
+                }
 
                 // if dtotype <> method then we need to add to parameters
                 if (resultObj["metadata.method"] != dtotype) {
                     proxyprinttodiv('Function addcleanparameteres()  resultObj', resultObj, 80);
                     proxyprinttodiv('Function addcleanparameteres()  dtoobject inside ', dtoobject, 80);
 
-                    for (item in dtoobject) {
-
+                    for (var item in dtoobject) {
                         if (
                             ((dtoobject[item] == 'onetomany') ||
                                 (dtoobject[item] == 'onetoone'))) {
@@ -454,7 +452,7 @@
                     proxyprinttodiv('Function addcleanparameteres()  preAmble ', preAmble, 80);
 
 
-                    for (item in resultObj) { // now step through each record that could be changed
+                    for (var item in resultObj) { // now step through each record that could be changed
                         proposedLeft = item;
                         proposedRight = resultObj[item];
                         proxyprinttodiv('Function addcleanparameteres()  item', item, 81);
@@ -463,7 +461,7 @@
                             if (((item != 'wid') && (item != 'metadata.method')) || (childdto != dtotype)) {
                                 proposedLeft = preAmble + "." + item
                             } else {
-                                proposedLeft = item
+                                proposedLeft = item;
                             }
                         }
 
@@ -471,7 +469,7 @@
                         proxyprinttodiv('Function addcleanparameteres()  proposedLeft', proposedLeft, 81);
                         proxyprinttodiv('Function addcleanparameteres()  proposedRight', proposedRight, 81);
                         if (proposedLeft != "") {
-                            outputparameters[proposedLeft] = proposedRight
+                            outputparameters[proposedLeft] = proposedRight;
                         }
                         proxyprinttodiv('Function addcleanparameteres()  outputparameters', outputparameters, 81);
                     }
@@ -483,7 +481,6 @@
                     }
                 } else {
                     outputparameters = resultObj;
-
                 }
 
                 proxyprinttodiv('Function addcleanparameteres() resultObj end end end', resultObj, 80);
@@ -509,7 +506,7 @@
 
         var isSynchronous = configuration.addcleanparameters.synchronous;
         if (isSynchronous) {
-            while (ret === undefined) {};
+            while (ret === undefined) {}
             return ret;
         }
     }
@@ -520,7 +517,6 @@
         var relationshipdto;
         var executeobject = {};
         var InList = [];
-        var widset;
         var ret = undefined;
         var err;
 
@@ -534,7 +530,6 @@
                     "relationshipdto":relationshipdto,
                     "executeobject":executeobject,
                     "InList":InList,
-                    "widset":widset,
                     "ret":ret,
                     "err":err
                 },
@@ -544,18 +539,17 @@
                     "ret":ret,
                     "err":err
                 }
-            }
+            };
             var resultObj={};
-            var eachgroup;
             var vargroup;
             if (!varlist) {
-                for (eachgroup in allvars) {varlist.push(eachgroup)};
-                }
+                for (var eachgroup in allvars) {varlist.push(eachgroup);}
+            }
             
-            for (eachgroup in varlist) {
-                vargroup = varlist[eachgroup]
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
+            }
             return resultObj;
         }
 
@@ -608,8 +602,8 @@
             if (widset.length > 0) {
                 widobject = widset[0]
             } else {
-                widobject = {}
-            };
+                widobject = {};
+            }
             InList.push(widobject);
 
             widset = InList;
@@ -753,7 +747,6 @@
 
         proxyprinttodiv('Function AddWidParameters()  inputParametersObject : ', inputParametersObject);
 
-        var parameterObject = {};
         var dtoobject = {};
         var metadata = "";
         var moreParameters;
@@ -833,7 +826,6 @@
         }
 
         olddebug = Debug;
-        //      Debug=olddebug;
 
         var checkflag = commandobject["command.checkflag"];
         var accesstoken = commandobject["command.accesstoken"];
@@ -887,7 +879,7 @@
         }
 
         function step2(cb) {
-            executeobject = {};
+            var executeobject = {};
             executeobject["executethis"] = 'getwid';
             executeobject["wid"] = 'inherit';
 
@@ -903,20 +895,18 @@
                 inputParametersObject = jsonConcat(inputParametersObject, moreParameters); // if duplicates then currentLevelObject{} wins
             }
 
-
             inputList = objectToList(inputParametersObject);
             dtoList = objectToList(dtoobject);
 
             //proxyprinttodiv('Function AddWidParameters()  inputList : ',  inputList);
             //proxyprinttodiv('Function AddWidParameters()  metadata : ',  metadata);
             olddebug = Debug;
-            //      Debug=olddebug;
             proxyprinttodiv('Function AddWidParameters()  all parms to addmaster : ', {
                 "dtolist": dtoList,
                 "inputlist": inputList,
                 "metadata": metadata
             });
-            //  Debug=olddebug;
+
             if (inputParametersObject["wid"] === undefined) {
                 inputParametersObject["wid"] = "";
             }
@@ -990,13 +980,12 @@
         var splitkey = '';
         var currentNumber = 0;
         var sortable = [];
-        var currentitem = '';
-        var childrentype = '';
         var RelatedListParameters;
         var RelatedListdto;
         var executeobject;
         var err;
         var res;
+        var ret = undefined;
 
         function debugvars(varlist) {
             var allvars = 
@@ -1062,7 +1051,7 @@
                     });
                     // go through list of incoming parameters to generate a list of childrent dtos
                     dtoobject = listToObject(dtoList); // generate a copy of dtolist that is an object
-                    for (key in dtoobject) { // go through each parameter
+                    for (var key in dtoobject) { // go through each parameter
                         if ((dtoobject[key] == 'onetomany') || (dtoobject[key] == 'onetoone')) {
                             // see if dto list tells us is a child
                             ChildrenListobj[key] = dtoobject[key]; // add it to children object list
@@ -1111,7 +1100,7 @@
                 },
                 function step4(cb) { // create work
                     var listtodo = [];
-                    for (childrentype in ChildrenListobj) {
+                    for (var childrentype in ChildrenListobj) {
                         listtodo.push(childrentype);
                     }
                     async.mapSeries(listtodo, function (childrentype, cbMap) {
@@ -1122,7 +1111,7 @@
                                         attr = ChildrenListobj[childrentype]; // onetoone or onetomany?  -left side of ChildrenListobj is the dto name
                                         parameterindexobj = {}; // create a list of (children) parameters that start with number
 
-                                        for (currentcount in RelatedListParameters) {
+                                        for (var currentcount in RelatedListParameters) {
                                             //proxyprinttodiv('Function AddMaster : currentcount', currentcount);
                                             var currentparameter = RelatedListParameters[currentcount].key;
                                             //proxyprinttodiv('Function AddMaster : currentparameter', currentparameter);
@@ -1144,7 +1133,7 @@
                                         }
 
                                         sortable = [];
-                                        for (currentitem in parameterindexobj) {
+                                        for (var currentitem in parameterindexobj) {
                                             sortable.push([currentitem, parameterindexobj[currentitem]]);
                                         }
                                         proxyprinttodiv('Function AddMaster : parameterindexobj II  ', sortable);
@@ -1625,7 +1614,6 @@
         var InListObj = {};
         var rawobject = {};
         var rawlist = [];
-        var item;
         var ret = undefined;
         var executeobject;
         var addresult;
@@ -1644,8 +1632,8 @@
 
                     if ((InListObj["wid"] === undefined) || (InListObj["wid"] == "")) {
                         if ((widid !== undefined) || (widid != "")) {
-                            InListObj["wid"] = widid
-                        };
+                            InListObj["wid"] = widid;
+                        }
                     }
                     if ((InListObj["wid"] === undefined) || (InListObj["wid"] == "") || (InListObj["wid"] == "add")) {
                         InListObj["wid"] = getnewwid();
@@ -1675,7 +1663,7 @@
 
                                             function step1n2n1(cb3) {
                                                 listtodo = [];
-                                                for (item in Indto) {
+                                                for (var item in Indto) {
                                                     listtodo.push(item);
                                                 }
                                                 cb3("");
@@ -1718,7 +1706,7 @@
                                                         }
                                                     }
 
-                                                ) // end of map series
+                                                ); // end of map series
                                                 cb(null);
                                             }
                                         ], // asynch step1n2
@@ -1731,7 +1719,7 @@
                                     cb1("");
                                 },
                                 function step1n3(cb1) {
-                                    for (item in rawobject) { // for all data in inherit, delete it from being added
+                                    for (var item in rawobject) { // for all data in inherit, delete it from being added
                                         if (InListObj[item] == rawobject[item]) {
                                             delete InListObj[item];
                                         }
@@ -1794,7 +1782,7 @@
             while (ret === undefined) {}
             return ret;
         }
-    };
+    }
 
 
 })(typeof window === "undefined" ? global : window);
