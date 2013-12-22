@@ -1062,6 +1062,8 @@ exports.async_func_h = async_func_h = function async_func_h (parameters, callbac
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 exports.ag1_setup = ag1_setup = function ag1_setup (params, callback) {
+	debugname = "get";
+	debugcat = "get";
     executetest("addwidmaster",{"wid":"sounddto","metadata.method":"sounddto","note":"string"}, "", "");
     executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
     if (callback instanceof Function) { 
@@ -1626,7 +1628,7 @@ exports.func_m = func_m = function func_m (parameters) {
 exports.func_async = func_async = function func_async (parameters,  callback) {
 	delete parameters["d"];
 	console.log('from func_async');
-	// var f = function(){
+	// var f = function (){
 		// sleep(3000);
 		// parameters["m"] = "now you waited for 1000 ms";
 		// printToDiv('func_async',parameters,1);	
@@ -1635,12 +1637,12 @@ exports.func_async = func_async = function func_async (parameters,  callback) {
 
 	// echo ajax request
 	echoCall('/echo','GET',false,
-		function(data) {
+		function (data) {
 	    	parameters["m"] = "now you waited for the async call";
 			printToDiv('func_async_success',parameters,1);
 			console.log('from func_async success');
 	    },
-	    function(data) {
+	    function (data) {
         	parameters["m"] = "now you waited for the async call";
 			printToDiv('func_async_error',parameters,1);
 			console.log('from func_async error');

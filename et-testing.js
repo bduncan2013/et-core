@@ -4,14 +4,14 @@ exports.widMasterKey = widMasterKey = "widmaster_";
 exports.test_results = test_results = {};
 exports.potentialwid = potentialwid = 0;
 
-exports.debugon = debugon = false;
-exports.debugname = debugname = "";
+exports.debugon = debugon = true;
+exports.debugname = debugname = "get";
 exports.debugsubcat = debugsubcat = "";
-exports.debugcat = debugcat = "";
-exports.debugfilter= debugfilter = "";
-exports.debugdestination= debugdestination = 1;
-exports.debugcolor= debugcolor = 0;
-exports.debugindent= debugindent = 0;
+exports.debugcat = debugcat = "get";
+exports.debugfilter = debugfilter = "";
+exports.debugdestination = debugdestination = 1;
+exports.debugcolor = debugcolor = 0;
+exports.debugindent = debugindent = 0;
 
 
 if (!window) {
@@ -19,7 +19,7 @@ if (!window) {
 }
 
 // if(typeof localStorage === "undefined"){
-var localStore = function() {
+var localStore = function () {
 
 	var json = {};
 
@@ -71,7 +71,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
 	//displayAllWids();
 }
 
-function execute_function(myfunc) {
+function execute_function (myfunc) {
 	if (typeof window[myfunc] == 'function') {
 		//alert("I found the function...let's go run it!");
 		// result = window[myfunc]();
@@ -375,8 +375,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
 exports.debugfn = debugfn = function debugfn() {
 	var processdebug = false;
-	var color_list = 
-	[
+	var color_list =
+		[
 		"black",
 		"red",
 		"green",
@@ -392,157 +392,165 @@ exports.debugfn = debugfn = function debugfn() {
 		"purple"
 	]
 
-	var indebugdesc = String(arguments[0]) || "";	// 
-	var	indebugname = String(arguments[1]) || ""; 	// main fn
-	var	indebugcat = String(arguments[2]) || ""; 	// add/get
-	var	indebugsubcat = String(arguments[3]) || ""; // sub fn
-	var	indebugcolor = color_list[arguments[4]] || ""; 	// level
-	var	indebugindent = arguments[5] || "";	// level
-	var debugobjectlist = (arguments[6]) ? arguments[6] : {"data":"none"};
+	debugname = "get" ; 
+
+	var indebugdesc = String(arguments[0]) || ""; // 
+	var indebugname = String(arguments[1]) || ""; // main fn
+	var indebugcat = String(arguments[2]) || ""; // add/get
+	var indebugsubcat = String(arguments[3]) || ""; // sub fn
+	var indebugcolor = color_list[arguments[4]] || ""; // level
+	var indebugindent = arguments[5] || ""; // level
+	var debugobjectlist = (arguments[6]) ? arguments[6] : {
+		"data": "none"
+	};
 	var displaycolor = indebugcolor;
-	var tempdebugname = (debugname!="") ? debugname : indebugname;
-	var tempdebugcat = (debugcat!="") ? debugcat : indebugcat;
-	var tempdebugsubcat = (debugsubcat!="") ? debugsubcat : indebugsubcat;
-	
+	var tempdebugname = (debugname != "") ? debugname : indebugname;
+	var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
+	var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
 
-	if (indebugname==tempdebugname && indebugcat==tempdebugcat && indebugsubcat==tempdebugsubcat) {
-				processdebug = true
-			} else {
-				processdebug=false
-			};
-	if (debugname+debugcat+debugsubcat=="") {processdebug=false}
- 	if (!processdebug) return; 
-	
 
-	
+	// if (indebugname == tempdebugname && indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {
+	if (indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {/// TODO :: saurabh :: remove later done for testing purposes
+		processdebug = true
+	} else {
+		processdebug = false
+	};
+	if (debugname + debugcat + debugsubcat == "") {
+		processdebug = false
+	}
+	if (!processdebug) return;
+
+
+
 	// If the color goes over 10, turn it back to black
 	if (displaycolor > 10) displaycolor = 0;
 
-		length = arguments.length;
+	length = arguments.length;
 
 	// If there is no data from debugvars, say so
 	// if (debugobjectlist.length < 1) debugobjectlist = {"data":"none"};
 	// var outobject={"hello":"world"};
-	var outobject={};
+	var outobject = {};
 
-// 	if blank debugcolor, blank debugindent
+	// 	if blank debugcolor, blank debugindent
 
-// 	1) determine if we should play...missing "and"
-// 	if global debugname = incoming debugname the process this object (or subcat or cat)
+	// 	1) determine if we should play...missing "and"
+	// 	if global debugname = incoming debugname the process this object (or subcat or cat)
 	// if (indebugcat==debugcat) {processdebug=true};
 	// if (indebugsubcat==debugsubcat) {processdebug=true};
 
-// if processdebug {
+
+
+	// if processdebug {
 	debugfilter = 0;
-	switch (debugfilter) 
-		{
-			case 0:
-				outobject = debugobjectlist;
+	switch (debugfilter) {
+		case 0:
+			outobject = debugobjectlist;
 			break;
 
-			case 1:
-				// only the first var
+		case 1:
+			// only the first var
 			break;
 
-			case 2:
-				// only the 1,2 var
+		case 2:
+			// only the 1,2 var
 			break;
-			
-			case 3:
-				// level
+
+		case 3:
+			// level
 			break;
-		}
+	}
 
 
-		// widfilter: outobject={debugobjectlist["wid"], debugobjectlist["dtotype"], debugobjectlist["method"]}
+	// widfilter: outobject={debugobjectlist["wid"], debugobjectlist["dtotype"], debugobjectlist["method"]}
 
-// go to html file be able to enter
-// exports.debugname = debugname = "";
-// exports.debugsubcat = debugsubcat = "";
-// exports.debugcat = debugcat = "";
-// exports.debugfilter= debugfilter = "all";
-// exports.debugdestination= debugdestination = "print";
+	// go to html file be able to enter
+	// exports.debugname = debugname = "";
+	// exports.debugsubcat = debugsubcat = "";
+	// exports.debugcat = debugcat = "";
+	// exports.debugfilter= debugfilter = "all";
+	// exports.debugdestination= debugdestination = "print";
 
 
-// 		make color based on indebugindent
-// 			1: temp_HTML=temp_HTML+" "
-// 			2: 
-// 			3: 
-// 			
-// 			
-// 			
+	// 		make color based on indebugindent
+	// 			1: temp_HTML=temp_HTML+" "
+	// 			2: 
+	// 			3: 
+	// 			
+	// 			
+	// 			
 
 
 	switch (debugdestination) // 1 for print, 2 for googlespreadsheets, 3 for both
-		{
-			case 1:
-				dbug_print(indebugindent, displaycolor);
+	{
+		case 1:
+			dbug_print(indebugindent, displaycolor,indebugname,indebugdesc);
 			break;
 
-			case 2:
-				store_to_google(indebugname, outobject);
+		case 2:
+			store_to_google(indebugname, outobject);
 			break;
 
-			case 3:
-				dbug_print(indebugindent, displaycolor);
-				store_to_google(indebugname, outobject);
+		case 3:
+			dbug_print(indebugindent, displaycolor,indebugname,indebugdesc);
+			store_to_google(indebugname, outobject);
 			break;
-		}
+		case 10:
+			store_to_disk(indebugname, outobject);
+			break;
+	}
 
-	function dbug_print(indent, displaycolor){
+	function dbug_print(indent, displaycolor,indebugname,indebugdesc) {
 
-		if (displaycolor == "") {displaycolor = "pink"};
+		if (displaycolor == "") {
+			displaycolor = "pink"
+		};
 		var jsonPretty = JSON.stringify(outobject, "-", 4);
 
 		if (indent > 0) {
-			var temp_HTML = indebugdesc
-			+ "<br>"
-			+ "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>"
-            + syntaxHighlight(jsonPretty)
-			+ displaycolor + "</div>";
+			var temp_HTML = indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
 		} else {
-			var temp_HTML = indebugdesc
-			+ "<br>"
-			+ "<div style='color:" + displaycolor + "'>"
-	        + syntaxHighlight(jsonPretty)
-			+ displaycolor + "</div>";
+			var temp_HTML = indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
 		}
-		console.log('***** Look here *****' + jsonPretty);
-		$('#divprint').append(temp_HTML);
+		
+
+		console.log('***** Look here --- "'+ indebugdesc +' : '+ indebugname  +'"*****'+ jsonPretty );
+		if(exports.environment==='local'){
+			$('#divprint').append(temp_HTML);
+		}
 		//proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
-	}       
+	}
 
 
-		// print:  	proxyprinttodiv('logverify - parmwid1', parmwid1, 99);
+	// print:  	proxyprinttodiv('logverify - parmwid1', parmwid1, 99);
 
 
-		// google: storetogoogle
-		// file: outobject["testtest":"testtest"]
-		// 		addtolocalostore
+	// google: storetogoogle
+	// file: outobject["testtest":"testtest"]
+	// 		addtolocalostore
 } // End of debugfn
 
 
 // document google
 // go add one debfn to getwid
 
-function store_to_google(indebugname, google_object)
-{
+function store_to_google(indebugname, google_object) {
 	$('#name').val(indebugname);
 	$('#comment').val(JSON.stringify(google_object));
 	document.getElementById('theForm').submit();
 }
 
-function readtestresutlsandstorwegoogle(){
-// read local store
-// clear local store
-// look for testtest
-// storetogoogle
+function readtestresutlsandstorwegoogle() {
+	// read local store
+	// clear local store
+	// look for testtest
+	// storetogoogle
 }
 
 
 function syntaxHighlight(json) {
 	json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-	return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+	return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
 		var cls = 'number';
 		if (/^"/.test(match)) {
 			if (/:$/.test(match)) {

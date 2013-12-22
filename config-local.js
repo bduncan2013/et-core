@@ -5,7 +5,7 @@ if(!exports){
 
 exports.environment='local';
 
-// var config123 = function() {
+// var config123 = function () {
 //     var configuration = {};
         
 //     configuration.preExecute = [];
@@ -47,7 +47,7 @@ exports.environment='local';
 //     }
 // };
 
-var config123 = function() {
+var config123 = function () {
     var configuration = {};
 
     configuration.environment='local';
@@ -210,7 +210,7 @@ function executeAjax(allConfig,executeItem,callback,returnCallback) {
         cache: 'false',
         async: 'false',
         data: executeItem,
-        success: function(data) {
+        success: function (data) {
             // alert(JSON.stringify(data));
             if(data.error){
                 result = "<pre> APPLICATION ERROR: </pre>"+JSON.stringify(data);
@@ -223,7 +223,7 @@ function executeAjax(allConfig,executeItem,callback,returnCallback) {
             }
             callback(data,allConfig,'html',returnCallback);
         },
-        error: function(data) {
+        error: function (data) {
             alert(JSON.stringify(data));
             result = "FAILED TO CALL EXECUTETHIS "+JSON.stringify(data);
             callback(data,allConfig,'html',returnCallback);
@@ -278,8 +278,8 @@ exports.getDriApiData = getDriApiData = function getDriApiData(action, params, c
         async: false,
         dataType: 'json',
         data: JSON.stringify(params),
-        success: function(results) { callback(null, results); },
-        error: function(err) { callback(err.responseText, null); }
+        success: function  (results) { callback(null, results); },
+        error: function (err) { callback(err.responseText, null); }
     });
 };
 

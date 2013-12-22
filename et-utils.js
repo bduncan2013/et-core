@@ -193,7 +193,7 @@
         if(typeof(attr) == undefined){
             attr = 'onetomany'
         }
-        output = list.sort(function(a,b) {
+        output = list.sort(function (a,b) {
             if (a.key.split('.').length < b.key.split('.').length){
                 return -1;
             }
@@ -256,7 +256,7 @@
 
     /* lib.js functions */
 
-    var recurFunc = function(arr, val) {
+    var recurFunc = function (arr, val) {
 
     // stop condition
     if (arr.length <= 0) {

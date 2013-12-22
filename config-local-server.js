@@ -5,7 +5,7 @@ if(!exports){
 
 exports.environment='local';
 
-var config123 = function() {
+var config123 = function () {
     var configuration = {};
 
 // notice server try order is first on this version
@@ -99,7 +99,7 @@ function executeAjax(allConfig,executeItem,callback,returnCallback) {
         cache: 'false',
         async: 'false',
         data: executeItem,
-        success: function(data) {
+        success: function (data) {
             // alert(JSON.stringify(data));
             if(data.error){
                 result = "<pre> APPLICATION ERROR: </pre>"+JSON.stringify(data);
@@ -112,7 +112,7 @@ function executeAjax(allConfig,executeItem,callback,returnCallback) {
             }
             callback(data,allConfig,'html',returnCallback);
         },
-        error: function(data) {
+        error: function (data) {
             alert(JSON.stringify(data));
             result = "FAILED TO CALL EXECUTETHIS "+JSON.stringify(data);
             callback(data,allConfig,'html',returnCallback);

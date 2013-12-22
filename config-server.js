@@ -5,7 +5,7 @@ if(!exports){
 
 exports.environment='server';
 
-var config123 = function() {
+var config123 = function () {
     var configuration = {};
 
 configuration.preExecute = [];
@@ -75,7 +75,7 @@ function executeAjax(allConfig,executeItem,callback,returnCallback) {
         cache: 'false',
         async: 'false',
         data: executeItem,
-        success: function(data) {
+        success: function (data) {
             // alert(JSON.stringify(data));
             if(data.error){
                 result = "<pre> APPLICATION ERROR: </pre>"+JSON.stringify(data);
@@ -88,7 +88,7 @@ function executeAjax(allConfig,executeItem,callback,returnCallback) {
             }
             callback(data,allConfig,'html',returnCallback);
         },
-        error: function(data) {
+        error: function (data) {
             alert(JSON.stringify(data));
             result = "FAILED TO CALL EXECUTETHIS "+JSON.stringify(data);
             callback(data,allConfig,'html',returnCallback);
@@ -113,12 +113,8 @@ function toLowerKeys(obj){
     }
     return newobj;
 }
-
-// <<<<<<< HEAD
-// exports.server = function server(params, callback) {
 // =======
 exports.server = server = function server(params, callback) {
-// >>>>>>> 1243b8d8e8fe8e20570302a3eef352aaabd8b6bd
     console.log('execute server called with ' + JSON.stringify(params));
     // delete params['configuration'];
     var params = toLowerKeys(params);
@@ -172,4 +168,5 @@ exports.server = server = function server(params, callback) {
 //         "configuration": configuration
 //     }
 // } 
+
 
