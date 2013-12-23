@@ -40,21 +40,60 @@
             console.log('object that came back from fishOut => ' + JSON.stringify(p));
             proxyprinttodiv('querywid parameters', parameters);
             proxyprinttodiv('querywid p ', p);
-            var queParams = p[0];
-            var relParams = p[1];
-            var aggParams = p[2];
-            var addParams = p[3];
-            var xtrParams = p[4];
-            var relafterParams = p[5];
-            var ListOfLists = [];
-            var queryresults = {};
+            var queParams       = p[0];
+            var relParams       = p[1];
+            var aggParams       = p[2];
+            var addParams       = p[3];
+            var xtrParams       = p[4];
+            var relafterParams  = p[5];
+            var ListOfLists     = [];
+            var queryresults    = {};
             var wid;
+
+            function debugvars(varlist) {
+                var allvars = 
+                {
+                1:
+                    {
+                        "queParams":queParams,
+                        "relParams":relParams,
+                        "aggParams":aggParams,
+                        "addParams":addParams,
+                        "xtrParams":xtrParams,
+                        "relafterParams":relafterParams,
+                        "ListOfLists":ListOfLists,
+                        "queryresults":queryresults,
+                        "wid":wid
+                    },
+                2:
+                    {
+                        "queParams":queParams,
+                        "relParams":relParams,
+                        "aggParams":aggParams
+                    }
+                };
+                var resultObj={};
+                var vargroup;
+                if (!varlist) {
+                    for (var eachgroup in allvars) {varlist.push(eachgroup);}
+                }
+                
+                for (var eachgroup in varlist) {
+                    vargroup = varlist[eachgroup];
+                    resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
+                return resultObj;
+            }
+
+
 
             // Start logic
 
             console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
 
+            var dont_run = true;
             if (queParams['mongorawquery']) {
+                debugfn("querywid", "rawmongoquery", "query", "core", debugcolor, debugindent, debugvars([1]));
                 mongoquery(queParams, function (results) {
                     if (callback instanceof Function) {
                         callback(results);
@@ -74,7 +113,7 @@
                 }
             }
         } //else  
-        //	return output;
+        //  return output;
 
         // nothing below should run
 
@@ -147,20 +186,26 @@
                     // var temp = queParams['mongowid'];
                     // var tempsize = getObjectSize(temp);
                     // for (var j = 0; j<tempsize; j++) {
-                    // 	output[] = queParams['mongowid'];
+                    //  output[] = queParams['mongowid'];
                     //}
+
+                        debugfn("move queParams to output", "rawmongoquery", "query", "begin", debugcolor, debugindent, debugvars([1]));
                     cb(null, "step1");
+                } else {
+
                 }
    },
 
    function step2(cb) {
                 // Relationship Section **********
                 // Skip if there are no relParams
+                if (dont_run) cb(null, "step2");
                 if (getObjectSize(relParams) != 0) {
                     mQueryString = relationShipQuery(relParams, output);
                     targetfunction = mongoquery;
                     output = executethis(mQueryString, mongoquery);
                     //output = mongoquery(mQueryString,target,callback);
+                        debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([1]));
                     cb(null, "step2");
                 }
    },
@@ -168,6 +213,7 @@
    function step3(cb) {
                 // Relationship Section **********
                 // Skip if there are no relParams
+                if (dont_run) cb(null, "step3");
                 if (getObjectSize(relafterParams) != 0) {
 
                     mQueryString = queryafterrelationship(relafterParams, output);
@@ -175,6 +221,7 @@
                     output = executethis(mQueryString, mongoquery);
                     //output = mongoquery(mQueryString,target,callback);
                 }
+                    debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([1]));
                 cb(null, "step3");
    }
 
