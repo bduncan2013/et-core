@@ -1,4 +1,4 @@
-(function (window) {
+(function(window) {
     // require('../utils/addget.js');
     // require('../config.js');
 
@@ -22,7 +22,7 @@
             if (callback instanceof Function) {
                 mongoquery(parameters, callback);
             } else {
-                return executethis(parameters, x);
+                return mongoquery(parameters);
             } // TODO :: check if this is fine
         } else {
 
@@ -55,7 +55,7 @@
             console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
 
             if (queParams['mongorawquery']) {
-                mongoquery(queParams, function (results) {
+                mongoquery(queParams, function(results) {
                     if (callback instanceof Function) {
                         callback(results);
                     } else {
@@ -64,13 +64,13 @@
                 });
             } else {
                 if (callback instanceof Function) {
-                    callback({
-                        success: 'false'
-                    });
+                    callback([{
+                        "": ""
+                    }]);
                 } else {
-                    return {
-                        success: 'false'
-                    };
+                    return [{
+                        "": ""
+                    }];
                 }
             }
         } //else  
@@ -140,32 +140,39 @@
         //
         async.series([
 
-   function step1(cb) {
+            // [12/22/13, 12:50:52 PM] Roger Colburn: you can also send rawmongoquery...it will give you some results...
+            // those results will also feed to data.priamrywid
+
+            // so this would be 3 queries...one to get the primary wids, 
+            // another one to get there related secondary wids
+            // then the last one to get the data of the secondary wids
+            // [12/22/13, 12:51:37 PM] Roger Colburn: it is quite simple once you see there is 4-5 POSSILBE steps...
+            // were results from prior steps can be used for the second one (if the initial right parm sent it)        
+
+            function step1(cb) {
+                // Primary Wid Section **********
                 if (queParams['mongowid'] !== undefined) {
-                    output = queParams['mongowid'];
-                    //output = {mongowid:mongowid};
-                    // var temp = queParams['mongowid'];
-                    // var tempsize = getObjectSize(temp);
-                    // for (var j = 0; j<tempsize; j++) {
-                    // 	output[] = queParams['mongowid'];
-                    //}
+                    mQueryString = {
+                        'primarywid': queParams['mongowid']
+                    };
+                    output = mongoquery(mQueryString, callback);
+                    console.log(' *** get primary wids *** ' + JSON.stringify(output));
                     cb(null, "step1");
                 }
-   },
+            },
 
-   function step2(cb) {
+            function step2(cb) {
                 // Relationship Section **********
                 // Skip if there are no relParams
                 if (getObjectSize(relParams) != 0) {
                     mQueryString = relationShipQuery(relParams, output);
                     targetfunction = mongoquery;
-                    output = executethis(mQueryString, mongoquery);
-                    //output = mongoquery(mQueryString,target,callback);
+                    output = mongoquery(mQueryString, callback);
                     cb(null, "step2");
                 }
-   },
+            },
 
-   function step3(cb) {
+            function step3(cb) {
                 // Relationship Section **********
                 // Skip if there are no relParams
                 if (getObjectSize(relafterParams) != 0) {
@@ -176,9 +183,9 @@
                     //output = mongoquery(mQueryString,target,callback);
                 }
                 cb(null, "step3");
-   }
+            }
 
-  ], function (err, res) {
+        ], function(err, res) {
             console.log('completed tasks asynchronously in querywid');
         });
 
