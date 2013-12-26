@@ -22,17 +22,20 @@
             if (callback instanceof Function) {
                 mongoquery(parameters, callback);
             } else {
-                return mongoquery(parameters);
-            } // TODO :: check if this is fine
+                mongoquery(parameters, function(err, res) {
+                    output = res; //TODO : check if this is fine : ADDED BY SAURABH
+                });
+            }
+            return output;
         } else {
 
             // if (parameters['mongorawquery']) {
-            // 		return mongoquery(parameters);
-            // 	} else {
-            // 		return querywidlocal(parameters);
-            // 	};
+            //      return mongoquery(parameters);
+            //  } else {
+            //      return querywidlocal(parameters);
+            //  };
 
-            var output = [];
+            var output = {};
             var mQueryString = "";
 
             // Fish out params
@@ -49,532 +52,296 @@
             var ListOfLists = [];
             var queryresults = {};
             var wid;
-            var output;
-            var environmentdb = "data";
 
+            // Start logic
 
-            function debugvars(varlist) {
-                var allvars = {
-                    1: {
-                        "queParams": queParams,
-                        "relParams": relParams,
-                        "aggParams": aggParams,
-                        "addParams": addParams,
-                        "xtrParams": xtrParams,
-                        "relafterParams": relafterParams,
-                        "ListOfLists": ListOfLists,
-                        "queryresults": queryresults,
-                        "wid": wid
-                    },
-                    2: {
-                        "queParams": queParams,
-                        "relParams": relParams,
-                        "aggParams": aggParams
-                    }
-                };
-                var resultObj = {};
-                var vargroup;
-                if (!varlist) {
-                    for (var eachgroup in allvars) {
-                        varlist.push(eachgroup);
-                    }
-                }
-
-                for (var eachgroup in varlist) {
-                    vargroup = varlist[eachgroup];
-                    resultObj = jsonConcat(resultObj, allvars[vargroup]);
-                }
-                return resultObj;
-            }
-
-
-
-            //else  
-            //  return output;
-
-            // nothing below should run
-
-            //    // Use single to set up a query with the params of 1 wid
-            //    if (queParams['singlemongoquery'] != undefined && xtrParams.length == undefined) {
-            //        output = "";
-            //        wid = queParams['singlemongoquery'];
-            //        targetfunction = getfrommongo;
-            //        var widObject = executethis(wid, getfrommongo);
-            //        // var widObject = getFromMongo({'wid':wid});
-            //        delete widObject['wid'];
-            //        delete widObject['metadata.method'];
-            //        output = BuildSingleQuery(widObject);
-            //        mQueryString = output.substring(0, output.length -1);
-            //        targetfunction = mongoquery;
-            //        output = executethis(mQueryString, mongoquery);
-            //        //output = mongoquery(mQueryString);
-            //        //output = mQueryString;
-            //    }
-            //
-            //    // Use multiple if you want to use a list of wids as $OR groups
-            //    // of a query to mongo
-            //    if (queParams['multiplemongoquery']) {
-            //        output = "";
-            //        var paramList = {};
-            //        wid = queParams['multiplemongoquery'];
-            //        var listOfWids = getFromMongo({'wid':wid});
-            //        delete listOfWids["wid"];
-            //        delete listOfWids["metadata.method"];
-            //        proxyprinttodiv('Function MongoDataQuery listOfWids : ', listOfWids);
-            //
-            //        var i = 0;
-            //        ListOfLists = [];
-            //        for (w in listOfWids) {
-            //        targetfunction = getfrommongo;
-            //            var tempwid = executethis(w, getfrommongo);
-            //            delete tempwid["wid"];
-            //            delete tempwid["metadata.method"];
-            //            for (t in tempwid) {
-            //                paramList[t] = tempwid[t];
-            //            }
-            //            ListOfLists.push(paramList);
-            //            paramList = {};
-            //        }
-            //        if (xtrParams) {
-            //            ListOfLists.push(xtrParams);
-            //        }
-            //        mQueryString = BuildMultipleQuery(ListOfLists);
-            //        targetfunction = mongoquery;
-            //        output = executethis(mQueryString, mongoquery);
-            //        //output = mongoquery(mQueryString);
-            //        //output = mQueryString;
-            //    }
-            //
-            //    // If there is no single or multiple, make a $OR group out of the extra params
-            //    if (!queParams['singlemongoquery'] && !queParams['multiplemongoquery'] && getObjectSize(relParams) == 0 ){
-            //        ListOfLists.push(xtrParams);
-            //        mQueryString = BuildMultipleQuery(ListOfLists);
-            //        targetfunction = mongoquery;
-            //        output = executethis(mQueryString, mongoquery);
-            //        //output = mongoquery(mQueryString);
-            //    }
-            //
-            async.series([
-
-                    function step01(cb) {
-
-                        // Use single to set up a query with the params of 1 wid
-                        if (queParams['singlemongoquery'] != undefined && xtrParams.length == undefined) {
-                            console.log('singlemongoquery => ' + queParams['singlemongoquery']);
-                            var wid = queParams['singlemongoquery'];
-                            getwid({
-                                'wid': wid
-                            }, function(res) {
-                                var widObject = res;
-                                delete widObject['wid'];
-                                delete widObject['metadata.method'];
-                                mQueryString = BuildSingleQuery(widObject, "or", environmentdb);
-                                //mQueryString = output.substring(0, output.length - 1);
-                                mongoquery(mQueryString, function(res) {
-                                    output = formatlist(res, "wid", "wid");
-                                    cb(null, "step01");
-                                });
-                            })
-                        } else if (queParams && queParams['multiplemongoquery']) {
-                            output = "";
-                            var paramList = {};
-                            wid = queParams['multiplemongoquery'];
-
-                            console.log('multiplemongoquery => ' + queParams['multiplemongoquery']);
-                            getwid({
-                                'wid': wid
-                            }, function(res) {
-                                var listOfWids = res;
-                                delete listOfWids["wid"];
-                                delete listOfWids["metadata.method"];
-                                proxyprinttodiv('Function MongoDataQuery listOfWids : ', listOfWids);
-
-                                var i = 0;
-                                ListOfLists = [];
-                                var todolist = [];
-                                for (var w in listOfWids) {
-                                    todolist.push(w);
-                                }
-
-                                async.mapSeries(todolist, function (w, cbMap) {
-                                    getwid({
-                                        'wid': w
-                                    }, function(res) {
-                                        var tempwid = res;
-                                        delete tempwid["wid"];
-                                        delete tempwid["metadata.method"];
-                                        // for (var t in tempwid) {
-                                        //     paramList[t] = tempwid[t];
-                                        // }
-                                        ListOfLists.push(tempwid);
-                                        paramList = {};
-
-                                        cbMap(null, "map");
-                                    });
-                                }, function(err, res) {
-
-                                    if (xtrParams) {
-                                        ListOfLists.push(xtrParams);
-                                    }
-                                    mQueryString = BuildMultipleQuery(ListOfLists, "and", "or", environmentdb);
-                                    mongoquery(mQueryString, function (res) {
-                                        output = formatlist(res, "wid", "wid");
-                                        cb(null, 'step01');
-                                    });
-
-                                });
-                            });
-                        } else if (queParams && queParams['mongorawquery'] !== undefined) {
-                            console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
-                            var mQuery = queParams['mongorawquery'];
-                            mQueryString = mQuery;
-                            console.log('mQueryString at step01 => ' + mQueryString);
-                            mongoquery(mQueryString, function (res) {
-                                output = formatlist(res, "wid", "wid");
-                                console.log(' *** get primary wids *** ' + JSON.stringify(output));
-                                debugfn("move queParams to output", "mongorawquery", "query", "begin", debugcolor, debugindent, debugvars([1]));
-                                cb(null, "step01");
-                            });
-                        } else {
-                            console.log('righ here');
-                            cb(null, "step01");
-                        }
-                    },
-                    function step02(cb) {
-                        // Primary Wid Section **********
-                        if (queParams && queParams['mongowid'] !== undefined) {
-                            console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
-                            output = formatlist(output, "wid", "wid");
-                            output.push({
-                                'wid': queParams['mongowid']
-                            });
-
-                            cb(null, "step02");
-                        } else {
-                            cb(null, "step02");
-                        }
-                    },
-
-                    function step03(cb) {
-                        // Relationship Section **********
-                        // Skip if there are no relParams
-
-                        if (getObjectSize(relParams) !== 0) {
-                            if (queParams['mongowid'] === undefined) {
-                                output = formatlist(output, "wid", "wid")
-                            };
-                            mQueryString = relationShipQuery(relParams, output, "data"); // &&& roger added data
-                            console.log('mQueryString at step03 => ' + mQueryString);
-                            mongoquery(JSON.parse(mQueryString), function (res) {
-                            // mongoquery(mQueryString, function (res) {  // &&& roger changed, why json.parse?
-                                console.log(" result from step03 " + JSON.stringify(res));
-                                output = res;
-                                debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([1]));
-                                cb(null, "step03");
-                            });
-                        } else {
-                            cb(null, "step03");
-                        }
-
-                    },
-
-                    function step04(cb) {
-                        // Relationship Section **********
-                        // Skip if there are no relParams
-                        if (getObjectSize(relafterParams) !== 0) {
-                            console.log('>>> '+JSON.stringify(output))
-                            output = formatlist(output, "wid", "wid");    // &&& roger added  
-                            // TODO :: START HERE.
-                            mQueryString = queryafterrelationship(relafterParams, output);
-                            console.log('mQueryString at step04 => ' + mQueryString);
-                            mongoquery(JSON.parse(mQueryString), function (res) {
-                            // mongoquery(mQueryString, function (res) { // &&& roger changed, same as above
-                                output = res;
-                                debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([1]));
-                                cb(null, "step04");
-                            });
-                        } else {
-                            cb(null, "step04");
-                        }
-
-                    }
-
-                ],
-                function (err, res) {
-                    console.log('completed tasks asynchronously in querywid ');
-                    console.log('output is ' + JSON.stringify(output));
-
-
+            if (xtrParams['mongorawquery']) {
+                mongoquery(queParams, function(results) {
                     if (callback instanceof Function) {
-                        callback(formatlist(output, environmentdb, null)); // &&& roger changed from "data" to envrionmentdb
+                        callback(results);
                     } else {
-                        return formatlist(output, environmentdb, null); // &&& roger same change
+                        return results;
+                    }
+                });
+            } else {
+
+
+                async.series([
+
+                    // [12/22/13, 12:50:52 PM] Roger Colburn: you can also send rawmongoquery...it will give you some results...
+                    // those results will also feed to data.priamrywid
+
+                    // so this would be 3 queries...one to get the primary wids, 
+                    // another one to get there related secondary wids
+                    // then the last one to get the data of the secondary wids
+                    // [12/22/13, 12:51:37 PM] Roger Colburn: it is quite simple once you see there is 4-5 POSSILBE steps...
+                    // were results from prior steps can be used for the second one (if the initial right parm sent it)        
+
+                    // Theory for relationship calls are:
+                    // we fish out parameters (we are interested in queParms, relParms, and relafterParms in this case)
+
+                    //             queParams['mongowid'] = mongowid;
+                    //             relParams['mongowidmethod'] = mongowidmethod;
+                    //             relParams['mongorelationshipdirection'] = mongorelationshipdirection;
+                    //             relParams['mongorelationshiptype'] = mongorelationshiptype;
+                    //             relParams['mongorelationshipmethod'] = mongorelationshipmethod;
+                    //             relafterParams[‘mongowidmethod'] = mongowidmethod;   
+
+                    // We send mongowid and relParms to create mongorelationship call
+                    // we do that query, search for all wids where primary =….result list of secondary
+                    // we then send the results of that query + mongowidmethod to do another query
+
+                    //    executeobject["mongowid"] = ParentWid;
+                    //    executeobject["mongorelationshiptype"] = "attributes";
+                    //    executeobject["mongorelationshipmethod"] = attrtype;
+                    //    executeobject["mongorelationshipdirection"] = "forward";
+                    //    executeobject["mongowidmethod"] = childrentype;
+                    //    executeobject["convertmethod"] = "";
+                    //    executeobject["dtotype"] = "";
+                    //    executeobject[“executethis"] = 'querywid';
+
+                    // go find all the related wids to parentwid 
+
+                    // go forward (or backwards)
+
+                    // make sure metadata.method = childenttype in the final result (because of )
+
+                    // wids can be related to other wids
+
+                    // we could be going forward (finding children) or backwards (parents)
+
+                    // we get results
+
+                    // we might want to filter those results ... a good filter is only show me the ones with metatdata.mjehto of ....
+
+                    // questions?
+                    // > go find all the related wids to parentwid
+                    // this(parentwid) can be coming via a rawmongoquery also ?
+                    // yes "go find all the related wids to" the results of this rawmongoquery
+                    // that involved a search in the relationships table (primary /seconeary)
+                    // that will give a list of wids
+                    // we do a query $or on all those wids (*that is what the code doe)
+                    // then we filter those resutls    
+
+
+
+                    function step1(cb) {
+                        // Primary Wid Section **********
+                        if (queParams['mongowid']) {
+                            output = {
+                                'wid': [queParams['mongowid']]
+                            }; // list of parent wids 
+                            console.log(' *** get primary wids using "mongowid" *** ' + JSON.stringify(output));
+                            cb(null, "step1");
+                        } else if (queParams['mongorawquery']) {
+                            mQueryString = {
+                                'primarywid': queParams['mongorawquery']
+                            };
+                            console.log(' *** get primary wids *** ' + mQueryString);
+                            mongoquery(mQueryString, function(err, res) {
+                                var widArr = {};
+                                if (res && (typeof res !== 'array')) {
+                                    widArr.push(res);
+                                }
+                                output = {
+                                    "wid": widArr
+                                };
+                                console.log(' *** result of get primary wids using "mongorawquery" *** ' + JSON.stringify(output));
+                                cb(null, "step1");
+                            });
+                        } else {
+                            cb(null, "step1");
+                        }
+                    },
+
+                    function step2(cb) {
+                        // Relationship Section **********
+                        // Skip if there are no relParams
+                        if (getObjectSize(relParams) != 0) {
+                            mQueryString = relationShipQuery(relParams, output);
+                            console.log(' *** get related wids *** ' + mQueryString);
+                            mongoquery(mQueryString, function(err, res) {
+                                if (!res) {
+                                    output = res;
+                                    console.log(' *** result of get relationship wids using "relParams" *** ' + JSON.stringify(output));
+                                }
+                                cb(null, "step2");
+                            });
+                        } else {
+                            cb(null, "step2");
+                        }
+                    },
+
+                    function step3(cb) {
+                        // Relationship After Section **********
+                        // Skip if there are no relParams
+                        if (getObjectSize(relafterParams) != 0) {
+                            mQueryString = queryafterrelationship(relafterParams, output);
+                            console.log(' *** get related wids data *** ' + mQueryString);
+                            mongoquery(mQueryString, function(err, res) {
+                                output = res;
+                                console.log(' *** result of get all filtered data using "relafterParams" *** ' + JSON.stringify(output));
+                                cb(null, "step3");
+                            });
+                        }
                     }
 
-
+                ], function(err, res) {
+                    ret = output;
+                    if (ret && (ret.length > 0)) {
+                        ret = [{
+                            "": ""
+                        }];
+                    }
+                    console.log('completed tasks asynchronously in querywid');
+                    var isSynchronous = configuration.querywid.synchronous;
+                    if (!isSynchronous) {
+                        callback(ret);
+                    }
                 });
 
-        };
-    }
+                var isSynchronous = configuration.querywid.synchronous;
+                if (isSynchronous) {
+                    if (!output) {
+                        if (callback instanceof Function) {
+                            callback([{
+                                "": ""
+                            }]);
+                        } else {
+                            return [{
+                                "": ""
+                            }];
+                        }
+                    }
+                }
+            }
+        } //else  
+        //  return output;
+
+        // nothing below should run
+
+        //    // Use single to set up a query with the params of 1 wid
+        //    if (queParams['singlemongoquery'] != undefined && xtrParams.length == undefined) {
+        //        output = "";
+        //        wid = queParams['singlemongoquery'];
+        //        targetfunction = getfrommongo;
+        //        var widObject = executethis(wid, getfrommongo);
+        //        // var widObject = getFromMongo({'wid':wid});
+        //        delete widObject['wid'];
+        //        delete widObject['metadata.method'];
+        //        output = BuildSingleQuery(widObject);
+        //        mQueryString = output.substring(0, output.length -1);
+        //        targetfunction = mongoquery;
+        //        output = executethis(mQueryString, mongoquery);
+        //        //output = mongoquery(mQueryString);
+        //        //output = mQueryString;
+        //    }
+        //
+        //    // Use multiple if you want to use a list of wids as $OR groups
+        //    // of a query to mongo
+        //    if (queParams['multiplemongoquery']) {
+        //        output = "";
+        //        var paramList = {};
+        //        wid = queParams['multiplemongoquery'];
+        //        var listOfWids = getFromMongo({'wid':wid});
+        //        delete listOfWids["wid"];
+        //        delete listOfWids["metadata.method"];
+        //        proxyprinttodiv('Function MongoDataQuery listOfWids : ', listOfWids);
+        //
+        //        var i = 0;
+        //        ListOfLists = [];
+        //        for (w in listOfWids) {
+        //        targetfunction = getfrommongo;
+        //            var tempwid = executethis(w, getfrommongo);
+        //            delete tempwid["wid"];
+        //            delete tempwid["metadata.method"];
+        //            for (t in tempwid) {
+        //                paramList[t] = tempwid[t];
+        //            }
+        //            ListOfLists.push(paramList);
+        //            paramList = {};
+        //        }
+        //        if (xtrParams) {
+        //            ListOfLists.push(xtrParams);
+        //        }
+        //        mQueryString = BuildMultipleQuery(ListOfLists);
+        //        targetfunction = mongoquery;
+        //        output = executethis(mQueryString, mongoquery);
+        //        //output = mongoquery(mQueryString);
+        //        //output = mQueryString;
+        //    }
+        //
+        //    // If there is no single or multiple, make a $OR group out of the extra params
+        //    if (!queParams['singlemongoquery'] && !queParams['multiplemongoquery'] && getObjectSize(relParams) == 0 ){
+        //        ListOfLists.push(xtrParams);
+        //        mQueryString = BuildMultipleQuery(ListOfLists);
+        //        targetfunction = mongoquery;
+        //        output = executethis(mQueryString, mongoquery);
+        //        //output = mongoquery(mQueryString);
+        //    }
+        //
 
 
-    //
-    //    // Aggregation Section **********
-    //    // Skip if there are no aggParams
-    //    if (getObjectSize(aggParams) != 0) {
-    //        if (mQueryString != "") {
-    //            aggParams['mongoaggquery '] = mQueryString;
-    //        }
-    //        output = aggregationQuery(aggParams);
-    //    }
-    //
-    //    // Hard coding addons Section **********
-    //    // Skip if there are no aggParams
-    //    if (getObjectSize(addParams) != 0) {
-    //        if (mQueryString != ""){
-    //            // Since addonQuery will execute a query, it needs the mQueryString to work with
-    //            addParams['query '] = mQueryString;
-    //            var data_From_Mongo = addonQuery(addParams);
-    //            output = data_From_Mongo;
-    //        }
-    //    }
-    //    proxyprinttodiv('
-    // Function MongoDataQuery output: ', output);
-    //    targetfunction = mongoquery;
-    //    queryresults = executethis(output, mongoquery);
-    //    //queryresults=mongoquery(output,target,callback);
-    //    return queryresults; // whatever happens, return the output
+        //
+        //    // Aggregation Section **********
+        //    // Skip if there are no aggParams
+        //    if (getObjectSize(aggParams) != 0) {
+        //        if (mQueryString != "") {
+        //            aggParams['mongoaggquery'] = mQueryString;
+        //        } 
+        //        output = aggregationQuery(aggParams);
+        //    }
+        //
+        //    // Hard coding addons Section **********
+        //    // Skip if there are no aggParams
+        //    if (getObjectSize(addParams) != 0) {
+        //        if (mQueryString != ""){
+        //            // Since addonQuery will execute a query, it needs the mQueryString to work with
+        //            addParams['query'] = mQueryString;
+        //            var data_From_Mongo = addonQuery(addParams);
+        //            output = data_From_Mongo;
+        //        }
+        //    }
+        //    proxyprinttodiv('Function MongoDataQuery output : ', output);
+        //    targetfunction = mongoquery;
+        //    queryresults = executethis(output, mongoquery);
+        //    //queryresults=mongoquery(output,target,callback);
+        //    return queryresults; // whatever happens, return the output
 
-    // End of MongoDataQuery
+    } // End of MongoDataQuery
 
     // Use the mQueryString to call on mongo with it
 
 
-    // function queryafterrelationship(parameters, output) {
-    //     mQueryString = '{"$and": [';
+    function queryafterrelationship(parameters, output) {
+        if (isParameterLower(parameters, "mongowidmethod")) {
+            var dtotype = parameters["mongowidmethod"];
+            remove(parameters, "mongowidmethod");
 
-    //     if (isParameterLower(parameters, "mongowidmethod")) {
-    //         var dtotype = parameters["mongowidmethod"];
-    //         remove(parameters, "mongowidmethod");
-
-    //         // This section addes the dtoType to the string
-    //         if (dtotype) {
-    //             var q3 = "{metadata.method:" + dtotype + "},";
-    //             if (q3) {
-    //                 mQueryString += q3;
-    //             }
-    //         }
-    //     }
-
-    //     return mQueryString;
-    // }
-    // function queryafterrelationship(parameters, output) {
-    //     console.log('output is--'+output);
-    //     console.log('1--'+BuildMultipleQuery(output));
-    //     console.log('2--'+BuildMultipleQuery(BuildSingleQuery(output)));
-    //     var query = BuildMultipleQuery(BuildSingleQuery(output));
-    //     return query;
-    // }
-
-    // will go through list, look for a specific parameter, create a new list based on that parameter
-    function formatlist(inlist, parmnamein, parmnameout ) {
-        var output = [];
-        var widvalue;
-
-        // &&& roger it show("")ould always get a list and produce list -- necessit of if statement would be warning something wrong
-        //if(inlist instanceof Array){
-            for (var i=0; i< inlist.length; i++) {
-                var item = inlist[i];
-                if (!parmnameout) {
-                    widvalue = item['wid']
-                } else {
-                    widvalue = parmnameout
-                };
-
-                var obj = {};
-                obj[widvalue] = item[parmnamein];
-                output.push(obj); // &&& roger
-                //output[widvalue] = item[parmnamein]
-            }
-        // }else if(inlist instanceof Object){
-        //     for (var item in inlist) {
-        //         if (!parmnameout) {
-        //             widvalue = item['wid']
-        //         } else {
-        //             widvalue = parmnameout
-        //         };
-        //         output.push({widvalue:item[parmnamein]}); // &&& roger
-        //         //output[widvalue] = item[parmnamein]
-        //     }
-        //     output[0] = output; // convert list to object
-        // }
-        return output
-    }
-
-    //in: key, value, preamble 
-    //out STRING: {preamble.key: value}
-    function BuildSimpleQuery(key, value, preamble) {
-        var result;
-        // if (!preamble) {
-        //     preamble = "data"
-        // }; // default if preamble not sent in
-        preamble = preamble + ".";
-
-        result = "{\"" + key + "\":\"" + value + "\"}";
-        return result;
-    }
-
-    // in parameters, preamble, outerquerytype
-    // will create a string query based on outerquerytype
-    function BuildSingleQuery(parameters, outerquerytype, preamble) {
-        var returnString;
-        if (!outerquerytype) {
-            outerquerytype = "or"
-        }; // default if not sent in
-        // if (!preamble) {
-        //     preamble = "data"
-        // }; // default if not sent in
-
-        var parametersCount = countKeys(parameters);
-        if (parametersCount > 1) {
-            //returnString = ' {"$or": [';
-            returnString = ' {"$' + outerquerytype + '": [';
-        } else {
-            returnString = "";
-        }
-
-        if (parameters instanceof Array) {
-            var obj = "";
-            parameters=parameters[0];
-        } // convert list to object
-        // build a {key,"value"} for each parameter
-        //foreach (var p in parameters)
-        for (key in parameters) {
-            returnString += BuildSimpleQuery(key, parameters[key], preamble);
-            if(returnString.lastIndexOf(',')!==(returnString.length-1)){
-                returnString += ",";
-            }
-        }
-
-        returnString = returnString.substring(0, returnString.length - 1);
-        // Close the string based on the number of listofparameters
-        if (parametersCount === 1) {
-            returnString += "";
-        } else {
-            returnString += "]}";
-        }
-        return returnString;
-    }
-
-    // in list of parameters, outerquerytype, innerquerytype, preamble
-    // will create a string query based on outerquerytype
-    function BuildMultipleQuery(listofparameters, outerquerytype, innerquerytype, preamble) {
-        var returnString = "";
-        if (!outerquerytype) {
-            outerquerytype = "and"
-        }; // default if not sent in
-        if (!innerquerytype) {
-            innerquerytype = "or"
-        }; // default if not sent in
-        // if (!preamble) {
-        //     preamble = "data"
-        // }; // default if not sent in
-
-        var listofparametersCount = listofparameters.length;
-        // If it turns out you only have 1 set of params, dont start out the string with $and
-        if (listofparametersCount == 1) {
-            //returnString += "{";
-            returnString += "";
-        } else {
-            // returnString += '{"$and":[';
-            returnString += '{"$' + outerquerytype + '":[';
-        }
-        // Iterate through the params from each wid to get the $or groups built
-        for (var i = 0; i < listofparametersCount; i++) {
-            if (listofparameters[i].length != 0) {
-                returnString += BuildSingleQuery(listofparameters[i], innerquerytype, preamble);
-                if(returnString.lastIndexOf(',')!==(returnString.length-1)){
-                    returnString += ",";
+            // This section addes the dtoType to the string
+            if (dtotype) {
+                var q3 = "{metadata.method:" + dtotype + "},";
+                if (q3) {
+                    MQueryString += q3;
                 }
             }
         }
 
-        // Chop off the last comma
-        // strip off the last comma and add the closing of OR
-        returnString = returnString.substring(0, returnString.length - 1);
-        // Close the string based on the number of listofparameters
-        var parametersCount = getObjectSize(listofparameters[i]);
-        if (parametersCount === 1) {
-            returnString += "";
-        } else {
-            returnString += "]}";
-        }
-
-        return returnString;
+        return MQueryString;
     }
 
-    // Similar to BuildSingleQuery, but different...let it be please.
-    // function RelationshipBuildSingleQuery(parameters) {
-    //     var result;
-
-    //     // seed result with the beginning of a mongo or query
-    //     var parametersCount = countKeys(parameters);
-    //     if (parametersCount > 1) {
-    //         result = '{"$or":[';
-    //     } else {
-    //         result = "";
-    //     }
-    //     // build a {key,"value"} for each parameter
-    //     //foreach (var p in parameters)
-    //     for (var key in parameters) {
-    //         var miniobject = parameters[key];
-    //         for (var item in miniobject) {
-    //             result += '{"' + item + '":"' + miniobject[item] + '"}';
-    //         }
-
-
-
-    //         //result +=  parameters[key];
-    //         //result +=  '{"' + parameters[key].key + '":' + parameters[key].value + "}";
-    //         result += ",";
-    //     }
-
-    //     // strip off the last comma and add the closing of OR
-    //     result = result.substring(0, result.length - 1);
-    //     if (parametersCount > 1) {
-    //         result += "]},";
-    //     } else {
-    //         result += ",";
-    //     }
-    //     return result;
-    // }
-
-    function queryafterrelationship(parameters, set2) {
-
-        var set1 = [];
-        var set3 = [];
-        var mongowidmethod = parameters['mongowidmethod'];
-        set1.push({
-            "metadata.method": mongowidmethod
-        });
-        set2 = formatlist(set2, "wid", "wid");
-        set3.push(set1);
-        set3.push(set2);
-        return BuildMultipleQuery(set3, 'and', 'or', null);
-    }
-    // Starting of relationShipQuery function
-    function relationShipQuery(parameters, input, environmentdb) { // &&& roger added environmentdb
+    //Starting of relationShipQuery function
+    function relationShipQuery(parameters, input) {
         proxyprinttodiv('Function relationShipQuery() Constant input : ', parameters);
+
         var output = {};
-        if (!environmentdb) {environmentdb="data"}; // &&& roger added
-        environmentdb=environmentdb+'.'; // &&& roger added
 
         // Simply checking to make sure all the data is here
         if (!(parameters.hasOwnProperty("mongorelationshipdirection") && parameters.hasOwnProperty("mongorelationshiptype"))) {
-            //var txt = "";
-            //txt += "Error Description: " + "Invalid Parameters in relationShipQuery" + "\n\n";
-            //txt += "Click OK to continue. \n\n";
-            return "";
+            var txt = "";
+            txt += "Error Description: " + "Invalid Parameters in relationShipQuery" + "\n\n";
+            txt += "Click OK to continue. \n\n";
+            return output;
         }
         // Pull out the correct vars
         if (isParameterLower(parameters, "mongorelationshipdirection")) {
@@ -599,115 +366,185 @@
             var query = parameters["query"];
             remove(parameters, "query");
         }
+        // Here is where you would execute the query
+        // Instead, the dummy call to mongo will return a few wids to work with
+        //parameters = mongo('set1');
+        //parameters = input;
 
-        var queryset = [];
-        for(var i = 0;i < input.length; i++){
-            var q1 = {};
-            var val = input[i]['wid'];
-            var key;
-            if (direction === 'forward') {
-                q1[environmentdb+"primarywid"] = val;    // &&& roger changed q1 = {"primarywid": input[i]['wid']}
-            } else {
-                q1[environmentdb+"secondarywid"] = val;
-                // q1= {environmentdb+"secondarywid": input[i]['wid']}    // &&& roger changed q1= {"secondarywid": input[i]['wid']}
+        var parametersCount = countKeys(input);
+        // Maybe there was no match...
+        if (parametersCount == 0) {
+            return 'No records to find relationships of.'
+        }
+        // There are always multiple sections to a relationship query
+        // So the string must start with $and 
+        MQueryString = '{"$and":[';
+        var returnvalues = input;
+        var queryParameters = [];
+        console.log(">>> " + JSON.stringify(returnvalues));
+        var obj = {};
+        if (direction === 'forward') {
+            obj = {
+                'data.primarywid': returnvalues['wid']
+            };
+        } else {
+            obj = {
+                'data.secondarywid': returnvalues['wid']
+            };
+        }
+        queryParameters.push(obj);
+
+
+        // Section 1 is using the widnames as the first $or group
+        var q1 = RelationshipBuildSingleQuery(queryParameters);
+        if (q1) {
+            q1 = q1.substring(0, q1.length - 1);
+            MQueryString += q1 + ",";
+        }
+
+
+
+        /*
+            var q2 = querywid(parameters);
+            if(q2){
+                MQueryString+= "[" + q2 + "],";
             }
-            queryset.push(q1);
-        }
+        */
 
 
+        // This section addes the dtoType to the string
         if (dtotype) {
-            queryset.push({"metadata.method":dtotype});    // &&& roger changed queryset.push({"data.metadata.method":dtotype});
+            var q3 = '{"data.metadata.method":"' + dtotype + '"},';
+            if (q3) {
+                MQueryString += q3;
+            }
         }
-        if (type) {
-            var q2 = {};
-            // q2[environmentdb+"relationshiptype"]=type;
-            q2[environmentdb+"relationshiptype"]=type;
-            queryset.push(q2);      // &&& roger changed queryset.push({"relationshiptype":type });
-        }
-        querystring = BuildMultipleQuery(queryset, "and", "or", null)
 
-        return querystring
+        // This section is typically 'attribute', but could really be anything.
+        if (type) {
+            var q4 = '{"data.relationshiptype":"' + type + '"},';
+            if (q4) {
+                MQueryString += q4;
+            }
+        }
+
+        MQueryString = MQueryString.substring(0, MQueryString.length - 1) + "]}";
+        // The string is now built and ready to return.
+        proxyprinttodiv('Relationship MQueryString : ', MQueryString);
+        return MQueryString;
+    } //End of relationShipQuery function
+
+    /// <summary>
+    /// Builds 1 $OR group of a mongo query
+    /// </summary>
+    /// <param name="parameters">List of kvpairs</param>
+    /// <returns>A string representing the $OR group of kvp</returns>
+    function BuildSingleQuery(parameters) { /// BuildSingleQuery(List<DataModeldto> parameters)
+        var result;
+
+        // seed result with the beginning of a mongo or query
+        var parametersCount = countKeys(parameters);
+        if (parametersCount > 1) {
+            result = '{"$or":[';
+        } else {
+            result = "";
+        }
+        // build a {key,"value"} for each parameter
+        //foreach (var p in parameters)
+        for (key in parameters) {
+            result += BuildSimpleQuery(key, parameters[key]);
+            result += ",";
+        }
+
+        // strip off the last comma and add the closing of OR
+        result = result.substring(0, result.length - 1);
+        if (parametersCount > 1) {
+            result += "]},";
+        } else {
+            result += ",";
+        }
+        return result;
     }
 
-    //     var parametersCount = countKeys(input);
-    //     // Maybe there was no match...
-    //     if (parametersCount == 0) {
-    //         return 'No records to find relationships of.'
-    //     }
-    //     // There are always multiple sections to a relationship query
-    //     // So the string must start with $and 
-    //     mQueryString = '';
-    //     console.log('>>>' + input);
-    //     if (input) {
-    //         mQueryString = '{"$and":[';
-    //     }
+    // Totally a legacy call used for testing only. Probably can
+    // be removed at this point.
+    function BuildSimpleQuery(key, value) {
+        result = "{data." + key + ":" + value + "}"; /// {key:value}
+        return result;
+    }
 
-    //     var returnvalues = input;
-    //     var queryParameters = [];
+    /// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    //     for (var i = 0; i < returnvalues.length; i++) {
-    //         var obj = {};
+    /// <summary>
+    /// Mongo multiple query builder.
+    /// </summary>
+    /// <param name="Lists">A list of lists of dto's. If the list of dto's has a key = rawquery, the value is the raw query.</param>
+    /// <returns>A formatted mongo query string.</returns>
+    function BuildMultipleQuery(parameters) {
+        var returnString = ""; /// <<<<<<<<<<< check
+        proxyprinttodiv('Function MongoDataQuery BuildMultipleQuery : ', parameters);
+        var parametersCount = countKeys(parameters);
+        // If it turns out you only have 1 set of params, don't start out the string with $and
+        if (parametersCount == 1) {
+            //returnString += "{";
+            returnString += "";
+        } else {
+            returnString += '{"$and":[';
+        }
+        // Iterate through the params from each wid to get the $or groups built
+        for (var i = 0; i < parametersCount; i++) {
+            if (getObjectSize(parameters[i]) != 0) {
+                returnString += BuildSingleQuery(parameters[i]);
+            }
+        }
 
-    //         if (returnvalues[i]['wid']) {
-    //             if (direction === 'forward') {
-    //                 obj = {
-    //                     'primarywid': returnvalues[i]['wid']
-    //                     // 'data.primarywid': returnvalues[i]['wid']
-    //                 };
-    //             } else {
-    //                 obj = {
-    //                     'secondarywid': returnvalues[i]['wid']
-    //                 };
-    //             }
-    //             queryParameters.push(obj);
+        // Chop off the last comma
+        returnString = returnString.substring(0, returnString.length - 1);
+        // Close the string based on the number of parameters
+        if (parametersCount == 1) {
+            //returnString += "{";
+            returnString += "";
+        } else {
+            returnString += "]}";
+        }
+        return returnString;
+    }
 
-    //         }
-    //     }
+    // Similar to BuildSingleQuery, but different...let it be please.
+    function RelationshipBuildSingleQuery(parameters) {
+        var result;
 
-
-    //     // Section 1 is using the widnames as the first $or group
-    //     var q1 = BuildSingleQuery(queryParameters, "or", "data") { 
-    //     //var q1 = RelationshipBuildSingleQuery(queryParameters);
-    //     if (q1) {
-    //         q1 = q1.substring(0, q1.length - 1);
-    //         mQueryString += q1 + ",";
-    //     }
-
-
-
-    //     /*
-    //         var q2 = querywid(parameters);
-    //         if(q2){
-    //             mQueryString+= "[" + q2 + "],";
-    //         }
-    //     */
-
-
-    //     // This section addes the dtoType to the string
-    //     if (dtotype) {
-    //         var q3 = '{"data.metadata.method":"' + dtotype + '"},';
-    //         if (q3) {
-    //             mQueryString += q3;
-    //         }
-    //     }
-
-    //     // This section is typically 'attribute', but could really be anything.
-    //     if (type) {
-    //         // var q4 = '{"data.relationshiptype":"' + type + '"},';
-    //         var q4 = '{"relationshiptype":"' + type + '"},';
-    //         if (q4) {
-    //             mQueryString += q4;
-    //         }
-    //     }
-
-    //     mQueryString = mQueryString.substring(0, mQueryString.length - 1) + "]}";
-    //     // The string is now built and ready to return.
-    //     proxyprinttodiv('Relationship mQueryString : ', mQueryString);
-    //     console.log(">>> mQueryString" + mQueryString);
-    //     return mQueryString;
-    // } //End of relationShipQuery function
+        // seed result with the beginning of a mongo or query
+        var parametersCount = countKeys(parameters);
+        if (parametersCount > 1) {
+            result = '{"$or":[';
+        } else {
+            result = "";
+        }
+        // build a {key,"value"} for each parameter
+        //foreach (var p in parameters)
+        for (var key in parameters) {
+            var miniobject = parameters[key];
+            for (var item in miniobject) {
+                result += '{"' + item + '":"' + miniobject[item] + '"}';
+            }
 
 
+
+            //result +=  parameters[key];
+            //result +=  '{"' + parameters[key].key + '":' + parameters[key].value + "}";
+            result += ",";
+        }
+
+        // strip off the last comma and add the closing of OR
+        result = result.substring(0, result.length - 1);
+        if (parametersCount > 1) {
+            result += "]},";
+        } else {
+            result += ",";
+        }
+        return result;
+    }
 
     function aggregationQuery(parameters) {
 
@@ -827,7 +664,7 @@
         //
         // var mongoRelationshipMethod="";
         // if (isParameterLower(parameters, "mongorelationshipmethod")) {
-        // 	var mongoSetFieldsExclude = parameters["mongorelationshipmethod"];
+        //  var mongoSetFieldsExclude = parameters["mongorelationshipmethod"];
         // }
         // Dealing with method is setting the defaults accordingly
 
@@ -996,6 +833,7 @@
         var mongowidmethod = ""; // String
         if (isParameterLower(parameters, "mongowidmethod")) {
             mongowidmethod = parameters["mongowidmethod"];
+            relParams['mongowidmethod'] = mongowidmethod;
             relafterParams['mongowidmethod'] = mongowidmethod;
             remove(parameters, "mongowidmethod");
         }
@@ -1274,13 +1112,13 @@
 
 
     //Starting of mongo function
-    // function mongo(mQueryString) {
-    //  proxyprinttodiv('Function mongo() Constant input : ', mQueryString );
+    // function mongo(mquerystring) {
+    //  proxyprinttodiv('Function mongo() Constant input : ', mquerystring );
 
     //  var output={};
 
     //  var widSet=[];
-    //  switch(mQueryString){
+    //  switch(mquerystring){
     //      case 'set1':
     //          widSet =  ['1', '2', '3'];
     //          break;
@@ -1302,32 +1140,5 @@
     //  return output;
     // }//End of mongo function
 
-
-
-    function formatOutputData(inoutput) {
-        var formattedOutput, output = [];
-        if (typeof inoutput !== 'array') {
-            if ((inoutput === undefined) || (inoutput.length === 0)) {
-                output = [];
-            } else if (inoutput.length === 1) {
-                output[0] = inoutput;
-            }
-        }
-
-
-        if (output.length > 0) {
-            for (var i = 0; i < output.length; i++) {
-                var wid = output[i]['wid'];
-                var outVal = output[i];
-                formattedOutput[i] = {
-                    wid: outVal
-                };
-            }
-
-        } else {
-            formattedOutput = output;
-        }
-        return formattedOutput;
-    }
 
 })(typeof window == "undefined" ? global : window);

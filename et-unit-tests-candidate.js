@@ -1224,51 +1224,6 @@ exports.ag5 = ag5 = function ag5 (params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
-exports.qq1_setup = qq1_setup = function qq1_setup (params, callback) {
-    executetest("updatewid",{"wid":"songdto","metadata.method":"songdto","title":"string"}, "", "");
-    executetest("updatewid",{"wid":"notedto","metadata.method":"notedto","note":"string"}, "", "");
-    executetest("updatewid",{"wid":"measuredto","metadata.method":"measuredto","length":"string"}, "", "");
-
-    executetest("updatewid",{"wid":"rel_song_to_note", "primarywid":"songdto", "secondarywid":"notedto", "relationshiptype":"attributes"}, "", "");
-    executetest("updatewid",{"wid":"rel_note_to_measure", "primarywid":"notedto", "secondarywid":"measuredto", "relationshiptype":"attributes"}, "", "");
-
-    // executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
-    if (callback instanceof Function) { 
-    	callback(params); 
-    } else { 
-    	return params; 
-    }
-}
-
-exports.qq1 = qq1 = function qq1 (params, callback) {
-	config = setconfig1();
-	testclearstorage();
-	qq1_setup();
-	var executeobject = {};
-    executeobject["mongorawquery"] = 
-               "{$and: [" +
-                   "{data.primarywid: songdto}," +
-                   "{data.secondarywid: notedto}" + 
-               "}]}";
-     
-    executeobject["executethis"] = 'querywid';
-
-
-    executetest('executethis',executeobject, 'qq1_result', '');
-	params = logverify("query_tests","qq1_result","qq1_result","","",{} );
-    if (callback instanceof Function) { 
-    	callback(params); 
-    } else { 
-    	return params; 
-    }
-}
-
-
-
-// 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-// 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-// 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-
 exports.getwidtest = getwidtest = function getwidtest(params, callback) {
     executetest('getwid', {wid:'test1'});
     if (callback instanceof Function) { 
@@ -1927,6 +1882,10 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
    //  configuration.addcleanparameters = {};
    //  configuration.addcleanparameters.synchronous = true;
 
+
+    // configuration.querywid = {};
+    // configuration.querywid.synchronous = true;  
+
     configuration.MongoAddEditPrepare = {};
     configuration.MongoAddEditPrepare.synchronous = false;
 
@@ -1959,6 +1918,10 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 
     configuration.getAndFormatNextLevel = {};
     configuration.getAndFormatNextLevel.synchronous = false;
+
+
+    configuration.querywid = {};
+    configuration.querywid.synchronous = false;  
     
     return {
         "configuration": configuration

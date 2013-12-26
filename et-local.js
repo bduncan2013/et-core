@@ -1,6 +1,108 @@
-//if (exports.environment === "local") {localStorage.clear();}
+// goal create a mongoquery that can processes mongorawquery like these:
+// {"$and":[ {"$or": [{data.0:{},{data 
+// supporting nesting of and and ors
+//
+// it should return as output a list like this: [{"wid":"wid1", "wid":"wid2"}]
+//
+// via addhoc tests enter sample data and show results of differnt queries
+//
 
-//exports.mongoquery = mongoquery = function (queryString) {
+
+exports.mongoqueryII = mongoqueryII = function mongoqueryII(mongorawquery, callback) {
+
+		function processquery (searchobject, querylist, operator) {
+			// searchobject can be list or object: {wid1: {}, wid2: {}, wid3: {}} OR [{wid1: {}},{wid2: {}}]
+			// querylist in 'mongo' form: [{"$operator":[{"":""},{"":""},{"$operator"::[{"":""},{"":""}]]}
+			var potentialquery;
+			var potentialoperator;
+			var subquery;
+			var searchobjectresult;
+			var outlist = [];
+			var eachresult;
+			var item;
+
+			for (potentialquery in querylist) { 
+				for (potentialoperator in potentialquery) {
+					subquery = potentialquery[potentialoperator];
+					}
+
+				// if operator then recurse
+				searchobjectresult=searchobject;
+				if ((potentialoperator=="$or") || (potentialoperator=="$and")) {
+					searchobjectresult = processquery(searchobject, subquery, potentialoperator);
+					}
+
+				searchobjectresult =  processoperator(searchobjectresult, potentialquery, operator);
+
+				for (item in searchobjectresult) { // combine results
+					outlist.push(item)
+					}
+			}
+			return outlist;
+		}
+
+		// accepts a searchobject {wid1: {}, wid2: {}, wid3: {}} OR [{wid1: {}},{wid2: {}}]
+		// parameters to look for inside {}.  [{"":""},{"":""}
+		// operator to use			
+		function processoperator(inobject, targetparameters, operator) {
+
+			var eachwid;
+			var eachparm;
+			var equalobject={};
+			var notequalobject={};
+			var resultlist=[];
+			var widrecord;
+			var outobject={};
+			var searchobject={};
+			var wid;
+
+			// convert list to object
+			if (searchobject instanceof Array){
+				for (eachwid in inobject) {
+					for (wid in eachwid) {
+						searchobject[wid]=eachwid[wid];
+						}
+					}
+				}
+
+			for (eachwid in searchobject) { // got through whole list
+				widrecord = searchobject[eachwid]; // load widrecord the whole raw records of this wid
+				equalobject = {};
+				notequalobject = {};
+				for (eachparm in targetparameters) { // for each wid in list, now compare to each parameter, create equal / not equal results
+					if (widrecord[eachparm]==targetparameters[eachparm]) { 
+						equalobject(eachparm)=targetparameters[eachwid])
+						}
+					else {
+						notequalobject(eachparm)=targetparameters[eachwid])
+						}
+					}
+				if (operator=="$or") { // if any matched (or) then add to resultobject
+					if (Object.keys(equalobject).length !== 0) {
+						resultlist.push({widrecord["wid"]:widrecord})
+						}
+					}
+				if (operator=="$and") { // if all matched (and) (notequalobject is empty) then add to resultobject
+					if (Object.keys(notequalobject).length == 0) {
+						resultlist.push({widrecord["wid"]:widrecord})
+						}
+					}
+				} // allwids
+	
+			return resultlist; // returns list: [{wid1: {}, wid2: {}, wid3: {}}]
+		} // end processoperator
+
+	var outobject = {};
+	var outlist = [];
+	var mongorawquerylist = [];
+	mongorawquerylist.push(mongorawquery); // convert mongorawquery to list form
+	// from {"$operator":[{"":""},{"":""},{"$operator"::[{"":""},{"":""}]]} to [{"$operator":[{"":""},{"":""},{"$operator"::[{"":""},{"":""}]]}
+
+	// getwidcopy() gets all the wids: {wid1: {}, wid2: {}} in object form
+	callback(processquery(getwidcopy(), mongorawquerylist, null)); 
+}
+
+
 exports.mongoquery = mongoquery = function mongoquery(queryString, callback) {
 	delete queryString['executethis']; // **** needed?
 //function mongoquery(queryString, target, callback) {
@@ -45,7 +147,7 @@ exports.mongoquery = mongoquery = function mongoquery(queryString, callback) {
 	callback(ResultList);
 
 	}
-}
+};
  
 function querywidlocal(sq, callback){
 
@@ -90,23 +192,24 @@ function querywidlocal(sq, callback){
 			//proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
 			proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
 			if (myvalue["primarywid"] == widInput) {
-               var widName = myvalue["primarywid"];
-			   var key = myvalue["secondarywid"];
+                var widName = myvalue["primarywid"];
+			    var key = myvalue["secondarywid"];
 			     proxyprinttodiv('Function simpleQuery in : widName',  widName, 30);
 			     proxyprinttodiv('Function simpleQuery in : key',  key, 30);
-			   //var value = getfrommongo({wid:key}); // , dtotype:mongowidmethod
+			    //var value = getfrommongo({wid:key}); // , dtotype:mongowidmethod
 				executeobject={};
 				executeobject["wid"]=key;
-			   //var value = executethis({wid:key}, getfrommongo);
-			   proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
-			   proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
-			   var value = executethis(executeobject, x);
-			   //var value = executethis(executeobject, getfrommongo);
-			   proxyprinttodiv('Function simpleQuery in : value',  value, 30);
-               delete value.wid;
-               var resultObj = {};
-			   resultObj[key]= value;
+                //var value = executethis({wid:key}, getfrommongo);
+                proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
+                proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
+                var value = executethis(executeobject, x);
+                //var value = executethis(executeobject, getfrommongo);
+                proxyprinttodiv('Function simpleQuery in : value',  value, 30);
+                delete value.wid;
+                var resultObj = {};
+                resultObj[key]= value;
 
+                var widdto;
 			   	//proxyprinttodiv('Function simpleQuery in : resultObj I',  resultObj);		  
 				if ((value["metadata.method"] === undefined) || (value["metadata.method"] == "")) {	
 					widdto = "";
@@ -115,11 +218,11 @@ function querywidlocal(sq, callback){
 				}
 
 				// changed 10/30 if ((mongowidmethod !== undefined) && (mongowidmethod == widdto)) {
-				if (((mongowidmethod !== undefined) && (mongowidmethod == widdto)) || (mongowidmethod=="")) {
+				if (((mongowidmethod !== undefined) && (mongowidmethod === widdto)) || (mongowidmethod === "")) {
 					//proxyprinttodiv('Function simpleQuery in : resultObj',  resultObj);
 					returnfromSimpleQuery.push(resultObj);
-					}
-			 	}
+                }
+            }
 			// }
 		}
 	}
@@ -133,14 +236,14 @@ function querywidlocal(sq, callback){
             if (a > b) return 1;
             return 0;
  		});
-    	}
+    }
     proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery aftersort', returnfromSimpleQuery, 30);
     proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery length', returnfromSimpleQuery.length, 30);
     if (returnfromSimpleQuery.length>0) {
     	if (mongorelationshipmethod=='first') {outobject.push(returnfromSimpleQuery[0]);}
    	 	if (mongorelationshipmethod=='last') {outobject.push(returnfromSimpleQuery[returnfromSimpleQuery.length-1]);}
 		if (mongorelationshipmethod=='all') {outobject=returnfromSimpleQuery;}
-		}
+    }
 	proxyprinttodiv('Function simpleQuery in : enhancedreturn before',  outobject, 30);
 	if ((!outobject) || (outobject==[]) || 
 		(outobject===null) || (returnfromSimpleQuery.length==0)){outobject.push({"":""});}
