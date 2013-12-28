@@ -983,6 +983,7 @@
         var RelatedListParameters;
         var RelatedListdto;
         var executeobject;
+        var currentparameter;
         var err;
         var res;
         var ret = undefined;
@@ -1588,14 +1589,17 @@
 
         delete inputWidgetObject['wid'];
 
+        saveobject['metadata']={};
         if (inputWidgetObject['metadata.method']) {
-            saveobject['metadata.method'] = inputWidgetObject['metadata.method'];
+            saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
         } else {
-            saveobject['metadata.method'] = "";
+            saveobject['metadata']['method'] = "";
         }
 
-        delete inputWidgetObject['metadata.method'];
+        
 
+        // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
+        delete inputWidgetObject['metadata.method'];
         if (inputWidgetObject) {
             saveobject['data'] = inputWidgetObject;
         } else {

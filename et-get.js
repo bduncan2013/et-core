@@ -5,31 +5,44 @@
         delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
 
         proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
-        var outobject = {};
+        // var outobjectarr = [];
 
         getfrommongo(inputWidgetObject, function (results) {
 
             //var results = executethis(inputWidgetObject,getfrommongo);
             // if (results && results["etstatus"] != "empty") {
-            if (results && results.length > 0) {
-                if (results["data"]) {
-                    outobject = results["data"];
-                }
+            // console.log('>>> from getwid >>>> '+JSON.stringify(results));
 
-                if (results['wid']) {
-                    outobject['wid'] = results['wid'];
-                } else {
-                    outobject['wid'] = "";
-                }
+                // for(var i=0; i <results.length; i++){
 
-                if (results['metadata.method']) {
-                    outobject['metadata.method'] = results['metadata.method'];
-                } else {
-                    outobject['metadata.method'] = "";
-                }
+                    var outobject = {};
+                    if (results && countKeys(results) > 0) {
+                    
 
-            }
+                        
+                        if (results["data"]) {
+                            outobject = results["data"];
+                        }
+
+                        if (results['wid']) {
+                            outobject['wid'] = results['wid'];
+                        } else {
+                            outobject['wid'] = "";
+                        }
+                        
+                        if (results['metadata']) {
+                            outobject['metadata.method'] = results['metadata']['method'];
+                        } else {
+                            outobject['metadata.method'] = "";
+                        }
+                        
+
+                        // outobjectarr.push(outobject);
+                    }
+                // }
+
             callback(outobject);
+            
 
         });
     };
@@ -682,7 +695,7 @@
 
                     olddebug = Debug;
 
-                    if ((Object.keys(resultObj).length !== 0) && (resultObj['wid'] != resultObj['metadata.method'])) {
+                    if (resultObj && (Object.keys(resultObj).length !== 0) && (resultObj['wid'] != resultObj['metadata.method'])) {
                         var isSynchronous = configuration.getcleanparameters.synchronous; 
 
                         if (isSynchronous) {

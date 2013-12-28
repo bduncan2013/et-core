@@ -1,6 +1,6 @@
 //if (exports.environment === "local") {localStorage.clear();}
 
-//exports.mongoquery = mongoquery = function (queryString) {
+//exports.mongoquery = mongoquery = function(queryString) {
 exports.mongoquery = mongoquery = function mongoquery(queryString, callback) {
 	delete queryString['executethis']; // **** needed?
 //function mongoquery(queryString, target, callback) {
@@ -45,7 +45,7 @@ exports.mongoquery = mongoquery = function mongoquery(queryString, callback) {
 	callback(ResultList);
 
 	}
-};
+}
  
 function querywidlocal(sq, callback){
 
@@ -90,24 +90,23 @@ function querywidlocal(sq, callback){
 			//proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
 			proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
 			if (myvalue["primarywid"] == widInput) {
-                var widName = myvalue["primarywid"];
-			    var key = myvalue["secondarywid"];
+               var widName = myvalue["primarywid"];
+			   var key = myvalue["secondarywid"];
 			     proxyprinttodiv('Function simpleQuery in : widName',  widName, 30);
 			     proxyprinttodiv('Function simpleQuery in : key',  key, 30);
-			    //var value = getfrommongo({wid:key}); // , dtotype:mongowidmethod
+			   //var value = getfrommongo({wid:key}); // , dtotype:mongowidmethod
 				executeobject={};
 				executeobject["wid"]=key;
-                //var value = executethis({wid:key}, getfrommongo);
-                proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
-                proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
-                var value = executethis(executeobject, x);
-                //var value = executethis(executeobject, getfrommongo);
-                proxyprinttodiv('Function simpleQuery in : value',  value, 30);
-                delete value.wid;
-                var resultObj = {};
-                resultObj[key]= value;
+			   //var value = executethis({wid:key}, getfrommongo);
+			   proxyprinttodiv('Function simpleQuery in : executeobject',  executeobject, 30);
+			   proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
+			   var value = executethis(executeobject, x);
+			   //var value = executethis(executeobject, getfrommongo);
+			   proxyprinttodiv('Function simpleQuery in : value',  value, 30);
+               delete value.wid;
+               var resultObj = {};
+			   resultObj[key]= value;
 
-                var widdto;
 			   	//proxyprinttodiv('Function simpleQuery in : resultObj I',  resultObj);		  
 				if ((value["metadata.method"] === undefined) || (value["metadata.method"] == "")) {	
 					widdto = "";
@@ -116,11 +115,11 @@ function querywidlocal(sq, callback){
 				}
 
 				// changed 10/30 if ((mongowidmethod !== undefined) && (mongowidmethod == widdto)) {
-				if (((mongowidmethod !== undefined) && (mongowidmethod === widdto)) || (mongowidmethod === "")) {
+				if (((mongowidmethod !== undefined) && (mongowidmethod == widdto)) || (mongowidmethod=="")) {
 					//proxyprinttodiv('Function simpleQuery in : resultObj',  resultObj);
 					returnfromSimpleQuery.push(resultObj);
-                }
-            }
+					}
+			 	}
 			// }
 		}
 	}
@@ -134,14 +133,14 @@ function querywidlocal(sq, callback){
             if (a > b) return 1;
             return 0;
  		});
-    }
+    	}
     proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery aftersort', returnfromSimpleQuery, 30);
     proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery length', returnfromSimpleQuery.length, 30);
     if (returnfromSimpleQuery.length>0) {
     	if (mongorelationshipmethod=='first') {outobject.push(returnfromSimpleQuery[0]);}
    	 	if (mongorelationshipmethod=='last') {outobject.push(returnfromSimpleQuery[returnfromSimpleQuery.length-1]);}
 		if (mongorelationshipmethod=='all') {outobject=returnfromSimpleQuery;}
-    }
+		}
 	proxyprinttodiv('Function simpleQuery in : enhancedreturn before',  outobject, 30);
 	if ((!outobject) || (outobject==[]) || 
 		(outobject===null) || (returnfromSimpleQuery.length==0)){outobject.push({"":""});}
