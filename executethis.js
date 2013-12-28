@@ -15,7 +15,7 @@
     var execute, executethis, etexecute;
 
     exports.etexecute = window.etexecute = etexecute = function etexecute(params, callback) {
-        execute(params, function(results) {
+        execute(params, function (results) {
             var err = {};
             callback(err, results);
         });
@@ -53,24 +53,25 @@
                 callback(result);
             } else {
 
+
                 incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
-                console.log('starting preexecute ' + incomingparams);
-                doThis(incomingparams, 'preexecute', function(preResults) {
+                console.log('starting preexecute ' + nonCircularStringify(incomingparams));
+                doThis(incomingparams, 'preexecute', function (preResults) {
 
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
-                    console.log('starting midexecute ' + preResults);
+                    console.log('starting midexecute ' +  nonCircularStringify(incomingparams));
                     if (!preResults) {
                         preResults = {};
                     } // 
-                    doThis(preResults, 'midexecute', function(midResults) {
+                    doThis(preResults, 'midexecute', function (midResults) {
 
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                         if (!midResults) {
                             midResults = {};
                         }
 
-                        doThis(midResults, 'postexecute', function(postResults) {
+                        doThis(midResults, 'postexecute', function (postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
 
                             if (!postResults) {
@@ -125,7 +126,7 @@
                     funcCalled = false,
                     count = 0;
 
-                var cbfunction = function(results, results2) {
+                var cbfunction = function (results, results2) {
                     funcDone = true;
                     if (results2) {
                         retResult = results2
@@ -137,7 +138,7 @@
                 while (!funcDone) {
                     if (!funcCalled) {
                         funcCalled = true;
-                        targetfunction(params, cbfunction);
+                        targetfunction (params, cbfunction);
                     }
                     count++
                     if (count > 100) {
@@ -436,7 +437,7 @@
                 targetfn(params, callback)
             }
         } else { // if no execute
-            callback(params); // if nothing to execute return parameters 
+            callback({"error":"no executethis provided"}); // if nothing to execute return parameters 
         }
     } //fn    
 
@@ -544,7 +545,7 @@
     function nonCircularStringify(obj) {
         var cache = [];
 
-        return JSON.stringify(obj, function(key, value) {
+        return JSON.stringify(obj, function (key, value) {
             if (typeof value === 'object' && value !== null) {
                 if (cache.indexOf(value) !== -1) {
                     //found circular reference, discard key
@@ -559,21 +560,21 @@
     // 
     exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
         // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
-        async.mapSeries(paramsArr, function(inboundparms, cbMap) {
+        async.mapSeries(paramsArr, function (inboundparms, cbMap) {
             // each iteration 
             if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
                 cbMap(null, {
                     'test1': 'Reached test1 code.. executearray function'
                 });
             } else {
-                execute(inboundparms, function(res) {
+                execute(inboundparms, function (res) {
                     var retResults = res;
                     // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
                     // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
                     cbMap(null, retResults);
                 });
             }
-        }, function(err, res) {
+        }, function (err, res) {
             // end of all the execution that was meant to be
             console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
             console.log('asynchronously finished executing executearray.');

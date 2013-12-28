@@ -718,7 +718,7 @@
                 var isSynchronous = configuration.addwidmaster.synchronous;
                 if (!isSynchronous) {
                     debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    callback(err, ret);
+                    callback(ret);
                 }
             });
         }
@@ -942,7 +942,7 @@
             },
             function (err, results) {
                 console.log(JSON.stringify('done all in AddWidParameters, Result is  ' + JSON.stringify(Wid)));
-                ret = Wid;
+                ret = {"Wid":Wid};
 
                 var isSynchronous = configuration.AddWidParameters.synchronous;
                 if (!isSynchronous) {

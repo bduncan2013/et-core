@@ -8,42 +8,26 @@
         // var outobjectarr = [];
 
         getfrommongo(inputWidgetObject, function (results) {
+            var outobject = {};
+            if (results && countKeys(results) > 0) {
+                if (results["data"]) {
+                    outobject = results["data"];
+                }
 
-            //var results = executethis(inputWidgetObject,getfrommongo);
-            // if (results && results["etstatus"] != "empty") {
-            // console.log('>>> from getwid >>>> '+JSON.stringify(results));
-
-                // for(var i=0; i <results.length; i++){
-
-                    var outobject = {};
-                    if (results && countKeys(results) > 0) {
-                    
-
-                        
-                        if (results["data"]) {
-                            outobject = results["data"];
-                        }
-
-                        if (results['wid']) {
-                            outobject['wid'] = results['wid'];
-                        } else {
-                            outobject['wid'] = "";
-                        }
-                        
-                        if (results['metadata']) {
-                            outobject['metadata.method'] = results['metadata']['method'];
-                        } else {
-                            outobject['metadata.method'] = "";
-                        }
-                        
-
-                        // outobjectarr.push(outobject);
-                    }
-                // }
+                if (results['wid']) {
+                    outobject['wid'] = results['wid'];
+                } else {
+                    outobject['wid'] = "";
+                }
+                
+                if (results['metadata']) {
+                    outobject['metadata.method'] = results['metadata']['method'];
+                } else {
+                    outobject['metadata.method'] = "";
+                }
+            }
 
             callback(outobject);
-            
-
         });
     };
 
@@ -763,7 +747,7 @@
         var dtotype = "";
         var currentLevelObject;
         var executeobject = {};
-        var olddebug = Debug;
+        var olddebug = Debug ;
         var err;
         var ret = undefined;
 

@@ -3687,8 +3687,8 @@ exports.setconfig5 = setconfig5 = function setconfig5() {
 
 	configuration.midExecute = [];
 	configuration.midExecute[0] = {};
-	configuration.midExecute[0].executeorder = 10;
-	configuration.midExecute[0].tryorder = 10;
+	configuration.midExecute[0].executeorder = 0;
+	configuration.midExecute[0].tryorder = 0;
 	configuration.midExecute[0].dothis = 'server';
 	configuration.midExecute[0].params = {};
 	configuration.midExecute[1] = {};
@@ -4066,7 +4066,6 @@ exports.ag6b = ag6b = function ag6b(params, callback) {
 	config = setconfig5();
 	testclearstorage();
 
-
 	executearray([{
 		"executethis": "updatewid",
 		"wid": "test1",
@@ -4076,7 +4075,27 @@ exports.ag6b = ag6b = function ag6b(params, callback) {
 		"executethis": "getwid",
 		"wid": "test1"
 	}], function (res) {
-		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+exports.ag6c = ag6c = function ag6c(params, callback) {
+	executearray([{
+		"executethis": "updatewid",
+		"wid": "test1",
+		"metadata.method":"test1method" ,
+		"test1note": "string"
+	}, {
+		"executethis": "getwid",
+		"wid": "test1"
+	}], function (res) {
+		console.log(' in test ag6c >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
 			callback(res);
@@ -4358,28 +4377,139 @@ exports.ag10 = ag10 = function ag10(params, callback) {
 
 
 
-// add 1 wids using updatewid, display 1 wids using getwid
-exports.ag11 = ag11 = function ag11(params, callback) {
+// add 1 wids using addwidmaster, display 1 wids using getwidmaster
+exports.ag11a = ag11a = function ag11a(params, callback) {
 	config = setconfig1();
 	testclearstorage();
 
+	var widId = Math.random()+"";
 
 	executearray([{
 		"executethis": "addwidmaster",
-		"wid": "getwidtext11",
+		"wid":widId ,
 		"2": "21",
 		"3": "31",
 		"metadata.method":"test1method" ,
 		"test1note": "string"
 	},{
 		"executethis": "getwidmaster",
-		"wid":"getwidtext11"
+		"wid":widId
 	 // },{
 	 // 	"executethis": "removefrommongo",
 	 // 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
 	}], function (res) {
-		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
+		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
 
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+// add 1 wids using addwidmaster, display 1 wids using getwidmaster
+exports.ag11b = ag11b = function ag11b(params, callback) {
+	config = setconfig5();
+
+	var widId = Math.random()+"";
+
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid":widId ,
+		"2": "21",
+		"3": "31",
+		"metadata.method":"test1method" ,
+		"test1note": "string"
+	},{
+		"executethis": "getwidmaster",
+		"wid":widId
+	 // },{
+	 // 	"executethis": "removefrommongo",
+	 // 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
+	}], function (res) {
+		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+//getwidmaster tests
+exports.ag13a = ag13a = function ag13a(params, callback) {
+	config = setconfig1();
+	testclearstorage();
+	executearray([{
+		"executethis": "getwidmaster",
+		"wid":'test1'
+	}], function (res) {
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+exports.ag13b = ag13b = function ag13b(params, callback) {
+	config = setconfig5();
+
+	executearray([{
+		"executethis": "getwidmaster",
+		"wid":'test1'
+	}], function (res) {
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+//addwidmaster tests
+exports.ag14a = ag14a = function ag14a(params, callback) {
+	config = setconfig1();
+	var widId = Math.random()+"";
+	testclearstorage();
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid":widId ,
+		"2": "21",
+		"3": "31",
+		"metadata.method":"test1method" ,
+		"test1note": "string"
+	}], function (res) {
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+exports.ag14b = ag14b = function ag14b(params, callback) {
+	config = setconfig5();
+	var widId = Math.random()+"";
+	testclearstorage();
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid":widId ,
+		"2": "21",
+		"3": "31",
+		"metadata.method":"test1method" ,
+		"test1note": "string"
+	}], function (res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {

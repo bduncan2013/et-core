@@ -448,7 +448,7 @@
         // if [] then remove []
         if (parameters instanceof Array) {parameters=parameters[0]} // change by roger &&&
 
-        var parametersCount = Object.keys(parameters).length;  // changed by roger &&&
+        var parametersCount = countKeys(parameters);  // changed by roger &&&
 
         //var parametersCount = parameters.length; // &&& changed by roger
         if (parametersCount !== 1) {
@@ -482,7 +482,7 @@
         if (parametersCount === 1) {
             returnString += "";
         } else {
-            returnString += "]}";
+            returnString += "}";
         }
         return returnString;
     }
