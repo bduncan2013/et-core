@@ -9,69 +9,73 @@
 // config dofn
 // 
 
-(function (window) {
+(function(window) {
     // 'use strict';
-    
-    var execute
-      , executethis
-      , etexecute;
+
+    var execute, executethis, etexecute;
 
     exports.etexecute = window.etexecute = etexecute = function etexecute(params, callback) {
-        execute(params, function (results) { 
-                var err = {}; 
-                callback(err, results);
-            });
-    };
+        execute(params, function(results) {
+            var err = {};
+            callback(err, results);
+        });
+    }
 
 
-    exports.execute = window.execute = execute = function execute(incomingparams,callback) {
+    exports.execute = window.execute = execute = function execute(incomingparams, callback) {
 
         incomingparams = toLowerKeys(incomingparams);
 
-        proxyprinttodiv("execute - inboundparms",incomingparams,11);
-        proxyprinttodiv("execute - callback fn ",String(callback),11);
-        console.log(' *** test2  '+ JSON.stringify(incomingparams));
+        proxyprinttodiv("execute - inboundparms", incomingparams, 11);
+        proxyprinttodiv("execute - callback fn ", String(callback), 11);
+        console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
         if ((incomingparams !== undefined) && (incomingparams["executethis"] === "test2")) {
-            callback({'test2':'Reached test2 code.. execute function'});
-        }
-        else { 
+            callback({
+                'test2': 'Reached test2 code.. execute function'
+            });
+        } else {
             if ((incomingparams !== undefined) && (incomingparams['etbypass'])) {
-                proxyprinttodiv("execute - etbypass incomingparams",incomingparams,11);
-                
+                proxyprinttodiv("execute - etbypass incomingparams", incomingparams, 11);
+
                 var x = undefined;
 
-                if(incomingparams["executethis"]){
+                if (incomingparams["executethis"]) {
                     if (incomingparams["executethis"] instanceof Function) {
                         x = incomingparams["executethis"];
                     } else {
                         x = window[incomingparams["executethis"]];
                     }
                     result = executethis(incomingparams, x);
-                }else{
+                } else {
                     result = incomingparams;
                 }
                 callback(result);
-            }
-            else {
+            } else {
 
-                incomingparams['midexecute'] = incomingparams['executethis'];            
+                incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
-                console.log('starting preexecute ' + nonCircularStringify(incomingparams));
-                doThis(incomingparams, 'preexecute', function (preResults) {
+                console.log('starting preexecute ' + incomingparams);
+                doThis(incomingparams, 'preexecute', function(preResults) {
 
-                    console.log(' after preexecute >> '+ nonCircularStringify(preResults));
-                    console.log('starting midexecute ' + nonCircularStringify(preResults));
-                    if(!preResults){preResults={};} // 
-                    doThis(preResults, 'midexecute', function (midResults) {
-                        
+                    console.log(' after preexecute >> ' + nonCircularStringify(preResults));
+                    console.log('starting midexecute ' + preResults);
+                    if (!preResults) {
+                        preResults = {};
+                    } // 
+                    doThis(preResults, 'midexecute', function(midResults) {
+
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-                        if(!midResults){midResults={};}
+                        if (!midResults) {
+                            midResults = {};
+                        }
 
-                        doThis(midResults, 'postexecute', function (postResults) {
+                        doThis(midResults, 'postexecute', function(postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
 
-                            if(!postResults){postResults={};}
+                            if (!postResults) {
+                                postResults = {};
+                            }
 
                             callback(postResults);
                         });
@@ -89,51 +93,61 @@
 
         // if test1 ***
         if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
-            return {'test1':'Reached test1 code.. executethis function'};
-        }
-        else {
-        //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
-        if (!targetfunction || !targetfunction instanceof Function) { targetfunction = execute; }
-
-        var params;
-        var tempParams = toLowerKeys(inboundparms);
-        var argCount = 0;
-        
-        // cloning inbound params
-        params = extend(true, params, tempParams);
-
-        proxyprinttodiv('Function executethis params',  params,11);
-        proxyprinttodiv('Function executethis fn', targetfunction.name,11);
-        proxyprinttodiv('Function executethis length', targetfunction.length,11);
-//        console.log('targetfunction length => ' + targetfunction.length);  // cluttering up the console.
-        if (targetfunction.length !== undefined) { argCount = targetfunction.length; }
-
-            if (argCount == 1) {
-                return targetfunction (params); // if targetfn has only one parameter then fn is synchronous
+            return {
+                'test1': 'Reached test1 code.. executethis function'
+            };
+        } else {
+            //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
+            if (!targetfunction || !targetfunction instanceof Function) {
+                targetfunction = execute;
             }
 
-            else if (argCount > 1) {
-                var retResult = undefined
-                    , funcDone = false
-                    , funcCalled = false
-                    , count = 0;
+            var params;
+            var tempParams = toLowerKeys(inboundparms)
+            var argCount = 0
 
-                var cbfunction = function (results, results2) {
-                    funcDone = true; 
-                    if (results2) {retResult = results2;}
-                    else {retResult = results;}
-                };
+            // cloning inbound params
+            params = extend(params, tempParams);
 
-                while(!funcDone) {
-                    if(!funcCalled) {
-                        funcCalled = true;
-                        targetfunction (params, cbfunction);
-                    }
-                    count++;
-                    if (count>100){funcDone=true;}
+            proxyprinttodiv('Function executethis params', params, 11);
+            proxyprinttodiv('Function executethis fn', targetfunction.name, 11);
+            proxyprinttodiv('Function executethis length', targetfunction.length, 11);
+            console.log('targetfunction length => ' + targetfunction.length);
+            if (targetfunction.length !== undefined) {
+                argCount = targetfunction.length;
+            }
+
+            if (argCount == 1) {
+                return targetfunction(params); // if targetfn has only one parameter then fn is synchronous
+            } else if (argCount > 1) {
+                var retResult = undefined,
+                    funcDone = false,
+                    funcCalled = false,
+                    count = 0;
+
+                var cbfunction = function(results, results2) {
+                    funcDone = true;
+                    if (results2) {
+                        retResult = results2
+                    } else {
+                        retResult = results
+                    };
                 }
 
-                if (retResult === undefined){ retResult={}; }
+                while (!funcDone) {
+                    if (!funcCalled) {
+                        funcCalled = true;
+                        targetfunction(params, cbfunction);
+                    }
+                    count++
+                    if (count > 100) {
+                        funcDone = true
+                    }
+                }
+
+                if (retResult === undefined) {
+                    retResult = {};
+                }
                 // if (retResult["etstatus"]=="empty") {retResult={}}
                 return retResult;
             }
@@ -150,38 +164,38 @@
         proxyprinttodiv("dothis - target ", target, 11);
         proxyprinttodiv("dothis - callback ", String(callback), 11);
 
-        if (params["midexecute"] === "test4") {         // for debug purposes
-            callback({'test4':'Reached test4 code.. doThis function '});
-        }
-
-        else {
+        if (params["midexecute"] === "test4") { // for debug purposes
+            callback({
+                'test4': 'Reached test4 code.. doThis function '
+            });
+        } else {
             // Before we try to load our config we need to see if there is something to do
             // so we check to see if there is something on the right hand side for the target (pre, mid, post)
             if (params[target] !== undefined) {
 
                 // it is possible the function sent in a string or an actual function...we need to convert to string for config lookup
-                if (params[target] instanceof Function) { 
-                    targetname = params[target].name;   // get the targetname
-                    targetfunction = params[target];    // get targetfunction (whole function)
-                    }  // function was passed in
-                    else { 
-                    targetname = params[target];             // get the targetname 
+                if (params[target] instanceof Function) {
+                    targetname = params[target].name; // get the targetname
+                    targetfunction = params[target]; // get targetfunction (whole function)
+                } // function was passed in
+                else {
+                    targetname = params[target]; // get the targetname 
                     targetfunction = window[params[target]]; // get targetfunction (whole function)
-                    }  // function name was passed in as string
+                } // function name was passed in as string
 
                 delete params[target]; // ** moved by Roger
                 delete params[targetfunction]; // ** added by Roger
 
-                var tempHowToDoList = CreateDoList(params, target, targetfunction);       // generate list based on pre, mid, post
-                howToDoList = extend(true, howToDoList, tempHowToDoList);
-                
+                var tempHowToDoList = CreateDoList(params, target, targetfunction); // generate list based on pre, mid, post
+                howToDoList = extend(howToDoList, tempHowToDoList);
+
                 proxyprinttodiv("dothis - howToDoList ", howToDoList, 11);
-                
-                var tempWhatToDoList =  CreateDoList(params, targetname, targetfunction); // generate list based on fn name
-                whatToDoList = extend(true, whatToDoList, tempWhatToDoList);
-                
+
+                var tempWhatToDoList = CreateDoList(params, targetname, targetfunction); // generate list based on fn name
+                whatToDoList = extend(whatToDoList, tempWhatToDoList);
+
                 proxyprinttodiv("dothis - whatToDoList ", whatToDoList, 11);
-                executelist(howToDoList, whatToDoList, callback);                 // execute list
+                executelist(howToDoList, whatToDoList, callback); // execute list
 
             } // params[target] undefined
             else { // execute the nextstage (mid or post), may need to remove target out of params
@@ -190,27 +204,33 @@
         } // else not test4
     } // fn
 
-        // based on a target fn and params this fn will create a sorted list of what to do -- params will be in list
+    // based on a target fn and params this fn will create a sorted list of what to do -- params will be in list
 
     function CreateDoList(params, configtarget, configfn) {
 
-        if ((params === undefined) || (params==="")) {params={};}
-        if ((configtarget === undefined) || (configtarget==="")) {configtarget="executeerror";}
-        if ((configfn === undefined) || (configfn==="")) {configfn="";}
+        if ((params === undefined) || (params === "")) {
+            params = {}
+        };
+        if ((configtarget === undefined) || (configtarget === "")) {
+            configtarget = "executeerror"
+        };
+        if ((configfn === undefined) || (configfn === "")) {
+            configfn = ""
+        };
 
         // get saved configuration
         var tempConfig0 = toLowerKeys(config.configuration); // config0 is working copy of current configuration
 
-        // deep cloning config
-        var config0 = extend(true, config0, tempConfig0);  // true is used to specify a deep clone
+        // cloning config
+        var config0 = extend(config0, tempConfig0);
 
         // If there is no config object for current target make one
         if (typeof config0[configtarget] !== 'object') {
             config0[configtarget] = [];
         }
 
-// fish out incoming configuraton
-        if ((params['configuration'] !== undefined) && (params['configuration'][configtarget] !== undefined)){
+        // fish out incoming configuraton
+        if ((params['configuration'] !== undefined) && (params['configuration'][configtarget] !== undefined)) {
             var incomingConfig = [];
             var object = params['configuration'][configtarget][0]; // needs [0]
             object = toLowerKeys(object);
@@ -242,38 +262,38 @@
         // params = jsonConcat(params,paramsobject); // join them with existing parameters
         // paramsobject = config0[configtarget]['params']; // get extra parameters from config
         // params = jsonConcat(params,paramsobject); // join them with existing parameters
-                        // delete from parameters configtarget
+        // delete from parameters configtarget
 
         //} **** taken out by roger
 
-        
+
 
         if (config0[configtarget] !== undefined) {
             //delete params[configtarget];  *** moved by Roger
             // pre, mid, post configs are going to have multiple params so we need to iterate
             for (var i = 0; i < config0[configtarget].length; i++) {
                 //try a concat
-                if((params !== undefined) && (config0[configtarget][i].params !== undefined)) {
+                if ((params !== undefined) && (config0[configtarget][i].params !== undefined)) {
                     config0[configtarget][i].params = jsonConcat(params, config0[configtarget][i].params); // concatenate with other pararms
-                } 
-                 //config0[configtarget][i].params= params; ** took out and put above, we should not change 'params'
+                }
+                //config0[configtarget][i].params= params; ** took out and put above, we should not change 'params'
             }
-             // save distiled parameters back to list
-             // in example deletes midexecute : <something>
+            // save distiled parameters back to list
+            // in example deletes midexecute : <something>
         }
 
         proxyprinttodiv("CreateDoList - config0 ", config0, 11);
 
         var list = config0[configtarget];
         if (list != undefined && list.length > 1) {
-            list = list.sort(function (a, b) {
-                if ( a.executeorder > b.executeorder )
+            list = list.sort(function(a, b) {
+                if (a.executeorder > b.executeorder)
                     return 1;
-                else if ( a.executeorder < b.executeorder)
+                else if (a.executeorder < b.executeorder)
                     return -1;
-                else if ( a.tryorder > b.tryorder )
+                else if (a.tryorder > b.tryorder)
                     return 1;
-                else if ( a.tryorder < b.tryorder)
+                else if (a.tryorder < b.tryorder)
                     return -1;
                 else
                     return 0;
@@ -298,22 +318,22 @@
 
         // The folowing code attempts to fix the list if it is missing a property
         // I only build a single list entry object on postion [0] of the array
-        if((list === undefined) || (list === "")) {
+        if ((list === undefined) || (list === "")) {
             list = [];
         }
-        if(list[0] === undefined) {
+        if (list[0] === undefined) {
             list[0] = {};
         }
-        if(list[0].executeorder === undefined) {
+        if (list[0].executeorder === undefined) {
             list[0].executeorder = 0;
         }
-        if(list[0].tryorder === undefined) {
+        if (list[0].tryorder === undefined) {
             list[0].tryorder = 0;
         }
-        if(list[0].params === undefined) {
+        if (list[0].params === undefined) {
             list[0].params = params;
         }
-        if(list[0].dothis === undefined) {
+        if (list[0].dothis === undefined) {
             list[0].dothis = configtarget;
         }
         // *** Joe I do a function look up here as theres a good chance of configfn being set to undefined or "" do to a remap
@@ -322,9 +342,9 @@
         // notes: typically the configfn comes in from doThis which is fine on non remaps.. 
         // on remaps the true function name to lookup is found while in createdolist
         // which is why i'm doing this here, let me know what you think roger
-        if(list[0].dofn === undefined) {
+        if (list[0].dofn === undefined) {
             list[0].dofn = configfn;
-            if((list[0].dofn === "") && (window[list[0].dothis])) {
+            if ((list[0].dofn === "") && (window[list[0].dothis])) {
                 list[0].dofn = window[list[0].dothis];
             }
         }
@@ -348,55 +368,63 @@
     }
 
     function executelist(howToDoList, whatToDoList, callback) {
-        var 
+        var
         h,
-        w,
-        cb,
-        whatToDo,
-        whatToDoFn,
-        howToDo,
-        executeobject,
-        targetfn,
-        foundfn,
-        synchflag,
-        howToDoParams,
-        whatToDoParams; 
+            w,
+            cb,
+            whatToDo,
+            whatToDoFn,
+            howToDo,
+            executeobject,
+            targetfn,
+            foundfn,
+            synchflag,
+            howToDoParams,
+            whatToDoParams;
 
         // iterate over our how to do list
-        proxyprinttodiv("executelist - howToDoList ",howToDoList,11);
-        proxyprinttodiv("executelist - whatToDoList ",whatToDoList,11);
+        proxyprinttodiv("executelist - howToDoList ", howToDoList, 11);
+        proxyprinttodiv("executelist - whatToDoList ", whatToDoList, 11);
 
         for (h in howToDoList) { // go through each item in how list
-            proxyprinttodiv("dothis - h ",h,11);
+            proxyprinttodiv("dothis - h ", h, 11);
             howToDo = howToDoList[h]['dothis']; // get specific howToDo from list
             howToDoParams = howToDoList[h]['params']; // get params that were stored
-            if ((howToDoParams === undefined) || (howToDoParams==="")) {howToDoParams={};}
-            proxyprinttodiv("executelist Hparams ",howToDoParams,11);
-            proxyprinttodiv("executelist howToDo ",howToDo,11);
+            if ((howToDoParams === undefined) || (howToDoParams === "")) {
+                howToDoParams = {}
+            };
+            proxyprinttodiv("executelist Hparams ", howToDoParams, 11);
+            proxyprinttodiv("executelist howToDo ", howToDo, 11);
 
             for (w in whatToDoList) { // step through whatlist
                 whatToDo = whatToDoList[w]['dothis']; // get specific whattodo
                 whatToDoFn = whatToDoList[w]['dofn'];
                 whatToDoParams = whatToDoList[w]['params'];
-                if ((whatToDoParams === undefined) || (whatToDoParams==="")) {whatToDoParams={};}
+                if ((whatToDoParams === undefined) || (whatToDoParams === "")) {
+                    whatToDoParams = {}
+                };
                 // if((params !== undefined) && (whatToDoList !== undefined)) {
                 //     params = jsonConcat(params, whatToDoList[w]['params']); // concatenate with other pararms
                 // } 
                 // else if(whatToDoList[w]['params'] !== undefined) { // if we cannot concat the params see if there are some params in the what to do list to load
                 //     params = whatToDoList[w]['params'];
                 // } 
-                proxyprinttodiv("executelist Wparams ",whatToDoParams,11);
-                proxyprinttodiv("executelist whatToDo ",whatToDoFn,11);
-                proxyprinttodiv("executelist whatToDoFn ",whatToDoFn,11);
+                proxyprinttodiv("executelist Wparams ", whatToDoParams, 11);
+                proxyprinttodiv("executelist whatToDo ", whatToDoFn, 11);
+                proxyprinttodiv("executelist whatToDoFn ", whatToDoFn, 11);
                 executeobject = getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn); // get status of that fn
-                proxyprinttodiv("executelist executeobject ",executeobject,11);
-                if (executeobject) {break;} // if fnparams sent back (fn found) then end
+                proxyprinttodiv("executelist executeobject ", executeobject, 11);
+                if (executeobject) {
+                    break
+                }; // if fnparams sent back (fn found) then end
             } // for w
-            if (executeobject) {break;}
-            } // for h
-        
-        if (typeof executeobject ===  'object' && Object.keys(executeobject).length !=0)  { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
-            proxyprinttodiv("executelist executeobject ",executeobject,11);
+            if (executeobject) {
+                break
+            };
+        } // for h
+
+        if (typeof executeobject === 'object' && Object.keys(executeobject).length != 0) { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
+            proxyprinttodiv("executelist executeobject ", executeobject, 11);
             targetfn = executeobject.targetfn;
             whatToDo = executeobject.whatToDo;
             params = executeobject.params;
@@ -404,73 +432,75 @@
 
             if (synchflag) { // if callback then call synch
                 callback(executethis(params, targetfn));
-                }
-            else { // else call asynch
+            } else { // else call asynch
                 targetfn(params, callback)
-                }
             }
-        else { // if no execute
+        } else { // if no execute
             callback(params); // if nothing to execute return parameters 
-            }
-} //fn    
+        }
+    } //fn    
 
 
-function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
-        var targetfn=undefined;
+    function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
+        var targetfn = undefined;
         var tempobject;
         var synchflag;
-        var fncheck=false;
+        var fncheck = false;
 
-        proxyprinttodiv("getexecuteobject",whatToDo,11);
+        proxyprinttodiv("getexecuteobject", whatToDo, 11);
         if ((howToDo) && (whatToDo)) {
-            
+
             switch (howToDo) {
 
                 case "executeFn":
                     targetfn = whatToDoFn;
 
-                    if((targetfn === undefined)  || (targetfn === "")){
+                    if ((targetfn === undefined) || (targetfn === "")) {
                         // we want to return undefined here so we try the next case
                         targetfn = undefined;
                         break;
-                    }
+                    };
                     break;
 
-                case "executeParam" :
+                case "executeParam":
                     if (params === undefined) {
                         targetfn = undefined;
                         break;
                     }
 
                     targetfn = params[whatToDo];
-                    
+
                     if (!targetfn instanceof Function) {
                         targetfn = window[targetfn];
-                        }
-                    else if(typeof targetfn === 'string') {
+                    } else if (typeof targetfn === 'string') {
                         targetfn = window[targetfn];
                     }
 
                     break;
-                    
+
                 case "executegetwid":
-                    tempobject = executethis({'wid':whatToDo}, getwid);
-                    if ((tempobject === undefined) && (!tempobject['js'])) {targetfn = executeerror} 
-                        else {targetfn = tempobject['js'];}
+                    tempobject = executethis({
+                        'wid': whatToDo
+                    }, getwid);
+                    if ((tempobject === undefined) && (!tempobject['js'])) {
+                        targetfn = executeerror
+                    } else {
+                        targetfn = tempobject['js']
+                    };
                     break;
 
                 case "server":
-                    targetfn=window["server"];
-                    params['executethis']=whatToDo;
-                    fncheck=true;
-                    break;    
+                    targetfn = window["server"];
+                    params['executethis'] = whatToDo;
+                    fncheck = true;
+                    break;
 
                 case "executeerror":
-                    targetfn=window["executeerror"];
-                    break;  
+                    targetfn = window["executeerror"];
+                    break;
             }
 
-            if(targetfn !== undefined) {
+            if (targetfn !== undefined) {
                 synchflag = (targetfn.length == 1);
             }
 
@@ -479,42 +509,42 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
                 // check to see if it is a string fucntion
                 // check to see if it is a 
                 if (!targetfn instanceof Function) {
-                    if (targetfn.indexOf('function')!=-1) {
+                    if (targetfn.indexOf('function') != -1) {
                         if (window[targetfn]) {
                             targetfn = window[targetfn]
-                        } 
-                        else {
+                        } else {
                             targetfn = executeerror;
                         }
                     }
                 }
             }
             if (targetfn) {
-                proxyprinttodiv("executelist targetfunction ",String(targetfn),11);
+                proxyprinttodiv("executelist targetfunction ", String(targetfn), 11);
                 return {
-                    targetfn: targetfn ,
+                    targetfn: targetfn,
                     whatToDo: whatToDo,
                     params: params,
                     synchflag: synchflag
-                };
+                }
             } else {
-               return undefined
+                return undefined
             }
-        }
-        else { // if no exeucte this
+        } else { // if no exeucte this
             return undefined
         }
-    }// fn
+    } // fn
 
 
     exports.executeerror = window.executeerror = executeerror = function executeerror(params, callback) {
-        callback({"etstatus":"executeerror"});
-    };
+        callback({
+            "etstatus": "executeerror"
+        });
+    }
 
     function nonCircularStringify(obj) {
         var cache = [];
 
-        return JSON.stringify(obj, function (key, value) {
+        return JSON.stringify(obj, function(key, value) {
             if (typeof value === 'object' && value !== null) {
                 if (cache.indexOf(value) !== -1) {
                     //found circular reference, discard key
@@ -523,6 +553,31 @@ function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
                 cache.push(value);
             }
             return value;
+        });
+    }
+    // takes in an array of inbound parameters(for different requests)
+    // 
+    exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
+        // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
+        async.mapSeries(paramsArr, function(inboundparms, cbMap) {
+            // each iteration 
+            if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
+                cbMap(null, {
+                    'test1': 'Reached test1 code.. executearray function'
+                });
+            } else {
+                execute(inboundparms, function(res) {
+                    var retResults = res;
+                    // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
+                    // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
+                    cbMap(null, retResults);
+                });
+            }
+        }, function(err, res) {
+            // end of all the execution that was meant to be
+            console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
+            console.log('asynchronously finished executing executearray.');
+            callback(res);
         });
     }
 

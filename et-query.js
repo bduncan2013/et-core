@@ -159,7 +159,7 @@
                     function step01(cb) {
 
                         // Use single to set up a query with the params of 1 wid
-                        if (queParams['singlemongoquery'] != undefined && xtrParams.length == undefined) {
+                        if (queParams['singlemongoquery'] != undefined && countKeys(xtrParams) == 0) {
                             console.log('singlemongoquery => ' + queParams['singlemongoquery']);
                             var wid = queParams['singlemongoquery'];
                             getwid({
@@ -170,8 +170,9 @@
                                 delete widObject['metadata.method'];
                                 mQueryString = BuildSingleQuery(widObject, "or", environmentdb);
                                 //mQueryString = output.substring(0, output.length - 1);
-                                mongoquery(mQueryString, function(res) {
-                                    output = formatlist(res, "wid", "wid");
+                                mongoquery(mQueryString, function (res) {
+                                    output = res;
+                                    //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                     cb(null, "step01");
                                 });
                             })
@@ -183,7 +184,7 @@
                             console.log('multiplemongoquery => ' + queParams['multiplemongoquery']);
                             getwid({
                                 'wid': wid
-                            }, function(res) {
+                            }, function (res) {
                                 var listOfWids = res;
                                 delete listOfWids["wid"];
                                 delete listOfWids["metadata.method"];
@@ -199,7 +200,7 @@
                                 async.mapSeries(todolist, function (w, cbMap) {
                                     getwid({
                                         'wid': w
-                                    }, function(res) {
+                                    }, function (res) {
                                         var tempwid = res;
                                         delete tempwid["wid"];
                                         delete tempwid["metadata.method"];
@@ -211,14 +212,15 @@
 
                                         cbMap(null, "map");
                                     });
-                                }, function(err, res) {
+                                }, function (err, res) {
 
                                     if (xtrParams) {
                                         ListOfLists.push(xtrParams);
                                     }
                                     mQueryString = BuildMultipleQuery(ListOfLists, "and", "or", environmentdb);
                                     mongoquery(mQueryString, function (res) {
-                                        output = formatlist(res, "wid", "wid");
+                                        output = res;
+                                        //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                         cb(null, 'step01');
                                     });
 
@@ -230,7 +232,8 @@
                             mQueryString = mQuery;
                             console.log('mQueryString at step01 => ' + mQueryString);
                             mongoquery(mQueryString, function (res) {
-                                output = formatlist(res, "wid", "wid");
+                                output = res;
+                                //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                 console.log(' *** get primary wids *** ' + JSON.stringify(output));
                                 debugfn("move queParams to output", "mongorawquery", "query", "begin", debugcolor, debugindent, debugvars([1]));
                                 cb(null, "step01");
@@ -260,13 +263,12 @@
                         // Skip if there are no relParams
 
                         if (getObjectSize(relParams) !== 0) {
-                            if (queParams['mongowid'] === undefined) {
+                            if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
                                 output = formatlist(output, "wid", "wid")
                             };
-                            mQueryString = relationShipQuery(relParams, output, "data"); // &&& roger added data
+                            mQueryString = relationShipQuery(relParams, output, "data"); 
                             console.log('mQueryString at step03 => ' + mQueryString);
-                            mongoquery(JSON.parse(mQueryString), function (res) {
-                            // mongoquery(mQueryString, function (res) {  // &&& roger changed, why json.parse?
+                            mongoquery(mQueryString, function (res) {
                                 console.log(" result from step03 " + JSON.stringify(res));
                                 output = res;
                                 debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([1]));
@@ -283,12 +285,12 @@
                         // Skip if there are no relParams
                         if (getObjectSize(relafterParams) !== 0) {
                             console.log('>>> '+JSON.stringify(output))
-                            output = formatlist(output, "wid", "wid");    // &&& roger added  
+                            output = formatlist(output, "wid", "wid");   
                             // TODO :: START HERE.
                             mQueryString = queryafterrelationship(relafterParams, output);
                             console.log('mQueryString at step04 => ' + mQueryString);
-                            mongoquery(JSON.parse(mQueryString), function (res) {
-                            // mongoquery(mQueryString, function (res) { // &&& roger changed, same as above
+                            // mongoquery(JSON.parse(mQueryString), function (res) {
+                            mongoquery(mQueryString, function (res) { 
                                 output = res;
                                 debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([1]));
                                 cb(null, "step04");
@@ -306,9 +308,9 @@
 
 
                     if (callback instanceof Function) {
-                        callback(formatlist(output, environmentdb, null)); // &&& roger changed from "data" to envrionmentdb
+                        callback(formatlist(output, environmentdb, null)); 
                     } else {
-                        return formatlist(output, environmentdb, null); // &&& roger same change
+                        return formatlist(output, environmentdb, null); 
                     }
 
 
@@ -381,9 +383,15 @@
         var output = [];
         var widvalue;
 
+// formatlist (inlist, parmnamein, parmnameout) 
+//     inlist must be a list in standard mongo output:
+//     [{}, {}, {}]
+//     produces a list in dri wid list format
+//     [wid:{}, wid:{}, wid:{}]
         // &&& roger it show("")ould always get a list and produce list -- necessit of if statement would be warning something wrong
         //if(inlist instanceof Array){
-            for (var i=0; i< inlist.length; i++) {
+            //for (var i=0; i< inlist.length; i++) {
+            for (i in inlist) { // changed by roger &&&
                 var item = inlist[i];
                 if (!parmnameout) {
                     widvalue = item['wid']
@@ -415,46 +423,59 @@
     //out STRING: {preamble.key: value}
     function BuildSimpleQuery(key, value, preamble) {
         var result;
-        // if (!preamble) {
-        //     preamble = "data"
-        // }; // default if preamble not sent in
+        //buildsimplequery, text in and out
         preamble = preamble + ".";
 
         result = "{\"" + key + "\":\"" + value + "\"}";
         return result;
     }
 
+
+
+
     // in parameters, preamble, outerquerytype
     // will create a string query based on outerquerytype
     function BuildSingleQuery(parameters, outerquerytype, preamble) {
+    // buildsinglequery, (parameters, outerquerytype, preamble) 
+    // parameters can be list [{}]
+    // or object {}
+    // inside needs to be simple parameters a: b, c: d
         var returnString;
         if (!outerquerytype) {
             outerquerytype = "or"
         }; // default if not sent in
-        // if (!preamble) {
-        //     preamble = "data"
-        // }; // default if not sent in
+        // parameters can be [{a:b, c:d, e:f}] or {a:b, c:d, e:f}
+        // if [] then remove []
+        if (parameters instanceof Array) {parameters=parameters[0]} // change by roger &&&
 
-        var parametersCount = countKeys(parameters);
-        if (parametersCount > 1) {
+        var parametersCount = Object.keys(parameters).length;  // changed by roger &&&
+
+        //var parametersCount = parameters.length; // &&& changed by roger
+        if (parametersCount !== 1) {
             //returnString = ' {"$or": [';
             returnString = ' {"$' + outerquerytype + '": [';
         } else {
             returnString = "";
         }
 
-        if (parameters instanceof Array) {
-            var obj = "";
-            parameters=parameters[0];
-        } // convert list to object
-        // build a {key,"value"} for each parameter
-        //foreach (var p in parameters)
-        for (key in parameters) {
-            returnString += BuildSimpleQuery(key, parameters[key], preamble);
-            if(returnString.lastIndexOf(',')!==(returnString.length-1)){
-                returnString += ",";
+        // &&& taken away by roger
+        // if (parameters instanceof Array) {
+        //     for(var i=0; i < parameters.length; i++){
+        //         for(var key in parameters[i]){
+        //             returnString += BuildSimpleQuery(key, parameters[i][key], preamble);
+        //             if(returnString.lastIndexOf(',')!==(returnString.length-1)){
+        //                 returnString += ",";
+        //             }
+        //         }
+        //     }
+        // }else{
+            for (key in parameters) {
+                returnString += BuildSimpleQuery(key, parameters[key], preamble);
+                if(returnString.lastIndexOf(',')!==(returnString.length-1)){
+                    returnString += ",";
+                }
             }
-        }
+        //}
 
         returnString = returnString.substring(0, returnString.length - 1);
         // Close the string based on the number of listofparameters
@@ -469,16 +490,16 @@
     // in list of parameters, outerquerytype, innerquerytype, preamble
     // will create a string query based on outerquerytype
     function BuildMultipleQuery(listofparameters, outerquerytype, innerquerytype, preamble) {
+        //buildmultiplequery (listofparameters, outerquerytype, innerquerytype, preamble)
+        //list of parameters must be list: [{}, [], [], {}]
         var returnString = "";
+        var parameters;
         if (!outerquerytype) {
             outerquerytype = "and"
         }; // default if not sent in
         if (!innerquerytype) {
             innerquerytype = "or"
         }; // default if not sent in
-        // if (!preamble) {
-        //     preamble = "data"
-        // }; // default if not sent in
 
         var listofparametersCount = listofparameters.length;
         // If it turns out you only have 1 set of params, dont start out the string with $and
@@ -490,21 +511,24 @@
             returnString += '{"$' + outerquerytype + '":[';
         }
         // Iterate through the params from each wid to get the $or groups built
-        for (var i = 0; i < listofparametersCount; i++) {
-            if (listofparameters[i].length != 0) {
-                returnString += BuildSingleQuery(listofparameters[i], innerquerytype, preamble);
-                if(returnString.lastIndexOf(',')!==(returnString.length-1)){
+        //for (var i = 0; i < listofparametersCount; i++) {
+        //    if (listofparameters[i].length != 0) {
+        for (i in listofparameters) {
+            parameters=listofparameters[i]
+            if (parameters instanceof Array) {parameters=parameters[0]};
+            returnString += BuildSingleQuery(parameters, innerquerytype, preamble);
+            if(returnString.lastIndexOf(',')!==(returnString.length-1)){
                     returnString += ",";
                 }
             }
-        }
+        //}
 
         // Chop off the last comma
         // strip off the last comma and add the closing of OR
         returnString = returnString.substring(0, returnString.length - 1);
         // Close the string based on the number of listofparameters
-        var parametersCount = getObjectSize(listofparameters[i]);
-        if (parametersCount === 1) {
+        // var parametersCount = Object.keys(parameters).length;  
+        if (countKeys(listofparameters) === 1) {
             returnString += "";
         } else {
             returnString += "]}";
@@ -557,17 +581,17 @@
         set1.push({
             "metadata.method": mongowidmethod
         });
-        set2 = formatlist(set2, "wid", "wid");
+        // set2 = formatlist(set2, "wid", "wid");
         set3.push(set1);
         set3.push(set2);
         return BuildMultipleQuery(set3, 'and', 'or', null);
     }
     // Starting of relationShipQuery function
-    function relationShipQuery(parameters, input, environmentdb) { // &&& roger added environmentdb
+    function relationShipQuery(parameters, input, environmentdb) { 
         proxyprinttodiv('Function relationShipQuery() Constant input : ', parameters);
         var output = {};
-        if (!environmentdb) {environmentdb="data"}; // &&& roger added
-        environmentdb=environmentdb+'.'; // &&& roger added
+        if (!environmentdb) {environmentdb="data"}; 
+        environmentdb=environmentdb+'.'; 
 
         // Simply checking to make sure all the data is here
         if (!(parameters.hasOwnProperty("mongorelationshipdirection") && parameters.hasOwnProperty("mongorelationshiptype"))) {
@@ -601,28 +625,28 @@
         }
 
         var queryset = [];
-        for(var i = 0;i < input.length; i++){
+        //for(var i = 0;i < input.length; i++){
+        for (var i in input) { // &&& change by roger
             var q1 = {};
             var val = input[i]['wid'];
             var key;
             if (direction === 'forward') {
-                q1[environmentdb+"primarywid"] = val;    // &&& roger changed q1 = {"primarywid": input[i]['wid']}
+                q1[environmentdb+"primarywid"] = val;   
             } else {
                 q1[environmentdb+"secondarywid"] = val;
-                // q1= {environmentdb+"secondarywid": input[i]['wid']}    // &&& roger changed q1= {"secondarywid": input[i]['wid']}
+                // q1= {environmentdb+"secondarywid": input[i]['wid']}    
             }
             queryset.push(q1);
         }
 
 
         if (dtotype) {
-            queryset.push({"metadata.method":dtotype});    // &&& roger changed queryset.push({"data.metadata.method":dtotype});
+            queryset.push({"metadata.method":dtotype});    
         }
         if (type) {
             var q2 = {};
-            // q2[environmentdb+"relationshiptype"]=type;
             q2[environmentdb+"relationshiptype"]=type;
-            queryset.push(q2);      // &&& roger changed queryset.push({"relationshiptype":type });
+            queryset.push(q2);      
         }
         querystring = BuildMultipleQuery(queryset, "and", "or", null)
 
@@ -1301,33 +1325,5 @@
     //  proxyprinttodiv('Function mongo() out with  output : ', output );   
     //  return output;
     // }//End of mongo function
-
-
-
-    function formatOutputData(inoutput) {
-        var formattedOutput, output = [];
-        if (typeof inoutput !== 'array') {
-            if ((inoutput === undefined) || (inoutput.length === 0)) {
-                output = [];
-            } else if (inoutput.length === 1) {
-                output[0] = inoutput;
-            }
-        }
-
-
-        if (output.length > 0) {
-            for (var i = 0; i < output.length; i++) {
-                var wid = output[i]['wid'];
-                var outVal = output[i];
-                formattedOutput[i] = {
-                    wid: outVal
-                };
-            }
-
-        } else {
-            formattedOutput = output;
-        }
-        return formattedOutput;
-    }
 
 })(typeof window == "undefined" ? global : window);
