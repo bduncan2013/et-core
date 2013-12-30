@@ -1754,28 +1754,61 @@ exports.ag1 = ag1 = function ag1(params, callback) {
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
+
 	executetest("addwidmaster", {
 		"wid": "colordto",
 		"metadata.method": "colordto",
-		"hue": "string"
+		"hue": "string",
+		"primarywid": "defaultdto"
 	}, "", "");
 	executetest("addwidmaster", {
 		"wid": "color1",
-		"hue": "red"
+		"hue": "red",
+		"primarywid": "defaultdto"
 	}, "", "");
 	executetest("addwidmaster", {
 		"wid": "color2",
-		"hue": "blue"
+		"hue": "blue",
+		"primarywid": "defaultdto"
 	}, "", "");
 	executetest("getwidmaster", {
 		"wid": "color1"
 	}, "get_color1_result", "");
+	
+	console.log(' after ag2_setup >>>>>> ' + JSON.stringify(params));
+
 	if (callback instanceof Function) {
 		callback(params);
 	} else {
 		return params;
 	}
 }
+
+
+// // This will test the ability to write a dto to the db, use that dto to write
+// // a wid with that dto, and get the results of getting that wid.
+// exports.ag211 = ag211 = function ag211(params, callback) {
+// 	config = setconfig1();
+// 	// testclearstorage();
+// 	// ag2_setup();
+// 	executetest("getwidmaster", {
+// 		"wid": "color1"
+// 	}, "get_color1_result", "");
+
+// 	params = logverify("alpha_unit_tests", "ag2_result", "get_color1_result", "", "", {
+// 		"hue": "red",
+// 		"wid": "color1",
+// 		"metadata.method": "defaultdto"
+// 	});
+	
+// 	console.log(' >>>>>> ' + params);
+
+// 	if (callback instanceof Function) {
+// 		callback(params);
+// 	} else {
+// 		return params;
+// 	}
+// }
 
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
@@ -1788,6 +1821,9 @@ exports.ag2 = ag2 = function ag2(params, callback) {
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
+	
+	console.log(' ag2 >>>>>> ' + params);
+
 	if (callback instanceof Function) {
 		callback(params);
 	} else {
@@ -1978,8 +2014,10 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 
 function aggressivedto_emulator(params, callback) {
 
-	var myval = aggressivedto(params['x'], "", 10);
-	callback(myval);
+	aggressivedto(params['x'], "", 10, function (err, res){
+		var myval = res;
+		callback(myval);
+	});
 }
 // This is a 3 level test where song1 will have data from a songdto, that uses a sounddto, and the sounddto will use a measuredto 
 exports.ag5 = ag5 = function ag5(params, callback) {
@@ -2147,7 +2185,7 @@ exports.testa = testa = function testa(params, callback) {
 		"metadata.method": "colordto"
 	}, "", "");
 	// executetest("getwidmaster", {"wid":"color1"}, "", "");	
-	//		params = logverify("this_test","test_result","actual","","",getFromLocalStorage("assertion"));
+	//		params = logverify("this_test","test_result","actual","","",aalStorage("assertion"));
 	if (callback instanceof Function) {
 		callback(params);
 	} else {
@@ -3262,72 +3300,72 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 	configuration.postExecute[2].dothis = 'server';
 	configuration.postExecute[2].params = {};
 
-	configuration.MongoAddEditPrepare = {};
-	 configuration.MongoAddEditPrepare.synchronous = true;
-
-	 configuration.AddMongoRelationship = {};
-	 configuration.AddMongoRelationship.synchronous = true;
-
-	 configuration.addwidmaster = {};
-	 configuration.addwidmaster.synchronous = true;
-
-	 configuration.AddWidParameters = {};
-	 configuration.AddWidParameters.synchronous = true;
-
-	 configuration.AddMaster = {};
-	 configuration.AddMaster.synchronous = true;
-
-	 configuration.aggressivedto = {};
-	 configuration.aggressivedto.synchronous = true;
-
-	 configuration.getcleanparameters = {};
-	 configuration.getcleanparameters.synchronous = true;
-
-	 configuration.getwidmaster = {};
-	 configuration.getwidmaster.synchronous = true;
-
-
-	 configuration.getWidMongo = {};
-	 configuration.getWidMongo.synchronous = true;
-
-	 configuration.getAndFormatNextLevel = {};
-	 configuration.getAndFormatNextLevel.synchronous = true;  
-
-	 configuration.addcleanparameters = {};
-	 configuration.addcleanparameters.synchronous = true;
-
 	// configuration.MongoAddEditPrepare = {};
-	// configuration.MongoAddEditPrepare.synchronous = false;
+	//  configuration.MongoAddEditPrepare.synchronous = true;
 
-	// configuration.AddMongoRelationship = {};
-	// configuration.AddMongoRelationship.synchronous = false;
+	//  configuration.AddMongoRelationship = {};
+	//  configuration.AddMongoRelationship.synchronous = true;
 
-	// configuration.addcleanparameters = {};
-	// configuration.addcleanparameters.synchronous = false;
+	//  configuration.addwidmaster = {};
+	//  configuration.addwidmaster.synchronous = true;
 
-	// configuration.addwidmaster = {};
-	// configuration.addwidmaster.synchronous = false;
+	//  configuration.AddWidParameters = {};
+	//  configuration.AddWidParameters.synchronous = true;
 
-	// configuration.AddWidParameters = {};
-	// configuration.AddWidParameters.synchronous = false;
+	//  configuration.AddMaster = {};
+	//  configuration.AddMaster.synchronous = true;
 
-	// configuration.AddMaster = {};
-	// configuration.AddMaster.synchronous = false;
+	//  configuration.aggressivedto = {};
+	//  configuration.aggressivedto.synchronous = true;
 
-	// configuration.aggressivedto = {};
-	// configuration.aggressivedto.synchronous = false;
+	//  configuration.getcleanparameters = {};
+	//  configuration.getcleanparameters.synchronous = true;
 
-	// configuration.getcleanparameters = {};
-	// configuration.getcleanparameters.synchronous = false;
+	//  configuration.getwidmaster = {};
+	//  configuration.getwidmaster.synchronous = true;
 
-	// configuration.getwidmaster = {};
-	// configuration.getwidmaster.synchronous = false;
 
-	// configuration.getWidMongo = {};
-	// configuration.getWidMongo.synchronous = false;
+	//  configuration.getWidMongo = {};
+	//  configuration.getWidMongo.synchronous = true;
 
-	// configuration.getAndFormatNextLevel = {};
-	// configuration.getAndFormatNextLevel.synchronous = false;
+	//  configuration.getAndFormatNextLevel = {};
+	//  configuration.getAndFormatNextLevel.synchronous = true;  
+
+	//  configuration.addcleanparameters = {};
+	//  configuration.addcleanparameters.synchronous = true;
+
+	configuration.MongoAddEditPrepare = {};
+	configuration.MongoAddEditPrepare.synchronous = false;
+
+	configuration.AddMongoRelationship = {};
+	configuration.AddMongoRelationship.synchronous = false;
+
+	configuration.addcleanparameters = {};
+	configuration.addcleanparameters.synchronous = false;
+
+	configuration.addwidmaster = {};
+	configuration.addwidmaster.synchronous = false;
+
+	configuration.AddWidParameters = {};
+	configuration.AddWidParameters.synchronous = false;
+
+	configuration.AddMaster = {};
+	configuration.AddMaster.synchronous = false;
+
+	configuration.aggressivedto = {};
+	configuration.aggressivedto.synchronous = false;
+
+	configuration.getcleanparameters = {};
+	configuration.getcleanparameters.synchronous = false;
+
+	configuration.getwidmaster = {};
+	configuration.getwidmaster.synchronous = false;
+
+	configuration.getWidMongo = {};
+	configuration.getWidMongo.synchronous = false;
+
+	configuration.getAndFormatNextLevel = {};
+	configuration.getAndFormatNextLevel.synchronous = false;
 
 	return {
 		"configuration": configuration

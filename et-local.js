@@ -179,6 +179,7 @@ exports.getfrommongo = getfrommongo = function getfrommongo(inputWidgetObject, c
 	var output = {};
 		if(inputWidgetObject["wid"]) {
 			var widKey = inputWidgetObject["wid"].toLowerCase();
+
 			output = getFromLocalStorage(widMasterKey + widKey);
 //            proxyprinttodiv('Function getfrommongo results', output, 1);
 			if ((output == null) || (output===undefined)) {output = {};}
