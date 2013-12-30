@@ -283,7 +283,7 @@
                     function step04(cb) {
                         // Relationship Section **********
                         // Skip if there are no relParams
-                        if (getObjectSize(relafterParams) !== 0) {
+                        if ((getObjectSize(relafterParams) !== 0)&&(output)&&(output.length > 0)) {
                             console.log('>>> '+JSON.stringify(output))
                             output = formatlist(output, "wid", "wid");   
                             // TODO :: START HERE.
