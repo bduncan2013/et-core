@@ -627,24 +627,20 @@
 
                     var isSynchronous = configuration.getWidMongo.synchronous;
 
-                    // if (isSynchronous) {
-                    //     resultObj = getWidMongo(wid, convertMethod, accesstoken, dtotype); //TODO consider -- DONE
-                    //     debugfn("getwidmaster", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                    //     cb(null, 'one');
-                    // } else {
-                    //     getWidMongo(wid, convertMethod, accesstoken, dtotype, function (err, data) { //TODO consider -- DONE
-                    //         resultObj = data;
-                    //         debugfn("getwidmaster", "step1b", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                    //         cb(null, 'one');
-                    //     });
-                    // }
-                    
-
-                    getWidMongo(wid, convertMethod, accesstoken, dtotype, function (err, data) { //TODO consider -- DONE
+                    if (isSynchronous) {
+                        resultObj = getWidMongo(wid, convertMethod, accesstoken, dtotype); //TODO consider -- DONE
+                        debugfn("getwidmaster", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        cb(null, 'one');
+                    } else {
+                        getWidMongo(wid, convertMethod, accesstoken, dtotype, function (err, data) { //TODO consider -- DONE
                             resultObj = data;
                             debugfn("getwidmaster", "step1b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'one');
                         });
+                    }
+
+
+
 
                 },
                 function step2(cb) {

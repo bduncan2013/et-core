@@ -2076,13 +2076,11 @@ exports.qq1 = qq1 = function qq1(params, callback) {
 	testclearstorage();
 	qq1_setup();
 	var executeobject = {};
-	// executeobject["mongorawquery"] =
-	// 	"{$and: [" +
-	// 	"{data.primarywid: songdto}," +
-	// 	"{data.secondarywid: notedto}" +
-	// 	"}]}";	
 	executeobject["mongorawquery"] =
-		'{"$and": [{"data.primarywid": "songdto"},{"data.secondarywid": "notedto"}]}';
+		"{$and: [" +
+		"{data.primarywid: songdto}," +
+		"{data.secondarywid: notedto}" +
+		"}]}";
 
 	executeobject["executethis"] = 'querywid';
 
