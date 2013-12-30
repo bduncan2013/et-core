@@ -8,42 +8,26 @@
         // var outobjectarr = [];
 
         getfrommongo(inputWidgetObject, function (results) {
+            var outobject = {};
+            if (results && countKeys(results) > 0) {
+                if (results["data"]) {
+                    outobject = results["data"];
+                }
 
-            //var results = executethis(inputWidgetObject,getfrommongo);
-            // if (results && results["etstatus"] != "empty") {
-            // console.log('>>> from getwid >>>> '+JSON.stringify(results));
-
-                // for(var i=0; i <results.length; i++){
-
-                    var outobject = {};
-                    if (results && countKeys(results) > 0) {
-                    
-
-                        
-                        if (results["data"]) {
-                            outobject = results["data"];
-                        }
-
-                        if (results['wid']) {
-                            outobject['wid'] = results['wid'];
-                        } else {
-                            outobject['wid'] = "";
-                        }
-                        
-                        if (results['metadata']) {
-                            outobject['metadata.method'] = results['metadata']['method'];
-                        } else {
-                            outobject['metadata.method'] = "";
-                        }
-                        
-
-                        // outobjectarr.push(outobject);
-                    }
-                // }
+                if (results['wid']) {
+                    outobject['wid'] = results['wid'];
+                } else {
+                    outobject['wid'] = "";
+                }
+                
+                if (results['metadata']) {
+                    outobject['metadata.method'] = results['metadata']['method'];
+                } else {
+                    outobject['metadata.method'] = "";
+                }
+            }
 
             callback(outobject);
-            
-
         });
     };
 
@@ -744,6 +728,175 @@
         }
     };
 
+    // function getWidMongo(widInput, convertMethod, accessToken, dtoin, callback) {
+
+    //     var olddebug=Debug;
+    //     //Debug=olddebug;
+    //     proxyprinttodiv('Function getWidMongo() in widInput: ', widInput);
+    //     proxyprinttodiv('Function getWidMongo() convertmethod', convertMethod);
+
+    //     if (!widInput) {
+    //         if (callback instanceof Function) { 
+    //             callback(ret); 
+    //         }
+    //         return;
+    //     }
+    //     var dtoGlobalParameters = {};
+    //     var attr = "";
+    //     var nextLevelParameters = {};
+    //     var outgoingParameters = {};
+    //     var moreDTOParameters = {};
+    //     var moreParameters = {};
+    //     var currentLevelObjectList = [];
+    //     var dtoGlobalParametersList = [];
+    //     var addedobject = {};
+    //     var eachresult = "";
+    //     var createdto ='false';
+    //     var createrelationships = 'false';
+    //     var savedto = 'false';
+    //     var createid = widInput;
+    //     var dtotype = "";
+
+    //     var executeobject={};
+
+    //     //executeobject["executethis"]=getwid;
+    //     executeobject["wid"]=widInput;
+    //     //Debug='true';
+    //     proxyprinttodiv('Function getWidMongo()  executeobject' , executeobject);
+    //     //var x = window['execute'];
+    //     //var currentLevelObject=executethis(executeobject,execute);
+    //     var currentLevelObject=executethis(executeobject,getwid);
+
+    //     //var currentLevelObject = getfrommongo({'wid': widInput});
+    //     // ++++ calling getwid is good calling it through execute not
+    //     proxyprinttodiv('Function getWidMongo() currentLevelObject ++++++ top level object ', currentLevelObject,10);
+    //     //Debug='false';
+    //     // if dtotype not sent in, then figure it out -- dto type will be blank at all 1+ levels
+    //     // first choide for dto is its method
+    //     if ((currentLevelObject["metadata.method"]!==undefined) &&
+    //         (currentLevelObject["metadata.method"]!=="")) {
+    //         dtotype=currentLevelObject["metadata.method"];
+    //         // Get the wid from mongo(local storage)
+    //         executeobject={};
+    //         //executeobject["executethis"]=getwid;
+    //         executeobject["wid"]=dtotype;
+    //         //dtoGlobalParameters=executethis(executeobject,execute);
+    //         dtoGlobalParameters=executethis(executeobject,getwid);
+    //         console.log(dtoGlobalParameters);
+    //         proxyprinttodiv('Function getWidMongo() dtoGlobalParameters -- 111', dtoGlobalParameters,10);
+
+    //         //dtoGlobalParameters = getFromMongo({'wid':dtotype});
+    //     }
+    //     proxyprinttodiv('Function getWidMongo() dtoGlobalParameters isEmpty', (isEmpty(dtoGlobalParameters)));
+    //     //  if (Object.keys(dtoGlobalParameters).length === 0) {
+    //     //  if (isEmpty(dtoGlobalParameters)) {
+    //     //if (dtotype!="") {createid=dtotype}
+    //     //dtotype='defaultdto'
+    //     // executeobject={};
+    //     // executeobject["mongowid"]=widInput;
+    //     // executeobject["mongorelationshiptype"]="attributes";
+    //     // executeobject["mongorelationshipmethod"]="all";
+    //     // executeobject["mongorelationshipdirection"]="forward";
+    //     // executeobject["mongowidmethod"]="";
+    //     // executeobject["convertmethod"]="";
+    //     // executeobject["dtotype"]="";
+    //     // executeobject["executethis"]=querywid;
+    //     // proxyprinttodiv('Function getWidMongo()  executeobject III' , executeobject);
+    //     // //moreDTOParameters=querywidlocal(executeobject);    // ** mongoquery
+    //     // proxyprinttodiv('Function getWidMongo()  executeobject III-result' , moreDTOParameters);
+    //     // moreDTOParameters=executethis(executeobject,execute);
+    //     // //*****10-31
+    //     // //moreDTOParameters = simpleQuery(widInput, "attributes", "all", "forward", "", "", "");
+    //     // for (eachresult in moreDTOParameters) {
+    //     //  for (key in moreDTOParameters[eachresult]) {
+    //     //      proxyprinttodiv('Function getWidMongo()eachresult[0] ',key);
+    //     //      //dtoGlobalParameters[key] = 'onetomany'
+    //     //      moreParameters[key] = 'onetomany'
+    //     //      }
+    //     //  }
+    //     // for (eachresult in currentLevelObject) {
+    //     //  //dtoGlobalParameters[eachresult] = 'string'
+    //     //  moreParameters[eachresult] = 'string'
+    //     //  }
+
+    //     proxyprinttodiv('Function getWidMongo() widInput ', widInput,10);
+    //     aggressivedto(widInput,"",1,function(err,res){
+    //         moreParameters=res;
+    //         proxyprinttodiv('Function getWidMongo() moreParameters ', moreParameters,10);
+    //         //if ((isEmpty(dtoGlobalParameters)) || (dtoin=="defaultdto")) {
+    //         if ((dtoGlobalParameters['metadata.method']=="") || (dtoin=="defaultdto")) {
+    //             dtoGlobalParameters=moreParameters
+    //         }
+
+    //         //}
+
+    //         proxyprinttodiv('Function getWidMongo() dtoGlobalParameters IV ', dtoGlobalParameters);
+
+    //         currentLevelObjectList = objectToList(currentLevelObject);
+    //         dtoGlobalParametersList = objectToList(dtoGlobalParameters);
+
+
+    //         proxyprinttodiv('Function getWidMongo() dtoGlobalParameters near start', dtoGlobalParameters);
+    //         proxyprinttodiv('Function getWidMongo() currentLevelObject II ', currentLevelObject,10);
+
+    //         currentLevelObjectList = SplitObjectList(currentLevelObjectList, dtoGlobalParametersList);
+    //         currentLevelObjectList = currentLevelObjectList.match;
+    //         currentLevelObject = listToObject(currentLevelObjectList);
+
+    //         proxyprinttodiv('Function getWidMongo() currentLevelObject ----about to start relationships----', currentLevelObject,10);
+
+
+    //         outgoingParameters=currentLevelObject;
+
+    //         dtoGlobalParameters=moreParameters; // line added 11-9 -- step through an agressive dto
+
+    //         for (var item in dtoGlobalParameters) {
+    //             proxyprinttodiv('Function getWidMongo() step through dto ', (item + ' ' + dtoGlobalParameters[item]),10);
+    //             nextLevelParameters = {};
+    //             attr = dtoGlobalParameters[item];
+    //             if ((attr == "onetoone")  || (attr == "onetomany")) { // 10-24 || (attr == "inherit"))  {
+    //                 if (attr == "onetoone") { // if dto states 'onetoone' then search for related records that match property
+    //                     nextLevelParameters = getAndFormatNextLevel(widInput, "attributes", "last", "forward", item, convertMethod, accessToken, dtoin); // removed inherit dtoGlobalParameters
+    //                 } // 10-5 took away dtotype --
+    //                 if (attr == "onetomany") { // if dto states 'onetomany' then search for related records that match property
+    //                     nextLevelParameters = getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin); //removed dtoGlobalParameters
+    //                 } // 11-9 readded inherit from cleanparms here:
+    //                 // if ((attr == "inherit") && (convertMethod != 'dto')) {
+    //                 //              executeobject={};
+    //                 //              executeobject["executethis"]="getwidmaster"; // changed from getwidmaster
+    //                 //              executeobject["wid"]=item;
+    //                 //              executeobject["command.convertmethod"]="nowid";
+    //                 //              var x = window['execute'];
+    //                 //              nextLevelParameters=executethis(executeobject,x);
+    //                 //              proxyprinttodiv('Function getWidMongo nextLevelParameters - inherit', nextLevelParameters,1);
+    //                 //              }
+    //                 //  nextLevelParameters = getwidmaster({'wid':item, 'command.convertmethod':'nowid'});
+    //                 //  };
+    //                 // 11-15 line below commented
+    //                 //if (nextLevelParameters=="") {AddMongoRelationship(widInput,item,"attributes");} // if DTO existed, but no relationship at place hoder
+    //                 proxyprinttodiv('Function getWidMongo() came back from getAndFormatNextLevel, nextLevelParameters= ', nextLevelParameters);
+    //                 proxyprinttodiv('Function getWidMongo() step through dto ', (item+' '+dtoGlobalParameters[item]));
+    //                 outgoingParameters = jsonConcat(outgoingParameters, nextLevelParameters);
+    //                 proxyprinttodiv('Function getWidMongo() outgoingParameters ', outgoingParameters);
+    //             } // if
+    //             //proxyprinttodiv('Function getWidMongo() outgoingParameters ', outgoingParameters);
+    //         } // for
+    //         proxyprinttodiv('Function getWidMongo() end of relationsips---------------- : ', outgoingParameters);
+    //         Debug=olddebug;
+            
+    //     });
+    //     var ret = undefined;
+
+    //     ret = outgoingParameters;
+
+    //     while(ret === undefined){}
+
+    //     if (callback instanceof Function) { 
+    //         callback(undefined,ret); 
+    //     }
+
+    //     return ret;
+    // }
 
     function getWidMongo(widInput, convertMethod, accessToken, dtoin, callback) {
         var dtoGlobalParameters = {};
@@ -763,7 +916,7 @@
         var dtotype = "";
         var currentLevelObject;
         var executeobject = {};
-        var olddebug = Debug;
+        var olddebug = Debug ;
         var err;
         var ret = undefined;
 

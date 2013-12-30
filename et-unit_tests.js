@@ -1754,28 +1754,61 @@ exports.ag1 = ag1 = function ag1(params, callback) {
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
+
 	executetest("addwidmaster", {
 		"wid": "colordto",
 		"metadata.method": "colordto",
-		"hue": "string"
+		"hue": "string",
+		"primarywid": "defaultdto"
 	}, "", "");
 	executetest("addwidmaster", {
 		"wid": "color1",
-		"hue": "red"
+		"hue": "red",
+		"primarywid": "defaultdto"
 	}, "", "");
 	executetest("addwidmaster", {
 		"wid": "color2",
-		"hue": "blue"
+		"hue": "blue",
+		"primarywid": "defaultdto"
 	}, "", "");
 	executetest("getwidmaster", {
 		"wid": "color1"
 	}, "get_color1_result", "");
+	
+	console.log(' after ag2_setup >>>>>> ' + JSON.stringify(params));
+
 	if (callback instanceof Function) {
 		callback(params);
 	} else {
 		return params;
 	}
 }
+
+
+// // This will test the ability to write a dto to the db, use that dto to write
+// // a wid with that dto, and get the results of getting that wid.
+// exports.ag211 = ag211 = function ag211(params, callback) {
+// 	config = setconfig1();
+// 	// testclearstorage();
+// 	// ag2_setup();
+// 	executetest("getwidmaster", {
+// 		"wid": "color1"
+// 	}, "get_color1_result", "");
+
+// 	params = logverify("alpha_unit_tests", "ag2_result", "get_color1_result", "", "", {
+// 		"hue": "red",
+// 		"wid": "color1",
+// 		"metadata.method": "defaultdto"
+// 	});
+	
+// 	console.log(' >>>>>> ' + params);
+
+// 	if (callback instanceof Function) {
+// 		callback(params);
+// 	} else {
+// 		return params;
+// 	}
+// }
 
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
@@ -1788,6 +1821,9 @@ exports.ag2 = ag2 = function ag2(params, callback) {
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
+	
+	console.log(' ag2 >>>>>> ' + params);
+
 	if (callback instanceof Function) {
 		callback(params);
 	} else {
@@ -1978,8 +2014,10 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 
 function aggressivedto_emulator(params, callback) {
 
-	var myval = aggressivedto(params['x'], "", 10);
-	callback(myval);
+	aggressivedto(params['x'], "", 10, function (err, res){
+		var myval = res;
+		callback(myval);
+	});
 }
 // This is a 3 level test where song1 will have data from a songdto, that uses a sounddto, and the sounddto will use a measuredto 
 exports.ag5 = ag5 = function ag5(params, callback) {
@@ -2147,7 +2185,7 @@ exports.testa = testa = function testa(params, callback) {
 		"metadata.method": "colordto"
 	}, "", "");
 	// executetest("getwidmaster", {"wid":"color1"}, "", "");	
-	//		params = logverify("this_test","test_result","actual","","",getFromLocalStorage("assertion"));
+	//		params = logverify("this_test","test_result","actual","","",aalStorage("assertion"));
 	if (callback instanceof Function) {
 		callback(params);
 	} else {
@@ -3263,32 +3301,32 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 	configuration.postExecute[2].params = {};
 
 	// configuration.MongoAddEditPrepare = {};
-	//  configuration.MongoAddEditPrepare.synchronous = false;
+	//  configuration.MongoAddEditPrepare.synchronous = true;
 
 	//  configuration.AddMongoRelationship = {};
-	//  configuration.AddMongoRelationship.synchronous = false;
+	//  configuration.AddMongoRelationship.synchronous = true;
 
 	//  configuration.addwidmaster = {};
-	//  configuration.addwidmaster.synchronous = false;
+	//  configuration.addwidmaster.synchronous = true;
 
 	//  configuration.AddWidParameters = {};
-	//  configuration.AddWidParameters.synchronous = false;
+	//  configuration.AddWidParameters.synchronous = true;
 
 	//  configuration.AddMaster = {};
-	//  configuration.AddMaster.synchronous = false;
+	//  configuration.AddMaster.synchronous = true;
 
 	//  configuration.aggressivedto = {};
-	//  configuration.aggressivedto.synchronous = false;
+	//  configuration.aggressivedto.synchronous = true;
 
 	//  configuration.getcleanparameters = {};
-	//  configuration.getcleanparameters.synchronous = false;
+	//  configuration.getcleanparameters.synchronous = true;
 
 	//  configuration.getwidmaster = {};
-	//  configuration.getwidmaster.synchronous = false;
+	//  configuration.getwidmaster.synchronous = true;
 
 
 	//  configuration.getWidMongo = {};
-	//  configuration.getWidMongo.synchronous = false;
+	//  configuration.getWidMongo.synchronous = true;
 
 	//  configuration.getAndFormatNextLevel = {};
 	//  configuration.getAndFormatNextLevel.synchronous = true;  
@@ -3687,8 +3725,8 @@ exports.setconfig5 = setconfig5 = function setconfig5() {
 
 	configuration.midExecute = [];
 	configuration.midExecute[0] = {};
-	configuration.midExecute[0].executeorder = 10;
-	configuration.midExecute[0].tryorder = 10;
+	configuration.midExecute[0].executeorder = 0;
+	configuration.midExecute[0].tryorder = 0;
 	configuration.midExecute[0].dothis = 'server';
 	configuration.midExecute[0].params = {};
 	configuration.midExecute[1] = {};
@@ -4024,7 +4062,7 @@ exports.ag5 = ag5 = function ag5(params, callback) {
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	ag5_setup(params, function (res) {
+	ag5_setup(params, function(res) {
 
 		console.log(' in test ag5 >>>>>> ' + JSON.stringify(res));
 
@@ -4045,12 +4083,12 @@ exports.ag6a = ag6a = function ag6a(params, callback) {
 	executearray([{
 		"executethis": "updatewid",
 		"wid": "test1",
-		"metadata.method":"test1method" ,
+		"metadata.method": "test1method",
 		"test1note": "string"
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function (res) {
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4066,17 +4104,36 @@ exports.ag6b = ag6b = function ag6b(params, callback) {
 	config = setconfig5();
 	testclearstorage();
 
-
 	executearray([{
 		"executethis": "updatewid",
 		"wid": "test1",
-		"metadata.method":"test1method" ,
+		"metadata.method": "test1method",
 		"test1note": "string"
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function (res) {
-		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
+	}], function(res) {
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+exports.ag6c = ag6c = function ag6c(params, callback) {
+	executearray([{
+		"executethis": "updatewid",
+		"wid": "test1",
+		"metadata.method": "test1method",
+		"test1note": "string"
+	}, {
+		"executethis": "getwid",
+		"wid": "test1"
+	}], function(res) {
+		console.log(' in test ag6c >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
 			callback(res);
@@ -4097,87 +4154,87 @@ exports.ag7 = ag7 = function ag7(params, callback) {
 	executearray([{
 		"executethis": "updatewid",
 		"wid": "text1",
-		"metadata.method":"test1method" ,
+		"metadata.method": "test1method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text2",
-		"metadata.method":"test2method" ,
+		"metadata.method": "test2method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text3",
-		"metadata.method":"test3method" ,
+		"metadata.method": "test3method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text4",
-		"metadata.method":"test4method" ,
+		"metadata.method": "test4method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text5",
-		"metadata.method":"test5method" ,
+		"metadata.method": "test5method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text6",
-		"metadata.method":"test6method" ,
+		"metadata.method": "test6method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text7",
-		"metadata.method":"test7method" ,
+		"metadata.method": "test7method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text8",
-		"metadata.method":"test8method" ,
+		"metadata.method": "test8method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text9",
-		"metadata.method":"test9method" ,
+		"metadata.method": "test9method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text10",
-		"metadata.method":"test10method" ,
+		"metadata.method": "test10method",
 		"test1note": "string"
-	} , {
+	}, {
 		"executethis": "getwid",
-		"wid":"text1"
-		} , {
+		"wid": "text1"
+	}, {
 		"executethis": "getwid",
-		"wid":"text2"
-		} , {
+		"wid": "text2"
+	}, {
 		"executethis": "getwid",
-		"wid":"text3"
-		} , {
+		"wid": "text3"
+	}, {
 		"executethis": "getwid",
-		"wid":"text4"
-		} , {
+		"wid": "text4"
+	}, {
 		"executethis": "getwid",
-		"wid":"text5"
-		} , {
+		"wid": "text5"
+	}, {
 		"executethis": "getwid",
-		"wid":"text6"
-		} , {
+		"wid": "text6"
+	}, {
 		"executethis": "getwid",
-		"wid":"text7"
-		} , {
+		"wid": "text7"
+	}, {
 		"executethis": "getwid",
-		"wid":"text8"
-		} , {
+		"wid": "text8"
+	}, {
 		"executethis": "getwid",
-		"wid":"text9"
-		} , {
+		"wid": "text9"
+	}, {
 		"executethis": "getwid",
-		"wid":"text10"
-	 // },{
-	 // 	"executethis": "removefrommongo",
-	 // 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (res) {
+		"wid": "text10"
+		// },{
+		// 	"executethis": "removefrommongo",
+		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4191,8 +4248,6 @@ exports.ag7 = ag7 = function ag7(params, callback) {
 
 
 
-
-
 // add 1 wids using updatewid, display 1 wids using getfrommongo
 exports.ag8 = ag8 = function ag8(params, callback) {
 	config = setconfig1();
@@ -4202,15 +4257,15 @@ exports.ag8 = ag8 = function ag8(params, callback) {
 	executearray([{
 		"executethis": "updatewid",
 		"wid": "text1",
-		"metadata.method":"test1method" ,
+		"metadata.method": "test1method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text1"
-	 // },{
-	 // 	"executethis": "removefrommongo",
-	 // 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (res) {
+		"wid": "text1"
+		// },{
+		// 	"executethis": "removefrommongo",
+		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4232,87 +4287,87 @@ exports.ag9 = ag9 = function ag9(params, callback) {
 	executearray([{
 		"executethis": "updatewid",
 		"wid": "text1",
-		"metadata.method":"test1method" ,
+		"metadata.method": "test1method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text2",
-		"metadata.method":"test2method" ,
+		"metadata.method": "test2method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text3",
-		"metadata.method":"test3method" ,
+		"metadata.method": "test3method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text4",
-		"metadata.method":"test4method" ,
+		"metadata.method": "test4method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text5",
-		"metadata.method":"test5method" ,
+		"metadata.method": "test5method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text6",
-		"metadata.method":"test6method" ,
+		"metadata.method": "test6method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text7",
-		"metadata.method":"test7method" ,
+		"metadata.method": "test7method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text8",
-		"metadata.method":"test8method" ,
+		"metadata.method": "test8method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text9",
-		"metadata.method":"test9method" ,
+		"metadata.method": "test9method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "updatewid",
 		"wid": "text10",
-		"metadata.method":"test10method" ,
+		"metadata.method": "test10method",
 		"test1note": "string"
-	} , {
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text1"
-		} , {
+		"wid": "text1"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text2"
-		} , {
+		"wid": "text2"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text3"
-		} , {
+		"wid": "text3"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text4"
-		} , {
+		"wid": "text4"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text5"
-		} , {
+		"wid": "text5"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text6"
-		} , {
+		"wid": "text6"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text7"
-		} , {
+		"wid": "text7"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text8"
-		} , {
+		"wid": "text8"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text9"
-		} , {
+		"wid": "text9"
+	}, {
 		"executethis": "getfrommongo",
-		"wid":"text10"
-	 // },{
-	 // 	"executethis": "removefrommongo",
-	 // 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (res) {
+		"wid": "text10"
+		// },{
+		// 	"executethis": "removefrommongo",
+		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4336,15 +4391,15 @@ exports.ag10 = ag10 = function ag10(params, callback) {
 		"wid": "getwidtext11",
 		"2": "21",
 		"3": "31",
-		"metadata.method":"test1method" ,
+		"metadata.method": "test1method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "getwid",
-		"wid":"getwidtext11"
-	 // },{
-	 // 	"executethis": "removefrommongo",
-	 // 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (res) {
+		"wid": "getwidtext11"
+		// },{
+		// 	"executethis": "removefrommongo",
+		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4358,26 +4413,175 @@ exports.ag10 = ag10 = function ag10(params, callback) {
 
 
 
-// add 1 wids using updatewid, display 1 wids using getwid
-exports.ag11 = ag11 = function ag11(params, callback) {
+// add 1 wids using addwidmaster, display 1 wids using getwidmaster
+exports.ag11a = ag11a = function ag11a(params, callback) {
 	config = setconfig1();
 	testclearstorage();
 
+	var widId = Math.random() + "";
 
 	executearray([{
 		"executethis": "addwidmaster",
-		"wid": "getwidtext11",
+		"wid": widId,
 		"2": "21",
 		"3": "31",
-		"metadata.method":"test1method" ,
+		"metadata.method": "test1method",
 		"test1note": "string"
-	},{
+	}, {
 		"executethis": "getwidmaster",
-		"wid":"getwidtext11"
-	 // },{
-	 // 	"executethis": "removefrommongo",
-	 // 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (res) {
+		"wid": widId
+		// },{
+		// 	"executethis": "removefrommongo",
+		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
+	}], function(res) {
+		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+// add 1 wids using addwidmaster, display 1 wids using getwidmaster
+exports.ag11b = ag11b = function ag11b(params, callback) {
+	config = setconfig5();
+
+	var widId = Math.random() + "";
+
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId,
+		"2": "21",
+		"3": "31",
+		"metadata.method": "test1method",
+		"test1note": "string"
+	}, {
+		"executethis": "getwidmaster",
+		"wid": widId
+		// },{
+		// 	"executethis": "removefrommongo",
+		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
+	}], function(res) {
+		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+//getwidmaster tests
+exports.ag13a = ag13a = function ag13a(params, callback) {
+	config = setconfig1();
+	testclearstorage();
+	executearray([{
+		"executethis": "getwidmaster",
+		"wid": 'test1'
+	}], function(res) {
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+exports.ag13b = ag13b = function ag13b(params, callback) {
+	config = setconfig5();
+
+	executearray([{
+		"executethis": "getwidmaster",
+		"wid": 'test1'
+	}], function(res) {
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+//addwidmaster tests
+exports.ag14a = ag14a = function ag14a(params, callback) {
+	config = setconfig1();
+	var widId = Math.random() + "";
+	testclearstorage();
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId,
+		"2": "21",
+		"3": "31",
+		"metadata.method": "test1method",
+		"test1note": "string"
+	}], function(res) {
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+exports.ag14b = ag14b = function ag14b(params, callback) {
+	config = setconfig5();
+	var widId = Math.random() + "";
+	testclearstorage();
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId,
+		"2": "21",
+		"3": "31",
+		"metadata.method": "test1method",
+		"test1note": "string"
+	}], function(res) {
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+
+exports.ag15a = ag15a = function ag15a(params, callback) {
+	config = setconfig1();
+	testclearstorage();
+
+	var widId = Math.random() + "";
+	var widMasterId = Math.random() + "master";
+
+	executearray([{
+		"2": "string",
+		"3": "string",
+		"executethis": "addwidmaster",
+		"wid": widMasterId,
+		"metadata.method": widMasterId	,
+		"test1note": "string"
+	}, {
+		"2": "21",
+		"3": "31",
+		"executethis": "addwidmaster",
+		"wid": widId,
+		"metadata.method": widMasterId,
+		"test1note": "some value $$%%%$"
+	}, {
+		"executethis": "getwid",
+		"wid": widId
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4388,6 +4592,42 @@ exports.ag11 = ag11 = function ag11(params, callback) {
 	});
 	// return verifysummary("test_results");
 }
+
+exports.ag15b = ag15b = function ag15b(params, callback) {
+	config = setconfig5();
+
+	var widId = Math.random() + "";
+	var widMasterId = Math.random() + "master";
+
+	executearray([{
+		"2": "string",
+		"3": "string",
+		"executethis": "addwidmaster",
+		"wid": widMasterId,
+		"metadata.method": widMasterId	,
+		"test1note": "string"
+	}, {
+		"2": "21",
+		"3": "31",
+		"executethis": "addwidmaster",
+		"wid": widId,
+		"metadata.method": widMasterId,
+		"test1note": "some value $$%%%$"
+	}, {
+		"executethis": "getwid",
+		"wid": widId
+	}], function(res) {
+		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
 // configuration.c = [];
 // configuration.c[0] = {};
 // configuration.c[0].executeorder = 0;

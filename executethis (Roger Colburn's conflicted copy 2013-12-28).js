@@ -9,13 +9,13 @@
 // config dofn
 // 
 
-(function(window) {
+(function (window) {
     // 'use strict';
 
     var execute, executethis, etexecute;
 
     exports.etexecute = window.etexecute = etexecute = function etexecute(params, callback) {
-        execute(params, function (results) {
+        execute(params, function(results) {
             var err = {};
             callback(err, results);
         });
@@ -53,14 +53,13 @@
                 callback(result);
             } else {
 
-
                 incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
-                console.log('starting preexecute ' + nonCircularStringify(incomingparams));
+                console.log('starting preexecute ' + incomingparams);
                 doThis(incomingparams, 'preexecute', function (preResults) {
 
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
-                    console.log('starting midexecute ' +  nonCircularStringify(incomingparams));
+                    console.log('starting midexecute ' + preResults);
                     if (!preResults) {
                         preResults = {};
                     } // 
@@ -90,70 +89,70 @@
     /// 1st argument -- input parameters, 2nd parameter -- callback function
     /// second parameter must be a function, if not sent in will be defaulted to 'execute'
     /// if the function to be called has only one input object then this fn will wait for results (act asynch)
-    exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+    // exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
 
-        // if test1 ***
-        if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
-            return {
-                'test1': 'Reached test1 code.. executethis function'
-            };
-        } else {
-            //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
-            if (!targetfunction || !targetfunction instanceof Function) {
-                targetfunction = execute;
-            }
+    //     // if test1 ***
+    //     // if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
+    //     //     return {
+    //     //         'test1': 'Reached test1 code.. executethis function'
+    //     //     };
+    //     // } else {
+    //     //     //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
+    //     //     if (!targetfunction || !targetfunction instanceof Function) {
+    //     //         targetfunction = execute;
+    //     //     }
 
-            var params;
-            var tempParams = toLowerKeys(inboundparms)
-            var argCount = 0
+    //     //     var params;
+    //     //     var tempParams = toLowerKeys(inboundparms)
+    //     //     var argCount = 0
 
-            // cloning inbound params
-            params = extend(params, tempParams);
+    //     //     // cloning inbound params
+    //     //     params = extend(params, tempParams);
 
-            proxyprinttodiv('Function executethis params', params, 11);
-            proxyprinttodiv('Function executethis fn', targetfunction.name, 11);
-            proxyprinttodiv('Function executethis length', targetfunction.length, 11);
-            console.log('targetfunction length => ' + targetfunction.length);
-            if (targetfunction.length !== undefined) {
-                argCount = targetfunction.length;
-            }
+    //     //     proxyprinttodiv('Function executethis params', params, 11);
+    //     //     proxyprinttodiv('Function executethis fn', targetfunction.name, 11);
+    //     //     proxyprinttodiv('Function executethis length', targetfunction.length, 11);
+    //     //     console.log('targetfunction length => ' + targetfunction.length);
+    //     //     if (targetfunction.length !== undefined) {
+    //     //         argCount = targetfunction.length;
+    //     //     }
 
-            if (argCount == 1) {
-                return targetfunction(params); // if targetfn has only one parameter then fn is synchronous
-            } else if (argCount > 1) {
-                var retResult = undefined,
-                    funcDone = false,
-                    funcCalled = false,
-                    count = 0;
+    //     //     if (argCount == 1) {
+    //     //         return targetfunction(params); // if targetfn has only one parameter then fn is synchronous
+    //     //     } else if (argCount > 1) {
+    //     //         var retResult = undefined,
+    //     //             funcDone = false,
+    //     //             funcCalled = false,
+    //     //             count = 0;
 
-                var cbfunction = function (results, results2) {
-                    funcDone = true;
-                    if (results2) {
-                        retResult = results2
-                    } else {
-                        retResult = results
-                    };
-                }
+    //     //         var cbfunction = function(results, results2) {
+    //     //             funcDone = true;
+    //     //             if (results2) {
+    //     //                 retResult = results2
+    //     //             } else {
+    //     //                 retResult = results
+    //     //             };
+    //     //         }
 
-                while (!funcDone) {
-                    if (!funcCalled) {
-                        funcCalled = true;
-                        targetfunction (params, cbfunction);
-                    }
-                    count++
-                    if (count > 100) {
-                        funcDone = true
-                    }
-                }
+    //     //         while (!funcDone) {
+    //     //             if (!funcCalled) {
+    //     //                 funcCalled = true;
+    //     //                 targetfunction(params, cbfunction);
+    //     //             }
+    //     //             count++
+    //     //             if (count > 100) {
+    //     //                 funcDone = true
+    //     //             }
+    //     //         }
 
-                if (retResult === undefined) {
-                    retResult = {};
-                }
-                // if (retResult["etstatus"]=="empty") {retResult={}}
-                return retResult;
-            }
-        }
-    };
+    //     //         if (retResult === undefined) {
+    //     //             retResult = {};
+    //     //         }
+    //     //         // if (retResult["etstatus"]=="empty") {retResult={}}
+    //     //         return retResult;
+    //     //     }
+    //     // }
+    // };
 
     function doThis(params, target, callback) {
         var whatToDoList,
@@ -287,7 +286,7 @@
 
         var list = config0[configtarget];
         if (list != undefined && list.length > 1) {
-            list = list.sort(function(a, b) {
+            list = list.sort(function (a, b) {
                 if (a.executeorder > b.executeorder)
                     return 1;
                 else if (a.executeorder < b.executeorder)
@@ -437,7 +436,7 @@
                 targetfn(params, callback)
             }
         } else { // if no execute
-            callback({"error":"no executethis provided"}); // if nothing to execute return parameters 
+            callback(params); // if nothing to execute return parameters 
         }
     } //fn    
 
