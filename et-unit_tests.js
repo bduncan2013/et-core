@@ -1758,24 +1758,21 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 	executetest("addwidmaster", {
 		"wid": "colordto",
 		"metadata.method": "colordto",
-		"hue": "string",
-		"primarywid": "defaultdto"
+		"hue": "string"
 	}, "", "");
 	executetest("addwidmaster", {
 		"wid": "color1",
-		"hue": "red",
-		"primarywid": "defaultdto"
+		"hue": "red"
 	}, "", "");
 	executetest("addwidmaster", {
 		"wid": "color2",
-		"hue": "blue",
-		"primarywid": "defaultdto"
+		"hue": "blue"
 	}, "", "");
 	executetest("getwidmaster", {
 		"wid": "color1"
 	}, "get_color1_result", "");
 	
-	console.log(' after ag2_setup >>>>>> ' + JSON.stringify(params));
+	console.log(' >>>>>> ' + params);
 
 	if (callback instanceof Function) {
 		callback(params);
@@ -1813,6 +1810,7 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
 exports.ag2 = ag2 = function ag2(params, callback) {
+	debugcat = 'get';
 	config = setconfig1();
 	testclearstorage();
 	ag2_setup();
@@ -1821,9 +1819,6 @@ exports.ag2 = ag2 = function ag2(params, callback) {
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	
-	console.log(' ag2 >>>>>> ' + params);
-
 	if (callback instanceof Function) {
 		callback(params);
 	} else {
