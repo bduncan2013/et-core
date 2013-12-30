@@ -410,8 +410,8 @@ exports.debugfn = debugfn = function debugfn() {
 	var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
 
 
-	if (indebugname == tempdebugname && indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {
-	// if (indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {/// TODO :: saurabh :: remove later done for testing purposes
+	// if (indebugname == tempdebugname && indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {
+	if (indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {/// TODO :: saurabh :: remove later done for testing purposes
 		processdebug = true
 	} else {
 		processdebug = false
