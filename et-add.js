@@ -675,6 +675,7 @@
         var err;
         var AddedObject = {};
 
+
         proxyprinttodiv('Function addwidmaster()  inputObject ', inputObject);
         // proxyprinttodiv('Function addwidmaster()  OutParameters : I ', OutParameters);
         // proxyprinttodiv('Function addwidmaster() Wid : I ', Wid);
@@ -729,7 +730,7 @@
 
                 var isSynchronous = configuration.addwidmaster.synchronous;
                 if (!isSynchronous) {
-                    proxyprinttodiv('Function addwidmaster() AddedObject : I ', AddedObject, 99);
+                    proxyprinttodiv('Function addwidmaster() AddedObject >>>  : I ', AddedObject, 99);
                     debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     callback(ret);
                 }
