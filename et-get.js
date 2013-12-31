@@ -575,7 +575,7 @@
             {
                 1:
                     {
-                        "ret":ret,
+                        "parameters":parameters,
                         "resultObj":resultObj,
                         "inherit":inherit,
                         "checkflag":checkflag,
@@ -583,13 +583,8 @@
                         "dtotype":dtotype,
                         "wid":wid,
                         "accesstoken":accesstoken,
-                        "err":err
-                    },
-                2:
-                    {
-                        "ret":ret,
-                        "resultObj":{},
-                        "inherit":inherit
+                        "err":err,
+                        "ret":ret
                     }
             };
             var resultObj={};
@@ -629,12 +624,12 @@
 
                     if (isSynchronous) {
                         resultObj = getWidMongo(wid, convertMethod, accesstoken, dtotype); //TODO consider -- DONE
-                        debugfn("getwidmaster", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getwidmaster step1 a", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'one');
                     } else {
                         getWidMongo(wid, convertMethod, accesstoken, dtotype, function (err, data) { //TODO consider -- DONE
                             resultObj = data;
-                            debugfn("getwidmaster", "step1b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getwidmaster step1 b", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'one');
                         });
                     }
@@ -655,7 +650,7 @@
                             if (moreParameters) {
                                 resultObj = jsonConcat(resultObj, moreParameters);
                             }
-                            debugfn("getwidmaster", "step2a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getwidmaster step2 a", "getwidmaster", "get", "step2", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'two');
                         });
                         // getwid(OutParameters, function (res) {
@@ -667,7 +662,7 @@
                         //     });
 
                     } else {
-                        debugfn("getwidmaster", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getwidmaster step2 b", "getwidmaster", "get", "step2", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     }
                 },
@@ -707,7 +702,7 @@
 
                     ret = resultObj;
 
-                    debugfn("getwidmaster", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                    debugfn("getwidmaster step3", "getwidmaster", "get", "step3", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 }
             ],
@@ -989,7 +984,7 @@
                         // cb(null);
                         etexecute(executeobject, function (err, res) {
                             currentLevelObject = res;
-                            debugfn("getWidMongo", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getWidMongo part1", "getwidmongo", "get", "part", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'part1');
                         });
                     },
@@ -1005,12 +1000,12 @@
                             etexecute(executeobject, function (err, res) {
                                 dtoGlobalParameters = res; //TODO -- DONE
                                 console.log(dtoGlobalParameters);
-                                debugfn("getWidMongo", "step2a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                debugfn("getWidMongo step2a", "getwidmongo", "get", "step2a", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'two');
                             }); //TODO -- DONE
 
                         } else {
-                            debugfn("getWidMongo", "step2b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getWidMongo step2b", "getwidmongo", "get", "step2b", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'two');
                         }
 
@@ -1020,28 +1015,36 @@
 
                         if (isSynchronous) {
                             moreParameters = aggressivedto(widInput, "", 1); //TODO -- done
-                            debugfn("getWidMongo", "step3a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                            debugfn("getWidMongo step3a", "getwidmongo", "get", "step3b", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'three');
                         } else {
                             aggressivedto(widInput, "", 1, function (err, res) {
                                 moreParameters = res;
-                                debugfn("getWidMongo", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                debugfn("getWidMongo step3b", "getwidmongo", "get", "step3b", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'three');
                             });
                         }
                     },
                     function step4(cb) {
-                        if ((dtoGlobalParameters['metadata.method'] == "") || (dtoin == "defaultdto")) {
+                        if ((dtoGlobalParameters['metadata.method']===undefined) ||
+                            (dtoGlobalParameters['metadata.method'] == "") || (dtoin == "defaultdto")) {
                             dtoGlobalParameters = moreParameters
                         }
+                        //proxyprinttodiv('Function getWidMongo() dtoGlobalParameters ', dtoGlobalParameters,99);
+
                         currentLevelObjectList = objectToList(currentLevelObject);
                         dtoGlobalParametersList = objectToList(dtoGlobalParameters);
+                        //proxyprinttodiv('Function getWidMongo() dtoGlobalParametersList ', dtoGlobalParametersList,99);
                         currentLevelObjectList = SplitObjectList(currentLevelObjectList, dtoGlobalParametersList);
+                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList I ', currentLevelObjectList,99);
                         currentLevelObjectList = currentLevelObjectList.match;
+                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList II ', currentLevelObjectList,99);
                         currentLevelObject = listToObject(currentLevelObjectList);
+                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList III ', currentLevelObjectList,99);
                         outgoingParameters = currentLevelObject;
+                        //proxyprinttodiv('Function getWidMongo() outgoingParameters ', outgoingParameters,99);
                         dtoGlobalParameters = moreParameters; // line added 11-9 -- step through an agressive dto
-                        debugfn("getWidMongo", "step4", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getWidMongo step4", "getwidmongo", "get", "step4", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'four');
                     },
                     function step5(cb) {
@@ -1079,7 +1082,7 @@
                                     //TODO -- DONE
                                     outgoingParameters = jsonConcat(outgoingParameters, nextLevelParameters);
                                 } // if
-                                debugfn("getWidMongo", "step5", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                debugfn("getWidMongo step5", "getwidmongo", "get", "step5", debugcolor, debugindent, debugvars([1]));
                                 cbMap(null);
                             },
                             function (err, res) {
@@ -1092,7 +1095,7 @@
                     function step6(cb) {
                         Debug = olddebug;
                         ret = outgoingParameters;
-                        debugfn("getWidMongo", "step6", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getWidMongo step6", "getwidmongo", "get", "step6", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'six');
                     }
                 ],

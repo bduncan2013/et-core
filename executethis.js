@@ -567,7 +567,7 @@
                     'test1': 'Reached test1 code.. executearray function'
                 });
             } else {
-                execute(inboundparms, function (res) {
+                etexecute(inboundparms, function (err,res) {
                     var retResults = res;
                     // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
                     // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));

@@ -675,6 +675,15 @@
         var err;
         var AddedObject = {};
 
+        // proxyprinttodiv('Function addwidmaster()  inputObject ', inputObject);
+        // proxyprinttodiv('Function addwidmaster()  OutParameters : I ', OutParameters);
+        // proxyprinttodiv('Function addwidmaster() Wid : I ', Wid);
+
+        // proxyprinttodiv('Function addwidmaster()  dtotype : dtotype ', dtotype);
+        // proxyprinttodiv('Function addwidmaster ** before ', inputParametersObject, 15);
+        // proxyprinttodiv('Function addwidmaster() convertmethod ', convertmethod, 15);
+        // proxyprinttodiv('Function addwidmaster()  dtotype : dtotype ', dtotype, 15);
+
         function debugvars(varlist) {
             var allvars = 
             {
@@ -708,6 +717,8 @@
         }
 
         var isAddWidPSynchronous = configuration.AddWidParameters.synchronous;
+
+        
         if (isAddWidPSynchronous) {
             AddedObject = AddWidParameters(OutParameters);
         } else {
@@ -717,6 +728,7 @@
 
                 var isSynchronous = configuration.addwidmaster.synchronous;
                 if (!isSynchronous) {
+                    proxyprinttodiv('Function addwidmaster() inputObject : I ', inputObject, 99);
                     debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     callback(ret);
                 }
@@ -943,6 +955,10 @@
             function (err, results) {
                 console.log(JSON.stringify('done all in AddWidParameters, Result is  ' + JSON.stringify(Wid)));
                 ret = {"Wid":Wid};
+
+                proxyprinttodiv('Function AddWidParameters() Wid : I ', Wid, 99);
+                debugfn("AddWidParameters", " final response after steps ", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                    
 
                 var isSynchronous = configuration.AddWidParameters.synchronous;
                 if (!isSynchronous) {

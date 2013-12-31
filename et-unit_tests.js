@@ -1768,10 +1768,12 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 		"wid": "color2",
 		"hue": "blue"
 	}, "", "");
+	//debugcat = 'get';
+	debugname = 'getwidmongo'; //
 	executetest("getwidmaster", {
 		"wid": "color1"
 	}, "get_color1_result", "");
-	
+
 	console.log(' >>>>>> ' + params);
 
 	if (callback instanceof Function) {
@@ -1797,7 +1799,7 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 // 		"wid": "color1",
 // 		"metadata.method": "defaultdto"
 // 	});
-	
+
 // 	console.log(' >>>>>> ' + params);
 
 // 	if (callback instanceof Function) {
@@ -1810,7 +1812,7 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
 exports.ag2 = ag2 = function ag2(params, callback) {
-	debugcat = 'get';
+	//debugcat = 'get';
 	config = setconfig1();
 	testclearstorage();
 	ag2_setup();
@@ -2009,7 +2011,7 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 
 function aggressivedto_emulator(params, callback) {
 
-	aggressivedto(params['x'], "", 10, function (err, res){
+	aggressivedto(params['x'], "", 10, function(err, res) {
 		var myval = res;
 		callback(myval);
 	});
@@ -4564,7 +4566,7 @@ exports.ag15a = ag15a = function ag15a(params, callback) {
 		"3": "string",
 		"executethis": "addwidmaster",
 		"wid": widMasterId,
-		"metadata.method": widMasterId	,
+		"metadata.method": widMasterId,
 		"test1note": "string"
 	}, {
 		"2": "21",
@@ -4599,7 +4601,7 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 		"3": "string",
 		"executethis": "addwidmaster",
 		"wid": widMasterId,
-		"metadata.method": widMasterId	,
+		"metadata.method": widMasterId,
 		"test1note": "string"
 	}, {
 		"2": "21",
@@ -4614,6 +4616,841 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+// using a,b,c we need to run these 4 tests…for a total of 4 x 3 tests:
+// 5x updatewid that calls execute() and is properly nested
+// 5x addwidmaster that calls execute() and is property nested
+// 5x updatewid that calls executearray()
+// 5x addwidmaster that calls executearray()
+
+// We are looking for clues on something big that is happening:
+// 1) does running all in server (server test/ server run) or half (local test - server run) do the same thing?
+// 2) debugfn map difference these 3 methods 
+// 3) extra getwidmaster call: if you do many calls in a row (array) does that still happen
+
+// 5x updatewid that calls execute() and is properly nested
+exports.ag91a = ag91a = function ag91a(params, callback) {
+	//debugcat = 'get';
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+	var widMasterId = Math.random() + "master";
+
+
+	config = setconfig1();
+	testclearstorage();
+
+	execute({
+			"executethis": "updatewid",
+
+			"wid": widId1,
+			"metadata.method": "colordto911",
+			"hue": "string911"
+		},
+		function(res) {
+
+
+			execute({
+					"executethis": "updatewid",
+
+					"wid": widId2,
+					"metadata.method": "colordto912",
+					"hue": "string912"
+				},
+				function(res) {
+
+
+					execute({
+							"executethis": "updatewid",
+
+							"wid": widId3,
+							"metadata.method": "colordto913",
+							"hue": "string91"
+						},
+						function(res) {
+
+							execute({
+									"executethis": "updatewid",
+
+									"wid": widId4,
+									"metadata.method": "colordto914",
+									"hue": "string914"
+								},
+								function(res) {
+
+
+									execute({
+											"executethis": "updatewid",
+
+											"wid": widId5,
+											"metadata.method": "colordto915",
+											"hue": "string915"
+										},
+										function(res) {
+
+
+
+											if (callback instanceof Function) {
+												callback(params);
+											} else {
+												return params;
+											}
+
+
+										});
+
+								});
+
+						});
+
+				});
+
+		});
+
+
+
+}
+
+
+// 5x updatewid that calls execute() and is properly nested
+exports.ag91b = ag91b = function ag91b(params, callback) {
+	//debugcat = 'get';
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+	var widMasterId = Math.random() + "master";
+
+	testclearstorage();
+
+	execute({
+			"executethis": "updatewid",
+
+			"wid": widId1,
+			"metadata.method": "colordto911",
+			"hue": "string911"
+		},
+		function(res) {
+
+
+			execute({
+					"executethis": "updatewid",
+
+					"wid": widId2,
+					"metadata.method": "colordto912",
+					"hue": "string912"
+				},
+				function(res) {
+
+
+					execute({
+							"executethis": "updatewid",
+
+							"wid": widId3,
+							"metadata.method": "colordto913",
+							"hue": "string91"
+						},
+						function(res) {
+
+							execute({
+									"executethis": "updatewid",
+
+									"wid": widId4,
+									"metadata.method": "colordto914",
+									"hue": "string914"
+								},
+								function(res) {
+
+
+									execute({
+											"executethis": "updatewid",
+
+											"wid": widId5,
+											"metadata.method": "colordto915",
+											"hue": "string915"
+										},
+										function(res) {
+
+
+
+											if (callback instanceof Function) {
+												callback(params);
+											} else {
+												return params;
+											}
+
+
+										});
+
+								});
+
+						});
+
+				});
+
+		});
+
+
+
+}
+
+// 5x updatewid that calls execute() and is properly nested
+exports.ag91c = ag91c = function ag91c(params, callback) {
+	//debugcat = 'get';
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+	var widMasterId = Math.random() + "master";
+
+
+	config = setconfig5();
+	testclearstorage();
+
+	execute({
+			"executethis": "updatewid",
+
+			"wid": widId1,
+			"metadata.method": "colordto911",
+			"hue": "string911"
+		},
+		function(res) {
+
+
+			execute({
+					"executethis": "updatewid",
+
+					"wid": widId2,
+					"metadata.method": "colordto912",
+					"hue": "string912"
+				},
+				function(res) {
+
+
+					execute({
+							"executethis": "updatewid",
+
+							"wid": widId3,
+							"metadata.method": "colordto913",
+							"hue": "string91"
+						},
+						function(res) {
+
+							execute({
+									"executethis": "updatewid",
+
+									"wid": widId4,
+									"metadata.method": "colordto914",
+									"hue": "string914"
+								},
+								function(res) {
+
+
+									execute({
+											"executethis": "updatewid",
+
+											"wid": widId5,
+											"metadata.method": "colordto915",
+											"hue": "string915"
+										},
+										function(res) {
+
+
+
+											if (callback instanceof Function) {
+												callback(params);
+											} else {
+												return params;
+											}
+
+
+										});
+
+								});
+
+						});
+
+				});
+
+		});
+
+
+
+}
+
+// 5x addwidmaster that calls execute() and is property nested
+exports.ag92a = ag92a = function ag92a(params, callback) {
+	//debugcat = 'get';
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+	var widMasterId = Math.random() + "master";
+
+
+	config = setconfig1();
+	testclearstorage();
+
+	execute({
+			"executethis": "addwidmaster",
+			"wid": widId1,
+			"metadata.method": "colordto911",
+			"hue": "string911"
+		},
+		function(res) {
+
+
+			execute({
+					"executethis": "addwidmaster",
+					"wid": widId2,
+					"metadata.method": "colordto912",
+					"hue": "string912"
+				},
+				function(res) {
+
+
+					execute({
+							"executethis": "addwidmaster",
+							"wid": widId3,
+							"metadata.method": "colordto913",
+							"hue": "string913"
+						},
+						function(res) {
+
+							execute({
+									"executethis": "addwidmaster",
+									"wid": widId4,
+									"metadata.method": "colordto914",
+									"hue": "string914"
+								},
+								function(res) {
+
+
+									execute({
+											"executethis": "addwidmaster",
+											"wid": widId5,
+											"metadata.method": "colordto915",
+											"hue": "string915"
+										},
+										function(res) {
+
+
+
+											if (callback instanceof Function) {
+												callback(params);
+											} else {
+												return params;
+											}
+
+
+										});
+
+								});
+
+						});
+
+				});
+
+		});
+
+
+
+}
+
+
+
+// 5x addwidmaster that calls execute() and is property nested
+exports.ag92b = ag92b = function ag92b(params, callback) {
+	//debugcat = 'get';
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+	var widMasterId = Math.random() + "master";
+
+
+	testclearstorage();
+
+	execute({
+			"executethis": "addwidmaster",
+			"wid": widId1,
+			"metadata.method": "colordto911",
+			"hue": "string911"
+		},
+		function(res) {
+
+
+			execute({
+					"executethis": "addwidmaster",
+					"wid": widId2,
+					"metadata.method": "colordto912",
+					"hue": "string912"
+				},
+				function(res) {
+
+
+					execute({
+							"executethis": "addwidmaster",
+							"wid": widId3,
+							"metadata.method": "colordto913",
+							"hue": "string913"
+						},
+						function(res) {
+
+							execute({
+									"executethis": "addwidmaster",
+									"wid": widId4,
+									"metadata.method": "colordto914",
+									"hue": "string914"
+								},
+								function(res) {
+
+
+									execute({
+											"executethis": "addwidmaster",
+											"wid": widId5,
+											"metadata.method": "colordto915",
+											"hue": "string915"
+										},
+										function(res) {
+
+
+
+											if (callback instanceof Function) {
+												callback(params);
+											} else {
+												return params;
+											}
+
+
+										});
+
+								});
+
+						});
+
+				});
+
+		});
+
+
+
+}
+
+
+// 5x addwidmaster that calls execute() and is property nested
+exports.ag92c = ag92c = function ag92c(params, callback) {
+	//debugcat = 'get';
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+	var widMasterId = Math.random() + "master";
+
+
+	config = setconfig5();
+	testclearstorage();
+
+	execute({
+			"executethis": "addwidmaster",
+			"wid": widId1,
+			"metadata.method": "colordto911",
+			"hue": "string911"
+		},
+		function(res) {
+
+
+			execute({
+					"executethis": "addwidmaster",
+					"wid": widId2,
+					"metadata.method": "colordto912",
+					"hue": "string912"
+				},
+				function(res) {
+
+
+					execute({
+							"executethis": "addwidmaster",
+							"wid": widId3,
+							"metadata.method": "colordto913",
+							"hue": "string913"
+						},
+						function(res) {
+
+							execute({
+									"executethis": "addwidmaster",
+									"wid": widId4,
+									"metadata.method": "colordto914",
+									"hue": "string914"
+								},
+								function(res) {
+
+
+									execute({
+											"executethis": "addwidmaster",
+											"wid": widId5,
+											"metadata.method": "colordto915",
+											"hue": "string915"
+										},
+										function(res) {
+
+
+
+											if (callback instanceof Function) {
+												callback(params);
+											} else {
+												return params;
+											}
+
+
+										});
+
+								});
+
+						});
+
+				});
+
+		});
+
+
+
+}
+
+
+// 5x updatewid that calls executearray()
+exports.ag93a = ag93a = function ag93a(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+
+	config = setconfig1();
+	testclearstorage();
+
+	executearray([{
+		"executethis": "updatewid",
+		"wid": widId1,
+		"metadata.method": "colordto931",
+		"hue": "string931"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId2,
+		"metadata.method": "colordto932",
+		"hue": "string932"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId3,
+		"metadata.method": "colordto933",
+		"hue": "string933"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId4,
+		"metadata.method": "colordto934",
+		"hue": "string934"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId5,
+		"metadata.method": "colordto935",
+		"hue": "string935"
+	}], function(err, res) {
+
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+// 5x updatewid that calls executearray()
+exports.ag93b = ag93b = function ag93b(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+
+	testclearstorage();
+
+	executearray([{
+		"executethis": "updatewid",
+		"wid": widId1,
+		"metadata.method": "colordto931",
+		"hue": "string931"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId2,
+		"metadata.method": "colordto932",
+		"hue": "string932"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId3,
+		"metadata.method": "colordto933",
+		"hue": "string933"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId4,
+		"metadata.method": "colordto934",
+		"hue": "string934"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId5,
+		"metadata.method": "colordto935",
+		"hue": "string935"
+	}], function(err, res) {
+
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+
+// 5x updatewid that calls executearray()
+exports.ag93c = ag93c = function ag93c(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+
+	config = setconfig5();
+	testclearstorage();
+
+	executearray([{
+		"executethis": "updatewid",
+		"wid": widId1,
+		"metadata.method": "colordto931",
+		"hue": "string931"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId2,
+		"metadata.method": "colordto932",
+		"hue": "string932"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId3,
+		"metadata.method": "colordto933",
+		"hue": "string933"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId4,
+		"metadata.method": "colordto934",
+		"hue": "string934"
+	}, {
+		"executethis": "updatewid",
+		"wid": widId5,
+		"metadata.method": "colordto935",
+		"hue": "string935"
+	}], function(err, res) {
+
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+// 5x addwidmaster that calls executearray()
+exports.ag94a = ag94a = function ag94a(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+
+	config = setconfig1();
+	testclearstorage();
+
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId1,
+		"metadata.method": "colordto941",
+		"hue": "string941"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId2,
+		"metadata.method": "colordto942",
+		"hue": "string942"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId3,
+		"metadata.method": "colordto943",
+		"hue": "string943"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId4,
+		"metadata.method": "colordto944",
+		"hue": "string944"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId5,
+		"metadata.method": "colordto945",
+		"hue": "string945"
+	}], function(err, res) {
+
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+// 5x addwidmaster that calls executearray()
+exports.ag94b = ag94b = function ag94b(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+
+	testclearstorage();
+
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId1,
+		"metadata.method": "colordto941",
+		"hue": "string941"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId2,
+		"metadata.method": "colordto942",
+		"hue": "string942"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId3,
+		"metadata.method": "colordto943",
+		"hue": "string943"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId4,
+		"metadata.method": "colordto944",
+		"hue": "string944"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId5,
+		"metadata.method": "colordto945",
+		"hue": "string945"
+	}], function(err, res) {
+
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+// 5x addwidmaster that calls executearray()
+exports.ag94c = ag94c = function ag94c(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+	var widId3 = Math.random() + "3";
+	var widId4 = Math.random() + "4";
+	var widId5 = Math.random() + "5";
+
+	config = setconfig5();
+	testclearstorage();
+
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId1,
+		"metadata.method": "colordto941",
+		"hue": "string941"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId2,
+		"metadata.method": "colordto942",
+		"hue": "string942"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId3,
+		"metadata.method": "colordto943",
+		"hue": "string943"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId4,
+		"metadata.method": "colordto944",
+		"hue": "string944"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId5,
+		"metadata.method": "colordto945",
+		"hue": "string945"
+	}], function(err, res) {
+
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+		if (callback instanceof Function) {
+			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+// 2x addwidmaster that calls executearray()
+exports.ag95a = ag95a = function ag95a(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+
+	config = setconfig1();
+	testclearstorage();
+
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId1,
+		"metadata.method": "colordto951",
+		"hue": "string951"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId2,
+		"metadata.method": "colordto952",
+		"hue": "string952"
+	}], function(err, res) {
+
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
