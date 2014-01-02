@@ -150,7 +150,7 @@ exports.mt3 = mt3 = function mt3(params, callback) {
 	params = {
 		'test': 'PASS'
 	};
-	callback(params);
+	var err;callback(err, params);
 }
 
 
@@ -226,7 +226,7 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
 	params = {
 		'test': 'PASS'
 	};
-	callback(params)
+	var err;callback(err, params);
 	//	gets really slow it down
 }
 
@@ -334,7 +334,7 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
 	params = {
 		'test': 'PASS'
 	};
-	callback(params)
+	var err;callback(err, params);
 	//	gets really slow it down
 }
 
@@ -461,7 +461,7 @@ exports.dtoadd = dtoadd = function dtoadd(params, callback) { //widviewer
 	params = {
 		'test': 'PASS'
 	};
-	callback(params)
+	var err;callback(err, params);
 	//	gets really slow it down
 }
 
@@ -822,7 +822,7 @@ exports.wv = wv = function wv(params, callback) { //widviewer
 	params = {
 		'test': 'PASS'
 	};
-	callback(params)
+	var err;callback(err, params);
 }
 
 // 	testclearstorage();	
@@ -998,7 +998,7 @@ exports.ca1 = ca1 = function ca1(params, callback) {
 	executeobject["wid"] = "roger";
 	resultobject = executethis(executeobject, getwidmaster);
 	proxyprinttodiv("end", resultobject, 99);
-	callback(params);
+	var err;callback(err, params);
 }
 
 
@@ -1040,7 +1040,7 @@ exports.async_func_bbb = async_func_bbb = function async_func_bbb(parameters, ca
 	sleep(100000);
 	proxyprinttodiv('in synch parameters', parameters, 99);
 	proxyprinttodiv('in synch callback', String(callback), 99);
-	callback(parameters);
+	var err;callback(err, parameters);;
 }
 
 exports.w3 = w3 = function w3() {

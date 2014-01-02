@@ -578,7 +578,7 @@
         var resultlist = [];
         async.mapSeries(paramsArr, function(inboundparms, cbMap) {
             // each iteration 
-            alert(' >>> ' + paramsArr);
+            //alert(' >>> ' + paramsArr);
             if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
                 cbMap(null, {
                     'test1': 'Reached test1 code.. executearray function'
@@ -591,10 +591,9 @@
                     cbMap(err, retResults);
                 });
             }
-            cbMap(null);
         }, function(err, res) {
             // end of all the execution that was meant to be
-            console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
+            console.log('>>>> retResults final  >>>> ' + JSON.stringify(resultlist));
             callback(err, resultlist);
         });
     }

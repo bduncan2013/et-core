@@ -98,7 +98,7 @@ function executeAjax(allConfig,executeItem,callback,returnCallback) {
 
 // Primary execute function called after doThis
 function test2(params, callback){
-    callback({"test":"test2 on local called"});
+    callback(undefined,{"test":"test2 on local called"});
 }
 
 

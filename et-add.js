@@ -732,7 +732,7 @@
                 if (!isSynchronous) {
                     proxyprinttodiv('Function addwidmaster() AddedObject >>>  : I ', AddedObject, 99);
                     debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    callback(ret);
+                    callback(err, ret);
                 }
             });
         }
