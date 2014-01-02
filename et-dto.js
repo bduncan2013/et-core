@@ -1,52 +1,53 @@
 exports.sysdto = sysdto = function sysdto(params, callback) {
 
     // create systemdto
-    executetest("addwidmaster", {
-        "metadata.method": "systemdto",
-        "wid": "systemdto",
-        "creator": "accounttype",
-        "created": "datetime",
-        "expiration": "datetime",
-        "category": "string",
-        "subcategory": "string",
-        "securitydto": "onetomany",
-        "syncdto": "onetomany",
-        "statusdto": "onetomany",
-        "balancedto": "onetomany"
-    }, "", "");
+    executearray([{
+        "executetis":"addwidmaster",
+        "metadata.method":"systemdto",
+        "wid":"systemdto",
+        "creator":"accounttype",
+        "created":"datetime",
+        "expiration":"datetime",
+        "category":"string",
+        "subcategory":"string",
+        "securitydto":"onetomany",
+        "syncdto":"onetomany",
+        "statusdto":"onetomany",
+        "balancedto":"onetomany"
+    },{
 
     // create relationships
-    executetest("addwidmaster", {
-        "wid": "relationshipdto1",
-        "metadata.method": "relationshipdto",
-        "primarywid": "systemdto",
-        "secondarywid": "securitydto"
-    }, "", "");
-    executetest("addwidmaster", {
-        "wid": "relationshipdto2",
-        "metadata.method": "relationshipdto",
-        "primarywid": "systemdto",
-        "secondarywid": "syncdto"
-    }, "", "");
-    executetest("addwidmaster", {
-        "wid": "relationshipdto3",
-        "metadata.method": "relationshipdto",
-        "primarywid": "systemdto",
-        "secondarywid": "statusdto"
-    }, "", "");
-    executetest("addwidmaster", {
-        "wid": "relationshipdto4",
-        "metadata.method": "relationshipdto",
-        "primarywid": "systemdto",
-        "secondarywid": "balancedto"
-    }, "", "");
+        "executethis":"addwidmaster",
+        "wid":"relationshipdto1",
+        "metadata.method":"relationshipdto",
+        "primarywid":"systemdto",
+        "secondarywid":"securitydto"
+    },{
+        "executethis":"addwidmaster",
+        "wid":"relationshipdto2",
+        "metadata.method":"relationshipdto",
+        "primarywid":"systemdto",
+        "secondarywid":"syncdto"
+    },{
+        "executethis":"addwidmaster",
+        "wid":"relationshipdto3",
+        "metadata.method":"relationshipdto",
+        "primarywid":"systemdto",
+        "secondarywid":"statusdto"
+    },{
+        "executethis":"addwidmaster",
+        "wid":"relationshipdto4",
+        "metadata.method":"relationshipdto",
+        "primarywid":"systemdto",
+        "secondarywid":"balancedto"
+    }]
 
 }
 
 exports.initdto = initdto = function initdto(params, callback) {
 
     // create groupdto
-    executetest("addwidmaster", {
+    executearray("addwidmaster", {
         "metadata.method": "groupdto",
         "wid": "groupdto",
         "category": "categorytype",
@@ -55,7 +56,7 @@ exports.initdto = initdto = function initdto(params, callback) {
     }, "", "");
 
     // create securitydto
-    executetest("addwidmaster", {
+    executearray("addwidmaster", {
         "metadata.method": "securitydto",
         "wid": "securitydto",
         "securitytype": "actiontype",
@@ -64,7 +65,7 @@ exports.initdto = initdto = function initdto(params, callback) {
     }, "", "");
 
     // create syncdto
-    executetest("addwidmaster", {
+    executearray("addwidmaster", {
         "metadata.method": "syncdto",
         "wid": "syncdto",
         "expiration": "datetime",
@@ -74,7 +75,7 @@ exports.initdto = initdto = function initdto(params, callback) {
     }, "", "");
 
     // create statusdto
-    executetest("addwidmaster", {
+    executearray("addwidmaster", {
         "metadata.method": "statusdto",
         "wid": "statusdto",
         "accesstoken": "string",
@@ -83,7 +84,7 @@ exports.initdto = initdto = function initdto(params, callback) {
     }, "", "");
 
     // create balancedto
-    executetest("addwidmaster", {
+    executearray("addwidmaster", {
         "metadata.method": "balancedto",
         "wid": "balancedto",
         "widname": "wid",
@@ -94,22 +95,30 @@ exports.initdto = initdto = function initdto(params, callback) {
 exports.testdto = testdto = function testdto(params, callback) {
 
     //add systemdto data
-    executetest("addwidmaster", {
-        "wid": "roger",
+    executearray([{
+        "executethis":"addwidmaster",
         "metadata.method": "systemdto",
         "wid": "testxxx",
         "creator": "internal",
         "created": "01022014",
         "expiration": "01032014",
         "category": "testing",
-        "subcategory": "testingxxx",
-    }, "", "");
+        "subcategory": "testingxxx"
+    }],
+    function (err, res) {
+      res = logverify("unit_tests", "testdto_result", "", res[0], "",{
+        "creator": "internal",
+        "created": "01022014",
+        "expiration": "01032014",
+        "category": "testing",
+        "subcategory": "testingxxx"
+     });
 
     if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
-
+        callback(err, res);
+        } else {
+            return res;
+        }
+    });
 }
+
