@@ -105,5 +105,11 @@ exports.testdto = testdto = function testdto(params, callback) {
         "subcategory": "testingxxx",
     }, "", "");
 
+    if (callback instanceof Function) {
+		var err;
+		callback(err, params);
+	} else {
+		return params;
+	}
 
 }
