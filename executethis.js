@@ -14,10 +14,10 @@
 
     var execute, executethis, etexecute;
 
-    exports.etexecute = window.etexecute = etexecute = function etexecute(params, callback) {
+    exports.etexecute = window.etexecute = etexecute = function etexecute(received_params, callback) {
 
-        // var params = {};
-        // extend(true, params, received_params); // clone received params
+        var params = {};
+        extend(true, params, received_params); // clone received params
 
         params = toLowerKeys(params);
         execute(params, function (err, results) {
@@ -26,10 +26,10 @@
     }
 
 
-    exports.execute = window.execute = execute = function execute(incomingparams, callback) {
+    exports.execute = window.execute = execute = function execute(received_params, callback) {
 
-        // var incomingparams = {};
-        // extend(true, incomingparams, received_params); // clone received params
+        var incomingparams = {};
+        extend(true, incomingparams, received_params); // clone received params
 
         incomingparams = toLowerKeys(incomingparams);
 
@@ -575,7 +575,7 @@
     // takes in an array of inbound parameters(for different requests)
     // 
     exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
-        // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
+        console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
         var resultlist = [];
         async.mapSeries(paramsArr, function (inboundparms, cbMap) {
             // each iteration 
@@ -590,7 +590,7 @@
                     resultlist.push(retResults);
                     // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
                     // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
-                    cbMap(err, retResults);
+                    cbMap(null);
                 });
             }
         }, function (err, res) {
@@ -599,5 +599,29 @@
             callback(err, resultlist);
         });
     }
+
+    // exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
+    //     // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
+    //     async.mapSeries(paramsArr, function (inboundparms, cbMap) {
+    //         // each iteration 
+    //         if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
+    //             cbMap(null, {
+    //                 'test1': 'Reached test1 code.. executearray function'
+    //             });
+    //         } else {
+    //             etexecute(inboundparms, function (err,res) {
+    //                 var retResults = res;
+    //                 // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
+    //                 // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
+    //                 cbMap(null, retResults);
+    //             });
+    //         }
+    //     }, function (err, res) {
+    //         // end of all the execution that was meant to be
+    //         console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
+    //         console.log('asynchronously finished executing executearray.');
+    //         callback(err, res);
+    //     });
+    // }
 
 })(typeof window == "undefined" ? global : window);
