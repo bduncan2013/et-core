@@ -9,7 +9,7 @@
 // config dofn
 // 
 
-(function (window) {
+(function(window) {
     // 'use strict';
 
     var execute, executethis, etexecute;
@@ -19,7 +19,7 @@
             var err = {};
             callback(err, results);
         });
-    }
+    };
 
 
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
@@ -50,27 +50,27 @@
                 } else {
                     result = incomingparams;
                 }
-                callback(result);
+                var err;callback(err, result);
             } else {
 
                 incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
-                console.log('starting preexecute ' + incomingparams);
-                doThis(incomingparams, 'preexecute', function (preResults) {
+                console.log('starting preexecute ' + nonCircularStringify(incomingparams));
+                doThis(incomingparams, 'preexecute', function(preResults) {
 
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
-                    console.log('starting midexecute ' + preResults);
+                    console.log('starting midexecute ' + nonCircularStringify(preResults));
                     if (!preResults) {
                         preResults = {};
                     } // 
-                    doThis(preResults, 'midexecute', function (midResults) {
+                    doThis(preResults, 'midexecute', function(midResults) {
 
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                         if (!midResults) {
                             midResults = {};
                         }
 
-                        doThis(midResults, 'postexecute', function (postResults) {
+                        doThis(midResults, 'postexecute', function(postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
 
                             if (!postResults) {
@@ -89,70 +89,71 @@
     /// 1st argument -- input parameters, 2nd parameter -- callback function
     /// second parameter must be a function, if not sent in will be defaulted to 'execute'
     /// if the function to be called has only one input object then this fn will wait for results (act asynch)
-    // exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
+    exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
 
-    //     // if test1 ***
-    //     // if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
-    //     //     return {
-    //     //         'test1': 'Reached test1 code.. executethis function'
-    //     //     };
-    //     // } else {
-    //     //     //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
-    //     //     if (!targetfunction || !targetfunction instanceof Function) {
-    //     //         targetfunction = execute;
-    //     //     }
+        // if test1 ***
+        if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
+            return {
+                'test1': 'Reached test1 code.. executethis function'
+            };
+        } else {
+            //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
+            if (!targetfunction || !targetfunction instanceof Function) {
+                targetfunction = execute;
+            }
 
-    //     //     var params;
-    //     //     var tempParams = toLowerKeys(inboundparms)
-    //     //     var argCount = 0
+            var params;
+            var tempParams = toLowerKeys(inboundparms);
+            var argCount = 0;
 
-    //     //     // cloning inbound params
-    //     //     params = extend(params, tempParams);
+            // cloning inbound params
+            params = extend(true, params, tempParams);
 
-    //     //     proxyprinttodiv('Function executethis params', params, 11);
-    //     //     proxyprinttodiv('Function executethis fn', targetfunction.name, 11);
-    //     //     proxyprinttodiv('Function executethis length', targetfunction.length, 11);
-    //     //     console.log('targetfunction length => ' + targetfunction.length);
-    //     //     if (targetfunction.length !== undefined) {
-    //     //         argCount = targetfunction.length;
-    //     //     }
+            proxyprinttodiv('Function executethis params', params, 11);
+            proxyprinttodiv('Function executethis fn', targetfunction.name, 11);
+            proxyprinttodiv('Function executethis length', targetfunction.length, 11);
+            //        console.log('targetfunction length => ' + targetfunction.length);  // cluttering up the console.
+            if (targetfunction.length !== undefined) {
+                argCount = targetfunction.length;
+            }
 
-    //     //     if (argCount == 1) {
-    //     //         return targetfunction(params); // if targetfn has only one parameter then fn is synchronous
-    //     //     } else if (argCount > 1) {
-    //     //         var retResult = undefined,
-    //     //             funcDone = false,
-    //     //             funcCalled = false,
-    //     //             count = 0;
+            if (argCount == 1) {
+                return targetfunction(params); // if targetfn has only one parameter then fn is synchronous
+            } else if (argCount > 1) {
+                var retResult = undefined,
+                    funcDone = false,
+                    funcCalled = false,
+                    count = 0;
 
-    //     //         var cbfunction = function(results, results2) {
-    //     //             funcDone = true;
-    //     //             if (results2) {
-    //     //                 retResult = results2
-    //     //             } else {
-    //     //                 retResult = results
-    //     //             };
-    //     //         }
+                var cbfunction = function(results, results2) {
+                    funcDone = true;
+                    if (results2) {
+                        retResult = results2;
+                    } else {
+                        retResult = results;
+                    }
+                };
 
-    //     //         while (!funcDone) {
-    //     //             if (!funcCalled) {
-    //     //                 funcCalled = true;
-    //     //                 targetfunction(params, cbfunction);
-    //     //             }
-    //     //             count++
-    //     //             if (count > 100) {
-    //     //                 funcDone = true
-    //     //             }
-    //     //         }
+                async.series([
 
-    //     //         if (retResult === undefined) {
-    //     //             retResult = {};
-    //     //         }
-    //     //         // if (retResult["etstatus"]=="empty") {retResult={}}
-    //     //         return retResult;
-    //     //     }
-    //     // }
-    // };
+                    function step1(cb) {
+                        targetfunction(params, function(err, results) {
+                            retResult = results;
+                            cb(null, "step1");
+                        });
+                    },
+                    function(err, res) {
+                        if (retResult === undefined) {
+                            retResult = {};
+                        }
+                        // if (retResult["etstatus"]=="empty") {retResult={}}
+                        return retResult;
+                    }
+                ]);
+            }
+        }
+
+    };
 
     function doThis(params, target, callback) {
         var whatToDoList,
@@ -187,12 +188,12 @@
                 delete params[targetfunction]; // ** added by Roger
 
                 var tempHowToDoList = CreateDoList(params, target, targetfunction); // generate list based on pre, mid, post
-                howToDoList = extend(howToDoList, tempHowToDoList);
+                howToDoList = extend(true, howToDoList, tempHowToDoList);
 
                 proxyprinttodiv("dothis - howToDoList ", howToDoList, 11);
 
                 var tempWhatToDoList = CreateDoList(params, targetname, targetfunction); // generate list based on fn name
-                whatToDoList = extend(whatToDoList, tempWhatToDoList);
+                whatToDoList = extend(true, whatToDoList, tempWhatToDoList);
 
                 proxyprinttodiv("dothis - whatToDoList ", whatToDoList, 11);
                 executelist(howToDoList, whatToDoList, callback); // execute list
@@ -209,20 +210,20 @@
     function CreateDoList(params, configtarget, configfn) {
 
         if ((params === undefined) || (params === "")) {
-            params = {}
-        };
+            params = {};
+        }
         if ((configtarget === undefined) || (configtarget === "")) {
-            configtarget = "executeerror"
-        };
+            configtarget = "executeerror";
+        }
         if ((configfn === undefined) || (configfn === "")) {
-            configfn = ""
-        };
+            configfn = "";
+        }
 
         // get saved configuration
         var tempConfig0 = toLowerKeys(config.configuration); // config0 is working copy of current configuration
 
-        // cloning config
-        var config0 = extend(config0, tempConfig0);
+        // deep cloning config
+        var config0 = extend(true, config0, tempConfig0); // true is used to specify a deep clone
 
         // If there is no config object for current target make one
         if (typeof config0[configtarget] !== 'object') {
@@ -286,7 +287,7 @@
 
         var list = config0[configtarget];
         if (list != undefined && list.length > 1) {
-            list = list.sort(function (a, b) {
+            list = list.sort(function(a, b) {
                 if (a.executeorder > b.executeorder)
                     return 1;
                 else if (a.executeorder < b.executeorder)
@@ -391,8 +392,8 @@
             howToDo = howToDoList[h]['dothis']; // get specific howToDo from list
             howToDoParams = howToDoList[h]['params']; // get params that were stored
             if ((howToDoParams === undefined) || (howToDoParams === "")) {
-                howToDoParams = {}
-            };
+                howToDoParams = {};
+            }
             proxyprinttodiv("executelist Hparams ", howToDoParams, 11);
             proxyprinttodiv("executelist howToDo ", howToDo, 11);
 
@@ -401,8 +402,8 @@
                 whatToDoFn = whatToDoList[w]['dofn'];
                 whatToDoParams = whatToDoList[w]['params'];
                 if ((whatToDoParams === undefined) || (whatToDoParams === "")) {
-                    whatToDoParams = {}
-                };
+                    whatToDoParams = {};
+                }
                 // if((params !== undefined) && (whatToDoList !== undefined)) {
                 //     params = jsonConcat(params, whatToDoList[w]['params']); // concatenate with other pararms
                 // } 
@@ -415,12 +416,12 @@
                 executeobject = getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn); // get status of that fn
                 proxyprinttodiv("executelist executeobject ", executeobject, 11);
                 if (executeobject) {
-                    break
-                }; // if fnparams sent back (fn found) then end
+                    break;
+                } // if fnparams sent back (fn found) then end
             } // for w
             if (executeobject) {
-                break
-            };
+                break;
+            }
         } // for h
 
         if (typeof executeobject === 'object' && Object.keys(executeobject).length != 0) { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
@@ -459,7 +460,7 @@
                         // we want to return undefined here so we try the next case
                         targetfn = undefined;
                         break;
-                    };
+                    }
                     break;
 
                 case "executeParam":
@@ -485,8 +486,8 @@
                     if ((tempobject === undefined) && (!tempobject['js'])) {
                         targetfn = executeerror
                     } else {
-                        targetfn = tempobject['js']
-                    };
+                        targetfn = tempobject['js'];
+                    }
                     break;
 
                 case "server":
@@ -525,7 +526,7 @@
                     whatToDo: whatToDo,
                     params: params,
                     synchflag: synchflag
-                }
+                };
             } else {
                 return undefined
             }
@@ -539,12 +540,12 @@
         callback({
             "etstatus": "executeerror"
         });
-    }
+    };
 
     function nonCircularStringify(obj) {
         var cache = [];
 
-        return JSON.stringify(obj, function (key, value) {
+        return JSON.stringify(obj, function(key, value) {
             if (typeof value === 'object' && value !== null) {
                 if (cache.indexOf(value) !== -1) {
                     //found circular reference, discard key
@@ -555,7 +556,9 @@
             return value;
         });
     }
-    // takes in an array of inbound parameters(for different requests)
+
+    
+     // takes in an array of inbound parameters(for different requests)
     // 
     exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
         // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
@@ -566,7 +569,7 @@
                     'test1': 'Reached test1 code.. executearray function'
                 });
             } else {
-                execute(inboundparms, function (res) {
+                etexecute(inboundparms, function (err,res) {
                     var retResults = res;
                     // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
                     // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
@@ -580,5 +583,8 @@
             callback(res);
         });
     }
+    
+
+    
 
 })(typeof window == "undefined" ? global : window);

@@ -10,7 +10,7 @@ exports.at = at = function at(params, callback) {
 	result = jsonConcat(result, agtt());
 
 	if (callback instanceof Function) {
-		callback(result);
+		var err;callback(err, result);
 	} else {
 		return result;
 	}
@@ -177,7 +177,8 @@ exports.rt1 = rt1 = function rt1(params, callback) {
 	params = logverify("readstartwid", "resultwid17", "startwid_toparray", "", "", {});
 	return verifysummary("test_results");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -199,7 +200,7 @@ exports.tt = tt = function tt(params, callback) {
 	t6();
 	var x = test_results;
 	if (callback instanceof Function) {
-		callback(x);
+		var err;callback(err, x);
 	} else {
 		return x;
 	}
@@ -218,7 +219,7 @@ exports.astt = astt = function astt(params, callback) {
 	ast6();
 	var x = test_results;
 	if (callback instanceof Function) {
-		callback(x);
+		var err;callback(err, x);
 	} else {
 		return x;
 	}
@@ -251,7 +252,7 @@ exports.ctt = ctt = function ctt(params, callback) {
 	ct20();
 	var x = test_results;
 	if (callback instanceof Function) {
-		callback(x);
+		var err;callback(err, x);
 	} else {
 		return x;
 	}
@@ -265,7 +266,7 @@ exports.agtt = agtt = function agtt(params, callback) {
 
 	var x = test_results;
 	if (callback instanceof Function) {
-		callback(x);
+		var err;callback(err, x);
 	} else {
 		return x;
 	}
@@ -283,7 +284,7 @@ exports.alphatt = alphatt = function alphatt(params, callback) {
 	teste();
 	var x = test_results;
 	if (callback instanceof Function) {
-		callback(x);
+		var err;callback(err, x);
 	} else {
 		return x;
 	}
@@ -297,7 +298,7 @@ exports.xtt = xtt = function xtt(params, callback) {
 	test99();
 	var x = verifysummary("test_results");
 	if (callback instanceof Function) {
-		callback(x);
+		var err;callback(err, x);
 	} else {
 		return x;
 	}
@@ -317,7 +318,8 @@ exports.test99 = test99 = function test99(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -343,7 +345,8 @@ exports.t1 = t1 = function t1(params, callback) {
 	});
 	// params = logverify("unit_tests","t1_result","t1_output","","",{"d":"1","c":"0","g":"4"});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -364,7 +367,8 @@ exports.tfail = tfail = function tfail(params, callback) {
 		"g": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -389,7 +393,8 @@ exports.t2 = t2 = function t2(params, callback) {
 	});
 	// params = logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -411,7 +416,8 @@ exports.t3 = t3 = function t3(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -433,7 +439,8 @@ exports.t3a = t3a = function t3a(params, callback) {
 		"f": "3"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -455,7 +462,8 @@ exports.t4 = t4 = function t4(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -477,7 +485,8 @@ exports.t4a = t4a = function t4a(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -500,7 +509,8 @@ exports.t5 = t5 = function t5(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -523,7 +533,8 @@ exports.t6 = t6 = function t6(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -544,7 +555,8 @@ exports.t7 = t7 = function t7(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -564,7 +576,8 @@ exports.t8 = t8 = function t8(params, callback) {
 		"animal": "giraffe"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -584,7 +597,8 @@ exports.t9 = t9 = function t9(params, callback) {
 		"animal": "giraffe"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -609,7 +623,8 @@ exports.ast1 = ast1 = function ast1(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -632,7 +647,8 @@ exports.ast2 = ast2 = function ast2(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -654,7 +670,8 @@ exports.ast3 = ast3 = function ast3(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -676,7 +693,8 @@ exports.ast3a = ast3a = function ast3a(params, callback) {
 		"f": "3"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -698,7 +716,8 @@ exports.ast4 = ast4 = function ast4(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -720,7 +739,8 @@ exports.ast4a = ast4a = function ast4a(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -743,7 +763,8 @@ exports.ast5 = ast5 = function ast5(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -766,7 +787,8 @@ exports.ast6 = ast6 = function ast6(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -786,7 +808,8 @@ exports.ast7 = ast7 = function ast7(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -813,7 +836,8 @@ exports.ast8 = ast8 = function ast8(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -837,7 +861,8 @@ exports.ct1 = ct1 = function ct1(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -860,7 +885,8 @@ exports.ct2 = ct2 = function ct2(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -882,7 +908,8 @@ exports.ct3 = ct3 = function ct3(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -904,7 +931,8 @@ exports.ct3a = ct3a = function ct3a(params, callback) {
 		"f": "3"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -926,7 +954,8 @@ exports.ct4 = ct4 = function ct4(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -948,7 +977,8 @@ exports.ct4a = ct4a = function ct4a(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -971,7 +1001,8 @@ exports.ct5 = ct5 = function ct5(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -997,7 +1028,8 @@ exports.ct6 = ct6 = function ct6(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1037,7 +1069,8 @@ exports.ct7 = ct7 = function ct7(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1074,7 +1107,8 @@ exports.ct7a = ct7a = function ct7a(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1098,7 +1132,8 @@ exports.ct8 = ct8 = function ct8(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1122,7 +1157,8 @@ exports.ct9 = ct9 = function ct9(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1139,7 +1175,8 @@ exports.ct9a = ct9a = function ct9a(params, callback) {
 		"data": "Keg of Beer"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1166,7 +1203,8 @@ exports.ct10 = ct10 = function ct10(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1196,7 +1234,8 @@ exports.ct11 = ct11 = function ct11(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1241,7 +1280,8 @@ exports.ct12 = ct12 = function ct12(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1268,7 +1308,8 @@ exports.ct13 = ct13 = function ct13(params, callback) {
 		"cer2": "booberry"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1296,7 +1337,8 @@ exports.ct14 = ct14 = function ct14(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1323,7 +1365,8 @@ exports.ct15 = ct15 = function ct15(params, callback) {
 		"cer2": "booberry"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1354,7 +1397,8 @@ exports.ct16 = ct16 = function ct16(params, callback) {
 		}
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1377,7 +1421,8 @@ exports.ct17 = ct17 = function ct17(params, callback) {
 		"exdef": "executeDefault was grabbed"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1402,7 +1447,8 @@ exports.ct18 = ct18 = function ct18(params, callback) {
 	});
 	// params = logverify("c_unit_tests","ct18_result","ct18_output","","", {"f":"3","c":"0","g":"4","myexfnparam":"hereismyfnparam" });
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1458,7 +1504,8 @@ exports.ct19 = ct19 = function ct19(params, callback) {
 		"charlie": "1"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1483,7 +1530,8 @@ exports.ct20 = ct20 = function ct20(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1508,7 +1556,8 @@ exports.ct1000 = ct1000 = function ct1000(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1538,7 +1587,8 @@ exports.cict1 = cict1 = function cict1(params, callback) {
 		}
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1553,7 +1603,8 @@ exports.cic_output = cic_output = function cic_output(params) {
 exports.other_func = other_func = function other_func(params, callback) {
 	params['howtodooverride'] = 'you got your hottodooverwritten';
 	window[params['executethis']](params, callback);
-	callback(params);
+	var err;
+	callback(err, params);
 }
 
 exports.alertFn1 = alertFn1 = function alertFn1(params, callback) {
@@ -1561,7 +1612,8 @@ exports.alertFn1 = alertFn1 = function alertFn1(params, callback) {
 	params["ct7"] = "did some alerting";
 	// delete params["configuration"];
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1582,7 +1634,8 @@ exports.ft1 = ft1 = function ft1(params, callback) {
 		"g": "4"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1627,21 +1680,21 @@ exports.async_func_a = async_func_a = function async_func_a(parameters, callback
 	delete parameters["d"];
 	parameters["f"] = "3";
 	//sleep(500);
-	callback(parameters);
+	var err;callback(err, parameters);
 }
 
 exports.async_func_b = async_func_b = function async_func_b(parameters, callback) {
 	delete parameters["e"];
 	parameters["g"] = "4";
 	sleep(500);
-	callback(parameters);
+	var err;callback(err, parameters);
 }
 
 exports.async_func_c = async_func_c = function async_func_c(parameters, callback) {
 	delete parameters["c"];
 	parameters["h"] = "5";
 	//sleep(500);
-	callback(parameters);
+	var err;callback(err, parameters);
 }
 
 exports.async_func_d = async_func_d = function async_func_d(parameters, callback) {
@@ -1652,7 +1705,7 @@ exports.async_func_d = async_func_d = function async_func_d(parameters, callback
 	if (parameters["d"] == t) parameters["d"] = t + ":added";
 	delete parameters["e"];
 	parameters["h"] = "5";
-	callback(parameters);
+	var err;callback(err, parameters);
 }
 
 exports.async_func_e = async_func_e = function async_func_e(parameters) {
@@ -1677,7 +1730,7 @@ exports.async_func_e1 = async_func_e1 = function async_func_e1(parameters, callb
 	// alert('func_e1');
 	parameters['executethis'] = 'async_func_f';
 	parameters = executethis(parameters, execute);
-	callback(parameters);
+	var err;callback(err, parameters);
 	// return parameters;
 }
 
@@ -1687,7 +1740,7 @@ exports.async_func_f = async_func_f = function async_func_f(parameters, callback
 	parameters["rubies"] = "red";
 	parameters['executethis'] = async_func_g;
 	parameters = executethis(parameters, execute);
-	callback(parameters);
+	var err;callback(err, parameters);
 	// return parameters;
 }
 
@@ -1697,7 +1750,7 @@ exports.async_func_g = async_func_g = function async_func_g(parameters, callback
 	parameters["emeralds"] = "green";
 	parameters['executethis'] = async_func_h;
 	parameters = executethis(parameters, execute);
-	callback(parameters);
+	var err;callback(err, parameters);
 	// return parameters;
 }
 
@@ -1706,7 +1759,7 @@ exports.async_func_h = async_func_h = function async_func_h(parameters, callback
 	// alert('diamonds');
 	parameters["diamonds"] = "you are rich!!";
 	console.log('Struck diamonds -- five levels deep in executethis');
-	callback(parameters);
+	var err;callback(err, parameters);
 	// return parameters;
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -1729,7 +1782,8 @@ exports.ag1_setup = ag1_setup = function ag1_setup(params, callback) {
 	console.log(' >>>>>> ' + params);
 
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1746,7 +1800,8 @@ exports.ag1 = ag1 = function ag1(params, callback) {
 		"metadata.method": "sounddto"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1777,7 +1832,8 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 	console.log(' >>>>>> ' + params);
 
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1803,7 +1859,7 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 // 	console.log(' >>>>>> ' + params);
 
 // 	if (callback instanceof Function) {
-// 		callback(params);
+// 		var err;callback(err,params);
 // 	} else {
 // 		return params;
 // 	}
@@ -1822,7 +1878,8 @@ exports.ag2 = ag2 = function ag2(params, callback) {
 		"metadata.method": "defaultdto"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1860,7 +1917,8 @@ exports.ag3_setup = ag3_setup = function ag3_setup(params, callback) {
 		"wid": "song1"
 	}, "get_song1_result", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1885,7 +1943,8 @@ exports.ag3 = ag3 = function ag3(params, callback) {
 		"sounddto.2.metadata.method": "sounddto"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1934,7 +1993,8 @@ exports.ag4_setup = ag4_setup = function ag4_setup(params, callback) {
 		"wid": "song1"
 	}, "get_song1_result", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -1966,7 +2026,8 @@ exports.ag4 = ag4 = function ag4(params, callback) {
 		"sounddto.measuredto.metadata.method": "measuredto"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2003,7 +2064,8 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 	}, "", "");
 
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2026,7 +2088,8 @@ exports.ag5 = ag5 = function ag5(params, callback) {
 	}, "aggressive_result", "");
 	params = logverify("alpha_unit_tests", "ag5_result", "aggressive_result", "", "", {});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2067,7 +2130,8 @@ exports.qq1_setup = qq1_setup = function qq1_setup(params, callback) {
 
 	// executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2090,7 +2154,8 @@ exports.qq1 = qq1 = function qq1(params, callback) {
 	executetest('executethis', executeobject, 'qq1_result', '');
 	params = logverify("query_tests", "qq1_result", "qq1_result", "", "", {});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2107,7 +2172,8 @@ exports.getwidtest = getwidtest = function getwidtest(params, callback) {
 		wid: 'test1'
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2120,7 +2186,8 @@ exports.updatewidtest = updatewidtest = function updatewidtest(params, callback)
 		something: 'else'
 	}, '', '');
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2136,7 +2203,8 @@ exports.jasontesta = jasontesta = function jasontesta(params, callback) {
 		wid: 'jasontestwid'
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2153,7 +2221,8 @@ exports.jasontestb = jasontestb = function jasontestb(params, callback) {
 		wid: 'jasontestwid5'
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2184,7 +2253,8 @@ exports.testa = testa = function testa(params, callback) {
 	// executetest("getwidmaster", {"wid":"color1"}, "", "");	
 	//		params = logverify("this_test","test_result","actual","","",aalStorage("assertion"));
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2200,7 +2270,8 @@ exports.testb_setup = testb_setup = function testb_setup(params, callback) {
 		"wid": "sounddto"
 	}, "get_sounddto_result", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2213,7 +2284,8 @@ exports.testc_setup = testc_setup = function testc_setup(params, callback) {
 		"hue": "red"
 	}, "", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2234,7 +2306,8 @@ exports.testd_setup = testd_setup = function testd_setup(params, callback) {
 		"hue": "blue"
 	}, "", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2258,7 +2331,8 @@ exports.teste_setup = teste_setup = function teste_setup(params, callback) {
 		"wid": "color1"
 	}, "get_color1_result", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2270,7 +2344,8 @@ exports.testg_setup = testg_setup = function testg_setup(params, callback) {
 		"name": "roger"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2286,7 +2361,8 @@ exports.testh_setup = testh_setup = function testh_setup(params, callback) {
 		"wid": "defaultforauthor"
 	}, "get_color1_result", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2303,7 +2379,8 @@ exports.testi_setup = testi_setup = function testi_setup(params, callback) {
 
 	// executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2326,7 +2403,8 @@ exports.testb = testb = function testb(params, callback) {
 		"metadata.method": "sounddto"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2347,7 +2425,8 @@ exports.testc = testc = function testc(params, callback) {
 		"metadata.method": "sounddto"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2364,7 +2443,8 @@ exports.teste = teste = function teste(params, callback) {
 		"metadata.method": "defaultdto"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2387,7 +2467,8 @@ exports.testf = testf = function testf(params, callback) {
 		"metadata.method": "defaultdto"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2424,7 +2505,8 @@ exports.testf = testf = function testf(params, callback) {
 	});
 	// params = logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2456,7 +2538,8 @@ exports.testf_fail = testf_fail = function testf_fail(params, callback) {
 	});
 	// params = logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2479,7 +2562,8 @@ exports.testg = testg = function testg(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2502,7 +2586,8 @@ exports.testh = testh = function testh() {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 		getwidmaster
 	} else {
 		return params;
@@ -2526,7 +2611,8 @@ exports.testi = testi = function testi(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2551,7 +2637,8 @@ exports.testj = testj = function testj(params, callback) {
 	});
 
 	if (callback instanceof Function) {
-		callback(params);
+		var err;
+		callback(err, params);
 	} else {
 		return params;
 	}
@@ -2630,7 +2717,7 @@ exports.func_f = func_f = function func_f(parameters, callback) {
 	delete parameters["d"];
 	parameters["l"] = "you hijacked preexecute...cool";
 	printToDiv('func_f', parameters, 1);
-	callback(parameters);
+	var err;callback(err, parameters);
 }
 
 exports.func_g = func_g = function func_g(parameters, callback) {
@@ -2646,7 +2733,7 @@ exports.func_h = func_h = function func_h(parameters, callback) {
 	sleep(1000);
 	parameters["m"] = "now you waited for 1000 ms";
 	printToDiv('func_h', parameters, 1);
-	// callback(parameters);
+	// var err;callback(err, parameters);
 	target(parameters);
 }
 
@@ -2654,14 +2741,14 @@ exports.func_j = func_j = function func_j(parameters, callback) {
 	delete parameters["d"];
 	parameters["j"] = "you hijacked preexecute...hot";
 	printToDiv('func_j', parameters, 1);
-	callback(parameters);
+	var err;callback(err, parameters);
 }
 
 exports.func_k = func_k = function func_k(parameters, callback) {
 	delete parameters["d"];
 	parameters["j"] = "did this happen last";
 	printToDiv('func_k', parameters, 1);
-	callback(parameters);
+	var err;callback(err, parameters);
 }
 
 exports.func_m = func_m = function func_m(parameters) {
@@ -2696,8 +2783,8 @@ exports.func_async = func_async = function func_async(parameters, callback) {
 		}
 	);
 	printToDiv('func_async -- ', parameters, 1);
-	// callback(parameters);
-	callback(parameters);
+	// var err;callback(err, parameters);
+	var err;callback(err, parameters);
 }
 
 exports.echoCall = echoCall = function echoCall(url, type, asyncVal, successCallback, errorCallback) {
@@ -4059,7 +4146,7 @@ exports.ag5 = ag5 = function ag5(params, callback) {
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	ag5_setup(params, function(res) {
+	ag5_setup(params, function(err, res) {
 
 		console.log(' in test ag5 >>>>>> ' + JSON.stringify(res));
 
@@ -4085,7 +4172,7 @@ exports.ag6a = ag6a = function ag6a(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4109,7 +4196,7 @@ exports.ag6b = ag6b = function ag6b(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function(res) {
+	}], function(err, res) {
 
 		if (callback instanceof Function) {
 			callback(res);
@@ -4129,7 +4216,7 @@ exports.ag6c = ag6c = function ag6c(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function(res) {
+	}], function(err, res) {
 		console.log(' in test ag6c >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4231,7 +4318,7 @@ exports.ag7 = ag7 = function ag7(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4262,7 +4349,7 @@ exports.ag8 = ag8 = function ag8(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4364,7 +4451,7 @@ exports.ag9 = ag9 = function ag9(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4396,7 +4483,7 @@ exports.ag10 = ag10 = function ag10(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4430,7 +4517,7 @@ exports.ag11a = ag11a = function ag11a(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4462,7 +4549,7 @@ exports.ag11b = ag11b = function ag11b(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4481,7 +4568,7 @@ exports.ag13a = ag13a = function ag13a(params, callback) {
 	executearray([{
 		"executethis": "getwidmaster",
 		"wid": 'test1'
-	}], function(res) {
+	}], function(err, res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4498,7 +4585,7 @@ exports.ag13b = ag13b = function ag13b(params, callback) {
 	executearray([{
 		"executethis": "getwidmaster",
 		"wid": 'test1'
-	}], function(res) {
+	}], function(err, res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4520,7 +4607,7 @@ exports.ag14a = ag14a = function ag14a(params, callback) {
 		"3": "31",
 		"metadata.method": "test1method",
 		"test1note": "string"
-	}], function(res) {
+	}], function(err, res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4542,7 +4629,7 @@ exports.ag14b = ag14b = function ag14b(params, callback) {
 		"3": "31",
 		"metadata.method": "test1method",
 		"test1note": "string"
-	}], function(res) {
+	}], function(err, res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4578,7 +4665,7 @@ exports.ag15a = ag15a = function ag15a(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": widId
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4613,7 +4700,7 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": widId
-	}], function(res) {
+	}], function(err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4658,7 +4745,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(res) {
+		function(err, res) {
 
 
 			execute({
@@ -4668,7 +4755,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(res) {
+				function(err, res) {
 
 
 					execute({
@@ -4678,7 +4765,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string91"
 						},
-						function(res) {
+						function(err, res) {
 
 							execute({
 									"executethis": "updatewid",
@@ -4687,7 +4774,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(res) {
+								function(err, res) {
 
 
 									execute({
@@ -4697,12 +4784,13 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(res) {
+										function(err, res) {
 
 
 
 											if (callback instanceof Function) {
-												callback(params);
+												var err;
+												callback(err, params);
 											} else {
 												return params;
 											}
@@ -4742,7 +4830,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(res) {
+		function(err, res) {
 
 
 			execute({
@@ -4752,7 +4840,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(res) {
+				function(err, res) {
 
 
 					execute({
@@ -4762,7 +4850,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string91"
 						},
-						function(res) {
+						function(err, res) {
 
 							execute({
 									"executethis": "updatewid",
@@ -4771,7 +4859,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(res) {
+								function(err, res) {
 
 
 									execute({
@@ -4781,12 +4869,13 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(res) {
+										function(err, res) {
 
 
 
 											if (callback instanceof Function) {
-												callback(params);
+												var err;
+												callback(err, params);
 											} else {
 												return params;
 											}
@@ -4827,7 +4916,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(res) {
+		function(err, res) {
 
 
 			execute({
@@ -4837,7 +4926,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(res) {
+				function(err, res) {
 
 
 					execute({
@@ -4847,7 +4936,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string91"
 						},
-						function(res) {
+						function(err, res) {
 
 							execute({
 									"executethis": "updatewid",
@@ -4856,7 +4945,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(res) {
+								function(err, res) {
 
 
 									execute({
@@ -4866,12 +4955,13 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(res) {
+										function(err, res) {
 
 
 
 											if (callback instanceof Function) {
-												callback(params);
+												var err;
+												callback(err, params);
 											} else {
 												return params;
 											}
@@ -4911,7 +5001,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(res) {
+		function(err, res) {
 
 
 			execute({
@@ -4920,7 +5010,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(res) {
+				function(err, res) {
 
 
 					execute({
@@ -4929,7 +5019,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string913"
 						},
-						function(res) {
+						function(err, res) {
 
 							execute({
 									"executethis": "addwidmaster",
@@ -4937,7 +5027,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(res) {
+								function(err, res) {
 
 
 									execute({
@@ -4946,12 +5036,13 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(res) {
+										function(err, res) {
 
 
 
 											if (callback instanceof Function) {
-												callback(params);
+												var err;
+												callback(err, params);
 											} else {
 												return params;
 											}
@@ -4992,7 +5083,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(res) {
+		function(err, res) {
 
 
 			execute({
@@ -5001,7 +5092,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(res) {
+				function(err, res) {
 
 
 					execute({
@@ -5010,7 +5101,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string913"
 						},
-						function(res) {
+						function(err, res) {
 
 							execute({
 									"executethis": "addwidmaster",
@@ -5018,7 +5109,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(res) {
+								function(err, res) {
 
 
 									execute({
@@ -5027,12 +5118,13 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(res) {
+										function(err, res) {
 
 
 
 											if (callback instanceof Function) {
-												callback(params);
+												var err;
+												callback(err, params);
 											} else {
 												return params;
 											}
@@ -5073,7 +5165,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(res) {
+		function(err, res) {
 
 
 			execute({
@@ -5082,7 +5174,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(res) {
+				function(err, res) {
 
 
 					execute({
@@ -5091,7 +5183,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string913"
 						},
-						function(res) {
+						function(err, res) {
 
 							execute({
 									"executethis": "addwidmaster",
@@ -5099,7 +5191,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(res) {
+								function(err, res) {
 
 
 									execute({
@@ -5108,12 +5200,13 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(res) {
+										function(err, res) {
 
 
 
 											if (callback instanceof Function) {
-												callback(params);
+												var err;
+												callback(err, params);
 											} else {
 												return params;
 											}
@@ -5323,7 +5416,7 @@ exports.ag94a = ag94a = function ag94a(params, callback) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 		// proxyprinttodiv('Function addwidmaster() From unit test : I ', res, 99);
-                    
+
 
 		if (callback instanceof Function) {
 			callback(res);
@@ -5453,8 +5546,88 @@ exports.ag95a = ag95a = function ag95a(params, callback) {
 	}], function(err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+	});
+	// return verifysummary("test_results");
+}
+
+// sticky data problem test
+exports.stickydata = stickydata = function stickydata(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+
+	config = setconfig1();
+	testclearstorage();
+
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId1,
+		"metadata.method": widId1,
+		"a1": "a2"
+	}, {
+		"executethis": "addwidmaster",
+		"wid": widId2,
+		"metadata.method": widId2,
+		"b1": "b2"
+	}, {
+		"executethis": "getwidmaster",
+		"wid": widId1
+	}, {
+		"executethis": "getwidmaster",
+		"wid": widId2
+	}], function(err, res) {
+
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+		console.log(' >>> get wid 1 result >>> ' + JSON.stringify(res[2]));
+		console.log(' >>> get wid 2 result >>> ' + JSON.stringify(res[3]));
+
+		proxyprinttodiv(' >>> get wid 1 result >>> ', JSON.stringify(res[2]), 99);
+		proxyprinttodiv(' >>> get wid 2 result >>> ', JSON.stringify(res[3]), 99);
+
+		if (res[3]['b1']) {
+			alert('fail');
+		} else {
+			alert('pass');
+		}
+
 		if (callback instanceof Function) {
 			callback(res);
+		} else {
+			return res;
+		}
+	});
+	// return verifysummary("test_results");
+}
+
+
+// extra params problem test
+exports.extraparams = extraparams = function extraparams(params, callback) {
+	var widId1 = Math.random() + "1";
+	var widId2 = Math.random() + "2";
+
+	config = setconfig1();
+	testclearstorage();
+
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": widId1,
+		"metadata.method": widId1,
+		"a1": "a2"
+	}], function(err, res) {
+
+		console.log(' >>> FROM UNIT TESTS  final response after executerray >>> ' + JSON.stringify(res));
+		console.log(' >>> FROM UNIT TESTS add wid 1 result >>> ' + JSON.stringify(res));
+		proxyprinttodiv(' >>>  FROM UNIT TESTS add wid 1 result >>> ', JSON.stringify(res), 99);
+
+		if (res[1]) {
+			alert('fail .... extra param coming.');
+		} else {
+			alert('pass .... extra param not coming.');
+		}
+
+		if (callback instanceof Function) {
+			callback(err, res);
 		} else {
 			return res;
 		}

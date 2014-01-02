@@ -904,7 +904,6 @@
         }
 
         function step3(cb) {
-            //var moreParameters = getfrommongo({'wid':inherit});
             if (moreParameters) {
                 inputParametersObject = jsonConcat(inputParametersObject, moreParameters); // if duplicates then currentLevelObject{} wins
             }
@@ -957,7 +956,7 @@
             function (err, results) {
                 console.log(JSON.stringify('done all in AddWidParameters, Result is  ' + JSON.stringify(Wid)));
                 ret = {"Wid":Wid};
-
+                
                 proxyprinttodiv('Function AddWidParameters() Wid : I ', Wid, 99);
                 debugfn("AddWidParameters", " final response after steps ", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     
@@ -1624,9 +1623,9 @@
             saveobject['data'] = "";
         }
 
-        addtomongo(saveobject, function (results) {
+        addtomongo(saveobject, function (err, results) {
             proxyprinttodiv('Function updatewid in : x', results, 10);
-            callback(results);
+            callback(err, results);
         });
     };
 
@@ -1774,7 +1773,7 @@
 
                     proxyprinttodiv('Function MongoAddEditPrepare, to update InListObj : ', InListObj, 90);
 
-                    updatewid(InListObj, function (ret) {
+                    updatewid(InListObj, function (err, ret) {
                         addresult = ret;
                         proxyprinttodiv('Function MongoAddEditPrepare, addresult new : ', addresult, 90);
                         cb(null);

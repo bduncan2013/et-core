@@ -14,15 +14,22 @@
 
     var execute, executethis, etexecute;
 
-    exports.etexecute = window.etexecute = etexecute = function etexecute(params, callback) {
-        execute(params, function (results) {
-            var err = {};
+    exports.etexecute = window.etexecute = etexecute = function etexecute(received_params, callback) {
+
+        var params = {};
+        extend(true, params, received_params); // clone received params
+
+        params = toLowerKeys(params);
+        execute(params, function(err, results) {
             callback(err, results);
         });
     }
 
 
-    exports.execute = window.execute = execute = function execute(incomingparams, callback) {
+    exports.execute = window.execute = execute = function execute(received_params, callback) {
+
+        var incomingparams = {};
+        extend(true, incomingparams, received_params); // clone received params
 
         incomingparams = toLowerKeys(incomingparams);
 
@@ -50,35 +57,35 @@
                 } else {
                     result = incomingparams;
                 }
-                callback(result);
+                callback(err, result);
             } else {
 
 
                 incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
                 console.log('starting preexecute ' + nonCircularStringify(incomingparams));
-                doThis(incomingparams, 'preexecute', function (preResults) {
+                doThis(incomingparams, 'preexecute', function(err, preResults) {
 
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
-                    console.log('starting midexecute ' +  nonCircularStringify(incomingparams));
+                    console.log('starting midexecute ' + nonCircularStringify(incomingparams));
                     if (!preResults) {
                         preResults = {};
                     } // 
-                    doThis(preResults, 'midexecute', function (midResults) {
+                    doThis(preResults, 'midexecute', function(err, midResults) {
 
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                         if (!midResults) {
                             midResults = {};
                         }
 
-                        doThis(midResults, 'postexecute', function (postResults) {
+                        doThis(midResults, 'postexecute', function(err, postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
 
                             if (!postResults) {
                                 postResults = {};
                             }
 
-                            callback(postResults);
+                            callback(err, postResults);
                         });
                     });
                 });
@@ -103,12 +110,12 @@
                 targetfunction = execute;
             }
 
-            var params;
+            var params = {};
             var tempParams = toLowerKeys(inboundparms)
             var argCount = 0
 
             // cloning inbound params
-            params = extend(params, tempParams);
+            extend(true, params, tempParams);
 
             proxyprinttodiv('Function executethis params', params, 11);
             proxyprinttodiv('Function executethis fn', targetfunction.name, 11);
@@ -126,7 +133,7 @@
                     funcCalled = false,
                     count = 0;
 
-                var cbfunction = function (results, results2) {
+                var cbfunction = function(results, results2) {
                     funcDone = true;
                     if (results2) {
                         retResult = results2
@@ -138,7 +145,7 @@
                 while (!funcDone) {
                     if (!funcCalled) {
                         funcCalled = true;
-                        targetfunction (params, cbfunction);
+                        targetfunction(params, cbfunction);
                     }
                     count++
                     if (count > 100) {
@@ -160,6 +167,8 @@
             howToDoList,
             targetname,
             targetfunction;
+
+        var err = {};
 
         proxyprinttodiv("dothis - inboundparms", params, 11);
         proxyprinttodiv("dothis - target ", target, 11);
@@ -200,7 +209,7 @@
 
             } // params[target] undefined
             else { // execute the nextstage (mid or post), may need to remove target out of params
-                callback(params);
+                callback(err, params);
             }
         } // else not test4
     } // fn
@@ -383,6 +392,8 @@
             howToDoParams,
             whatToDoParams;
 
+        var err = undefined;
+
         // iterate over our how to do list
         proxyprinttodiv("executelist - howToDoList ", howToDoList, 11);
         proxyprinttodiv("executelist - whatToDoList ", whatToDoList, 11);
@@ -432,12 +443,14 @@
             synchflag = executeobject.synchflag;
 
             if (synchflag) { // if callback then call synch
-                callback(executethis(params, targetfn));
+                callback(err, executethis(params, targetfn));
             } else { // else call asynch
                 targetfn(params, callback)
             }
         } else { // if no execute
-            callback({"error":"no executethis provided"}); // if nothing to execute return parameters 
+            callback(err, {
+                "error": "no executethis provided"
+            }); // if nothing to execute return parameters 
         }
     } //fn    
 
@@ -537,7 +550,9 @@
 
 
     exports.executeerror = window.executeerror = executeerror = function executeerror(params, callback) {
-        callback({
+        var err = undefined;
+
+        callback(err, {
             "etstatus": "executeerror"
         });
     }
@@ -545,7 +560,7 @@
     function nonCircularStringify(obj) {
         var cache = [];
 
-        return JSON.stringify(obj, function (key, value) {
+        return JSON.stringify(obj, function(key, value) {
             if (typeof value === 'object' && value !== null) {
                 if (cache.indexOf(value) !== -1) {
                     //found circular reference, discard key
@@ -560,25 +575,27 @@
     // 
     exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
         // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
-        async.mapSeries(paramsArr, function (inboundparms, cbMap) {
+        var resultlist = [];
+        async.mapSeries(paramsArr, function(inboundparms, cbMap) {
             // each iteration 
+            alert(' >>> ' + paramsArr);
             if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
                 cbMap(null, {
                     'test1': 'Reached test1 code.. executearray function'
                 });
             } else {
-                etexecute(inboundparms, function (err,res) {
-                    var retResults = res;
+                execute(inboundparms, function(err, retResults) {
+                    resultlist.push(retResults);
                     // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
                     // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
-                    cbMap(null, retResults);
+                    cbMap(err, retResults);
                 });
             }
-        }, function (err, res) {
+            cbMap(null);
+        }, function(err, res) {
             // end of all the execution that was meant to be
             console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
-            console.log('asynchronously finished executing executearray.');
-            callback(res);
+            callback(err, resultlist);
         });
     }
 

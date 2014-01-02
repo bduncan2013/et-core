@@ -147,7 +147,7 @@ localStore.clear();
 			inputparameters = {}
 		}
 		//	var myparameters = JSON.stringify(inputparameters)
-		//if (inputparameters) {funcCall = myfunc + "(" + myparameters + ");"}
+		//if (inputparamete`rs) {funcCall = myfunc + "(" + myparameters + ");"}
 		//	else {funcCall = myfunc + "();"};
 		proxyprinttodiv('executeTest - myfunc', myfunc, 99);
 		//var output = eval(funcCall); //Call the function
@@ -162,9 +162,9 @@ localStore.clear();
 		proxyprinttodiv('type of fn', (myfunc instanceof Function), 1);
 
 		proxyprinttodiv('executeTest - inputparameters', inputparameters, 99);
-		var output = executethis(inputparameters, myfunc); // added
+		
 
-		//var output={"a":"b"};
+		var output=window['executethis'](inputparameters, myfunc); // added
 		proxyprinttodiv('results of executeTest =>', output, 99);
 		if ((outwidname !== undefined) && (outwidname != "")) {
 			proxyprinttodiv('results of executeTest outwidname', outwidname, 99);

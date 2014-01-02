@@ -31,7 +31,7 @@
         ret = securityCheckOutput;
 
         if (callback instanceof Function) {
-            callback(ret);
+            callback(err, ret);
         }
 
         if (exports.environment === "local") {
