@@ -1,4 +1,4 @@
-(function(window) {
+(function (window) {
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
         if (obj && obj instanceof Object) {
@@ -203,7 +203,7 @@
         if (typeof(attr) == undefined) {
             attr = 'onetomany'
         }
-        output = list.sort(function(a, b) {
+        output = list.sort(function (a, b) {
             if (a.key.split('.').length < b.key.split('.').length) {
                 return -1;
             } else if (a.key.split('.').length > b.key.split('.').length) {
@@ -270,7 +270,7 @@
 
     /* lib.js functions */
 
-    var recurFunc = function(arr, val) {
+    var recurFunc = function (arr, val) {
 
         // stop condition
         if (arr.length <= 0) {

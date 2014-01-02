@@ -1,4 +1,4 @@
-(function(window) {
+(function (window) {
     // require('../utils/addget.js');
     // require('../config.js');
 
@@ -164,7 +164,7 @@
                             var wid = queParams['singlemongoquery'];
                             getwid({
                                 'wid': wid
-                            }, function(res) {
+                            }, function (res) {
                                 var widObject = res;
                                 delete widObject['wid'];
                                 delete widObject['metadata.method'];

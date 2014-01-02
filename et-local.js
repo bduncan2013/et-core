@@ -1,6 +1,6 @@
 //if (exports.environment === "local") {localStorage.clear();}
 
-//exports.mongoquery = mongoquery = function(queryString) {
+//exports.mongoquery = mongoquery = function (queryString) {
 exports.mongoquery = mongoquery = function mongoquery(queryString, callback) {
 	var err;
 
@@ -134,7 +134,7 @@ function querywidlocal(sq, callback) {
 	proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery before', returnfromSimpleQuery, 30);
 	//proxyprinttodiv('Function simpleQuery in : returnfromSimpleQuery',  returnfromSimpleQuery);
 	if (returnfromSimpleQuery.length > 0) {
-		returnfromSimpleQuery = returnfromSimpleQuery.sort(function(aObj, bObj) {
+		returnfromSimpleQuery = returnfromSimpleQuery.sort(function (aObj, bObj) {
 			var a = getAttributeByIndex(aObj, 0);
 			var b = getAttributeByIndex(bObj, 0);
 			if (a < b) return -1;

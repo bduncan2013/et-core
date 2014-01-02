@@ -16,7 +16,7 @@ exports.debugindent = debugindent = 0;
 
 
 // if(typeof localStorage === "undefined"){
-exports.localStore = localStore = function() {
+exports.localStore = localStore = function () {
 
 	var json = {};
 
@@ -49,7 +49,7 @@ exports.localStore = localStore = function() {
 localStore.clear();
 
 
-(function(window) {
+(function (window) {
 
 
 	if (typeof executethis === "undefined") {
@@ -100,7 +100,7 @@ localStore.clear();
 
 
 
-	function execute_function(myfunc) {
+	function execute_function (myfunc) {
 		if (typeof window[myfunc] == 'function') {
 			//alert("I found the function...let's go run it!");
 			// result = window[myfunc]();
@@ -603,7 +603,7 @@ localStore.clear();
 
 	function syntaxHighlight(json) {
 		json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+		return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
 			var cls = 'number';
 			if (/^"/.test(match)) {
 				if (/:$/.test(match)) {

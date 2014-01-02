@@ -1725,14 +1725,14 @@
                                                     }
 
                                                 ); // end of map series
-                                                cb3(null, "step1n2n2");
+                                                cb(null);
                                             }
                                         ], // asynch step1n2
                                         function(err, res) {
                                             if (err) {
                                                 throw err;
                                             }
-                                            // cb1("");
+                                            cb1("");
                                         }); // end of asynch step1n2
                                     cb1("");
                                 },

@@ -2073,7 +2073,7 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 
 function aggressivedto_emulator(params, callback) {
 
-	aggressivedto(params['x'], "", 10, function(err, res) {
+	aggressivedto(params['x'], "", 10, function (err, res) {
 		var myval = res;
 		callback(myval);
 	});
@@ -2771,12 +2771,12 @@ exports.func_async = func_async = function func_async(parameters, callback) {
 
 	// echo ajax request
 	echoCall('/echo', 'GET', false,
-		function(data) {
+		function (data) {
 			parameters["m"] = "now you waited for the async call";
 			printToDiv('func_async_success', parameters, 1);
 			console.log('from func_async success');
 		},
-		function(data) {
+		function (data) {
 			parameters["m"] = "now you waited for the async call";
 			printToDiv('func_async_error', parameters, 1);
 			console.log('from func_async error');
@@ -4146,7 +4146,7 @@ exports.ag5 = ag5 = function ag5(params, callback) {
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	ag5_setup(params, function(err, res) {
+	ag5_setup(params, function (err, res) {
 
 		console.log(' in test ag5 >>>>>> ' + JSON.stringify(res));
 
@@ -4172,7 +4172,7 @@ exports.ag6a = ag6a = function ag6a(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4196,7 +4196,7 @@ exports.ag6b = ag6b = function ag6b(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		if (callback instanceof Function) {
 			callback(res);
@@ -4216,7 +4216,7 @@ exports.ag6c = ag6c = function ag6c(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function(err, res) {
+	}], function (err, res) {
 		console.log(' in test ag6c >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4318,7 +4318,7 @@ exports.ag7 = ag7 = function ag7(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4349,7 +4349,7 @@ exports.ag8 = ag8 = function ag8(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4451,7 +4451,7 @@ exports.ag9 = ag9 = function ag9(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4483,7 +4483,7 @@ exports.ag10 = ag10 = function ag10(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4517,7 +4517,7 @@ exports.ag11a = ag11a = function ag11a(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4549,7 +4549,7 @@ exports.ag11b = ag11b = function ag11b(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4568,7 +4568,7 @@ exports.ag13a = ag13a = function ag13a(params, callback) {
 	executearray([{
 		"executethis": "getwidmaster",
 		"wid": 'test1'
-	}], function(err, res) {
+	}], function (err, res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4585,7 +4585,7 @@ exports.ag13b = ag13b = function ag13b(params, callback) {
 	executearray([{
 		"executethis": "getwidmaster",
 		"wid": 'test1'
-	}], function(err, res) {
+	}], function (err, res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4607,7 +4607,7 @@ exports.ag14a = ag14a = function ag14a(params, callback) {
 		"3": "31",
 		"metadata.method": "test1method",
 		"test1note": "string"
-	}], function(err, res) {
+	}], function (err, res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4629,7 +4629,7 @@ exports.ag14b = ag14b = function ag14b(params, callback) {
 		"3": "31",
 		"metadata.method": "test1method",
 		"test1note": "string"
-	}], function(err, res) {
+	}], function (err, res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4665,7 +4665,7 @@ exports.ag15a = ag15a = function ag15a(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": widId
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4700,7 +4700,7 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": widId
-	}], function(err, res) {
+	}], function (err, res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4745,7 +4745,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(err, res) {
+		function (err, res) {
 
 
 			execute({
@@ -4755,7 +4755,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(err, res) {
+				function (err, res) {
 
 
 					execute({
@@ -4765,7 +4765,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string91"
 						},
-						function(err, res) {
+						function (err, res) {
 
 							execute({
 									"executethis": "updatewid",
@@ -4774,7 +4774,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(err, res) {
+								function (err, res) {
 
 
 									execute({
@@ -4784,7 +4784,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(err, res) {
+										function (err, res) {
 
 
 
@@ -4830,7 +4830,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(err, res) {
+		function (err, res) {
 
 
 			execute({
@@ -4840,7 +4840,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(err, res) {
+				function (err, res) {
 
 
 					execute({
@@ -4850,7 +4850,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string91"
 						},
-						function(err, res) {
+						function (err, res) {
 
 							execute({
 									"executethis": "updatewid",
@@ -4859,7 +4859,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(err, res) {
+								function (err, res) {
 
 
 									execute({
@@ -4869,7 +4869,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(err, res) {
+										function (err, res) {
 
 
 
@@ -4916,7 +4916,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(err, res) {
+		function (err, res) {
 
 
 			execute({
@@ -4926,7 +4926,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(err, res) {
+				function (err, res) {
 
 
 					execute({
@@ -4936,7 +4936,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string91"
 						},
-						function(err, res) {
+						function (err, res) {
 
 							execute({
 									"executethis": "updatewid",
@@ -4945,7 +4945,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(err, res) {
+								function (err, res) {
 
 
 									execute({
@@ -4955,7 +4955,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(err, res) {
+										function (err, res) {
 
 
 
@@ -5001,7 +5001,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(err, res) {
+		function (err, res) {
 
 
 			execute({
@@ -5010,7 +5010,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(err, res) {
+				function (err, res) {
 
 
 					execute({
@@ -5019,7 +5019,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string913"
 						},
-						function(err, res) {
+						function (err, res) {
 
 							execute({
 									"executethis": "addwidmaster",
@@ -5027,7 +5027,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(err, res) {
+								function (err, res) {
 
 
 									execute({
@@ -5036,7 +5036,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(err, res) {
+										function (err, res) {
 
 
 
@@ -5083,7 +5083,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(err, res) {
+		function (err, res) {
 
 
 			execute({
@@ -5092,7 +5092,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(err, res) {
+				function (err, res) {
 
 
 					execute({
@@ -5101,7 +5101,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string913"
 						},
-						function(err, res) {
+						function (err, res) {
 
 							execute({
 									"executethis": "addwidmaster",
@@ -5109,7 +5109,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(err, res) {
+								function (err, res) {
 
 
 									execute({
@@ -5118,7 +5118,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(err, res) {
+										function (err, res) {
 
 
 
@@ -5165,7 +5165,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 			"metadata.method": "colordto911",
 			"hue": "string911"
 		},
-		function(err, res) {
+		function (err, res) {
 
 
 			execute({
@@ -5174,7 +5174,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 					"metadata.method": "colordto912",
 					"hue": "string912"
 				},
-				function(err, res) {
+				function (err, res) {
 
 
 					execute({
@@ -5183,7 +5183,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 							"metadata.method": "colordto913",
 							"hue": "string913"
 						},
-						function(err, res) {
+						function (err, res) {
 
 							execute({
 									"executethis": "addwidmaster",
@@ -5191,7 +5191,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 									"metadata.method": "colordto914",
 									"hue": "string914"
 								},
-								function(err, res) {
+								function (err, res) {
 
 
 									execute({
@@ -5200,7 +5200,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 											"metadata.method": "colordto915",
 											"hue": "string915"
 										},
-										function(err, res) {
+										function (err, res) {
 
 
 
@@ -5263,7 +5263,7 @@ exports.ag93a = ag93a = function ag93a(params, callback) {
 		"wid": widId5,
 		"metadata.method": "colordto935",
 		"hue": "string935"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
@@ -5312,7 +5312,7 @@ exports.ag93b = ag93b = function ag93b(params, callback) {
 		"wid": widId5,
 		"metadata.method": "colordto935",
 		"hue": "string935"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
@@ -5363,7 +5363,7 @@ exports.ag93c = ag93c = function ag93c(params, callback) {
 		"wid": widId5,
 		"metadata.method": "colordto935",
 		"hue": "string935"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
@@ -5412,7 +5412,7 @@ exports.ag94a = ag94a = function ag94a(params, callback) {
 		"wid": widId5,
 		"metadata.method": "colordto945",
 		"hue": "string945"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 		// proxyprinttodiv('Function addwidmaster() From unit test : I ', res, 99);
@@ -5462,7 +5462,7 @@ exports.ag94b = ag94b = function ag94b(params, callback) {
 		"wid": widId5,
 		"metadata.method": "colordto945",
 		"hue": "string945"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
@@ -5511,7 +5511,7 @@ exports.ag94c = ag94c = function ag94c(params, callback) {
 		"wid": widId5,
 		"metadata.method": "colordto945",
 		"hue": "string945"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
@@ -5543,7 +5543,7 @@ exports.ag95a = ag95a = function ag95a(params, callback) {
 		"wid": widId2,
 		"metadata.method": "colordto952",
 		"hue": "string952"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
@@ -5575,7 +5575,7 @@ exports.stickydata = stickydata = function stickydata(params, callback) {
 	}, {
 		"executethis": "getwidmaster",
 		"wid": widId2
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
@@ -5614,17 +5614,17 @@ exports.extraparams = extraparams = function extraparams(params, callback) {
 		"wid": widId1,
 		"metadata.method": widId1,
 		"a1": "a2"
-	}], function(err, res) {
+	}], function (err, res) {
 
 		console.log(' >>> FROM UNIT TESTS  final response after executerray >>> ' + JSON.stringify(res));
 		console.log(' >>> FROM UNIT TESTS add wid 1 result >>> ' + JSON.stringify(res));
 		proxyprinttodiv(' >>>  FROM UNIT TESTS add wid 1 result >>> ', JSON.stringify(res), 99);
 
-		if (res[1]) {
-			alert('fail .... extra param coming.');
-		} else {
-			alert('pass .... extra param not coming.');
-		}
+		// if (res[1]) {
+		// 	alert('fail .... extra param coming.');
+		// } else {
+		// 	alert('pass .... extra param not coming.');
+		// }
 
 		if (callback instanceof Function) {
 			callback(err, res);

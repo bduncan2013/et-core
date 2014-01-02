@@ -18,7 +18,7 @@
 
     function only_once(fn) {
         var called = false;
-        return function() {
+        return function () {
             if (called) throw new Error("Callback was already called.");
             called = true;
             fn.apply(root, arguments);
@@ -201,7 +201,7 @@
             return fn.apply(null, [async.each].concat(args));
         };
     };
-    var doParallelLimit = function(limit, fn) {
+    var doParallelLimit = function (limit, fn) {
         return function () {
             var args = Array.prototype.slice.call(arguments);
             return fn.apply(null, [_eachLimit(limit)].concat(args));
@@ -235,7 +235,7 @@
         return _mapLimit(limit)(arr, iterator, callback);
     };
 
-    var _mapLimit = function(limit) {
+    var _mapLimit = function (limit) {
         return doParallelLimit(limit, _asyncMap);
     };
 
@@ -433,7 +433,7 @@
                 }
                 if (err) {
                     var safeResults = {};
-                    _each(_keys(results), function(rkey) {
+                    _each(_keys(results), function (rkey) {
                         safeResults[rkey] = results[rkey];
                     });
                     safeResults[k] = args;
@@ -500,7 +500,7 @@
         wrapIterator(async.iterator(tasks))();
     };
 
-    var _parallel = function(eachfn, tasks, callback) {
+    var _parallel = function (eachfn, tasks, callback) {
         callback = callback || function () {};
         if (tasks.constructor === Array) {
             eachfn.map(tasks, function (fn, callback) {
@@ -536,7 +536,7 @@
         _parallel({ map: async.map, each: async.each }, tasks, callback);
     };
 
-    async.parallelLimit = function(tasks, limit, callback) {
+    async.parallelLimit = function (tasks, limit, callback) {
         _parallel({ map: _mapLimit(limit), each: _eachLimit(limit) }, tasks, callback);
     };
 
@@ -675,7 +675,7 @@
           if(data.constructor !== Array) {
               data = [data];
           }
-          _each(data, function(task) {
+          _each(data, function (task) {
               var item = {
                   data: task,
                   callback: typeof callback === 'function' ? callback : null
@@ -752,7 +752,7 @@
                 if(data.constructor !== Array) {
                     data = [data];
                 }
-                _each(data, function(task) {
+                _each(data, function (task) {
                     tasks.push({
                         data: task,
                         callback: typeof callback === 'function' ? callback : null

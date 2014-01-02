@@ -9,13 +9,13 @@
 // config dofn
 // 
 
-(function(window) {
+(function (window) {
     // 'use strict';
 
     var execute, executethis, etexecute;
 
     exports.etexecute = window.etexecute = etexecute = function etexecute(params, callback) {
-        execute(params, function(results) {
+        execute(params, function (results) {
             var err = {};
             callback(err, results);
         });
@@ -56,21 +56,21 @@
                 incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
                 console.log('starting preexecute ' + nonCircularStringify(incomingparams));
-                doThis(incomingparams, 'preexecute', function(preResults) {
+                doThis(incomingparams, 'preexecute', function (preResults) {
 
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
                     console.log('starting midexecute ' + nonCircularStringify(preResults));
                     if (!preResults) {
                         preResults = {};
                     } // 
-                    doThis(preResults, 'midexecute', function(midResults) {
+                    doThis(preResults, 'midexecute', function (midResults) {
 
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                         if (!midResults) {
                             midResults = {};
                         }
 
-                        doThis(midResults, 'postexecute', function(postResults) {
+                        doThis(midResults, 'postexecute', function (postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
 
                             if (!postResults) {
@@ -118,14 +118,14 @@
             }
 
             if (argCount == 1) {
-                return targetfunction(params); // if targetfn has only one parameter then fn is synchronous
+                return targetfunction (params); // if targetfn has only one parameter then fn is synchronous
             } else if (argCount > 1) {
                 var retResult = undefined,
                     funcDone = false,
                     funcCalled = false,
                     count = 0;
 
-                var cbfunction = function(results, results2) {
+                var cbfunction = function (results, results2) {
                     funcDone = true;
                     if (results2) {
                         retResult = results2;
@@ -137,12 +137,12 @@
                 async.series([
 
                     function step1(cb) {
-                        targetfunction(params, function(err, results) {
+                        targetfunction (params, function (err, results) {
                             retResult = results;
                             cb(null, "step1");
                         });
                     },
-                    function(err, res) {
+                    function (err, res) {
                         if (retResult === undefined) {
                             retResult = {};
                         }
@@ -287,7 +287,7 @@
 
         var list = config0[configtarget];
         if (list != undefined && list.length > 1) {
-            list = list.sort(function(a, b) {
+            list = list.sort(function (a, b) {
                 if (a.executeorder > b.executeorder)
                     return 1;
                 else if (a.executeorder < b.executeorder)
@@ -545,7 +545,7 @@
     function nonCircularStringify(obj) {
         var cache = [];
 
-        return JSON.stringify(obj, function(key, value) {
+        return JSON.stringify(obj, function (key, value) {
             if (typeof value === 'object' && value !== null) {
                 if (cache.indexOf(value) !== -1) {
                     //found circular reference, discard key

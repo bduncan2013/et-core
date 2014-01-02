@@ -9,7 +9,7 @@
 // config dofn
 // 
 
-(function(window) {
+(function (window) {
     // 'use strict';
 
     var execute, executethis, etexecute;
@@ -20,7 +20,7 @@
         extend(true, params, received_params); // clone received params
 
         params = toLowerKeys(params);
-        execute(params, function(err, results) {
+        execute(params, function (err, results) {
             callback(err, results);
         });
     }
@@ -38,7 +38,7 @@
         console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
         if ((incomingparams !== undefined) && (incomingparams["executethis"] === "test2")) {
-            callback({
+            callback(undefined,{
                 'test2': 'Reached test2 code.. execute function'
             });
         } else {
@@ -64,21 +64,21 @@
                 incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
                 console.log('starting preexecute ' + nonCircularStringify(incomingparams));
-                doThis(incomingparams, 'preexecute', function(err, preResults) {
+                doThis(incomingparams, 'preexecute', function (err, preResults) {
 
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
                     console.log('starting midexecute ' + nonCircularStringify(incomingparams));
                     if (!preResults) {
                         preResults = {};
                     } // 
-                    doThis(preResults, 'midexecute', function(err, midResults) {
+                    doThis(preResults, 'midexecute', function (err, midResults) {
 
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                         if (!midResults) {
                             midResults = {};
                         }
 
-                        doThis(midResults, 'postexecute', function(err, postResults) {
+                        doThis(midResults, 'postexecute', function (err, postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
 
                             if (!postResults) {
@@ -126,14 +126,14 @@
             }
 
             if (argCount == 1) {
-                return targetfunction(params); // if targetfn has only one parameter then fn is synchronous
+                return targetfunction (params); // if targetfn has only one parameter then fn is synchronous
             } else if (argCount > 1) {
                 var retResult = undefined,
                     funcDone = false,
                     funcCalled = false,
                     count = 0;
 
-                var cbfunction = function(results, results2) {
+                var cbfunction = function (results, results2) {
                     funcDone = true;
                     if (results2) {
                         retResult = results2
@@ -145,7 +145,7 @@
                 while (!funcDone) {
                     if (!funcCalled) {
                         funcCalled = true;
-                        targetfunction(params, cbfunction);
+                        targetfunction (params, cbfunction);
                     }
                     count++
                     if (count > 100) {
@@ -296,7 +296,7 @@
 
         var list = config0[configtarget];
         if (list != undefined && list.length > 1) {
-            list = list.sort(function(a, b) {
+            list = list.sort(function (a, b) {
                 if (a.executeorder > b.executeorder)
                     return 1;
                 else if (a.executeorder < b.executeorder)
@@ -560,7 +560,7 @@
     function nonCircularStringify(obj) {
         var cache = [];
 
-        return JSON.stringify(obj, function(key, value) {
+        return JSON.stringify(obj, function (key, value) {
             if (typeof value === 'object' && value !== null) {
                 if (cache.indexOf(value) !== -1) {
                     //found circular reference, discard key
@@ -576,22 +576,23 @@
     exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
         // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
         var resultlist = [];
-        async.mapSeries(paramsArr, function(inboundparms, cbMap) {
+        async.mapSeries(paramsArr, function (received_params, cbMap) {
             // each iteration 
-            //alert(' >>> ' + paramsArr);
+            var inboundparms = {};
+            extend(true, inboundparms, received_params); // clone received params
             if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
                 cbMap(null, {
                     'test1': 'Reached test1 code.. executearray function'
                 });
             } else {
-                execute(inboundparms, function(err, retResults) {
+                execute(inboundparms, function (err, retResults) {
                     resultlist.push(retResults);
                     // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
                     // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
                     cbMap(err, retResults);
                 });
             }
-        }, function(err, res) {
+        }, function (err, res) {
             // end of all the execution that was meant to be
             console.log('>>>> retResults final  >>>> ' + JSON.stringify(resultlist));
             callback(err, resultlist);
