@@ -570,7 +570,9 @@ localStore.clear();
 				var temp_HTML = indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
 			}
 			console.log(jsonPretty);
-//			$('#divprint').append(temp_HTML);
+			if (exports.environment === "local") {
+				$('#divprint').append(temp_HTML);
+			}
 			//proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
 		}
 
@@ -587,12 +589,13 @@ localStore.clear();
 	// document google
 	// go add one debfn to getwid
 
-//	function store_to_google(indebugname, google_object) {
-//        
-//		$('#name').val(indebugname);
-//		$('#comment').val(JSON.stringify(google_object));
-//		document.getElementById('theForm').submit();
-//	}
+	function store_to_google(indebugname, google_object) {
+       	if (exports.environment === "local") {
+			$('#name').val(indebugname);
+			$('#comment').val(JSON.stringify(google_object));
+			document.getElementById('theForm').submit();
+		}
+	}
 
 	function readtestresutlsandstorwegoogle() {
 		// read local store
