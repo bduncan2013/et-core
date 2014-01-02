@@ -1,4 +1,4 @@
-(function(window) {
+(function (window) {
     var configuration = config.configuration;
 
     // This tears apart an object with properties that are objects.
@@ -375,7 +375,7 @@
                     executeobject["command.convertmethod"] = "dto";
                     executeobject["command.dtotype"] = childdto;
                     executeobject['executethis'] = 'getwidmaster';
-                    etexecute(executeobject, function(err, res) {
+                    etexecute(executeobject, function (err, res) {
                         dtoobject = res;
                         proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
                         debugfn("addcleanparameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
@@ -407,7 +407,7 @@
                         debugfn("addcleanparameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb("", 'two');
                     } else {
-                        aggressivedto(dtotype, "", 10, function(err, res) {
+                        aggressivedto(dtotype, "", 10, function (err, res) {
                             otherdtoobject = res;
                             proxyprinttodiv('Function addcleanparameteres()  otherdtoobject ', otherdtoobject);
                             proxyprinttodiv('Function addcleanparameteres()  countKeys(otherdtoobject) ', countKeys(otherdtoobject));
@@ -495,7 +495,7 @@
                 cb("", 'three')
             }
 
-        ], function(err, res) {
+        ], function (err, res) {
 
             var isSynchronous = configuration.addcleanparameters.synchronous;
             if (!isSynchronous) {
@@ -587,7 +587,7 @@
                 }
             };
             executeobject["executethis"] = querywid;
-            etexecute(executeobject, function(err, res) {
+            etexecute(executeobject, function (err, res) {
                 widset = res;
                 debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("");
@@ -613,7 +613,7 @@
         function step4(cb) {
             var isSynchronous = configuration.MongoAddEditPrepare.synchronous;
             if (!isSynchronous) {
-                MongoAddEditPrepare([], widset, "", attr, function(err, res) {
+                MongoAddEditPrepare([], widset, "", attr, function (err, res) {
                     AddedObject = res;
                     debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("");
@@ -627,28 +627,28 @@
 
         async.series({
                 one: step1,
-                check1: function(cbcheck) {
+                check1: function (cbcheck) {
                     debugfn("AddMongoRelationship", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 },
                 two: step2,
-                check2: function(cbcheck) {
+                check2: function (cbcheck) {
                     debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 },
                 three: step3,
-                check3: function(cbcheck) {
+                check3: function (cbcheck) {
                     debugfn("AddMongoRelationship", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 },
                 four: step4,
-                check4: function(cbcheck) {
+                check4: function (cbcheck) {
                     debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("")
                 }
 
             },
-            function(err, results) {
+            function (err, results) {
                 console.log(JSON.stringify('done all in AddMongoRelationship, Result is  ' + JSON.stringify(results)));
                 ret = AddedObject;
 
@@ -722,7 +722,7 @@
             AddedObject = AddWidParameters(OutParameters);
         } else {
 
-            AddWidParameters(OutParameters, function(err, ret) {
+            AddWidParameters(OutParameters, function (err, ret) {
                 AddedObject = ret;
 
                 var isSynchronous = configuration.addwidmaster.synchronous;
@@ -870,7 +870,7 @@
                 proxyprinttodiv('Function AddWidParameters() dtoobject return: ', dtoobject);
                 cb("");
             } else {
-                addcleanparameters(inputParametersObject, dtotype, accesstoken, "add", convertmethod, function(err, res) {
+                addcleanparameters(inputParametersObject, dtotype, accesstoken, "add", convertmethod, function (err, res) {
                     parameterObject = res;
                     inputParametersObject = parameterObject.parms; // ************ prob dont need this
                     dtoobject = parameterObject.dto; // ************
@@ -893,7 +893,7 @@
             executeobject["executethis"] = 'getwid';
             executeobject["wid"] = 'inherit';
 
-            etexecute(executeobject, function(err, res) {
+            etexecute(executeobject, function (err, res) {
                 moreParameters = res;
                 cb("");
             });
@@ -925,7 +925,7 @@
                 Wid = AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata);
                 cb("");
             } else {
-                AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata, function(err, res) {
+                AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata, function (err, res) {
                     Wid = res;
                     cb("");
                 });
@@ -934,22 +934,22 @@
 
         async.series({
                 one: step1,
-                check1: function(cbcheck) {
+                check1: function (cbcheck) {
                     debugfn("AddWidParameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("");
                 },
                 two: step2,
-                check2: function(cbcheck) {
+                check2: function (cbcheck) {
                     debugfn("AddWidParameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("");
                 },
                 three: step3,
-                check3: function(cbcheck) {
+                check3: function (cbcheck) {
                     debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cbcheck("");
                 }
             },
-            function(err, results) {
+            function (err, results) {
                 console.log(JSON.stringify('done all in AddWidParameters, Result is  ' + JSON.stringify(Wid)));
                 ret = {
                     "Wid": Wid
@@ -1097,7 +1097,7 @@
                         debugfn("AddMaster", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null);
                     } else {
-                        MongoAddEditPrepare(ParentdtoList, ParentList, widName, dtotype, function(err, res) {
+                        MongoAddEditPrepare(ParentdtoList, ParentList, widName, dtotype, function (err, res) {
                             ParentObject = res;
                             ParentWid = ParentObject["wid"];
                             debugfn("AddMaster", "step2a", "add", "sub", debugcolor, debugindent, debugvars([1]));
@@ -1118,7 +1118,7 @@
                     for (var childrentype in ChildrenListobj) {
                         listtodo.push(childrentype);
                     }
-                    async.mapSeries(listtodo, function(childrentype, cbMap) {
+                    async.mapSeries(listtodo, function (childrentype, cbMap) {
                             async.series([
 
                                     function step4n1(cb) {
@@ -1155,7 +1155,7 @@
                                         // code below added 10/2 sort parameterindexobj
 
                                         if (Object.keys(parameterindexobj).length !== 0) {
-                                            sortable = sortable.sort(function(aObj, bObj) {
+                                            sortable = sortable.sort(function (aObj, bObj) {
                                                 var a = getAttributeByIndex(aObj, 0);
                                                 var b = getAttributeByIndex(bObj, 0);
                                                 if (a < b) return -1;
@@ -1202,7 +1202,7 @@
                                             executeobject["executethis"] = 'querywid';
                                             //var widlist=querywidlocal(executeobject);  // **
                                             // widlist = executethis(executeobject, querywid);
-                                            etexecute(executeobject, function(err, res) {
+                                            etexecute(executeobject, function (err, res) {
                                                 widlist = res;
                                                 // **** 10-31
                                                 //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
@@ -1238,7 +1238,7 @@
                                                         for (var currentchild in parameterindexobj) {
                                                             listtodo.push(currentchild);
                                                         }
-                                                        async.mapSeries(listtodo, function(currentchild, cbMap) {
+                                                        async.mapSeries(listtodo, function (currentchild, cbMap) {
                                                                 async.series([
 
                                                                         function step4n4n1n1(cb) {
@@ -1268,7 +1268,7 @@
                                                                                 debugfn("AddMaster", "step4n1n2a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                 cb(null);
                                                                             } else {
-                                                                                AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function(err, res) {
+                                                                                AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
                                                                                     ChildWid = res;
                                                                                     debugfn("AddMaster", "step4n1n2b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                     cb("");
@@ -1282,14 +1282,14 @@
                                                                                 debugfn("AddMaster", "step4n4n1n3a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                 cb(null);
                                                                             } else {
-                                                                                AddMongoRelationship(ParentWid, ChildWid, "attributes", function(err, res) {
+                                                                                AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
                                                                                     debugfn("AddMaster", "step4n4n1n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                     cb("");
                                                                                 });
                                                                             }
                                                                         }
                                                                     ],
-                                                                    function(err, results) {
+                                                                    function (err, results) {
 
 
                                                                     }); // end async series
@@ -1297,7 +1297,7 @@
                                                                 cbMap(null);
 
                                                             },
-                                                            function(err, results) {
+                                                            function (err, results) {
 
                                                             }); // end async map
 
@@ -1305,7 +1305,7 @@
 
                                                     }
                                                 ],
-                                                function(err, results) {
+                                                function (err, results) {
 
                                                 }); // end async series
                                             cb(null); // step4n4 callback
@@ -1341,7 +1341,7 @@
                                                             debugfn("AddMaster", "step4n62a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                             cb(null);
                                                         } else {
-                                                            AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function(err, res) {
+                                                            AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
                                                                 ChildWid = res;
                                                                 debugfn("AddMaster", "step4n62b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                 cb("");
@@ -1355,14 +1355,14 @@
                                                             debugfn("AddMaster", "step4n6n3a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                             cb(null);
                                                         } else {
-                                                            AddMongoRelationship(ParentWid, ChildWid, "attributes", function(err, res) {
+                                                            AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
                                                                 debugfn("AddMaster", "step4n6n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                 cb("");
                                                             });
                                                         }
                                                     }
                                                 ],
-                                                function(err, results) {
+                                                function (err, results) {
 
                                                 }); // end async series
                                         } //end if
@@ -1370,20 +1370,20 @@
                                         cb(null);
                                     }
                                 ],
-                                function(err, results) {
+                                function (err, results) {
 
                                 }); // end step 4 async series
                             cbMap(null); // step 4 map callback
 
                         },
-                        function(err, results) {
+                        function (err, results) {
 
                         }); // end map at step 4
                     debugfn("AddMaster", "end map at step 4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null); // step 4 function callback
                 }
             ], //end step 4 function
-            function(err, results) {
+            function (err, results) {
                 ret = ParentWid;
 
                 if (err) {
@@ -1620,7 +1620,7 @@
             saveobject['data'] = "";
         }
 
-        addtomongo(saveobject, function(err, results) {
+        addtomongo(saveobject, function (err, results) {
             proxyprinttodiv('Function updatewid in : x', results, 10);
             callback(err, results);
         });
@@ -1663,7 +1663,7 @@
                                     executeobject = {};
                                     executeobject["executethis"] = "getwid";
                                     executeobject["wid"] = InListObj["wid"];
-                                    etexecute(executeobject, function(err, res) {
+                                    etexecute(executeobject, function (err, res) {
                                         rawobject = res;
                                         cb1("");
                                     });
@@ -1690,14 +1690,14 @@
                                             function step1n2n2(cb3) {
                                                 var newObject;
 
-                                                async.mapSeries(listtodo, function(item, cbMap) {
+                                                async.mapSeries(listtodo, function (item, cbMap) {
                                                         async.series([ // asych inside map
                                                                 function step1n2n2n1(cb2) {
                                                                     if (item.value == 'inherit') {
                                                                         executeobject = {};
                                                                         executeobject["executethis"] = "getwid"; // probably should be getwidmaster -- changed from only getwid
                                                                         executeobject["wid"] = item.key;
-                                                                        etexecute(executeobject, function(err, res) {
+                                                                        etexecute(executeobject, function (err, res) {
                                                                             // rawobject = res;
                                                                             newObject = res;
                                                                             cb2("");
@@ -1711,14 +1711,14 @@
                                                                     cb2("");
                                                                 }
                                                             ], // asych inside map
-                                                            function(err, res) {
+                                                            function (err, res) {
                                                                 if (err) {
                                                                     throw err;
                                                                 }
                                                             }); // asych inside map
                                                         cbMap(null);
                                                     }, // map series
-                                                    function(err, res) {
+                                                    function (err, res) {
                                                         if (err) {
                                                             throw err;
                                                         }
@@ -1728,13 +1728,13 @@
                                                 cb3(null, "step1n2n2");
                                             }
                                         ], // asynch step1n2
-                                        function(err, res) {
+                                        function (err, res) {
                                             if (err) {
                                                 throw err;
                                             }
-                                            // cb1("");
+                                            cb1("");
                                         }); // end of asynch step1n2
-                                    cb1("");
+                                    // cb1("");
                                 },
                                 function step1n3(cb1) {
                                     for (var item in rawobject) { // for all data in inherit, delete it from being added
@@ -1745,7 +1745,7 @@
                                     cb1(null);
                                 }
                             ], // else block series end call
-                            function(err, res) {
+                            function (err, res) {
                                 if (err) {
                                     throw err;
                                 }
@@ -1770,7 +1770,7 @@
 
                     proxyprinttodiv('Function MongoAddEditPrepare, to update InListObj : ', InListObj, 90);
 
-                    updatewid(InListObj, function(err, ret) {
+                    updatewid(InListObj, function (err, ret) {
                         addresult = ret;
                         proxyprinttodiv('Function MongoAddEditPrepare, addresult new : ', addresult, 90);
                         cb(null);
@@ -1787,7 +1787,7 @@
 
             ], // end step1, step2
 
-            function(err, results) {
+            function (err, results) {
                 ret = InListObj;
                 var isSynchronous = configuration.MongoAddEditPrepare.synchronous;
                 if (!isSynchronous) {

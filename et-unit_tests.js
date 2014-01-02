@@ -5562,14 +5562,14 @@ exports.stickydata = stickydata = function stickydata(params, callback) {
 	executearray([{
 		"executethis": "addwidmaster",
 		"wid": widId1,
-		"metadata.method": widId1,
-		"a1": "a2"
+		"metadata.method": "colordto951",
+		"hue": "string951"
 	}, {
 		"executethis": "addwidmaster",
 		"wid": widId2,
-		"metadata.method": widId2,
-		"b1": "b2"
-	}, {
+		"metadata.method": "colordto952",
+		"hue": "string952"
+	},{
 		"executethis": "getwidmaster",
 		"wid": widId1
 	}, {

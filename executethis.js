@@ -14,10 +14,10 @@
 
     var execute, executethis, etexecute;
 
-    exports.etexecute = window.etexecute = etexecute = function etexecute(received_params, callback) {
+    exports.etexecute = window.etexecute = etexecute = function etexecute(params, callback) {
 
-        var params = {};
-        extend(true, params, received_params); // clone received params
+        // var params = {};
+        // extend(true, params, received_params); // clone received params
 
         params = toLowerKeys(params);
         execute(params, function (err, results) {
@@ -26,10 +26,10 @@
     }
 
 
-    exports.execute = window.execute = execute = function execute(received_params, callback) {
+    exports.execute = window.execute = execute = function execute(incomingparams, callback) {
 
-        var incomingparams = {};
-        extend(true, incomingparams, received_params); // clone received params
+        // var incomingparams = {};
+        // extend(true, incomingparams, received_params); // clone received params
 
         incomingparams = toLowerKeys(incomingparams);
 
@@ -110,12 +110,12 @@
                 targetfunction = execute;
             }
 
-            var params = {};
-            var tempParams = toLowerKeys(inboundparms)
+            // var params = {};
+            var params = toLowerKeys(inboundparms)
             var argCount = 0
 
             // cloning inbound params
-            extend(true, params, tempParams);
+            // extend(true, params, tempParams);
 
             proxyprinttodiv('Function executethis params', params, 11);
             proxyprinttodiv('Function executethis fn', targetfunction.name, 11);
@@ -196,13 +196,13 @@
                 delete params[target]; // ** moved by Roger
                 delete params[targetfunction]; // ** added by Roger
 
-                var tempHowToDoList = CreateDoList(params, target, targetfunction); // generate list based on pre, mid, post
-                howToDoList = extend(howToDoList, tempHowToDoList);
+                var howToDoList = CreateDoList(params, target, targetfunction); // generate list based on pre, mid, post
+                // howToDoList = extend(howToDoList, tempHowToDoList);
 
                 proxyprinttodiv("dothis - howToDoList ", howToDoList, 11);
 
-                var tempWhatToDoList = CreateDoList(params, targetname, targetfunction); // generate list based on fn name
-                whatToDoList = extend(whatToDoList, tempWhatToDoList);
+                var whatToDoList = CreateDoList(params, targetname, targetfunction); // generate list based on fn name
+                // whatToDoList = extend(whatToDoList, tempWhatToDoList);
 
                 proxyprinttodiv("dothis - whatToDoList ", whatToDoList, 11);
                 executelist(howToDoList, whatToDoList, callback); // execute list
@@ -229,10 +229,11 @@
         };
 
         // get saved configuration
-        var tempConfig0 = toLowerKeys(config.configuration); // config0 is working copy of current configuration
-
         // cloning config
-        var config0 = extend(config0, tempConfig0);
+        var config0 = {};
+        extend(true, config0, config.configuration);// config0 is working copy of current configuration
+        config0 = toLowerKeys(config0);
+        
 
         // If there is no config object for current target make one
         if (typeof config0[configtarget] !== 'object') {
@@ -576,10 +577,10 @@
     exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
         // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
         var resultlist = [];
-        async.mapSeries(paramsArr, function (received_params, cbMap) {
+        async.mapSeries(paramsArr, function (inboundparms, cbMap) {
             // each iteration 
-            var inboundparms = {};
-            extend(true, inboundparms, received_params); // clone received params
+            // var inboundparms = {};
+            // extend(true, inboundparms, received_params); // clone received params
             if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
                 cbMap(null, {
                     'test1': 'Reached test1 code.. executearray function'
