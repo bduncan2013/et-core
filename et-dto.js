@@ -103,8 +103,8 @@ exports.testdto = testdto = function testdto(params, callback) {
         "metadata.method": "systemdto",
         "wid": "testxxx",
         "creator": "internal",
-        "created": "01022014",
-        "expiration": "01032014",
+        "created": "01032014",
+        "expiration": "01042014",
         "category": "testing",
         "subcategory": "testingxxx"
     }, {
@@ -116,8 +116,8 @@ exports.testdto = testdto = function testdto(params, callback) {
         "metadata.method": "systemdto",
         "wid": "testxxx",
         "creator": "internal",
-        "created": "01022014",
-        "expiration": "01032014",
+        "created": "01032014",
+        "expiration": "01042014",
         "category": "testing",
         "subcategory": "testingxxx"
      });
