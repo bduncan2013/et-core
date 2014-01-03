@@ -94,6 +94,8 @@ exports.initdto = initdto = function initdto(params, callback) {
 }
 
 exports.testdto = testdto = function testdto(params, callback) {
+    testclearstorage();
+    config = setconfig5();
 
     //add systemdto data
     executearray([{
@@ -107,7 +109,7 @@ exports.testdto = testdto = function testdto(params, callback) {
         "subcategory": "testingxxx"
     }],
     function (err, res) {
-      res = logverify("unit_tests", "testdto_result", "", res[0], "",{
+      res = logverify("et-dto", "testdto_result", "", res[0], "",{
         "creator": "internal",
         "created": "01022014",
         "expiration": "01032014",
@@ -122,4 +124,3 @@ exports.testdto = testdto = function testdto(params, callback) {
         }
     });
 }
-
