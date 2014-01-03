@@ -746,9 +746,6 @@ exports.ast7 = ast7 = function ast7(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
 }
 // Call async_func_d_1 that will, in turn, call async_func_e_1, and then async_func_f, async_func_g, and async_func_h.
 // If the diamond makes out of async_func_h...it will show executethis can go five layers deep into et and return with a parameter
@@ -772,9 +769,6 @@ exports.ast8 = ast8 = function ast8(params, callback) {
 		"h": "5"
 	});
 	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -783,41 +777,41 @@ exports.ast8 = ast8 = function ast8(params, callback) {
 exports.ct1 = ct1 = function ct1(params, callback) {
 	testclearstorage();
 	config = setconfig2();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}, "c_t1_output", "");
-	params = logverify("c_unit_tests", "c_t1_result", "c_t1_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ct1_result", "", res[0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call redir_b with pre and post
 exports.ct2 = ct2 = function ct2(params, callback) {
 	testclearstorage();
 	config = setconfig2();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "redir_a",
 		"postexecute": "redir_c"
-	}, "c_t2_output", "");
-	params = logverify("c_unit_tests", "c_t2_result", "c_t2_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ct2_result", "", res[0], "",{
 		"f": "3",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call redir_b with only pre redir_a
 exports.ct3 = ct3 = function ct3(params, callback) {
@@ -1647,32 +1641,32 @@ exports.ag1_setup = ag1_setup = function ag1_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "sounddto"
 	}, "get_sounddto_result", "");
-
-
-
 	console.log(' >>>>>> ' + params);
-
 	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
 }
 
 // This will test the ability to write a dto to the db and retrieve it
 exports.ag1 = ag1 = function ag1(params, callback) {
 	config = setconfig1();
 	testclearstorage();
-	ag1_setup();
-	params = logverify("alphagetwidmaster_unit_tests", "ag1_result", "get_sounddto_result", "", "", {
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": "sounddto",
+		"metadata.method": "sounddto",
+		"note": "string"
+	},
+	{
+		"executethis": "getwidmaster",
+		"wid": "sounddto"
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ag1_result", "", res[1], "",{
 		"note": "string",
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
-	// return verifysummary("test_results");
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
@@ -1698,10 +1692,7 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 
 	console.log(' >>>>>> ' + params);
 
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
 }
 
 
@@ -1736,16 +1727,34 @@ exports.ag2 = ag2 = function ag2(params, callback) {
 	//debugcat = 'get';
 	config = setconfig1();
 	testclearstorage();
-	ag2_setup();
-	params = logverify("alpha_unit_tests", "ag2_result", "get_color1_result", "", "", {
+	executearray([{
+		"executethis": "addwidmaster", 
+		"wid": "colordto",
+		"metadata.method": "colordto",
+		"hue": "string"
+	},
+	{	
+		"executethis": "addwidmaster", 
+		"wid": "color1",
+		"hue": "red"
+	},
+		{	
+		"executethis": "addwidmaster", 
+		"wid": "color2",
+		"hue": "blue"
+	},
+	{
+		"executethis": "getwidmaster",
+		"wid": "color1"
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ag2_result", "", res[3], "",{
 		"hue": "red",
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag3_setup = ag3_setup = function ag3_setup(params, callback) {
@@ -1774,22 +1783,53 @@ exports.ag3_setup = ag3_setup = function ag3_setup(params, callback) {
 		"title": "Highway to Hell",
 		"sounddto.0.note": "A flat",
 		"sounddto.1.note": "B sharp",
-		"sounddto.2.note": "C flat",
+		"sounddto.2.note": "C flat"
 	}, "", "");
 	executetest("getwidmaster", {
 		"wid": "song1"
 	}, "get_song1_result", "");
 	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
 }
 // This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ag3 = ag3 = function ag3(params, callback) {
 	config = setconfig1();
 	testclearstorage();
-	ag3_setup();
-	params = logverify("alpha_unit_tests", "ag3_result", "get_song1_result", "", "", {
+
+	executearray([{
+		"executethis": "addwidmaster", 
+		"wid": "sounddto",
+		"metadata.method": "sounddto",
+		"note": "string"
+	},
+	{	
+		"executethis": "addwidmaster", 
+		"wid": "songdto",
+		"metadata.method": "songdto",
+		"title": "string",
+		"sounddto": "onetomany"
+	},
+	{	
+		"executethis": "addwidmaster", 
+		"wid": "rel_sound_to_song",
+		"primarywid": "songdto",
+		"secondarywid": "sounddto",
+		"relationshiptype": "attributes"
+	},
+	{	
+		"executethis": "addwidmaster", 
+		"wid": "song1",
+		"metadata.method": "songdto",
+		"title": "Highway to Hell",
+		"sounddto.0.note": "A flat",
+		"sounddto.1.note": "B sharp",
+		"sounddto.2.note": "C flat"
+	},
+	{
+		"executethis": "getwidmaster",
+		"wid": "song1"
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ag3_result", "", res[4], "",{
 		"title": "Highway to Hell",
 		"wid": "song1",
 		"metadata.method": "songdto",
@@ -1803,10 +1843,8 @@ exports.ag3 = ag3 = function ag3(params, callback) {
 		"sounddto.2.wid": "5",
 		"sounddto.2.metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag4_setup = ag4_setup = function ag4_setup(params, callback) {
@@ -5448,7 +5486,8 @@ exports.test_new = test_new = function test_new(params, callback) {
 	},{
 		"executethis": "getwidmaster",
 		"wid": "new_test_wid_1"
-	}], function (err, res) {
+	}], 
+	function (err, res) {
 		res = logverify("unit_tests", "test_new_result", "", res[1], "",{"height":"17 meters","wid":"new_test_wid_1","metadata.method":"defaultdto"});
 		if (callback instanceof Function) {
 			callback(err, res);
