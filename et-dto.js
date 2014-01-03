@@ -95,7 +95,7 @@ exports.initdto = initdto = function initdto(params, callback) {
 
 exports.testdto = testdto = function testdto(params, callback) {
     testclearstorage();
-    config = setconfig2();
+    config = setconfig3();
 
     //add systemdto data
     executearray([{
