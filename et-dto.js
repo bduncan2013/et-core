@@ -1,3 +1,9 @@
+exports.systestdto = systestdto = function systestdto(params, callback) {
+    systestdto();
+    initdto();
+    testdto();
+}
+
 exports.sysdto = sysdto = function sysdto(params, callback) {
 
     // create systemdto
@@ -8,8 +14,9 @@ exports.sysdto = sysdto = function sysdto(params, callback) {
         "creator": "accounttype",
         "created": "datetime",
         "expiration": "datetime",
-        "category": "string",
-        "subcategory": "string",
+        "offlinerule": "string",
+        "onlinerule": "string",
+        "slowrule": "string",
         "securitydto": "onetomany",
         "syncdto": "onetomany",
         "statusdto": "onetomany",
@@ -27,16 +34,10 @@ exports.sysdto = sysdto = function sysdto(params, callback) {
         "wid": "relationshipdto2",
         "metadata.method": "relationshipdto",
         "primarywid": "systemdto",
-        "secondarywid": "syncdto"
-    }, {
-        "executethis": "addwidmaster",
-        "wid": "relationshipdto3",
-        "metadata.method": "relationshipdto",
-        "primarywid": "systemdto",
         "secondarywid": "statusdto"
     }, {
         "executethis": "addwidmaster",
-        "wid": "relationshipdto4",
+        "wid": "relationshipdto3",
         "metadata.method": "relationshipdto",
         "primarywid": "systemdto",
         "secondarywid": "balancedto"
@@ -63,16 +64,6 @@ exports.initdto = initdto = function initdto(params, callback) {
         "securitytype": "actiontype",
         "group": "grouptype",
         "expiration": "datetime"
-    }, {
-
-        // create syncdto
-        "executethis": "addwidmaster",
-        "metadata.method": "syncdto",
-        "wid": "syncdto",
-        "expiration": "datetime",
-        "offlinerule": "offlineruletype",
-        "onlinerule": "onlineruletype",
-        "slowrule": "slowruletype"
     }, {
 
         // create statusdto
@@ -105,8 +96,9 @@ exports.testdto = testdto = function testdto(params, callback) {
         "creator": "internal",
         "created": "01032014",
         "expiration": "01042014",
-        "category": "testing",
-        "subcategory": "testingxxx"
+        "offlinerule": "none",
+        "onlinerule": "none",
+        "slowrule": "default",
     }, {
 		"executethis": "getwidmaster",
 		"wid": "testxxx"
@@ -118,8 +110,9 @@ exports.testdto = testdto = function testdto(params, callback) {
         "creator": "internal",
         "created": "01032014",
         "expiration": "01042014",
-        "category": "testing",
-        "subcategory": "testingxxx"
+        "offlinerule": "none",
+        "onlinerule": "none",
+        "slowrule": "default",
      });
 
     if (callback instanceof Function) {
