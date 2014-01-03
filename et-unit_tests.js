@@ -176,12 +176,10 @@ exports.rt1 = rt1 = function rt1(params, callback) {
 	params = logverify("readstartwid", "resultwid16", "startwid_bottomarray", "", "", {});
 	params = logverify("readstartwid", "resultwid17", "startwid_toparray", "", "", {});
 	return verifysummary("test_results");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // This series of tests will send parameters to func_b.
@@ -317,12 +315,10 @@ exports.test99 = test99 = function test99(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -332,26 +328,22 @@ exports.test99 = test99 = function test99(params, callback) {
 exports.t1 = t1 = function t1(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}, "t1_output", "");
-	params = logverify("unit_tests", "t1_result", "t1_output", "", "", {
+	}], 
+	function (err, res) {
+		res = logverify("unit_tests", "t1_result", "", res[0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	// params = logverify("unit_tests","t1_result","t1_output","","",{"d":"1","c":"0","g":"4"});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
-
+// An intentionally failing test to make sure failed tests fail
 exports.tfail = tfail = function tfail(params, callback) {
 	testclearstorage();
 	config = setconfig1();
@@ -366,200 +358,177 @@ exports.tfail = tfail = function tfail(params, callback) {
 		"c": "0",
 		"g": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // Call func_b with pre and post
 exports.t2 = t2 = function t2(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "func_a",
 		"postexecute": "func_c"
-	}, "t2_output", "");
-	params = logverify("unit_tests", "t2_result", "t2_output", "", "", {
+	}], 
+	function (err, res) {
+		res = logverify("unit_tests", "t2_result", "", res[0], "",{
 		"f": "3",
 		"g": "4",
 		"h": "5"
 	});
-	// params = logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
+
 // Call func_b with only pre func_a
 exports.t3 = t3 = function t3(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "func_a"
-	}, "t3_output", "");
-	params = logverify("unit_tests", "t3_result", "t3_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "t3_result", "", res[0], "",{
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
+
 // Call func_b with only post func_a -- same result as t3
 exports.t3a = t3a = function t3a(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"postexecute": "func_a"
-	}, "t3a_output", "");
-	params = logverify("unit_tests", "t3a_result", "t3a_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "t3a_result", "", res[0], "",{
 		"c": "0",
 		"g": "4",
 		"f": "3"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
+
 // Call func_b with only post
 exports.t4 = t4 = function t4(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"postexecute": "func_c"
-	}, "t4_output", "");
-	params = logverify("unit_tests", "t4_result", "t4_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "t4_result", "", res[0], "",{
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
+
 // Call func_b with only pre func_c -- same result as t4
 exports.t4a = t4a = function t4a(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "func_c"
-	}, "t4a_output", "");
-	params = logverify("unit_tests", "t4a_result", "t4a_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "t4a_result", "", res[0], "",{
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call func_b with func_a for pre and post
 exports.t5 = t5 = function t5(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "func_a",
 		"postexecute": "func_a"
-	}, "t5_output", "");
-	params = logverify("unit_tests", "t5_result", "t5_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "t5_result", "", res[0], "",{
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call func_b with func_c for pre and post
 exports.t6 = t6 = function t6(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "func_c",
 		"postexecute": "func_c"
-	}, "t6_output", "");
-	params = logverify("unit_tests", "t6_result", "t6_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "t6_result", "", res[0], "",{
 		"d": "1",
 		"h": "5",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call func_b with executefn
 exports.t7 = t7 = function t7(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}, "t7_output", "");
-	params = logverify("unit_tests", "t7_result", "t7_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "t7_result", "", res[0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call widb where widb does not exist as a function, or a parameter...but is a wid that can be loaded with executegetwid 
 exports.t8 = t8 = function t8(params, callback) {
@@ -575,12 +544,9 @@ exports.t8 = t8 = function t8(params, callback) {
 	params = logverify("unit_tests", "t8_result", "t8_output", "", "", {
 		"animal": "giraffe"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
 }
 // Call 
 exports.t9 = t9 = function t9(params, callback) {
@@ -596,12 +562,8 @@ exports.t9 = t9 = function t9(params, callback) {
 	params = logverify("unit_tests", "t9_result", "t9_output", "", "", {
 		"animal": "giraffe"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+
 }
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -622,12 +584,10 @@ exports.ast1 = ast1 = function ast1(params, callback) {
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Call async_func_b with pre and post
 exports.ast2 = ast2 = function ast2(params, callback) {
@@ -646,12 +606,8 @@ exports.ast2 = ast2 = function ast2(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, resparams)} else {return params}
+
 }
 // Call async_func_b with only pre async_func_a
 exports.ast3 = ast3 = function ast3(params, callback) {
@@ -669,12 +625,8 @@ exports.ast3 = ast3 = function ast3(params, callback) {
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
 }
 // Call async_func_b with only post async_func_a -- same result as t3
 exports.ast3a = ast3a = function ast3a(params, callback) {
@@ -692,12 +644,8 @@ exports.ast3a = ast3a = function ast3a(params, callback) {
 		"g": "4",
 		"f": "3"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
 }
 // Call async_func_b with only post
 exports.ast4 = ast4 = function ast4(params, callback) {
@@ -715,12 +663,8 @@ exports.ast4 = ast4 = function ast4(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
 }
 // Call async_func_b with only pre async_func_c -- same result as t4
 exports.ast4a = ast4a = function ast4a(params, callback) {
@@ -738,12 +682,7 @@ exports.ast4a = ast4a = function ast4a(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
 }
 // Call async_func_b with async_func_a for pre and post
 exports.ast5 = ast5 = function ast5(params, callback) {
@@ -762,12 +701,10 @@ exports.ast5 = ast5 = function ast5(params, callback) {
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Call async_func_b with async_func_c for pre and post
 exports.ast6 = ast6 = function ast6(params, callback) {
@@ -786,12 +723,10 @@ exports.ast6 = ast6 = function ast6(params, callback) {
 		"h": "5",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Call async_func_d that will, in turn, call async_func_e  
 exports.ast7 = ast7 = function ast7(params, callback) {
@@ -807,12 +742,10 @@ exports.ast7 = ast7 = function ast7(params, callback) {
 		"c": "0",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Call async_func_d_1 that will, in turn, call async_func_e_1, and then async_func_f, async_func_g, and async_func_h.
 // If the diamond makes out of async_func_h...it will show executethis can go five layers deep into et and return with a parameter
@@ -835,12 +768,10 @@ exports.ast8 = ast8 = function ast8(params, callback) {
 		"diamonds": "you are rich!!",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -860,12 +791,9 @@ exports.ct1 = ct1 = function ct1(params, callback) {
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
 }
 // Call redir_b with pre and post
 exports.ct2 = ct2 = function ct2(params, callback) {
@@ -884,12 +812,9 @@ exports.ct2 = ct2 = function ct2(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
 }
 // Call redir_b with only pre redir_a
 exports.ct3 = ct3 = function ct3(params, callback) {
@@ -907,12 +832,8 @@ exports.ct3 = ct3 = function ct3(params, callback) {
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
 }
 // Call redir_b with only post redir_a -- same result as t3
 exports.ct3a = ct3a = function ct3a(params, callback) {
@@ -930,12 +851,9 @@ exports.ct3a = ct3a = function ct3a(params, callback) {
 		"g": "4",
 		"f": "3"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
 }
 // Call redir_b with only post
 exports.ct4 = ct4 = function ct4(params, callback) {
@@ -953,12 +871,9 @@ exports.ct4 = ct4 = function ct4(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
 }
 // Call redir_b with only pre redir_c -- same result as t4
 exports.ct4a = ct4a = function ct4a(params, callback) {
@@ -976,12 +891,10 @@ exports.ct4a = ct4a = function ct4a(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Call redir_b with redir_a for pre and post
 exports.ct5 = ct5 = function ct5(params, callback) {
@@ -1000,12 +913,10 @@ exports.ct5 = ct5 = function ct5(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Call redir_b with redir_c for pre and post
 exports.ct6 = ct6 = function ct6(params, callback) {
@@ -1027,12 +938,10 @@ exports.ct6 = ct6 = function ct6(params, callback) {
 		"d": "1",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This will try pre with func a, but remapped with a configuration that
 // is passed into executethis...it still wants to hit func_b with mid
@@ -1068,12 +977,8 @@ exports.ct7 = ct7 = function ct7(params, callback) {
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
 }
 // This will try pre with func a, 
 exports.ct7a = ct7a = function ct7a(params, callback) {
@@ -1106,12 +1011,10 @@ exports.ct7a = ct7a = function ct7a(params, callback) {
 		"ct7a": "did some alerting",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 
@@ -1131,12 +1034,10 @@ exports.ct8 = ct8 = function ct8(params, callback) {
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ct9 = ct9 = function ct9(params, callback) {
@@ -1156,12 +1057,10 @@ exports.ct9 = ct9 = function ct9(params, callback) {
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ct9a = ct9a = function ct9a(params, callback) {
@@ -1174,12 +1073,10 @@ exports.ct9a = ct9a = function ct9a(params, callback) {
 	params = logverify("c_unit_tests", "ct9a_result", "ct9a_output", "", "", {
 		"data": "Keg of Beer"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 
@@ -1202,12 +1099,10 @@ exports.ct10 = ct10 = function ct10(params, callback) {
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // This test is to call func_b, remap does_not_exist_1 to func_a,
@@ -1233,12 +1128,10 @@ exports.ct11 = ct11 = function ct11(params, callback) {
 		"h": "5",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // This test is to send in a config as parameter of a config. This allows for the server to recieve a config
@@ -1279,12 +1172,10 @@ exports.ct12 = ct12 = function ct12(params, callback) {
 		"ct12": "did some alerting",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // --------------not implemnted yet
@@ -1307,12 +1198,10 @@ exports.ct13 = ct13 = function ct13(params, callback) {
 		"fire_c": "fire_c is now fired",
 		"cer2": "booberry"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // This test is to test a config where a config with params is sent to pre, mid, and post.
@@ -1336,12 +1225,10 @@ exports.ct14 = ct14 = function ct14(params, callback) {
 		"cer3": "chex",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // This will send the alphabits param in the preexecute config, but will overriding it in the args to
@@ -1364,12 +1251,10 @@ exports.ct15 = ct15 = function ct15(params, callback) {
 		"c": "0",
 		"cer2": "booberry"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the 
 // config params in the assertion wid.
@@ -1396,12 +1281,10 @@ exports.ct16 = ct16 = function ct16(params, callback) {
 			}]
 		}
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // To test if the executeDefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function
 // or a parameter, so it should find executeDefault that has a param to be expected to be sent to func_b.
@@ -1420,12 +1303,10 @@ exports.ct17 = ct17 = function ct17(params, callback) {
 		"g": "4",
 		"exdef": "executeDefault was grabbed"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by executeFn
 exports.ct18 = ct18 = function ct18(params, callback) {
@@ -1446,12 +1327,10 @@ exports.ct18 = ct18 = function ct18(params, callback) {
 		"g": "4"
 	});
 	// params = logverify("c_unit_tests","ct18_result","ct18_output","","", {"f":"3","c":"0","g":"4","myexfnparam":"hereismyfnparam" });
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params
 // sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, 
@@ -1503,12 +1382,10 @@ exports.ct19 = ct19 = function ct19(params, callback) {
 		"bravo": "1",
 		"charlie": "1"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are 
 // all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
@@ -1529,12 +1406,10 @@ exports.ct20 = ct20 = function ct20(params, callback) {
 		"bravo": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -1555,12 +1430,10 @@ exports.ct1000 = ct1000 = function ct1000(params, callback) {
 		"d": "1",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // test to see if nested configuration params are making it across to a mock server function
@@ -1586,12 +1459,10 @@ exports.cict1 = cict1 = function cict1(params, callback) {
 			}]
 		}
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // mock_server resolves to this function
@@ -1611,12 +1482,11 @@ exports.alertFn1 = alertFn1 = function alertFn1(params, callback) {
 	// alert('ct7 has alerted');
 	params["ct7"] = "did some alerting";
 	// delete params["configuration"];
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	var err;
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // Test to call a function
 exports.ft1 = ft1 = function ft1(params, callback) {
@@ -1633,12 +1503,10 @@ exports.ft1 = ft1 = function ft1(params, callback) {
 		"d": "1",
 		"g": "4"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -1781,12 +1649,10 @@ exports.ag1_setup = ag1_setup = function ag1_setup(params, callback) {
 
 	console.log(' >>>>>> ' + params);
 
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 // This will test the ability to write a dto to the db and retrieve it
@@ -1799,12 +1665,10 @@ exports.ag1 = ag1 = function ag1(params, callback) {
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 	// return verifysummary("test_results");
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1831,12 +1695,10 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 
 	console.log(' >>>>>> ' + params);
 
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 
@@ -1877,12 +1739,10 @@ exports.ag2 = ag2 = function ag2(params, callback) {
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag3_setup = ag3_setup = function ag3_setup(params, callback) {
@@ -1916,12 +1776,10 @@ exports.ag3_setup = ag3_setup = function ag3_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "song1"
 	}, "get_song1_result", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ag3 = ag3 = function ag3(params, callback) {
@@ -1942,12 +1800,10 @@ exports.ag3 = ag3 = function ag3(params, callback) {
 		"sounddto.2.wid": "5",
 		"sounddto.2.metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag4_setup = ag4_setup = function ag4_setup(params, callback) {
@@ -1992,12 +1848,10 @@ exports.ag4_setup = ag4_setup = function ag4_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "song1"
 	}, "get_song1_result", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 function aggressivedto_emulator(params, callback) {
@@ -2025,12 +1879,10 @@ exports.ag4 = ag4 = function ag4(params, callback) {
 		"sounddto.measuredto.wid": "measuredto",
 		"sounddto.measuredto.metadata.method": "measuredto"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
@@ -2063,12 +1915,10 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 		"relationshiptype": "attributes"
 	}, "", "");
 
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 function aggressivedto_emulator(params, callback) {
@@ -2087,12 +1937,10 @@ exports.ag5 = ag5 = function ag5(params, callback) {
 		"x": "songdto"
 	}, "aggressive_result", "");
 	params = logverify("alpha_unit_tests", "ag5_result", "aggressive_result", "", "", {});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -2129,12 +1977,10 @@ exports.qq1_setup = qq1_setup = function qq1_setup(params, callback) {
 	}, "", "");
 
 	// executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.qq1 = qq1 = function qq1(params, callback) {
@@ -2153,12 +1999,10 @@ exports.qq1 = qq1 = function qq1(params, callback) {
 
 	executetest('executethis', executeobject, 'qq1_result', '');
 	params = logverify("query_tests", "qq1_result", "qq1_result", "", "", {});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 
@@ -2171,12 +2015,10 @@ exports.getwidtest = getwidtest = function getwidtest(params, callback) {
 	executetest('getwid', {
 		wid: 'test1'
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.updatewidtest = updatewidtest = function updatewidtest(params, callback) {
@@ -2185,12 +2027,10 @@ exports.updatewidtest = updatewidtest = function updatewidtest(params, callback)
 		this: 'that',
 		something: 'else'
 	}, '', '');
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.jasontesta = jasontesta = function jasontesta(params, callback) {
@@ -2202,12 +2042,10 @@ exports.jasontesta = jasontesta = function jasontesta(params, callback) {
 	executetest('getwid', {
 		wid: 'jasontestwid'
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.jasontestb = jasontestb = function jasontestb(params, callback) {
@@ -2220,12 +2058,10 @@ exports.jasontestb = jasontestb = function jasontestb(params, callback) {
 	executetest('getwidmaster', {
 		wid: 'jasontestwid5'
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.testa = testa = function testa(params, callback) {
@@ -2252,12 +2088,10 @@ exports.testa = testa = function testa(params, callback) {
 	}, "", "");
 	// executetest("getwidmaster", {"wid":"color1"}, "", "");	
 	//		params = logverify("this_test","test_result","actual","","",aalStorage("assertion"));
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.testb_setup = testb_setup = function testb_setup(params, callback) {
@@ -2269,12 +2103,10 @@ exports.testb_setup = testb_setup = function testb_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "sounddto"
 	}, "get_sounddto_result", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.testc_setup = testc_setup = function testc_setup(params, callback) {
@@ -2283,12 +2115,10 @@ exports.testc_setup = testc_setup = function testc_setup(params, callback) {
 		"wid": "color1",
 		"hue": "red"
 	}, "", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.testd_setup = testd_setup = function testd_setup(params, callback) {
@@ -2305,12 +2135,10 @@ exports.testd_setup = testd_setup = function testd_setup(params, callback) {
 		"wid": "color2",
 		"hue": "blue"
 	}, "", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.teste_setup = teste_setup = function teste_setup(params, callback) {
@@ -2330,12 +2158,10 @@ exports.teste_setup = teste_setup = function teste_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "color1"
 	}, "get_color1_result", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.testg_setup = testg_setup = function testg_setup(params, callback) {
@@ -2343,12 +2169,10 @@ exports.testg_setup = testg_setup = function testg_setup(params, callback) {
 		"wid": "defaultforauthor",
 		"name": "roger"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.testh_setup = testh_setup = function testh_setup(params, callback) {
@@ -2360,12 +2184,10 @@ exports.testh_setup = testh_setup = function testh_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "defaultforauthor"
 	}, "get_color1_result", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 exports.testi_setup = testi_setup = function testi_setup(params, callback) {
 	executetest("addwidmaster", {
@@ -2378,12 +2200,10 @@ exports.testi_setup = testi_setup = function testi_setup(params, callback) {
 	// executetest("addwidmaster",{"metadata.method":"gojsrel3","wid":"color_sound_relationship","primarywid":"sounddto","secondarywid":"colordto","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
 
 	// executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This will test the ability to write a dto to the db and retrieve it
 exports.testb = testb = function testb(params, callback) {
@@ -2402,12 +2222,10 @@ exports.testb = testb = function testb(params, callback) {
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 	// return verifysummary("test_results");
 }
 // This will test the ability to write a wid to the db and use executegetwid to retrieve it
@@ -2424,12 +2242,10 @@ exports.testc = testc = function testc(params, callback) {
 		"wid": "color1",
 		"metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
@@ -2442,12 +2258,10 @@ exports.teste = teste = function teste(params, callback) {
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.testf = testf = function testf(params, callback) {
@@ -2466,12 +2280,10 @@ exports.testf = testf = function testf(params, callback) {
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 	// return verifysummary("test_results");
 }
 
@@ -2504,12 +2316,10 @@ exports.testf = testf = function testf(params, callback) {
 		"h": "5"
 	});
 	// params = logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 exports.testf_fail = testf_fail = function testf_fail(params, callback) {
@@ -2537,12 +2347,10 @@ exports.testf_fail = testf_fail = function testf_fail(params, callback) {
 		"h": "5"
 	});
 	// params = logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // To test executethis by sending a function
 exports.testg = testg = function testg(params, callback) {
@@ -2561,12 +2369,10 @@ exports.testg = testg = function testg(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This test passes since execute is not in quotes
 exports.testh = testh = function testh() {
@@ -2610,12 +2416,10 @@ exports.testi = testi = function testi(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 // This test tries to call executeparam
 exports.testj = testj = function testj(params, callback) {
@@ -2636,12 +2440,10 @@ exports.testj = testj = function testj(params, callback) {
 		"h": "5"
 	});
 
-	if (callback instanceof Function) {
-		var err;
-		callback(err, params);
-	} else {
-		return params;
-	}
+	if (callback instanceof Function) {callback(err, params)} else {return params}
+
+
+
 }
 
 
@@ -4146,7 +3948,7 @@ exports.ag5 = ag5 = function ag5(params, callback) {
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	ag5_setup(params, function (err, res) {
+	ag5_setup(params, function(res) {
 
 		console.log(' in test ag5 >>>>>> ' + JSON.stringify(res));
 
@@ -4172,7 +3974,7 @@ exports.ag6a = ag6a = function ag6a(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4196,7 +3998,7 @@ exports.ag6b = ag6b = function ag6b(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function (err, res) {
+	}], function(res) {
 
 		if (callback instanceof Function) {
 			callback(res);
@@ -4216,7 +4018,7 @@ exports.ag6c = ag6c = function ag6c(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": "test1"
-	}], function (err, res) {
+	}], function(res) {
 		console.log(' in test ag6c >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4318,7 +4120,7 @@ exports.ag7 = ag7 = function ag7(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4349,7 +4151,7 @@ exports.ag8 = ag8 = function ag8(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4451,7 +4253,7 @@ exports.ag9 = ag9 = function ag9(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4483,7 +4285,7 @@ exports.ag10 = ag10 = function ag10(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4517,7 +4319,7 @@ exports.ag11a = ag11a = function ag11a(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4549,7 +4351,7 @@ exports.ag11b = ag11b = function ag11b(params, callback) {
 		// },{
 		// 	"executethis": "removefrommongo",
 		// 	"wid": {"$or":[{"wid":"text1"},{"wid":"text2"},{"wid":"text3"},{"wid":"text4"},{"wid":"text5"},{"wid":"text6"},{"wid":"text7"},{"wid":"text8"},{"wid":"text9"},{"wid":"text10"}]}
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag11a >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4568,7 +4370,7 @@ exports.ag13a = ag13a = function ag13a(params, callback) {
 	executearray([{
 		"executethis": "getwidmaster",
 		"wid": 'test1'
-	}], function (err, res) {
+	}], function(res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4585,7 +4387,7 @@ exports.ag13b = ag13b = function ag13b(params, callback) {
 	executearray([{
 		"executethis": "getwidmaster",
 		"wid": 'test1'
-	}], function (err, res) {
+	}], function(res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4607,7 +4409,7 @@ exports.ag14a = ag14a = function ag14a(params, callback) {
 		"3": "31",
 		"metadata.method": "test1method",
 		"test1note": "string"
-	}], function (err, res) {
+	}], function(res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4629,7 +4431,7 @@ exports.ag14b = ag14b = function ag14b(params, callback) {
 		"3": "31",
 		"metadata.method": "test1method",
 		"test1note": "string"
-	}], function (err, res) {
+	}], function(res) {
 		if (callback instanceof Function) {
 			callback(res);
 		} else {
@@ -4653,7 +4455,7 @@ exports.ag15a = ag15a = function ag15a(params, callback) {
 		"3": "string",
 		"executethis": "addwidmaster",
 		"wid": widMasterId,
-		"metadata.method": widMasterId,
+		"metadata.method": widMasterId	,
 		"test1note": "string"
 	}, {
 		"2": "21",
@@ -4665,7 +4467,7 @@ exports.ag15a = ag15a = function ag15a(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": widId
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -4688,7 +4490,7 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 		"3": "string",
 		"executethis": "addwidmaster",
 		"wid": widMasterId,
-		"metadata.method": widMasterId,
+		"metadata.method": widMasterId	,
 		"test1note": "string"
 	}, {
 		"2": "21",
@@ -4700,7 +4502,7 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 	}, {
 		"executethis": "getwid",
 		"wid": widId
-	}], function (err, res) {
+	}], function(res) {
 		// console.log(' in test ag6 >>>>>> ' + JSON.stringify(res));
 
 		if (callback instanceof Function) {
@@ -5628,33 +5430,29 @@ exports.extraparams = extraparams = function extraparams(params, callback) {
 
 		if (callback instanceof Function) {
 			callback(err, res);
-		} else {
-			return res;
 		}
 	});
 	// return verifysummary("test_results");
 }
 
-// configuration.c = [];
-// configuration.c[0] = {};
-// configuration.c[0].executeorder = 0;
-// configuration.c[0].tryorder = 0;
-// configuration.c[0].dothis = 'fire_c';
-// configuration.c[0].params = {};
+exports.test_new = test_new = function test_new(params, callback) {
+	config = setconfig1();
+	testclearstorage();
+	executearray([{
+		"executethis": "addwidmaster",
+		"wid": "new_test_wid_1",
+		"height": "17 meters"
+	},{
+		"executethis": "getwidmaster",
+		"wid": "new_test_wid_1"
+	}], function (err, res) {
+		res = logverify("unit_tests", "test_new_result", "", res[1], "",{"height":"17 meters","wid":"new_test_wid_1","metadata.method":"defaultdto"});
+		if (callback instanceof Function) {
+			callback(err, res);
+		} else {
+			return res;
+		}
+	});
+}
 
-// configuration.a = [];
-// configuration.a[0] = {};
-// configuration.a[0].executeorder = 0;
-// configuration.a[0].tryorder = 0;
-// configuration.a[0].dothis = 'func_a';
-// configuration.a[0].params = {'cereal':'alphabits'};
-
-// configuration.a[0].dothis = {"configuration":"[
-// 									{
-// 									  	configuration.newparam:[];
-// 									    configuration.newparam[0] = {};
-// 									    configuration.newparam[0].executeorder = 0;
-// 									    configuration.newparam[0].tryorder = 0;
-// 									    configuration.newparam[0].dothis = 'do_new_func';       
-// 									}
-// 											]"};
+// logverify(testname, resultwid, parmwid1, parameterobj1, parmwid2, parameterobj2)
