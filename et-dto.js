@@ -107,9 +107,12 @@ exports.testdto = testdto = function testdto(params, callback) {
         "expiration": "01032014",
         "category": "testing",
         "subcategory": "testingxxx"
-    }],
+    }, {
+		"executethis": "getwidmaster",
+		"wid": "testxxx"
+	}], 
     function (err, res) {
-        res = logverify("et-dto", "testdto_result", "", res[0], "", {
+        res = logverify("et-dto", "testdto_result", "", res[1], "", {
         "metadata.method": "systemdto",
         "wid": "testxxx",
         "creator": "internal",
