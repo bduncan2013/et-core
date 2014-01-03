@@ -1,9 +1,3 @@
-exports.systestdto = systestdto = function systestdto(params, callback) {
-    systestdto();
-    initdto();
-    testdto();
-}
-
 exports.sysdto = sysdto = function sysdto(params, callback) {
 
     // create systemdto
