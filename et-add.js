@@ -551,6 +551,7 @@
             return resultObj;
         }
 
+        async.series([
         function step1(cb) {
             relationshipdto = {
                 'primarywid': 'string',
@@ -575,8 +576,9 @@
                 "key": "metadata.method",
                 "value": "relationshipdto"
             });
+            debugfn("AddMongoRelationship", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
             cb("");
-        }
+        },
 
         function step2(cb) {
             proxyprinttodiv('Function AddMongoRelationship - executeobject', executeobject, 75);
@@ -592,7 +594,7 @@
                 debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("");
             });
-        }
+        },
 
         function step3(cb) {
             proxyprinttodiv('Function AddMongoRelationship, ******************* 1 : ', widset, 90);
@@ -608,7 +610,7 @@
             proxyprinttodiv('Function AddMongoRelationship, ******************* 2 : ', widset, 90);
             debugfn("AddMongoRelationship", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
             cb("");
-        }
+        },
 
         function step4(cb) {
             var isSynchronous = configuration.MongoAddEditPrepare.synchronous;
@@ -623,39 +625,16 @@
                 debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("");
             }
-        }
+        }],
 
-        async.series({
-                one: step1,
-                check1: function (cbcheck) {
-                    debugfn("AddMongoRelationship", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("")
-                },
-                two: step2,
-                check2: function (cbcheck) {
-                    debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("")
-                },
-                three: step3,
-                check3: function (cbcheck) {
-                    debugfn("AddMongoRelationship", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("")
-                },
-                four: step4,
-                check4: function (cbcheck) {
-                    debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("")
-                }
+        function (err, results) {
+            console.log(JSON.stringify('done all in AddMongoRelationship, Result is  ' + JSON.stringify(results)));
+            ret = AddedObject;
 
-            },
-            function (err, results) {
-                console.log(JSON.stringify('done all in AddMongoRelationship, Result is  ' + JSON.stringify(results)));
-                ret = AddedObject;
-
-                if (isSynchronous) {
-                    callback(err, ret);
-                }
-            });
+            if (!isSynchronous) {
+                callback(err, ret);
+            }
+        });
 
         var isSynchronous = configuration.AddMongoRelationship.synchronous;
         if (isSynchronous) {
@@ -843,6 +822,7 @@
         var dtotype = commandobject["command.dtotype"];
         var convertmethod = commandobject["command.convertmethod"];
 
+        async.series([
         function step1(cb) {
 
             proxyprinttodiv('Function AddWidParameters()  checkflag ', checkflag);
@@ -868,6 +848,7 @@
                 }
                 proxyprinttodiv('Function addWidParameters ** after ', inputParametersObject);
                 proxyprinttodiv('Function AddWidParameters() dtoobject return: ', dtoobject);
+                debugfn("AddWidParameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("");
             } else {
                 addcleanparameters(inputParametersObject, dtotype, accesstoken, "add", convertmethod, function (err, res) {
@@ -883,10 +864,11 @@
                     }
                     proxyprinttodiv('Function addWidParameters ** after ', inputParametersObject);
                     proxyprinttodiv('Function AddWidParameters() dtoobject return: ', dtoobject);
+                    debugfn("AddWidParameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("");
                 });
             }
-        }
+        },
 
         function step2(cb) {
             var executeobject = {};
@@ -895,9 +877,10 @@
 
             etexecute(executeobject, function (err, res) {
                 moreParameters = res;
+                debugfn("AddWidParameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("");
             });
-        }
+        },
 
         function step3(cb) {
             if (moreParameters) {
@@ -923,32 +906,16 @@
             var isSynchronous = configuration.AddMaster.synchronous;
             if (isSynchronous) {
                 Wid = AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata);
+                debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 cb("");
             } else {
                 AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata, function (err, res) {
                     Wid = res;
+                    debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("");
                 });
             }
-        }
-
-        async.series({
-                one: step1,
-                check1: function (cbcheck) {
-                    debugfn("AddWidParameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("");
-                },
-                two: step2,
-                check2: function (cbcheck) {
-                    debugfn("AddWidParameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("");
-                },
-                three: step3,
-                check3: function (cbcheck) {
-                    debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    cbcheck("");
-                }
-            },
+        }],
             function (err, results) {
                 console.log(JSON.stringify('done all in AddWidParameters, Result is  ' + JSON.stringify(Wid)));
                 ret = {
@@ -958,13 +925,11 @@
                 proxyprinttodiv('Function AddWidParameters() Wid : I ', Wid, 99);
                 debugfn("AddWidParameters", " final response after steps ", "add", "sub", debugcolor, debugindent, debugvars([1]));
 
-
                 var isSynchronous = configuration.AddWidParameters.synchronous;
                 if (!isSynchronous) {
                     callback(err, ret);
                 }
-            });
-
+        });
 
         var isSynchronous = configuration.AddWidParameters.synchronous;
         if (isSynchronous) {

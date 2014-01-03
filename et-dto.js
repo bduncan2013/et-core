@@ -95,7 +95,7 @@ exports.initdto = initdto = function initdto(params, callback) {
 
 exports.testdto = testdto = function testdto(params, callback) {
     testclearstorage();
-    config = setconfig5();
+    config = setconfig3();
 
     //add systemdto data
     executearray([{
@@ -103,16 +103,21 @@ exports.testdto = testdto = function testdto(params, callback) {
         "metadata.method": "systemdto",
         "wid": "testxxx",
         "creator": "internal",
-        "created": "01022014",
-        "expiration": "01032014",
+        "created": "01032014",
+        "expiration": "01042014",
         "category": "testing",
         "subcategory": "testingxxx"
-    }],
+    }, {
+		"executethis": "getwidmaster",
+		"wid": "testxxx"
+	}], 
     function (err, res) {
-      res = logverify("et-dto", "testdto_result", "", res[0], "",{
+        res = logverify("et-dto", "testdto_result", "", res[1], "", {
+        "metadata.method": "systemdto",
+        "wid": "testxxx",
         "creator": "internal",
-        "created": "01022014",
-        "expiration": "01032014",
+        "created": "01032014",
+        "expiration": "01042014",
         "category": "testing",
         "subcategory": "testingxxx"
      });
