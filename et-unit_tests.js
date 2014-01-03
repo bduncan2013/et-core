@@ -573,160 +573,163 @@ exports.t9 = t9 = function t9(params, callback) {
 exports.ast1 = ast1 = function ast1(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}, "as_t1_output", "");
-	params = logverify("as_unit_tests", "as_t1_result", "as_t1_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ast1_result", "", res[0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call async_func_b with pre and post
 exports.ast2 = ast2 = function ast2(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "async_func_a",
 		"postexecute": "async_func_c"
-	}, "as_t2_output", "");
-	params = logverify("as_unit_tests", "as_t2_result", "as_t2_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ast2_result", "", res[0], "",{
 		"f": "3",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, resparams)} else {return params}
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call async_func_b with only pre async_func_a
 exports.ast3 = ast3 = function ast3(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "async_func_a"
-	}, "as_t3_output", "");
-	params = logverify("as_unit_tests", "as_t3_result", "as_t3_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ast3_result", "", res[0], "",{
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call async_func_b with only post async_func_a -- same result as t3
 exports.ast3a = ast3a = function ast3a(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"postexecute": "async_func_a"
-	}, "as_t3a_output", "");
-	params = logverify("as_unit_tests", "as_t3a_result", "as_t3a_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ast3a_result", "", res[0], "",{
 		"c": "0",
 		"g": "4",
 		"f": "3"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call async_func_b with only post
 exports.ast4 = ast4 = function ast4(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"postexecute": "async_func_c"
-	}, "as_t4_output", "");
-	params = logverify("as_unit_tests", "as_t4_result", "as_t4_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ast4_result", "", res[0], "",{
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call async_func_b with only pre async_func_c -- same result as t4
 exports.ast4a = ast4a = function ast4a(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "async_func_c"
-	}, "as_t4a_output", "");
-	params = logverify("as_unit_tests", "as_t4a_result", "as_t4a_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ast4a_result", "", res[0], "",{
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call async_func_b with async_func_a for pre and post
 exports.ast5 = ast5 = function ast5(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "async_func_a",
 		"postexecute": "async_func_a"
-	}, "as_t5_output", "");
-	params = logverify("as_unit_tests", "as_t5_result", "as_t5_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ast5_result", "", res[0], "",{
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call async_func_b with async_func_c for pre and post
 exports.ast6 = ast6 = function ast6(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executetest("executethis", {
+	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "async_func_c",
 		"postexecute": "async_func_c"
-	}, "as_t6_output", "");
-	params = logverify("as_unit_tests", "as_t6_result", "as_t6_output", "", "", {
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ast6_result", "", res[0], "",{
 		"d": "1",
 		"h": "5",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
 }
 // Call async_func_d that will, in turn, call async_func_e  
 exports.ast7 = ast7 = function ast7(params, callback) {
