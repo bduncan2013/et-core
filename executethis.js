@@ -404,8 +404,8 @@
             howToDo = howToDoList[h]['dothis']; // get specific howToDo from list
             howToDoParams = howToDoList[h]['params']; // get params that were stored
             if ((howToDoParams === undefined) || (howToDoParams === "")) {
-                howToDoParams = {}
-            };
+                howToDoParams = {};
+            }
             proxyprinttodiv("executelist Hparams ", howToDoParams, 11);
             proxyprinttodiv("executelist howToDo ", howToDo, 11);
 
@@ -414,8 +414,8 @@
                 whatToDoFn = whatToDoList[w]['dofn'];
                 whatToDoParams = whatToDoList[w]['params'];
                 if ((whatToDoParams === undefined) || (whatToDoParams === "")) {
-                    whatToDoParams = {}
-                };
+                    whatToDoParams = {};
+                }
                 // if((params !== undefined) && (whatToDoList !== undefined)) {
                 //     params = jsonConcat(params, whatToDoList[w]['params']); // concatenate with other pararms
                 // } 
@@ -428,15 +428,15 @@
                 executeobject = getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn); // get status of that fn
                 proxyprinttodiv("executelist executeobject ", executeobject, 11);
                 if (executeobject) {
-                    break
-                }; // if fnparams sent back (fn found) then end
+                    break;
+                } // if fnparams sent back (fn found) then end
             } // for w
             if (executeobject) {
-                break
-            };
+                break;
+            }
         } // for h
 
-        if (typeof executeobject === 'object' && Object.keys(executeobject).length != 0) { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
+        if (!executeobject.skipExecuteObjCheck || (typeof executeobject === 'object' && Object.keys(executeobject).length != 0)) { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
             proxyprinttodiv("executelist executeobject ", executeobject, 11);
             targetfn = executeobject.targetfn;
             whatToDo = executeobject.whatToDo;
@@ -448,6 +448,9 @@
             } else { // else call asynch
                 targetfn(params, callback)
             }
+        } else if (executeobject.skipExecuteObjCheck) { // if case "executegetwid" returned data directly to executeobject
+            delete executeobject['skipExecuteObjCheck'];
+            callback(err, executeobject);
         } else { // if no execute
             callback(err, {
                 "error": "no executethis provided"
@@ -474,7 +477,7 @@
                         // we want to return undefined here so we try the next case
                         targetfn = undefined;
                         break;
-                    };
+                    }
                     break;
 
                 case "executeParam":
@@ -497,11 +500,12 @@
                     tempobject = executethis({
                         'wid': whatToDo
                     }, getwid);
-                    if ((tempobject === undefined) && (!tempobject['js'])) {
-                        targetfn = executeerror
+                    if (tempobject !== undefined && tempobject['js']) {
+                        targetfn = tempobject['js'];
                     } else {
-                        targetfn = tempobject['js']
-                    };
+                        tempobject.skipExecuteObjCheck = true;
+                        return tempobject;
+                    }
                     break;
 
                 case "server":
