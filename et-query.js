@@ -22,7 +22,7 @@
             if (callback instanceof Function) {
                 mongoquery(parameters, callback);
             } else {
-                return mongoquery(parameters);
+                return mongoquery(err, parameters);
             } // TODO :: check if this is fine
         } else {
 
@@ -170,7 +170,7 @@
                                 delete widObject['metadata.method'];
                                 mQueryString = BuildSingleQuery(widObject, "or", environmentdb);
                                 //mQueryString = output.substring(0, output.length - 1);
-                                mongoquery(mQueryString, function (res) {
+                                mongoquery(mQueryString, function (err, res) {
                                     output = res;
                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                     cb(null, "step01");
@@ -218,7 +218,7 @@
                                         ListOfLists.push(xtrParams);
                                     }
                                     mQueryString = BuildMultipleQuery(ListOfLists, "and", "or", environmentdb);
-                                    mongoquery(mQueryString, function (res) {
+                                    mongoquery(mQueryString, function (err, res) {
                                         output = res;
                                         //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                         cb(null, 'step01');
@@ -231,7 +231,7 @@
                             var mQuery = queParams['mongorawquery'];
                             mQueryString = mQuery;
                             console.log('mQueryString at step01 => ' + mQueryString);
-                            mongoquery(mQueryString, function (res) {
+                            mongoquery(mQueryString, function (err, res) {
                                 output = res;
                                 //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                 console.log(' *** get primary wids *** ' + JSON.stringify(output));
@@ -268,7 +268,7 @@
                             };
                             mQueryString = relationShipQuery(relParams, output, "data"); 
                             console.log('mQueryString at step03 => ' + mQueryString);
-                            mongoquery(mQueryString, function (res) {
+                            mongoquery(mQueryString, function (err, res) {
                                 console.log(" result from step03 " + JSON.stringify(res));
                                 output = res;
                                 debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([1]));
@@ -290,7 +290,7 @@
                             mQueryString = queryafterrelationship(relafterParams, output);
                             console.log('mQueryString at step04 => ' + mQueryString);
                             // mongoquery(JSON.parse(mQueryString), function (res) {
-                            mongoquery(mQueryString, function (res) { 
+                            mongoquery(mQueryString, function (err, res) { 
                                 output = res;
                                 debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([1]));
                                 cb(null, "step04");
@@ -308,7 +308,7 @@
 
 
                     if (callback instanceof Function) {
-                        callback(formatlist(output, environmentdb, null)); 
+                        callback(err, formatlist(output, environmentdb, null)); 
                     } else {
                         return formatlist(output, environmentdb, null); 
                     }

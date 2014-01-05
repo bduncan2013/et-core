@@ -1,3 +1,4 @@
+
 // exports.sysdto = sysdto = function sysdto(params, callback) {
 
 //     // create systemdto
@@ -254,66 +255,159 @@
 
 exports.userdto = userdto = function userdto(params, callback) {
     testclearstorage();
-    config = setconfig1();
+    config = setconfig1(); === === =
+        exports.sysdto = sysdto = function sysdto(params, callback) {
 
-    //add systemdto data
-    executearray([{
-        "executethis":"addwidmaster",
-        "metadata.method": "userdto",
-        "wid": "userwid",
-        "userid": "userwid",
-        "creator": "internal",
-        "created": "01032014",
-        "expiration": "01032014",
-        "category": "testing",
-        "subcategory": "testingxxx",
-        "systemdto.securitydto.security.logged_id":false,
-        "systemdto":"onetomany"
-    },{
-        "executethis":"addwidmaster",
-        "metadata.method": "systemdto",
-        "wid": "testdto",
-        "creator": "internal",
-        "created": "01022014",
-        "expiration": "01032014",
-        "category": "testing",
-        "subcategory": "testingxxx",
-        "systemdto":"onetomany"
-    },{
-        "executethis":"addwidmaster",
-        "metadata.method": "permissiondto",
-        "wid": "permissiondto",
-        "accountwid":"userwid","category": "testing",
-        "subcategory": "testingxxx",
-        "systemdto":"onetomany"
-    },{
-        "executethis":"addwidmaster",
-        "metadata.method": "securitydto",
-        "wid": "securitydto",
-        "category": "testing",
-        "subcategory": "testingxxx",
-        "systemdto":"onetomany"
-    },{
-        "executethis":"addwidmaster",
-        "metadata.method": "groupdto",
-        "wid": "groupdto",
-        "category": "testing",
-        "subcategory": "testingxxx",
-        "systemdto":"onetomany"
-    }],
-    function (err, res) {
-      res = logverify("et-dto", "userdto_result", "", res[0], "",{
-        "creator": "internal",
-        "created": "01022014",
-        "expiration": "01032014",
-        "category": "testing",
-        "subcategory": "testingxxx"
-     });
+            // create systemdto
+            executearray([{
+                "executetis": "addwidmaster",
+                "metadata.method": "systemdto",
+                "wid": "systemdto",
+                "creator": "accounttype",
+                "created": "datetime",
+                "expiration": "datetime",
+                "offlinerule": "string",
+                "onlinerule": "string",
+                "slowrule": "string",
+                "securitydto": "onetomany",
+                "syncdto": "onetomany",
+                "statusdto": "onetomany",
+                "balancedto": "onetomany"
+            }, {
 
-    if (callback instanceof Function) {
-        callback(err, res);
-        } else {
-            return res;
+                // create relationships
+                "executethis": "addwidmaster",
+                "wid": "relationshipdto1",
+                "metadata.method": "relationshipdto",
+                "primarywid": "systemdto",
+                "secondarywid": "securitydto"
+            }, {
+                "executethis": "addwidmaster",
+                "wid": "relationshipdto2",
+                "metadata.method": "relationshipdto",
+                "primarywid": "systemdto",
+                "secondarywid": "statusdto"
+            }, {
+                "executethis": "addwidmaster",
+                "wid": "relationshipdto3",
+                "metadata.method": "relationshipdto",
+                "primarywid": "systemdto",
+                "secondarywid": "balancedto"
+            }]);
+
+    }
+
+    exports.initdto = initdto = function initdto(params, callback) {
+
+        // create groupdto
+        executearray([{
+            "executetis": "addwidmaster",
+            "metadata.method": "groupdto",
+            "wid": "groupdto",
+            "category": "categorytype",
+            "subcategory": "subcategorytype",
+            "group": "grouptype"
+        }, {
+
+            // create securitydto
+            "executethis": "addwidmaster",
+            "metadata.method": "securitydto",
+            "wid": "securitydto",
+            "securitytype": "actiontype",
+            "group": "grouptype",
+            "expiration": "datetime"
+        }, {
+
+            // create statusdto
+            "executethis": "addwidmaster",
+            "metadata.method": "statusdto",
+            "wid": "statusdto",
+            "accesstoken": "string",
+            "userstatus": "integer",
+            "devicestatus": "integer"
+        }, {
+
+            // create balancedto
+            "executethis": "addwidmaster",
+            "metadata.method": "balancedto",
+            "wid": "balancedto",
+            "widname": "wid",
+            "balance": "integer"
+        }]);
+    }
+
+    exports.testdto = testdto = function testdto(params, callback) {
+        testclearstorage();
+        config = setconfig3(); >>> >>> > ae5e69675adec6c1e12e82c01e540de053d105a9
+
+        //add systemdto data
+        executearray([{
+                "executethis": "addwidmaster",
+                "metadata.method": "userdto",
+                "wid": "userwid",
+                "userid": "userwid",
+                "creator": "internal",
+                "created": "01032014",
+                "expiration": "01032014",
+                "category": "testing",
+                "subcategory": "testingxxx",
+                "systemdto.securitydto.security.logged_id": false,
+                "systemdto": "onetomany"
+            }, {
+                "executethis": "addwidmaster",
+                "metadata.method": "systemdto",
+                "wid": "testdto",
+                "creator": "internal",
+                "created": "01022014",
+                "expiration": "01032014",
+                "category": "testing",
+                "subcategory": "testingxxx",
+                "systemdto": "onetomany"
+            }, {
+                "executethis": "addwidmaster",
+                "metadata.method": "permissiondto",
+                "wid": "permissiondto",
+                "accountwid": "userwid",
+                "category": "testing",
+                "subcategory": "testingxxx",
+                "systemdto": "onetomany"
+            }, {
+                "executethis": "addwidmaster",
+                "metadata.method": "securitydto",
+                "wid": "securitydto",
+                "category": "testing",
+                "subcategory": "testingxxx",
+                "systemdto": "onetomany"
+            }, {
+                "executethis": "addwidmaster",
+                "metadata.method": "groupdto",
+                "wid": "groupdto",
+                "category": "testing",
+                "subcategory": "testingxxx",
+                "systemdto": "onetomany"
+            }, {
+                "executethis": "getwidmaster",
+                "wid": "testxxx"
+            }],
+            function (err, res) {
+                res = logverify("et-dto", "userdto_result", "", res[0], "", {
+                    "creator": "internal",
+                    "created": "01022014",
+                    "expiration": "01032014",
+                    "category": "testing",
+                    "subcategory": "testingxxx"
+                    "created": "01032014",
+                    "expiration": "01042014",
+                    "offlinerule": "none",
+                    "onlinerule": "none",
+                    "slowrule": "default",
+                });
+                if (callback instanceof Function) {
+                    callback(err, res);
+                }
+            }
+
+            if (!(callback instanceof Function)) {
+                return res;
+            };
         }
-    });
-}
