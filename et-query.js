@@ -20,9 +20,9 @@
         var x = window['mongoquery'];
         if (exports.environment === "local") {
             if (callback instanceof Function) {
-                mongoquery(parameters, callback);
+                offlinemongoquery(parameters, callback);
             } else {
-                return mongoquery(err, parameters);
+                return offlinemongoquery(err, parameters);
             } // TODO :: check if this is fine
         } else {
 

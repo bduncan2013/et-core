@@ -1,4 +1,77 @@
+// if(typeof localStorage === "undefined"){
+exports.localStore = localStore = function () {
+
+    var json = {};
+
+    function clear() {
+        this.json = {};
+    }
+
+
+    function push(key, val) {
+        this.json[key] = val;
+    }
+
+    function get(key) {
+        return this.json[key];
+    }
+
+    function remove(key) {
+        delete this.json[key];
+    }
+
+    return {
+        "clear": clear,
+        "json": json,
+        "push": push,
+        "remove": remove,
+        "get": get
+    }
+
+}();
+localStore.clear();
+
+
+
+// logic to add things to Local storage
+exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
+    if (!widobject) {
+        widobject = {}
+    }
+    if (widName) {
+        localStore.push(widMasterKey + widName, widobject);
+    }
+};
+
+// logic to get things from Local storage
+exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
+    var output = {};
+    proxyprinttodiv('getfromlocal', inputWidgetObject, 99);
+    if (inputWidgetObject["wid"]) {
+        var widKey = inputWidgetObject["wid"].toLowerCase();
+        output = localStore.get(widMasterKey + widKey);
+        if (output == null) {
+            output = {};
+        }
+    }
+    proxyprinttodiv('getfromlocal output', output, 99);
+    //var x = localStore.get(inputWidgetObject);
+    //if (!x) {x={}};
+    return output
+};
+
+// logic to clear things from Local storage
+exports.testclearstorage = testclearstorage = function testclearstorage() {
+    widMasterKey = "widmaster_";
+    potentialwid = 0;
+    localStore.clear();
+};
 (function (window) {
+
+
+
+
+
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
         if (obj && obj instanceof Object) {
@@ -23,7 +96,7 @@
     // Utility function to cleanup mentioned attr:val pairs from JSON passed in
     exports.cleanupParameters = cleanupParameters = function cleanupParameters(inboundParameters, paramsToClean) {
         var clonedObject = {};
-        extend(true, outBoundParameters, inboundParameters);// clone received params
+        extend(true, outBoundParameters, inboundParameters); // clone received params
 
         for (var i = 0; i < paramsToClean.length; i++) {
             if (outBoundParameters[paramsToClean[i]]) {
@@ -36,8 +109,8 @@
     // utility function to merge two JSON objects
     exports.mergeParameters = mergeParameters = function mergeParameters(c1, c2) {
         var clonedObject = {};
-        extend(true, mergedMap, c1);// clone received params
-        
+        extend(true, mergedMap, c1); // clone received params
+
         for (var attr in c2) {
             mergedMap[attr] = c2[attr];
         }
@@ -168,7 +241,7 @@
     // as the first parameter of 'onetomany' is found, the rest of 
     // the list will be put into the childDTOlist.
     exports.SplitKeywordSet = SplitKeywordSet = function SplitKeywordSet(list, attr) {
-        if (typeof(attr) == undefined) {
+        if (typeof (attr) == undefined) {
             attr = 'onetomany';
         }
 
@@ -200,7 +273,7 @@
     exports.Sortonetomanys = Sortonetomanys = function Sortonetomanys(list, attr) {
         proxyprinttodiv('Function Sortonetomanys()  list : ', list);
         proxyprinttodiv('Function Sortonetomanys()  attr : ', attr);
-        if (typeof(attr) == undefined) {
+        if (typeof (attr) == undefined) {
             attr = 'onetomany'
         }
         output = list.sort(function (a, b) {
@@ -606,7 +679,7 @@
         }
     };
 
-    // Finds the first key in parameters that matches the string, or nothing if none is found	
+    // Finds the first key in parameters that matches the string, or nothing if none is found   
     exports.firstOrDefault = firstOrDefault = function firstOrDefault(parameters, str) {
         var length;
         if (parameters.length === undefined) {
@@ -621,7 +694,7 @@
         }
     };
 
-    // Deletes a hash from an object	
+    // Deletes a hash from an object    
     exports.remove = remove = function remove(parameters, str) {
         //function remove(parameters, str){
         var length;
@@ -667,7 +740,7 @@
                     var subitem = dto[j];
                     var subkey = subitem["key"];
                     if (key === subkey) {
-                        if ((typeof(item["value"]) == 'object') && (item["value"]['number'] !== undefined)) {
+                        if ((typeof (item["value"]) == 'object') && (item["value"]['number'] !== undefined)) {
                             output[i]["value"] = item["value"]['number'];
                         } else {
                             if (subitem["value"].toLowerCase() == 'string') {
@@ -724,7 +797,7 @@
     // Adds the key of object2 to object 1
     exports.jsonConcat = jsonConcat = function jsonConcat(o1, o2) {
         var clonedObject = {};
-        extend(true, clonedObject, o1);// clone received params
+        extend(true, clonedObject, o1); // clone received params
 
         for (var key in o2) {
             if ((clonedObject[key] === undefined) || (clonedObject[key] == "")) {
