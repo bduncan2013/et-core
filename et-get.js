@@ -12,7 +12,7 @@
         proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
         // var outobjectarr = [];
 
-        offlinegetfrommongo(inputWidgetObject, function (err, results) {
+        getfrommongo(inputWidgetObject, function (err, results) {
             var outobject = {};
             if (results && countKeys(results) > 0) {
                 if (results["data"]) {
