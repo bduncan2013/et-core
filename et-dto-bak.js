@@ -17,6 +17,7 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "metadata.method": "groupdto",
                 "wid": "groupdto",
                 "grouptype": "string",
+                //"subcategory": "subcategorytype",
                 "group": "grouptype"
             }, {
 
@@ -25,20 +26,35 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "executethis": "addwidmaster",
                 "metadata.method": "securitydto",
                 "wid": "securitydto",
-                "accesstoken": "string",
+                //"securitytype": "actiontype",
+                //"granteegroup": "grouptype",
+                //"expiration": "datetime",
+                "accesstoken": "XXX",
                 "status": "integer"
 
             }, {
 
                 // create permissionsdto
+                // securitydto holds accesstoken, status
                 "executethis": "addwidmaster",
                 "metadata.method": "permissionsdto",
                 "wid": "permissionsdto",
+                //"grantorwid": "actiontype",
                 "granteegroup": "grouptype",
                 "actiongroup": "grouptype",
                 "targetgroup": "grouptype",
                 "dbgroup": "dbtype"
+                //"expiration": "datetime",
             }, {
+
+                // create statusdto
+                //     "executethis": "addwidmaster",
+                //     "metadata.method": "statusdto",
+                //     "wid": "statusdto",
+                //     "accesstoken": "string",
+                //     "userstatus": "integer",
+                //     "devicestatus": "integer"
+                // }, {
 
                 // create balancedto
                 "executethis": "addwidmaster",
@@ -46,22 +62,6 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "wid": "balancedto",
                 "widname": "wid",
                 "balance": "integer"
-            }, {
-
-                //create userdto
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "wid": "userdto",
-                "widname": "wid",
-                "fname": "string",
-                "lname": "string",
-                "email": "string",
-                "email2": "string",
-                "address": "string",
-                "address2": "string",
-                "city": "string",
-                "state": "string",
-                "zip": "string"
             }, {
                 // get groupdto
                 "executethis": "getwidmaster",
@@ -71,13 +71,13 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "executethis": "getwidmaster",
                 "wid": "securitydto"
             }, {
+                // get statusdto
+                "executethis": "getwidmaster",
+                "wid": "statusdto"
+            }, {
                 // get balancedto
                 "executethis": "getwidmaster",
                 "wid": "balancedto"
-            }, {
-                //get userdto
-                "executethis": "getwidmaster",
-                "wid": "userdto"
             }
         ],
         function (err, res) {
@@ -86,33 +86,28 @@ exports.initdto = initdto = function initdto(params, callback) {
 
             res = logverify("et-dto", "groupdto_result", "", res[4], "", {
                 "group": "grouptype",
-                "grouptype": "categorytype",
+                "subcategory": "subcategorytype",
+                "category": "categorytype",
                 "wid": "groupdto",
                 "metadata.method": "groupdto"
             });
 
             if (res === "PASS") {
                 res = logverify("et-dto", "securitydto_result", "", res[5], "", {
-                    "accesstoken": "string",
-                    "status": "integer",
+                    "expiration": "datetime",
+                    "group": "grouptype",
+                    "securitytype": "actiontype",
                     "wid": "securitydto",
                     "metadata.method": "securitydto"
                 });
 
                 if (res === "PASS") {
-                    res = logverify("et-dto", "userdto_result", "", res[6], "", {
-                        "metadata.method": "userdto",
-                        "wid": "userdto",
-                        "widname": "wid",
-                        "fname": "string",
-                        "lname": "string",
-                        "email": "string",
-                        "email2": "string",
-                        "address": "string",
-                        "address2": "string",
-                        "city": "string",
-                        "state": "string",
-                        "zip": "string"
+                    res = logverify("et-dto", "statusdto_result", "", res[6], "", {
+                        "devicestatus": "integer",
+                        "userstatus": "integer",
+                        "accesstoken": "string",
+                        "wid": "statusdto",
+                        "metadata.method": "statusdto"
                     });
 
                     if (res === "PASS") {
@@ -150,13 +145,15 @@ exports.systemdto = systemdto = function systemdto(params, callback) {
             "metadata.method": "systemdto",
             "wid": "systemdto",
             "creator": "accounttype",
+            //"created": "datetime",     // mongo for free
             "expiration": "datetime",
             "offlinerule": "string",
             "onlinerule": "string",
+            //"slowrule": "string",     // later
             "securitydto": "onetomany",
-            "balancedto": "onetomany",
-            "permissiondto": "onetomany",
-            "userdto": "onetomany"
+            "syncdto": "onetomany",
+            "statusdto": "onetomany",
+            "balancedto": "onetomany"
         }, {
             // create relationships securitydto
             "executethis": "addwidmaster",
@@ -170,34 +167,29 @@ exports.systemdto = systemdto = function systemdto(params, callback) {
             "wid": "relationshipdto2",
             "metadata.method": "relationshipdto",
             "primarywid": "systemdto",
-            "secondarywid": "balancedto"
+            "secondarywid": "statusdto"
         }, {
-            // create relationships permissionsdto
+            // create relationships balanceddto
             "executethis": "addwidmaster",
             "wid": "relationshipdto3",
             "metadata.method": "relationshipdto",
             "primarywid": "systemdto",
-            "secondarywid": "permissionsdto"
+            "secondarywid": "balancedto"
         }, {
-            // create relationships permissionsdto
-            "executethis": "addwidmaster",
-            "wid": "relationshipdto4",
-            "metadata.method": "relationshipdto",
-            "primarywid": "systemdto",
-            "secondarywid": "userdto"
-        }, {
-            // get relationships systemdto
+            // create relationships balanceddto
             "executethis": "getwidmaster",
             "wid": "systemdto"
         }],
         function (err, res) {
             res = logverify("et-dto", "systemdto_result", "", res[4], "", {
-                "userdto": "onetomany",
                 "balancedto": "onetomany",
-                "permissionsdto": "onetomany",
+                "statusdto": "onetomany",
+                "syncdto": "onetomany",
                 "securitydto": "onetomany",
+                "slowrule": "string",
                 "onlinerule": "string",
                 "offlinerule": "string",
+                "expiration": "datetime",
                 "created": "datetime",
                 "creator": "accounttype",
                 "wid": "systemdto",
@@ -226,16 +218,12 @@ exports.userdto = userdto = function userdto(params, callback) {
             "executethis": "addwidmaster",
             "metadata.method": "userdto",
             "wid": "userdto",
-            "widname": "wid",
-            "fname": "string",
-            "lname": "string",
-            "email": "string",
-            "email2": "string",
-            "address": "string",
-            "address2": "string",
-            "city": "string",
-            "state": "string",
-            "zip": "string",
+            "userid": "user",
+            "creator": "internal",
+            "created": "01032014",
+            "expiration": "01032014",
+            "category": "testing",
+            "subcategory": "testingxxx",
             "systemdto.securitydto.security.logged_id": false,
             "systemdto": "onetomany"
         }, {
@@ -244,20 +232,16 @@ exports.userdto = userdto = function userdto(params, callback) {
         }],
         function (err, res) {
             res = logverify("et-dto", "userdto_result", "", res[1], "", {
-                "metadata.method": "userdto",
-                "wid": "userdto",
-                "widname": "wid",
-                "fname": "string",
-                "lname": "string",
-                "email": "string",
-                "email2": "string",
-                "address": "string",
-                "address2": "string",
-                "city": "string",
-                "state": "string",
-                "zip": "string",
+                "systemdto": "onetomany",
                 "systemdto.securitydto.security.logged_id": false,
-                "systemdto": "onetomany"
+                "subcategory": "testingxxx",
+                "category": "testing",
+                "expiration": "01032014",
+                "created": "01032014",
+                "creator": "internal",
+                "userid": "user",
+                "wid": "userdto",
+                "metadata.method": "userdto"
             });
 
             if (callback instanceof Function) {
@@ -286,6 +270,7 @@ exports.testdto = testdto = function testdto(params, callback) {
             "expiration": "01042014",
             "offlinerule": "none",
             "onlinerule": "none",
+            "slowrule": "default",
             "systemdto": "onetomany"
         }, {
             "executethis": "getwidmaster",
@@ -294,8 +279,10 @@ exports.testdto = testdto = function testdto(params, callback) {
         function (err, res) {
             res = logverify("et-dto", "testdto_result", "", res[1], "", {
                 "systemdto": "onetomany",
+                "slowrule": "default",
                 "onlinerule": "none",
                 "offlinerule": "none",
+                "expiration": "01042014",
                 "created": "01032014",
                 "creator": "internal",
                 "wid": "testdto",
@@ -335,15 +322,11 @@ exports.testme = testme = function testme(params, callback) {
             res = logverify("et-dto", "userdto_result", "", res[0], "", {
                 "systemdto": "onetomany",
                 "systemdto.securitydto.security.logged_id": false,
-                "fname": "john",
-                "lname": "doe",
-                "email": "jj@gmail.com",
-                "email2": "",
-                "address": "123 pleasant lane",
-                "address2": "apt 101",
-                "city": "Pleasantville",
-                "state": "Florida",
-                "zip": "26534",
+                "subcategory": "testingxxx",
+                "category": "testing",
+                "expiration": "01032014",
+                "created": "01032014",
+                "creator": "internal",
                 "userid": "user",
                 "wid": "userdto",
                 "metadata.method": "userdto"
@@ -374,6 +357,7 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
                 "metadata.method": "groupdto",
                 "wid": "groupdto",
                 "grouptype": "string",
+                //"subcategory": "subcategorytype",
                 "group": "grouptype"
             }, {
 
@@ -382,7 +366,10 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
                 "executethis": "addwidmaster",
                 "metadata.method": "securitydto",
                 "wid": "securitydto",
-                "accesstoken": "string",
+                //"securitytype": "actiontype",
+                //"granteegroup": "grouptype",
+                //"expiration": "datetime",
+                "accesstoken": "XXX",
                 "status": "integer"
 
             }, {
@@ -392,27 +379,22 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
                 "executethis": "addwidmaster",
                 "metadata.method": "permissionsdto",
                 "wid": "permissionsdto",
+                //"grantorwid": "actiontype",
                 "granteegroup": "grouptype",
                 "actiongroup": "grouptype",
                 "targetgroup": "grouptype",
                 "dbgroup": "dbtype"
+                //"expiration": "datetime",
             }, {
 
-                //create userdto
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "wid": "userdto",
-                "widname": "wid",
-                "fname": "string",
-                "lname": "string",
-                "email": "string",
-                "email2": "string",
-                "address": "string",
-                "address2": "string",
-                "city": "string",
-                "state": "string",
-                "zip": "string"
-            }, {
+                // create statusdto
+                //     "executethis": "addwidmaster",
+                //     "metadata.method": "statusdto",
+                //     "wid": "statusdto",
+                //     "accesstoken": "string",
+                //     "userstatus": "integer",
+                //     "devicestatus": "integer"
+                // }, {
 
                 // create balancedto
                 "executethis": "addwidmaster",
@@ -426,13 +408,14 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
                 "metadata.method": "systemdto",
                 "wid": "systemdto",
                 "creator": "accounttype",
+                //"created": "datetime",     // mongo for free
                 "expiration": "datetime",
                 "offlinerule": "string",
                 "onlinerule": "string",
+                //"slowrule": "string",     // later
                 "securitydto": "onetomany",
                 "syncdto": "onetomany",
                 "statusdto": "onetomany",
-                "userdto": "onetomany",
                 "balancedto": "onetomany"
             }, {
                 // create relationships securitydto
@@ -455,13 +438,6 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
                 "metadata.method": "relationshipdto",
                 "primarywid": "systemdto",
                 "secondarywid": "balancedto"
-            }, {
-                // create relationships permissionsdto
-                "executethis": "addwidmaster",
-                "wid": "relationshipdto4",
-                "metadata.method": "relationshipdto",
-                "primarywid": "systemdto",
-                "secondarywid": "userdto"
             }
         ],
         function (err, res) {
@@ -499,16 +475,12 @@ function addAuthorizedData(callback) {
         "executethis": "addwidmaster",
         "metadata.method": "userdto",
         "wid": "authorizeduser",
-        "fname": "john",
-        "lname": "doe",
-        "email": "jj@gmail.com",
-        "email2": "",
-        "address": "123 pleasant lane",
-        "address2": "apt 101",
-        "city": "Pleasantville",
-        "state": "Florida",
-        "zip": "26534",
-        "userid": "authorized",
+        "userid": "authorizeduser",
+        "creator": "internal",
+        "created": "01032014",
+        "expiration": "01032014",
+        "category": "testing",
+        "subcategory": "testingxxx",
         "systemdto.securitydto.logged_id": true,
         "systemdto.securitydto.accesstoken": "111",
         "status": "integer",
@@ -522,60 +494,14 @@ function addUnauthorizedData(callback) {
         "executethis": "addwidmaster",
         "metadata.method": "userdto",
         "wid": "unauthorizeduser",
-        "fname": "john",
-        "lname": "doe",
-        "email": "jj@gmail.com",
-        "email2": "",
-        "address": "123 pleasant lane",
-        "address2": "apt 101",
-        "city": "Pleasantville",
-        "state": "Florida",
-        "zip": "26534",
-        "userid": "unauthorized",
+        "userid": "unauthorizeduser",
+        "creator": "internal",
+        "created": "01032014",
+        "expiration": "01032014",
+        "category": "testing",
+        "subcategory": "testingxxx",
         "systemdto.securitydto.logged_id": false,
         "systemdto.securitydto.accesstoken": "000",
         "systemdto": "onetomany"
     }, callback);
-}
-
-// test user to pass after data has been setup in sample wids
-exports.authpass1 = authpass1 = function authpass1(params, callback) {
-    var ret;
-    testclearstorage();
-    config = setconfig1();
-    var ac = "111";
-    var account = "roger";
-    var action = "getwid";
-    var db = "data";
-    securitycheck(ac, account, action, db, function (err, res) {
-        ret = res;
-        if (callback instanceof Function) {
-            callback(err, ret);
-        }
-    });
-
-    if (!(callback instanceof Function)) {
-        return ret;
-    };
-}
-
-// test user to pass after data has been setup in sample wids
-exports.authfail1 = authfail1 = function authfail1(params, callback) {
-    var ret;
-    testclearstorage();
-    config = setconfig1();
-    var ac = "000";
-    var account = "roger";
-    var action = "getwid";
-    var db = "data";
-    securitycheck(ac, account, action, db, function (err, res) {
-        ret = res;
-        if (callback instanceof Function) {
-            callback(err, ret);
-        }
-    });
-
-    if (!(callback instanceof Function)) {
-        return ret;
-    };
 }

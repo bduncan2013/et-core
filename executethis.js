@@ -69,19 +69,20 @@
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
                     console.log('starting midexecute ' + nonCircularStringify(incomingparams));
                     if (!preResults) {
+                       if (postResults!==false && (!postResults))  
                         preResults = {};
                     } // 
                     doThis(preResults, 'midexecute', function (err, midResults) {
 
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-                        if (!midResults) {
+                        if (midResults!==false && (!midResults)) {
                             midResults = {};
                         }
 
                         doThis(midResults, 'postexecute', function (err, postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
 
-                            if (!postResults) {
+                            if (postResults!==false && (!postResults))  {
                                 postResults = {};
                             }
 
@@ -499,7 +500,7 @@
                 case "executegetwid":
                     tempobject = executethis({
                         'wid': whatToDo
-                    }, getwid);
+                    }, "getwid");
                     if (tempobject !== undefined && tempobject['js']) {
                         targetfn = tempobject['js'];
                     } else {
