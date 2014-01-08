@@ -3308,13 +3308,13 @@ exports.setconfig2 = setconfig2 = function setconfig2() {
 	configuration.getwid[0] = {};
 	configuration.getwid[0].executeorder = 0;
 	configuration.getwid[0].tryorder = 0;
-	configuration.getwid[0].dothis = 'getfrommongo';
+	configuration.getwid[0].dothis = 'offlinegetfrommongo';
 	configuration.getwid[0].params = {};
 
 	configuration.updatewid = [];
 	configuration.updatewid[0] = {};
 	configuration.updatewid[0].order = 0;
-	configuration.updatewid[0].dothis = 'addtomongo';
+	configuration.updatewid[0].dothis = 'offlineaddtomongo';
 	configuration.updatewid[0].params = {};
 
 	configuration.querywid = [];
@@ -3440,13 +3440,13 @@ exports.setconfig3 = setconfig3 = function setconfig3() {
 	configuration.getwid = [];
 	configuration.getwid[0] = {};
 	configuration.getwid[0].order = 0;
-	configuration.getwid[0].dothis = 'getfrommongo';
+	configuration.getwid[0].dothis = 'offlinegetfrommongo';
 	configuration.getwid[0].params = {};
 
 	configuration.updatewid = [];
 	configuration.updatewid[0] = {};
 	configuration.updatewid[0].order = 0;
-	configuration.updatewid[0].dothis = 'addtomongo';
+	configuration.updatewid[0].dothis = 'offlineaddtomongo';
 	configuration.updatewid[0].params = {};
 
 	configuration.querywid = [];
@@ -3532,13 +3532,13 @@ exports.setconfig4 = setconfig4 = function setconfig4() {
 	configuration.getwid = [];
 	configuration.getwid[0] = {};
 	configuration.getwid[0].order = 0;
-	configuration.getwid[0].dothis = 'getfrommongo';
+	configuration.getwid[0].dothis = 'offlinegetfrommongo';
 	configuration.getwid[0].params = {};
 
 	configuration.updatewid = [];
 	configuration.updatewid[0] = {};
 	configuration.updatewid[0].order = 0;
-	configuration.updatewid[0].dothis = 'addtomongo';
+	configuration.updatewid[0].dothis = 'offlineaddtomongo';
 	configuration.updatewid[0].params = {};
 
 	configuration.querywid = [];
