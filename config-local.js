@@ -3,50 +3,50 @@ if (!exports) {
 }
 
 
+(function (window) {
+    exports.environment = 'local';
 
-exports.environment = 'local';
+    exports.Debug = Debug = 'false';
+    exports.debuglevel = debuglevel = 0;
+    exports.widMasterKey = widMasterKey = "widmaster_";
+    exports.test_results = test_results = {};
+    exports.potentialwid = potentialwid = 0;
 
-// var config123 = function () {
-//     var configuration = {};
+    //do not change these constants
+    //exports.debugon = debugon = true;
+    exports.debugname = debugname = "";
+    exports.debugsubcat = debugsubcat = "";
+    exports.debugcat = debugcat = "";
+    exports.debugfilter = debugfilter = "";
+    exports.debugdestination = debugdestination = 1;
+    exports.debugcolor = debugcolor = 0;
+    exports.debugindent = debugindent = 0;
 
-//     configuration.preExecute = [];
-//     configuration.preExecute[0] = {};
-//     configuration.preExecute[0].executeorder = 0;
-//     configuration.preExecute[0].tryorder = 4;
-//     configuration.preExecute[0].dothis = 'executeFn';
-//     configuration.preExecute[1] = {};
-//     configuration.preExecute[1].executeorder = 0;
-//     configuration.preExecute[1].tryorder = 2;
-//     configuration.preExecute[1].dothis = 'executeParam';
-//     configuration.preExecute[2] = {};
-//     configuration.preExecute[2].executeorder = 0;
-//     configuration.preExecute[2].tryorder = 3;
-//     configuration.preExecute[2].dothis = 'executeDefault';
 
-//     configuration.midExecute = [];
-//     configuration.midExecute[0] = {};
-//     configuration.midExecute[0].executeorder = 0;
-//     configuration.midExecute[0].tryorder = 0;
-//     configuration.midExecute[0].dothis = 'server';
+    // exports.offlinemongoquery = window.offlinemongoquery = offlinemongoquery = function offlinemongoquery(params, callback) {
+    //     offlinemongoquery(params, callback);
+    // }
 
-//     configuration.postExecute = [];
-//     configuration.postExecute[0] = {};
-//     configuration.postExecute[0].executeorder = 0;
-//     configuration.postExecute[0].tryorder = 4;
-//     configuration.postExecute[0].dothis = 'executeFn';
-//     configuration.postExecute[1] = {};
-//     configuration.postExecute[1].executeorder = 0;
-//     configuration.postExecute[1].tryorder = 2;
-//     configuration.postExecute[1].dothis = 'executeFn';
-//     configuration.postExecute[2] = {};
-//     configuration.postExecute[2].executeorder = 0;
-//     configuration.postExecute[2].tryorder = 3;
-//     configuration.postExecute[2].dothis = 'executeFn';
+    exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
+        return JSON.parse(localStorage.getItem(key));
+    }
 
-//     return {
-//         "configuration": configuration
-//     }
-// };
+    exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = function addToLocalStorage(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
+        widMasterKey = "widmaster_";
+        localStorage.clear();
+        potentialwid = 0;
+    }
+
+    exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
+        localStorage.removeItem(key);
+    }
+
+
+})(typeof window == "undefined" ? global : window);
 
 var config123 = function () {
     var configuration = {};
@@ -637,28 +637,49 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
     });
 }
 
-// exports.offlinemongoquery = window.offlinemongoquery = offlinemongoquery = function offlinemongoquery(params, callback) {
-//     offlinemongoquery(params, callback);
-// }
-
-function getFromLocalStorage(key) {
-    return JSON.parse(localStorage.getItem(key));
-}
-
-function addToLocalStorage(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-}
-
-function clearLocalStorage() {
-    widMasterKey = "widmaster_";
-    localStorage.clear();
-    potentialwid = 0;
-}
-
-function removeFromLocalStorage(key) {
-    localStorage.removeItem(key);
-}
 
 function resetMasterKey() {
     widMasterKey = "widmaster_";
+}
+
+function setdefaultparm() {
+    localStore.clear();
+    Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
+    debuglevel = 0;
+    widMasterKey = "widmaster_";
+    test_results = {};
+    potentialwid = 0;
+
+    debugon = false;
+    debugname = "";
+    debugsubcat = "";
+    debugcat = "";
+    debugfilter = "";
+    debugdestination = 1;
+    debugcolor = 0;
+    debugindent = 0;
+    exports.Debug = Debug
+    exports.debuglevel = debuglevel
+    exports.widMasterKey = widMasterKey
+    exports.test_results = test_results
+    exports.potentialwid = potentialwid
+
+    exports.debugon = debugon
+    exports.debugname = debugname
+    exports.debugsubcat = debugsubcat
+    exports.debugcat = debugcat =
+        exports.debugfilter = debugfilter
+    exports.debugdestination = debugdestination
+    exports.debugcolor = debugcolor
+    exports.debugindent = debugindent
+}
+exports.bootprocess = bootprocess = function bootprocess() {
+    setdefaultparm();
+    testclearstorage();
+    if (exports.environment === 'local') {
+        clearLocalStorage();
+    }
+    test_results = {};
+    //testAddWids();
+    //displayAllWids();
 }

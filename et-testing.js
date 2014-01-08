@@ -1,77 +1,9 @@
-// Move from et-testing: localstore, getfromlocal, storetolocal to utils
-
-
-exports.Debug = Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
-exports.debuglevel = debuglevel = 0;
-exports.widMasterKey = widMasterKey = "widmaster_";
-exports.test_results = test_results = {};
-exports.potentialwid = potentialwid = 0;
-
-//do not change these constants
-//exports.debugon = debugon = true;
-exports.debugname = debugname = "";
-exports.debugsubcat = debugsubcat = "";
-exports.debugcat = debugcat = "";
-exports.debugfilter = debugfilter = "";
-exports.debugdestination = debugdestination = 1;
-exports.debugcolor = debugcolor = 0;
-exports.debugindent = debugindent = 0;
-
-
 (function (window) {
 
 
     if (typeof executethis === "undefined") {
         var executethis = exports.executethis;
     };
-
-
-
-    function setdefaultparm() {
-        localStore.clear();
-        Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
-        debuglevel = 0;
-        widMasterKey = "widmaster_";
-        test_results = {};
-        potentialwid = 0;
-
-        debugon = false;
-        debugname = "";
-        debugsubcat = "";
-        debugcat = "";
-        debugfilter = "";
-        debugdestination = 1;
-        debugcolor = 0;
-        debugindent = 0;
-        exports.Debug = Debug
-        exports.debuglevel = debuglevel
-        exports.widMasterKey = widMasterKey
-        exports.test_results = test_results
-        exports.potentialwid = potentialwid
-
-        exports.debugon = debugon
-        exports.debugname = debugname
-        exports.debugsubcat = debugsubcat
-        exports.debugcat = debugcat =
-            exports.debugfilter = debugfilter
-        exports.debugdestination = debugdestination
-        exports.debugcolor = debugcolor
-        exports.debugindent = debugindent
-    }
-    exports.bootprocess = bootprocess = function bootprocess() {
-        setdefaultparm();
-        testclearstorage();
-        if (exports.environment === 'local') {
-            clearLocalStorage();
-        }
-        test_results = {};
-        //testAddWids();
-        //displayAllWids();
-    }
-    
-
-
-
 
 
     function execute_function(myfunc) {
@@ -114,15 +46,15 @@ exports.debugindent = debugindent = 0;
 
     exports.executetest = executetest = function executetest(myfunc, inputparameters, outwidname, inputwidname) {
 
-        //	if (typeof window[myfunc] == 'function') {
+        //  if (typeof window[myfunc] == 'function') {
         //Create the function call from function name and parameter.
         //var funcCall = "";
         if (inputparameters === undefined) {
             inputparameters = {}
         }
-        //	var myparameters = JSON.stringify(inputparameters)
+        //  var myparameters = JSON.stringify(inputparameters)
         //if (inputparamete`rs) {funcCall = myfunc + "(" + myparameters + ");"}
-        //	else {funcCall = myfunc + "();"};
+        //  else {funcCall = myfunc + "();"};
         proxyprinttodiv('executeTest - myfunc', myfunc, 99);
         //var output = eval(funcCall); //Call the function
 
@@ -144,11 +76,11 @@ exports.debugindent = debugindent = 0;
             proxyprinttodiv('results of executeTest outwidname', outwidname, 99);
             addtolocal(outwidname, output)
         };
-        // 	}
+        //  }
         // else
-        // 	{
-        // 	alert('I could not find your function -- test');
-        // 	}
+        //  {
+        //  alert('I could not find your function -- test');
+        //  }
 
         if ((inputwidname !== undefined) && (inputwidname != "")) {
             addtolocal(inputwidname, inputparameters)
@@ -252,7 +184,7 @@ exports.debugindent = debugindent = 0;
         // displayallthetestresutls(getfromlocal({'wid': resultwid}));
         // var tempobj = getfromlocal({'wid':testname});
         // if (tempobj === undefined) {
-        // 	tempobj = {};
+        //  tempobj = {};
         // }
         // tempobj[resultwid] = testresults;
         // addtolocal(testname, tempobj);
@@ -284,8 +216,8 @@ exports.debugindent = debugindent = 0;
         }));
         // this was to exclude Extra_Fields
         // if (data['Extra_Fields']) {
-        // 	// ignore any extra parameters in the paramwid2
-        // 	delete data['Extra_Fields'];
+        //  // ignore any extra parameters in the paramwid2
+        //  delete data['Extra_Fields'];
         // }
         return data;
     };
@@ -308,14 +240,14 @@ exports.debugindent = debugindent = 0;
         }
         //if(!obj1.hasOwnProperty(i)) { // this version does not check for the values of the properties
         //ret[i] = obj2[i]; 
-        // start taking out the parameters of the verification object			
+        // start taking out the parameters of the verification object           
         //}
         //delete obj1[i];
         //}
         //} 
         // If there are any parameters left in the verify object(obj1), add it to the results
         //if (getObjectSize(obj1) > 0) {
-        //	ret['Extra_Fields'] = obj1;
+        //  ret['Extra_Fields'] = obj1;
         //}
         //return ret; 
         return ret;
@@ -326,7 +258,7 @@ exports.debugindent = debugindent = 0;
         for (var i in obj2) {
             if (!obj1.hasOwnProperty(i) || obj2[i] !== obj1[i]) {
                 ret[i] = obj2[i];
-                // start taking out the parameters of the verification object			
+                // start taking out the parameters of the verification object           
             }
             delete obj1[i];
         }
@@ -340,7 +272,7 @@ exports.debugindent = debugindent = 0;
     var rerun_test_seq = "";
     var did_all_pass = 1;
 
-   
+
 
 
 
@@ -408,10 +340,10 @@ exports.debugindent = debugindent = 0;
         // var outobject={"hello":"world"};
         var outobject = {};
 
-        // 	if blank debugcolor, blank debugindent
+        //  if blank debugcolor, blank debugindent
 
-        // 	1) determine if we should play...missing "and"
-        // 	if global debugname = incoming debugname the process this object (or subcat or cat)
+        //  1) determine if we should play...missing "and"
+        //  if global debugname = incoming debugname the process this object (or subcat or cat)
         // if (indebugcat==debugcat) {processdebug=true};
         // if (indebugsubcat==debugsubcat) {processdebug=true};
 
@@ -474,13 +406,13 @@ exports.debugindent = debugindent = 0;
         // exports.debugdestination= debugdestination = "print";
 
 
-        // 		make color based on indebugindent
-        // 			1: temp_HTML=temp_HTML+" "
-        // 			2: 
-        // 			3: 
-        // 			
-        // 			
-        // 			
+        //      make color based on indebugindent
+        //          1: temp_HTML=temp_HTML+" "
+        //          2: 
+        //          3: 
+        //          
+        //          
+        //          
 
 
         switch (debugdestination) // 1 for print, 2 for googlespreadsheets, 3 for both
@@ -519,12 +451,12 @@ exports.debugindent = debugindent = 0;
         }
 
 
-        // print:  	proxyprinttodiv('logverify - parmwid1', parmwid1, 99);
+        // print:   proxyprinttodiv('logverify - parmwid1', parmwid1, 99);
 
 
         // google: storetogoogle
         // file: outobject["testtest":"testtest"]
-        // 		addtolocalostore
+        //      addtolocalostore
     } // End of debugfn
 
 
@@ -568,26 +500,26 @@ exports.debugindent = debugindent = 0;
 
 
     // exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
-    // 	addToLocalStorage((widMasterKey + widName), widobject);
+    //  addToLocalStorage((widMasterKey + widName), widobject);
     // }
 
     // exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
-    // 	var output = {};
-    // 		if(inputWidgetObject["wid"]) {
-    // 			var widKey = inputWidgetObject["wid"].toLowerCase();
+    //  var output = {};
+    //      if(inputWidgetObject["wid"]) {
+    //          var widKey = inputWidgetObject["wid"].toLowerCase();
 
-    // 			output = getFromLocalStorage(widMasterKey + widKey);
-    // 			if (output == null) {output = {};}
-    // 		}
+    //          output = getFromLocalStorage(widMasterKey + widKey);
+    //          if (output == null) {output = {};}
+    //      }
 
-    // 	return output;
-    // }//End of getfromlocal function	
+    //  return output;
+    // }//End of getfromlocal function  
 
 
     // exports.testclearstorage = window.testclearstorage = function testclearstorage(){
-    // 	widMasterKey = "widmaster_";
-    // 	localStore.clear();
-    // 	potentialwid = 0;
+    //  widMasterKey = "widmaster_";
+    //  localStore.clear();
+    //  potentialwid = 0;
     // }
 
     // Link to example code: https://docs.google.com/document/d/1mDrn7oBX5LQ8bvds-W2J63M4h-rqlIgG-D3BsJz2JqU/edit

@@ -2226,6 +2226,7 @@ exports.testi_setup = testi_setup = function testi_setup(params, callback) {
 }
 // This will test the ability to write a dto to the db and retrieve it
 exports.testb = testb = function testb(params, callback) {
+	var err;
 	config = setconfig1();
 	testclearstorage();
 	testb_setup();
@@ -3139,6 +3140,7 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 	configuration = {};
 	configuration.environment = 'local';
 
+	
 	configuration.preExecute = [];
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
@@ -3204,6 +3206,7 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 	configuration.postExecute[2].tryorder = 0;
 	configuration.postExecute[2].dothis = 'server';
 	configuration.postExecute[2].params = {};
+
 
 	// configuration.MongoAddEditPrepare = {};
 	//  configuration.MongoAddEditPrepare.synchronous = true;
@@ -3271,6 +3274,22 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 
 	configuration.getAndFormatNextLevel = {};
 	configuration.getAndFormatNextLevel.synchronous = false;
+
+	
+	configuration.getwid = [];
+    configuration.getwid[0] = {};
+    configuration.getwid[0].executeorder = 0;
+    configuration.getwid[0].tryorder = 0;
+    configuration.getwid[0].dothis = 'offlinegetwid';
+    configuration.getwid[0].params = {};
+
+    configuration.updatewid = [];
+    configuration.updatewid[0] = {};
+    configuration.updatewid[0].executeorder = 0;
+    configuration.updatewid[0].tryorder = 0;
+    configuration.updatewid[0].dothis = 'offlineupdatewid';
+    configuration.updatewid[0].params = {};
+
 
 	return {
 		"configuration": configuration
