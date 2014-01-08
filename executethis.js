@@ -27,7 +27,7 @@
 
     exports.execute = window.execute = execute = function execute(received_params, callback) {
 
-        var incomingparams = {}, result;
+        var incomingparams = {}, result, preError, midError, overallError;
         extend(true, incomingparams, received_params); // clone received params
 
         incomingparams = toLowerKeys(incomingparams);
@@ -62,7 +62,7 @@
                 delete incomingparams['executethis'];
                 console.log('starting preexecute ' + nonCircularStringify(incomingparams));
                 doThis(incomingparams, 'preexecute', function (err, preResults) {
-
+                    preError = err;
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
                     console.log('starting midexecute ' + nonCircularStringify(incomingparams));
                     if (!preResults) {
@@ -70,7 +70,7 @@
                         preResults = {};
                     } // 
                     doThis(preResults, 'midexecute', function (err, midResults) {
-
+                        midError = err;
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                         if (midResults!==false && (!midResults)) {
                             midResults = {};
@@ -83,7 +83,9 @@
                                 postResults = {};
                             }
 
-                            callback(err, postResults);
+                            overallError = extend(true, preError, midError, err);
+
+                            callback(overallError, postResults);
                         });
                     });
                 });
@@ -555,11 +557,13 @@
 
 
     exports.executeerror = window.executeerror = executeerror = function executeerror(params, callback) {
-        var err = undefined;
+        var err = {
+            etstatus: {
+                error: "executeError"
+            }
+        };
 
-        callback(err, {
-            "etstatus": "executeerror"
-        });
+        callback(err, {});
     };
 
     function nonCircularStringify(obj) {
