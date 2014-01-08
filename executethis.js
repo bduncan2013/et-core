@@ -23,12 +23,11 @@
         execute(params, function (err, results) {
             callback(err, results);
         });
-    }
-
+    };
 
     exports.execute = window.execute = execute = function execute(received_params, callback) {
 
-        var incomingparams = {};
+        var incomingparams = {}, result;
         extend(true, incomingparams, received_params); // clone received params
 
         incomingparams = toLowerKeys(incomingparams);
@@ -59,8 +58,6 @@
                 }
                 callback(err, result);
             } else {
-
-
                 incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
                 console.log('starting preexecute ' + nonCircularStringify(incomingparams));
@@ -112,8 +109,8 @@
             }
 
             // var params = {};
-            var params = toLowerKeys(inboundparms)
-            var argCount = 0
+            var params = toLowerKeys(inboundparms);
+            var argCount = 0;
 
             // cloning inbound params
             // extend(true, params, tempParams);
@@ -137,20 +134,20 @@
                 var cbfunction = function (results, results2) {
                     funcDone = true;
                     if (results2) {
-                        retResult = results2
+                        retResult = results2;
                     } else {
-                        retResult = results
-                    };
-                }
+                        retResult = results;
+                    }
+                };
 
                 while (!funcDone) {
                     if (!funcCalled) {
                         funcCalled = true;
                         targetfunction (params, cbfunction);
                     }
-                    count++
+                    count++;
                     if (count > 100) {
-                        funcDone = true
+                        funcDone = true;
                     }
                 }
 
@@ -197,12 +194,12 @@
                 delete params[target]; // ** moved by Roger
                 delete params[targetfunction]; // ** added by Roger
 
-                var howToDoList = CreateDoList(params, target, targetfunction); // generate list based on pre, mid, post
+                howToDoList = CreateDoList(params, target, targetfunction); // generate list based on pre, mid, post
                 // howToDoList = extend(howToDoList, tempHowToDoList);
 
                 proxyprinttodiv("dothis - howToDoList ", howToDoList, 11);
 
-                var whatToDoList = CreateDoList(params, targetname, targetfunction); // generate list based on fn name
+                whatToDoList = CreateDoList(params, targetname, targetfunction); // generate list based on fn name
                 // whatToDoList = extend(whatToDoList, tempWhatToDoList);
 
                 proxyprinttodiv("dothis - whatToDoList ", whatToDoList, 11);
@@ -220,14 +217,14 @@
     function CreateDoList(params, configtarget, configfn) {
 
         if ((params === undefined) || (params === "")) {
-            params = {}
-        };
+            params = {};
+        }
         if ((configtarget === undefined) || (configtarget === "")) {
-            configtarget = "executeerror"
-        };
+            configtarget = "executeerror";
+        }
         if ((configfn === undefined) || (configfn === "")) {
-            configfn = ""
-        };
+            configfn = "";
+        }
 
         // get saved configuration
         // cloning config
@@ -392,7 +389,8 @@
             foundfn,
             synchflag,
             howToDoParams,
-            whatToDoParams;
+            whatToDoParams,
+            params;
 
         var err = undefined;
 
@@ -472,7 +470,8 @@
             switch (howToDo) {
 
                 case "executeFn":
-                    targetfn = whatToDoFn;
+                    if (whatToDoFn !== window[whatToDo]) { targetfn = window[whatToDo]; }
+                    else { targetfn = whatToDoFn; }
 
                     if ((targetfn === undefined) || (targetfn === "")) {
                         // we want to return undefined here so we try the next case
@@ -561,7 +560,7 @@
         callback(err, {
             "etstatus": "executeerror"
         });
-    }
+    };
 
     function nonCircularStringify(obj) {
         var cache = [];
@@ -603,7 +602,7 @@
             console.log('>>>> retResults final  >>>> ' + JSON.stringify(resultlist));
             callback(err, resultlist);
         });
-    }
+    };
 
     // exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
     //     // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));

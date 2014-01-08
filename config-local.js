@@ -29,21 +29,21 @@ if (!exports) {
 
     exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
         return JSON.parse(localStorage.getItem(key));
-    }
+    };
 
     exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = function addToLocalStorage(key, value) {
         localStorage.setItem(key, JSON.stringify(value));
-    }
+    };
 
     exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
         widMasterKey = "widmaster_";
         localStorage.clear();
         potentialwid = 0;
-    }
+    };
 
     exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
         localStorage.removeItem(key);
-    }
+    };
 
 
 })(typeof window == "undefined" ? global : window);
@@ -262,7 +262,7 @@ function test2(params, callback) {
 exports.server = window.server = server = function server(params, callback) {
     console.log('execute server called with ' + JSON.stringify(params));
     // delete params['configuration'];
-    var params = toLowerKeys(params);
+    params = toLowerKeys(params);
     // if (params['midexecute']) {
     //     params['executethis'] = params['midexecute'];
     //     delete params['midexecute'];
@@ -567,8 +567,7 @@ function getwidcopy() {
 }
 
 
-exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(params, callback) {
-
+exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
     delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
 
     proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
@@ -596,7 +595,7 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
 
         callback(err, outobject);
     });
-}
+};
 
 exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(params, callback) {
     var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
@@ -635,7 +634,7 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
         proxyprinttodiv('Function updatewid in : x', results, 10);
         callback(err, results);
     });
-}
+};
 
 
 function resetMasterKey() {
@@ -649,7 +648,6 @@ function setdefaultparm() {
     widMasterKey = "widmaster_";
     test_results = {};
     potentialwid = 0;
-
     debugon = false;
     debugname = "";
     debugsubcat = "";
@@ -658,21 +656,23 @@ function setdefaultparm() {
     debugdestination = 1;
     debugcolor = 0;
     debugindent = 0;
-    exports.Debug = Debug
-    exports.debuglevel = debuglevel
-    exports.widMasterKey = widMasterKey
-    exports.test_results = test_results
-    exports.potentialwid = potentialwid
 
-    exports.debugon = debugon
-    exports.debugname = debugname
-    exports.debugsubcat = debugsubcat
-    exports.debugcat = debugcat =
-        exports.debugfilter = debugfilter
-    exports.debugdestination = debugdestination
-    exports.debugcolor = debugcolor
-    exports.debugindent = debugindent
+    exports.Debug = Debug;
+    exports.debuglevel = debuglevel;
+    exports.widMasterKey = widMasterKey;
+    exports.test_results = test_results;
+    exports.potentialwid = potentialwid;
+
+    exports.debugon = debugon;
+    exports.debugname = debugname;
+    exports.debugsubcat = debugsubcat;
+    exports.debugcat = debugcat;
+    exports.debugfilter = debugfilter;
+    exports.debugdestination = debugdestination;
+    exports.debugcolor = debugcolor;
+    exports.debugindent = debugindent;
 }
+
 exports.bootprocess = bootprocess = function bootprocess() {
     setdefaultparm();
     testclearstorage();
@@ -682,4 +682,4 @@ exports.bootprocess = bootprocess = function bootprocess() {
     test_results = {};
     //testAddWids();
     //displayAllWids();
-}
+};
