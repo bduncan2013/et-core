@@ -3289,6 +3289,13 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
     configuration.updatewid[0].tryorder = 0;
     configuration.updatewid[0].dothis = 'offlineupdatewid';
     configuration.updatewid[0].params = {};
+    
+    configuration.getwidfrommongo = [];
+    configuration.getwidfrommongo[0] = {};
+    configuration.getwidfrommongo[0].executeorder = 0;
+    configuration.getwidfrommongo[0].tryorder = 0;
+    configuration.getwidfrommongo[0].dothis = 'offlinegetwidfrommongo';
+    configuration.getwidfrommongo[0].params = {};
 
 
 	return {
