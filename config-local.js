@@ -597,7 +597,7 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
     });
 };
 
-exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(params, callback) {
+exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
     var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
 
     delete inputWidgetObject['executethis'];

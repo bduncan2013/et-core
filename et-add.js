@@ -1735,19 +1735,13 @@
 
                     proxyprinttodiv('Function MongoAddEditPrepare, to update InListObj : ', InListObj, 90);
 
-                    updatewid(InListObj, function (err, ret) {
+                    InListObj.executethis = 'updatewid';
+
+                    execute(InListObj, function(err, ret) {
                         addresult = ret;
                         proxyprinttodiv('Function MongoAddEditPrepare, addresult new : ', addresult, 90);
                         cb(null);
                     });
-
-                    // InListObj["executethis"] = "updatewid";
-
-                    // etexecute(InListObj, function (err, ret) {
-                    //     addresult = ret;
-                    //     proxyprinttodiv('Function MongoAddEditPrepare, addresult : ', addresult, 90);
-                    //     cb(null);
-                    // });
                 } // step2
 
             ], // end step1, step2
