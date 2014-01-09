@@ -379,8 +379,7 @@
     }
 
     function executelist(howToDoList, whatToDoList, callback) {
-        var
-        h,
+        var h,
             w,
             cb,
             whatToDo,
@@ -437,7 +436,7 @@
             }
         } // for h
 
-        if (!executeobject.skipExecuteObjCheck || (typeof executeobject === 'object' && Object.keys(executeobject).length != 0)) { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
+        if (!executeobject.skipExecuteObjCheck && (typeof executeobject === 'object' && Object.keys(executeobject).length != 0)) { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
             proxyprinttodiv("executelist executeobject ", executeobject, 11);
             targetfn = executeobject.targetfn;
             whatToDo = executeobject.whatToDo;
