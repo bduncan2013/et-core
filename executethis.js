@@ -106,7 +106,7 @@
             };
         } else {
             //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
-            if (!targetfunction || !targetfunction instanceof Function) {
+            if (!targetfunction || !targetfunction instanceof Function || typeof(targetfunction) === 'string') {
                 targetfunction = execute;
             }
 
@@ -126,7 +126,7 @@
             }
 
             if (argCount == 1) {
-                return targetfunction (params); // if targetfn has only one parameter then fn is synchronous
+                return targetfunction(params); // if targetfn has only one parameter then fn is synchronous
             } else if (argCount > 1) {
                 var retResult = undefined,
                     funcDone = false,
@@ -145,7 +145,7 @@
                 while (!funcDone) {
                     if (!funcCalled) {
                         funcCalled = true;
-                        targetfunction (params, cbfunction);
+                        targetfunction(params, cbfunction);
                     }
                     count++;
                     if (count > 100) {
@@ -455,7 +455,7 @@
         } else { // if no execute
             callback(err, {
                 "error": "no executethis provided"
-            }); // if nothing to execute return parameters 
+            }); // if nothing to execute return parameters
         }
     } //fn    
 
