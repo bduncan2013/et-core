@@ -5,36 +5,44 @@
 
 
     exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
-        
-        
-        delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
 
-        proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
-        // var outobjectarr = [];
+        authcall(inputWidgetObject, function (err, ret) {
+            if (err || !ret) {
+                callback(err, {
+                    "etstatus": "unauthroized"
+                });
+            } else {
 
-        getfrommongo(inputWidgetObject, function (err, results) {
-            var outobject = {};
-            if (results && countKeys(results) > 0) {
-                if (results["data"]) {
-                    outobject = results["data"];
-                }
+                delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
 
-                if (results['wid']) {
-                    outobject['wid'] = results['wid'];
-                } else {
-                    outobject['wid'] = "";
-                }
+                proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
+                // var outobjectarr = [];
 
-                if (results['metadata']) {
-                    outobject['metadata.method'] = results['metadata']['method'];
-                } else {
-                    outobject['metadata.method'] = "";
-                }
+                getfrommongo(inputWidgetObject, function (err, results) {
+                    var outobject = {};
+                    if (results && countKeys(results) > 0) {
+                        if (results["data"]) {
+                            outobject = results["data"];
+                        }
+
+                        if (results['wid']) {
+                            outobject['wid'] = results['wid'];
+                        } else {
+                            outobject['wid'] = "";
+                        }
+
+                        if (results['metadata']) {
+                            outobject['metadata.method'] = results['metadata']['method'];
+                        } else {
+                            outobject['metadata.method'] = "";
+                        }
+                    }
+
+                    callback(err, outobject);
+                });
             }
-
-            callback(err, outobject);
         });
-    };
+    }
 
 
     exports.aggressivedto = aggressivedto = function aggressivedto(widInput, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
@@ -487,6 +495,7 @@
                                             cbMap(null);
                                         });
                                     }, // map series
+
                                     function (err, res) {
                                         if (err) {
                                             throw err;
@@ -1122,6 +1131,7 @@
 
 
     // Starting of getAndFormatNextLevel function
+
     function getAndFormatNextLevel(widInput, mongorelationshiptype, mongorelationshipmethod, mongorelationshipdirection, mongowidmethod, convertmethod, accesstoken, dtoin, callback) {
         var executeobject = {};
         var drillDownParameters = {};

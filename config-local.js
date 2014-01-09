@@ -48,7 +48,126 @@ if (!exports) {
 
 })(typeof window == "undefined" ? global : window);
 
-var config123 = function () {
+
+
+exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
+    delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
+
+    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
+    // var outobjectarr = [];
+
+    offlinegetfrommongo(inputWidgetObject, function (err, results) {
+        var outobject = {};
+        if (results && countKeys(results) > 0) {
+            if (results["data"]) {
+                outobject = results["data"];
+            }
+
+            if (results['wid']) {
+                outobject['wid'] = results['wid'];
+            } else {
+                outobject['wid'] = "";
+            }
+
+            if (results['metadata']) {
+                outobject['metadata.method'] = results['metadata']['method'];
+            } else {
+                outobject['metadata.method'] = "";
+            }
+        }
+
+        callback(err, outobject);
+    });
+};
+
+exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
+    var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
+
+    delete inputWidgetObject['executethis'];
+    proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 10);
+    // for conversion:
+    var saveobject = {};
+
+    if (inputWidgetObject['wid']) {
+        saveobject['wid'] = inputWidgetObject['wid'];
+    } else {
+        saveobject['wid'] = "";
+    }
+
+    delete inputWidgetObject['wid'];
+
+    saveobject['metadata'] = {};
+    if (inputWidgetObject['metadata.method']) {
+        saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
+    } else {
+        saveobject['metadata']['method'] = "";
+    }
+
+
+
+    // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
+    delete inputWidgetObject['metadata.method'];
+    if (inputWidgetObject) {
+        saveobject['data'] = inputWidgetObject;
+    } else {
+        saveobject['data'] = "";
+    }
+
+    offlineaddtomongo(saveobject, function (err, results) {
+        proxyprinttodiv('Function updatewid in : x', results, 10);
+        callback(err, results);
+    });
+};
+
+
+function resetMasterKey() {
+    widMasterKey = "widmaster_";
+}
+
+function setdefaultparm() {
+    localStore.clear();
+    Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
+    debuglevel = 0;
+    widMasterKey = "widmaster_";
+    test_results = {};
+    potentialwid = 0;
+    debugon = false;
+    debugname = "";
+    debugsubcat = "";
+    debugcat = "";
+    debugfilter = "";
+    debugdestination = 1;
+    debugcolor = 0;
+    debugindent = 0;
+
+    exports.Debug = Debug;
+    exports.debuglevel = debuglevel;
+    exports.widMasterKey = widMasterKey;
+    exports.test_results = test_results;
+    exports.potentialwid = potentialwid;
+
+    exports.debugon = debugon;
+    exports.debugname = debugname;
+    exports.debugsubcat = debugsubcat;
+    exports.debugcat = debugcat;
+    exports.debugfilter = debugfilter;
+    exports.debugdestination = debugdestination;
+    exports.debugcolor = debugcolor;
+    exports.debugindent = debugindent;
+}
+
+exports.bootprocess = bootprocess = function bootprocess() {
+    setdefaultparm();
+    testclearstorage();
+    if (exports.environment === 'local') {
+        clearLocalStorage();
+    }
+    test_results = {};
+    //testAddWids();
+    //displayAllWids();
+};
+
+function config123() {
     var configuration = {};
 
     configuration.environment = 'local';
@@ -57,21 +176,21 @@ var config123 = function () {
     configuration.preExecute[0] = {};
     configuration.preExecute[0].executeorder = 0;
     configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'executeFn';
+    configuration.preExecute[0].dothis = 'executefn';
     configuration.preExecute[0].params = {};
     configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeParam';
+    configuration.preExecute[1].executeorder = 1;
+    configuration.preExecute[1].tryorder = 1;
+    configuration.preExecute[1].dothis = 'executeparam';
     configuration.preExecute[1].params = {};
     configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executeDefault';
+    configuration.preExecute[2].executeorder = 2;
+    configuration.preExecute[2].tryorder = 2;
+    configuration.preExecute[2].dothis = 'executegetwid';
     configuration.preExecute[2].params = {};
     configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
+    configuration.preExecute[3].executeorder = 3;
+    configuration.preExecute[3].tryorder = 3;
     configuration.preExecute[3].dothis = 'server';
     configuration.preExecute[3].params = {};
 
@@ -79,21 +198,21 @@ var config123 = function () {
     configuration.midExecute[0] = {};
     configuration.midExecute[0].executeorder = 0;
     configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'executeFn';
+    configuration.midExecute[0].dothis = 'executefn';
     configuration.midExecute[0].params = {};
     configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeParam';
+    configuration.midExecute[1].executeorder = 1;
+    configuration.midExecute[1].tryorder = 1;
+    configuration.midExecute[1].dothis = 'executeparam';
     configuration.midExecute[1].params = {};
     configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    configuration.midExecute[2].dothis = 'executeDefault';
+    configuration.midExecute[2].executeorder = 2;
+    configuration.midExecute[2].tryorder = 2;
+    configuration.midExecute[2].dothis = 'executegetwid';
     configuration.midExecute[2].params = {};
     configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
+    configuration.midExecute[3].executeorder = 3;
+    configuration.midExecute[3].tryorder = 3;
     configuration.midExecute[3].dothis = 'server';
     configuration.midExecute[3].params = {};
 
@@ -101,29 +220,30 @@ var config123 = function () {
     configuration.postExecute[0] = {};
     configuration.postExecute[0].executeorder = 0;
     configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'executeFn';
+    configuration.postExecute[0].dothis = 'executefn';
     configuration.postExecute[0].params = {};
     configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeParam';
+    configuration.postExecute[1].executeorder = 1;
+    configuration.postExecute[1].tryorder = 1;
+    configuration.postExecute[1].dothis = 'executeparam';
     configuration.postExecute[1].params = {};
     configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executeDefault';
+    configuration.postExecute[2].executeorder = 2;
+    configuration.postExecute[2].tryorder = 2;
+    configuration.postExecute[2].dothis = 'executegetwid';
     configuration.postExecute[2].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-    configuration.postExecute[2].params = {};
+    configuration.postExecute[3] = {};
+    configuration.postExecute[3].executeorder = 3;
+    configuration.postExecute[3].tryorder = 3;
+    configuration.postExecute[3].dothis = 'server';
+    configuration.postExecute[3].params = {};
 
     configuration.getwid = [];
     configuration.getwid[0] = {};
     configuration.getwid[0].executeorder = 0;
     configuration.getwid[0].tryorder = 0;
     configuration.getwid[0].dothis = 'offlinegetwid';
+    configuration.getwid[0].dofn = offlinegetwid;
     configuration.getwid[0].params = {};
 
     configuration.updatewid = [];
@@ -131,7 +251,10 @@ var config123 = function () {
     configuration.updatewid[0].executeorder = 0;
     configuration.updatewid[0].tryorder = 0;
     configuration.updatewid[0].dothis = 'offlineupdatewid';
+    configuration.updatewid[0].dofn = offlineupdatewid;
     configuration.updatewid[0].params = {};
+
+
 
     // configuration.MongoAddEditPrepare = {};
     //  configuration.MongoAddEditPrepare.synchronous = false;
@@ -251,7 +374,7 @@ function executeAjax(allConfig, executeItem, callback, returnCallback) {
     });
 }
 
-// Primary execute function called after doThis
+// Primary execute function called after dothis
 
 function test2(params, callback) {
     callback({
@@ -318,18 +441,18 @@ function config555() {
     configuration.preexecute = [];
     configuration.preexecute[0] = {};
     configuration.preexecute[0].order = 0;
-    configuration.preexecute[0].dothis = 'executeFn';
+    configuration.preexecute[0].dothis = 'executefn';
 
     configuration.midexecute = [];
     configuration.midexecute[0] = {};
     configuration.midexecute[0].order = 0;
-    configuration.midexecute[0].dothis = 'executeFn';
+    configuration.midexecute[0].dothis = 'executefn';
 
 
     configuration.postexecute = [];
     configuration.postexecute[0] = {};
     configuration.postexecute[0].order = 0;
-    configuration.postexecute[0].dothis = 'executeFn';
+    configuration.postexecute[0].dothis = 'executefn';
 
     return {
         "configuration": configuration
@@ -428,11 +551,13 @@ function querywidlocal(sq, callback) {
 
             var executeobject = {};
             executeobject["wid"] = widkey;
+            executeobject["executethis"] = "getwid";
             //var x = window['getfrommongo'];
-            var x = window['getwid'];
+            ////var x = window['getwid'];
             //var myvalue = executethis({wid:widkey}, getfrommongo);
             //var myvalue = executethis(executeobject, getfrommongo);
-            var myvalue = executethis(executeobject, x);
+            ////var myvalue = executethis(executeobject, x);
+            var myvalue = executethis(executeobject);
             //proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
             proxyprinttodiv('Function simpleQuery in : myvalue', myvalue);
             if (myvalue["primarywid"] == widInput) {
@@ -443,10 +568,11 @@ function querywidlocal(sq, callback) {
                 //var value = getfrommongo({wid:key}); // , dtotype:mongowidmethod
                 executeobject = {};
                 executeobject["wid"] = key;
+                executeobject["executethis"] = "getwid";
                 //var value = executethis({wid:key}, getfrommongo);
                 proxyprinttodiv('Function simpleQuery in : executeobject', executeobject, 30);
-                proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
-                var value = executethis(executeobject, x);
+                // proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
+                var value = executethis(executeobject);
                 //var value = executethis(executeobject, getfrommongo);
                 proxyprinttodiv('Function simpleQuery in : value', value, 30);
                 delete value.wid;
@@ -565,121 +691,3 @@ function getwidcopy() {
     }
     return set
 }
-
-
-exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
-    delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
-
-    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
-    // var outobjectarr = [];
-
-    offlinegetfrommongo(inputWidgetObject, function (err, results) {
-        var outobject = {};
-        if (results && countKeys(results) > 0) {
-            if (results["data"]) {
-                outobject = results["data"];
-            }
-
-            if (results['wid']) {
-                outobject['wid'] = results['wid'];
-            } else {
-                outobject['wid'] = "";
-            }
-
-            if (results['metadata']) {
-                outobject['metadata.method'] = results['metadata']['method'];
-            } else {
-                outobject['metadata.method'] = "";
-            }
-        }
-
-        callback(err, outobject);
-    });
-};
-
-exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
-    var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
-
-    delete inputWidgetObject['executethis'];
-    proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 10);
-    // for conversion:
-    var saveobject = {};
-
-    if (inputWidgetObject['wid']) {
-        saveobject['wid'] = inputWidgetObject['wid'];
-    } else {
-        saveobject['wid'] = "";
-    }
-
-    delete inputWidgetObject['wid'];
-
-    saveobject['metadata'] = {};
-    if (inputWidgetObject['metadata.method']) {
-        saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
-    } else {
-        saveobject['metadata']['method'] = "";
-    }
-
-
-
-    // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
-    delete inputWidgetObject['metadata.method'];
-    if (inputWidgetObject) {
-        saveobject['data'] = inputWidgetObject;
-    } else {
-        saveobject['data'] = "";
-    }
-
-    offlineaddtomongo(saveobject, function (err, results) {
-        proxyprinttodiv('Function updatewid in : x', results, 10);
-        callback(err, results);
-    });
-};
-
-
-function resetMasterKey() {
-    widMasterKey = "widmaster_";
-}
-
-function setdefaultparm() {
-    localStore.clear();
-    Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
-    debuglevel = 0;
-    widMasterKey = "widmaster_";
-    test_results = {};
-    potentialwid = 0;
-    debugon = false;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
-    debugcolor = 0;
-    debugindent = 0;
-
-    exports.Debug = Debug;
-    exports.debuglevel = debuglevel;
-    exports.widMasterKey = widMasterKey;
-    exports.test_results = test_results;
-    exports.potentialwid = potentialwid;
-
-    exports.debugon = debugon;
-    exports.debugname = debugname;
-    exports.debugsubcat = debugsubcat;
-    exports.debugcat = debugcat;
-    exports.debugfilter = debugfilter;
-    exports.debugdestination = debugdestination;
-    exports.debugcolor = debugcolor;
-    exports.debugindent = debugindent;
-}
-
-exports.bootprocess = bootprocess = function bootprocess() {
-    setdefaultparm();
-    testclearstorage();
-    if (exports.environment === 'local') {
-        clearLocalStorage();
-    }
-    test_results = {};
-    //testAddWids();
-    //displayAllWids();
-};

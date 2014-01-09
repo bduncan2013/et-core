@@ -951,7 +951,7 @@ exports.ct7 = ct7 = function ct7(params, callback) {
 		"executethis": "func_b",
 		"configuration": {
 			"preexecute": [{
-				"dothis": "executeFn",
+				"dothis": "executefn",
 				"tryorder": 0,
 				"executeorder": 0,
 				"params": {}
@@ -987,7 +987,7 @@ exports.ct7a = ct7a = function ct7a(params, callback) {
 		"preexecute": "a",
 		"configuration": {
 			"preexecute": [{
-				"dothis": "executeFn",
+				"dothis": "executefn",
 				"tryorder": "0",
 				"executeorder": "0",
 				"params": {}
@@ -1014,7 +1014,7 @@ exports.ct7a = ct7a = function ct7a(params, callback) {
 
 
 // This test asserts that the tryorder in the config is successful
-// and causes executethis to call executeFn, not server, or the others
+// and causes executethis to call executefn, not server, or the others
 exports.ct8 = ct8 = function ct8(params, callback) {
 	testclearstorage();
 	config = setconfig5();
@@ -1136,7 +1136,7 @@ exports.ct12 = ct12 = function ct12(params, callback) {
 		"preexecute": "a",
 		"configuration": {
 			"preexecute": [{
-				"dothis": "executeFn",
+				"dothis": "executefn",
 				"tryorder": "0",
 				"executeorder": "0"
 			}],
@@ -1267,8 +1267,8 @@ exports.ct16 = ct16 = function ct16(params, callback) {
 	if (callback instanceof Function) {callback(err, res)} else {return res}
 	});
 }
-// To test if the executeDefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function
-// or a parameter, so it should find executeDefault that has a param to be expected to be sent to func_b.
+// To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function
+// or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.
 exports.ct17 = ct17 = function ct17(params, callback) {
 	testclearstorage();
 	config = setconfig7();
@@ -1283,12 +1283,12 @@ exports.ct17 = ct17 = function ct17(params, callback) {
 		"d": "1",
 		"c": "0",
 		"g": "4",
-		"exdef": "executeDefault was grabbed"
+		"exdef": "executedefault was grabbed"
 	});
 	if (callback instanceof Function) {callback(err, res)} else {return res}
 	});
 }
-// This is to use the params in preexecute to ensure that the preexecute params are getting used by executeFn
+// This is to use the params in preexecute to ensure that the preexecute params are getting used by executefn
 exports.ct18 = ct18 = function ct18(params, callback) {
 	testclearstorage();
 	config = setconfig7();
@@ -1323,7 +1323,7 @@ exports.ct19 = ct19 = function ct19(params, callback) {
 		"postexecute": "func_c",
 		"configuration": {
 			"preexecute": [{
-				"dothis": "executeFn",
+				"dothis": "executefn",
 				"tryorder": 0,
 				"executeorder": 0,
 				"params": {
@@ -1331,7 +1331,7 @@ exports.ct19 = ct19 = function ct19(params, callback) {
 				}
 			}],
 			"midexecute": [{
-				"dothis": "executeFn",
+				"dothis": "executefn",
 				"tryorder": 0,
 				"executeorder": 0,
 				"params": {
@@ -1339,7 +1339,7 @@ exports.ct19 = ct19 = function ct19(params, callback) {
 				}
 			}],
 			"postexecute": [{
-				"dothis": "executeFn",
+				"dothis": "executefn",
 				"tryorder": 0,
 				"executeorder": 0,
 				"params": {
@@ -2031,10 +2031,10 @@ exports.qq1 = qq1 = function qq1(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 exports.getwidtest = getwidtest = function getwidtest(params, callback) {
-	executetest('getwid', {
-		wid: 'test1'
-	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	config = setconfig1();
+	testclearstorage();
+	executethis({'executethis':'getwid', wid: 'test1'});
+	// if (callback instanceof Function) {callback(err, params)} else {return params}
 
 
 
@@ -2447,7 +2447,7 @@ exports.testj = testj = function testj(params, callback) {
 	config = setconfig1();
 
 	var parameters = {
-		"executethis": executeParam,
+		"executethis": executeparam,
 		"wid": "green"
 	};
 	var abc = executethis(parameters, "execute");
@@ -3145,17 +3145,17 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
 	configuration.preExecute[0].tryorder = 0;
-	configuration.preExecute[0].dothis = 'executeFn';
+	configuration.preExecute[0].dothis = 'executefn';
 	configuration.preExecute[0].params = {};
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
-	configuration.preExecute[1].dothis = 'executeParam';
+	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
-	configuration.preExecute[2].dothis = 'executeDefault';
+	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
@@ -3167,17 +3167,17 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 	configuration.midExecute[0] = {};
 	configuration.midExecute[0].executeorder = 0;
 	configuration.midExecute[0].tryorder = 0;
-	configuration.midExecute[0].dothis = 'executeFn';
+	configuration.midExecute[0].dothis = 'executefn';
 	configuration.midExecute[0].params = {};
 	configuration.midExecute[1] = {};
 	configuration.midExecute[1].executeorder = 0;
 	configuration.midExecute[1].tryorder = 0;
-	configuration.midExecute[1].dothis = 'executeParam';
+	configuration.midExecute[1].dothis = 'executeparam';
 	configuration.midExecute[1].params = {};
 	configuration.midExecute[2] = {};
 	configuration.midExecute[2].executeorder = 0;
 	configuration.midExecute[2].tryorder = 0;
-	configuration.midExecute[2].dothis = 'executeDefault';
+	configuration.midExecute[2].dothis = 'executedefault';
 	configuration.midExecute[2].params = {};
 	configuration.midExecute[3] = {};
 	configuration.midExecute[3].executeorder = 0;
@@ -3189,17 +3189,17 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 	configuration.postExecute[0] = {};
 	configuration.postExecute[0].executeorder = 0;
 	configuration.postExecute[0].tryorder = 0;
-	configuration.postExecute[0].dothis = 'executeFn';
+	configuration.postExecute[0].dothis = 'executefn';
 	configuration.postExecute[0].params = {};
 	configuration.postExecute[1] = {};
 	configuration.postExecute[1].executeorder = 0;
 	configuration.postExecute[1].tryorder = 0;
-	configuration.postExecute[1].dothis = 'executeParam';
+	configuration.postExecute[1].dothis = 'executeparam';
 	configuration.postExecute[1].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
-	configuration.postExecute[2].dothis = 'executeDefault';
+	configuration.postExecute[2].dothis = 'executedefault';
 	configuration.postExecute[2].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
@@ -3335,17 +3335,17 @@ exports.setconfig2 = setconfig2 = function setconfig2() {
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
 	configuration.preExecute[0].tryorder = 0;
-	configuration.preExecute[0].dothis = 'executeFn';
+	configuration.preExecute[0].dothis = 'executefn';
 	configuration.preExecute[0].params = {};
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
-	configuration.preExecute[1].dothis = 'executeParam';
+	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
-	configuration.preExecute[2].dothis = 'executeDefault';
+	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
@@ -3357,17 +3357,17 @@ exports.setconfig2 = setconfig2 = function setconfig2() {
 	configuration.midExecute[0] = {};
 	configuration.midExecute[0].executeorder = 0;
 	configuration.midExecute[0].tryorder = 0;
-	configuration.midExecute[0].dothis = 'executeFn';
+	configuration.midExecute[0].dothis = 'executefn';
 	configuration.midExecute[0].params = {};
 	configuration.midExecute[1] = {};
 	configuration.midExecute[1].executeorder = 0;
 	configuration.midExecute[1].tryorder = 0;
-	configuration.midExecute[1].dothis = 'executeParam';
+	configuration.midExecute[1].dothis = 'executeparam';
 	configuration.midExecute[1].params = {};
 	configuration.midExecute[2] = {};
 	configuration.midExecute[2].executeorder = 0;
 	configuration.midExecute[2].tryorder = 0;
-	configuration.midExecute[2].dothis = 'executeDefault';
+	configuration.midExecute[2].dothis = 'executedefault';
 	configuration.midExecute[2].params = {};
 	configuration.midExecute[3] = {};
 	configuration.midExecute[3].executeorder = 0;
@@ -3379,17 +3379,17 @@ exports.setconfig2 = setconfig2 = function setconfig2() {
 	configuration.postExecute[0] = {};
 	configuration.postExecute[0].executeorder = 0;
 	configuration.postExecute[0].tryorder = 0;
-	configuration.postExecute[0].dothis = 'executeFn';
+	configuration.postExecute[0].dothis = 'executefn';
 	configuration.postExecute[0].params = {};
 	configuration.postExecute[1] = {};
 	configuration.postExecute[1].executeorder = 0;
 	configuration.postExecute[1].tryorder = 0;
-	configuration.postExecute[1].dothis = 'executeParam';
+	configuration.postExecute[1].dothis = 'executeparam';
 	configuration.postExecute[1].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
-	configuration.postExecute[2].dothis = 'executeDefault';
+	configuration.postExecute[2].dothis = 'executedefault';
 	configuration.postExecute[2].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
@@ -3466,17 +3466,17 @@ exports.setconfig3 = setconfig3 = function setconfig3() {
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
 	configuration.preExecute[0].tryorder = 0;
-	configuration.preExecute[0].dothis = 'executeFn';
+	configuration.preExecute[0].dothis = 'executefn';
 	configuration.preExecute[0].params = {};
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
-	configuration.preExecute[1].dothis = 'executeParam';
+	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
-	configuration.preExecute[2].dothis = 'executeDefault';
+	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
@@ -3488,17 +3488,17 @@ exports.setconfig3 = setconfig3 = function setconfig3() {
 	configuration.midExecute[0] = {};
 	configuration.midExecute[0].executeorder = 0;
 	configuration.midExecute[0].tryorder = 0;
-	configuration.midExecute[0].dothis = 'executeFn';
+	configuration.midExecute[0].dothis = 'executefn';
 	configuration.midExecute[0].params = {};
 	configuration.midExecute[1] = {};
 	configuration.midExecute[1].executeorder = 0;
 	configuration.midExecute[1].tryorder = 0;
-	configuration.midExecute[1].dothis = 'executeParam';
+	configuration.midExecute[1].dothis = 'executeparam';
 	configuration.midExecute[1].params = {};
 	configuration.midExecute[2] = {};
 	configuration.midExecute[2].executeorder = 0;
 	configuration.midExecute[2].tryorder = 0;
-	configuration.midExecute[2].dothis = 'executeDefault';
+	configuration.midExecute[2].dothis = 'executedefault';
 	configuration.midExecute[2].params = {};
 	configuration.midExecute[3] = {};
 	configuration.midExecute[3].executeorder = 0;
@@ -3510,17 +3510,17 @@ exports.setconfig3 = setconfig3 = function setconfig3() {
 	configuration.postExecute[0] = {};
 	configuration.postExecute[0].executeorder = 0;
 	configuration.postExecute[0].tryorder = 0;
-	configuration.postExecute[0].dothis = 'executeFn';
+	configuration.postExecute[0].dothis = 'executefn';
 	configuration.postExecute[0].params = {};
 	configuration.postExecute[1] = {};
 	configuration.postExecute[1].executeorder = 0;
 	configuration.postExecute[1].tryorder = 0;
-	configuration.postExecute[1].dothis = 'executeParam';
+	configuration.postExecute[1].dothis = 'executeparam';
 	configuration.postExecute[1].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
-	configuration.postExecute[2].dothis = 'executeDefault';
+	configuration.postExecute[2].dothis = 'executedefault';
 	configuration.postExecute[2].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
@@ -3563,12 +3563,12 @@ exports.setconfig4 = setconfig4 = function setconfig4() {
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
-	configuration.preExecute[1].dothis = 'executeParam';
+	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
-	configuration.preExecute[2].dothis = 'executeDefault';
+	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
@@ -3580,17 +3580,17 @@ exports.setconfig4 = setconfig4 = function setconfig4() {
 	configuration.midExecute[0] = {};
 	configuration.midExecute[0].executeorder = 0;
 	configuration.midExecute[0].tryorder = 0;
-	configuration.midExecute[0].dothis = 'executeFn';
+	configuration.midExecute[0].dothis = 'executefn';
 	configuration.midExecute[0].params = {};
 	configuration.midExecute[1] = {};
 	configuration.midExecute[1].executeorder = 0;
 	configuration.midExecute[1].tryorder = 0;
-	configuration.midExecute[1].dothis = 'executeParam';
+	configuration.midExecute[1].dothis = 'executeparam';
 	configuration.midExecute[1].params = {};
 	configuration.midExecute[2] = {};
 	configuration.midExecute[2].executeorder = 0;
 	configuration.midExecute[2].tryorder = 0;
-	configuration.midExecute[2].dothis = 'executeDefault';
+	configuration.midExecute[2].dothis = 'executedefault';
 	configuration.midExecute[2].params = {};
 	configuration.midExecute[3] = {};
 	configuration.midExecute[3].executeorder = 0;
@@ -3602,17 +3602,17 @@ exports.setconfig4 = setconfig4 = function setconfig4() {
 	configuration.postExecute[0] = {};
 	configuration.postExecute[0].executeorder = 0;
 	configuration.postExecute[0].tryorder = 0;
-	configuration.postExecute[0].dothis = 'executeFn';
+	configuration.postExecute[0].dothis = 'executefn';
 	configuration.postExecute[0].params = {};
 	configuration.postExecute[1] = {};
 	configuration.postExecute[1].executeorder = 0;
 	configuration.postExecute[1].tryorder = 0;
-	configuration.postExecute[1].dothis = 'executeParam';
+	configuration.postExecute[1].dothis = 'executeparam';
 	configuration.postExecute[1].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
-	configuration.postExecute[2].dothis = 'executeDefault';
+	configuration.postExecute[2].dothis = 'executedefault';
 	configuration.postExecute[2].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
@@ -3636,17 +3636,17 @@ exports.setconfig5 = setconfig5 = function setconfig5() {
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
 	configuration.preExecute[0].tryorder = 0;
-	configuration.preExecute[0].dothis = 'executeFn';
+	configuration.preExecute[0].dothis = 'executefn';
 	configuration.preExecute[0].params = {};
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
-	configuration.preExecute[1].dothis = 'executeParam';
+	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
-	configuration.preExecute[2].dothis = 'executeDefault';
+	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
@@ -3663,32 +3663,32 @@ exports.setconfig5 = setconfig5 = function setconfig5() {
 	configuration.midExecute[1] = {};
 	configuration.midExecute[1].executeorder = 4;
 	configuration.midExecute[1].tryorder = 4;
-	configuration.midExecute[1].dothis = 'executeParam';
+	configuration.midExecute[1].dothis = 'executeparam';
 	configuration.midExecute[1].params = {};
 	configuration.midExecute[2] = {};
 	configuration.midExecute[2].executeorder = 7;
 	configuration.midExecute[2].tryorder = 7;
-	configuration.midExecute[2].dothis = 'executeDefault';
+	configuration.midExecute[2].dothis = 'executedefault';
 	configuration.midExecute[2].params = {};
 	configuration.midExecute[3] = {};
 	configuration.midExecute[3].executeorder = 1;
 	configuration.midExecute[3].tryorder = 1;
-	configuration.midExecute[3].dothis = 'executeFn';
+	configuration.midExecute[3].dothis = 'executefn';
 	configuration.midExecute[3].params = {};
 
 	configuration.postExecute = [];
 	configuration.postExecute[0] = {};
 	configuration.postExecute[0].executeorder = 0;
 	configuration.postExecute[0].tryorder = 0;
-	configuration.postExecute[0].dothis = 'executeFn';
+	configuration.postExecute[0].dothis = 'executefn';
 	configuration.postExecute[1] = {};
 	configuration.postExecute[1].executeorder = 0;
 	configuration.postExecute[1].tryorder = 0;
-	configuration.postExecute[1].dothis = 'executeParam';
+	configuration.postExecute[1].dothis = 'executeparam';
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
-	configuration.postExecute[2].dothis = 'executeDefault';
+	configuration.postExecute[2].dothis = 'executedefault';
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
@@ -3707,19 +3707,19 @@ exports.setconfig6 = setconfig6 = function setconfig6() {
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
 	configuration.preExecute[0].tryorder = 0;
-	configuration.preExecute[0].dothis = 'executeFn';
+	configuration.preExecute[0].dothis = 'executefn';
 	configuration.preExecute[0].params = {
 		'cer1': 'alphabits'
 	};
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
-	configuration.preExecute[1].dothis = 'executeParam';
+	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
-	configuration.preExecute[2].dothis = 'executeDefault';
+	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
@@ -3731,19 +3731,19 @@ exports.setconfig6 = setconfig6 = function setconfig6() {
 	configuration.midExecute[0] = {};
 	configuration.midExecute[0].executeorder = 0;
 	configuration.midExecute[0].tryorder = 0;
-	configuration.midExecute[0].dothis = 'executeFn';
+	configuration.midExecute[0].dothis = 'executefn';
 	configuration.midExecute[0].params = {
 		'cer2': 'booberry'
 	};
 	configuration.midExecute[1] = {};
 	configuration.midExecute[1].executeorder = 0;
 	configuration.midExecute[1].tryorder = 0;
-	configuration.midExecute[1].dothis = 'executeParam';
+	configuration.midExecute[1].dothis = 'executeparam';
 	configuration.midExecute[1].params = {};
 	configuration.midExecute[2] = {};
 	configuration.midExecute[2].executeorder = 0;
 	configuration.midExecute[2].tryorder = 0;
-	configuration.midExecute[2].dothis = 'executeDefault';
+	configuration.midExecute[2].dothis = 'executedefault';
 	configuration.midExecute[2].params = {};
 	configuration.midExecute[3] = {};
 	configuration.midExecute[3].executeorder = 0;
@@ -3755,19 +3755,19 @@ exports.setconfig6 = setconfig6 = function setconfig6() {
 	configuration.postExecute[0] = {};
 	configuration.postExecute[0].executeorder = 0;
 	configuration.postExecute[0].tryorder = 0;
-	configuration.postExecute[0].dothis = 'executeFn';
+	configuration.postExecute[0].dothis = 'executefn';
 	configuration.postExecute[0].params = {
 		'cer3': 'chex'
 	};
 	configuration.postExecute[1] = {};
 	configuration.postExecute[1].executeorder = 0;
 	configuration.postExecute[1].tryorder = 0;
-	configuration.postExecute[1].dothis = 'executeParam';
+	configuration.postExecute[1].dothis = 'executeparam';
 	configuration.postExecute[1].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
-	configuration.postExecute[2].dothis = 'executeDefault';
+	configuration.postExecute[2].dothis = 'executedefault';
 	configuration.postExecute[2].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
@@ -3780,7 +3780,7 @@ exports.setconfig6 = setconfig6 = function setconfig6() {
 	}
 }
 
-// This config is to test he executeDefault...does it make it there if executeFn and executeParam do 
+// This config is to test he executedefault...does it make it there if executefn and executeparam do 
 // not exist.  
 exports.setconfig7 = setconfig7 = function setconfig7() {
 	configuration = {};
@@ -3790,19 +3790,19 @@ exports.setconfig7 = setconfig7 = function setconfig7() {
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
 	configuration.preExecute[0].tryorder = 0;
-	configuration.preExecute[0].dothis = 'executeFn';
+	configuration.preExecute[0].dothis = 'executefn';
 	configuration.preExecute[0].params = {
 		'myexfnparam': 'hereismyfnparam'
 	};
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
-	configuration.preExecute[1].dothis = 'executeParam';
+	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
-	configuration.preExecute[2].dothis = 'executeDefault';
+	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
@@ -3814,17 +3814,17 @@ exports.setconfig7 = setconfig7 = function setconfig7() {
 	configuration.midExecute[0] = {};
 	configuration.midExecute[0].executeorder = 0;
 	configuration.midExecute[0].tryorder = 0;
-	configuration.midExecute[0].dothis = 'executeFn';
+	configuration.midExecute[0].dothis = 'executefn';
 	configuration.midExecute[0].params = {};
 	configuration.midExecute[1] = {};
 	configuration.midExecute[1].executeorder = 0;
 	configuration.midExecute[1].tryorder = 0;
-	configuration.midExecute[1].dothis = 'executeParam';
+	configuration.midExecute[1].dothis = 'executeparam';
 	configuration.midExecute[1].params = {};
 	configuration.midExecute[2] = {};
 	configuration.midExecute[2].executeorder = 0;
 	configuration.midExecute[2].tryorder = 0;
-	// configuration.midExecute[2].dothis = 'executeDefault'; // This is replaced with func_b to simulate getting to executeDefault
+	// configuration.midExecute[2].dothis = 'executedefault'; // This is replaced with func_b to simulate getting to executedefault
 	configuration.midExecute[2].dothis = 'func_b';
 	configuration.midExecute[2].params = {
 		'exdef': 'param after executefn and executeparam was grabbed'
@@ -3839,17 +3839,17 @@ exports.setconfig7 = setconfig7 = function setconfig7() {
 	configuration.postExecute[0] = {};
 	configuration.postExecute[0].executeorder = 0;
 	configuration.postExecute[0].tryorder = 0;
-	configuration.postExecute[0].dothis = 'executeFn';
+	configuration.postExecute[0].dothis = 'executefn';
 	configuration.postExecute[0].params = {};
 	configuration.postExecute[1] = {};
 	configuration.postExecute[1].executeorder = 0;
 	configuration.postExecute[1].tryorder = 0;
-	configuration.postExecute[1].dothis = 'executeParam';
+	configuration.postExecute[1].dothis = 'executeparam';
 	configuration.postExecute[1].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
-	configuration.postExecute[2].dothis = 'executeDefault';
+	configuration.postExecute[2].dothis = 'executedefault';
 	configuration.postExecute[2].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
@@ -3870,19 +3870,19 @@ exports.setconfig8 = setconfig8 = function setconfig8() {
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
 	configuration.preExecute[0].tryorder = 0;
-	configuration.preExecute[0].dothis = 'executeFn';
+	configuration.preExecute[0].dothis = 'executefn';
 	configuration.preExecute[0].params = {
 		"alpha": "4"
 	};
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
-	configuration.preExecute[1].dothis = 'executeParam';
+	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
-	configuration.preExecute[2].dothis = 'executeDefault';
+	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
@@ -3894,19 +3894,19 @@ exports.setconfig8 = setconfig8 = function setconfig8() {
 	configuration.midExecute[0] = {};
 	configuration.midExecute[0].executeorder = 0;
 	configuration.midExecute[0].tryorder = 0;
-	configuration.midExecute[0].dothis = 'executeFn';
+	configuration.midExecute[0].dothis = 'executefn';
 	configuration.midExecute[0].params = {
 		"bravo": "4"
 	};
 	configuration.midExecute[1] = {};
 	configuration.midExecute[1].executeorder = 0;
 	configuration.midExecute[1].tryorder = 0;
-	configuration.midExecute[1].dothis = 'executeParam';
+	configuration.midExecute[1].dothis = 'executeparam';
 	configuration.midExecute[1].params = {};
 	configuration.midExecute[2] = {};
 	configuration.midExecute[2].executeorder = 0;
 	configuration.midExecute[2].tryorder = 0;
-	configuration.midExecute[2].dothis = 'executeDefault';
+	configuration.midExecute[2].dothis = 'executedefault';
 	configuration.midExecute[2].params = {};
 	configuration.midExecute[3] = {};
 	configuration.midExecute[3].executeorder = 0;
@@ -3918,19 +3918,19 @@ exports.setconfig8 = setconfig8 = function setconfig8() {
 	configuration.postExecute[0] = {};
 	configuration.postExecute[0].executeorder = 0;
 	configuration.postExecute[0].tryorder = 0;
-	configuration.postExecute[0].dothis = 'executeFn';
+	configuration.postExecute[0].dothis = 'executefn';
 	configuration.postExecute[0].params = {
 		"charlie": "4"
 	};
 	configuration.postExecute[1] = {};
 	configuration.postExecute[1].executeorder = 0;
 	configuration.postExecute[1].tryorder = 0;
-	configuration.postExecute[1].dothis = 'executeParam';
+	configuration.postExecute[1].dothis = 'executeparam';
 	configuration.postExecute[1].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;
 	configuration.postExecute[2].tryorder = 0;
-	configuration.postExecute[2].dothis = 'executeDefault';
+	configuration.postExecute[2].dothis = 'executedefault';
 	configuration.postExecute[2].params = {};
 	configuration.postExecute[2] = {};
 	configuration.postExecute[2].executeorder = 0;

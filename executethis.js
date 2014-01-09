@@ -37,7 +37,7 @@
         console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
         if ((incomingparams !== undefined) && (incomingparams["executethis"] === "test2")) {
-            callback(undefined,{
+            callback(undefined, {
                 'test2': 'Reached test2 code.. execute function'
             });
         } else {
@@ -66,20 +66,20 @@
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
                     console.log('starting midexecute ' + nonCircularStringify(incomingparams));
                     if (!preResults) {
-                       if (postResults!==false && (!postResults))  
-                        preResults = {};
+                        if (postResults !== false && (!postResults))
+                            preResults = {};
                     } // 
                     doThis(preResults, 'midexecute', function (err, midResults) {
                         midError = err;
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-                        if (midResults!==false && (!midResults)) {
+                        if (midResults !== false && (!midResults)) {
                             midResults = {};
                         }
 
                         doThis(midResults, 'postexecute', function (err, postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
 
-                            if (postResults!==false && (!postResults))  {
+                            if (postResults !== false && (!postResults)) {
                                 postResults = {};
                             }
 
@@ -92,6 +92,99 @@
             }
         }
     };
+
+    exports.execute2 = window.execute2 = execute2 = function execute2(received_params, callback) {
+
+        if (received_params instanceof Array) {
+            executemultiple(received_params, callback);
+        } else {
+
+            var incomingparams = {}, result;
+            extend(true, incomingparams, received_params); // clone received params
+
+            incomingparams = toLowerKeys(incomingparams);
+            // proxyprinttodiv("execute - inboundparms", incomingparams, 11);
+            // proxyprinttodiv("execute - callback fn ", String(callback), 11);
+            console.log(' *** execute2 starting  ' + JSON.stringify(incomingparams));
+
+
+            if ((incomingparams !== undefined) && (incomingparams['etbypass'])) {
+                // proxyprinttodiv("execute - etbypass incomingparams", incomingparams, 11);
+
+                // var x = undefined;
+
+                // if (incomingparams["executethis"]) {
+                //     if (incomingparams["executethis"] instanceof Function) {
+                //         x = incomingparams["executethis"];
+                //     } else {
+                //         x = window[incomingparams["executethis"]];
+                //     }
+                //     result = executethis(incomingparams, x);
+                // } else {
+                //     result = incomingparams;
+                // }
+                callback(err, result);
+            } else {
+                incomingparams['midexecute'] = ['executethis'];
+                delete incomingparams['executethis'];
+                // before execuetthis
+                // pre
+                // before execute
+                // mid
+                // after execute
+                // post
+                // after executethis
+                async.waterfall([
+
+                    function eventexecutethis(cb) {
+                        cb(null);
+                    },
+                    function eventpre(cb) {
+                        console.log('starting preexecute ' + nonCircularStringify(incomingparams));
+                        doThis(incomingparams, 'preexecute', function (err, preResults) {
+                            console.log(' after preexecute >> ' + nonCircularStringify(preResults));
+                            cb(null,  preResults);
+                        });
+                    },
+                    function eventbeforeexecute(preResults, cb) {
+                        cb(null, preResults);
+                    },
+                    function mid(preResults, cb) {
+                        console.log('starting midexecute ' + nonCircularStringify(incomingparams));
+                        if (!preResults) {
+                            if (preResults !== false && (!preResults))
+                                preResults = {};
+                        } // 
+                        doThis(preResults, 'midexecute', function (err, midResults) {
+                            console.log(' after midexecute >> ' + nonCircularStringify(midResults));
+                            cb(null, midResults);
+                        });
+                    },
+                    function eventafterexecute(midResults, cb) {
+                        cb(null, midResults);
+                    },
+                    function eventpost(midResults, cb) {
+                        if (midResults !== false && (!midResults)) {
+                            midResults = {};
+                        }
+                        doThis(midResults, 'postexecute', function (err, postResults) {
+                            console.log(' after postexecute >> ' + nonCircularStringify(postResults));
+                            cb(null, postResults);
+                        });
+                    },
+                    function eventafterexecutethis(postResults, cb) {
+                        cb(null, postResults);
+                    },
+                ], function (err, result) {
+                    console.log(' after doing execute2 >> ' + nonCircularStringify(result));
+                    callback(err, result);
+                });
+
+            }
+        }
+
+    }
+
 
     /// executethis is a function router that will return result synchronously
     /// 1st argument -- input parameters, 2nd parameter -- callback function
@@ -231,9 +324,9 @@
         // get saved configuration
         // cloning config
         var config0 = {};
-        extend(true, config0, config.configuration);// config0 is working copy of current configuration
+        extend(true, config0, config.configuration); // config0 is working copy of current configuration
         config0 = toLowerKeys(config0);
-        
+
 
         // If there is no config object for current target make one
         if (typeof config0[configtarget] !== 'object') {
@@ -315,7 +408,7 @@
         // replaced with code below
         // if ((list === undefined) || (list === "")) { // would be always true --> || (list != "")) { // if list empty then make up a default record
         //     // if ((configtarget=="preexecute") || (configtarget=="midexecute") || (configtarget=="postexecute")) {
-        //     //     configtarget="executeFn"; // default if howtodo config missing
+        //     //     configtarget="executefn"; // default if howtodo config missing
         //     //     }
         //     // *** commneted by Rogr
         //     list = [];   // if no list so far then make a list so there is something to execute
@@ -470,54 +563,57 @@
 
             switch (howToDo) {
 
-                case "executeFn":
-                    if (whatToDoFn !== window[whatToDo]) { targetfn = window[whatToDo]; }
-                    else { targetfn = whatToDoFn; }
+            case "executefn":
+                if (whatToDoFn !== window[whatToDo]) {
+                    targetfn = window[whatToDo];
+                } else {
+                    targetfn = whatToDoFn;
+                }
 
-                    if ((targetfn === undefined) || (targetfn === "")) {
-                        // we want to return undefined here so we try the next case
-                        targetfn = undefined;
-                        break;
-                    }
+                if ((targetfn === undefined) || (targetfn === "")) {
+                    // we want to return undefined here so we try the next case
+                    targetfn = undefined;
                     break;
+                }
+                break;
 
-                case "executeParam":
-                    if (params === undefined) {
-                        targetfn = undefined;
-                        break;
-                    }
-
-                    targetfn = params[whatToDo];
-
-                    if (!targetfn instanceof Function) {
-                        targetfn = window[targetfn];
-                    } else if (typeof targetfn === 'string') {
-                        targetfn = window[targetfn];
-                    }
-
+            case "executeparam":
+                if (params === undefined) {
+                    targetfn = undefined;
                     break;
+                }
 
-                case "executegetwid":
-                    tempobject = executethis({
-                        'wid': whatToDo
-                    }, "getwid");
-                    if (tempobject !== undefined && tempobject['js']) {
-                        targetfn = tempobject['js'];
-                    } else {
-                        tempobject.skipExecuteObjCheck = true;
-                        return tempobject;
-                    }
-                    break;
+                targetfn = params[whatToDo];
 
-                case "server":
-                    targetfn = window["server"];
-                    params['executethis'] = whatToDo;
-                    fncheck = true;
-                    break;
+                if (!targetfn instanceof Function) {
+                    targetfn = window[targetfn];
+                } else if (typeof targetfn === 'string') {
+                    targetfn = window[targetfn];
+                }
 
-                case "executeerror":
-                    targetfn = window["executeerror"];
-                    break;
+                break;
+
+            case "executegetwid":
+                tempobject = executethis({
+                    'wid': whatToDo
+                }, "getwid");
+                if (tempobject !== undefined && tempobject['js']) {
+                    targetfn = tempobject['js'];
+                } else {
+                    tempobject.skipExecuteObjCheck = true;
+                    return tempobject;
+                }
+                break;
+
+            case "server":
+                targetfn = window["server"];
+                params['executethis'] = whatToDo;
+                fncheck = true;
+                break;
+
+            case "executeerror":
+                targetfn = window["executeerror"];
+                break;
             }
 
             if (targetfn !== undefined) {
@@ -607,28 +703,102 @@
         });
     };
 
-    // exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
-    //     // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
-    //     async.mapSeries(paramsArr, function (inboundparms, cbMap) {
-    //         // each iteration 
-    //         if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
-    //             cbMap(null, {
-    //                 'test1': 'Reached test1 code.. executearray function'
-    //             });
-    //         } else {
-    //             etexecute(inboundparms, function (err,res) {
-    //                 var retResults = res;
-    //                 // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
-    //                 // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
-    //                 cbMap(null, retResults);
-    //             });
-    //         }
-    //     }, function (err, res) {
-    //         // end of all the execution that was meant to be
-    //         console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
-    //         console.log('asynchronously finished executing executearray.');
-    //         callback(err, res);
-    //     });
-    // }
 
+    // create executethismultiple
+    // based on executeArray create excutethismultiple(array, execute, executeFilter, executeOrder, executeLimit, callback)
+
+    // execute: execute or angularexeucte
+    // executeFilter, only execute in the array if execuetthis=
+    // executeOrder: series parallel waterfall
+    // executeLimit: default 10
+
+    // Case of executeOrder
+    // async.parallelLimit([
+    // async.seriesLimit([
+    // async.waterfall([
+    exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(paramsArr, executeparamter, executeFilter, executeOrder, executeLimit, callback) {
+
+
+        // set default limit to 10 if no limit received
+        if (!executeLimit || executeLimit === 0) {
+            executeLimit = 10;
+        }
+
+        function fnProcess(params, cbMap) {
+            // TODO :: REVIEW :: figure out what this is going to contain
+            // call angularexecute or execute
+            window[executeparamter](params, function (err, resp) {
+                cbMap(err, res);
+            });
+        }
+
+        // filter the inboundparams as per the executeFilter condition
+
+        function executeFilterPass(executeObject) {
+            return (executeFilter && executeObject.executethis === executeFilter);
+        }
+
+        async.filter(paramsArr, executeFilterPass, function (filteredParamsArr) {
+            // results now equals to a subset with qualifying filter condition met
+
+            // process as per executeOrder value
+            switch (executeOrder) {
+
+            case "series":
+                async.mapSeriesLimit(filteredParamsArr, executeLimit, fnProcess, function (err, result) {
+                    callback(err, result);
+                    console.debug('processed passed array in a series manner.');
+                });
+                break;
+
+
+            case "parallel":
+                async.mapLimit(filteredParamsArr, executeLimit, fnProcess, function (err, result) {
+                    callback(err, result);
+                    console.debug('processed passed array in a parallel manner.');
+                });
+                break;
+
+
+            case "waterfall":
+                var fnarray = []
+
+                // build a passable functions array for waterfall to process
+                for (var i = 0;
+                    (i < filteredParamsArr.length && i < executeLimit); i++) {
+                    var fn = function (cb) {
+                        fnProcess(filteredParamsArr[i], function (err, res) {
+                            cb(err, res);
+                        });
+                    };
+                    fnarray.push(fn);
+                }
+
+                async.waterfall(fnarray, function (err, result) {
+                    callback(err, result);
+                    console.debug('processed passed array in a waterfall manner.');
+                });
+                break;
+
+            default:
+                console.debug('not processed anything .. no executeOrder received.');
+                break;
+            }
+
+        });
+    }
+
+
+    // create fn executemultiple that calls executethismultiple
+    // fish out parameters the call executethismultiple
+    // takes in an array of inbound parameters(for different requests)
+    // 
+    exports.executemultiple = window.executemultiple = executemultiple = function executemultiple(paramsarray, callback) {
+        var execute = 'execute';
+        var executeFilter = 'addwid';
+        var executeOrder = 'series';
+        var executeLimit = 15;
+
+        executethismultiple(paramsarray, execute, executeFilter, executeOrder, executeLimit, callback);
+    }
 })(typeof window == "undefined" ? global : window);

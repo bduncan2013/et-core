@@ -467,13 +467,13 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
         function (err, res) {
             console.log(' from test ' + JSON.stringify(res));
 
-            addUnauthorizedData(function (err, res) {
+            addAuthorizedData(function (err, res) {
                 // we want a secueirycheckfn(ac, account, action, db) call
                 // ac from securitydto.accesstoken
                 // account from accesstoken
 
                 var userData = res;
-                var ac = "000";
+                var ac = "111";
                 var account;
                 extend(true, account, userData); // clone user data into account
                 var action = "getwidmaster"; /// TODO :: change this .. hard coding this to getwidmaster right now
@@ -565,6 +565,28 @@ exports.authfail1 = authfail1 = function authfail1(params, callback) {
     testclearstorage();
     config = setconfig1();
     var ac = "000";
+    var account = "roger";
+    var action = "getwid";
+    var db = "data";
+    securitycheck(ac, account, action, db, function (err, res) {
+        ret = res;
+        if (callback instanceof Function) {
+            callback(err, ret);
+        }
+    });
+
+    if (!(callback instanceof Function)) {
+        return ret;
+    };
+}
+
+
+// test user to pass after data has been setup in sample wids
+exports.testmultiple = testmultiple = function testmultiple(params, callback) {
+    var ret;
+    testclearstorage();
+    config = setconfig1();
+    var ac = "111";
     var account = "roger";
     var action = "getwid";
     var db = "data";

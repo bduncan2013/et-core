@@ -194,4 +194,56 @@
     }
 
 
+
+    // etenvironment
+    // [1/9/14, 3:44:40 PM] Roger Colburn: specifically in getwid, updatwid (maybe querywid) we will need to get etenvionemnt,
+    // remove it form parm stream
+    // [1/9/14, 3:45:00 PM] Roger Colburn: take ac, account, etc, call security for pass/fail
+    // [1/9/14, 3:45:01 PM] Roger Colburn: ok?
+    // [1/9/14, 3:45:44 PM] saurabh sharma: On 1/9/14, at 3:44 PM, Roger Colburn wrote:
+    // > get etenvionemnt, remove it form parm stream
+    // > take ac, account, etc, call security for pass/fail
+
+    //     [1/9/14, 3:50:46 PM] Roger Colburn: fishout etenvrionement, 
+    // if no etenvrionement then etenvionrmet =
+    // if no ac, then ac = 111111111
+    // if not acct, then acct is acct of ac
+    //  if no db, then 'data'
+    //  if no type, 'getwid' 'updated'
+
+    // ac to account call > if 111111111 then acct = 222222222
+
+    // security if 222222222 then pass for now
+    // [1/9/14, 3:51:29 PM] Roger Colburn: this way you can publish without breaking things
+
+    // so just fishout the environment, make a security call, if it passes, proceed with whatever is done ?
+    exports.authcall = authcall = function authcall(inboundparams, callback) {
+        proxyprinttodiv('Function fishoutAuthParams() in : ', 'before');
+        var environment;
+        extend(true, environment, inboundparams['etenvironment']);
+        var status = false;
+        if (!inboundparams['etenvironment']) {
+            environment = {};
+            environment['ac'] ='111111111';
+            environment['account'] = '222222222';//set account to account of ac if no account
+            environment['db'] = 'data';
+            environment['action'] ='getwid';
+        } 
+
+        delete inboundparams['etenvironment'];
+
+        var ac = environment['ac'];
+        var account = environment['account'];//set account to account of ac if no account
+        var db = environment['db'];
+        var action = environment['action'];
+
+        if(ac && ac !== '111111111'){
+           // actual security check
+           securitycheck(accesstoken, account, action, db, callback);
+        }else{
+            // fake security check
+            callback(null, true);
+        }
+    }
+
 })(typeof window == "undefined" ? global : window);
