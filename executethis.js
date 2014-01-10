@@ -594,15 +594,15 @@
                 break;
 
             case "executegetwid":
-                tempobject = executethis({
-                    'wid': whatToDo
-                }, "getwid");
-                if (tempobject !== undefined && tempobject['js']) {
-                    targetfn = tempobject['js'];
-                } else {
-                    tempobject.skipExecuteObjCheck = true;
-                    return tempobject;
-                }
+                execute({executethis:'getwid',wid: whatToDo}, function (err, result) {
+                    tempobject = result;
+                    if (tempobject !== undefined && tempobject['js']) {
+                        targetfn = tempobject['js'];
+                    } else {
+                        tempobject.skipExecuteObjCheck = true;
+                        return tempobject;
+                    }
+                });
                 break;
 
             case "server":
