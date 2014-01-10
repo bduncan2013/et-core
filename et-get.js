@@ -226,7 +226,8 @@
                     }
 
                     async.mapSeries(listToDo, function (eachresult, cbMap) {
-                            var rightparameters = {};
+                        var rightparameters = {};
+                        var params;
                             for (var key in moreDTOParameters[eachresult]) {
                                 rightparameters = moreDTOParameters[eachresult][key];
                             }
@@ -239,7 +240,7 @@
                                 async.series([
 
                                         function step3n1(cbn1) {
-                                            var params;
+                                            
 
                                             var isSynchronous = configuration.aggressivedto.synchronous;
                                             if (isSynchronous) {
