@@ -99,18 +99,17 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
     // handle action binding from links variable
     for (var i = 0; i < links.length; i++) {
         var identifier = links[i].id  // get jquery identifier bassed on id or class passsed in
-                ? '#' + links[i].id
-                : links[i].class
-                ? '.' + links[i].class
-                : 'idAndClassMissing'
-            , trigger = links[i].trigger;  // get event name
+                            ? '#' + links[i].id
+                            : links[i].class
+                                ? '.' + links[i].class
+                                : 'idAndClassMissing';
 
         if (identifier === 'idAndClassMissing') {
             console.log('links object must contain an id or class property. => ' + JSON.stringify(links[i]));
         }
 
         // add event listener to element
-        $(identifier).on(trigger, helper.executeForBinding({executethis:links[i].action}));
+        $(identifier).on(links[i].trigger, helper.executeForBinding({executethis:links[i].action}));
     }
 
     if (parameters.dataforview) {
