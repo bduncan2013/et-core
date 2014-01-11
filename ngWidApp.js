@@ -8,8 +8,14 @@ exports.addToAngular = addToAngular = function addToAngular(name, obj) {
     $('body').scope()[name] = obj;
 };
 
+// call executeService.executeThis from legacy (non angularJS) code
 exports.angularExecuteThis = angularExecuteThis = function angularExecuteThis(parameters) {
-    // call executeService.ExecuteThis from legacy
+    var scope = $('body').scope();
+    angular.injector(['ng', 'widApp'])
+        .get('executeService')
+        .executeThis(parameters, scope, function(results) {
+            // do something here in the future?
+        });
 };
 
 exports.etProcessParameters = etProcessParameters = function etProcessParameters(parameters, callback) {
@@ -17,16 +23,22 @@ exports.etProcessParameters = etProcessParameters = function etProcessParameters
         wid = '',
         executeObj = {};
 
-    if (parameters.widdata) {
-        executeObj.preexecute = parameters.widdata;
+    if (parameters.wid) {
+//        executeObj.executethis = parameters.wid; // temporarily altered until this process is fixed.
+
+        // calling getwidmaster temporarily until executethis:<wid> process is fixed
+        executeObj.executethis = 'getwidmaster';
+        executeObj.wid = parameters.wid;
+
+        delete parameters['wid'];
+    } else if (parameters.widdata) {
+        executeObj.executethis = parameters.widdata;
         delete parameters['widdata'];
     }
 
-    if (parameters.wid) {
-//        executeObj.executethis = parameters.wid; // temporarily altered until this process is fixed.
-        executeObj.executethis = 'getwidmaster';
-        executeObj.wid = parameters.wid;
-        delete parameters['wid'];
+    if (parameters.widdata) {
+        executeObj.preexecute = parameters.widdata;
+        delete parameters['widdata'];
     }
 
     executeObj.postexecute = 'inwid';
@@ -40,11 +52,7 @@ exports.etProcessParameters = etProcessParameters = function etProcessParameters
         }
         else {
             if (completeWid.html) {
-                if (completeWid.htmlplacement) {
-                    $('#' + completeWid.htmlplacement).append(completeWid.html);
-                } else {
-                    $('body').append(completeWid.html);
-                }
+                helper.appendHtml(completeWid);
             }
 
             execute(  // clear 'inwid' wid
@@ -84,9 +92,26 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
 
     scope.widforbackground = widforbackground;
 
-    if (parameters.links) { links = parameters.links; delete parameters['links']; }
+    if (parameters.links) { links = JSON.parse(parameters.links); delete parameters['links']; }
 
     scope.links = links;
+
+    // handle action binding from links variable
+    for (var i = 0; i < links.length; i++) {
+        var identifier = links[i].id  // get jquery identifier bassed on id or class passsed in
+                ? '#' + links[i].id
+                : links[i].class
+                ? '.' + links[i].class
+                : 'idAndClassMissing'
+            , trigger = links[i].trigger;  // get event name
+
+        if (identifier === 'idAndClassMissing') {
+            console.log('links object must contain an id or class property. => ' + JSON.stringify(links[i]));
+        }
+
+        // add event listener to element
+        $(identifier).on(trigger, helper.executeForBinding({executethis:links[i].action}));
+    }
 
     if (parameters.dataforview) {
         dataforview = JSON.parse(parameters.dataforview);
@@ -113,11 +138,7 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
             .get('executeService')
             .executeThis(executeObj, scope, function(results) {
                 if (results.html) {
-                    if (results.htmlplacement) {
-                        $('#' + results.htmlplacement).append(results.html);
-                    } else {
-                        $('body').append(results.html);
-                    }
+                    helper.appendHtml(results);
                 }
             });
     }
@@ -173,6 +194,14 @@ widApp.factory('dataService', function($http, $compile) {
             }
         },
 
+        compileWithScope: function(whatToCompile) {
+            var scope = $('body').scope();
+            scope.$apply(function() {
+                $compile(whatToCompile)(scope);
+            });
+
+        },
+
         user: {
             getLocal: function() {
                 if (window.localStorage) {
@@ -216,11 +245,11 @@ widApp.factory('dataService', function($http, $compile) {
 widApp.factory('executeService', function($http, dataService) {
     return {
         executeThis: function(parameters, scope, callback) {
-            if (!parameters.environment) { parameters.environment = {}; }
+            if (!parameters.etenvironment) { parameters.etenvironment = {}; }
             var user = dataService.user.getLocal();
             if (user) {
-                parameters.environment.accesstoken = user.at;
-            }
+                parameters.etenvironment.accesstoken = user.at;
+            } // MOVE etenvironment code to the server function in config-local.js
 
             execute(parameters, function(err, results) {
                 if (err && Object.size(err) > 0) {
@@ -231,11 +260,6 @@ widApp.factory('executeService', function($http, dataService) {
                     if (results.etstatus) {
                         if (results.etstatus.status && results.etstatus.status === 'unauthorized') {
                             window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
-                        }
-
-                        if (results.etstatus.screenwid) {
-                            results.executethis = 'etProcessScreenWid';
-
                         }
                     }
 
@@ -294,8 +318,8 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService', functio
     executeService.executeThis(parameters, $scope);
 
     // package url parameters into model
-    if (Object.size(helper.qryStrToObject(location.search)) > 0) {
-        $scope.urlparameters = helper.qryStrToObject(location.search);
+    if (Object.size(helper.queryStrToObj(location.search)) > 0) {
+        $scope.urlparameters = helper.queryStrToObj(location.search);
     }
 
     // package current users info into the model
@@ -401,29 +425,35 @@ var helper = {
         return params;
     },
 
-    qryStrToObject: function (querystring) {
-        var result = {};
-        querystring = querystring.substring(1);  // remove the ?
-        var qsArray = querystring.split('&');
-        if (qsArray[0] === '') { delete qsArray[0]; }
-
-        if (Object.size(qsArray) > 0) {
-            // load querystring pairs into object
-            for (var i = 0; i < qsArray.length; i++) {
-                paramArray = qsArray[i].split('=');
-                result[paramArray[0]] = paramArray[1];
-            }
-        }
-
-        return result;
-    },
-
     newPropRowHtml: "<span class='added'><div class='input-group col-md-6'>" +
         "<span class='input-group-addon'>Key</span>" +
         "<input type='text' class='pname form-control'>" +
         "</div><div class='input-group col-md-6'>" +
         "<span class='input-group-addon'>Value</span>" +
-        "<input type='text' class='pvalue form-control'></div></span>"
+        "<input type='text' class='pvalue form-control'></div></span>",
+
+    appendHtml: function(screenWid) {
+        // add check to see if html is an array, if so, iterate and append each html property found
+        // if a 'wid' property is found then use it's value in a getwidmaster execute call as the wid parameter
+        // and check the returned data for an 'html' property
+
+        if (screenWid.htmlplacement) {
+            $('#' + screenWid.htmlplacement).append(screenWid.html);
+        } else {
+            $('#default_view_loc').append(screenWid.html);
+        }
+    },
+
+    executeForBinding: function(parameters) {
+        return function() {
+            execute(parameters,
+                function(err, results) {
+                    if (err && Object.size(err) > 0) {
+                        console.log('error in execute process that was bound using links event binding => ' + JSON.stringify(err));
+                    }
+                });
+        }
+    }
 };
 
 // adding a size function to Object's prototype

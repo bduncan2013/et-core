@@ -1,3 +1,12 @@
+
+exports.testcallback = testcallback = function testcallback(params, callback) {
+	console.log("<< testcallback >>");
+	params["test_result"]="PASS";
+	callback(null, params);
+}
+
+
+
 exports.mt3 = mt3 = function mt3(params, callback) {
 	var x = [];
 	var y;
