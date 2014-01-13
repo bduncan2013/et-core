@@ -108,8 +108,11 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
             console.log('links object must contain an id or class property. => ' + JSON.stringify(links[i]));
         }
 
+        var parameters = links[i].parameters ? JSON.parse(links[i].parameters) : {};
+        parameters.executethis = links[i].action;
+
         // add event listener to element
-        $(identifier).on(links[i].trigger, helper.executeForBinding({executethis:links[i].action}));
+        $(identifier).on(links[i].trigger, helper.executeForBinding(parameters));
     }
 
     if (parameters.dataforview) {
