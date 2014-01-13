@@ -329,7 +329,7 @@ function config123() {
     return {
         "configuration": configuration
     }
-};
+}
 
 
 exports.config = config = config123();
@@ -391,6 +391,14 @@ exports.server = window.server = server = function server(params, callback) {
     //     delete params['midexecute'];
     // }
     // alert(JSON.stringify(params));
+
+    // add accesstoken if user exists in localStorage
+    var currentUser = window.localStorage ? JSON.parse(window.localStorage.getItem('driUser')) : undefined;
+    if (currentUser) {
+        if (!parameters.etenvironment) { parameters.etenvironment = {}; }
+        params.etenvironment.accesstoken = currentUser.at;
+    }
+
     executeAjax("", params, function (data) {
         console.log("Return from server: " + JSON.stringify(data));
         callback(data);
@@ -513,7 +521,7 @@ exports.offlinemongoquery = offlinemongoquery = function offlinemongoquery(query
         callback(err, ResultList);
 
     }
-}
+};
 
 function querywidlocal(sq, callback) {
     var err;
@@ -716,7 +724,7 @@ exports.mongoquery2 = mongoquery2 = function mongoquery2(mongorawquery, callback
 				1: {
 					"left":left,
 					"right":right,
-					"potentialquery": potentialquery,
+					"potentialquery": potentialquery
 				},
 				2: {
 					"querylist": querylist,
@@ -786,15 +794,15 @@ exports.mongoquery2 = mongoquery2 = function mongoquery2(mongorawquery, callback
 	}
 		
 	function arrayUnique(array) {
-    var a = array.concat();
-    for(var i=0; i<a.length; ++i) {
-        for(var j=i+1; j<a.length; ++j) {
-            if(a[i] === a[j])
-                a.splice(j--, 1);
+        var a = array.concat();
+        for(var i=0; i<a.length; ++i) {
+            for(var j=i+1; j<a.length; ++j) {
+                if(a[i] === a[j])
+                    a.splice(j--, 1);
+            }
         }
-    }
-    return a;
-	};
+        return a;
+	}
 
 	function processoperator(inobjectlist, targetparameters, operator) {
 		var eachwid;
@@ -817,12 +825,12 @@ exports.mongoquery2 = mongoquery2 = function mongoquery2(mongorawquery, callback
 					"operator":operator
 				},
 				2: {
-					"eachwid": eachwid,
+					"eachwid": eachwid
 				},
 				3:{
 					"eachparm": eachparm,				
 					"widrecord":widrecord,
-					"targetobject":targetobject,
+					"targetobject":targetobject
 				},
 				4:{
 					"equalobject": equalobject,

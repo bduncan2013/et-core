@@ -52,10 +52,11 @@ exports.etProcessParameters = etProcessParameters = function etProcessParameters
         }
         else {
             if (completeWid.html) {
-                helper.appendHtml(completeWid);
+                helper.processHtml(completeWid);
             }
 
-            execute(  // clear 'inwid' wid
+            // clear 'inwid' wid
+            execute(
                 {executethis:'addwidmaster', wid:'inwid'},
                 function(err, results) {
                     if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
@@ -69,13 +70,13 @@ exports.etProcessParameters = etProcessParameters = function etProcessParameters
 };
 
 exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(parameters) {
-    var widforview = []
-        , widforbase = []
-        , widforbackground = []
-        , links = []
-        , dataforview = {}
-        , all_wids = []
-        , scope = $('body').scope();
+    var widforview = [],
+        widforbase = [],
+        widforbackground = [],
+        links = [],
+        dataforview = {},
+        all_wids = [],
+        scope = $('body').scope();
 
     if (parameters.widforview) { widforview = parameters.widforview.split(','); delete parameters['widforview']; }
     else if (typeof widForView !== 'undefined') { widforview = widForView.split(','); }
@@ -99,20 +100,20 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
     // handle action binding from links variable
     for (var i = 0; i < links.length; i++) {
         var identifier = links[i].id  // get jquery identifier bassed on id or class passsed in
-                            ? '#' + links[i].id
-                            : links[i].class
-                                ? '.' + links[i].class
-                                : 'idAndClassMissing';
+            ? '#' + links[i].id
+            : links[i].class
+            ? '.' + links[i].class
+            : 'idAndClassMissing';
 
         if (identifier === 'idAndClassMissing') {
             console.log('links object must contain an id or class property. => ' + JSON.stringify(links[i]));
         }
 
-        var parameters = links[i].parameters ? JSON.parse(links[i].parameters) : {};
-        parameters.executethis = links[i].action;
+        var eventParameters = links[i].parameters ? JSON.parse(links[i].parameters) : {};
+        eventParameters.executethis = links[i].action;
 
         // add event listener to element
-        $(identifier).on(links[i].trigger, helper.executeForBinding(parameters));
+        $(identifier).on(links[i].trigger, helper.executeForBinding(eventParameters));
     }
 
     if (parameters.dataforview) {
@@ -140,7 +141,7 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
             .get('executeService')
             .executeThis(executeObj, scope, function(results) {
                 if (results.html) {
-                    helper.appendHtml(results);
+                    helper.processHtml(results);
                 }
             });
     }
@@ -247,11 +248,11 @@ widApp.factory('dataService', function($http, $compile) {
 widApp.factory('executeService', function($http, dataService) {
     return {
         executeThis: function(parameters, scope, callback) {
-            if (!parameters.etenvironment) { parameters.etenvironment = {}; }
-            var user = dataService.user.getLocal();
-            if (user) {
-                parameters.etenvironment.accesstoken = user.at;
-            } // MOVE etenvironment code to the server function in config-local.js
+//            if (!parameters.etenvironment) { parameters.etenvironment = {}; }
+//            var user = dataService.user.getLocal();
+//            if (user) {
+//                parameters.etenvironment.accesstoken = user.at;
+//            } // MOVE etenvironment code to the server function in config-local.js
 
             execute(parameters, function(err, results) {
                 if (err && Object.size(err) > 0) {
@@ -434,15 +435,33 @@ var helper = {
         "<span class='input-group-addon'>Value</span>" +
         "<input type='text' class='pvalue form-control'></div></span>",
 
-    appendHtml: function(screenWid) {
-        // add check to see if html is an array, if so, iterate and append each html property found
-        // if a 'wid' property is found then use it's value in a getwidmaster execute call as the wid parameter
-        // and check the returned data for an 'html' property
+    processHtml: function(screenWid) {
+        var scope = $('body').scope();
 
-        if (screenWid.htmlplacement) {
-            $('#' + screenWid.htmlplacement).append(screenWid.html);
+        if (screenWid.html instanceof Array) {
+            for (var i = 0; i < screenWid.html.length; i++) {
+                if (screenWid.html[i].wid) {
+                    var executeObj = {excutethis:'getwidmaster',wid:screenWid.html[i]};
+
+                    angular.injector(['ng', 'widApp'])
+                        .get('executeService')
+                        .executeThis(executeObj, scope, function(results) {
+                            if (results.html) { helper.processHtml(results); }
+                        });
+                } else if (screenWid.html[i].html) {
+                    helper.appendHtml(screenWid.html[i].html, screenWid.htmlplacement || undefined);
+                }
+            }
         } else {
-            $('#default_view_loc').append(screenWid.html);
+            helper.appendHtml(screenWid.html, screenWid.htmlplacement || undefined);
+        }
+    },
+
+    appendHtml: function(html, targetId) {
+        if (targetId) {
+            $('#' + targetId).append(html);
+        } else {
+            $('#default_view_loc').append(html);
         }
     },
 
