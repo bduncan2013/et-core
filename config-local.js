@@ -395,7 +395,7 @@ exports.server = window.server = server = function server(params, callback) {
     // add accesstoken if user exists in localStorage
     var currentUser = window.localStorage ? JSON.parse(window.localStorage.getItem('driUser')) : undefined;
     if (currentUser) {
-        if (!parameters.etenvironment) { parameters.etenvironment = {}; }
+        if (!params.etenvironment) { params.etenvironment = {}; }
         params.etenvironment.accesstoken = currentUser.at;
     }
 
