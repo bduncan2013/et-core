@@ -69,10 +69,10 @@ exports.testexecutefunctions = testexecutefunctions = function testexecutefuncti
     });
     /* execute -- end */
     
-    /* etexecute -- start */
-    etexecute(executeobject, function (err,results){
+    /* execute -- start */
+    execute(executeobject, function (err,results){
     });
-    /* etexecute -- end */
+    /* execute -- end */
     
     params={'test':'PASS'};
     callback(params);

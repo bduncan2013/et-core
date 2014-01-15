@@ -5,7 +5,6 @@ exports.testcallback = testcallback = function testcallback(params, callback) {
 	callback(null, params);
 }
 
-
 exports.mttest1 = mttest1 = function mttest1(params, callback){
 	console.log("<< mongoquery_two_test >>");
 	
@@ -2352,7 +2351,7 @@ exports.addi = addi = function addi() {
 	executeobject["command.convertmethod"] = "dtonum";
 	executeobject["wid"] = "sarah_jones";
 	resultobject = execute(executeobject);
-	proxyprinttodiv('result from execute', resultobject, true);
+	proxyprinttodiv('result from execute', resultobject[0], true);
 
 
 	//executetest("debugoff");

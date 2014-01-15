@@ -35,8 +35,6 @@ exports.localStore = localStore = function () {
 
 }();
 localStore.clear();
-
-
 exports.validParams = validParams = function validParams(obj){
     var keyLength = getObjectSize(obj);
     var status = false;
@@ -87,68 +85,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 (function (window) {
 
 
-
-
-
-    // Utility function to return json with all keys in lowercase
-    exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
-        if (obj && obj instanceof Object) {
-            var key, keys = Object.keys(obj);
-            var n = keys.length;
-            var newobj = {}
-            while (n--) {
-                key = keys[n];
-                newobj[key.toLowerCase()] = obj[key];
-            }
-            return newobj;
-        } else {
-            return obj;
-        }
-    };
-
-    // Utility function to return json attr count
-    exports.jsonLength = jsonLength = function jsonLength(obj) {
-        return Object.keys(obj).length;
-    };
-
-    // Utility function to cleanup mentioned attr:val pairs from JSON passed in
-    exports.cleanupParameters = cleanupParameters = function cleanupParameters(inboundParameters, paramsToClean) {
-        var clonedObject = {};
-        extend(true, outBoundParameters, inboundParameters); // clone received params
-
-        for (var i = 0; i < paramsToClean.length; i++) {
-            if (outBoundParameters[paramsToClean[i]]) {
-                delete outBoundParameters[paramsToClean[i]];
-            }
-        }
-        return outBoundParameters;
-    };
-
-    // utility function to merge two JSON objects
-    exports.mergeParameters = mergeParameters = function mergeParameters(c1, c2) {
-        var clonedObject = {};
-        extend(true, mergedMap, c1); // clone received params
-
-        for (var attr in c2) {
-            mergedMap[attr] = c2[attr];
-        }
-
-
-        return mergedMap;
-    };
-
-    exports.getParamArray = getParamArray = function getParamArray(data) {
-        var returnArray = new Array();
-
-        for (var attr in data) {
-            returnArray.push({
-                "ParameterName": attr,
-                "ParameterValue": data[attr]
-            });
-        }
-
-        return returnArray;
-    };
 
     exports.MatchDelete = MatchDelete = function MatchDelete(TargetList, TargetParameter) { // delete all parameters starting with targetparameter
         var output = [];
@@ -669,64 +605,20 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return finalArray;
     };
 
-    // Counts the number of hashes in an object
-    exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
-        //function getObjectSize(parameters){
-        var size = 0,
-            key;
-        for (key in parameters) {
-            if (parameters.hasOwnProperty(key)) size++;
+
+    exports.getParamArray = getParamArray = function getParamArray(data) {
+        var returnArray = new Array();
+
+        for (var attr in data) {
+            returnArray.push({
+                "ParameterName": attr,
+                "ParameterValue": data[attr]
+            });
         }
-        return size;
+
+        return returnArray;
     };
 
-    // Returns true if the parameter is lower case
-    exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
-        //function isParameterLower(parameters, str) {
-        getObjectSize(parameters);
-        var length;
-        if (parameters.length === undefined) {
-            length = getObjectSize(parameters);
-        } else {
-            length = parameters.length
-        }
-        for (key in parameters) { //rewritten
-            if (key.toLowerCase() == str) {
-                return true;
-            }
-        }
-    };
-
-    // Finds the first key in parameters that matches the string, or nothing if none is found   
-    exports.firstOrDefault = firstOrDefault = function firstOrDefault(parameters, str) {
-        var length;
-        if (parameters.length === undefined) {
-            length = getObjectSize(parameters);
-        } else {
-            length = parameters.length
-        }
-        for (key in parameters) { //rewritten
-            if (key.toLowerCase() == str) {
-                return key;
-            }
-        }
-    };
-
-    // Deletes a hash from an object    
-    exports.remove = remove = function remove(parameters, str) {
-        //function remove(parameters, str){
-        var length;
-        if (parameters.length === undefined) {
-            length = getObjectSize(parameters);
-            for (key in parameters) { //rewritten
-                if (key.toLowerCase() == str) {
-                    delete parameters[key];
-                }
-            }
-        } else {
-            length = parameters.length
-        }
-    };
 
     // Creates output based on whether the flas is DTO or JSON. It formates
     // the DTO strings with quotes around the values. For JSON, it checks to make sure that
@@ -773,29 +665,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return output;
     };
 
-    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters) {
-        //proxyprinttodiv('Function tolowerparameters : input parameters',  parameters);
-        //proxyprinttodiv('Function tolowerparameters : input rightparameters',  rightparameters);
-        var outputparameters = {};
-        for (eachparameter in rightparameters) {
-            if ((rightparameters[eachparameter].length > 0) && (rightparameters[eachparameter] == 'add')) {
-                outputparameters[eachparameter.toLowerCase()] = "";
-            }
-        }
 
-        for (eachparameter in parameters) {
-            if ((rightparameters[eachparameter.toLowerCase()] == 'true') || (rightparameters[eachparameter.toLowerCase()] == 'add')) {
-                // New version, simply checks to make sure that parameters[eachparameter] has a value that can be sent to .toLowerCase()
-                if (parameters[eachparameter] != undefined && parameters[eachparameter] != "") {
-                    outputparameters[eachparameter.toLowerCase()] = parameters[eachparameter].toLowerCase();
-                }
-            } else {
-                outputparameters[eachparameter.toLowerCase()] = parameters[eachparameter];
-            }
-        }
-        //proxyprinttodiv('Function tolowerparameters : output outputparameters',  outputparameters);
-        return outputparameters;
-    };
 
     //rightparameters && rightparameters[eachparameter] && 
 
@@ -835,15 +705,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return val.match(/^[0-9]$/);
     };
 
-    // Returns the number of hashes in an object
-    exports.countKeys = countKeys = function countKeys(obj) {
-        var size = 0,
-            key;
-        for (key in obj) {
-            if (obj.hasOwnProperty(key)) size++;
-        }
-        return size;
-    };
+
 
     exports.isEmpty = isEmpty = function isEmpty(obj) {
         if (isSet(obj)) {
@@ -923,8 +785,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     }
 
 
-    
-
     exports.arrayUnique = window.arrayUnique = arrayUnique = function arrayUnique(array) {
         var a = array.concat();
         for (var i = 0; i < a.length; ++i) {
@@ -934,5 +794,151 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             }
         }
         return a;
+    };
+
+
+
+
+
+    // *** these should be deleted
+    // Counts the number of hashes in an object
+    exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
+        //function getObjectSize(parameters){
+        var size = 0,
+            key;
+        for (key in parameters) {
+            if (parameters.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
+    // Returns the number of hashes in an object
+    exports.countKeys = countKeys = function countKeys(obj) {
+        var size = 0,
+            key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
+
+
+    // Finds the first key in parameters that matches the string, or nothing if none is found   
+    exports.firstOrDefault = firstOrDefault = function firstOrDefault(parameters, str) {
+        var length;
+        if (parameters.length === undefined) {
+            length = getObjectSize(parameters);
+        } else {
+            length = parameters.length
+        }
+        for (key in parameters) { //rewritten
+            if (key.toLowerCase() == str) {
+                return key;
+            }
+        }
+    };
+
+    // Deletes a hash from an object    
+    exports.remove = remove = function remove(parameters, str) {
+        //function remove(parameters, str){
+        var length;
+        if (parameters.length === undefined) {
+            length = getObjectSize(parameters);
+            for (key in parameters) { //rewritten
+                if (key.toLowerCase() == str) {
+                    delete parameters[key];
+                }
+            }
+        } else {
+            length = parameters.length
+        }
+    };
+
+
+    // Utility function to return json attr count
+    exports.jsonLength = jsonLength = function jsonLength(obj) {
+        return Object.keys(obj).length;
+    };
+
+    // Utility function to cleanup mentioned attr:val pairs from JSON passed in
+    exports.cleanupParameters = cleanupParameters = function cleanupParameters(inboundParameters, paramsToClean) {
+        var clonedObject = {};
+        extend(true, outBoundParameters, inboundParameters); // clone received params
+
+        for (var i = 0; i < paramsToClean.length; i++) {
+            if (outBoundParameters[paramsToClean[i]]) {
+                delete outBoundParameters[paramsToClean[i]];
+            }
+        }
+        return outBoundParameters;
+    };
+
+    // utility function to merge two JSON objects
+    exports.mergeParameters = mergeParameters = function mergeParameters(c1, c2) {
+        var clonedObject = {};
+        extend(true, mergedMap, c1); // clone received params
+
+        for (var attr in c2) {
+            mergedMap[attr] = c2[attr];
+        }
+
+
+        return mergedMap;
+    };
+
+
+    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters) {
+        var outputparameters = {};
+        for (eachparameter in rightparameters) {
+            if ((rightparameters[eachparameter].length > 0) && (rightparameters[eachparameter] == 'add')) {
+                outputparameters[eachparameter.toLowerCase()] = "";
+                rightparameters[eachparameter] = 'true'
+            }
+        }
+
+        for (eachparameter in parameters) {
+            if (rightparameters[eachparameter.toLowerCase()] == 'true') {
+                if (parameters[eachparameter] != undefined && parameters[eachparameter] != "") {
+                    outputparameters[eachparameter.toLowerCase()] = parameters[eachparameter].toLowerCase();
+                }
+            } else {
+                outputparameters[eachparameter.toLowerCase()] = parameters[eachparameter];
+            }
+        }
+        return outputparameters;
+    };
+
+    // Returns true if the parameter is lower case
+    exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
+        //function isParameterLower(parameters, str) {
+        getObjectSize(parameters);
+        var length;
+        if (parameters.length === undefined) {
+            length = getObjectSize(parameters);
+        } else {
+            length = parameters.length
+        }
+        for (key in parameters) { //rewritten
+            if (key.toLowerCase() == str) {
+                return true;
+            }
+        }
+    };
+
+
+
+    // Utility function to return json with all keys in lowercase
+    exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
+        if (obj && obj instanceof Object) {
+            var key, keys = Object.keys(obj);
+            var n = keys.length;
+            var newobj = {}
+            while (n--) {
+                key = keys[n];
+                newobj[key.toLowerCase()] = obj[key];
+            }
+            return newobj;
+        } else {
+            return obj;
+        }
     };
 })(typeof window === "undefined" ? global : window);

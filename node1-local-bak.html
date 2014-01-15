@@ -11,15 +11,16 @@
     <link rel="stylesheet" href="./bootstrap/css/bootstrap-theme.min.css">
     <script src="./bootstrap/js/bootstrap.min.js"></script>
     <script src="./async.js" type="text/javascript"></script>
-    <script src="et-utils.js"></script>	
+	
     <script src="config-local.js"></script>
-
+    <script src="et-utils.js"></script>
     <script src="executethis.js"></script>
 	<script src="et-testing.js" type="text/javascript"></script>
 	<script src="et-unit_tests.js" type="text/javascript"></script>
 	<script src="et-get.js" type="text/javascript"></script>
 	<script src="et-add.js" type="text/javascript"></script>
 	<script src="et-query.js" type="text/javascript"></script>
+    <script src="et-local.js" type="text/javascript"></script>
 	<script src="et-test.js" type="text/javascript"></script>
     <script src="et-dto.js" type="text/javascript"></script>
 	<script src="cody.js" type="text/javascript"></script>
@@ -280,9 +281,8 @@ function execute_stuff(isTest, isServer) {
 	    };
 	}
 
-	//var result = executethis(my_execute_object);
-	execute(my_execute_object, show_function_output);
-/*	var result_count = Object.keys(result).length;
+	var result = executethis(my_execute_object);
+	var result_count = Object.keys(result).length;
 
 	// var y = verifysummary("test_results");
 	var y = 0; // verifysummary_local(result);
@@ -308,7 +308,7 @@ function execute_stuff(isTest, isServer) {
 		displaylocalStore();
 	// } else {
 	// 	document.getElementById("divwidsdisplay_from_memory").innerHTML = "<label style='color: red; font-size: 135%;'>localStore is undefined</label>";
-	// }*/
+	// }
 }
 
 $('#execute_test').click(function () {
@@ -342,7 +342,7 @@ $('#output_to_input').click(function () {
 		$('#function_parameters').val(temp);
 });
 
-function show_function_output (err, x) {
+function show_function_output (x) {
 	$('#Function_Output').text(JSON.stringify(x));
 	var result = x;
 	var result_count = Object.keys(result).length;
@@ -364,7 +364,6 @@ function show_function_output (err, x) {
 		document.getElementById("divwidsdisplay_from_memory").innerHTML = "<label style='color: red; font-size: 135%;'>localStore is undefined</label>";
 	}
 }
-
 
 
 $('#rerun').click(function () {
@@ -610,8 +609,8 @@ exports.printToDiv = printToDiv = function (text, obj, debugone){
 
 	//if((debugone !== undefined) || (Debug=='true')) {
 		printText	= '<pre>'+ text+'<br/>' + JSON.stringify(obj) + '</pre>';
-		// console.log(text);
-		// console.log(obj);
+		console.log(text);
+		console.log(obj);
 		document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
 	}
 }
