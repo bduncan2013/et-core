@@ -259,10 +259,12 @@ exports.bootprocess = bootprocess = function bootprocess() {
     //exports.config = config = config123();
     setdefaultparm();
     proxyprinttodiv('Function bootprocess config', config, 99);
-    testclearstorage();
-    if (exports.environment === 'local') {
-        clearLocalStorage();
-    }
+    // commented by Jason,
+    // we don't want to clear localStorage everytime the page loads
+//    testclearstorage();
+//    if (exports.environment === 'local') {
+//        clearLocalStorage();
+//    }
     test_results = {};
     //testAddWids();
     //displayAllWids();

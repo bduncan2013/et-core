@@ -312,6 +312,7 @@ widApp.directive('appendcode', function($compile) {
 
 widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService', function($scope, dataService, executeService) {
     $scope.data = {};
+    $scope.ajax = {};
     var querystring = window.location.search
         , parameters = helper.queryStrToObj(querystring.substring(1))
         , currentUser = dataService.user.getLocal();
