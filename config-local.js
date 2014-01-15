@@ -4,23 +4,23 @@ if (!exports) {
 
 
 (function (window) {
-    exports.environment = 'local';
+    // exports.environment = 'local';
 
-    exports.Debug = Debug = 'false';
-    exports.debuglevel = debuglevel = 0;
-    exports.widMasterKey = widMasterKey = "widmaster_";
-    exports.test_results = test_results = {};
-    exports.potentialwid = potentialwid = 0;
+    // exports.Debug = Debug = 'false';
+    // exports.debuglevel = debuglevel = 0;
+    // exports.widMasterKey = widMasterKey = "widmaster_";
+    // exports.test_results = test_results = {};
+    // exports.potentialwid = potentialwid = 0;
 
-    //do not change these constants
-    //exports.debugon = debugon = true;
-    exports.debugname = debugname = "";
-    exports.debugsubcat = debugsubcat = "";
-    exports.debugcat = debugcat = "";
-    exports.debugfilter = debugfilter = "";
-    exports.debugdestination = debugdestination = 1;
-    exports.debugcolor = debugcolor = 0;
-    exports.debugindent = debugindent = 0;
+    // //do not change these constants
+    // //exports.debugon = debugon = true;
+    // exports.debugname = debugname = "";
+    // exports.debugsubcat = debugsubcat = "";
+    // exports.debugcat = debugcat = "";
+    // exports.debugfilter = debugfilter = "";
+    // exports.debugdestination = debugdestination = 1;
+    // exports.debugcolor = debugcolor = 0;
+    // exports.debugindent = debugindent = 0;
 
 
     // exports.offlinemongoquery = window.offlinemongoquery = offlinemongoquery = function offlinemongoquery(params, callback) {
@@ -140,6 +140,9 @@ function setdefaultparm() {
     debugcolor = 0;
     debugindent = 0;
 
+    exports.config = config = config123();
+    exports.environment = 'local';
+
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
     exports.widMasterKey = widMasterKey;
@@ -156,8 +159,106 @@ function setdefaultparm() {
     exports.debugindent = debugindent;
 }
 
+
+function config123() {
+    var configuration = {};
+
+    configuration.environment = 'local';
+
+    configuration.preExecute = [];
+    configuration.preExecute[0] = {};
+    configuration.preExecute[0].executeorder = 1;
+    configuration.preExecute[0].tryorder = 1;
+    configuration.preExecute[0].dothis = 'dothis';
+    configuration.preExecute[0].params = {};
+    configuration.preExecute[1] = {};
+    configuration.preExecute[1].executeorder = 1;
+    configuration.preExecute[1].tryorder = 2;
+    configuration.preExecute[1].dothis = 'executeparam';
+    configuration.preExecute[1].params = {};
+    configuration.preExecute[2] = {};
+    configuration.preExecute[2].executeorder = 1;
+    configuration.preExecute[2].tryorder = 3;
+    configuration.preExecute[2].dothis = 'executegetwid';
+    configuration.preExecute[2].params = {};
+    configuration.preExecute[3] = {};
+    configuration.preExecute[3].executeorder = 1;
+    configuration.preExecute[3].tryorder = 4;
+    configuration.preExecute[3].dothis = 'server';
+    configuration.preExecute[3].params = {};
+
+    configuration.midExecute = [];
+    configuration.midExecute[0] = {};
+    configuration.midExecute[0].executeorder = 1;
+    configuration.midExecute[0].tryorder = 1;
+    configuration.midExecute[0].dothis = 'dothis';
+    configuration.midExecute[0].params = {};
+    configuration.midExecute[1] = {};
+    configuration.midExecute[1].executeorder = 1;
+    configuration.midExecute[1].tryorder = 2;
+    configuration.midExecute[1].dothis = 'executeparam';
+    configuration.midExecute[1].params = {};
+    configuration.midExecute[2] = {};
+    configuration.midExecute[2].executeorder = 1;
+    configuration.midExecute[2].tryorder = 3;
+    configuration.midExecute[2].dothis = 'executegetwid';
+    configuration.midExecute[2].params = {};
+    configuration.midExecute[3] = {};
+    configuration.midExecute[3].executeorder = 1;
+    configuration.midExecute[3].tryorder = 4;
+    configuration.midExecute[3].dothis = 'server';
+    configuration.midExecute[3].params = {};
+
+    configuration.postExecute = [];
+    configuration.postExecute[0] = {};
+    configuration.postExecute[0].executeorder = 1;
+    configuration.postExecute[0].tryorder = 1;
+    configuration.postExecute[0].dothis = 'dothis';
+    configuration.postExecute[0].params = {};
+    configuration.postExecute[1] = {};
+    configuration.postExecute[1].executeorder = 1;
+    configuration.postExecute[1].tryorder = 2;
+    configuration.postExecute[1].dothis = 'executeparam';
+    configuration.postExecute[1].params = {};
+    configuration.postExecute[2] = {};
+    configuration.postExecute[2].executeorder = 1;
+    configuration.postExecute[2].tryorder = 3;
+    configuration.postExecute[2].dothis = 'executegetwid';
+    configuration.postExecute[2].params = {};
+    configuration.postExecute[3] = {};
+    configuration.postExecute[3].executeorder = 1;
+    configuration.postExecute[3].tryorder = 4;
+    configuration.postExecute[3].dothis = 'server';
+    configuration.postExecute[3].params = {};
+
+    configuration.getwid = [];
+    configuration.getwid[0] = {};
+    configuration.getwid[0].executeorder = 1;
+    configuration.getwid[0].tryorder = 1;
+    configuration.getwid[0].dothis = 'offlinegetwid';
+    configuration.getwid[0].server = 'getwid';
+    configuration.getwid[0].dofn = offlinegetwid;
+    configuration.getwid[0].params = {};
+
+    configuration.updatewid = [];
+    configuration.updatewid[0] = {};
+    configuration.updatewid[0].executeorder = 1;
+    configuration.updatewid[0].tryorder = 1;
+    configuration.updatewid[0].dothis = 'offlineupdatewid';
+    configuration.updatewid[0].server = 'updatewid';
+    configuration.updatewid[0].dofn = offlineupdatewid;
+    configuration.updatewid[0].params = {};
+
+    return {
+        "configuration": configuration
+    }
+};
+
+
 exports.bootprocess = bootprocess = function bootprocess() {
+    //exports.config = config = config123();
     setdefaultparm();
+    proxyprinttodiv('Function bootprocess config', config, 99);
     testclearstorage();
     if (exports.environment === 'local') {
         clearLocalStorage();
@@ -167,172 +268,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
     //displayAllWids();
 };
 
-function config123() {
-    var configuration = {};
-
-    configuration.environment = 'local';
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'executefn';
-    configuration.preExecute[0].params = {};
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 1;
-    configuration.preExecute[1].tryorder = 1;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 2;
-    configuration.preExecute[2].tryorder = 2;
-    configuration.preExecute[2].dothis = 'executegetwid';
-    configuration.preExecute[2].params = {};
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 3;
-    configuration.preExecute[3].tryorder = 3;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'executefn';
-    configuration.midExecute[0].params = {};
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 1;
-    configuration.midExecute[1].tryorder = 1;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 2;
-    configuration.midExecute[2].tryorder = 2;
-    configuration.midExecute[2].dothis = 'executegetwid';
-    configuration.midExecute[2].params = {};
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 3;
-    configuration.midExecute[3].tryorder = 3;
-    configuration.midExecute[3].dothis = 'server';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'executefn';
-    configuration.postExecute[0].params = {};
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 1;
-    configuration.postExecute[1].tryorder = 1;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[1].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 2;
-    configuration.postExecute[2].tryorder = 2;
-    configuration.postExecute[2].dothis = 'executegetwid';
-    configuration.postExecute[2].params = {};
-    configuration.postExecute[3] = {};
-    configuration.postExecute[3].executeorder = 3;
-    configuration.postExecute[3].tryorder = 3;
-    configuration.postExecute[3].dothis = 'server';
-    configuration.postExecute[3].params = {};
-
-    configuration.getwid = [];
-    configuration.getwid[0] = {};
-    configuration.getwid[0].executeorder = 0;
-    configuration.getwid[0].tryorder = 0;
-    configuration.getwid[0].dothis = 'offlinegetwid';
-    configuration.getwid[0].dofn = offlinegetwid;
-    configuration.getwid[0].params = {};
-
-    configuration.updatewid = [];
-    configuration.updatewid[0] = {};
-    configuration.updatewid[0].executeorder = 0;
-    configuration.updatewid[0].tryorder = 0;
-    configuration.updatewid[0].dothis = 'offlineupdatewid';
-    configuration.updatewid[0].dofn = offlineupdatewid;
-    configuration.updatewid[0].params = {};
-
-
-
-    // configuration.MongoAddEditPrepare = {};
-    //  configuration.MongoAddEditPrepare.synchronous = false;
-
-    //  configuration.AddMongoRelationship = {};
-    //  configuration.AddMongoRelationship.synchronous = false;
-
-    //  configuration.addwidmaster = {};
-    //  configuration.addwidmaster.synchronous = false;
-
-    //  configuration.AddWidParameters = {};
-    //  configuration.AddWidParameters.synchronous = false;
-
-    //  configuration.AddMaster = {};
-    //  configuration.AddMaster.synchronous = false;
-
-    //  configuration.aggressivedto = {};
-    //  configuration.aggressivedto.synchronous = false;
-
-    //  configuration.getcleanparameters = {};
-    //  configuration.getcleanparameters.synchronous = false;
-
-    //  configuration.getwidmaster = {};
-    //  configuration.getwidmaster.synchronous = false;
-
-
-    //  configuration.getWidMongo = {};
-    //  configuration.getWidMongo.synchronous = false;
-
-    //  configuration.getAndFormatNextLevel = {};
-    //  configuration.getAndFormatNextLevel.synchronous = true;  
-
-    //  configuration.addcleanparameters = {};
-    //  configuration.addcleanparameters.synchronous = true;
-
-    configuration.MongoAddEditPrepare = {};
-    configuration.MongoAddEditPrepare.synchronous = false;
-
-    configuration.AddMongoRelationship = {};
-    configuration.AddMongoRelationship.synchronous = false;
-
-    configuration.addcleanparameters = {};
-    configuration.addcleanparameters.synchronous = false;
-
-    configuration.addwidmaster = {};
-    configuration.addwidmaster.synchronous = false;
-
-    configuration.AddWidParameters = {};
-    configuration.AddWidParameters.synchronous = false;
-
-    configuration.AddMaster = {};
-    configuration.AddMaster.synchronous = false;
-
-    configuration.aggressivedto = {};
-    configuration.aggressivedto.synchronous = false;
-
-    configuration.getcleanparameters = {};
-    configuration.getcleanparameters.synchronous = false;
-
-    configuration.getwidmaster = {};
-    configuration.getwidmaster.synchronous = false;
-
-    configuration.getWidMongo = {};
-    configuration.getWidMongo.synchronous = false;
-
-    configuration.getAndFormatNextLevel = {};
-    configuration.getAndFormatNextLevel.synchronous = false;
-
-    configuration.querywid = {};
-    configuration.querywid.synchronous = false;
-
-    return {
-        "configuration": configuration
-    }
-};
-
-
-exports.config = config = config123();
+bootprocess();
 
 
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
@@ -391,6 +327,14 @@ exports.server = window.server = server = function server(params, callback) {
     //     delete params['midexecute'];
     // }
     // alert(JSON.stringify(params));
+
+    // add accesstoken if user exists in localStorage
+    var currentUser = window.localStorage ? JSON.parse(window.localStorage.getItem('driUser')) : undefined;
+    if (currentUser) {
+        if (!params.etenvironment) { params.etenvironment = {}; }
+        params.etenvironment.accesstoken = currentUser.at;
+    }
+
     executeAjax("", params, function (data) {
         console.log("Return from server: " + JSON.stringify(data));
         callback(data);
@@ -419,68 +363,379 @@ exports.getDriApiData = getDriApiData = function getDriApiData(action, params, c
 };
 
 
-function config555() {
-    var configuration = {};
 
 
-    configuration.getwid = [];
-    configuration.getwid[0] = {};
-    configuration.getwid[0].order = 0;
-    configuration.getwid[0].dothis = 'getwid';
 
-    configuration.updatewid = [];
-    configuration.updatewid[0] = {};
-    configuration.updatewid[0].order = 0;
-    configuration.updatewid[0].dothis = 'updatewid';
+// function addtomongo(widName, widobject) {
+//  addToLocalStorage(widMasterKey+widName, widobject);
+// }
 
-    configuration.querywid = [];
-    configuration.querywid[0] = {};
-    configuration.querywid[0].order = 0;
-    configuration.querywid[0].dothis = 'querywid';
+//function addtomongo(inputWidgetObject) {
+exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
+    var err;
+    delete inputWidgetObject['executethis'];
+    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject);
+    var widobject = {};
+    widobject = inputWidgetObject;
+    var widName = widobject['wid'];
+    addToLocalStorage(widMasterKey + widName, widobject);
+    widobject['wid'] = widName;
+    //return widobject;
+    callback(err, widobject);
+};
 
-    configuration.preexecute = [];
-    configuration.preexecute[0] = {};
-    configuration.preexecute[0].order = 0;
-    configuration.preexecute[0].dothis = 'executefn';
-
-    configuration.midexecute = [];
-    configuration.midexecute[0] = {};
-    configuration.midexecute[0].order = 0;
-    configuration.midexecute[0].dothis = 'executefn';
-
-
-    configuration.postexecute = [];
-    configuration.postexecute[0] = {};
-    configuration.postexecute[0].order = 0;
-    configuration.postexecute[0].dothis = 'executefn';
-
-    return {
-        "configuration": configuration
-    }
-}
-
-//if (exports.environment === "local") {localStorage.clear();}
-
-//exports.mongoquery = mongoquery = function (queryString) {
-exports.offlinemongoquery = offlinemongoquery = function offlinemongoquery(queryString, callback) {
+//function getfrommongo(inputWidgetObject) {
+exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
+    //function getfrommongo(inputWidgetObject, target, callback) {
+    delete inputWidgetObject['executethis'];
     var err;
 
-    delete queryString['executethis']; // **** needed?
-    //function mongoquery(queryString, target, callback) {
+    var output = {};
+    if (inputWidgetObject["wid"]) {
+        var widKey = inputWidgetObject["wid"].toLowerCase();
+
+        output = getFromLocalStorage(widMasterKey + widKey);
+        if ((output == null) || (output === undefined)) {
+            output = {};
+        }
+
+    }
+    callback(err, output);
+}; //End of getfrommongo function
+
+function getwidcopy() {
+    // step through local storage looking for
+    var set = {}; // get a copy of all local storage ***
+    var resultobject = {};
+    var wid = "";
+    for (var key in localStorage) {
+        if (key.indexOf(widMasterKey) == 0) {
+            key = key.substring(10);
+            resultobject = getFromLocalStorage(widMasterKey + key);
+            wid = resultobject['wid'];
+            set[wid] = resultobject;
+            // $$$$$
+        }
+    }
+    return set
+}
+
+
+exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
+
+    function processquery (searchobjectlist, querylist) {
+        //
+        // querylist in 'mongo' form + brakets: [{"$operator":[{"":""},{"":""},{"$operator"::[{"":""},{"":""}]]
+        //
+        var potentialquery;
+        var potentialoperator;
+        var subqueryobject;
+        var searchobjectresult;
+        var listresult=[]; 
+        var templist=[];
+        var outlist=[];
+        var eachresult;
+        var item;
+        var querylistindex;
+        var left;
+        var right;
+
+        function debugvars(varlist) {
+            var allvars = {
+                1: {
+                    "left":left,
+                    "right":right,
+                    "potentialquery": potentialquery,
+                },
+                2: {
+                    "querylist": querylist,
+                    "potentialquery": potentialquery,
+                    "potentialoperator": potentialoperator,
+                    "outlist": outlist,
+                    "eachresult": eachresult,
+                    "item": item
+                },
+                3: {
+                    "querylist": querylist
+                },
+                4 : {
+                    "outlist": outlist,
+                    "listresult":listresult
+                },
+                5:{
+                    "searchobjectlist":searchobjectlist
+                }
+            };
+            var resultObj = {};
+            var vargroup;
+            if (!varlist) {
+                for (var eachgroup in allvars) {
+                    varlist.push(eachgroup);
+                }
+            }
+
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+            }
+            return resultObj;
+        }
+
+        debugfn("begin processquery", "processquery", "query", "begin", debugcolor, debugindent, debugvars([3,5]));
+        
+        for (querylistindex in querylist) {             // querylist will always be a list
+            potentialquery = querylist[querylistindex]; // we will step by objects
+            for (left in potentialquery) {              // this will just split left right
+                right = potentialquery[left];
+                }
+            // if operator then recurse
+            debugfn("before processquery", "processquery", "query", "begin", debugcolor, debugindent, debugvars([1]));
+
+            // if we do need the above statemnt then we need to make a for each deep copy (see expand in utils)
+            if ((left == "$or") || (left == "$and")) {
+                debugcolor++;
+                debugindent++;
+                //listresult = processquery(searchobjectlist, right);
+                templist = processquery(searchobjectlist, right);
+                proxyprinttodiv('Function listresult I', listresult,99);
+                // added below %%% add the array inside of another array
+                listresult.push(templist);
+                listresult = processoperator(searchobjectlist, listresult, left);
+                proxyprinttodiv('Function listresult III', listresult,99);
+                debugcolor--;
+                debugindent--;
+            } else {
+                listresult.push(potentialquery); 
+            }
+            debugfn("after processquery", "processquery", "query", "end", debugcolor, debugindent, debugvars([4]));
+            outlist = arrayUnique(outlist.concat(listresult));
+            debugfn("end processquery", "processquery", "query", "end", debugcolor, debugindent, debugvars([4]));
+        }
+        return outlist;
+    }
+        
+    // function arrayUnique(array) {
+    // var a = array.concat();
+    // for(var i=0; i<a.length; ++i) {
+    //     for(var j=i+1; j<a.length; ++j) {
+    //         if(a[i] === a[j])
+    //             a.splice(j--, 1);
+    //     }
+    // }
+    // return a;
+    // };
+
+    function processoperator(inobjectlist, targetparameters, operator) {
+        var eachwid;
+        var eachparm;
+        var equalobject = {};
+        var notequalobject = {};
+        var resultlist = [];
+        var widrecord;
+        var outobject = {};
+        var targetobject={};
+        var wid;
+        var targetarray = [];
+        var match;
+
+        function debugvars(varlist) {
+            var allvars = {
+                1: {
+                    "targetparameters":targetparameters,
+                    "inobjectlist":inobjectlist,
+                    "operator":operator
+                },
+                2: {
+                    "eachwid": eachwid,
+                },
+                3:{
+                    "eachparm": eachparm,               
+                    "widrecord":widrecord,
+                    "targetobject":targetobject,
+                },
+                4:{
+                    "equalobject": equalobject,
+                    "notequalobject": notequalobject
+                },
+                5: {
+                    "widrecord":widrecord,
+                    "eachparm":eachparm,
+                    "resultlist":resultlist
+                }
+            };
+            var resultObj = {};
+            var vargroup;
+            if (!varlist) {
+                for (var eachgroup in allvars) {
+                    varlist.push(eachgroup);
+                }
+            }
+
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+            }
+            return resultObj;
+        }
+
+        debugfn("processoperator begin", "processoperator", "query", "begin", debugcolor, debugindent, debugvars([1]));
+
+        for (eachwid in inobjectlist) { // got through whole list
+            widrecord = inobj[inobjectlist[eachwid]["wid"]];
+            proxyprinttodiv('widrecord', widrecord,99);
+            equalobject = {};
+            notequalobject = {};
+            proxyprinttodiv('Function widrecord', widrecord,99);
+
+
+            for (eachtarget in targetparameters) { //go through each array inside array     
+                // paramters is a list [{a:b},{c:d}] or 
+                // paramters is a list [[{a:b},{c:d}]
+                targetobject=targetparameters[eachtarget]   // targetobject = {a:b}
+                proxyprinttodiv('Function targetobject', targetobject,99);
+                // %%% added below
+                // if not array then make it into array
+                if (targetobject instanceof Array) {
+                    targetarray=targetobject;
+                    }
+                else{
+                    targetarray.push(targetobject)
+                    }
+                proxyprinttodiv('Function targetarray', targetarray,99);
+                match=false;
+                for (eacharray in targetarray) {  
+                    if(targetarray instanceof Array){
+                        targetobject=targetarray[eacharray];
+                        }
+                    else{
+                        targetobject=eacharray;
+                        }
+                    proxyprinttodiv('Function targetobject II', targetobject,99);
+                    //match=false;
+                    for (eachparm in targetobject) {
+                        proxyprinttodiv('Function widrecord[eachparm]', widrecord[eachparm],99);    
+                        proxyprinttodiv('Function targetobject[eachparm]', targetobject[eachparm],99);                  
+                        if (widrecord[eachparm] == targetobject[eachparm]) {
+                            match=true;
+                            //break;
+                            }
+                        else {
+                            match=false; // done at first non match
+                            //break;
+                            };
+                        proxyprinttodiv('Function match', match,99);                    
+                    // if (match) { // if match then ok to go with previous type search
+                    //  equalobject[eachparm] = widrecord; // previosly targetparameters
+                    // } else {
+                    //  notequalobject[eachparm] = widrecord; // previosly targetparameters
+                    // }
+                        if (match) {break};
+                    }
+                    
+                    if (match) { // if match then ok to go with previous type search
+                        equalobject[eachparm] = widrecord; // previosly targetparameters
+                    } else {
+                        notequalobject[eachparm] = widrecord; // previosly targetparameters
+                    }
+                    proxyprinttodiv('Function equalobject', equalobject[eachparm],99);                  
+                    proxyprinttodiv('Function notequalobject', notequalobject[eachparm],99);    
+                }   
+            }
+            wid={};
+            if (operator == "$or") { // if any matched (or) then add to resultobject
+                if (Object.keys(equalobject).length !== 0) {
+                    wid["wid"] = widrecord["wid"];
+                    resultlist.push(wid);
+                }
+            }
+            if (operator == "$and") { // if all matched (and) (notequalobject is empty) then add to resultobject
+                if (Object.keys(notequalobject).length == 0) {
+                    wid["wid"] = widrecord["wid"];
+                    resultlist.push(wid);
+                }
+            }
+
+            debugfn("processoperator end", "processoperator", "query", "end", debugcolor, debugindent, debugvars([4,5]));
+        } // allwids
+
+        proxyprinttodiv('Function resultlist', resultlist,99);  
+        return resultlist; // returns list: [{}, {}, {}]
+    } // end processoperator
+
+    // Start of mongoquery
+    //
+    // mongorawqury in 'mongo' form: {"$operator":[{"":""},{"":""},{"$operator"::[{"":""},{"":""}]}
+    //
+    var outlist = [];
+    var inlist = [];
+    var inobj = {};
+    var mongorawquerylist = [];
+    var eachwid;
+    var wid;
+    var widdata;
+    var result;
+
+  
+
+
+    //var rawmongoquery=inboundobj["rawmongoquery"];
+    proxyprinttodiv('Function inobj', inboundobj,99);
+    //proxyprinttodiv('Function mongorawquery', rawmongoquery,99);
+
+    //mongorawquerylist.push(rawmongoquery);
+    //mongorawquerylist.push(JSON.parse(rawmongoquery)); // convert mongorawquery to list form
+    mongorawquerylist.push(JSON.parse(inboundobj));
+    // from {"$operator":[{"":""},{"":""},{"$operator"::[{"":""},{"":""}]]} 
+    // to [{"$operator":[{"":""},{"":""},{"$operator"::[{"":""},{"":""}]]}
+
+    for (eachwid in localStorage){
+        if (eachwid.indexOf(widMasterKey) == 0) {
+            var widObj = JSON.parse(localStorage[eachwid]);
+            if(widObj["wid"]){
+                widdata = ConvertToDOTdri(widObj)
+                inlist.push(widdata);
+                inobj[widdata["wid"]]=widdata;
+            }   
+        }
+    }
+    var processqueryresult = processquery(inlist, mongorawquerylist);
+    proxyprinttodiv('Function processqueryresult', processqueryresult,99);
+    for (eachwid in processqueryresult){
+        widdata = processqueryresult[eachwid]; // get each line of data
+        proxyprinttodiv('Function widdata', widdata,99);    
+        if (widdata!==undefined) {
+            outlist.push(inobj[widdata['wid']])
+            }
+    } 
+
+    if (Object.keys(outlist).length == 0) {
+        outlist.push({
+            "": ""
+        });
+    }
+
+    proxyprinttodiv('Function outlist', outlist,99);    
+    callback(null, outlist);
+}
+
+
+
+exports.offlinemongoquery = offlinemongoquery = function offlinemongoquery(queryString, callback) {
+    var err;
+    var resultlist=[];
+    delete queryString['executethis']; 
     if (queryString["mongowid"]) {
-        //return querywidlocal(queryString, callback); 
-        // taken out 11-13 ********
         querywidlocal(queryString, callback);
     }
     //
     else {
 
-        proxyprinttodiv('Function mongoquery', queryString, 75);
+        proxyprinttodiv('Function mongoquery', queryString, 30);
         var enhancedreturn = getwidcopy();
-        proxyprinttodiv('Function enhancedreturn', enhancedreturn, 75);
+        proxyprinttodiv('Function enhancedreturn', enhancedreturn, 30);
         if (queryString['mongorawquery']) {
             var mongorawquery = queryString['mongorawquery'];
-            var ResultList = [];
+            //var resultlist = [];
             proxyprinttodiv('Function mongorawquery', mongorawquery);
             for (var item in mongorawquery) {
                 // {"$and": {"data.primarywid":ParentWid, "data.secondarywid":ChildWid }};
@@ -489,17 +744,17 @@ exports.offlinemongoquery = offlinemongoquery = function offlinemongoquery(query
                     var ParentWid = andquery['data.primarywid'];
                     var ChildWid = andquery['data.secondarywid'];
                     proxyprinttodiv('Function andquery', andquery);
-                    proxyprinttodiv('Function ParentWid', ParentWid, 75);
-                    proxyprinttodiv('Function ChildWid', ChildWid, 75);
+                    proxyprinttodiv('Function ParentWid', ParentWid, 30);
+                    proxyprinttodiv('Function ChildWid', ChildWid, 30);
                     for (var myvalue in enhancedreturn) {
                         proxyprinttodiv('Function myvalue', myvalue);
                         //if ((myvalue['primarywid']==ParentWid) && (myvalue['secondarywid']==ChildWid)) {
-                        if ((enhancedreturn[myvalue]['primarywid'] == ParentWid) && (enhancedreturn[myvalue]['secondarywid'] == ChildWid)) {
+                        if ((enhancedreturn[myvalue]['data']['primarywid'] == ParentWid) && (enhancedreturn[myvalue]['data']['secondarywid'] == ChildWid)) {
                             proxyprinttodiv('Function match found ', ({
                                 "key": "wid",
                                 "value": myvalue
-                            }), 75);
-                            ResultList.push({
+                            }), 30);
+                            resultlist.push({
                                 "key": "wid",
                                 "value": myvalue
                             });
@@ -508,13 +763,19 @@ exports.offlinemongoquery = offlinemongoquery = function offlinemongoquery(query
                 }
             }
         }
-        proxyprinttodiv('Function simpleQuery in : ResultList', ResultList);
-        //return ResultList
-        callback(err, ResultList);
+
+    if (resultlist.length == 0) {
+        resultlist.push({
+            "": ""
+        });
+    }
+        proxyprinttodiv('Function mongoquery', queryString, 99);
+        proxyprinttodiv('Function enhanced simpleQuery in : resultlist', resultlist,99 );
+        //return resultlist
+        callback(err, resultlist);
 
     }
 }
-
 function querywidlocal(sq, callback) {
     var err;
 
@@ -558,6 +819,7 @@ function querywidlocal(sq, callback) {
             //var myvalue = executethis(executeobject, getfrommongo);
             ////var myvalue = executethis(executeobject, x);
             var myvalue = executethis(executeobject);
+            myvalue=myvalue[0];
             //proxyprinttodiv('Function simpleQuery in : myvalue',  myvalue);
             proxyprinttodiv('Function simpleQuery in : myvalue', myvalue);
             if (myvalue["primarywid"] == widInput) {
@@ -573,6 +835,7 @@ function querywidlocal(sq, callback) {
                 proxyprinttodiv('Function simpleQuery in : executeobject', executeobject, 30);
                 // proxyprinttodiv('Function simpleQuery in : x fn', x.name, 30);
                 var value = executethis(executeobject);
+                value=value[0];
                 //var value = executethis(executeobject, getfrommongo);
                 proxyprinttodiv('Function simpleQuery in : value', value, 30);
                 delete value.wid;
@@ -636,58 +899,4 @@ function querywidlocal(sq, callback) {
     //enhancedreturn.push({'a':'b'});
     proxyprinttodiv('Function simpleQuery in : callback', String(callback), 30);
     callback(err, outobject);
-}
-
-// function addtomongo(widName, widobject) {
-//  addToLocalStorage(widMasterKey+widName, widobject);
-// }
-
-//function addtomongo(inputWidgetObject) {
-exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
-    var err;
-    delete inputWidgetObject['executethis'];
-    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject);
-    var widobject = {};
-    widobject = inputWidgetObject;
-    var widName = widobject['wid'];
-    addToLocalStorage(widMasterKey + widName, widobject);
-    widobject['wid'] = widName;
-    //return widobject;
-    callback(err, widobject);
-};
-
-//function getfrommongo(inputWidgetObject) {
-exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
-    //function getfrommongo(inputWidgetObject, target, callback) {
-    delete inputWidgetObject['executethis'];
-    var err;
-
-    var output = {};
-    if (inputWidgetObject["wid"]) {
-        var widKey = inputWidgetObject["wid"].toLowerCase();
-
-        output = getFromLocalStorage(widMasterKey + widKey);
-        if ((output == null) || (output === undefined)) {
-            output = {};
-        }
-
-    }
-    callback(err, output);
-}; //End of getfrommongo function
-
-function getwidcopy() {
-    // step through local storage looking for
-    var set = {}; // get a copy of all local storage ***
-    var resultobject = {};
-    var wid = "";
-    for (var key in localStorage) {
-        if (key.indexOf(widMasterKey) == 0) {
-            key = key.substring(10);
-            resultobject = getFromLocalStorage(widMasterKey + key);
-            wid = resultobject['wid'];
-            set[wid] = resultobject;
-            // $$$$$
-        }
-    }
-    return set
 }

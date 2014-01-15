@@ -1,3 +1,563 @@
+
+exports.testcallback = testcallback = function testcallback(params, callback) {
+	console.log("<< testcallback >>");
+	params["test_result"]="PASSnew";
+	callback(null, params);
+}
+
+
+exports.mttest1 = mttest1 = function mttest1(params, callback){
+	console.log("<< mongoquery_two_test >>");
+	
+	var ortests = false;
+	var andtests = false;
+	var orortests = false;
+	var andandtests = false;
+	var orandtests = false;
+	var orandtests20 = false;
+	var failedtests = false;
+	var verifytests = true;
+	
+	
+	var codedebug = false;
+	if(codedebug){
+		debugcolor = 0;
+		debugon = true;
+		debugname = "";
+		debugsubcat = "";
+		debugcat = "query";
+		debugfilter = "";
+		debugdestination = 1;
+	}
+	
+	testclearstorage();
+	
+	var executeList = [];
+	executeList = addmttestdata(callback);
+	
+	executearray(executeList, function (err, res) {
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+	});
+	
+	/* varify test cases */
+	if(verifytests){
+		console.log("<< inside verifytests >>");
+
+		
+		var executeObj = {};
+		executeObj["executethis"]="querywid";
+		executeObj["mongorawquery"]= '{"$or":[{"data.a":"string"}]}';
+		executeList.push(executeObj);
+		
+		executearray(executeList, function (err, res) {
+			console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+		});
+		
+		var expectedResultArray = [];
+		expectedResultArray.push({"wid":"testdto","metadata.method":"testdto","data.b":"string","data.a":"string"});
+		params = logverify("mongoquery","resultwid1" ,result[1],"","",expectedResultArra);
+
+		proxyprinttodiv("end of verify tests", "end of verify tests", 99);
+	}
+	
+	/* $or queries */	
+	if(ortests){
+		var mongorawquery = '{"$or":[{"data.a":"string"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [testdto]", result, 99);
+		});
+
+		var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"1"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+		});
+		//test fails
+		var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1, wid4]", result, 99);
+		});		
+	}
+	
+	/* $and queries */
+	if(andtests){
+		var mongorawquery = '{"$and":[{"data.a":"string"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [testdto]", result, 99);
+		});
+		
+		var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+		});
+		
+		var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"16"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- []", result, 99);
+		});
+
+		var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"},{"data.b":"1"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+		});
+		var mongorawquery = '{"$and":[{"data.a":"1"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+		});
+
+		var mongorawquery = '{"$and":[{"data.a":"5"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid5]", result, 99);
+		});
+	}
+	
+	/* $or-$or tests */
+	if(orortests){
+		var mongorawquery = '{"$or":[{"data.a":"1"},{"$or":[{"data.b":"25"},{"data.a":"5"},{"data.a":"5"},{"data.a":"1"}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1,wid5]", result, 99);
+		});
+		
+		var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"},{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"}]}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid5]", result, 99);
+		});
+	
+		var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"16"}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid4,wid5]", result, 99);
+		});
+	}
+	
+	/* $and-$and queries */
+	if(andandtests){
+		var mongorawquery = '{"$and":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+		});
+		var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid5]", result, 99);
+		});
+		var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"},{"$and":[{"data.b":"1"}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- []", result, 99);
+		});
+	}
+	
+	/* $or-$and queries */
+	if(orandtests){
+		var mongorawquery = '{"$or":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+		});
+		var mongorawquery = '{"$or":[{"data.a":"5"},{"$and":[{"data.a":"4"},{"$and":[{"data.b":"1"}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid5]", result, 99);
+		});
+	}
+	
+	/* 20 more test cases */
+	if(orandtests20){
+		var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid25]", result, 99);
+		});
+		var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid25]", result, 99);
+		});
+		var mongorawquery = '{"$or":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid2,wid20,wid25]", result, 99);
+		});
+		var mongorawquery = '{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid2,wid20,wid25]", result, 99);
+		});
+		//test fails
+		var mongorawquery = '{"$and":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid25]", result, 99);
+		});
+		var mongorawquery = '{"$and":[{"data.a":"4"},{"$and":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid25]", result, 99);
+		});
+	}
+	
+	/* fail test cases */
+	if(failedtests){
+		/*
+		var mongorawquery = '{"$and":[{"data.a":"4"},{"$or":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid4]", result, 99);
+		});
+		*/
+		var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
+		mongoquery(mongorawquery, function (result){
+			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1, wid4]", result, 99);
+		});	
+	}
+	
+	params={'test':'PASS'};
+	callback(params);
+}
+
+function addmttestdata(callback){
+	console.log("<< addmttestdata >>");
+	
+	proxyprinttodiv("staring data add", "data add", 99);
+	var widArray = [];
+	
+	var dtoObj = {"executethis":"updatewid","metadata.method":"testdto","wid":"testdto","a":"string","b":"string"};
+	widArray.push(dtoObj);
+	
+	var totalWids = 5;		//during debugging
+	//var totalWids = 50;		//during real time testing
+	for(var i=1; i<=totalWids; i++){
+		var widObj = {};
+		widObj["executethis"]="updatewid";
+		widObj["metadata.method"]="testdto";
+		widObj["wid"]="wid"+i;
+		widObj["a"]=""+(i);
+		widObj["b"]=""+(i*i);
+		widArray.push(widObj);
+	}
+	
+	/*
+	executearray(widArray, function (err, res) {
+        console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+	});
+	proxyprinttodiv("end of data add", "end data add", 99);
+	*/
+	return widArray;
+}	
+
+exports.t1example = t1example = function t1example(params, callback) {
+	testclearstorage();
+	config = setconfig1();
+	executearray([{
+		"executethis": "func_b",
+		"c": "0",
+		"d": "1",
+		"e": "2"
+	}], 
+	function (err, res) {
+		res = logverify("unit_tests", "t1_result", "", res[0], "",{
+		"d": "1",
+		"c": "0",
+		"g": "4"
+	});
+	if (callback instanceof Function) {callback(err, res)} else {return res}
+	});
+}
+
+
+exports.mttest2 = mttest2 = function mttest2(params, callback) {
+	console.log("<< mongoquery_two_test >>");
+
+	testclearstorage();
+	
+	//To add wid data
+	var executeList = [];
+	var dtoObj = {"executethis":"updatewid","metadata.method":"testdto","wid":"testdto","a":"string","b":"string"};
+	executeList.push(dtoObj);
+	for(var i=1; i<=5; i++){
+		var executeobj = {};
+		executeobj["executethis"]="updatewid";
+		executeobj["metadata.method"]="testdto";
+		executeobj["wid"]="wid"+i;
+		executeobj["a"]=""+(i);
+		executeobj["b"]=""+(i*i);
+		executeList.push(executeobj);
+	}
+
+	//To query data
+	var queryobj = {};
+	
+	queryobj["executethis"]="querywid";
+	queryobj["rawmongoquery"]= {"$or":[{"data.a":"string"}]};
+	executeList.push(queryobj);
+	
+	queryobj["rawmongoquery"]= {"$or":[{"data.a":"1"},{"data.b":"1"}]};
+	executeList.push(queryobj);
+	
+	queryobj["rawmongoquery"]= {"$or":[{"data.a":"1"},{"data.b":"16"}]};
+	executeList.push(queryobj);
+	
+	proxyprinttodiv("execute list ", executeList, 99);		
+	
+	executearray(executeList, function (err, res) {
+		proxyprinttodiv('Function verifytestresults', res,99);
+		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+		var expectedResultList = [{"wid":"wid4","metadata.method":"testdto","data.a":"4","data.b":"16"},{"wid":"wid5","metadata.method":"testdto","data.a":"5","data.b":"25"}];
+		proxyprinttodiv('Function verifytestresults', res,99);
+		params = logverify("mongoquery","resultwid" ,"",res[6][0],"",expectedResultList);
+		x = verifysummary("test_results");
+		proxyprinttodiv('x', x,99);
+		callback(null,x);
+		//verifytestresults(res);
+	});
+}
+
+
+exports.testcallback = testcallback = function testcallback(params, callback) {
+	console.log("<< testcallback >>");
+	params["test_result"]="PASS";
+	callback(null, params);
+}
+
+
+exports.mttest3 = mttest3 = function mttest3(params, callback) {
+    console.log("<< mttest3 >>");
+
+    testclearstorage();
+
+    //To add wid data
+    var executeList = [{
+        "executethis": "addwidmaster",
+        "wid": "colordto",
+        "metadata.method": "colordto",
+        "hue": "string"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "color1",
+        "metadata.method": "colordto",
+        "hue": "red"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "color2",
+        "metadata.method": "colordto",
+        "hue": "green"
+    }, {
+        "executethis": "getwidmaster",
+        "wid": "color1"
+    }, {
+        "executethis": "getwidmaster",
+        "wid": "color2"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "color3",
+        "hue": "blue"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "color4",
+        "metadata.method": "colordto",
+        "hue": "cyan"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "color5",
+        "metadata.method": "colordto",
+        "hue": "magenta"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "color6",
+        "metadata.method": "colordto",
+        "hue": "yellow"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "color7",
+        "metadata.method": "colordto",
+        "hue": "black"
+    }, {
+        "executethis": "getwidmaster",
+        "wid": "color6"
+    }, {
+        "executethis": "getwidmaster",
+        "wid": "color7"
+    }];
+    proxyprinttodiv("execute list", executeList, 99);
+    executearray(executeList, function (err, res) {
+
+    });
+
+    //Query Data
+    executeList = [];
+    var executeList = [{
+        "executethis": "querywid",
+        "rawmongoquery": {
+            "$or": [{
+                "hue": "red"
+            }]
+        }
+    }, {
+        "executethis": "querywid",
+        "rawmongoquery": {
+            "$or": [{
+                "hue": "green"
+            }]
+        }
+    }, {
+        "executethis": "querywid",
+        "rawmongoquery": {
+            "$and": [{
+                "hue": "blue"
+            }]
+        }
+    }, {
+        "executethis": "querywid",
+        "rawmongoquery": {
+            "$or": [{
+                "hue": "cyan"
+            }]
+        }
+    }, {
+        "executethis": "querywid",
+        "rawmongoquery": {
+            "$and": [{
+                "hue": "magenta"
+            }]
+        }
+    }, {
+        "executethis": "querywid",
+        "rawmongoquery": {
+            "$and": [{
+                "hue": "yellow"
+            }]
+        }
+    }, {
+        "executethis": "querywid",
+        "rawmongoquery": {
+            "$and": [{
+                "hue": "black"
+            }]
+        }
+    }];
+    proxyprinttodiv("execute list for query", executeList, 99);
+    executearray(executeList, function (err, res) {
+
+    });
+
+    //Query Expected Result List
+    expectedResultList = [
+        [{
+            "wid": "color1",
+            "metadata.method": "colordto",
+            "hue": "red"
+        }],
+        [{
+            "wid": "color2",
+            "metadata.method": "colordto",
+            "hue": "green"
+        }],
+        [{
+            "wid": "color3",
+            "metadata.method": "colordto",
+            "hue": "blue"
+        }],
+        [{
+			"wid": "color4",
+			"metadata.method": "colordto",
+			"hue": "cyan"
+        }],
+        [{
+            "wid": "color5",
+            "metadata.method": "colordto",
+            "hue": "magenta"
+        }],
+        [{
+            "wid": "color4",
+            "metadata.method": "colordto",
+            "hue": "yellow"
+        }],
+        [{
+            "wid": "color4",
+            "metadata.method": "colordto",
+            "hue": "black"
+        }]
+    ];
+}
+
+exports.mttest333 = mttest333 = function mttest333(params, callback) {
+    console.log("<< mttest3 >>");
+    testclearstorage();
+
+    // Add List
+    var addlist = [
+		{"executethis":"addwidmaster","wid":"colordto","metadata.method":"colordto","hue":"string","sat":"string"}, 
+		{"executethis":"addwidmaster","wid":"color1","metadata.method":"colordto","hue":"red","sat":"red-sat"}, 
+		{"executethis":"addwidmaster","wid":"color2","metadata.method":"colordto","hue":"green","sat":"green-sat"}, 
+		{"executethis":"addwidmaster","wid":"color3","metadata.method":"colordto","hue":"blue","sat":"blue-sat"}, 
+		{"executethis":"addwidmaster","wid":"color4","metadata.method":"colordto","hue":"cyan","sat":"cyan-sat"}, 
+		{"executethis":"addwidmaster","wid":"color5","metadata.method":"colordto","hue":"magenta","sat":"magenta-sat"},
+		{"executethis":"addwidmaster","wid":"color6","metadata.method":"colordto","hue":"yellow","sat":"yellow-sat"},
+		{"executethis":"addwidmaster","wid":"color7","metadata.method":"colordto","hue":"black","sat":"black-sat"}
+	];
+
+	//Query List
+    var querylist = [
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"string"}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"green"},{"sat":"blue-sat"}]}}, 
+		{"executethis":"querywid","rawmongoquery":{"$and":[{"hue":"blue"}]}},
+		{"executethis":"querywid","rawmongoquery":{"$and":[{"hue":"yellow"},{"sat":"red-sat"}]}}, 
+		{"executethis":"querywid","rawmongoquery":{"$and":[{"sat":"cyan-sat"},{"hue":"cyan"},{"sat":"cyan-sat"}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"red"},{"$or":[{"sat":"magenta-sat"},{"hue":"magenta"},{"hue":"magenta"},{"hue":"red"}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"magenta"},{"$or":[{"sat":"magenta-sat"},{"$or":[{"hue":"magenta"},{"$or":[{"sat":"magenta-sat"}]}]}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"magenta"},{"$or":[{"sat":"cyan-sat"}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$and":[{"hue":"magenta"},{"$and":[{"sat":"magenta-sat"}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$and":[{"hue":"magenta"},{"$and":[{"sat":"magenta-sat"},{"$and":[{"sat":"red-sat"}]}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"red"},{"$and":[{"sat":"red-sat"}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"magenta"},{"$and":[{"hue":"cyan"},{"$and":[{"sat":"red"}]}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"blue"},{"$and":[{"hue":"yellow"},{"hue":"red"},{"$or":[{"sat":"cyan-sat"}]}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"yellow"},{"$and":[{"hue":"black"},{"$or":[{"sat":"black-sat"},{"sat":"blue-sat"}]}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$or":[{"hue":"green"},{"$or":[{"hue":"green568"},{"hue":"red"},{"$or":[{"sat":"yellow-sat"},{"sat":"blue-sat"},{"$or":[{"hue":"cyan"}]}]}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$and":[{"hue":"magenta"},{"$or":[{"hue":"green"},{"hue":"cyan"},{"$or":[{"sat":"yellow-sat"},{"sat":"red-sat"},{"$or":[{"hue":"blue"}]}]}]}]}},
+		{"executethis":"querywid","rawmongoquery":{"$and":[{"hue":"cyan"},{"$or":[{"hue":"green"},{"$or":[{"sat":"cyan-sat"}]}]}]}},
+	];	
+
+    //Verify List
+    var verifylist = [
+        [{"wid":"colordto","metadata.method":"colordto","hue":"string","sat":"string"}],
+        [
+			{"wid":"color2","metadata.method":"colordto","hue":"green","sat":"green-sat"}, 
+			{"wid":"color3","metadata.method":"colordto","hue":"blue","sat":"blue-sat"}
+		],
+		[{"wid":"color3","metadata.method":"colordto","hue":"blue","sat":"blue-sat"}],
+		[],
+		[{"wid":"color4","metadata.method":"colordto","hue":"cyan","sat":"cyan-sat"}],
+		[
+			{"wid":"color1","metadata.method":"colordto","hue":"red","sat":"red-sat"}, 
+			{"wid":"color5","metadata.method":"colordto","hue":"magenta","sat":"magenta-sat"}
+		],
+		[{"wid":"color5","metadata.method":"colordto","hue":"magenta","sat":"magenta-sat"}],
+		[
+			{"wid":"color4","metadata.method":"colordto","hue":"cyan","sat":"cyan-sat"}, 
+			{"wid":"color5","metadata.method":"colordto","hue":"magenta","sat":"magenta-sat"}
+		],
+		[{"wid":"color5","metadata.method":"colordto","hue":"magenta","sat":"magenta-sat"}],
+		[],
+		[{"wid":"color1","metadata.method":"colordto","hue":"red","sat":"red-sat"}],
+		[{"wid":"color5","metadata.method":"colordto","hue":"magenta","sat":"magenta-sat"}],
+		[{"wid":"color3","metadata.method":"colordto","hue":"blue","sat":"blue-sat"}],
+		[
+			{"wid":"color6","metadata.method":"colordto","hue":"yellow","sat":"yellow-sat"}, 
+			{"wid":"color7","metadata.method":"colordto","hue":"black","sat":"black-sat"}
+		],
+		[
+			{"wid":"color1","metadata.method":"colordto","hue":"red","sat":"red-sat"},
+			{"wid":"color2","metadata.method":"colordto","hue":"green","sat":"green-sat"},
+			{"wid":"color3","metadata.method":"colordto","hue":"blue","sat":"blue-sat"},
+			{"wid":"color4","metadata.method":"colordto","hue":"cyan","sat":"cyan-sat"},
+			{"wid":"color6","metadata.method":"colordto","hue":"yellow","sat":"yellow-sat"} 
+		],
+		[],
+		[{"wid":"color4","metadata.method":"colordto","hue":"cyan","sat":"cyan-sat"}]
+    ];
+
+
+	proxyprinttodiv("addlist", addlist, 99);
+	proxyprinttodiv("querylist", querylist, 99);
+	proxyprinttodiv("verifylist", verifylist, 99);
+
+	executearray([addlist, querylist], function (err, res) {
+        verifyarray[res[1],verifylist]
+    });
+	
+	params["test_result"]="PASS";
+	callback(null, params);
+}
+
+
 exports.mt3 = mt3 = function mt3(params, callback) {
 	var x = [];
 	var y;

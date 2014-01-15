@@ -1,5 +1,5 @@
 (function (window) {
-    var configuration = config.configuration;
+    // var configuration = config.configuration;
 
     // This tears apart an object with properties that are objects.
     // It opens up all the nested objects to create a flat list of properties
@@ -8,7 +8,6 @@
     // nothing calls this except the test. This is the highest level of the adding
     // process for DOT notation.
     // exports.addwidmaster = addwidmaster = function addwidmaster(inputObject, callback) {
-    //     var isSynchronous = configuration.addcleanparameters.synchronous;
     //     var OutParameters = ConvertToDOTdri(inputObject);
     //     //OutParameters = tolowerparameters(OutParameters, OutParameters['command.convertmethod']);
     //     var Wid = AddWidParameters(OutParameters);
@@ -95,7 +94,7 @@
 
     //             function step1n2(cb1) {
     //                 executeobject['executethis'] = 'getwidmaster';
-    //                 etexecute(executeobject, function (err, res) {
+    //                 execute(executeobject, function (err, res) {
     //                     dtoobject = res;
     //                     proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
     //                     //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
@@ -133,14 +132,6 @@
 
     //                 proxyprinttodiv('Function addcleanparameteres()  dtotype check ', dtotype);
     //                 aggressivedto = window['aggressivedto'];
-    //                 var isSynchronous = configuration.aggressivedto.synchronous;
-    //                 if (isSynchronous) {
-    //                     otherdtoobject = aggressivedto(dtotype, "", 10);
-    //                     proxyprinttodiv('Function addcleanparameteres()  otherdtoobject ', otherdtoobject);
-    //                     proxyprinttodiv('Function addcleanparameteres()  countKeys(otherdtoobject) ', countKeys(otherdtoobject));
-    //                     proxyprinttodiv('Function addcleanparameteres()  countKeys(dtoobject) ', countKeys(dtoobject));
-    //                     cb1("");
-    //                 } else {
     //                     aggressivedto(dtotype, "", 10, function (err, res) {
     //                         otherdtoobject = res;
     //                         proxyprinttodiv('Function addcleanparameteres()  otherdtoobject ', otherdtoobject);
@@ -148,7 +139,6 @@
     //                         proxyprinttodiv('Function addcleanparameteres()  countKeys(dtoobject) ', countKeys(dtoobject));
     //                         cb1("");
     //                     });
-    //                 }
     //             }
 
     //             function step1n4(cb1) {
@@ -288,19 +278,9 @@
     //                 dto: dtoobject
     //             };
 
-    //             var isSynchronous = configuration.addcleanparameters.synchronous;
-    //             if (!isSynchronous) {
     //                 callback(err, ret);
-    //             }
     //         });
 
-    //     var isSynchronous = configuration.addcleanparameters.synchronous;
-    //     if (isSynchronous) {
-    //         if (exports.environment === "local") {
-    //             while (ret === undefined) {}
-    //             return ret;
-    //         }
-    //     }
     // }
 
     function addcleanparameters(resultObj, dtotype, accesstoken, cleanmethod, convertmethod, callback) {
@@ -375,8 +355,8 @@
                     executeobject["command.convertmethod"] = "dto";
                     executeobject["command.dtotype"] = childdto;
                     executeobject['executethis'] = 'getwidmaster';
-                    etexecute(executeobject, function (err, res) {
-                        dtoobject = res;
+                    execute(executeobject, function (err, res) {
+                        dtoobject = res[0];
                         proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
                         debugfn("addcleanparameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb("", 'one');
@@ -394,19 +374,6 @@
                 if (dtotype !== "") {
                     proxyprinttodiv('Function addcleanparameteres()  dtotype check ', dtotype);
 
-                    var isSynchronous = configuration.aggressivedto.synchronous;
-                    if (isSynchronous) {
-                        otherdtoobject = aggressivedto(dtotype, "", 10);
-                        proxyprinttodiv('Function addcleanparameteres()  otherdtoobject ', otherdtoobject);
-                        proxyprinttodiv('Function addcleanparameteres()  countKeys(otherdtoobject) ', countKeys(otherdtoobject));
-                        proxyprinttodiv('Function addcleanparameteres()  countKeys(dtoobject) ', countKeys(dtoobject));
-                        if (countKeys(otherdtoobject) > countKeys(dtoobject)) {
-                            dtoobject = otherdtoobject;
-                            childdto = inputParametersObject['metadata.method'];
-                        }
-                        debugfn("addcleanparameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                        cb("", 'two');
-                    } else {
                         aggressivedto(dtotype, "", 10, function (err, res) {
                             otherdtoobject = res;
                             proxyprinttodiv('Function addcleanparameteres()  otherdtoobject ', otherdtoobject);
@@ -419,7 +386,7 @@
                             debugfn("addcleanparameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                             cb("", 'two');
                         });
-                    }
+                    
                 } else {
                     debugfn("addcleanparameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("", 'two')
@@ -497,17 +464,10 @@
 
         ], function (err, res) {
 
-            var isSynchronous = configuration.addcleanparameters.synchronous;
-            if (!isSynchronous) {
                 callback(err, ret);
-            }
         });
 
-        var isSynchronous = configuration.addcleanparameters.synchronous;
-        if (isSynchronous) {
-            while (ret === undefined) {}
-            return ret;
-        }
+      
     }
 
     function AddMongoRelationship(ParentWid, ChildWid, attr, callback) {
@@ -589,8 +549,8 @@
                         }
                     };
                     executeobject["executethis"] = querywid;
-                    etexecute(executeobject, function (err, res) {
-                        widset = res;
+                    execute(executeobject, function (err, res) {
+                        widset = res[0];
                         debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb("");
                     });
@@ -613,18 +573,11 @@
                 },
 
                 function step4(cb) {
-                    var isSynchronous = configuration.MongoAddEditPrepare.synchronous;
-                    if (!isSynchronous) {
-                        MongoAddEditPrepare([], widset, "", attr, function (err, res) {
+                       MongoAddEditPrepare([], widset, "", attr, function (err, res) {
                             AddedObject = res;
                             debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                             cb("");
                         });
-                    } else {
-                        AddedObject = MongoAddEditPrepare([], widset, "", attr);
-                        debugfn("AddMongoRelationship", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                        cb("");
-                    }
                 }
             ],
 
@@ -632,18 +585,11 @@
                 console.log(JSON.stringify('done all in AddMongoRelationship, Result is  ' + JSON.stringify(results)));
                 ret = AddedObject;
 
-                if (!isSynchronous) {
+                // if (!isSynchronous) {
                     callback(err, ret);
-                }
+                // }
             });
 
-        var isSynchronous = configuration.AddMongoRelationship.synchronous;
-        if (isSynchronous) {
-            if (exports.environment === "local") {
-                while (ret === undefined) {}
-                return ret;
-            }
-        }
     }
 
     exports.addwidmaster = addwidmaster = function addwidmaster(inputObject, callback) {
@@ -695,33 +641,15 @@
         }
 
         proxyprinttodiv('Function addwidmaster() inputObject : I ', inputObject, 99);
-        var isAddWidPSynchronous = configuration.AddWidParameters.synchronous;
-
-
-        if (isAddWidPSynchronous) {
-            AddedObject = AddWidParameters(OutParameters);
-        } else {
 
             AddWidParameters(OutParameters, function (err, ret) {
                 AddedObject = ret;
 
-                var isSynchronous = configuration.addwidmaster.synchronous;
-                if (!isSynchronous) {
                     proxyprinttodiv('Function addwidmaster() AddedObject >>>  : I ', AddedObject, 99);
                     debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     callback(err, ret);
-                }
             });
-        }
 
-        var isAddWidMSynchronous = configuration.addwidmaster.synchronous;
-        if (isAddWidMSynchronous) {
-            if (exports.environment === "local") {
-                while (ret === undefined) {}
-                debugfn("addwidmaster", "isSynchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                return ret;
-            }
-        }
     };
 
     function AddWidParameters(parameterObject, callback) {
@@ -836,22 +764,7 @@
                     proxyprinttodiv('Function AddWidParameters()  dtotype : dtotype ', dtotype, 15);
 
 
-                    var isSynchronous = configuration.addcleanparameters.synchronous;
-                    if (isSynchronous) {
-                        parameterObject = addcleanparameters(inputParametersObject, dtotype, accesstoken, "add", convertmethod);
-                        dtoobject = parameterObject.dto; // ************
-                        proxyprinttodiv('Function AddWidParameters()  inputParametersObject ', inputParametersObject, 15);
-                        proxyprinttodiv('Function AddWidParameters()  dtoobject ', dtoobject, 15);
-
-                        // not sure if this is important
-                        if ((inputParametersObject['metadata.method'] !== "") && (dtotype == "")) {
-                            metadata = inputParametersObject['metadata.method'];
-                        }
-                        proxyprinttodiv('Function addWidParameters ** after ', inputParametersObject);
-                        proxyprinttodiv('Function AddWidParameters() dtoobject return: ', dtoobject);
-                        debugfn("AddWidParameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                        cb("");
-                    } else {
+                    
                         addcleanparameters(inputParametersObject, dtotype, accesstoken, "add", convertmethod, function (err, res) {
                             parameterObject = res;
                             inputParametersObject = parameterObject.parms; // ************ prob dont need this
@@ -868,7 +781,6 @@
                             debugfn("AddWidParameters", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                             cb("");
                         });
-                    }
                 },
 
                 function step2(cb) {
@@ -876,8 +788,8 @@
                     executeobject["executethis"] = 'getwid';
                     executeobject["wid"] = 'inherit';
 
-                    etexecute(executeobject, function (err, res) {
-                        moreParameters = res;
+                    execute(executeobject, function (err, res) {
+                        moreParameters = res[0];
                         debugfn("AddWidParameters", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb("");
                     });
@@ -904,18 +816,11 @@
                         inputParametersObject["wid"] = "";
                     }
 
-                    var isSynchronous = configuration.AddMaster.synchronous;
-                    if (isSynchronous) {
-                        Wid = AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata);
-                        debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                        cb("");
-                    } else {
                         AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata, function (err, res) {
                             Wid = res;
                             debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                             cb("");
                         });
-                    }
                 }
             ],
             function (err, results) {
@@ -927,19 +832,9 @@
                 proxyprinttodiv('Function AddWidParameters() Wid : I ', Wid, 99);
                 debugfn("AddWidParameters", " final response after steps ", "add", "sub", debugcolor, debugindent, debugvars([1]));
 
-                var isSynchronous = configuration.AddWidParameters.synchronous;
-                if (!isSynchronous) {
                     callback(err, ret);
-                }
             });
 
-        var isSynchronous = configuration.AddWidParameters.synchronous;
-        if (isSynchronous) {
-            if (exports.environment === "local") {
-                while (ret === undefined) {}
-                return ret;
-            }
-        }
     }
 
     function AddMaster(dtoList, parameterList, widName, dtotype, callback) {
@@ -1056,21 +951,12 @@
                     cb(null, 'one');
                 },
                 function step2(cb) {
-                    // ParentObject = MongoAddEditPrepare(ParentdtoList, ParentList, widName, dtotype);
-                    var isSynchronous = configuration.MongoAddEditPrepare.synchronous;
-                    if (isSynchronous) {
-                        ParentObject = MongoAddEditPrepare(ParentdtoList, ParentList, widName, dtotype);
-                        ParentWid = ParentObject["wid"];
-                        debugfn("AddMaster", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                        cb(null);
-                    } else {
                         MongoAddEditPrepare(ParentdtoList, ParentList, widName, dtotype, function (err, res) {
                             ParentObject = res;
                             ParentWid = ParentObject["wid"];
                             debugfn("AddMaster", "step2a", "add", "sub", debugcolor, debugindent, debugvars([1]));
                             cb(null);
                         });
-                    }
                 },
                 function step3(cb) {
                     RelatedListParameters = SplitObjectList(parameterList, ParentList); // figure out what the left over parameters are
@@ -1169,8 +1055,8 @@
                                             executeobject["executethis"] = 'querywid';
                                             //var widlist=querywidlocal(executeobject);  // **
                                             // widlist = executethis(executeobject, querywid);
-                                            etexecute(executeobject, function (err, res) {
-                                                widlist = res;
+                                            execute(executeobject, function (err, res) {
+                                                widlist = res[0];
                                                 // **** 10-31
                                                 //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
                                                 proxyprinttodiv('Function AddMaster : widlist, these are the wids related to parent and current child', widlist);
@@ -1229,31 +1115,18 @@
                                                                             cb(null);
                                                                         },
                                                                         function step4n4n1n2(cb) {
-                                                                            var isSynchronous = configuration.AddMaster.synchronous;
-                                                                            if (isSynchronous) {
-                                                                                ChildWid = AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype);
-                                                                                debugfn("AddMaster", "step4n1n2a", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                                                                                cb(null);
-                                                                            } else {
+                                                                            
                                                                                 AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
                                                                                     ChildWid = res;
                                                                                     debugfn("AddMaster", "step4n1n2b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                     cb("");
                                                                                 });
-                                                                            }
                                                                         },
                                                                         function step4n4n1n3(cb) {
-                                                                            var isSynchronous = configuration.AddMongoRelationship.synchronous;
-                                                                            if (isSynchronous) {
-                                                                                AddMongoRelationship(ParentWid, ChildWid, "attributes");
-                                                                                debugfn("AddMaster", "step4n4n1n3a", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                                                                                cb(null);
-                                                                            } else {
                                                                                 AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
                                                                                     debugfn("AddMaster", "step4n4n1n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                                     cb("");
                                                                                 });
-                                                                            }
                                                                         }
                                                                     ],
                                                                     function (err, results) {
@@ -1302,31 +1175,17 @@
                                                         cb(null);
                                                     },
                                                     function step4n6n2(cb) {
-                                                        var isSynchronous = configuration.AddMaster.synchronous;
-                                                        if (isSynchronous) {
-                                                            ChildWid = AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype);
-                                                            debugfn("AddMaster", "step4n62a", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                                                            cb(null);
-                                                        } else {
                                                             AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
                                                                 ChildWid = res;
                                                                 debugfn("AddMaster", "step4n62b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                 cb("");
                                                             });
-                                                        }
                                                     },
                                                     function step4n6n3(cb) {
-                                                        var isSynchronous = configuration.AddMongoRelationship.synchronous;
-                                                        if (isSynchronous) {
-                                                            AddMongoRelationship(ParentWid, ChildWid, "attributes");
-                                                            debugfn("AddMaster", "step4n6n3a", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                                                            cb(null);
-                                                        } else {
-                                                            AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
+                                                        AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
                                                                 debugfn("AddMaster", "step4n6n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                 cb("");
                                                             });
-                                                        }
                                                     }
                                                 ],
                                                 function (err, results) {
@@ -1357,20 +1216,11 @@
                 if (err) {
                     throw err;
                 }
-                var isSynchronous = configuration.AddMaster.synchronous;
-                if (!isSynchronous) {
+                
                     callback(err, ret);
-                }
             });
 
 
-        var isSynchronous = configuration.AddMaster.synchronous;
-        if (isSynchronous) {
-            if (exports.environment === "local") {
-                while (ret === undefined) {}
-                return ret;
-            }
-        }
     } // end addMaster
 
 
@@ -1385,7 +1235,7 @@
     //     var addresult;
     //     var listtodo;
     //     var potentialwid;
-    //     var isSynchronous = configuration.MongoAddEditPrepare.synchronous;
+    
     //     var err;
 
     //     async.series([
@@ -1412,7 +1262,7 @@
     //                                 executeobject = {};
     //                                 executeobject["executethis"] = "getwid";
     //                                 executeobject["wid"] = InListObj["wid"];
-    //                                 etexecute(executeobject, function (err, res) {
+    //                                 execute(executeobject, function (err, res) {
     //                                     rawobject = res;
     //                                     cb1("");
     //                                 });
@@ -1446,7 +1296,7 @@
     //                                                                     executeobject = {};
     //                                                                     executeobject["executethis"] = "getwid"; // probably should be getwidmaster -- changed from only getwid
     //                                                                     executeobject["wid"] = item.key;
-    //                                                                     etexecute(executeobject, function (err, res) {
+    //                                                                     execute(executeobject, function (err, res) {
     //                                                                         // rawobject = res;
     //                                                                         newObject = res;
     //                                                                         cb2("");
@@ -1528,7 +1378,7 @@
 
     //                 // InListObj["executethis"] = "updatewid";
 
-    //                 // etexecute(InListObj, function (err, ret) {
+    //                 // execute(InListObj, function (err, ret) {
     //                 //     addresult = ret;
     //                 //     proxyprinttodiv('Function MongoAddEditPrepare, addresult : ', addresult, 90);
     //                 //     cb(null);
@@ -1540,19 +1390,13 @@
     //         function (err, results) {
     //             ret = InListObj;
     //             proxyprinttodiv('Function MongoAddEditPrepare,ret I : ', ret, 90);
-    //             if (!isSynchronous) {
+
     //                 proxyprinttodiv('Function MongoAddEditPrepare,InListObj : ', InListObj, 90);
     //                 if (callback instanceof Function) {
     //                     callback(err, ret);
     //                 }
-    //             }
     //         });
 
-    //     if (exports.environment === "local") {
-    //         while (ret === undefined) {}
-    //         proxyprinttodiv('Function MongoAddEditPrepare,ret : ', ret, 90);
-    //         return ret;
-    //     }
     // };
 
     exports.updatewid = updatewid = function updatewid(inputObject, callback) {
@@ -1639,8 +1483,8 @@
                                     executeobject = {};
                                     executeobject["executethis"] = "getwid";
                                     executeobject["wid"] = InListObj["wid"];
-                                    etexecute(executeobject, function (err, res) {
-                                        rawobject = res;
+                                    execute(executeobject, function (err, res) {
+                                        rawobject = res[0];
                                         cb1("");
                                     });
                                 },
@@ -1673,9 +1517,9 @@
                                                                         executeobject = {};
                                                                         executeobject["executethis"] = "getwid"; // probably should be getwidmaster -- changed from only getwid
                                                                         executeobject["wid"] = item.key;
-                                                                        etexecute(executeobject, function (err, res) {
+                                                                        execute(executeobject, function (err, res) {
                                                                             // rawobject = res;
-                                                                            newObject = res;
+                                                                            newObject = res[0];
                                                                             cb2("");
                                                                         });
                                                                     } else {
@@ -1753,7 +1597,7 @@
                     InListObj.executethis = 'updatewid';
 
                     execute(InListObj, function (err, ret) {
-                        addresult = ret;
+                        addresult = ret[0];
                         proxyprinttodiv('Function MongoAddEditPrepare, addresult new : ', addresult, 90);
                         cb(null);
                     });
@@ -1763,17 +1607,10 @@
 
             function (err, results) {
                 ret = InListObj;
-                var isSynchronous = configuration.MongoAddEditPrepare.synchronous;
-                if (!isSynchronous) {
+                
                     callback(err, ret);
-                }
             });
 
-        var isSynchronous = configuration.MongoAddEditPrepare.synchronous;
-        if (exports.environment === "local") {
-            while (ret === undefined) {}
-            return ret;
-        }
     }
 
 

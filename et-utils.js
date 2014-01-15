@@ -1,4 +1,9 @@
 // if(typeof localStorage === "undefined"){
+if (!exports) {
+    var exports = {};
+}
+
+
 exports.localStore = localStore = function () {
 
     var json = {};
@@ -32,6 +37,19 @@ exports.localStore = localStore = function () {
 localStore.clear();
 
 
+exports.validParams = validParams = function validParams(obj){
+    var keyLength = getObjectSize(obj);
+    var status = false;
+    if(keyLength !== 0){
+        for(var k in obj){
+            if(obj[k]){
+                status = true;
+                break;
+            }
+        }
+    }
+    return status;
+}
 
 // logic to add things to Local storage
 exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
@@ -904,4 +922,17 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
     }
 
+
+    
+
+    exports.arrayUnique = window.arrayUnique = arrayUnique = function arrayUnique(array) {
+        var a = array.concat();
+        for (var i = 0; i < a.length; ++i) {
+            for (var j = i + 1; j < a.length; ++j) {
+                if (a[i] === a[j])
+                    a.splice(j--, 1);
+            }
+        }
+        return a;
+    };
 })(typeof window === "undefined" ? global : window);

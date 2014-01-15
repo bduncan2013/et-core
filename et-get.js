@@ -1,6 +1,6 @@
 // addwidmaster, getwidmaster, updatewid, getwid
 (function (window) {
-    var configuration = config.configuration;
+    // var configuration = config.configuration;
 
 
 
@@ -116,8 +116,8 @@
                     targetwid = widInput;
                     executeobject["wid"] = widInput;
                     executeobject['executethis'] = 'getwid';
-                    etexecute(executeobject, function (err, res) {
-                        parameterObject = res;
+                    execute(executeobject, function (err, res) {
+                        parameterObject = res[0];
                         debugfn("aggressivedto", "step1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null);
                     });
@@ -134,7 +134,7 @@
                     //     executeobject["executethis"] = 'getwid';
 
 
-                    //     etexecute(executeobject, function (err, res) {
+                    //     execute(executeobject, function (err, res) {
                     //         moreDTOParameters = res;
                     //         if (Object.keys(moreDTOParameters).length != 0) {
                     //             parameterObject = jsonConcat(parameterObject, moreDTOParameters)
@@ -157,7 +157,7 @@
                     // executeobject["executethis"] = querywid;
 
                     // // var x = window['querywid'];
-                    // etexecute(executeobject, function (err, res) {
+                    // execute(executeobject, function (err, res) {
                     //     moreParameters = res;
                     //     cb(null, 'two');
                     // });
@@ -175,8 +175,8 @@
                                     executeobject["executethis"] = 'getwid';
 
 
-                                    etexecute(executeobject, function (err, res) {
-                                        moreDTOParameters = res;
+                                    execute(executeobject, function (err, res) {
+                                        moreDTOParameters = res[0];
                                         if (Object.keys(moreDTOParameters).length != 0) {
                                             parameterObject = jsonConcat(parameterObject, moreDTOParameters)
                                         }
@@ -197,13 +197,12 @@
                                     executeobject["executethis"] = querywid;
 
                                     // x = window['querywid'];
-                                    etexecute(executeobject, function (err, res) {
-                                        var moreDTOParameters = res;
+                                    execute(executeobject, function (err, res) {
+                                        moreDTOParameters = res[0];
                                         debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb1(null, 'step2n1');
                                     });
                                 }
-
                             ],
                             function (err, res) {
                                 if (err) {
@@ -239,20 +238,14 @@
                                 async.series([
 
                                         function step3n1(cbn1) {
-                                            var params;
+                                            //var params;
 
-                                            var isSynchronous = configuration.aggressivedto.synchronous;
-                                            if (isSynchronous) {
-                                                params = aggressivedto(key, key, level);
-                                                debugfn("aggressivedto", "step3a", "get", "sub", debugcolor, debugindent, debugvars([1]));
+
+                                            aggressivedto(key, key, level, function (err, data) { //TODO consider -- DONE
+                                                params = data;
+                                                debugfn("aggressivedto", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                 cbn1(null);
-                                            } else {
-                                                aggressivedto(key, key, level, function (err, data) { //TODO consider -- DONE
-                                                    params = data;
-                                                    debugfn("aggressivedto", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                                                    cbn1(null);
-                                                });
-                                            }
+                                            });
                                         },
                                         function step3n2(cbn2) {
                                             parameterObject = jsonConcat(parameterObject, params);
@@ -285,19 +278,10 @@
                 }
             ],
             function (err, results) {
-                var isSynchronous = configuration.aggressivedto.synchronous;
-                if (!isSynchronous) {
-                    callback(err, ret);
-                }
+                callback(err, ret);
             });
 
-        var isSynchronous = configuration.aggressivedto.synchronous;
-        if (isSynchronous) {
-            if (exports.environment === "local") {
-                while (ret === undefined) {}
-                return ret;
-            }
-        }
+       
     };
 
     function getcleanparameters(resultObj, dtotype, accesstoken, cleanmethod, convertmethod, callback) {
@@ -333,8 +317,7 @@
                     "otherdtoobject": otherdtoobject,
                     "resultlist": resultlist,
                     "ret": ret,
-                    "err": err,
-                    "isSynchronous": isSynchronous
+                    "err": err
                 },
                 2: {
                     "outputparameters": outputparameters,
@@ -366,146 +349,73 @@
                     if (((resultObj['wid'] !== undefined)) &&
                         ((resultObj['wid'] !== resultObj['metadata.method']) || (dtotype = "defaultdto"))) {
 
-                        var isSynchronous = configuration.aggressivedto.synchronous;
+                        aggressivedto(resultObj['wid'], "", 10, function (err, res) {
+                            dtoobject = res;
 
-                        if (isSynchronous) {
-                            dtoobject = aggressivedto(resultObj['wid'], "", 10); //todo -- done
+                           
 
+                            var listtodo = [];
                             for (var item in dtoobject) {
-                                var preamble = "";
-                                proposedLeft = item;
-                                proposedRight = dtoobject[item];
-
-                                if (proposedRight == 'inherit') {
-                                    dtoloc = proposedLeft.lastIndexOf(".");
-
-                                    if (dtoloc != -1) {
-                                        preamble = proposedLeft.substring(0, dtoloc);
-                                        proposedLeft = proposedLeft.substring(dtoloc + 1, proposedLeft.length);
-                                    }
-                                    executeobject = {};
-                                    executeobject["command.convertmethod"] = "nowid";
-                                    executeobject["wid"] = proposedLeft;
-
-                                    executeobject["executethis"] = 'getwidmaster';
-
-                                    etexecute(executeobject, function (err, res) {
-                                        moreParameters = res;
-
-                                        for (var eafield in moreParameters) {
-                                            if (preamble == "") {
-                                                resultObj[eafield] = moreParameters[eafield];
-                                            } else {
-                                                resultObj[preamble + '.' + eafield] = moreParameters[eafield];
-                                            }
-                                        }
-                                    });
-                                    // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
-                                }
+                                listtodo.push(item);
                             }
-                            debugfn("getcleanparameters", "step1a", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                            cb(null, 'one');
-                        } else {
-                            aggressivedto(resultObj['wid'], "", 10, function (err, res) {
-                                dtoobject = res;
-
-                                // for (item in dtoobject) {
-                                //     // TODO :: add steps here
-                                //     preamble = "";
-                                //     proposedLeft = item;
-                                //     proposedRight = dtoobject[item];
-
-                                //     if (proposedRight == 'inherit') {
-                                //         dtoloc = proposedLeft.lastIndexOf(".");
-
-                                //         if (dtoloc != -1) {
-                                //             preamble = proposedLeft.substring(0, dtoloc);
-                                //             proposedLeft = proposedLeft.substring(dtoloc + 1, proposedLeft.length);
-                                //         }
-                                //         executeobject = {};
-                                //         executeobject["command.convertmethod"] = "nowid";
-                                //         executeobject["wid"] = proposedLeft;
-                                //         executeobject["executethis"] = 'getwidmaster';
-
-                                //         etexecute(executeobject, function (err, res) {
-                                //             moreParameters = res;
-
-                                //             for (eafield in moreParameters) {
-                                //                 if (preamble == "") {
-                                //                     resultObj[eafield] = moreParameters[eafield];
-                                //                 } else {
-                                //                     resultObj[preamble + '.' + eafield] = moreParameters[eafield];
-                                //                 }
-                                //             }
-
-                                //         });
-                                //         // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
-                                //     }
-                                //     cb(null, 'one');
-                                // }
 
 
-                                var listtodo = [];
-                                for (var item in dtoobject) {
-                                    listtodo.push(item);
-                                }
+                            async.mapSeries(listtodo, function (item, cbMap) {
+                                    async.series([ // asych inside map
+                                        function step1n1(cb2) {
 
+                                            // TODO :: add steps here -- DONE
+                                            preamble = "";
+                                            proposedLeft = item;
+                                            proposedRight = dtoobject[item];
 
-                                async.mapSeries(listtodo, function (item, cbMap) {
-                                        async.series([ // asych inside map
-                                            function step1n1(cb2) {
+                                            if (proposedRight == 'inherit') {
+                                                dtoloc = proposedLeft.lastIndexOf(".");
 
-                                                // TODO :: add steps here -- DONE
-                                                preamble = "";
-                                                proposedLeft = item;
-                                                proposedRight = dtoobject[item];
+                                                if (dtoloc != -1) {
+                                                    preamble = proposedLeft.substring(0, dtoloc);
+                                                    proposedLeft = proposedLeft.substring(dtoloc + 1, proposedLeft.length);
+                                                }
+                                                executeobject = {};
+                                                executeobject["command.convertmethod"] = "nowid";
+                                                executeobject["wid"] = proposedLeft;
+                                                executeobject["executethis"] = 'getwidmaster';
 
-                                                if (proposedRight == 'inherit') {
-                                                    dtoloc = proposedLeft.lastIndexOf(".");
+                                                execute(executeobject, function (err, res) {
+                                                    moreParameters = res[0];
 
-                                                    if (dtoloc != -1) {
-                                                        preamble = proposedLeft.substring(0, dtoloc);
-                                                        proposedLeft = proposedLeft.substring(dtoloc + 1, proposedLeft.length);
-                                                    }
-                                                    executeobject = {};
-                                                    executeobject["command.convertmethod"] = "nowid";
-                                                    executeobject["wid"] = proposedLeft;
-                                                    executeobject["executethis"] = 'getwidmaster';
-
-                                                    etexecute(executeobject, function (err, res) {
-                                                        moreParameters = res;
-
-                                                        for (var eafield in moreParameters) {
-                                                            if (preamble == "") {
-                                                                resultObj[eafield] = moreParameters[eafield];
-                                                            } else {
-                                                                resultObj[preamble + '.' + eafield] = moreParameters[eafield];
-                                                            }
+                                                    for (var eafield in moreParameters) {
+                                                        if (preamble == "") {
+                                                            resultObj[eafield] = moreParameters[eafield];
+                                                        } else {
+                                                            resultObj[preamble + '.' + eafield] = moreParameters[eafield];
                                                         }
-                                                        debugfn("getcleanparameters", "step1n1", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                                                        cb2(null, 'one');
-                                                    });
-                                                    // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
-                                                } else {
+                                                    }
                                                     debugfn("getcleanparameters", "step1n1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                                     cb2(null, 'one');
-                                                }
+                                                });
+                                                // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
+                                            } else {
+                                                debugfn("getcleanparameters", "step1n1", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                                cb2(null, 'one');
                                             }
-                                        ], function (err, res) {
-                                            cbMap(null);
-                                        });
-                                    }, // map series
-
-                                    function (err, res) {
-                                        if (err) {
-                                            throw err;
                                         }
-                                        cb(null, 'one');
-                                    }); // end of map series
-                            });
-                        }
+                                    ], function (err, res) {
+                                        cbMap(null);
+                                    });
+                                }, // map series
+
+                                function (err, res) {
+                                    if (err) {
+                                        throw err;
+                                    }
+                                    cb(null, 'one');
+                                }); // end of map series
+                        });
+
                     }
                 }, // end step1
+
                 function step2(cb) {
                     // read dto -- and delete what should not surive
                     if (dtotype == "") {
@@ -544,6 +454,7 @@
                     debugfn("getcleanparameters", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
                 }, // end step2
+
                 function step3(cb) {
                     ret = {
                         parms: outputparameters,
@@ -553,22 +464,12 @@
                     cb(null, 'three');
                 }
             ],
-            function (err, results) {
-                var isSynchronous = configuration.getcleanparameters.synchronous;
 
-                if (!isSynchronous) {
-                    callback(err, ret);
-                }
+            function (err, results) {
+                callback(err, ret);
+                
             });
 
-        var isSynchronous = configuration.getcleanparameters.synchronous;
-
-        if (isSynchronous) {
-            if (exports.environment === "local") {
-                while (ret === undefined) {}
-                return ret;
-            }
-        }
     }
 
 
@@ -633,19 +534,11 @@
                     checkflag = parameters["command.checkflag"];
                     convertMethod = parameters["command.convertmethod"];
 
-                    var isSynchronous = configuration.getWidMongo.synchronous;
-
-                    if (isSynchronous) {
-                        resultObj = getWidMongo(wid, convertMethod, accesstoken, dtotype); //TODO consider -- DONE
-                        debugfn("getwidmaster step1 a", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
+                    getWidMongo(wid, convertMethod, accesstoken, dtotype, function (err, data) { //TODO consider -- DONE
+                        resultObj = data;
+                        debugfn("getwidmaster step1 b", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'one');
-                    } else {
-                        getWidMongo(wid, convertMethod, accesstoken, dtotype, function (err, data) { //TODO consider -- DONE
-                            resultObj = data;
-                            debugfn("getwidmaster step1 b", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
-                            cb(null, 'one');
-                        });
-                    }
+                    });
 
 
 
@@ -657,8 +550,8 @@
                         executeobject["executethis"] = getwid;
                         executeobject["wid"] = inherit;
 
-                        etexecute(executeobject, function (err, res) {
-                            var moreParameters = res;
+                        execute(executeobject, function (err, res) {
+                            var moreParameters = res[0];
                             if (moreParameters) {
                                 resultObj = jsonConcat(resultObj, moreParameters);
                             }
@@ -689,18 +582,12 @@
                     olddebug = Debug;
 
                     if (resultObj && (Object.keys(resultObj).length !== 0) && (resultObj['wid'] != resultObj['metadata.method'])) {
-                        var isSynchronous = configuration.getcleanparameters.synchronous;
+                        
+                        getcleanparameters(resultObj, dtotype, accesstoken, "remove", convertMethod, function (err, res) {
+                            resultObj = res;
+                            resultObj = resultObj.parms;
+                        }); //TODO -- DONE
 
-                        if (isSynchronous) {
-                            resultObj = getcleanparameters(resultObj, dtotype, accesstoken, "remove", convertMethod); //TODO -- DONE
-                            resultObj = resultObj.parms
-                        } else {
-                            getcleanparameters(resultObj, dtotype, accesstoken, "remove", convertMethod, function (err, res) {
-                                resultObj = res;
-                                resultObj = resultObj.parms;
-                            }); //TODO -- DONE
-
-                        }
                     }
 
                     if ((convertMethod == "nowid") || (convertMethod == "dto")) { //(convertMethod=="nowid") { -- added 11/12 **
@@ -719,22 +606,11 @@
                 }
             ],
             function (err, results) {
-                var isSynchronous = configuration.getwidmaster.synchronous; /// TODO :: CHECKI THIS ERROR, WHEN removed, causes fail
-                if (!isSynchronous) {
-                    // if (callback instanceof Function) {
-                    callback(err, ret);
-                    // }
-                }
+                
+                callback(err, ret);
+                
             });
 
-        var isSynchronous = configuration.getwidmaster.synchronous;
-
-        if (isSynchronous) {
-            if (exports.environment === "local") {
-                while (ret === undefined) {}
-                return ret;
-            }
-        }
     };
 
     // function getWidMongo(widInput, convertMethod, accessToken, dtoin, callback) {
@@ -993,8 +869,8 @@
                         executeobject["executethis"] = 'getwid';
                         // currentLevelObject = executethis(executeobject, getwid); //TODO -- DONE
                         // cb(null);
-                        etexecute(executeobject, function (err, res) {
-                            currentLevelObject = res;
+                        execute(executeobject, function (err, res) {
+                            currentLevelObject = res[0];
                             debugfn("getWidMongo part1", "getwidmongo", "get", "part", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'part1');
                         });
@@ -1008,8 +884,8 @@
                             executeobject["wid"] = dtotype;
                             executeobject['executethis'] = 'getwid';
 
-                            etexecute(executeobject, function (err, res) {
-                                dtoGlobalParameters = res; //TODO -- DONE
+                            execute(executeobject, function (err, res) {
+                                dtoGlobalParameters = res[0]; //TODO -- DONE
                                 console.log(dtoGlobalParameters);
                                 debugfn("getWidMongo step2a", "getwidmongo", "get", "step2a", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'two');
@@ -1022,19 +898,13 @@
 
                     },
                     function step3(cb) {
-                        var isSynchronous = configuration.aggressivedto.synchronous;
-
-                        if (isSynchronous) {
-                            moreParameters = aggressivedto(widInput, "", 1); //TODO -- done
-                            debugfn("getWidMongo step3a", "getwidmongo", "get", "step3b", debugcolor, debugindent, debugvars([1]));
+                       
+                        aggressivedto(widInput, "", 1, function (err, res) {
+                            moreParameters = res;
+                            debugfn("getWidMongo step3b", "getwidmongo", "get", "step3b", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'three');
-                        } else {
-                            aggressivedto(widInput, "", 1, function (err, res) {
-                                moreParameters = res;
-                                debugfn("getWidMongo step3b", "getwidmongo", "get", "step3b", debugcolor, debugindent, debugvars([1]));
-                                cb(null, 'three');
-                            });
-                        }
+                        });
+                       
                     },
                     function step4(cb) {
                         if ((dtoGlobalParameters['metadata.method'] === undefined) ||
@@ -1067,28 +937,21 @@
                                 nextLevelParameters = {};
                                 attr = dtoGlobalParameters[item];
                                 if ((attr == "onetoone") || (attr == "onetomany")) { // 10-24 || (attr == "inherit"))  {
-                                    var isSynchronous = configuration.getAndFormatNextLevel.synchronous;
                                     if (attr == "onetoone") { // if dto states 'onetoone' then search for related records that match property
 
-                                        if (isSynchronous) {
-                                            nextLevelParameters = getAndFormatNextLevel(widInput, "attributes", "last", "forward", item, convertMethod, accessToken, dtoin); // removed inherit dtoGlobalParameters
-                                        } else {
-                                            getAndFormatNextLevel(widInput, "attributes", "last", "forward", item, convertMethod, accessToken, dtoin, function (err, res) {
-                                                nextLevelParameters = res;
-                                            });
-                                        }
+                                        getAndFormatNextLevel(widInput, "attributes", "last", "forward", item, convertMethod, accessToken, dtoin, function (err, res) {
+                                            nextLevelParameters = res;
+                                        });
+                                        
                                     }
                                     //TODO -- DONE
                                     // 10-5 took away dtotype --
                                     if (attr == "onetomany") { // if dto states 'onetomany' then search for related records that match property
-                                        if (isSynchronous) {
-                                            nextLevelParameters = getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin); //removed dtoGlobalParameters
-
-                                        } else {
-                                            getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin, function (err, res) {
-                                                nextLevelParameters = res;
-                                            });
-                                        }
+                                        
+                                        getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin, function (err, res) {
+                                            nextLevelParameters = res;
+                                        });
+                                        
                                     } // 11-9 readded inherit from cleanparms here:
                                     //TODO -- DONE
                                     outgoingParameters = jsonConcat(outgoingParameters, nextLevelParameters);
@@ -1111,20 +974,11 @@
                     }
                 ],
                 function (err, results) {
-                    var isSynchronous = configuration.getWidMongo.synchronous;
-                    if (!isSynchronous) {
-                        callback(err, ret);
-                    }
+                    
+                    callback(err, ret);
+                    
                 });
 
-            var isSynchronous = configuration.getWidMongo.synchronous;
-
-            if (isSynchronous) {
-                if (exports.environment === "local") {
-                    while (ret === undefined) {}
-                    return ret;
-                }
-            }
 
         } // end else
     }
@@ -1197,8 +1051,8 @@
                     executeobject["executethis"] = querywid;
 
 
-                    etexecute(executeobject, function (err, res) {
-                        relatedParameters = res; //TODO -- DONE
+                    execute(executeobject, function (err, res) {
+                        relatedParameters = res[0]; //TODO -- DONE
                         debugfn("getAndFormatNextLevel", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null)
                     })
@@ -1250,51 +1104,27 @@
                                     (convertmethod == "num") || (convertmethod == "dtonum")) {
 
 
-                                    var isSynchronous = configuration.getWidMongo.synchronous;
-                                    if (isSynchronous) {
-                                        ret = drillDownParameters = getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin);
-                                        for (var item in drillDownParameters) {
-                                            if ((convertmethod == "dto") && ((item == "wid") || (item == "metadata.method"))) {} // left empty by design
-                                            else {
-                                                proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; // removed +1
-                                                // added 11-18
-                                                proxyprinttodiv('Function getAndFormatNextLevel() mongorelationshipmethod', mongorelationshipmethod, 11);
-                                                if (((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) ||
-                                                    (mongorelationshipmethod == "last")) {
-                                                    //if ((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) {
-                                                    proposedLeft = mongowidmethod + "." + item;
-                                                }
-
-                                                proposedRight = drillDownParameters[item];
+                                    getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin, function (err, res) {
+                                        ret = drillDownParameters = res;
+                                    });
+                                    for (var item in drillDownParameters) {
+                                        if ((convertmethod == "dto") && ((item == "wid") || (item == "metadata.method"))) {} // left empty by design
+                                        else {
+                                            proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; // removed +1
+                                            // added 11-18
+                                            proxyprinttodiv('Function getAndFormatNextLevel() mongorelationshipmethod', mongorelationshipmethod, 11);
+                                            if (((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) ||
+                                                (mongorelationshipmethod == "last")) {
+                                                //if ((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) {
+                                                proposedLeft = mongowidmethod + "." + item;
                                             }
-                                            nextLevelParameters.push({
-                                                "key": proposedLeft,
-                                                "value": proposedRight
-                                            });
+
+                                            proposedRight = drillDownParameters[item];
                                         }
-                                    } else {
-                                        getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin, function (err, res) {
-                                            ret = drillDownParameters = res;
+                                        nextLevelParameters.push({
+                                            "key": proposedLeft,
+                                            "value": proposedRight
                                         });
-                                        for (var item in drillDownParameters) {
-                                            if ((convertmethod == "dto") && ((item == "wid") || (item == "metadata.method"))) {} // left empty by design
-                                            else {
-                                                proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; // removed +1
-                                                // added 11-18
-                                                proxyprinttodiv('Function getAndFormatNextLevel() mongorelationshipmethod', mongorelationshipmethod, 11);
-                                                if (((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) ||
-                                                    (mongorelationshipmethod == "last")) {
-                                                    //if ((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) {
-                                                    proposedLeft = mongowidmethod + "." + item;
-                                                }
-
-                                                proposedRight = drillDownParameters[item];
-                                            }
-                                            nextLevelParameters.push({
-                                                "key": proposedLeft,
-                                                "value": proposedRight
-                                            });
-                                        }
                                     }
                                 }
                                 cbMap(null);
@@ -1316,21 +1146,9 @@
                 }
             ],
             function (err, results) {
-                var isSynchronous = configuration.getAndFormatNextLevel.synchronous;
-
-                if (!isSynchronous) {
-                    callback(err, ret);
-                }
+                callback(err, ret);
             });
 
-        var isSynchronous = configuration.getAndFormatNextLevel.synchronous;
-
-        if (isSynchronous) {
-            if (exports.environment === "local") {
-                while (ret === undefined) {}
-                return ret;
-            }
-        }
     }
 
 
