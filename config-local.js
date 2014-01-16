@@ -249,6 +249,76 @@ function config123() {
     configuration.updatewid[0].dofn = offlineupdatewid;
     configuration.updatewid[0].params = {};
 
+    // configuration.MongoAddEditPrepare = {};
+    //  configuration.MongoAddEditPrepare.synchronous = false;
+
+    //  configuration.AddMongoRelationship = {};
+    //  configuration.AddMongoRelationship.synchronous = false;
+
+    //  configuration.addwidmaster = {};
+    //  configuration.addwidmaster.synchronous = false;
+
+    //  configuration.AddWidParameters = {};
+    //  configuration.AddWidParameters.synchronous = false;
+
+    //  configuration.AddMaster = {};
+    //  configuration.AddMaster.synchronous = false;
+
+    //  configuration.aggressivedto = {};
+    //  configuration.aggressivedto.synchronous = false;
+
+    //  configuration.getcleanparameters = {};
+    //  configuration.getcleanparameters.synchronous = false;
+
+    //  configuration.getwidmaster = {};
+    //  configuration.getwidmaster.synchronous = false;
+
+
+    //  configuration.getWidMongo = {};
+    //  configuration.getWidMongo.synchronous = false;
+
+    //  configuration.getAndFormatNextLevel = {};
+    //  configuration.getAndFormatNextLevel.synchronous = true;  
+
+    //  configuration.addcleanparameters = {};
+    //  configuration.addcleanparameters.synchronous = true;
+
+    // configuration.MongoAddEditPrepare = {};
+    // configuration.MongoAddEditPrepare.synchronous = false;
+
+    // configuration.AddMongoRelationship = {};
+    // configuration.AddMongoRelationship.synchronous = false;
+
+    // configuration.addcleanparameters = {};
+    // configuration.addcleanparameters.synchronous = false;
+
+    // configuration.addwidmaster = {};
+    // configuration.addwidmaster.synchronous = false;
+
+    // configuration.AddWidParameters = {};
+    // configuration.AddWidParameters.synchronous = false;
+
+    // configuration.AddMaster = {};
+    // configuration.AddMaster.synchronous = false;
+
+    // configuration.aggressivedto = {};
+    // configuration.aggressivedto.synchronous = false;
+
+    // configuration.getcleanparameters = {};
+    // configuration.getcleanparameters.synchronous = false;
+
+    // configuration.getwidmaster = {};
+    // configuration.getwidmaster.synchronous = false;
+
+    // configuration.getWidMongo = {};
+    // configuration.getWidMongo.synchronous = false;
+
+    // configuration.getAndFormatNextLevel = {};
+    // configuration.getAndFormatNextLevel.synchronous = false;
+
+    // configuration.querywid = {};
+    // configuration.querywid.synchronous = false;
+
     return {
         "configuration": configuration
     }
