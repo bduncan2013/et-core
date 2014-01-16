@@ -436,9 +436,7 @@ exports.t1 = t1 = function t1(params, callback) {
 	});
 	callback(err, res);
 	});
-<<<<<<< HEAD
-}
-=======
+
 }
 
 exports.t1s = t1s = function t1s(params, callback) {
@@ -476,7 +474,6 @@ exports.t1sf = t1sf = function t1sf(params, callback) {
     callback(err, res);
 }
 
->>>>>>> Good_Copy_of_Master
 // An intentionally failing test to make sure failed tests fail
 exports.tfail = tfail = function tfail(params, callback) {
 	testclearstorage();
@@ -1892,12 +1889,6 @@ exports.ct1000 = ct1000 = function ct1000(params, callback) {
 		"g": "4"
 	});
 	callback(err, params);
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> Good_Copy_of_Master
 }
 
 // test to see if nested configuration params are making it across to a mock server function
@@ -2012,62 +2003,37 @@ exports.ft1 = ft1 = function ft1(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // Functions to use in pre, mid and post
 // to test the flow of parameters through executethis
-<<<<<<< HEAD
-exports.func_a = func_a = function func_a(parameters) {
-=======
+
 exports.func_a = func_a = function func_a(parameters, callback) {
->>>>>>> Good_Copy_of_Master
 	console.log('from func_a');
 	printToDiv('func_a', parameters, 1);
 	delete parameters["d"];
 	parameters["f"] = "3";
-<<<<<<< HEAD
-	return parameters;
-}
-
-exports.func_b = func_b = function func_b(parameters) {
-=======
 	var err;callback(err, parameters);
 }
 
 exports.func_b = func_b = function func_b(parameters, callback) {
->>>>>>> Good_Copy_of_Master
 	console.log('from func_b');
 	delete parameters["e"];
 	parameters["g"] = "4";
 	// alert('b');
-<<<<<<< HEAD
-	return parameters;
-}
 
-exports.func_c = func_c = function func_c(parameters) {
-=======
 	var err;callback(err, parameters);
 }
 
 exports.func_c = func_c = function func_c(parameters, callback) {
->>>>>>> Good_Copy_of_Master
 	console.log('from func_c');
 	printToDiv('func_c', parameters, 1);
 	delete parameters["c"];
 	parameters["h"] = "5";
-<<<<<<< HEAD
-	return parameters;
-=======
 	var err;callback(err, parameters);
->>>>>>> Good_Copy_of_Master
 }
 
 // This is used when a and b do not exist, but 
-<<<<<<< HEAD
-exports.fire_c = fire_c = function fire_c(parameters) {
-	parameters["fire_c"] = "fire_c is now fired";
-	return parameters;
-=======
+
 exports.fire_c = fire_c = function fire_c(parameters,callback) {
 	parameters["fire_c"] = "fire_c is now fired";
 	var err;callback(err, parameters);
->>>>>>> Good_Copy_of_Master
 }
 
 // These are the async versions of the above calls
