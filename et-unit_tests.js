@@ -176,7 +176,7 @@ exports.rt1 = rt1 = function rt1(params, callback) {
 	params = logverify("readstartwid", "resultwid16", "startwid_bottomarray", "", "", {});
 	params = logverify("readstartwid", "resultwid17", "startwid_toparray", "", "", {});
 	return verifysummary("test_results");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -302,7 +302,6 @@ exports.xtt = xtt = function xtt(params, callback) {
 	}
 }
 
-
 // Call test99 with only pre func_c -- same result as t4
 exports.test99 = test99 = function test99(params, callback) {
 	testclearstorage();
@@ -315,10 +314,7 @@ exports.test99 = test99 = function test99(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -327,7 +323,7 @@ exports.test99 = test99 = function test99(params, callback) {
 // Call func_b with no pre or post
 exports.t1 = t1 = function t1(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -335,18 +331,18 @@ exports.t1 = t1 = function t1(params, callback) {
 		"e": "2"
 	}], 
 	function (err, res) {
-		res = logverify("unit_tests", "t1_result", "", res[0], "",{
+		res = logverify("unit_tests", "t1_result", "", res[0][0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, res);
 	});
 }
 // An intentionally failing test to make sure failed tests fail
 exports.tfail = tfail = function tfail(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executetest("executethis", {
 		"executethis": "func_b",
 		"c": "0",
@@ -358,16 +354,13 @@ exports.tfail = tfail = function tfail(params, callback) {
 		"c": "0",
 		"g": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 // Call func_b with pre and post
 exports.t2 = t2 = function t2(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -377,19 +370,19 @@ exports.t2 = t2 = function t2(params, callback) {
 		"postexecute": "func_c"
 	}], 
 	function (err, res) {
-		res = logverify("unit_tests", "t2_result", "", res[0], "",{
+		res = logverify("unit_tests", "t2_result", "", res[0][0], "",{
 		"f": "3",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, res);
 	});
 }
 
 // Call func_b with only pre func_a
 exports.t3 = t3 = function t3(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -398,19 +391,19 @@ exports.t3 = t3 = function t3(params, callback) {
 		"preexecute": "func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "t3_result", "", res[0], "",{
+		res = logverify("unit_tests", "t3_result", "", res[0][0], "",{
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, res);
 	});
 }
 
 // Call func_b with only post func_a -- same result as t3
 exports.t3a = t3a = function t3a(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -419,19 +412,19 @@ exports.t3a = t3a = function t3a(params, callback) {
 		"postexecute": "func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "t3a_result", "", res[0], "",{
+		res = logverify("unit_tests", "t3a_result", "", res[0][0], "",{
 		"c": "0",
 		"g": "4",
 		"f": "3"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
 // Call func_b with only post
 exports.t4 = t4 = function t4(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -440,19 +433,19 @@ exports.t4 = t4 = function t4(params, callback) {
 		"postexecute": "func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "t4_result", "", res[0], "",{
+		res = logverify("unit_tests", "t4_result", "", res[0][0], "",{
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
 // Call func_b with only pre func_c -- same result as t4
 exports.t4a = t4a = function t4a(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -461,18 +454,18 @@ exports.t4a = t4a = function t4a(params, callback) {
 		"preexecute": "func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "t4a_result", "", res[0], "",{
+		res = logverify("unit_tests", "t4a_result", "", res[0][0], "",{
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call func_b with func_a for pre and post
 exports.t5 = t5 = function t5(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -482,18 +475,18 @@ exports.t5 = t5 = function t5(params, callback) {
 		"postexecute": "func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "t5_result", "", res[0], "",{
+		res = logverify("unit_tests", "t5_result", "", res[0][0], "",{
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call func_b with func_c for pre and post
 exports.t6 = t6 = function t6(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -503,18 +496,18 @@ exports.t6 = t6 = function t6(params, callback) {
 		"postexecute": "func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "t6_result", "", res[0], "",{
+		res = logverify("unit_tests", "t6_result", "", res[0][0], "",{
 		"d": "1",
 		"h": "5",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call func_b with executefn
 exports.t7 = t7 = function t7(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"c": "0",
@@ -522,18 +515,18 @@ exports.t7 = t7 = function t7(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "t7_result", "", res[0], "",{
+		res = logverify("unit_tests", "t7_result", "", res[0][0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call widb where widb does not exist as a function, or a parameter...but is a wid that can be loaded with executegetwid 
 exports.t8 = t8 = function t8(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executetest("addwidmaster", {
 		"wid": "widb",
 		"animal": "giraffe"
@@ -544,14 +537,12 @@ exports.t8 = t8 = function t8(params, callback) {
 	params = logverify("unit_tests", "t8_result", "t8_output", "", "", {
 		"animal": "giraffe"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
+	callback(err, params);
 }
 // Call 
 exports.t9 = t9 = function t9(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executetest("addwidmaster", {
 		"wid": "widb",
 		"animal": "giraffe"
@@ -562,8 +553,7 @@ exports.t9 = t9 = function t9(params, callback) {
 	params = logverify("unit_tests", "t9_result", "t9_output", "", "", {
 		"animal": "giraffe"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
-
+	callback(err, params);
 }
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -572,7 +562,7 @@ exports.t9 = t9 = function t9(params, callback) {
 
 exports.ast1 = ast1 = function ast1(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -580,18 +570,18 @@ exports.ast1 = ast1 = function ast1(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ast1_result", "", res[0], "",{
+		res = logverify("unit_tests", "ast1_result", "", res[0][0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call async_func_b with pre and post
 exports.ast2 = ast2 = function ast2(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -601,18 +591,18 @@ exports.ast2 = ast2 = function ast2(params, callback) {
 		"postexecute": "async_func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ast2_result", "", res[0], "",{
+		res = logverify("unit_tests", "ast2_result", "", res[0][0], "",{
 		"f": "3",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call async_func_b with only pre async_func_a
 exports.ast3 = ast3 = function ast3(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -621,18 +611,18 @@ exports.ast3 = ast3 = function ast3(params, callback) {
 		"preexecute": "async_func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ast3_result", "", res[0], "",{
+		res = logverify("unit_tests", "ast3_result", "", res[0][0], "",{
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call async_func_b with only post async_func_a -- same result as t3
 exports.ast3a = ast3a = function ast3a(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -641,18 +631,18 @@ exports.ast3a = ast3a = function ast3a(params, callback) {
 		"postexecute": "async_func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ast3a_result", "", res[0], "",{
+		res = logverify("unit_tests", "ast3a_result", "", res[0][0], "",{
 		"c": "0",
 		"g": "4",
 		"f": "3"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call async_func_b with only post
 exports.ast4 = ast4 = function ast4(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -661,18 +651,18 @@ exports.ast4 = ast4 = function ast4(params, callback) {
 		"postexecute": "async_func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ast4_result", "", res[0], "",{
+		res = logverify("unit_tests", "ast4_result", "", res[0][0], "",{
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call async_func_b with only pre async_func_c -- same result as t4
 exports.ast4a = ast4a = function ast4a(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -681,18 +671,18 @@ exports.ast4a = ast4a = function ast4a(params, callback) {
 		"preexecute": "async_func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ast4a_result", "", res[0], "",{
+		res = logverify("unit_tests", "ast4a_result", "", res[0][0], "",{
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call async_func_b with async_func_a for pre and post
 exports.ast5 = ast5 = function ast5(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -702,18 +692,18 @@ exports.ast5 = ast5 = function ast5(params, callback) {
 		"postexecute": "async_func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ast5_result", "", res[0], "",{
+		res = logverify("unit_tests", "ast5_result", "", res[0][0], "",{
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call async_func_b with async_func_c for pre and post
 exports.ast6 = ast6 = function ast6(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -723,18 +713,18 @@ exports.ast6 = ast6 = function ast6(params, callback) {
 		"postexecute": "async_func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ast6_result", "", res[0], "",{
+		res = logverify("unit_tests", "ast6_result", "", res[0][0], "",{
 		"d": "1",
 		"h": "5",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call async_func_d that will, in turn, call async_func_e  
 exports.ast7 = ast7 = function ast7(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executetest("executethis", {
 		"executethis": "async_func_d",
 		"c": "0",
@@ -745,14 +735,14 @@ exports.ast7 = ast7 = function ast7(params, callback) {
 		"c": "0",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 }
 // Call async_func_d_1 that will, in turn, call async_func_e_1, and then async_func_f, async_func_g, and async_func_h.
 // If the diamond makes out of async_func_h...it will show executethis can go five layers deep into et and return with a parameter
 // to the as_t8_output...pretty cool 
 exports.ast8 = ast8 = function ast8(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executetest("executethis", {
 		"executethis": "async_func_d1",
 		"c": "0",
@@ -768,7 +758,7 @@ exports.ast8 = ast8 = function ast8(params, callback) {
 		"diamonds": "you are rich!!",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -776,173 +766,493 @@ exports.ast8 = ast8 = function ast8(params, callback) {
 // Call redir_b with no pre or post
 exports.ct1 = ct1 = function ct1(params, callback) {
 	testclearstorage();
-	config = setconfig2();
+	// config = setconfig2();
 	executearray([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
-		"e": "2"
+		"e": "2",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	}],
 	function (err, res) {
 		res = logverify("unit_tests", "ct1_result", "", res[0], "",{
 		"d": "1",
 		"c": "0",
-		"g": "4"
+		"g": "4",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call redir_b with pre and post
 exports.ct2 = ct2 = function ct2(params, callback) {
 	testclearstorage();
-	config = setconfig2();
+	// config = setconfig2();
 	executearray([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "redir_a",
-		"postexecute": "redir_c"
+		"postexecute": "redir_c",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct2_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct2_result", "", res[0][0], "",{
 		"f": "3",
 		"g": "4",
-		"h": "5"
+		"h": "5",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call redir_b with only pre redir_a
 exports.ct3 = ct3 = function ct3(params, callback) {
 	testclearstorage();
-	config = setconfig2();
+	// config = setconfig2();
 	executearray([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
-		"preexecute": "redir_a"
+		"preexecute": "redir_a",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct3_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct3_result", "", res[0][0], "",{
 		"c": "0",
 		"f": "3",
-		"g": "4"
+		"g": "4",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call redir_b with only post redir_a -- same result as t3
 exports.ct3a = ct3a = function ct3a(params, callback) {
 	testclearstorage();
-	config = setconfig2();
+	// config = setconfig2();
 	executearray([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
-		"postexecute": "redir_a"
+		"postexecute": "redir_a",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct3a_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct3a_result", "", res[0][0], "",{
 		"c": "0",
 		"g": "4",
-		"f": "3"
+		"f": "3",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call redir_b with only post
 exports.ct4 = ct4 = function ct4(params, callback) {
 	testclearstorage();
-	config = setconfig2();
+	// config = setconfig2();
 	executearray([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
-		"postexecute": "redir_c"
+		"postexecute": "redir_c",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct4_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct4_result", "", res[0][0], "",{
 		"d": "1",
 		"g": "4",
-		"h": "5"
+		"h": "5",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Call redir_b with only pre redir_c -- same result as t4
 exports.ct4a = ct4a = function ct4a(params, callback) {
 	testclearstorage();
-	config = setconfig2();
-	executearray([{
-		"executethis": "redir_b",
-		"c": "0",
-		"d": "1",
-		"e": "2",
-		"preexecute": "redir_c"
-	}],
-	function (err, res) {
-		res = logverify("unit_tests", "ct4a_result", "", res[0], "",{
-		"d": "1",
-		"g": "4",
-		"h": "5"
-	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
-	});
-}
-// Call redir_b with redir_a for pre and post
-exports.ct5 = ct5 = function ct5(params, callback) {
-	testclearstorage();
-	config = setconfig2();
-	executearray([{
-		"executethis": "redir_b",
-		"d": "1",
-		"e": "2",
-		"c": "3",
-		"preexecute": "redir_a",
-		"postexecute": "redir_c"
-	}],
-	function (err, res) {
-		res = logverify("unit_tests", "ct5_result", "", res[0], "",{
-		"f": "3",
-		"g": "4",
-		"h": "5"
-	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
-	});
-}
-// Call redir_b with redir_c for pre and post
-exports.ct6 = ct6 = function ct6(params, callback) {
-	testclearstorage();
-	config = setconfig2();
+	// config = setconfig2();
 	executearray([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "redir_c",
-		"postexecute": "redir_c"
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct6_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct4a_result", "", res[0][0], "",{
+		"d": "1",
+		"g": "4",
+		"h": "5",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
+	});
+	callback(err, params);
+	});
+}
+// Call redir_b with redir_a for pre and post
+exports.ct5 = ct5 = function ct5(params, callback) {
+	testclearstorage();
+	// config = setconfig2();
+	executearray([{
+		"executethis": "redir_b",
+		"d": "1",
+		"e": "2",
+		"c": "3",
+		"preexecute": "redir_a",
+		"postexecute": "redir_c",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ct5_result", "", res[0][0], "",{
+		"f": "3",
+		"g": "4",
+		"h": "5",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
+	});
+	callback(err, params);
+	});
+}
+// Call redir_b with redir_c for pre and post
+exports.ct6 = ct6 = function ct6(params, callback) {
+	testclearstorage();
+	// config = setconfig2();
+	executearray([{
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2",
+		"preexecute": "redir_c",
+		"postexecute": "redir_c",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
+	}],
+	function (err, res) {
+		res = logverify("unit_tests", "ct6_result", "", res[0][0], "",{
 		"midexecute": "redir_b",
 		"postexecute": "redir_c",
 		"e": "2",
 		"g": "4",
 		"d": "1",
-		"h": "5"
+		"h": "5",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // This will try pre with func a, but remapped with a configuration that
 // is passed into executethis...it still wants to hit func_b with mid
 exports.ct7 = ct7 = function ct7(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"c": "0",
 		"d": "1",
@@ -966,14 +1276,14 @@ exports.ct7 = ct7 = function ct7(params, callback) {
 	}], 
 	// params = logverify("c_unit_tests","ct7_result","ct7_output","","",{"c":"0","d":"1","executethis":"func_b","ct7":"did some alerting","g":"4","howtodooverride":"you got your hottodooverwritten"});
 	function (err, res) {
-		res = logverify("unit_tests", "ct7_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct7_result", "", res[0][0], "",{
 		"ct7": "did some alerting",
 		"configuration": {},
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // This will try pre with func a, 
@@ -1002,13 +1312,13 @@ exports.ct7a = ct7a = function ct7a(params, callback) {
 	}],
 	// params = logverify("c_unit_tests","c_t7_result","c_t7_output","","",{"c":"0","d":"1","executethis":"func_b","ct7a":"did some alerting","g":"4","howtodooverride":"you got your hottodooverwritten"});
 	function (err, res) {
-		res = logverify("unit_tests", "ct7a_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct7a_result", "", res[0][0], "",{
 		"c": "0",
 		"d": "1",
 		"ct7a": "did some alerting",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
@@ -1025,18 +1335,18 @@ exports.ct8 = ct8 = function ct8(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct8_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct8_result", "", res[0][0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ct9 = ct9 = function ct9(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "does_not_exist",
 		"does_not_exist": "func_b",
@@ -1046,28 +1356,28 @@ exports.ct9 = ct9 = function ct9(params, callback) {
 	}],
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
 	function (err, res) {
-		res = logverify("unit_tests", "ct9_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct9_result", "", res[0][0], "",{
 		"does_not_exist": "func_b",
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ct9a = ct9a = function ct9a(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "does_not_exist",
 		"does_not_exist": "function () { return 'Keg of Beer'; }"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct9a_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct9a_result", "", res[0][0], "",{
 		"data": "Keg of Beer"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
@@ -1075,7 +1385,7 @@ exports.ct9a = ct9a = function ct9a(params, callback) {
 // This test is to call func_b, remap does_not_exist to func_a and execute params to func_a and then to func_b
 exports.ct10 = ct10 = function ct10(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"preexecute": "does_not_exist",
@@ -1086,13 +1396,13 @@ exports.ct10 = ct10 = function ct10(params, callback) {
 	}],
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
 	function (err, res) {
-		res = logverify("unit_tests", "ct10_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct10_result", "", res[0][0], "",{
 		"does_not_exist": "func_a",
 		"f": "3",
 		"c": "0",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
@@ -1100,7 +1410,7 @@ exports.ct10 = ct10 = function ct10(params, callback) {
 // remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c.
 exports.ct11 = ct11 = function ct11(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"executethis": "func_b",
 		"preexecute": "does_not_exist_1",
@@ -1113,14 +1423,14 @@ exports.ct11 = ct11 = function ct11(params, callback) {
 	}],
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
 	function (err, res) {
-		res = logverify("unit_tests", "ct11_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct11_result", "", res[0][0], "",{
 		"does_not_exist_1": "func_a",
 		"does_not_exist_2": "func_c",
 		"f": "3",
 		"h": "5",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
@@ -1128,7 +1438,7 @@ exports.ct11 = ct11 = function ct11(params, callback) {
 // from a config that is passed in the parameters.
 exports.ct12 = ct12 = function ct12(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executearray([{
 		"c": "0",
 		"d": "1",
@@ -1153,13 +1463,13 @@ exports.ct12 = ct12 = function ct12(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct12_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct12_result", "", res[0][0], "",{
 		"c": "0",
 		"d": "1",
 		"ct12": "did some alerting",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
@@ -1180,11 +1490,11 @@ exports.ct13 = ct13 = function ct13(params, callback) {
 		"executethis": "fire_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct13_result", "", res[2], "",{
+		res = logverify("unit_tests", "ct13_result", "", res[2][0], "",{
 		"fire_c": "fire_c is now fired",
 		"cer2": "booberry"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
@@ -1210,7 +1520,7 @@ exports.ct14 = ct14 = function ct14(params, callback) {
 		"cer3": "chex",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 
@@ -1228,14 +1538,14 @@ exports.ct15 = ct15 = function ct15(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct15_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct15_result", "", res[0][0], "",{
 		"g": "4",
 		"cer1": "booberry",
 		"f": "3",
 		"c": "0",
 		"cer2": "booberry"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the 
@@ -1248,10 +1558,30 @@ exports.ct16 = ct16 = function ct16(params, callback) {
 		"preexecute": "mock_server",
 		"c": "0",
 		"d": "1",
-		"e": "2"
+		"e": "2",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct16_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct16_result", "", res[0][0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4",
@@ -1261,10 +1591,28 @@ exports.ct16 = ct16 = function ct16(params, callback) {
 				"tryorder": 0,
 				"dothis": "login",
 				"params": {}
+			}],
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
 			}]
 		}
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function
@@ -1279,13 +1627,13 @@ exports.ct17 = ct17 = function ct17(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct17_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct17_result", "", res[0][0], "",{
 		"d": "1",
 		"c": "0",
 		"g": "4",
 		"exdef": "executedefault was grabbed"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by executefn
@@ -1300,7 +1648,7 @@ exports.ct18 = ct18 = function ct18(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct18_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct18_result", "", res[0][0], "",{
 		"exdef": "param after executefn and executeparam was grabbed",
 		"f": "3",
 		"c": "0",
@@ -1308,7 +1656,7 @@ exports.ct18 = ct18 = function ct18(params, callback) {
 		"g": "4"
 	});
 	// params = logverify("c_unit_tests","ct18_result","ct18_output","","", {"f":"3","c":"0","g":"4","myexfnparam":"hereismyfnparam" });
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params
@@ -1352,7 +1700,7 @@ exports.ct19 = ct19 = function ct19(params, callback) {
 		"charlie": "1"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct19_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct19_result", "", res[0][0], "",{
 		"configuration": {},
 		"f": "3",
 		"g": "4",
@@ -1361,7 +1709,7 @@ exports.ct19 = ct19 = function ct19(params, callback) {
 		"bravo": "1",
 		"charlie": "1"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are 
@@ -1375,7 +1723,7 @@ exports.ct20 = ct20 = function ct20(params, callback) {
 		"postexecute": "func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ct20_result", "", res[0], "",{
+		res = logverify("unit_tests", "ct20_result", "", res[0][0], "",{
 		"charlie": "4",
 		"g": "4",
 		"alpha": "4",
@@ -1383,7 +1731,7 @@ exports.ct20 = ct20 = function ct20(params, callback) {
 		"bravo": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -1393,7 +1741,7 @@ exports.ct20 = ct20 = function ct20(params, callback) {
 // Template for a new test, yet to be determined
 exports.ct1000 = ct1000 = function ct1000(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executetest("executethis", {
 		"executethis": "func_b",
 		"c": "0",
@@ -1405,7 +1753,7 @@ exports.ct1000 = ct1000 = function ct1000(params, callback) {
 		"d": "1",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -1419,7 +1767,27 @@ exports.cict1 = cict1 = function cict1(params, callback) {
 		"executethis": "mock_server",
 		"a": "1",
 		"b": "2",
-		"c": "3"
+		"c": "3",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
 	}, "cic_t1_output", "");
 	params = logverify("cic_unit_tests", "cic_t1_result", "cic_t1_output", "", "", {
 		"a": "1",
@@ -1431,13 +1799,28 @@ exports.cict1 = cict1 = function cict1(params, callback) {
 				"tryorder": 0,
 				"dothis": "login",
 				"params": {}
+			}],
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
 			}]
 		}
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 // mock_server resolves to this function
@@ -1458,7 +1841,7 @@ exports.alertFn1 = alertFn1 = function alertFn1(params, callback) {
 	params["ct7"] = "did some alerting";
 	// delete params["configuration"];
 	var err;
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -1466,7 +1849,7 @@ exports.alertFn1 = alertFn1 = function alertFn1(params, callback) {
 // Test to call a function
 exports.ft1 = ft1 = function ft1(params, callback) {
 	testclearstorage();
-	config = setconfig1();
+	// config = setconfig1();
 	executetest("executethis", {
 		"executethis": "func_b",
 		"c": "0",
@@ -1478,7 +1861,7 @@ exports.ft1 = ft1 = function ft1(params, callback) {
 		"d": "1",
 		"g": "4"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -1620,12 +2003,12 @@ exports.ag1_setup = ag1_setup = function ag1_setup(params, callback) {
 		"wid": "sounddto"
 	}, "get_sounddto_result", "");
 	console.log(' >>>>>> ' + params);
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 }
 
 // This will test the ability to write a dto to the db and retrieve it
 exports.ag1 = ag1 = function ag1(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 	executearray([{
 		"executethis": "addwidmaster",
@@ -1638,12 +2021,12 @@ exports.ag1 = ag1 = function ag1(params, callback) {
 		"wid": "sounddto"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ag1_result", "", res[1], "",{
+		res = logverify("unit_tests", "ag1_result", "", res[1][0], "",{
 		"note": "string",
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1670,9 +2053,8 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 
 	console.log(' >>>>>> ' + params);
 
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 }
-
 
 // // This will test the ability to write a dto to the db, use that dto to write
 // // a wid with that dto, and get the results of getting that wid.
@@ -1703,7 +2085,7 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 // a wid with that dto, and get the results of getting that wid.
 exports.ag2 = ag2 = function ag2(params, callback) {
 	//debugcat = 'get';
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 	executearray([{
 		"executethis": "addwidmaster", 
@@ -1726,12 +2108,12 @@ exports.ag2 = ag2 = function ag2(params, callback) {
 		"wid": "color1"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ag2_result", "", res[3], "",{
+		res = logverify("unit_tests", "ag2_result", "", res[3][0], "",{
 		"hue": "red",
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1766,13 +2148,12 @@ exports.ag3_setup = ag3_setup = function ag3_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "song1"
 	}, "get_song1_result", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 }
 // This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ag3 = ag3 = function ag3(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
-
 	executearray([{
 		"executethis": "addwidmaster", 
 		"wid": "sounddto",
@@ -1807,7 +2188,7 @@ exports.ag3 = ag3 = function ag3(params, callback) {
 		"wid": "song1"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ag3_result", "", res[4], "",{
+		res = logverify("unit_tests", "ag3_result", "", res[4][0], "",{
 		"title": "Highway to Hell",
 		"wid": "song1",
 		"metadata.method": "songdto",
@@ -1821,7 +2202,7 @@ exports.ag3 = ag3 = function ag3(params, callback) {
 		"sounddto.2.wid": "5",
 		"sounddto.2.metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {callback(err, res)} else {return res}
+	callback(err, params);
 	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1867,20 +2248,16 @@ exports.ag4_setup = ag4_setup = function ag4_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "song1"
 	}, "get_song1_result", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 function aggressivedto_emulator(params, callback) {
-
 	var myval = aggressivedto(params['x'], "", 10);
 	callback(myval);
 }
 // This is a 3 level test where song1 will have data from a songdto, that uses a sounddto, and the sounddto will use a measuredto 
 exports.ag4 = ag4 = function ag4(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 	ag4_setup();
 	executetest("aggressivedto_emulator", {
@@ -1898,7 +2275,7 @@ exports.ag4 = ag4 = function ag4(params, callback) {
 		"sounddto.measuredto.wid": "measuredto",
 		"sounddto.measuredto.metadata.method": "measuredto"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -1934,7 +2311,7 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 		"relationshiptype": "attributes"
 	}, "", "");
 
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -1949,17 +2326,14 @@ function aggressivedto_emulator(params, callback) {
 }
 // This is a 3 level test where song1 will have data from a songdto, that uses a sounddto, and the sounddto will use a measuredto 
 exports.ag5 = ag5 = function ag5(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 	ag5_setup();
 	executetest("aggressivedto_emulator", {
 		"x": "songdto"
 	}, "aggressive_result", "");
 	params = logverify("alpha_unit_tests", "ag5_result", "aggressive_result", "", "", {});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -1996,36 +2370,56 @@ exports.qq1_setup = qq1_setup = function qq1_setup(params, callback) {
 	}, "", "");
 
 	// executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.qq1 = qq1 = function qq1(params, callback) {
-	config = setconfig1();
+	config = setconfig5();
 	testclearstorage();
-	qq1_setup();
-	var executeobject = {};
-	executeobject["mongorawquery"] =
-		"{$and: [" +
-		"{data.primarywid: songdto}," +
-		"{data.secondarywid: notedto}" +
-		"}]}";
-
-	executeobject["executethis"] = 'querywid';
-
-
-	executetest('executethis', executeobject, 'qq1_result', '');
-	params = logverify("query_tests", "qq1_result", "qq1_result", "", "", {});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	executearray([{
+		"executethis": "updatewid", 
+		"wid": "songdto",
+		"metadata.method": "songdto",
+		"title": "string"
+	}, 
+	{   "executethis": "updatewid", 
+		"wid": "notedto",
+		"metadata.method": "notedto",
+		"note": "string"
+	}, 
+	{   "executethis": "updatewid",
+		"wid": "measuredto",
+		"metadata.method": "measuredto",
+		"length": "string"
+	}, 
+	{	"executethis": "updatewid", 
+		"wid": "rel_song_to_note",
+		"primarywid": "songdto",
+		"secondarywid": "notedto",
+		"relationshiptype": "attributes"
+	}, 
+	{	"executethis": "updatewid", 
+		"wid": "rel_note_to_measure",
+		"primarywid": "notedto",
+		"secondarywid": "measuredto",
+		"relationshiptype": "attributes"
+	},
+	// {	"executethis": "mongoquery", 
+	{	"executethis": "querywid", 
+		"mongorawquery": '{"$and":[{"data.primarywid": "songdto"}, {"data.secondarywid": "notedto"}]}'
+		// "wid":"rel_song_to_note"
+	}],
+	function (err, res) {
+	res = logverify("unit_tests", "qq1_result", "", res[5][0], "",{
+			"wid":"rel_song_to_note",
+			"metadata.method":"",
+			"relationshiptype":"attributes",
+			"secondarywid":"notedto",
+			"primarywid":"songdto"
+	});
+	callback(err, params);
+	});
 }
-
-
-
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -2034,10 +2428,7 @@ exports.getwidtest = getwidtest = function getwidtest(params, callback) {
 	config = setconfig1();
 	testclearstorage();
 	executethis({'executethis':'getwid', wid: 'test1'});
-	// if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	// callback(err, params);
 }
 
 exports.updatewidtest = updatewidtest = function updatewidtest(params, callback) {
@@ -2046,10 +2437,7 @@ exports.updatewidtest = updatewidtest = function updatewidtest(params, callback)
 		this: 'that',
 		something: 'else'
 	}, '', '');
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.jasontesta = jasontesta = function jasontesta(params, callback) {
@@ -2061,10 +2449,7 @@ exports.jasontesta = jasontesta = function jasontesta(params, callback) {
 	executetest('getwid', {
 		wid: 'jasontestwid'
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.jasontestb = jasontestb = function jasontestb(params, callback) {
@@ -2077,10 +2462,7 @@ exports.jasontestb = jasontestb = function jasontestb(params, callback) {
 	executetest('getwidmaster', {
 		wid: 'jasontestwid5'
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.testa = testa = function testa(params, callback) {
@@ -2107,10 +2489,7 @@ exports.testa = testa = function testa(params, callback) {
 	}, "", "");
 	// executetest("getwidmaster", {"wid":"color1"}, "", "");	
 	//		params = logverify("this_test","test_result","actual","","",aalStorage("assertion"));
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.testb_setup = testb_setup = function testb_setup(params, callback) {
@@ -2122,10 +2501,7 @@ exports.testb_setup = testb_setup = function testb_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "sounddto"
 	}, "get_sounddto_result", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.testc_setup = testc_setup = function testc_setup(params, callback) {
@@ -2134,10 +2510,7 @@ exports.testc_setup = testc_setup = function testc_setup(params, callback) {
 		"wid": "color1",
 		"hue": "red"
 	}, "", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.testd_setup = testd_setup = function testd_setup(params, callback) {
@@ -2154,10 +2527,7 @@ exports.testd_setup = testd_setup = function testd_setup(params, callback) {
 		"wid": "color2",
 		"hue": "blue"
 	}, "", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.teste_setup = teste_setup = function teste_setup(params, callback) {
@@ -2177,10 +2547,7 @@ exports.teste_setup = teste_setup = function teste_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "color1"
 	}, "get_color1_result", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.testg_setup = testg_setup = function testg_setup(params, callback) {
@@ -2188,10 +2555,7 @@ exports.testg_setup = testg_setup = function testg_setup(params, callback) {
 		"wid": "defaultforauthor",
 		"name": "roger"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 
 exports.testh_setup = testh_setup = function testh_setup(params, callback) {
@@ -2203,10 +2567,7 @@ exports.testh_setup = testh_setup = function testh_setup(params, callback) {
 	executetest("getwidmaster", {
 		"wid": "defaultforauthor"
 	}, "get_color1_result", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 exports.testi_setup = testi_setup = function testi_setup(params, callback) {
 	executetest("addwidmaster", {
@@ -2219,10 +2580,7 @@ exports.testi_setup = testi_setup = function testi_setup(params, callback) {
 	// executetest("addwidmaster",{"metadata.method":"gojsrel3","wid":"color_sound_relationship","primarywid":"sounddto","secondarywid":"colordto","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
 
 	// executetest("getwidmaster", {"wid":"sounddto"}, "get_sounddto_result", "");
-	if (callback instanceof Function) {callback(err, params)} else {return params}
-
-
-
+	callback(err, params);
 }
 // This will test the ability to write a dto to the db and retrieve it
 exports.testb = testb = function testb(params, callback) {
@@ -2242,7 +2600,7 @@ exports.testb = testb = function testb(params, callback) {
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -2262,7 +2620,7 @@ exports.testc = testc = function testc(params, callback) {
 		"wid": "color1",
 		"metadata.method": "sounddto"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -2278,7 +2636,7 @@ exports.teste = teste = function teste(params, callback) {
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -2300,7 +2658,7 @@ exports.testf = testf = function testf(params, callback) {
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -2336,7 +2694,7 @@ exports.testf = testf = function testf(params, callback) {
 		"h": "5"
 	});
 	// params = logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -2367,7 +2725,7 @@ exports.testf_fail = testf_fail = function testf_fail(params, callback) {
 		"h": "5"
 	});
 	// params = logverify("readstartwid","resultwid","startwid_authordto" ,"","",{"age":"00","name":"start wid","wid":"startwid","metadata.method":"authordto","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","booksdto.0.title":"none","booksdto.0.pages":"00","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.actiondto.0.action":"none","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0.fieldname":"name","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.addfield.fieldname":"name","adddto.addfield.display":"true","adddto.addfield.editable":"true","adddto.addfield.onreadactions":"none","adddto.addfield.oneditactions":"pop_up_alert","adddto.addfield.wid":"addfielddefault","adddto.addfield.metadata.method":"defaultdto"});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -2389,7 +2747,7 @@ exports.testg = testg = function testg(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -2436,7 +2794,7 @@ exports.testi = testi = function testi(params, callback) {
 		"g": "4",
 		"h": "5"
 	});
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -2460,7 +2818,7 @@ exports.testj = testj = function testj(params, callback) {
 		"h": "5"
 	});
 
-	if (callback instanceof Function) {callback(err, params)} else {return params}
+	callback(err, params);
 
 
 
@@ -3207,7 +3565,6 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 	configuration.postExecute[2].dothis = 'server';
 	configuration.postExecute[2].params = {};
 
-
 	// configuration.MongoAddEditPrepare = {};
 	//  configuration.MongoAddEditPrepare.synchronous = true;
 
@@ -3241,41 +3598,40 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
 
 	//  configuration.addcleanparameters = {};
 	//  configuration.addcleanparameters.synchronous = true;
+	// ----------------------
+	// configuration.MongoAddEditPrepare = {};
+	// configuration.MongoAddEditPrepare.synchronous = false;
 
-	configuration.MongoAddEditPrepare = {};
-	configuration.MongoAddEditPrepare.synchronous = false;
+	// configuration.AddMongoRelationship = {};
+	// configuration.AddMongoRelationship.synchronous = false;
 
-	configuration.AddMongoRelationship = {};
-	configuration.AddMongoRelationship.synchronous = false;
+	// configuration.addcleanparameters = {};
+	// configuration.addcleanparameters.synchronous = false;
 
-	configuration.addcleanparameters = {};
-	configuration.addcleanparameters.synchronous = false;
+	// configuration.addwidmaster = {};
+	// configuration.addwidmaster.synchronous = false;
 
-	configuration.addwidmaster = {};
-	configuration.addwidmaster.synchronous = false;
+	// configuration.AddWidParameters = {};
+	// configuration.AddWidParameters.synchronous = false;
 
-	configuration.AddWidParameters = {};
-	configuration.AddWidParameters.synchronous = false;
+	// configuration.AddMaster = {};
+	// configuration.AddMaster.synchronous = false;
 
-	configuration.AddMaster = {};
-	configuration.AddMaster.synchronous = false;
+	// configuration.aggressivedto = {};
+	// configuration.aggressivedto.synchronous = false;
 
-	configuration.aggressivedto = {};
-	configuration.aggressivedto.synchronous = false;
+	// configuration.getcleanparameters = {};
+	// configuration.getcleanparameters.synchronous = false;
 
-	configuration.getcleanparameters = {};
-	configuration.getcleanparameters.synchronous = false;
+	// configuration.getwidmaster = {};
+	// configuration.getwidmaster.synchronous = false;
 
-	configuration.getwidmaster = {};
-	configuration.getwidmaster.synchronous = false;
+	// configuration.getWidMongo = {};
+	// configuration.getWidMongo.synchronous = false;
 
-	configuration.getWidMongo = {};
-	configuration.getWidMongo.synchronous = false;
+	// configuration.getAndFormatNextLevel = {};
+	// configuration.getAndFormatNextLevel.synchronous = false;
 
-	configuration.getAndFormatNextLevel = {};
-	configuration.getAndFormatNextLevel.synchronous = false;
-
-	
 	configuration.getwid = [];
     configuration.getwid[0] = {};
     configuration.getwid[0].executeorder = 0;
@@ -3296,7 +3652,6 @@ exports.setconfig1 = setconfig1 = function setconfig1() {
     configuration.getfrommongo[0].tryorder = 0;
     configuration.getfrommongo[0].dothis = 'offlinegetfrommongo';
     configuration.getfrommongo[0].params = {};
-
 
 	return {
 		"configuration": configuration
@@ -3330,23 +3685,25 @@ exports.setconfig2 = setconfig2 = function setconfig2() {
 	configuration.querywid[0].dothis = 'querywid';
 	configuration.querywid[0].params = {};
 
-
 	configuration.preExecute = [];
 	configuration.preExecute[0] = {};
 	configuration.preExecute[0].executeorder = 0;
 	configuration.preExecute[0].tryorder = 0;
 	configuration.preExecute[0].dothis = 'executefn';
 	configuration.preExecute[0].params = {};
+
 	configuration.preExecute[1] = {};
 	configuration.preExecute[1].executeorder = 0;
 	configuration.preExecute[1].tryorder = 0;
 	configuration.preExecute[1].dothis = 'executeparam';
 	configuration.preExecute[1].params = {};
+
 	configuration.preExecute[2] = {};
 	configuration.preExecute[2].executeorder = 0;
 	configuration.preExecute[2].tryorder = 0;
 	configuration.preExecute[2].dothis = 'executedefault';
 	configuration.preExecute[2].params = {};
+
 	configuration.preExecute[3] = {};
 	configuration.preExecute[3].executeorder = 0;
 	configuration.preExecute[3].tryorder = 0;
@@ -3986,7 +4343,7 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 
 // This will test the ability to write a dto to the db and retrieve it
 exports.ag5 = ag5 = function ag5(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 	params = logverify("alphagetwidmaster_unit_tests", "ag5_result", "get_sounddto_result", "", "", {
 		"note": "string",
@@ -4007,7 +4364,7 @@ exports.ag5 = ag5 = function ag5(params, callback) {
 }
 
 exports.ag6a = ag6a = function ag6a(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 
@@ -4078,7 +4435,7 @@ exports.ag6c = ag6c = function ag6c(params, callback) {
 
 // add 10 wids using updatewid, display 10 wids using getwid(one by one)
 exports.ag7 = ag7 = function ag7(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 
@@ -4181,7 +4538,7 @@ exports.ag7 = ag7 = function ag7(params, callback) {
 
 // add 1 wids using updatewid, display 1 wids using getfrommongo
 exports.ag8 = ag8 = function ag8(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 
@@ -4211,7 +4568,7 @@ exports.ag8 = ag8 = function ag8(params, callback) {
 
 // add 10 wids using updatewid, display 10 wids using getfrommongo(one by one)
 exports.ag9 = ag9 = function ag9(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 
@@ -4313,7 +4670,7 @@ exports.ag9 = ag9 = function ag9(params, callback) {
 
 // add 1 wids using updatewid, display 1 wids using getwid
 exports.ag10 = ag10 = function ag10(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 
@@ -4346,7 +4703,7 @@ exports.ag10 = ag10 = function ag10(params, callback) {
 
 // add 1 wids using addwidmaster, display 1 wids using getwidmaster
 exports.ag11a = ag11a = function ag11a(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	var widId = Math.random() + "";
@@ -4410,7 +4767,7 @@ exports.ag11b = ag11b = function ag11b(params, callback) {
 
 //getwidmaster tests
 exports.ag13a = ag13a = function ag13a(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 	executearray([{
 		"executethis": "getwidmaster",
@@ -4444,7 +4801,7 @@ exports.ag13b = ag13b = function ag13b(params, callback) {
 
 //addwidmaster tests
 exports.ag14a = ag14a = function ag14a(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	var widId = Math.random() + "";
 	testclearstorage();
 	executearray([{
@@ -4489,7 +4846,7 @@ exports.ag14b = ag14b = function ag14b(params, callback) {
 
 
 exports.ag15a = ag15a = function ag15a(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	var widId = Math.random() + "";
@@ -4582,7 +4939,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 	var widMasterId = Math.random() + "master";
 
 
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	execute({
@@ -4839,7 +5196,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 	var widMasterId = Math.random() + "master";
 
 
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	execute({
@@ -5082,7 +5439,7 @@ exports.ag93a = ag93a = function ag93a(params, callback) {
 	var widId4 = Math.random() + "4";
 	var widId5 = Math.random() + "5";
 
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	executearray([{
@@ -5231,7 +5588,7 @@ exports.ag94a = ag94a = function ag94a(params, callback) {
 	var widId4 = Math.random() + "4";
 	var widId5 = Math.random() + "5";
 
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	executearray([{
@@ -5377,7 +5734,7 @@ exports.ag95a = ag95a = function ag95a(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	executearray([{
@@ -5403,7 +5760,7 @@ exports.stickydata = stickydata = function stickydata(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	executearray([{
@@ -5426,13 +5783,13 @@ exports.stickydata = stickydata = function stickydata(params, callback) {
 
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
-		console.log(' >>> get wid 1 result >>> ' + JSON.stringify(res[2]));
-		console.log(' >>> get wid 2 result >>> ' + JSON.stringify(res[3]));
+		console.log(' >>> get wid 1 result >>> ' + JSON.stringify(res[2][0]));
+		console.log(' >>> get wid 2 result >>> ' + JSON.stringify(res[3][0]));
 
-		proxyprinttodiv(' >>> get wid 1 result >>> ', JSON.stringify(res[2]), 99);
-		proxyprinttodiv(' >>> get wid 2 result >>> ', JSON.stringify(res[3]), 99);
+		proxyprinttodiv(' >>> get wid 1 result >>> ', JSON.stringify(res[2][0]), 99);
+		proxyprinttodiv(' >>> get wid 2 result >>> ', JSON.stringify(res[3][0]), 99);
 
-		if (res[3]['b1']) {
+		if (res[3][0]['b1']) {
 			alert('fail');
 		} else {
 			alert('pass');
@@ -5453,7 +5810,7 @@ exports.extraparams = extraparams = function extraparams(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 
 	executearray([{
@@ -5481,7 +5838,7 @@ exports.extraparams = extraparams = function extraparams(params, callback) {
 }
 
 exports.test_new = test_new = function test_new(params, callback) {
-	config = setconfig1();
+	// config = setconfig1();
 	testclearstorage();
 	executearray([{
 		"executethis": "addwidmaster",
@@ -5492,7 +5849,7 @@ exports.test_new = test_new = function test_new(params, callback) {
 		"wid": "new_test_wid_1"
 	}], 
 	function (err, res) {
-		res = logverify("unit_tests", "test_new_result", "", res[1], "",{"height":"17 meters","wid":"new_test_wid_1","metadata.method":"defaultdto"});
+		res = logverify("unit_tests", "test_new_result", "", res[1][0], "",{"height":"17 meters","wid":"new_test_wid_1","metadata.method":"defaultdto"});
 		if (callback instanceof Function) {
 			callback(err, res);
 		} else {

@@ -136,8 +136,8 @@
         if (testname === undefined) {
             testname = "defaulttest"
         };
-        proxyprinttodiv('logverify - parmwid1', parmwid1);
-        proxyprinttodiv('logverify - parmwid2', parmwid2);
+                proxyprinttodiv('logverify - parmwid1', parmwid1);
+                proxyprinttodiv('logverify - parmwid2', parmwid2);
         if (parmwid1.length != 0) {
             parameterobj1 = getfromlocal({
                 'wid': parmwid1
@@ -148,35 +148,43 @@
                 'wid': parmwid2
             })
         };
-        proxyprinttodiv('logverify - parameterobj1', parameterobj1);
-        proxyprinttodiv('logverify - parameterobj2', parameterobj2);
+                    proxyprinttodiv('logverify - parameterobj1', parameterobj1);
+                    proxyprinttodiv('logverify - parameterobj2', parameterobj2);
         // Hold the object of scrutiny in a string....
         var temp = JSON.stringify(parameterobj1);
-        var result = compareJSON(parameterobj1, parameterobj2);
+        // var result = compareJSON(parameterobj1, parameterobj2);
+        var result = deepDiffMapper.map(parameterobj1, parameterobj2);
+
         // Restore the memory object with the original data
         localStore.push("widmaster_" + parmwid1, JSON.parse(temp));
 
-        proxyprinttodiv('logverify - result', result);
-        proxyprinttodiv('logverify - result.length', Object.keys(result).length);
+                    proxyprinttodiv('logverify - result', result);
+                    proxyprinttodiv('logverify - result.length', Object.keys(result).length);
+
         var testresults = "PASS";
-        if (Object.keys(result).length !== 0) {
-            testresults = "FAIL"
-        }
-        proxyprinttodiv('logverify - testresults', testresults);
-        proxyprinttodiv('logverify - resultwid', resultwid);
+        // if (Object.keys(result).length !== 0) {
+        //     testresults = "FAIL"
+        // }
+            
+        if (indexof("changed", JSON.stringify(result)) !== -1) result = "FAIL";
+
+                    proxyprinttodiv('logverify - testresults', testresults);
+                    proxyprinttodiv('logverify - resultwid', resultwid);
+
         resultsobject = getfromlocal({
             'wid': resultwid
         });
-        proxyprinttodiv('logverify  - resultsobject', resultsobject);
-        proxyprinttodiv('logverify - testname', testname);
+                    proxyprinttodiv('logverify  - resultsobject', resultsobject);
+                    proxyprinttodiv('logverify - testname', testname);
+
         resultsobject[resultwid] = testresults;
         resultsobject[resultwid + "_diff"] = result;
-        proxyprinttodiv('logverify  - resultsobject', resultsobject);
+                    proxyprinttodiv('logverify  - resultsobject', resultsobject);
         addtolocal(resultwid, resultsobject);
 
         test_results[resultwid] = testresults;
         addtolocal("test_results", test_results);
-        proxyprinttodiv('logverify  - resultsobject', resultsobject);
+                    proxyprinttodiv('logverify  - resultsobject', resultsobject);
         Debug = olddebug;
         var temp = {};
         temp[resultwid] = testresults;
@@ -272,10 +280,6 @@
     var rerun_test_seq = "";
     var did_all_pass = 1;
 
-
-
-
-
     exports.debugfn = debugfn = function debugfn() {
         var processdebug = false;
         var color_list = [
@@ -327,8 +331,6 @@
             processdebug = false
         }
         if (!processdebug) return;
-
-
 
         // If the color goes over 10, turn it back to black
         if (displaycolor > 10) displaycolor = 0;
@@ -394,8 +396,6 @@
             // level
             break;
         }
-
-
         // widfilter: outobject={debugobjectlist["wid"], debugobjectlist["dtotype"], debugobjectlist["method"]}
 
         // go to html file be able to enter
@@ -413,8 +413,6 @@
         //          
         //          
         //          
-
-
         switch (debugdestination) // 1 for print, 2 for googlespreadsheets, 3 for both
         {
         case 1:
@@ -430,7 +428,6 @@
             store_to_google(indebugname, outobject);
             break;
         }
-
         function dbug_print(indent, displaycolor) {
 
             if (displaycolor == "") {
@@ -450,9 +447,7 @@
             //proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
         }
 
-
         // print:   proxyprinttodiv('logverify - parmwid1', parmwid1, 99);
-
 
         // google: storetogoogle
         // file: outobject["testtest":"testtest"]
@@ -498,6 +493,64 @@
         });
     }
 
+    var deepDiffMapper = function() {
+        return {
+            VALUE_CREATED: 'created',
+            VALUE_UPDATED: 'updated',
+            VALUE_DELETED: 'deleted',
+            VALUE_UNCHANGED: 'unchanged',
+            map: function(obj1, obj2) {
+                if (this.isFunction(obj1) || this.isFunction(obj2)) {
+                    throw 'Invalid argument. Function given, object expected.';
+                }
+                if (this.isValue(obj1) || this.isValue(obj2)) {
+                    return {type: this.compareValues(obj1, obj2), data: obj1 || obj2};
+                }               
+                var diff = {};
+                for (var key in obj1) {
+                    if (this.isFunction(obj1[key])) {
+                        continue;
+                    }      
+                    var value2 = undefined;
+                    if ('undefined' != typeof(obj2[key])) {
+                        value2 = obj2[key];
+                    }                   
+                    diff[key] = this.map(obj1[key], value2);
+                }
+                for (var key in obj2) {
+                    if (this.isFunction(obj2[key]) || ('undefined' != typeof(diff[key]))) {
+                        continue;
+                    }                    
+                    diff[key] = this.map(undefined, obj2[key]);
+                }                
+                return diff;               
+            },
+            compareValues: function(value1, value2) {
+                if (value1 === value2) {
+                    return this.VALUE_UNCHANGED;
+                }
+                if ('undefined' == typeof(value1)) {
+                    return this.VALUE_CREATED;
+                }
+                if ('undefined' == typeof(value2)) {
+                    return this.VALUE_DELETED;
+                }              
+                return this.VALUE_UPDATED;
+            },
+            isFunction: function(obj) {
+                return toString.apply(obj) === '[object Function]';
+            },
+            isArray: function(obj) {
+                return toString.apply(obj) === '[object Array]';
+            },
+            isObject: function(obj) {
+                return toString.apply(obj) === '[object Object]';
+            },
+            isValue: function(obj) {
+                return !this.isObject(obj) && !this.isArray(obj);
+            }
+        }
+    }();
 
     // exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     //  addToLocalStorage((widMasterKey + widName), widobject);
