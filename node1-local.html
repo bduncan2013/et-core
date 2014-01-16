@@ -346,13 +346,13 @@ $('#output_to_input').click(function () {
 function show_function_output (err, x) {
 	$('#Function_Output').text(JSON.stringify(x));
 	var result = x;
-	var result_count = Object.keys(result).length;
+	var result_count = Object.keys(result[0]).length;
 
 	// var y = verifysummary("test_results");
-	var y = verifysummary_local(result);
+	var y = verifysummary_local(result[0]);
 	if (result.hasOwnProperty('executethis') && result_count == 1) {
 		alert ('Something when wrong with the test...all your function returned was ' + JSON.stringify(result));
-	} else if (y['resultwid'] == "PASS" || y['resultwid'] == "FAIL") { 
+	} else if ( (y['resultwid'] == "PASS" || y['resultwid'] == "FAIL") && result_count != 0 ) { 
 		showPassFail(y) 
 	};
 
@@ -646,10 +646,10 @@ exports.verifysummary_local = verifysummary_local = function verifysummary_local
 
 	// The ultimate pass/fail	
 	if (testfailflag == 'false') {
-		alert('Pass');
+		// alert('Pass');
 		return {"resultwid":'PASS'}
 	} else {
-		alert('Fail');
+		// alert('Fail');
 		return {"resultwid":'FAIL'}
 	}
 }
