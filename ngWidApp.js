@@ -312,6 +312,7 @@ widApp.directive('appendcode', function($compile) {
 
 widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService', function($scope, dataService, executeService) {
     $scope.data = {};
+    $scope.ajax = {};
     var querystring = window.location.search
         , parameters = helper.queryStrToObj(querystring.substring(1))
         , currentUser = dataService.user.getLocal();
@@ -384,6 +385,81 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService', functio
     $scope.clearAddWidForm = function() {
         $('.added').remove();
         $('#widname,.pname,.pvalue').val('');
+    };
+
+    //</editor-fold>
+
+    //<editor-fold desc='login section'>
+
+    $scope.loginGuid = '';
+
+    $scope.login1 = function() {
+        $scope.clearlogs();
+        var at = ''
+            , parameters = {parameterDTOs:[]}
+            , user = dataService.user.getLocal();
+
+        parameters.parameterDTOs.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
+
+        if (user) { at = user.at; }
+        else {
+            dataService.user.getNewAt(function(results) { at = results[0].Value; });
+            dataService.user.putLocal('', at, false);
+        }
+
+        $scope.ajax.loading = true;
+
+        getDriApiData('login1', parameters, function(err, results) {
+            if (err, Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
+            else {
+                $('#pin,#pingrp').show();
+                $('#phonegrp').hide();
+
+                $scope.loginGuid = results[0].Value;
+                $scope.ajax.loading = false;
+            }
+        });
+    };
+
+    $scope.login2 = function() {
+        $scope.clearlogs();
+        var user = dataService.user.getLocal();
+        var parameters = {parameterDTOs:[]};
+        parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:user.at},
+            {ParameterName:'pin',ParameterValue:$('#pin').val()},
+            {ParameterName:'guid',ParameterValue:$scope.loginGuid});
+
+        $scope.ajax.loading = true;
+
+        getDriApiData('login2', parameters, function(err, results) {
+            if (err, Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
+            else {
+                if (results[0].Value === 'True') {
+                    dataService.user.putLocal('', user.at, true);
+                    $('#successlog').html("Thank you for logging into DRI!");
+                } else {
+                    var error = results[7].Value !== '' ? results[7].Value : 'An error has occurred.';
+                    $('#errorlog').html(error);
+                }
+
+                $scope.ajax.loading = false;
+                var returnUrl = helper.getUrlParam('returnUrl');
+                if (returnUrl !== '') { window.location = returnUrl; }
+            }
+        });
+    };
+
+    $scope.logout = function() {
+        dataService.user.removeLocal();
+        $('#successlog').html('You are now logged out.');
+        window.location = '../login.html';
+    };
+
+    $scope.cancelLogin = function() {
+        $scope.clearlogs();
+        $('#phonenumber,#pin').val('');
+        $('#pin,#pingrp').hide();
+        $('#phonegrp').show();
     };
 
     //</editor-fold>
