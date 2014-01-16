@@ -187,15 +187,49 @@ exports.rt1 = rt1 = function rt1(params, callback) {
 // the calling of func_b. In pre, mid, and post, a parameter is 
 // deleted, and a parameters is added to verify that each level of  
 // the executethis is being accessed.
+// 
+// 
+// exports.tt = tt = function tt(params, callback) {
+// 	t1();
+// 	t2();
+// 	t3();
+// 	t3a();
+// 	t4();
+// 	t4a();
+// 	t5();
+// 	t6();
+// 	var x = test_results;
+// 	if (callback instanceof Function) {
+// 		var err;callback(err, x);
+// 	} else {
+// 		return x;
+// 	}
+// }
+// 
 exports.tt = tt = function tt(params, callback) {
-	t1();
-	t2();
-	t3();
-	t3a();
-	t4();
-	t4a();
-	t5();
-	t6();
+
+
+	executearray([{
+		"executethis": "t1"
+		},{ 
+		"executethis": "t2"
+		},{
+		"executethis": "t3"
+		},{ 
+		"executethis": "t3a"
+		},{ 
+		"executethis": "t4"
+		},{ 
+		"executethis": "t4a"
+		},{
+		"executethis": "t5"
+		},{ 
+		"executethis": "t6"
+	}],
+		function (err, res) {
+		}
+	);
+
 	var x = test_results;
 	if (callback instanceof Function) {
 		var err;callback(err, x);
@@ -203,18 +237,35 @@ exports.tt = tt = function tt(params, callback) {
 		return x;
 	}
 }
+
+// 
 // This series is identical to tt, except that the functions called 
 // by executethis are async, and therefore use callbacks to return data
 // to the calling function.
 exports.astt = astt = function astt(params, callback) {
-	ast1();
-	ast2();
-	ast3();
-	ast3a();
-	ast4();
-	ast4a();
-	ast5();
-	ast6();
+
+
+	executearray([{
+		"executethis": "ast1"
+		},{ 
+		"executethis": "ast2"
+		},{
+		"executethis": "ast3"
+		},{ 
+		"executethis": "ast3a"
+		},{ 
+		"executethis": "ast4"
+		},{ 
+		"executethis": "ast4a"
+		},{
+		"executethis": "ast5"
+		},{ 
+		"executethis": "ast6"
+	}],
+		function (err, res) {
+		}
+	);
+
 	var x = test_results;
 	if (callback instanceof Function) {
 		var err;callback(err, x);
@@ -226,28 +277,75 @@ exports.astt = astt = function astt(params, callback) {
 // configuration parameters. This allows for calling func_b by calling
 // redir_b instead of func_b, redir_a instead of func_a, and so on.
 exports.ctt = ctt = function ctt(params, callback) {
-	ct1();
-	ct2();
-	ct3();
-	ct3a();
-	ct4();
-	ct4a();
-	ct5();
-	ct6();
-	ct7();
-	ct8();
-	ct9();
-	ct10();
-	ct11();
-	ct13();
-	ct14();
-	ct15();
-	ct16();
-	// ct17();
-	ct16();
-	ct18();
-	ct19();
-	ct20();
+
+	// ct1();
+	// ct2();
+	// ct3();
+	// ct3a();
+	// ct4();
+	// ct4a();
+	// ct5();
+	// ct6();
+	// ct7();
+	// ct8();
+	// ct9();
+	// ct10();
+	// ct11();
+	// ct13();
+	// ct14();
+	// ct15();
+	// ct16();
+	// // ct17();
+	// ct16();
+	// ct18();
+	// ct19();
+	// ct20();
+
+	executearray([{
+		"executethis": "ct1"
+		},{ 
+		"executethis": "ct2"
+		},{
+		"executethis": "ct3"
+		},{ 
+		"executethis": "ct3a"
+		},{ 
+		"executethis": "ct4"
+		},{ 
+		"executethis": "ct4a"
+		},{
+		"executethis": "ct5"
+		},{ 
+		"executethis": "ct6"
+		},{
+		"executethis": "ct7"
+		},{ 
+		"executethis": "ct8"
+		},{ 
+		"executethis": "ct9"
+		},{ 
+		"executethis": "ct10"
+		},{
+		"executethis": "ct11"
+		},{ 
+		"executethis": "ct13"
+		},{
+		"executethis": "ct14"
+		},{ 
+		"executethis": "ct15"
+		},{ 
+		"executethis": "ct16"
+		},{ 
+		"executethis": "ct18"
+		},{
+		"executethis": "ct19"
+		},{ 
+		"executethis": "ct20"
+	}],
+		function (err, res) {
+		}
+	);
+
 	var x = test_results;
 	if (callback instanceof Function) {
 		var err;callback(err, x);
@@ -338,7 +436,47 @@ exports.t1 = t1 = function t1(params, callback) {
 	});
 	callback(err, res);
 	});
+<<<<<<< HEAD
 }
+=======
+}
+
+exports.t1s = t1s = function t1s(params, callback) {
+    testclearstorage();
+    config = setconfig1();
+    
+    res = logverify("unit_tests", "t1s_result", "", {
+            "d": "1",
+            "c": "0",
+            "g": "4"
+        }, "", {
+            "d": "1",
+            "c": "0",
+            "g": "4"
+        });
+    var err;
+    callback(err, res);
+}
+
+exports.t1sf = t1sf = function t1sf(params, callback) {
+    testclearstorage();
+    config = setconfig1();
+    
+    res = logverify("unit_tests", "t1sf_result", "", {
+            "d": "1",
+            "c": "0",
+            "g": "4"
+        }, "", {
+            "d": "1",
+            "c": "0",
+            "g": "4",
+            "h": "5"
+        });
+    var err;
+    callback(err, res);
+}
+
+>>>>>>> Good_Copy_of_Master
 // An intentionally failing test to make sure failed tests fail
 exports.tfail = tfail = function tfail(params, callback) {
 	testclearstorage();
@@ -1754,9 +1892,12 @@ exports.ct1000 = ct1000 = function ct1000(params, callback) {
 		"g": "4"
 	});
 	callback(err, params);
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> Good_Copy_of_Master
 }
 
 // test to see if nested configuration params are making it across to a mock server function
@@ -1871,35 +2012,63 @@ exports.ft1 = ft1 = function ft1(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // Functions to use in pre, mid and post
 // to test the flow of parameters through executethis
+<<<<<<< HEAD
 exports.func_a = func_a = function func_a(parameters) {
+=======
+exports.func_a = func_a = function func_a(parameters, callback) {
+>>>>>>> Good_Copy_of_Master
 	console.log('from func_a');
 	printToDiv('func_a', parameters, 1);
 	delete parameters["d"];
 	parameters["f"] = "3";
+<<<<<<< HEAD
 	return parameters;
 }
 
 exports.func_b = func_b = function func_b(parameters) {
+=======
+	var err;callback(err, parameters);
+}
+
+exports.func_b = func_b = function func_b(parameters, callback) {
+>>>>>>> Good_Copy_of_Master
 	console.log('from func_b');
 	delete parameters["e"];
 	parameters["g"] = "4";
 	// alert('b');
+<<<<<<< HEAD
 	return parameters;
 }
 
 exports.func_c = func_c = function func_c(parameters) {
+=======
+	var err;callback(err, parameters);
+}
+
+exports.func_c = func_c = function func_c(parameters, callback) {
+>>>>>>> Good_Copy_of_Master
 	console.log('from func_c');
 	printToDiv('func_c', parameters, 1);
 	delete parameters["c"];
 	parameters["h"] = "5";
+<<<<<<< HEAD
 	return parameters;
+=======
+	var err;callback(err, parameters);
+>>>>>>> Good_Copy_of_Master
 }
+
 // This is used when a and b do not exist, but 
+<<<<<<< HEAD
 exports.fire_c = fire_c = function fire_c(parameters) {
 	parameters["fire_c"] = "fire_c is now fired";
 	return parameters;
+=======
+exports.fire_c = fire_c = function fire_c(parameters,callback) {
+	parameters["fire_c"] = "fire_c is now fired";
+	var err;callback(err, parameters);
+>>>>>>> Good_Copy_of_Master
 }
-
 
 // These are the async versions of the above calls
 exports.async_func_a = async_func_a = function async_func_a(parameters, callback) {

@@ -70,6 +70,9 @@
                     if (preResults !== false && (!preResults))
                         preResults = {};
 
+                    if (Object.prototype.toString.call( preResults ) === '[object Array]') {
+                        preResults = preResults[0];
+                    }
 
                     dothisprocessor(preResults, 'midexecute', function (err, midResults) {
 
@@ -79,6 +82,11 @@
 
                         if (midResults !== false && (!midResults))
                             midResults = {};
+
+                        if (Object.prototype.toString.call( midResults ) === '[object Array]') {
+                            midResults = midResults[0];
+                        }
+
                         dothisprocessor(midResults, 'postexecute', function (err, postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
                             //if (preResults instanceof Array) {postResults=postResults[0]};
@@ -86,6 +94,12 @@
                                 postResults = {};
 
                             overallError = extend(true, preError, midError, err);
+
+                            if(Object.prototype.toString.call( postResults ) !== '[object Array]') {
+                                var tempArray = [];
+                                tempArray.push(postResults);
+                                postResults = tempArray;
+                            }
 
                             callback(overallError, postResults);
                         });

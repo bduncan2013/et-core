@@ -162,11 +162,16 @@
                     proxyprinttodiv('logverify - result.length', Object.keys(result).length);
 
         var testresults = "PASS";
+
+        // Old check
         // if (Object.keys(result).length !== 0) {
         //     testresults = "FAIL"
         // }
-            
-        if (indexof("changed", JSON.stringify(result)) !== -1) result = "FAIL";
+
+        // New Check--just looking for the strings ""
+         
+        var tmp = JSON.stringify(result);
+        if ( tmp.indexOf("created") !== -1 || tmp.indexOf("updated") !== -1 || tmp.indexOf("updated") !== -1 ) testresults = "FAIL";
 
                     proxyprinttodiv('logverify - testresults', testresults);
                     proxyprinttodiv('logverify - resultwid', resultwid);
