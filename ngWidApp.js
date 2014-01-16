@@ -1,23 +1,5 @@
 if(!exports){ var exports = {}; }
 
-exports.getFromAngular = getFromAngular = function getFromAngular(wid) {
-    return $('body').scope()[wid];
-};
-
-exports.addToAngular = addToAngular = function addToAngular(name, obj) {
-    $('body').scope()[name] = obj;
-};
-
-// call executeService.executeThis from legacy (non angularJS) code
-exports.angularExecuteThis = angularExecuteThis = function angularExecuteThis(parameters) {
-    var scope = $('body').scope();
-    angular.injector(['ng', 'widApp'])
-        .get('executeService')
-        .executeThis(parameters, scope, function(results) {
-            // do something here in the future?
-        });
-};
-
 exports.etProcessParameters = etProcessParameters = function etProcessParameters(parameters, callback) {
     var widdata = '',
         wid = '',
@@ -45,26 +27,29 @@ exports.etProcessParameters = etProcessParameters = function etProcessParameters
 
     var processParams = extend(true, executeObj, parameters);
 
-    execute(processParams, function(err, completeWid) {
+    execute(processParams, function(err, resultArray) {
         if (err && Object.size(err) > 0) {
             console.log('execute error => ' + JSON.stringify(err));
             callback(err, {});
         }
         else {
-            if (completeWid.html) {
-                helper.processHtml(completeWid);
+            for (var i = 0; i < resultArray.length; i++) {
+                if (resultArray[i].html) {
+                    helper.processHtml(resultArray[i]);
+                }
+
+                // clear 'inwid' wid
+                execute(
+                    {executethis:'addwidmaster', wid:'inwid'},
+                    function(err, retArray) {
+                        if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
+                    }
+                );
+
+                etProcessScreenWid(resultArray[i]);
             }
 
-            // clear 'inwid' wid
-            execute(
-                {executethis:'addwidmaster', wid:'inwid'},
-                function(err, results) {
-                    if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
-                }
-            );
-
-            etProcessScreenWid(completeWid);
-            callback(null, completeWid);
+            callback(null, resultArray);
         }
     });
 };
@@ -127,9 +112,9 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
     }
     else if (typeof dataForView !== 'undefined') { dataforview = dataForView; }
 
-    for (var a = 0; a < widforview.length; a++) { all_wids.push($.trim(widforview[a])); }
-    for (var b = 0; b < widforbase.length; b++) { all_wids.push($.trim(widforbase[b])); }
-    for (var c = 0; c < widforbackground.length; c++) { all_wids.push($.trim(widforbackground[c])); }
+    for (var a = 0; a < widforview.length; a++) { all_wids.push(widforview[a].trim()); }
+    for (var b = 0; b < widforbase.length; b++) { all_wids.push(widforbase[b].trim()); }
+    for (var c = 0; c < widforbackground.length; c++) { all_wids.push(widforbackground[c].trim()); }
 
     for (var d = 0; d < all_wids.length; d++) {
         var executeObj = {};
@@ -139,9 +124,11 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
-            .executeThis(executeObj, scope, function(results) {
-                if (results.html) {
-                    helper.processHtml(results);
+            .executeThis(executeObj, scope, function(resultArray) {
+                for (var i = 0; i < resultArray.length; i++) {
+                    if (resultArray[i].html) {
+                        helper.processHtml(resultArray[i]);
+                    }
                 }
             });
     }
@@ -254,20 +241,24 @@ widApp.factory('executeService', function($http, dataService) {
 //                parameters.etenvironment.accesstoken = user.at;
 //            } // MOVE etenvironment code to the server function in config-local.js
 
-            execute(parameters, function(err, results) {
+            execute(parameters, function(err, resultArray) {
                 if (err && Object.size(err) > 0) {
                     console.log('execute error => ' + JSON.stringify(err));
                 }
                 else {
-                    // if not logged in at this point send browser to login.html
-                    if (results.etstatus) {
-                        if (results.etstatus.status && results.etstatus.status === 'unauthorized') {
-                            window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
+                    for (var i = 0; i < resultArray.length; i++) {
+                        // if not logged in at this point send browser to login.html
+                        if (resultArray[i].etstatus) {
+                            if (resultArray[i].etstatus.status && resultArray[i].etstatus.status === 'unauthorized') {
+                                window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
+                            }
                         }
+
+                        dataService.storeData(resultArray[i], scope);
                     }
 
-                    dataService.storeData(results, scope);
-                    if (callback instanceof Function) { callback(results); }
+                    // send array to callback
+                    if (callback instanceof Function) { callback(resultArray); }
                 }
             });
         },
@@ -490,14 +481,18 @@ var helper = {
     },
 
     queryStrToObj: function(queryString) {
-        var params = {}, queries, temp, i, l;
+        var params = {}, noquestion, queries, temp, i, l;
 
         // Split into key/value pairs
+        noquestion = queryString.substring(1, queryString.length);
         queries = queryString.split("&");
 
         // Convert the array of strings into an object
         for ( i = 0, l = queries.length; i < l; i++ ) {
             temp = queries[i].split('=');
+
+            // TODO : find out if temp[0] starts with a ?, if so, strip it off.
+
             params[temp[0]] = temp[1];
         }
 
@@ -521,8 +516,10 @@ var helper = {
 
                     angular.injector(['ng', 'widApp'])
                         .get('executeService')
-                        .executeThis(executeObj, scope, function(results) {
-                            if (results.html) { helper.processHtml(results); }
+                        .executeThis(executeObj, scope, function(resultArray) {
+                            for (var i = 0; i < resultArray.length; i++) {
+                                if (resultArray[i].html) { helper.processHtml(resultArray[i]); }
+                            }
                         });
                 } else if (screenWid.html[i].html) {
                     helper.appendHtml(screenWid.html[i].html, screenWid.htmlplacement || undefined);
@@ -539,12 +536,25 @@ var helper = {
         } else {
             $('#default_view_loc').append(html);
         }
+
+        // take care of any <execute> elements
+        $('execute').each(function(i, ele) {
+            var executeObj = NNMtoObj(ele.attributes);
+
+            execute(executeObj, function(err, results) {
+                if (err && Object.size(err) > 0) {
+                    console.log('screenwidToHtml execute error => ' + JSON.stringify(err));
+                } else {
+                    if (results.html) { $(ele).append(results.html); }
+                }
+            });
+        });
     },
 
     executeForBinding: function(parameters) {
         return function() {
             execute(parameters,
-                function(err, results) {
+                function(err, resultArray) {
                     if (err && Object.size(err) > 0) {
                         console.log('error in execute process that was bound using links event binding => ' + JSON.stringify(err));
                     }
@@ -552,6 +562,70 @@ var helper = {
         }
     }
 };
+
+exports.getFromAngular = getFromAngular = function getFromAngular(wid) {
+    return $('body').scope()[wid];
+};
+
+exports.addToAngular = addToAngular = function addToAngular(name, obj) {
+    $('body').scope()[name] = obj;
+};
+
+// call executeService.executeThis from legacy (non angularJS) code
+exports.angularExecuteThis = angularExecuteThis = function angularExecuteThis(parameters, callback) {
+    var scope = $('body').scope();
+    angular.injector(['ng', 'widApp'])
+        .get('executeService')
+        .executeThis(parameters, scope, function(resultArray) {
+            // do something here in the future?
+            if (callback instanceof Function) { callback(resultArray); }
+        });
+};
+
+function htmlToScreenwid(wid, html, params) {
+    var newScreenwid = {executethis:'addwidmaster',wid:wid,html:html},
+        htmlDom = $(html);
+
+    if (params) {
+        if (params.widforview) { newScreenwid.widforview = widforview; }
+        if (params.widforbase) { newScreenwid.widforbase = widforbase;}
+        if (params.widforbackground) { newScreenwid.widforbackground = widforbackground; }
+        if (params.dataforview) { newScreenwid.dataforview = JSON.stringify(dataforview); }
+        if (params.links) { newScreenwid.links = JSON.stringify(links); }
+    }
+
+    // gather execute elements and also add them as numbered properties of the screenWid
+    htmlDom.filter('execute').each(function(i, ele) {
+        newScreenwid[i.toString()] = ele.outerHTML;
+    });
+
+    execute(newScreenwid, function(err, resultArray) {
+        if (err && Object.size(err) > 0) {
+            console.log('htmlToScreenwid addwidmaster error => ' + JSON.stringify(err));
+        }
+    });
+}
+
+// Work in progress
+function screenwidToHtml(screenWid) {
+    var htmlDom = $(screenWid.html);
+
+    htmlDom.filter('execute').each(function(i, ele) {
+        var executeObj = NNMtoObj(ele.attributes);
+
+        execute(executeObj, function(err, resultArray) {
+            if (err && Object.size(err) > 0) {
+                console.log('screenwidToHtml execute error => ' + JSON.stringify(err));
+            } else {
+                for (var i = 0; i < resultArray.length; i++) {
+                    if (resultArray[i].html) { $(ele).append(resultArray[i].html); }
+                }
+            }
+        });
+    });
+
+    return htmlDom.html();
+}
 
 // adding a size function to Object's prototype
 Object.size = function(obj) {
@@ -561,3 +635,12 @@ Object.size = function(obj) {
     }
     return size;
 };
+
+// convert a NamedNodeMap to an Object
+function NNMtoObj(namedNodeMap) {
+    var obj = {};
+    for (var i = 0; i < namedNodeMap.length; i++) {
+        obj[namedNodeMap[i].name] = namedNodeMap[i].value;
+    }
+    return obj;
+}
