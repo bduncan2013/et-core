@@ -70,10 +70,18 @@
                     "relParams": relParams,
                     "aggParams": aggParams
                 },
-                3: {"parameters": parameters},
-                4: {"res":output},
-                5: {"mQueryString":mQueryString},
-                6: {"output":output}
+                3: {
+                    "parameters": parameters
+                },
+                4: {
+                    "res": output
+                },
+                5: {
+                    "mQueryString": mQueryString
+                },
+                6: {
+                    "output": output
+                }
             };
             var resultObj = {};
             var vargroup;
@@ -157,176 +165,191 @@
         //        //output = mongoquery(mQueryString);
         //    }
         //
-        async.series([
+        // if no rawmongoquery and no monogowid and no single and no multiple then stop
+        // we have a initial query part of qiuerywid
+        // then relationships
+        // then after relationships
+
+        if (!queParams['singlemongoquery'] && !queParams['monogowid'] && !queParams['mongorawquery'] && !queParams['multiplemongoquery']) {
+            if (callback instanceof Function) {
+                callback(undefined, [{}]);
+            } else {
+                return [{}];
+            }
+        } else {
+
+            async.series([
 
 
-                function step01(cb) {
-                    debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
-                    // Use single to set up a query with the params of 1 wid
-                    if (queParams['singlemongoquery'] != undefined && countKeys(xtrParams) == 0) {
-                        console.log('singlemongoquery => ' + queParams['singlemongoquery']);
-                        var wid = queParams['singlemongoquery'];
-                        getwid({
-                            'wid': wid
-                        }, function (res) {
-                            var widObject = res;
-                            delete widObject['wid'];
-                            delete widObject['metadata.method'];
-                            mQueryString = BuildSingleQuery(widObject, "or", environmentdb);
-                            //mQueryString = output.substring(0, output.length - 1);
-                            mongoquery(mQueryString, function (err, res) {
-                                output = res;
-                                //output = formatlist(res, "wid", "wid");  &&& takenout by roger
-                                cb(null, "step01");
-                            });
-                        })
-                    } else if (queParams && queParams['multiplemongoquery']) {
-                        output = "";
-                        var paramList = {};
-                        wid = queParams['multiplemongoquery'];
-
-                        console.log('multiplemongoquery => ' + queParams['multiplemongoquery']);
-                        getwid({
-                            'wid': wid
-                        }, function (res) {
-                            var listOfWids = res;
-                            delete listOfWids["wid"];
-                            delete listOfWids["metadata.method"];
-                            proxyprinttodiv('Function MongoDataQuery listOfWids : ', listOfWids,31);
-
-                            var i = 0;
-                            ListOfLists = [];
-                            var todolist = [];
-                            for (var w in listOfWids) {
-                                todolist.push(w);
-                            }
-
-                            async.mapSeries(todolist, function (w, cbMap) {
-                                getwid({
-                                    'wid': w
-                                }, function (res) {
-                                    var tempwid = res;
-                                    delete tempwid["wid"];
-                                    delete tempwid["metadata.method"];
-                                    // for (var t in tempwid) {
-                                    //     paramList[t] = tempwid[t];
-                                    // }
-                                    ListOfLists.push(tempwid);
-                                    paramList = {};
-
-                                    cbMap(null, "map");
-                                });
+                    function step01(cb) {
+                        debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
+                        // Use single to set up a query with the params of 1 wid
+                        if (validParams(queParams) && queParams['singlemongoquery'] != undefined && countKeys(xtrParams) == 0) {
+                            console.log('singlemongoquery => ' + queParams['singlemongoquery']);
+                            var wid = queParams['singlemongoquery'];
+                            getwid({
+                                'wid': wid
                             }, function (err, res) {
-
-                                if (xtrParams) {
-                                    ListOfLists.push(xtrParams);
-                                }
-                                mQueryString = BuildMultipleQuery(ListOfLists, "and", "or", environmentdb);
+                                var widObject = res;
+                                delete widObject['wid'];
+                                delete widObject['metadata.method'];
+                                mQueryString = BuildSingleQuery(widObject, "or", environmentdb);
+                                //mQueryString = output.substring(0, output.length - 1);
                                 mongoquery(mQueryString, function (err, res) {
                                     output = res;
                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
-                                    cb(null, 'step01');
+                                    cb(null, "step01");
                                 });
+                            })
+                        } else if (queParams && queParams['multiplemongoquery']) {
+                            output = "";
+                            var paramList = {};
+                            wid = queParams['multiplemongoquery'];
 
+                            console.log('multiplemongoquery => ' + queParams['multiplemongoquery']);
+                            getwid({
+                                'wid': wid
+                            }, function (err, res) {
+                                var listOfWids = res;
+                                delete listOfWids["wid"];
+                                delete listOfWids["metadata.method"];
+                                proxyprinttodiv('Function MongoDataQuery listOfWids : ', listOfWids, 31);
+
+                                var i = 0;
+                                ListOfLists = [];
+                                var todolist = [];
+                                for (var w in listOfWids) {
+                                    todolist.push(w);
+                                }
+
+                                async.mapSeries(todolist, function (w, cbMap) {
+                                    getwid({
+                                        'wid': w
+                                    }, function (err, res) {
+                                        var tempwid = res;
+                                        delete tempwid["wid"];
+                                        delete tempwid["metadata.method"];
+                                        // for (var t in tempwid) {
+                                        //     paramList[t] = tempwid[t];
+                                        // }
+                                        ListOfLists.push(tempwid);
+                                        paramList = {};
+
+                                        cbMap(null, "map");
+                                    });
+                                }, function (err, res) {
+
+                                    if (xtrParams) {
+                                        ListOfLists.push(xtrParams);
+                                    }
+                                    mQueryString = BuildMultipleQuery(ListOfLists, "and", "or", environmentdb);
+                                    mongoquery(mQueryString, function (err, res) {
+                                        output = res;
+                                        //output = formatlist(res, "wid", "wid");  &&& takenout by roger
+                                        cb(null, 'step01');
+                                    });
+
+                                });
                             });
-                        });
-                    } else if (queParams && queParams['mongorawquery'] !== undefined) {
-                        console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
-                        var mQuery = queParams['mongorawquery'];
-                        mQueryString = mQuery;
-                        console.log('mQueryString at step01 => ' + JSON.stringify(mQueryString));
-                        debugfn("querywid before mQueryString1", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                        } else if (queParams && queParams['mongorawquery'] !== undefined) {
+                            console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
+                            var mQuery = queParams['mongorawquery'];
+                            mQueryString = mQuery;
+                            console.log('mQueryString at step01 => ' + JSON.stringify(mQueryString));
+                            debugfn("querywid before mQueryString1", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
 
-                        mongoquery(mQueryString, function (err, res) {
-                            output = res;
-                            //output = formatlist(res, "wid", "wid");  &&& takenout by roger
-                            console.log(' *** get primary wids *** ' + JSON.stringify(output));
-                            debugfn("move queParams to output", "querywid", "query", "mid", debugcolor, debugindent, debugvars([4]));
+                            mongoquery(mQueryString, function (err, res) {
+                                output = res;
+                                //output = formatlist(res, "wid", "wid");  &&& takenout by roger
+                                console.log(' *** get primary wids *** ' + JSON.stringify(output));
+                                debugfn("move queParams to output", "querywid", "query", "mid", debugcolor, debugindent, debugvars([4]));
+                                cb(null, "step01");
+                            });
+                        } else {
+                            console.log('righ here');
                             cb(null, "step01");
-                        });
-                    } else {
-                        console.log('righ here');
-                        cb(null, "step01");
-                    }
-                },
-                function step02(cb) {
-                    // Primary Wid Section **********
-                    if (queParams && queParams['mongowid'] !== undefined) {
-                        console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
-                        output = formatlist(output, "wid", "wid");
-                        output.push({
-                            'wid': queParams['mongowid']
-                        });
+                        }
+                    },
+                    function step02(cb) {
+                        // Primary Wid Section **********
+                        if (validParams(queParams) && queParams && queParams['mongowid'] !== undefined) {
+                            console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
+                            output = formatlist(output, "wid", "wid");
+                            output.push({
+                                'wid': queParams['mongowid']
+                            });
 
-                        cb(null, "step02");
-                    } else {
-                        cb(null, "step02");
-                    }
-                },
+                            cb(null, "step02");
+                        } else {
+                            cb(null, "step02");
+                        }
+                    },
 
-                function step03(cb) {
-                    // Relationship Section **********
-                    // Skip if there are no relParams
+                    function step03(cb) {
+                        // Relationship Section **********
+                        // Skip if there are no relParams
 
-                    if (validParams(relParams)) {
-                        if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
-                            output = formatlist(output, "wid", "wid")
-                        };
-                        debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                        if (validParams(relParams) && validParams(output)) {
+                            if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
+                                output = formatlist(output, "wid", "wid")
+                            };
+                            debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
 
-                        mQueryString = relationShipQuery(relParams, output, "data");
-                        console.log('mQueryString at step03 => ' + mQueryString);
-                        mongoquery(mQueryString, function (err, res) {
-                            console.log(" result from step03 " + JSON.stringify(res));
-                            output = res;
-                            debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([4]));
+                            mQueryString = relationShipQuery(relParams, output, "data");
+                            console.log('mQueryString at step03 => ' + mQueryString);
+                            mongoquery(mQueryString, function (err, res) {
+                                console.log(" result from step03 " + JSON.stringify(res));
+                                output = res;
+                                debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([4]));
+                                cb(null, "step03");
+                            });
+                        } else {
                             cb(null, "step03");
-                        });
-                    } else {
-                        cb(null, "step03");
-                    }
+                        }
 
-                },
+                    },
 
-                function step04(cb) {
-                    // Relationship Section **********
-                    // Skip if there are no relParams
-                    if ((validParams(relafterParams)) && (output) && (output.length > 0)) {
-                        console.log('>>> ' + JSON.stringify(output))
-                        output = formatlist(output, "wid", "wid");
-                        // TODO :: START HERE.
-                        mQueryString = queryafterrelationship(relafterParams, output);
-                        console.log('mQueryString at step04 => ' + mQueryString);
-                        // mongoquery(JSON.parse(mQueryString), function (res) {
-                        debugfn("step04", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                    function step04(cb) {
+                        // Relationship Section **********
+                        // Skip if there are no relParams
+                        if ((validParams(relafterParams)) && (output) && (output.length > 0)) {
+                            console.log('>>> ' + JSON.stringify(output))
+                            output = formatlist(output, "wid", "wid");
+                            // TODO :: START HERE.
+                            mQueryString = queryafterrelationship(relafterParams, output);
+                            console.log('mQueryString at step04 => ' + mQueryString);
+                            // mongoquery(JSON.parse(mQueryString), function (res) {
+                            debugfn("step04", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
 
-                        mongoquery(mQueryString, function (err, res) {
-                            output = res;
-                            debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([4]));
+                            mongoquery(mQueryString, function (err, res) {
+                                output = res;
+                                debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([4]));
+                                cb(null, "step04");
+                            });
+                        } else {
                             cb(null, "step04");
-                        });
-                    } else {
-                        cb(null, "step04");
+                        }
+
                     }
 
-                }
-
-            ],
-            function (err, res) {
-                console.log('completed tasks asynchronously in querywid ');
-                console.log('output is ' + JSON.stringify(output));
-                debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
+                ],
+                function (err, res) {
+                    console.log('completed tasks asynchronously in querywid ');
+                    console.log('output is ' + JSON.stringify(output));
+                    debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
 
 
 
-                if (callback instanceof Function) {
-                    callback(err, formatListFinal(output, environmentdb, null));
-                } else {
-                    return formatlist(output, environmentdb, null);
-                }
+                    if (callback instanceof Function) {
+                        callback(err, formatListFinal(output, environmentdb, null));
+                    } else {
+                        return formatlist(output, environmentdb, null);
+                    }
 
 
-            });
+                });
+
+        }
 
         //};
     }
@@ -410,15 +433,15 @@
             //for (var i=0; i< inlist.length; i++) {
             for (i in inlist) { // changed by roger &&&
                 var item = inlist[i];
-                
+
                 item = ConvertFromDOTdri(item);
-                
+
 
                 if (!parmnameout) {
                     widvalue = item['wid']
                 } else {
                     widvalue = parmnameout
-                };            
+                };
 
                 var obj = {};
                 obj[widvalue] = item[parmnamein];
@@ -442,7 +465,7 @@
         }
     }
 
-     function formatListFinal(inlist, parmnamein, parmnameout) {
+    function formatListFinal(inlist, parmnamein, parmnameout) {
         var output = [];
         var widvalue;
 
@@ -460,14 +483,14 @@
             //for (var i=0; i< inlist.length; i++) {
             for (i in inlist) { // changed by roger &&&
                 var item = inlist[i];
-                
+
                 item = ConvertFromDOTdri(item);
-                
+
                 if (!parmnameout) {
                     widvalue = item['wid']
                 } else {
                     widvalue = parmnameout
-                };            
+                };
 
                 var obj = {};
                 obj[widvalue] = item[parmnamein];

@@ -543,10 +543,10 @@
                 function step2(cb) {
                     proxyprinttodiv('Function AddMongoRelationship - executeobject', executeobject, 75);
                     executeobject["mongorawquery"] = {
-                        "$and": {
+                        "$and": [{
                             "data.primarywid": ParentWid,
                             "data.secondarywid": ChildWid
-                        }
+                        }]
                     };
                     executeobject["executethis"] = querywid;
                     execute(executeobject, function (err, res) {

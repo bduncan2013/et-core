@@ -431,40 +431,57 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         debugfn("begin processquery", "processquery", "mongoquery", "begin", debugcolor, debugindent, debugvars([3, 5]));
 
         proxyprinttodiv('Function processquery querylist', querylist, 99);
+
+
         for (querylistindex in querylist) { // querylist will always be a list
             proxyprinttodiv('Function processquery querylistindex', querylistindex, 99);
             potentialquery = querylist[querylistindex]; // we will step by objects
             proxyprinttodiv('Function processquery potentialquery', potentialquery, 99);
-            for (left in potentialquery) { // this will just split left right
-                proxyprinttodiv('Function processquery left', left, 99);
-                right = potentialquery[left];
-            }
-            // if operator then recurse
-            debugfn("before processquery", "processquery", "mongoquery", "begin", debugcolor, debugindent, debugvars([1]));
 
-            // if we do need the above statemnt then we need to make a for each deep copy (see expand in utils)
-            if ((left == "$or") || (left == "$and")) {
-                debugcolor++;
-                debugindent++;
-                //listresult = processquery(searchobjectlist, right);
-                proxyprinttodiv('Function processquery before templist left', left, 99);
-                templist = processquery(searchobjectlist, right);
-                proxyprinttodiv('Function processquery after templist left', left, 99);
-                proxyprinttodiv('Function listresult I', listresult, 30);
-                // added below %% add the array inside of another array
-                listresult.push(templist);
-                listresult = processoperator(searchobjectlist, listresult, left);
-                proxyprinttodiv('Function listresult III', listresult, 30);
-                debugcolor--;
-                debugindent--;
-            } else {
-                //listresult.push(potentialquery); 
-                listresult.push(querylist);
-            }
+            if (Object.keys(potentialquery).length !== 1) { 
+                // {"data.primarywid":"song1","data.secondarywid":"4", "data.secondarywid":"song2","data.secondarywid":"5"}
+                listresult = potentialquery
+                }
+            else { // {"$and":[{"data.primarywid":"song1","data.secondarywid":"4"}]}        
+                for (left in potentialquery) { // this for loop will go throuhg {a:b} > left=a, rigth = b
+                    right = potentialquery[left];
+                    proxyprinttodiv('Function processquery left', left, 99);
+                    proxyprinttodiv('Function processquery right', right, 99);
+                }
+
+                // if operator then recurse
+                debugfn("before processquery", "processquery", "mongoquery", "begin", debugcolor, debugindent, debugvars([1]));
+
+                // if we do need the above statemnt then we need to make a for each deep copy (see expand in utils)
+                if ((left == "$or") || (left == "$and")) {
+                    debugcolor++;
+                    debugindent++;
+                    //listresult = processquery(searchobjectlist, right);
+                    templist=[];
+                    templist = processquery(searchobjectlist, right);
+                    proxyprinttodiv('Function processquery after templist left', templist, 99);
+                    //proxyprinttodiv('Function listresult I', listresult, 30);
+                    // added below %% add the array inside of another array
+                    //listresult.push(templist);
+                    listresult=templist;
+                    listresult = processoperator(searchobjectlist, listresult, left);
+                    proxyprinttodiv('Function listresult III', listresult, 30);
+                    debugcolor--;
+                    debugindent--;
+                    } 
+                else {
+                    // this case should never happen
+                    proxyprinttodiv('Function this should never happen -----------', querylist, 30);
+                    listresult.push(potentialquery); // in this case potentailquery was just data
+                    //listresult.push(querylist);
+                    }
+                }// else
             debugfn("after processquery", "processquery", "mongoquery", "end", debugcolor, debugindent, debugvars([4]));
             outlist = arrayUnique(outlist.concat(listresult));
             debugfn("end processquery", "processquery", "mongoquery", "end", debugcolor, debugindent, debugvars([4]));
-        }
+
+        } // for query
+        proxyprinttodiv('Function processquery outlist', outlist, 99);
         return outlist;
     }
 
@@ -534,85 +551,82 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 
         debugfn("processoperator begin", "processoperator", "mongoquery", "begin", debugcolor, debugindent, debugvars([1]));
 
-        for (eachwid in inobjectlist) { // got through whole list
-            widrecord = inobj[inobjectlist[eachwid]["wid"]];
+        proxyprinttodiv('Function processoperator targetparameters', targetparameters, 30);
+        //targetparameters will come in like this [[{a:b},{c:d}], {e:f, g:h}]
+        //[{a:b},{c:d}] exeception list represent wids that must be included in final set
+        match = true; // assume that no exeception list
+        for (eachwid in inobjectlist) { // got through whole list wids
+            widrecord = inobj[inobjectlist[eachwid]["wid"]]; // get the right wid  record
             proxyprinttodiv('widrecord', widrecord, 30);
             equalobject = {};
             notequalobject = {};
-            proxyprinttodiv('Function widrecord', widrecord, 30);
-
-
+  
             for (eachtarget in targetparameters) { //go through each array inside array     
                 // paramters is a list [{a:b},{c:d}] or 
-                // paramters is a list [[{a:b},{c:d}]
-                targetobject = targetparameters[eachtarget] // targetobject = {a:b}
-                proxyprinttodiv('Function targetobject', targetobject, 30);
-                // %% added below
-                // if not array then make it into array
-                if (targetobject instanceof Array) {
-                    targetarray = targetobject;
-                } else {
-                    targetarray.push(targetobject)
-                }
+                // paramters is a list [[{a:b},{c:d}], {e:f, g:h}]
+                targetarray = targetparameters[eachtarget] // targetobject = {a:b}
                 proxyprinttodiv('Function targetarray', targetarray, 30);
-                match = false;
-                for (eacharray in targetarray) {
-                    if (targetarray instanceof Array) {
-                        targetobject = targetarray[eacharray];
-                    } else {
-                        targetobject = eacharray;
-                    }
-                    proxyprinttodiv('Function targetobject II', targetobject, 30);
-                    //match=false;
-                    for (eachparm in targetobject) {
+
+                if (targetarray instanceof Array) { // is this an exception list?
+
+                    for (eacharray in targetarray) {
+                        targetobject=targetarray[eacharray]; // {a:b}
+
+                        for (eachparm in targetobject) { // split left right a:b
+                            proxyprinttodiv('Function execption widrecord[eachparm]', widrecord[eachparm], 30);
+                            proxyprinttodiv('Function excpetion targetobject[eachparm]', targetobject[eachparm], 30);
+                            if (widrecord[eachparm] !== targetobject[eachparm]) {match = false}; // done at first non match
+                            proxyprinttodiv('Function match', match, 30);
+                            if (!match) {break} // if match = false then wid did not exist , this query will fail
+                            }
+                            }
+                        }
+                else { // if not array
+                    targetobject=targetarray; // {"data.primarywid":"song1","data.secondarywid":"4"}
+                    for (eachparm in targetobject) { // go through object list
                         proxyprinttodiv('Function widrecord[eachparm]', widrecord[eachparm], 30);
                         proxyprinttodiv('Function targetobject[eachparm]', targetobject[eachparm], 30);
                         if (widrecord[eachparm] == targetobject[eachparm]) {
-                            match = true;
-                            //break;
-                        } else {
-                            match = false; // done at first non match
-                            //break;
-                        };
-                        proxyprinttodiv('Function match', match, 30);
-                        // if (match) { // if match then ok to go with previous type search
-                        //  equalobject[eachparm] = widrecord; // previosly targetparameters
-                        // } else {
-                        //  notequalobject[eachparm] = widrecord; // previosly targetparameters
-                        // }
-                        if (match) {
-                            break
-                        };
-                    }
+                            equalobject[eachparm] = "found"; 
+                            }
+                        else {
+                            notequalobject[eachparm] = "notfound"; // previosly targetparameters
+                        }
+                        } // for
+                    } // if not array
 
-                    if (match) { // if match then ok to go with previous type search
-                        equalobject[eachparm] = widrecord; // previosly targetparameters
-                    } else {
-                        notequalobject[eachparm] = widrecord; // previosly targetparameters
-                    }
-                    proxyprinttodiv('Function equalobject', equalobject[eachparm], 30);
-                    proxyprinttodiv('Function notequalobject', notequalobject[eachparm], 30);
-                }
-            }
-            wid = {};
-            if (operator == "$or") { // if any matched (or) then add to resultobject
-                if (Object.keys(equalobject).length !== 0) {
-                    wid["wid"] = widrecord["wid"];
-                    resultlist.push(wid);
-                }
-            }
-            if (operator == "$and") { // if all matched (and) (notequalobject is empty) then add to resultobject
-                if (Object.keys(notequalobject).length == 0) {
-                    wid["wid"] = widrecord["wid"];
-                    resultlist.push(wid);
-                }
-            }
+                proxyprinttodiv('Function equalobject', equalobject, 30);
+                proxyprinttodiv('Function notequalobject', notequalobject, 30);
 
+                if (!match) {break}
+                wid = {};
+
+                if (operator == "$or") { // if any matched (or) then add to resultobject
+                    if (Object.keys(equalobject).length !== 0) {
+                        wid["wid"] = widrecord["wid"];
+                        resultlist.push(wid);
+                    }
+                }
+                if (operator == "$and") { // if all matched (and) (notequalobject is empty) then add to resultobject
+                    if (Object.keys(notequalobject).length == 0) {
+                        wid["wid"] = widrecord["wid"];
+                        resultlist.push(wid);
+                    }
+                }
+                    
             debugfn("processoperator end", "processoperator", "mongoquery", "end", debugcolor, debugindent, debugvars([4, 5]));
         } // allwids
 
+}
         proxyprinttodiv('Function resultlist', resultlist, 30);
-        return resultlist; // returns list: [{}, {}, {}]
+        if (match) {
+            return resultlist;
+            }
+        else{
+            return [];
+            }
+
+        // returns list: [{}, {}, {}]
     } // end processoperator
 
     // Start of mongoquery
