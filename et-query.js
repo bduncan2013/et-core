@@ -69,7 +69,11 @@
                     "queParams": queParams,
                     "relParams": relParams,
                     "aggParams": aggParams
-                }
+                },
+                3: {"parameters": parameters},
+                4: {"res":output},
+                5: {"mQueryString":mQueryString},
+                6: {"output":output}
             };
             var resultObj = {};
             var vargroup;
@@ -155,8 +159,9 @@
         //
         async.series([
 
-                function step01(cb) {
 
+                function step01(cb) {
+                    debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
                     // Use single to set up a query with the params of 1 wid
                     if (queParams['singlemongoquery'] != undefined && countKeys(xtrParams) == 0) {
                         console.log('singlemongoquery => ' + queParams['singlemongoquery']);
@@ -187,7 +192,7 @@
                             var listOfWids = res;
                             delete listOfWids["wid"];
                             delete listOfWids["metadata.method"];
-                            proxyprinttodiv('Function MongoDataQuery listOfWids : ', listOfWids);
+                            proxyprinttodiv('Function MongoDataQuery listOfWids : ', listOfWids,31);
 
                             var i = 0;
                             ListOfLists = [];
@@ -229,12 +234,14 @@
                         console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
                         var mQuery = queParams['mongorawquery'];
                         mQueryString = mQuery;
-                        console.log('mQueryString at step01 => ' + mQueryString);
+                        console.log('mQueryString at step01 => ' + JSON.stringify(mQueryString));
+                        debugfn("querywid before mQueryString1", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+
                         mongoquery(mQueryString, function (err, res) {
                             output = res;
                             //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                             console.log(' *** get primary wids *** ' + JSON.stringify(output));
-                            debugfn("move queParams to output", "mongorawquery", "query", "begin", debugcolor, debugindent, debugvars([1]));
+                            debugfn("move queParams to output", "querywid", "query", "mid", debugcolor, debugindent, debugvars([4]));
                             cb(null, "step01");
                         });
                     } else {
@@ -265,12 +272,14 @@
                         if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
                             output = formatlist(output, "wid", "wid")
                         };
+                        debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+
                         mQueryString = relationShipQuery(relParams, output, "data");
                         console.log('mQueryString at step03 => ' + mQueryString);
                         mongoquery(mQueryString, function (err, res) {
                             console.log(" result from step03 " + JSON.stringify(res));
                             output = res;
-                            debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([1]));
+                            debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([4]));
                             cb(null, "step03");
                         });
                     } else {
@@ -289,9 +298,11 @@
                         mQueryString = queryafterrelationship(relafterParams, output);
                         console.log('mQueryString at step04 => ' + mQueryString);
                         // mongoquery(JSON.parse(mQueryString), function (res) {
+                        debugfn("step04", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+
                         mongoquery(mQueryString, function (err, res) {
                             output = res;
-                            debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([1]));
+                            debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([4]));
                             cb(null, "step04");
                         });
                     } else {
@@ -304,10 +315,12 @@
             function (err, res) {
                 console.log('completed tasks asynchronously in querywid ');
                 console.log('output is ' + JSON.stringify(output));
+                debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
+
 
 
                 if (callback instanceof Function) {
-                    callback(err, formatlist(output, environmentdb, null));
+                    callback(err, formatListFinal(output, environmentdb, null));
                 } else {
                     return formatlist(output, environmentdb, null);
                 }
@@ -409,6 +422,58 @@
 
                 var obj = {};
                 obj[widvalue] = item[parmnamein];
+                //obj["wid"] = widvalue;
+                output.push(obj); // &&& roger
+                //output[widvalue] = item[parmnamein]
+            }
+            // }else if(inlist instanceof Object){
+            //     for (var item in inlist) {
+            //         if (!parmnameout) {
+            //             widvalue = item['wid']
+            //         } else {
+            //             widvalue = parmnameout
+            //         };
+            //         output.push({widvalue:item[parmnamein]}); // &&& roger
+            //         //output[widvalue] = item[parmnamein]
+            //     }
+            //     output[0] = output; // convert list to object
+            // }
+            return output
+        }
+    }
+
+     function formatListFinal(inlist, parmnamein, parmnameout) {
+        var output = [];
+        var widvalue;
+
+        if (inlist === undefined || inlist.length === 0) {
+            return [{}];
+        } else {
+
+            // formatlist (inlist, parmnamein, parmnameout) 
+            //     inlist must be a list in standard mongo output:
+            //     [{}, {}, {}]
+            //     produces a list in dri wid list format
+            //     [wid:{}, wid:{}, wid:{}]
+            // &&& roger it show("")ould always get a list and produce list -- necessit of if statement would be warning something wrong
+            //if(inlist instanceof Array){
+            //for (var i=0; i< inlist.length; i++) {
+            for (i in inlist) { // changed by roger &&&
+                var item = inlist[i];
+                
+                item = ConvertFromDOTdri(item);
+                
+                if (!parmnameout) {
+                    widvalue = item['wid']
+                } else {
+                    widvalue = parmnameout
+                };            
+
+                var obj = {};
+                obj[widvalue] = item[parmnamein];
+                if (item["method"] !== undefined && item["method"]["method"] !== undefined) {
+                    obj["metadata.method"] = item["metdata"]["method"];
+                }
                 output.push(obj); // &&& roger
                 //output[widvalue] = item[parmnamein]
             }

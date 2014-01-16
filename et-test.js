@@ -1,13 +1,147 @@
-
 exports.testcallback = testcallback = function testcallback(params, callback) {
 	console.log("<< testcallback >>");
 	params["test_result"]="PASSnew";
 	callback(null, params);
 }
 
+exports.mts1 = mts1 = function mts1(params, callback){
+	// basic test for debuging query issues
+	console.log("Simple update wid test");
+	
+	// local vars
+	var dtoObj;
+	var executeList = [];
+	var mongorawquery;
+	var executeObj;
+
+	// Util functions
+	function colorTrace(msg, color) {
+    	console.log("%c" + msg, "color:" + color + ";font-weight:bold;");
+	}
+
+executeList = [
+{"executethis": "offlineaddtomongo", "wid":"1","metadata":{"method":"relationshipdto"},"data":{"relationshiptype":"attributes","secondarywid":"undefined","primarywid":"song1"}},
+{"executethis": "offlineaddtomongo", "wid":"songdto","metadata":{"method":"songdto"},"data":{"title":"string","sounddto":"onetomany"}},
+{"executethis": "offlineaddtomongo", "wid":"4","metadata":{"method":"sounddto"},"data":{"note":"C flat"}},
+{"executethis": "offlineaddtomongo", "wid":"2","metadata":{"method":"sounddto"},"data":{"note":"B sharp"}},
+{"executethis": "offlineaddtomongo", "wid":"3","metadata":{"method":"relationshipdto"},"data":{"relationshiptype":"attributes","secondarywid":"2","primarywid":"song1"}},
+{"executethis": "offlineaddtomongo", "wid":"rel_sound_to_song","metadata":{"method":"defaultdto"},"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"}},
+{"executethis": "offlineaddtomongo", "wid":"song1","metadata":{"method":"songdto"},"data":{"title":"Highway to Hell"}},
+{"executethis": "offlineaddtomongo", "wid":"sounddto","metadata":{"method":"sounddto"},"data":{"note":"string"}},
+{"executethis": "offlineaddtomongo", "wid":"undefined","metadata":{"method":"sounddto"},"data":{"note":"A flat"}},
+{"executethis": "offlineaddtomongo", "wid":"5","metadata":{"method":"relationshipdto"},"data":{"relationshiptype":"attributes","secondarywid":"4","primarywid":"song1"}}
+]
+	// // Build execute array for adding a wid
+	// executeList = [{
+	// 	"executethis": "addwidmaster", 
+	// 	"wid": "sounddto",
+	// 	"metadata.method": "sounddto",
+	// 	"note": "string"
+	// },
+	// {	
+	// 	"executethis": "addwidmaster", 
+	// 	"wid": "songdto",
+	// 	"metadata.method": "songdto",
+	// 	"title": "string",
+	// 	"sounddto": "onetomany"
+	// },
+	// {	
+	// 	"executethis": "addwidmaster", 
+	// 	"wid": "rel_sound_to_song",
+	// 	"primarywid": "songdto",
+	// 	"secondarywid": "sounddto",
+	// 	"relationshiptype": "attributes"
+	// },
+	// {	
+	// 	"executethis": "addwidmaster", 
+	// 	"wid": "song1",
+	// 	"metadata.method": "songdto",
+	// 	"title": "Highway to Hell",
+	// 	"sounddto.0.note": "A flat",
+	// 	"sounddto.1.note": "B sharp",
+	// 	"sounddto.2.note": "C flat"
+	// }];
+	
+	// pass our add test wid array to execute this, this should add a wid to local storage
+	executearray(executeList, function (err, res) {
+		colorTrace('res after executerray: ' + JSON.stringify(res), "blue");
+		
+		// build query
+		debugcat = "mongoquery";
+		debugcolor=1;
+		debuglevel=30;
+		//mongorawquery = '{"$and":{"data.primarywid":"song1","data.secondarywid":"2"}}';
+
+		// execute mongoquery
+		//mongoquery(mongorawquery, function (err, res) {
+ 			proxyprinttodiv('Function mttest ', res, 99);
+
+			// build execute array for testing query wid
+			executeObj = {};
+			executeObj["executethis"] = "querywid";
+			executeObj["mongorawquery"] = '{"$and":{"data.primarywid":"song1","data.secondarywid":"4"}}';
+			executeList = [];
+			executeList.push(executeObj);
+
+			// Execute our query wid test
+			executearray(executeList, function (err, res) {
+ 				proxyprinttodiv('Function mttest II', res, 99);
+			});
+		//});
+	});
+}
+
+exports.mts2 = mts2 = function mts2(params, callback){
+	// basic test for debuging query issues
+	console.log("Simple update wid test");
+	
+	// local vars
+	var dtoObj;
+	var executeList = [];
+	var mongorawquery;
+	var executeObj;
+
+	// Util functions
+	function colorTrace(msg, color) {
+    	console.log("%c" + msg, "color:" + color + ";font-weight:bold;");
+	}
+	
+	// Build execute array for adding a wid
+	dtoObj = {"executethis":"updatewid","metadata.method":"testdto","wid":"testdto","a":"string","b":"string"};
+	executeList.push(dtoObj);
+	
+	// pass our add test wid array to execute this, this should add a wid to local storage
+	executearray(executeList, function (err, res) {
+		colorTrace('res after executerray: ' + JSON.stringify(res), "blue");
+		
+		// build query
+		mongorawquery = '{"$or":[{"data.a":"string"}]}';
+
+		// execute mongoquery
+		mongoquery(mongorawquery, function (err, res) {
+			colorTrace("mongorawquery returned: " + JSON.stringify(res), "blue");
+
+			// build execute array for testing query wid
+			executeObj = {};
+			executeObj["executethis"] = "querywid";
+			executeObj["mongorawquery"] = '{"$or":[{"data.a":"string"}]}';
+			executeList = [];
+			executeList.push(executeObj);
+
+			// Execute our query wid test
+			executearray(executeList, function (err, res) {
+				alert(JSON.stringify(res));
+				colorTrace('res after executerray querywid: ' + JSON.stringify(res), "blue");
+			});
+		});
+	});
+}
+
+
 exports.mttest1 = mttest1 = function mttest1(params, callback){
 	console.log("<< mongoquery_two_test >>");
 	
+	var result = null;
 	var ortests = false;
 	var andtests = false;
 	var orortests = false;
@@ -50,11 +184,12 @@ exports.mttest1 = mttest1 = function mttest1(params, callback){
 		
 		executearray(executeList, function (err, res) {
 			console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+			result = res;
 		});
 		
 		var expectedResultArray = [];
 		expectedResultArray.push({"wid":"testdto","metadata.method":"testdto","data.b":"string","data.a":"string"});
-		params = logverify("mongoquery","resultwid1" ,result[1],"","",expectedResultArra);
+		params = logverify("mongoquery","resultwid1" ,result[1][0],"","",expectedResultArray);
 
 		proxyprinttodiv("end of verify tests", "end of verify tests", 99);
 	}
@@ -2351,7 +2486,7 @@ exports.addi = addi = function addi() {
 	executeobject["command.convertmethod"] = "dtonum";
 	executeobject["wid"] = "sarah_jones";
 	resultobject = execute(executeobject);
-	proxyprinttodiv('result from execute', resultobject[0], true);
+	proxyprinttodiv('result from execute', resultobject, true);
 
 
 	//executetest("debugoff");

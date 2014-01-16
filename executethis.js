@@ -63,13 +63,12 @@
                 console.log('starting preexecute ' + nonCircularStringify(incomingparams));
                 dothisprocessor(incomingparams, 'preexecute', function (err, preResults) {
                     preError = err;
-                     //if (preResults instanceof Array) {preResults=preResults[0]};
+                    //if (preResults instanceof Array) {preResults=preResults[0]};
                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
                     console.log('starting midexecute ' + nonCircularStringify(incomingparams));
-                   
-                        if (preResults !== false && (!preResults))
-                            preResults = {};
-                    doThis(preResults, 'midexecute', function (err, midResults) {
+
+                    if (preResults !== false && (!preResults))
+                        preResults = {};
 
 
                     dothisprocessor(preResults, 'midexecute', function (err, midResults) {
@@ -78,14 +77,13 @@
                         //if (midResults instanceof Array) {midResults=midResults[0]};
                         console.log(' after midexecute >> ' + nonCircularStringify(midResults));
 
-                        if (!midResults) {
+                        if (midResults !== false && (!midResults))
                             midResults = {};
-                        }
-
                         dothisprocessor(midResults, 'postexecute', function (err, postResults) {
                             console.log(' after postexecute >> ' + nonCircularStringify(postResults));
                             //if (preResults instanceof Array) {postResults=postResults[0]};
-                            if (postResults !== false && (!postResults)) {
+                            if (postResults !== false && (!postResults))
+                                postResults = {};
 
                             overallError = extend(true, preError, midError, err);
 
@@ -713,10 +711,10 @@
                                                 cbMapW(null, "What Iteration");
                                             }
                                         });
-                                        } // if executeobject.targetfn
+                                    } // if executeobject.targetfn
                                     else {
-                                         cbMapW(null, "What Iteration");
-                                        }
+                                        cbMapW(null, "What Iteration");
+                                    }
 
                                     // else ((howallowexecute) && (whatallowexecute))  ... do something else
                                 }); //executeobject callback
@@ -747,7 +745,7 @@
                 callback(err, outputResultsArr);
             });
         debugcolor--;
-    }   
+    }
 
 
     // function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
@@ -987,21 +985,21 @@
         }
 
         //proxyprinttodiv("getexecuteobject targetfn I", String(targetfn), 17);
-        if ((targetfn === undefined) || (targetfn === "")) {
-            params["etstatus"] = "nofn";
-            targetfn = executeerror; // we want to return undefined here so we try the next case
-        } else {
-            if (!targetfn instanceof Function) { // check to see if it is a string fucntion
-                if (targetfn.indexOf('function') != -1) {
-                    if (window[targetfn]) {
-                        targetfn = window[targetfn]
-                    } else {
-                        params["etstatus"] = "invalidfn"
-                        targetfn = executeerror;
-                    }
-                }
-            }
-        }
+        // if ((targetfn === undefined) || (targetfn === "")) {
+        //     params["etstatus"] = "nofn";
+        //     targetfn = executeerror; // we want to return undefined here so we try the next case
+        // } else {
+        //     if (!targetfn instanceof Function) { // check to see if it is a string fucntion
+        //         if (targetfn.indexOf('function') != -1) {
+        //             if (window[targetfn]) {
+        //                 targetfn = window[targetfn]
+        //             } else {
+        //                 params["etstatus"] = "invalidfn"
+        //                 targetfn = executeerror;
+        //             }
+        //         }
+        //     }
+        // }
 
         //proxyprinttodiv("getexecuteobject result targetfunction ", String(targetfn), 17);
         callback({}, {
