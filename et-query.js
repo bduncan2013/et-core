@@ -35,10 +35,11 @@
         var mQueryString = "";
 
         // Fish out params
+        proxyprinttodiv('querywid parameters I', parameters, 99);
         var p = fishOut(parameters);
         console.log('object that came back from fishOut => ' + JSON.stringify(p));
-        proxyprinttodiv('querywid parameters', parameters);
-        proxyprinttodiv('querywid p ', p);
+        proxyprinttodiv('querywid parameters', parameters, 99);
+        proxyprinttodiv('querywid p ', p, 99);
         var queParams = p[0];
         var relParams = p[1];
         var aggParams = p[2];
@@ -170,7 +171,7 @@
         // then relationships
         // then after relationships
 
-        if (!queParams['singlemongoquery'] && !queParams['monogowid'] && !queParams['mongorawquery'] && !queParams['multiplemongoquery']) {
+        if (!((queParams['singlemongoquery'] !== undefined && queParams['singlemongoquery'] !== "") || (queParams['mongowid'] !== undefined && queParams['mongowid'] !== "") || (queParams['mongorawquery'] !== undefined && queParams['mongorawquery'] !== "") || (queParams['multiplemongoquery'] !== undefined && queParams['multiplemongoquery'] !== ""))) {
             if (callback instanceof Function) {
                 callback(undefined, [{}]);
             } else {
@@ -243,6 +244,7 @@
                                         ListOfLists.push(xtrParams);
                                     }
                                     mQueryString = BuildMultipleQuery(ListOfLists, "and", "or", environmentdb);
+                                    proxyprinttodiv('querywid mQueryString init', mQueryString, 99);
                                     mongoquery(mQueryString, function (err, res) {
                                         output = res;
                                         //output = formatlist(res, "wid", "wid");  &&& takenout by roger
@@ -257,7 +259,7 @@
                             mQueryString = mQuery;
                             console.log('mQueryString at step01 => ' + JSON.stringify(mQueryString));
                             debugfn("querywid before mQueryString1", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
-
+                            proxyprinttodiv('querywid mQueryString second', mQueryString, 99);
                             mongoquery(mQueryString, function (err, res) {
                                 output = res;
                                 //output = formatlist(res, "wid", "wid");  &&& takenout by roger
@@ -274,7 +276,10 @@
                         // Primary Wid Section **********
                         if (validParams(queParams) && queParams && queParams['mongowid'] !== undefined) {
                             console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
+                            proxyprinttodiv('querywid output before mongowid', output, 99);
                             output = formatlist(output, "wid", "wid");
+                            if (output=[{}]) {output=[]};
+                            proxyprinttodiv('querywid output after mongowid', output, 99);
                             output.push({
                                 'wid': queParams['mongowid']
                             });
@@ -294,6 +299,8 @@
                                 output = formatlist(output, "wid", "wid")
                             };
                             debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+
+                            proxyprinttodiv('querywid output before rel', output, 99);
 
                             mQueryString = relationShipQuery(relParams, output, "data");
                             console.log('mQueryString at step03 => ' + mQueryString);
@@ -338,12 +345,14 @@
                     console.log('output is ' + JSON.stringify(output));
                     debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
 
+                    output = formatListFinal(output, environmentdb, null);
+                    proxyprinttodiv('querywid output', output, 99);
 
 
                     if (callback instanceof Function) {
-                        callback(err, formatListFinal(output, environmentdb, null));
+                        callback(err, output);
                     } else {
-                        return formatlist(output, environmentdb, null);
+                        return output;
                     }
 
 
