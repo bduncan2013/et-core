@@ -194,13 +194,27 @@
         var temp = {};
         temp[resultwid] = testresults;
         return temp;
-        // displayallthetestresutls(getfromlocal({'wid': resultwid}));
-        // var tempobj = getfromlocal({'wid':testname});
-        // if (tempobj === undefined) {
-        //  tempobj = {};
-        // }
-        // tempobj[resultwid] = testresults;
-        // addtolocal(testname, tempobj);
+    }
+
+    exports.logverify2 = logverify2 = function logverify2(test_name, data_object, assertion_object) {
+        if (test_name === undefined) test_name = "defaulttest";
+
+        var result = deepDiffMapper.map(data_object, assertion_object);
+        // Assume UNKNOWN...
+        var test_results = "UNKNOWN";
+        var temp_string = JSON.stringify(result);
+        // If there is a value of 'unchanged', there IS data that has passed,
+        // so for now, set the 'test_results' to PASS.
+        if ( temp_string.indexOf("unchanged") !== -1 ) test_results = "PASS";
+        // If there are any of 'created', 'updated', 'deleted', the tests now fails, even if
+        // it passed before...if none of the 4 strings are found, the test_results will 
+        // remain 'UNKNOWN'
+        if ( temp_string.indexOf("created") !== -1 || temp_string.indexOf("deleted") !== -1 || temp_string.indexOf("updated") !== -1 ) test_results = "FAIL";
+        
+        var data = {};
+        data[test_name] = test_results;
+        data[test_name + '_diff'] = result;
+        return data;
     }
 
     function logcompare(paramwid) {

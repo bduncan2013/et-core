@@ -1,21 +1,27 @@
 // at stands for 'all tests', this will run a suite 
 // of tests that are known to pass
-exports.at = at = function at(params, callback) {
+exports.ettestat = ettestat = function ettestat(params, callback) {
 	bootprocess();
 
 	var result = {};
-	result = jsonConcat(result, tt());
-	result = jsonConcat(result, astt());
-	result = jsonConcat(result, ctt());
-	result = jsonConcat(result, agtt());
+	var err;
 
-	if (callback instanceof Function) {
-		var err;callback(err, result);
-	} else {
-		return result;
-	}
-	// return result;
+	ettesttt(result, function (err, result) {
+		
+		ettestastt(result, function (err, result) {
+
+			ettestctt(result, function (err, result) {
+				// ettestagtt(result, function () {
+				// 	var err;
+				// 	callback(err, result);	
+				// });
+				var err;
+				callback(err, result);
+			});
+		});
+	});
 }
+
 // This test uses a gojs
 exports.rt1 = rt1 = function rt1(params, callback) {
 	testclearstorage();
@@ -224,7 +230,9 @@ exports.ettesttt = ettesttt = function ettesttt(params, callback) {
 		function (err, res) {
 		}
 	);
-	var err;callback(err, test_results);
+	var err;
+
+	callback(err, test_results);
 }
 
 // This series is identical to tt, except that the functions called 
@@ -251,7 +259,8 @@ exports.ettestastt = ettestastt = function ettestastt(params, callback) {
 		function (err, res) {
 		}
 	);
-	var err;callback(err, test_results);
+	var err;
+	callback(err, test_results);
 }
 
 // This series uses the sync functions of a,b, and c with changes to the
@@ -306,7 +315,7 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
 }
 
 // These are the add/get tests to stress out the dto/dot notation system
-exports.agtt = agtt = function agtt(params, callback) {
+exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
 	execute([{
 		"executethis": "ettestag1"
 		},{ 
@@ -393,11 +402,11 @@ exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
     testclearstorage();
     config = setconfig1();
     
-    res = logverify("unit_tests", "ettestt1s_result", "", {
+    res = logverify2("ettestt1s_result",{
             "d": "1",
             "c": "0",
             "g": "4"
-        }, "", {
+        }, {
             "d": "1",
             "c": "0",
             "g": "4"
@@ -410,11 +419,11 @@ exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
     testclearstorage();
     config = setconfig1();
     
-    res = logverify("unit_tests", "ettestt1sf_result", "", {
+    res = logverify2("ettestt1sf_result",{
             "d": "1",
             "c": "0",
             "g": "4"
-        }, "", {
+        }, {
             "d": "1",
             "c": "0",
             "g": "4",

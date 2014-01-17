@@ -285,9 +285,10 @@ function execute_stuff(isTest, isServer) {
 	        ]
 	    };
 	}
+	// execute(my_execute_object, show_function_output);
+	execute(my_execute_object, show_function_output2);
 
 	//var result = executethis(my_execute_object);
-	execute(my_execute_object, show_function_output);
 /*	var result_count = Object.keys(result).length;
 
 	// var y = verifysummary("test_results");
@@ -371,13 +372,42 @@ function show_function_output (err, x) {
 	}
 }
 
+function show_function_output2 (err, result_array) {
+	// Clear out the screen
+	$('#Function_Output').empty();
+	// Iterate throught the array
+	for (var x in result_array) {
+		// Convert the object to string
+		var result = JSON.stringify(result_array[x]);
+		// Assume the outcome is inknown
+		var ultimate_pass_fail = "UNKNOWN";
+		// Append the text on the screen
+		$('#Function_Output').append(result);
+		// This 
+	    if ( result.indexOf("PASS") !== -1 ) ultimate_pass_fail = "PASS";
+	    if ( result.indexOf("FAIL") !== -1 ) ultimate_pass_fail = "FAIL";
+	}  
+	showPassFail(ultimate_pass_fail);
+}
 
+exports.verifysummary_local = verifysummary_local = function verifysummary_local(resultsobject) {
+	var testfailflag = "false";
 
-$('#rerun').click(function () {
-	alert('run it again');
-	executelist();
-	updateMemory();
-})
+	if (resultsobject !== undefined) {
+		for (var result in resultsobject) {
+			if (resultsobject[result] == "FAIL" || resultsobject[result] != "PASS" && resultsobject[result] != {}) {
+				testfailflag='true';
+			}
+		}
+	} 
+	
+	// The ultimate pass/fail	
+	if (testfailflag == 'false') {
+		return {"resultwid":'PASS'}
+	} else {
+		return {"resultwid":'FAIL'}
+	}
+}
 
 // LM: Please leave this here
 // $(document).keypress(function (e) {
@@ -388,15 +418,20 @@ $('#rerun').click(function () {
 function showPassFail (result) {
 
 	document.getElementById("test_result_message").innerHTML="";
-	if (result['resultwid'] == 'PASS') {
+	if (result == 'PASS') {
 		document.getElementById("test_result_message").style.color="green";
 		document.getElementById("test_result_message").style.fontSize="250%";
 		document.getElementById("test_result_message").innerHTML="PASS";
 	} else 
-	if (result['resultwid'] == 'FAIL') {
+	if (result == 'FAIL') {
 		document.getElementById("test_result_message").style.color="red";
 		document.getElementById("test_result_message").style.fontSize="250%";
 		document.getElementById("test_result_message").innerHTML="FAIL";
+	} else 
+	if (result == 'UNKNOWN') {
+		document.getElementById("test_result_message").style.color="blue";
+		document.getElementById("test_result_message").style.fontSize="250%";
+		document.getElementById("test_result_message").innerHTML="UNKNOWN";
 	} 
 }
 
@@ -496,48 +531,7 @@ function testexecutethis() {
 		return;
 	}
 	execute(widParameters, show_function_output);
-
-	// try {
-	// 	var widParameters = JSON.parse(document.getElementById("function_parameters").value);
-	// } catch (e) {
-	// 	console.error("JSON Parsing error:", e);
-	// }
-	// //widParameters["executethis"] = "addwidmaster";
-
-	// var getwidresult = executethis(widParameters);
-
-	// //updateMemory();
-
-	// Display_Output(getwidresult);
-
-
-	// document.getElementById("divprint").innerHTML = "";
-	// var data = $("#function_parameters").val().split('&&');
-	// var getwidresult = executethis(data);
-	// Display_Output(getwidresult);
 }
-
-
-
-// function testQueryWid() {
-// 	document.getElementById("divprint").innerHTML = "";
-// 	//var widParameters = {"relationshiprawmongoquery":"set1", "mongotype":"ABC", "mongofilterrawquery":"set1", "mongorelationshipdirection":"forward", "mongorelationshiptype":"attributes", "mongorelationshipmethod":"XYZ", "mongoaggregation":"mongoaggregationvalue", "mongosetlimit":12345, "mongoreturncount":123, "mongoexplain":456, "mongosize":789};
-// 	var widParameters = JSON.parse(document.getElementById("function_parameters").value);
-// 	var getwidresult = relationShipQuery(widParameters);
-// 	updateMemory();
-// 	Display_Output(getwidresult);
-// }
-
-// function testMongoQuery() {
-//     document.getElementById("divprint").innerHTML = "";
-//     var widParameters = JSON.parse(document.getElementById("function_parameters").value);
-   
-// 		widParameters["executethis"] = "MongoDataQuery";
-
-//     var getwidresult = execute(widParameters);
-//     updateMemory();
-// 	Display_Output(getwidresult);
-// }
 
 function testconverttodot() {
 	document.getElementById("divprint").innerHTML = "";
@@ -545,13 +539,6 @@ function testconverttodot() {
     // widParameters['executethis'] = ConvertToDOTdri;
 	var getwidresult = ConvertToDOTdri(widParameters);
 	Display_Output(getwidresult);
-
- //    document.getElementById("divprint").innerHTML = "";
- //    var widParameters = JSON.parse(document.getElementById("function_parameters").value);
- //    var getwidresult = ConvertToDOTdri(widParameters);
- //    updateMemory();
-	// Display_Output(getwidresult);
- //    //printToDiv('Function testconverttodot convertedResults: ',  convertedResults);
 }
 
 function testconvertfromdot() {
@@ -560,13 +547,6 @@ function testconvertfromdot() {
     // widParameters['executethis'] = ConvertFromDOTdri;
 	var getwidresult = ConvertFromDOTdri(widParameters);
 	Display_Output(getwidresult);
-
- //    document.getElementById("divprint").innerHTML = "";
- //    var widParameters = JSON.parse(document.getElementById("convertfromdotparameters").value);
- //    var getwidresult = ConvertFromDOTdri(widParameters);
- //    updateMemory();
-	// Display_Output(getwidresult);
-    // printToDiv('Function testconverttodot convertedResults: ',  convertedResults);
 }
 
 function Display_Output(data) {
@@ -633,33 +613,7 @@ function cc () {
 };
 
 
-exports.verifysummary_local = verifysummary_local = function verifysummary_local(resultsobject) {
 
-	var testfailflag = "false";
-	if (resultsobject === undefined) {
-		}
-	else {
-	// var resultsobject = getfromlocal({'wid': resultwid});
-	if (resultsobject !== undefined) {
-		for (var result in resultsobject) {
-			if (resultsobject[result] == "FAIL" || resultsobject[result] != "PASS" && resultsobject[result] != {}) {
-				testfailflag='true';
-				}
-			}
-		} 
-	}
-
-	// The ultimate pass/fail	
-	if (testfailflag == 'false') {
-		// alert('Pass');
-		return {"resultwid":'PASS'}
-	} else {
-		// alert('Fail');
-		return {"resultwid":'FAIL'}
-	}
-}
-</script>
-<script>
 function isNumeric(elem, helperMsg){
 	var numericExpression = /^[0-9]+$/;
 	if(elem.value.match(numericExpression)){
