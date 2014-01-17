@@ -923,9 +923,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
     }
 
-
-    
-
     exports.arrayUnique = window.arrayUnique = arrayUnique = function arrayUnique(array) {
         var a = array.concat();
         for (var i = 0; i < a.length; ++i) {
@@ -936,4 +933,293 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
         return a;
     };
+
+    exports.logverify = logverify = function logverify(test_name, data_object, assertion_object) {
+        if (test_name === undefined) test_name = "defaulttest";
+
+        var result = deepDiffMapper.map(data_object, assertion_object);
+        // Assume UNKNOWN...
+        var test_results = "UNKNOWN";
+        var temp_string = JSON.stringify(result);
+        // If there is a value of 'unchanged', there IS data that has passed,
+        // so for now, set the 'test_results' to PASS.
+        if ( temp_string.indexOf("unchanged") !== -1 ) test_results = "PASS";
+        // If there are any of 'created', 'updated', 'deleted', the tests now fails, even if
+        // it passed before...if none of the 4 strings are found, the test_results will 
+        // remain 'UNKNOWN'
+        if ( temp_string.indexOf("created") !== -1 || temp_string.indexOf("deleted") !== -1 || temp_string.indexOf("updated") !== -1 ) test_results = "FAIL";
+        
+        var data = {};
+        data[test_name] = test_results;
+        data[test_name + '_diff'] = result;
+        return data;
+    }
+
+    exports.debugfn = debugfn = function debugfn() {
+        var processdebug = false;
+        var color_list = [
+            "black",
+            "red",
+            "green",
+            "maroon",
+            "olive",
+            "teal",
+            "blue",
+            "fuchsia",
+            "purple",
+            "lime",
+            "green",
+            "aqua"
+        ]
+
+        var indebugdesc = String(arguments[0]) || ""; // 
+        var indebugname = String(arguments[1]) || ""; // main fn
+        var indebugcat = String(arguments[2]) || ""; // add/get
+        var indebugsubcat = String(arguments[3]) || ""; // sub fn
+        var indebugcolor = color_list[arguments[4]] || ""; // level
+        var indebugindent = arguments[5] || ""; // level
+        var debugobjectlist = (arguments[6]) ? arguments[6] : {
+            "data": "none"
+        };
+        var displaycolor = indebugcolor;
+        var tempdebugname = (debugname != "") ? debugname : indebugname;
+        var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
+        var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
+
+        // proxyprinttodiv('arrived debugfn', arguments, 99);
+        // proxyprinttodiv('arrived debugname', debugname, 99);
+        // proxyprinttodiv('arrived debugcat', debugcat, 99);
+        // proxyprinttodiv('arrived debugsubcat', debugsubcat, 99);
+        // proxyprinttodiv('arrived indebugname', indebugname, 99);
+        // proxyprinttodiv('arrived indebugcat', indebugcat, 99);
+        // proxyprinttodiv('arrived indebugsubcat', indebugsubcat, 99);
+        // proxyprinttodiv('arrived tempdebugname', tempdebugname, 99);
+        // proxyprinttodiv('arrived tempdebugcat', tempdebugcat, 99);
+        // proxyprinttodiv('arrived tempdebugsubcat', tempdebugsubcat, 99);
+
+        if (indebugname == tempdebugname && indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {
+            processdebug = true
+        } else {
+            processdebug = false
+        };
+        if (debugname + debugcat + debugsubcat == "") {
+            processdebug = false
+        }
+        if (!processdebug) return;
+
+        // If the color goes over 10, turn it back to black
+        if (displaycolor > 10) displaycolor = 0;
+
+        //length = arguments.length;
+
+        // If there is no data from debugvars, say so
+        // if (debugobjectlist.length < 1) debugobjectlist = {"data":"none"};
+        // var outobject={"hello":"world"};
+        var outobject = {};
+
+        //  if blank debugcolor, blank debugindent
+
+        //  1) determine if we should play...missing "and"
+        //  if global debugname = incoming debugname the process this object (or subcat or cat)
+        // if (indebugcat==debugcat) {processdebug=true};
+        // if (indebugsubcat==debugsubcat) {processdebug=true};
+
+        // if processdebug {
+        debugfilter = 0;
+        switch (debugfilter) {
+        case 0:
+            outobject = debugobjectlist;
+            break;
+
+        case 1:
+            // only the first var
+            break;
+
+        case 2:
+            // only the 1,2 var
+            break;
+
+        case 3:
+            // level
+            break;
+
+        case 4:
+            // level
+            break;
+
+        case 5:
+            // level
+            break;
+
+        case 6:
+            // level
+            break;
+
+        case 7:
+            // level
+            break;
+
+        case 8:
+            // level
+            break;
+
+        case 9:
+            // level
+            break;
+
+        case 10:
+            // level
+            break;
+        }
+        // widfilter: outobject={debugobjectlist["wid"], debugobjectlist["dtotype"], debugobjectlist["method"]}
+
+        // go to html file be able to enter
+        // exports.debugname = debugname = "";
+        // exports.debugsubcat = debugsubcat = "";
+        // exports.debugcat = debugcat = "";
+        // exports.debugfilter= debugfilter = "all";
+        // exports.debugdestination= debugdestination = "print";
+
+
+        //      make color based on indebugindent
+        //          1: temp_HTML=temp_HTML+" "
+        //          2: 
+        //          3: 
+        //          
+        //          
+        //          
+        switch (debugdestination) // 1 for print, 2 for googlespreadsheets, 3 for both
+        {
+        case 1:
+            dbug_print(indebugindent, displaycolor);
+            break;
+
+        case 2:
+            store_to_google(indebugname, outobject);
+            break;
+
+        case 3:
+            dbug_print(indebugindent, displaycolor);
+            store_to_google(indebugname, outobject);
+            break;
+        }
+        function dbug_print(indent, displaycolor) {
+
+            if (displaycolor == "") {
+                displaycolor = "pink"
+            };
+            var jsonPretty = JSON.stringify(outobject, "-", 4);
+
+            if (indent > 0) {
+                var temp_HTML = indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+            } else {
+                var temp_HTML = indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+            }
+            console.log(jsonPretty);
+            if (exports.environment === "local") {
+                $('#divprint').append(temp_HTML);
+            }
+            //proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
+        }
+
+        // print:   proxyprinttodiv('logverify - parmwid1', parmwid1, 99);
+
+        // google: storetogoogle
+        // file: outobject["testtest":"testtest"]
+        //      addtolocalostore
+    } // End of debugfn
+
+    function store_to_google(indebugname, google_object) {
+        if (exports.environment === "local") {
+            $('#name').val(indebugname);
+            $('#comment').val(JSON.stringify(google_object));
+            document.getElementById('theForm').submit();
+        }
+    }
+
+    function readtestresutlsandstorwegoogle() {
+        // read local store
+        // clear local store
+        // look for testtest
+        // storetogoogle
+    }
+
+    function syntaxHighlight(json) {
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
+
+    var deepDiffMapper = function() {
+        return {
+            VALUE_CREATED: 'created',
+            VALUE_UPDATED: 'updated',
+            VALUE_DELETED: 'deleted',
+            VALUE_UNCHANGED: 'unchanged',
+            map: function(obj1, obj2) {
+                if (this.isFunction(obj1) || this.isFunction(obj2)) {
+                    throw 'Invalid argument. Function given, object expected.';
+                }
+                if (this.isValue(obj1) || this.isValue(obj2)) {
+                    return {type: this.compareValues(obj1, obj2), data: obj1 || obj2};
+                }               
+                var diff = {};
+                for (var key in obj1) {
+                    if (this.isFunction(obj1[key])) {
+                        continue;
+                    }      
+                    var value2 = undefined;
+                    if ('undefined' != typeof(obj2[key])) {
+                        value2 = obj2[key];
+                    }                   
+                    diff[key] = this.map(obj1[key], value2);
+                }
+                for (var key in obj2) {
+                    if (this.isFunction(obj2[key]) || ('undefined' != typeof(diff[key]))) {
+                        continue;
+                    }                    
+                    diff[key] = this.map(undefined, obj2[key]);
+                }                
+                return diff;               
+            },
+            compareValues: function(value1, value2) {
+                if (value1 === value2) {
+                    return this.VALUE_UNCHANGED;
+                }
+                if ('undefined' == typeof(value1)) {
+                    return this.VALUE_CREATED;
+                }
+                if ('undefined' == typeof(value2)) {
+                    return this.VALUE_DELETED;
+                }              
+                return this.VALUE_UPDATED;
+            },
+            isFunction: function(obj) {
+                return toString.apply(obj) === '[object Function]';
+            },
+            isArray: function(obj) {
+                return toString.apply(obj) === '[object Array]';
+            },
+            isObject: function(obj) {
+                return toString.apply(obj) === '[object Object]';
+            },
+            isValue: function(obj) {
+                return !this.isObject(obj) && !this.isArray(obj);
+            }
+        }
+    }();
+
 })(typeof window === "undefined" ? global : window);
