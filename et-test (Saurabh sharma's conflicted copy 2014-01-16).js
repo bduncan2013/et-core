@@ -67,7 +67,7 @@ executeList = [
 	// }];
 	
 	// pass our add test wid array to execute this, this should add a wid to local storage
-	executearray(executeList, function (err, res) {
+	execute(executeList, function (err, res) {
 		colorTrace('res after executerray: ' + JSON.stringify(res), "blue");
 		
 		// build query
@@ -88,7 +88,7 @@ executeList = [
 			executeList.push(executeObj);
 
 			// Execute our query wid test
-			executearray(executeList, function (err, res) {
+			execute(executeList, function (err, res) {
  				proxyprinttodiv('Function mttest II', res, 99);
 			});
 		//});
@@ -115,7 +115,7 @@ exports.mts2 = mts2 = function mts2(params, callback){
 	executeList.push(dtoObj);
 	
 	// pass our add test wid array to execute this, this should add a wid to local storage
-	executearray(executeList, function (err, res) {
+	execute(executeList, function (err, res) {
 		colorTrace('res after executerray: ' + JSON.stringify(res), "blue");
 		
 		// build query
@@ -133,7 +133,7 @@ exports.mts2 = mts2 = function mts2(params, callback){
 			executeList.push(executeObj);
 
 			// Execute our query wid test
-			executearray(executeList, function (err, res) {
+			execute(executeList, function (err, res) {
 				alert(JSON.stringify(res));
 				colorTrace('res after executerray querywid: ' + JSON.stringify(res), "blue");
 			});
@@ -172,7 +172,7 @@ exports.mttest1 = mttest1 = function mttest1(params, callback){
 	var executeList = [];
 	executeList = addmttestdata(callback);
 	
-	executearray(executeList, function (err, res) {
+	execute(executeList, function (err, res) {
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 	});
 	
@@ -186,7 +186,7 @@ exports.mttest1 = mttest1 = function mttest1(params, callback){
 		executeObj["mongorawquery"]= '{"$or":[{"data.a":"string"}]}';
 		executeList.push(executeObj);
 		
-		executearray(executeList, function (err, res) {
+		execute(executeList, function (err, res) {
 			console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 			result = res;
 		});
@@ -363,7 +363,7 @@ function addmttestdata(callback){
 	}
 	
 	/*
-	executearray(widArray, function (err, res) {
+	execute(widArray, function (err, res) {
         console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 	});
 	proxyprinttodiv("end of data add", "end data add", 99);
@@ -374,7 +374,7 @@ function addmttestdata(callback){
 exports.t1example = t1example = function t1example(params, callback) {
 	testclearstorage();
 	config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -425,7 +425,7 @@ exports.mttest2 = mttest2 = function mttest2(params, callback) {
 	
 	proxyprinttodiv("execute list ", executeList, 99);		
 	
-	executearray(executeList, function (err, res) {
+	execute(executeList, function (err, res) {
 		proxyprinttodiv('Function verifytestresults', res,99);
 		console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 		var expectedResultList = [{"wid":"wid4","metadata.method":"testdto","data.a":"4","data.b":"16"},{"wid":"wid5","metadata.method":"testdto","data.a":"5","data.b":"25"}];
@@ -505,7 +505,7 @@ exports.mttest3 = mttest3 = function mttest3(params, callback) {
         "wid": "color7"
     }];
     proxyprinttodiv("execute list", executeList, 99);
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
 
     });
 
@@ -562,7 +562,7 @@ exports.mttest3 = mttest3 = function mttest3(params, callback) {
         }
     }];
     proxyprinttodiv("execute list for query", executeList, 99);
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
 
     });
 
@@ -687,7 +687,7 @@ exports.mttest333 = mttest333 = function mttest333(params, callback) {
 	proxyprinttodiv("querylist", querylist, 99);
 	proxyprinttodiv("verifylist", verifylist, 99);
 
-	executearray([addlist, querylist], function (err, res) {
+	execute([addlist, querylist], function (err, res) {
         verifyarray[res[1],verifylist]
     });
 	

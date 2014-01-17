@@ -9,7 +9,7 @@ exports.initdto = initdto = function initdto(params, callback) {
     testclearstorage();
     config = setconfig1();
 
-    executearray([
+    execute([
 
             {
                 // create groupdto
@@ -145,7 +145,7 @@ exports.systemdto = systemdto = function systemdto(params, callback) {
     config = setconfig3();
 
     // create et_create_systemdto
-    executearray([{
+    execute([{
             "executethis": "addwidmaster",
             "metadata.method": "systemdto",
             "wid": "systemdto",
@@ -222,7 +222,7 @@ exports.userdto = userdto = function userdto(params, callback) {
 
 
     //add systemdto data
-    executearray([{
+    execute([{
             "executethis": "addwidmaster",
             "metadata.method": "userdto",
             "wid": "userdto",
@@ -277,7 +277,7 @@ exports.testdto = testdto = function testdto(params, callback) {
     config = setconfig1();
 
     //add testdto data
-    executearray([{
+    execute([{
             "executethis": "addwidmaster",
             "metadata.method": "testdto",
             "wid": "testdto",
@@ -326,7 +326,7 @@ exports.testme = testme = function testme(params, callback) {
     systemdto();
     userdto();
 
-    executearray([{
+    execute([{
             "executethis": "getwidmaster",
             "wid": "userdto"
         }],
@@ -366,7 +366,7 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
     testclearstorage();
     config = setconfig1();
 
-    executearray([
+    execute([
 
             {
                 // create groupdto

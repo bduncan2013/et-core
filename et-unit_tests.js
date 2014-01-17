@@ -209,7 +209,7 @@ exports.rt1 = rt1 = function rt1(params, callback) {
 exports.tt = tt = function tt(params, callback) {
 
 
-	executearray([{
+	execute([{
 		"executethis": "t1"
 		},{ 
 		"executethis": "t2"
@@ -245,7 +245,7 @@ exports.tt = tt = function tt(params, callback) {
 exports.astt = astt = function astt(params, callback) {
 
 
-	executearray([{
+	execute([{
 		"executethis": "ast1"
 		},{ 
 		"executethis": "ast2"
@@ -301,7 +301,7 @@ exports.ctt = ctt = function ctt(params, callback) {
 	// ct19();
 	// ct20();
 
-	executearray([{
+	execute([{
 		"executethis": "ct1"
 		},{ 
 		"executethis": "ct2"
@@ -422,7 +422,7 @@ exports.test99 = test99 = function test99(params, callback) {
 exports.t1 = t1 = function t1(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -496,7 +496,7 @@ exports.tfail = tfail = function tfail(params, callback) {
 exports.t2 = t2 = function t2(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -518,7 +518,7 @@ exports.t2 = t2 = function t2(params, callback) {
 exports.t3 = t3 = function t3(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -539,7 +539,7 @@ exports.t3 = t3 = function t3(params, callback) {
 exports.t3a = t3a = function t3a(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -560,7 +560,7 @@ exports.t3a = t3a = function t3a(params, callback) {
 exports.t4 = t4 = function t4(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -581,7 +581,7 @@ exports.t4 = t4 = function t4(params, callback) {
 exports.t4a = t4a = function t4a(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -601,7 +601,7 @@ exports.t4a = t4a = function t4a(params, callback) {
 exports.t5 = t5 = function t5(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -622,7 +622,7 @@ exports.t5 = t5 = function t5(params, callback) {
 exports.t6 = t6 = function t6(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -643,7 +643,7 @@ exports.t6 = t6 = function t6(params, callback) {
 exports.t7 = t7 = function t7(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -698,7 +698,7 @@ exports.t9 = t9 = function t9(params, callback) {
 exports.ast1 = ast1 = function ast1(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
@@ -717,7 +717,7 @@ exports.ast1 = ast1 = function ast1(params, callback) {
 exports.ast2 = ast2 = function ast2(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
@@ -738,7 +738,7 @@ exports.ast2 = ast2 = function ast2(params, callback) {
 exports.ast3 = ast3 = function ast3(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
@@ -758,7 +758,7 @@ exports.ast3 = ast3 = function ast3(params, callback) {
 exports.ast3a = ast3a = function ast3a(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
@@ -778,7 +778,7 @@ exports.ast3a = ast3a = function ast3a(params, callback) {
 exports.ast4 = ast4 = function ast4(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
@@ -798,7 +798,7 @@ exports.ast4 = ast4 = function ast4(params, callback) {
 exports.ast4a = ast4a = function ast4a(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
@@ -818,7 +818,7 @@ exports.ast4a = ast4a = function ast4a(params, callback) {
 exports.ast5 = ast5 = function ast5(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
@@ -839,7 +839,7 @@ exports.ast5 = ast5 = function ast5(params, callback) {
 exports.ast6 = ast6 = function ast6(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
 		"d": "1",
@@ -902,7 +902,7 @@ exports.ast8 = ast8 = function ast8(params, callback) {
 exports.ct1 = ct1 = function ct1(params, callback) {
 	testclearstorage();
 	// config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -961,7 +961,7 @@ exports.ct1 = ct1 = function ct1(params, callback) {
 exports.ct2 = ct2 = function ct2(params, callback) {
 	testclearstorage();
 	// config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -1022,7 +1022,7 @@ exports.ct2 = ct2 = function ct2(params, callback) {
 exports.ct3 = ct3 = function ct3(params, callback) {
 	testclearstorage();
 	// config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -1082,7 +1082,7 @@ exports.ct3 = ct3 = function ct3(params, callback) {
 exports.ct3a = ct3a = function ct3a(params, callback) {
 	testclearstorage();
 	// config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -1142,7 +1142,7 @@ exports.ct3a = ct3a = function ct3a(params, callback) {
 exports.ct4 = ct4 = function ct4(params, callback) {
 	testclearstorage();
 	// config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -1202,7 +1202,7 @@ exports.ct4 = ct4 = function ct4(params, callback) {
 exports.ct4a = ct4a = function ct4a(params, callback) {
 	testclearstorage();
 	// config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -1262,7 +1262,7 @@ exports.ct4a = ct4a = function ct4a(params, callback) {
 exports.ct5 = ct5 = function ct5(params, callback) {
 	testclearstorage();
 	// config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "redir_b",
 		"d": "1",
 		"e": "2",
@@ -1323,7 +1323,7 @@ exports.ct5 = ct5 = function ct5(params, callback) {
 exports.ct6 = ct6 = function ct6(params, callback) {
 	testclearstorage();
 	// config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -1388,7 +1388,7 @@ exports.ct6 = ct6 = function ct6(params, callback) {
 exports.ct7 = ct7 = function ct7(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"c": "0",
 		"d": "1",
 		"e": "2",
@@ -1425,7 +1425,7 @@ exports.ct7 = ct7 = function ct7(params, callback) {
 exports.ct7a = ct7a = function ct7a(params, callback) {
 	testclearstorage();
 	config = setconfig6();
-	executearray([{
+	execute([{
 		"c": "0",
 		"d": "1",
 		"e": "2",
@@ -1463,7 +1463,7 @@ exports.ct7a = ct7a = function ct7a(params, callback) {
 exports.ct8 = ct8 = function ct8(params, callback) {
 	testclearstorage();
 	config = setconfig5();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
@@ -1482,7 +1482,7 @@ exports.ct8 = ct8 = function ct8(params, callback) {
 exports.ct9 = ct9 = function ct9(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "does_not_exist",
 		"does_not_exist": "func_b",
 		"c": "0",
@@ -1504,7 +1504,7 @@ exports.ct9 = ct9 = function ct9(params, callback) {
 exports.ct9a = ct9a = function ct9a(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "does_not_exist",
 		"does_not_exist": "function () { return 'Keg of Beer'; }"
 	}],
@@ -1521,7 +1521,7 @@ exports.ct9a = ct9a = function ct9a(params, callback) {
 exports.ct10 = ct10 = function ct10(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"preexecute": "does_not_exist",
 		"does_not_exist": "func_a",
@@ -1546,7 +1546,7 @@ exports.ct10 = ct10 = function ct10(params, callback) {
 exports.ct11 = ct11 = function ct11(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"preexecute": "does_not_exist_1",
 		"does_not_exist_1": "func_a",
@@ -1574,7 +1574,7 @@ exports.ct11 = ct11 = function ct11(params, callback) {
 exports.ct12 = ct12 = function ct12(params, callback) {
 	testclearstorage();
 	// config = setconfig1();
-	executearray([{
+	execute([{
 		"c": "0",
 		"d": "1",
 		"e": "2",
@@ -1615,7 +1615,7 @@ exports.ct12 = ct12 = function ct12(params, callback) {
 exports.ct13 = ct13 = function ct13(params, callback) {
 	testclearstorage();
 	config = setconfig6();
-	executearray([{
+	execute([{
 		"executethis": "a"
 		}, 
 		{
@@ -1638,7 +1638,7 @@ exports.ct13 = ct13 = function ct13(params, callback) {
 exports.ct14 = ct14 = function ct14(params, callback) {
 	testclearstorage();
 	config = setconfig6();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"postexecute": "func_c",
@@ -1664,7 +1664,7 @@ exports.ct14 = ct14 = function ct14(params, callback) {
 exports.ct15 = ct15 = function ct15(params, callback) {
 	testclearstorage();
 	config = setconfig6();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"cer1": "booberry",
@@ -1688,7 +1688,7 @@ exports.ct15 = ct15 = function ct15(params, callback) {
 exports.ct16 = ct16 = function ct16(params, callback) {
 	testclearstorage();
 	config = setconfig2();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"preexecute": "mock_server",
 		"c": "0",
@@ -1755,7 +1755,7 @@ exports.ct16 = ct16 = function ct16(params, callback) {
 exports.ct17 = ct17 = function ct17(params, callback) {
 	testclearstorage();
 	config = setconfig7();
-	executearray([{
+	execute([{
 		"executethis": "doesnotexist",
 		"c": "0",
 		"d": "1",
@@ -1775,7 +1775,7 @@ exports.ct17 = ct17 = function ct17(params, callback) {
 exports.ct18 = ct18 = function ct18(params, callback) {
 	testclearstorage();
 	config = setconfig7();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"c": "0",
@@ -1800,7 +1800,7 @@ exports.ct18 = ct18 = function ct18(params, callback) {
 exports.ct19 = ct19 = function ct19(params, callback) {
 	testclearstorage();
 	config = setconfig8();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"postexecute": "func_c",
@@ -1852,7 +1852,7 @@ exports.ct19 = ct19 = function ct19(params, callback) {
 exports.ct20 = ct20 = function ct20(params, callback) {
 	testclearstorage();
 	config = setconfig8();
-	executearray([{
+	execute([{
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"postexecute": "func_c"
@@ -2145,7 +2145,7 @@ exports.ag1_setup = ag1_setup = function ag1_setup(params, callback) {
 exports.ag1 = ag1 = function ag1(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": "sounddto",
 		"metadata.method": "sounddto",
@@ -2222,7 +2222,7 @@ exports.ag2 = ag2 = function ag2(params, callback) {
 	//debugcat = 'get';
 	// config = setconfig1();
 	testclearstorage();
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster", 
 		"wid": "colordto",
 		"metadata.method": "colordto",
@@ -2289,7 +2289,7 @@ exports.ag3_setup = ag3_setup = function ag3_setup(params, callback) {
 exports.ag3 = ag3 = function ag3(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster", 
 		"wid": "sounddto",
 		"metadata.method": "sounddto",
@@ -2511,7 +2511,7 @@ exports.qq1_setup = qq1_setup = function qq1_setup(params, callback) {
 exports.qq1 = qq1 = function qq1(params, callback) {
 	config = setconfig5();
 	testclearstorage();
-	executearray([{
+	execute([{
 		"executethis": "updatewid", 
 		"wid": "songdto",
 		"metadata.method": "songdto",
@@ -4464,7 +4464,7 @@ exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
 	// debugname = "get";
 	// debugcat = "get";
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": "sounddto",
 		"metadata.method": "sounddto",
@@ -4503,7 +4503,7 @@ exports.ag6a = ag6a = function ag6a(params, callback) {
 	testclearstorage();
 
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": "test1",
 		"metadata.method": "test1method",
@@ -4527,7 +4527,7 @@ exports.ag6b = ag6b = function ag6b(params, callback) {
 	config = setconfig5();
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": "test1",
 		"metadata.method": "test1method",
@@ -4547,7 +4547,7 @@ exports.ag6b = ag6b = function ag6b(params, callback) {
 }
 
 exports.ag6c = ag6c = function ag6c(params, callback) {
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": "test1",
 		"metadata.method": "test1method",
@@ -4574,7 +4574,7 @@ exports.ag7 = ag7 = function ag7(params, callback) {
 	testclearstorage();
 
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": "text1",
 		"metadata.method": "test1method",
@@ -4677,7 +4677,7 @@ exports.ag8 = ag8 = function ag8(params, callback) {
 	testclearstorage();
 
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": "text1",
 		"metadata.method": "test1method",
@@ -4707,7 +4707,7 @@ exports.ag9 = ag9 = function ag9(params, callback) {
 	testclearstorage();
 
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": "text1",
 		"metadata.method": "test1method",
@@ -4809,7 +4809,7 @@ exports.ag10 = ag10 = function ag10(params, callback) {
 	testclearstorage();
 
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": "getwidtext11",
 		"2": "21",
@@ -4843,7 +4843,7 @@ exports.ag11a = ag11a = function ag11a(params, callback) {
 
 	var widId = Math.random() + "";
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId,
 		"2": "21",
@@ -4875,7 +4875,7 @@ exports.ag11b = ag11b = function ag11b(params, callback) {
 
 	var widId = Math.random() + "";
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId,
 		"2": "21",
@@ -4904,7 +4904,7 @@ exports.ag11b = ag11b = function ag11b(params, callback) {
 exports.ag13a = ag13a = function ag13a(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
-	executearray([{
+	execute([{
 		"executethis": "getwidmaster",
 		"wid": 'test1'
 	}], function(res) {
@@ -4921,7 +4921,7 @@ exports.ag13a = ag13a = function ag13a(params, callback) {
 exports.ag13b = ag13b = function ag13b(params, callback) {
 	config = setconfig5();
 
-	executearray([{
+	execute([{
 		"executethis": "getwidmaster",
 		"wid": 'test1'
 	}], function(res) {
@@ -4939,7 +4939,7 @@ exports.ag14a = ag14a = function ag14a(params, callback) {
 	// config = setconfig1();
 	var widId = Math.random() + "";
 	testclearstorage();
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId,
 		"2": "21",
@@ -4961,7 +4961,7 @@ exports.ag14b = ag14b = function ag14b(params, callback) {
 	config = setconfig5();
 	var widId = Math.random() + "";
 	testclearstorage();
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId,
 		"2": "21",
@@ -4987,7 +4987,7 @@ exports.ag15a = ag15a = function ag15a(params, callback) {
 	var widId = Math.random() + "";
 	var widMasterId = Math.random() + "master";
 
-	executearray([{
+	execute([{
 		"2": "string",
 		"3": "string",
 		"executethis": "addwidmaster",
@@ -5022,7 +5022,7 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 	var widId = Math.random() + "";
 	var widMasterId = Math.random() + "master";
 
-	executearray([{
+	execute([{
 		"2": "string",
 		"3": "string",
 		"executethis": "addwidmaster",
@@ -5055,8 +5055,8 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 // using a,b,c we need to run these 4 tests…for a total of 4 x 3 tests:
 // 5x updatewid that calls execute() and is properly nested
 // 5x addwidmaster that calls execute() and is property nested
-// 5x updatewid that calls executearray()
-// 5x addwidmaster that calls executearray()
+// 5x updatewid that calls execute()
+// 5x addwidmaster that calls execute()
 
 // We are looking for clues on something big that is happening:
 // 1) does running all in server (server test/ server run) or half (local test - server run) do the same thing?
@@ -5566,7 +5566,7 @@ exports.ag92c = ag92c = function ag92c(params, callback) {
 }
 
 
-// 5x updatewid that calls executearray()
+// 5x updatewid that calls execute()
 exports.ag93a = ag93a = function ag93a(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
@@ -5577,7 +5577,7 @@ exports.ag93a = ag93a = function ag93a(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": widId1,
 		"metadata.method": "colordto931",
@@ -5616,7 +5616,7 @@ exports.ag93a = ag93a = function ag93a(params, callback) {
 }
 
 
-// 5x updatewid that calls executearray()
+// 5x updatewid that calls execute()
 exports.ag93b = ag93b = function ag93b(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
@@ -5626,7 +5626,7 @@ exports.ag93b = ag93b = function ag93b(params, callback) {
 
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": widId1,
 		"metadata.method": "colordto931",
@@ -5666,7 +5666,7 @@ exports.ag93b = ag93b = function ag93b(params, callback) {
 
 
 
-// 5x updatewid that calls executearray()
+// 5x updatewid that calls execute()
 exports.ag93c = ag93c = function ag93c(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
@@ -5677,7 +5677,7 @@ exports.ag93c = ag93c = function ag93c(params, callback) {
 	config = setconfig5();
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "updatewid",
 		"wid": widId1,
 		"metadata.method": "colordto931",
@@ -5715,7 +5715,7 @@ exports.ag93c = ag93c = function ag93c(params, callback) {
 	// return verifysummary("test_results");
 }
 
-// 5x addwidmaster that calls executearray()
+// 5x addwidmaster that calls execute()
 exports.ag94a = ag94a = function ag94a(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
@@ -5726,7 +5726,7 @@ exports.ag94a = ag94a = function ag94a(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId1,
 		"metadata.method": "colordto941",
@@ -5766,7 +5766,7 @@ exports.ag94a = ag94a = function ag94a(params, callback) {
 	// return verifysummary("test_results");
 }
 
-// 5x addwidmaster that calls executearray()
+// 5x addwidmaster that calls execute()
 exports.ag94b = ag94b = function ag94b(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
@@ -5776,7 +5776,7 @@ exports.ag94b = ag94b = function ag94b(params, callback) {
 
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId1,
 		"metadata.method": "colordto941",
@@ -5814,7 +5814,7 @@ exports.ag94b = ag94b = function ag94b(params, callback) {
 	// return verifysummary("test_results");
 }
 
-// 5x addwidmaster that calls executearray()
+// 5x addwidmaster that calls execute()
 exports.ag94c = ag94c = function ag94c(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
@@ -5825,7 +5825,7 @@ exports.ag94c = ag94c = function ag94c(params, callback) {
 	config = setconfig5();
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId1,
 		"metadata.method": "colordto941",
@@ -5864,7 +5864,7 @@ exports.ag94c = ag94c = function ag94c(params, callback) {
 }
 
 
-// 2x addwidmaster that calls executearray()
+// 2x addwidmaster that calls execute()
 exports.ag95a = ag95a = function ag95a(params, callback) {
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
@@ -5872,7 +5872,7 @@ exports.ag95a = ag95a = function ag95a(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId1,
 		"metadata.method": "colordto951",
@@ -5898,7 +5898,7 @@ exports.stickydata = stickydata = function stickydata(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId1,
 		"metadata.method": "colordto951",
@@ -5948,7 +5948,7 @@ exports.extraparams = extraparams = function extraparams(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
 
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": widId1,
 		"metadata.method": widId1,
@@ -5975,7 +5975,7 @@ exports.extraparams = extraparams = function extraparams(params, callback) {
 exports.test_new = test_new = function test_new(params, callback) {
 	// config = setconfig1();
 	testclearstorage();
-	executearray([{
+	execute([{
 		"executethis": "addwidmaster",
 		"wid": "new_test_wid_1",
 		"height": "17 meters"

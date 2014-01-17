@@ -66,6 +66,7 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     var output = {};
     proxyprinttodiv('getfromlocal', inputWidgetObject, 99);
     if (inputWidgetObject["wid"]) {
+        inputWidgetObject = toLowerKeys(inputWidgetObject);
         var widKey = inputWidgetObject["wid"].toLowerCase();
         output = localStore.get(widMasterKey + widKey);
         if (output == null) {

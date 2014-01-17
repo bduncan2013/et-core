@@ -121,7 +121,7 @@ exports.mttest333 = mttest333 = function mttest333(params, callback) {
 	proxyprinttodiv("querylist", querylist, 99);
 	proxyprinttodiv("verifylist", verifylist, 99);
 
-	executearray([addlist, querylist], function (err, res) {
+	execute([addlist, querylist], function (err, res) {
         verifyarray[res[1],verifylist]
     });
 	

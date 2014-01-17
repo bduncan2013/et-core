@@ -4,6 +4,32 @@ exports.testcallback = testcallback = function testcallback(params, callback) {
     callback(null, params);
 }
 
+exports.executegetwidtest = executegetwidtest = function executegetwidtest(params, callback) {
+
+    executeList = [{
+        "executethis": "offlineaddtomongo",
+        "wid": "getexecutetest",
+        "metadata": {
+            "method": "testdto"
+        },
+        "data": {
+            "executethis": "testcallback",
+            "a": "Hello",
+            "b": "goodbye"
+        }
+    }, {
+        "executethis": "getexecutetest"
+    }]
+
+    execute(executeList, function (err, res) {
+        res = logverify("unit_tests", "getexecutetest", "", res, "", {});
+        callback(err, res)
+
+    });
+
+}
+
+
 exports.qw1 = qw1 = function (params, callback) {
     var q = '[{"dtotype":"","convertmethod":"","mongowidmethod":"","mongorelationshipdirection":"forward","mongorelationshipmethod":"all","mongorelationshiptype":"attributes"}]';
     var qJson = JSON.parse(q);
@@ -26,7 +52,7 @@ exports.qw2 = qw2 = function (params, callback) {
         "executethis": "updatewid",
         "wid": "wid1"
     }];
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
         querywid(qJson, function (err, res) {
             console.log(' >>> final response after querywid >>> ' + JSON.stringify(res[0][0]));
             res = logverify("unit_tests", "testqw2_result", "", res[0], "", {});
@@ -47,7 +73,7 @@ exports.mongoquery1 = mongoquery1 = function (params, callback) {
     }];
 
     // query data added
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
         mongoquery(qJson, function (err, res) {
             console.log(' >>> final response after mongoquery >>> ' + JSON.stringify(res));
             res = logverify("unit_tests", "testmongoquery1_result", "", res, "", {});
@@ -177,37 +203,37 @@ exports.mts1 = mts1 = function mts1(params, callback) {
     }]
     // // Build execute array for adding a wid
     // executeList = [{
-    // 	"executethis": "addwidmaster", 
-    // 	"wid": "sounddto",
-    // 	"metadata.method": "sounddto",
-    // 	"note": "string"
+    //  "executethis": "addwidmaster", 
+    //  "wid": "sounddto",
+    //  "metadata.method": "sounddto",
+    //  "note": "string"
     // },
-    // {	
-    // 	"executethis": "addwidmaster", 
-    // 	"wid": "songdto",
-    // 	"metadata.method": "songdto",
-    // 	"title": "string",
-    // 	"sounddto": "onetomany"
+    // {    
+    //  "executethis": "addwidmaster", 
+    //  "wid": "songdto",
+    //  "metadata.method": "songdto",
+    //  "title": "string",
+    //  "sounddto": "onetomany"
     // },
-    // {	
-    // 	"executethis": "addwidmaster", 
-    // 	"wid": "rel_sound_to_song",
-    // 	"primarywid": "songdto",
-    // 	"secondarywid": "sounddto",
-    // 	"relationshiptype": "attributes"
+    // {    
+    //  "executethis": "addwidmaster", 
+    //  "wid": "rel_sound_to_song",
+    //  "primarywid": "songdto",
+    //  "secondarywid": "sounddto",
+    //  "relationshiptype": "attributes"
     // },
-    // {	
-    // 	"executethis": "addwidmaster", 
-    // 	"wid": "song1",
-    // 	"metadata.method": "songdto",
-    // 	"title": "Highway to Hell",
-    // 	"sounddto.0.note": "A flat",
-    // 	"sounddto.1.note": "B sharp",
-    // 	"sounddto.2.note": "C flat"
+    // {    
+    //  "executethis": "addwidmaster", 
+    //  "wid": "song1",
+    //  "metadata.method": "songdto",
+    //  "title": "Highway to Hell",
+    //  "sounddto.0.note": "A flat",
+    //  "sounddto.1.note": "B sharp",
+    //  "sounddto.2.note": "C flat"
     // }];
 
     // pass our add test wid array to execute this, this should add a wid to local storage
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
         colorTrace('res after executerray: ' + JSON.stringify(res), "blue");
 
         // build query
@@ -228,7 +254,7 @@ exports.mts1 = mts1 = function mts1(params, callback) {
         executeList.push(executeObj);
 
         // Execute our query wid test
-        executearray(executeList, function (err, res) {
+        execute(executeList, function (err, res) {
             proxyprinttodiv('Function mttest II', res, 99);
         });
         //});
@@ -262,7 +288,7 @@ exports.mts2 = mts2 = function mts2(params, callback) {
     executeList.push(dtoObj);
 
     // pass our add test wid array to execute this, this should add a wid to local storage
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
         colorTrace('res after executerray: ' + JSON.stringify(res), "blue");
 
         // build query
@@ -280,7 +306,7 @@ exports.mts2 = mts2 = function mts2(params, callback) {
             executeList.push(executeObj);
 
             // Execute our query wid test
-            executearray(executeList, function (err, res) {
+            execute(executeList, function (err, res) {
                 alert(JSON.stringify(res));
                 colorTrace('res after executerray querywid: ' + JSON.stringify(res), "blue");
             });
@@ -319,180 +345,185 @@ exports.mttest1 = mttest1 = function mttest1(params, callback) {
     var executeList = [];
     executeList = addmttestdata(callback);
 
-    executearray(executeList, function (err, res) {
+    var params;
+    execute(executeList, function (err, res) {
         console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+        /* varify test cases */
+        if (verifytests) {
+            console.log("<< inside verifytests >>");
+
+
+            var executeObj = {};
+            executeObj["executethis"] = "querywid";
+            executeObj["mongorawquery"] = '{"$or":[{"data.a":"string"}]}';
+            executeList.push(executeObj);
+
+            execute(executeList, function (err, res) {
+                console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+                result = res;
+
+                var expectedResultArray = [];
+                expectedResultArray.push({
+                    "wid": "testdto",
+                    "metadata": {
+                        "method": "testdto"
+                    },
+                    "data": {
+                        "b": "string",
+                        "a": "string"
+                    }
+                });
+
+                console.log(' >>> test >>> ' + JSON.stringify(result[0][0]));
+                console.log(' >>> expectedResultArray >>> ' + JSON.stringify(expectedResultArray[0]));
+                params = logverify("mongoquery", "querywid_result", "", result[0][0].wid, "", "", expectedResultArray[0].wid);
+                proxyprinttodiv("end of verify tests", "end of verify tests", 99);
+                callback(err, params);
+            });
+        }
+
+        /* $or queries */
+        if (ortests) {
+            var mongorawquery = '{"$or":[{"data.a":"string"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
+            });
+
+            var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"1"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+            });
+            //test fails
+            var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
+            });
+        }
+
+        /* $and queries */
+        if (andtests) {
+            var mongorawquery = '{"$and":[{"data.a":"string"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
+            });
+
+            var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+            });
+
+            var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"16"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
+            });
+
+            var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"},{"data.b":"1"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+            });
+            var mongorawquery = '{"$and":[{"data.a":"1"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+            });
+
+            var mongorawquery = '{"$and":[{"data.a":"5"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+            });
+        }
+
+        /* $or-$or tests */
+        if (orortests) {
+            var mongorawquery = '{"$or":[{"data.a":"1"},{"$or":[{"data.b":"25"},{"data.a":"5"},{"data.a":"5"},{"data.a":"1"}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1,wid5]", result, 99);
+            });
+
+            var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"},{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"}]}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+            });
+
+            var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"16"}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid4,wid5]", result, 99);
+            });
+        }
+
+        /* $and-$and queries */
+        if (andandtests) {
+            var mongorawquery = '{"$and":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+            });
+            var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+            });
+            var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"},{"$and":[{"data.b":"1"}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
+            });
+        }
+
+        /* $or-$and queries */
+        if (orandtests) {
+            var mongorawquery = '{"$or":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+            });
+            var mongorawquery = '{"$or":[{"data.a":"5"},{"$and":[{"data.a":"4"},{"$and":[{"data.b":"1"}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+            });
+        }
+
+        /* 20 more test cases */
+        if (orandtests20) {
+            var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+            });
+            var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+            });
+            var mongorawquery = '{"$or":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
+            });
+            var mongorawquery = '{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
+            });
+            //test fails
+            var mongorawquery = '{"$and":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+            });
+            var mongorawquery = '{"$and":[{"data.a":"4"},{"$and":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+            });
+        }
+
+        /* fail test cases */
+        if (failedtests) {
+            /*
+                var mongorawquery = '{"$and":[{"data.a":"4"},{"$or":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
+                mongoquery(mongorawquery, function (result){
+                    proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid4]", result, 99);
+                });
+                */
+            var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
+            mongoquery(mongorawquery, function (result) {
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
+            });
+        }
+
+
     });
-
-    /* varify test cases */
-    if (verifytests) {
-        console.log("<< inside verifytests >>");
-
-
-        var executeObj = {};
-        executeObj["executethis"] = "querywid";
-        executeObj["mongorawquery"] = '{"$or":[{"data.a":"string"}]}';
-        executeList.push(executeObj);
-
-        executearray(executeList, function (err, res) {
-            console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
-            result = res;
-        });
-
-        var expectedResultArray = [];
-        expectedResultArray.push({
-            "wid": "testdto",
-            "metadata.method": "testdto",
-            "data.b": "string",
-            "data.a": "string"
-        });
-        params = logverify("mongoquery", "resultwid1", result[1][0], "", "", expectedResultArray);
-
-        proxyprinttodiv("end of verify tests", "end of verify tests", 99);
-    }
-
-    /* $or queries */
-    if (ortests) {
-        var mongorawquery = '{"$or":[{"data.a":"string"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
-        });
-
-        var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"1"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-        });
-        //test fails
-        var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
-        });
-    }
-
-    /* $and queries */
-    if (andtests) {
-        var mongorawquery = '{"$and":[{"data.a":"string"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
-        });
-
-        var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-        });
-
-        var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"16"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
-        });
-
-        var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"},{"data.b":"1"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-        });
-        var mongorawquery = '{"$and":[{"data.a":"1"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-        });
-
-        var mongorawquery = '{"$and":[{"data.a":"5"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
-        });
-    }
-
-    /* $or-$or tests */
-    if (orortests) {
-        var mongorawquery = '{"$or":[{"data.a":"1"},{"$or":[{"data.b":"25"},{"data.a":"5"},{"data.a":"5"},{"data.a":"1"}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1,wid5]", result, 99);
-        });
-
-        var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"},{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"}]}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
-        });
-
-        var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"16"}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid4,wid5]", result, 99);
-        });
-    }
-
-    /* $and-$and queries */
-    if (andandtests) {
-        var mongorawquery = '{"$and":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-        });
-        var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
-        });
-        var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"},{"$and":[{"data.b":"1"}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
-        });
-    }
-
-    /* $or-$and queries */
-    if (orandtests) {
-        var mongorawquery = '{"$or":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-        });
-        var mongorawquery = '{"$or":[{"data.a":"5"},{"$and":[{"data.a":"4"},{"$and":[{"data.b":"1"}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
-        });
-    }
-
-    /* 20 more test cases */
-    if (orandtests20) {
-        var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
-        });
-        var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
-        });
-        var mongorawquery = '{"$or":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
-        });
-        var mongorawquery = '{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
-        });
-        //test fails
-        var mongorawquery = '{"$and":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
-        });
-        var mongorawquery = '{"$and":[{"data.a":"4"},{"$and":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
-        });
-    }
-
-    /* fail test cases */
-    if (failedtests) {
-        /*
-		var mongorawquery = '{"$and":[{"data.a":"4"},{"$or":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
-		mongoquery(mongorawquery, function (result){
-			proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid4]", result, 99);
-		});
-		*/
-        var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
-        mongoquery(mongorawquery, function (result) {
-            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
-        });
-    }
-
-    params = {
-        'test': 'PASS'
-    };
-    callback(params);
 }
 
 function addmttestdata(callback) {
@@ -511,7 +542,7 @@ function addmttestdata(callback) {
     widArray.push(dtoObj);
 
     var totalWids = 5; //during debugging
-    //var totalWids = 50;		//during real time testing
+    //var totalWids = 50;       //during real time testing
     for (var i = 1; i <= totalWids; i++) {
         var widObj = {};
         widObj["executethis"] = "updatewid";
@@ -523,18 +554,22 @@ function addmttestdata(callback) {
     }
 
     /*
-	executearray(widArray, function (err, res) {
+    execute(widArray, function (err, res) {
         console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
-	});
-	proxyprinttodiv("end of data add", "end data add", 99);
-	*/
+    });
+    proxyprinttodiv("end of data add", "end data add", 99);
+    */
     return widArray;
 }
+
+
+
+
 
 exports.t1example = t1example = function t1example(params, callback) {
     testclearstorage();
     config = setconfig1();
-    executearray([{
+    execute([{
             "executethis": "func_b",
             "c": "0",
             "d": "1",
@@ -611,7 +646,7 @@ exports.mttest2 = mttest2 = function mttest2(params, callback) {
 
     proxyprinttodiv("execute list ", executeList, 99);
 
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
         proxyprinttodiv('Function verifytestresults', res, 99);
         console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
         var expectedResultList = [{
@@ -701,7 +736,7 @@ exports.mttest3 = mttest3 = function mttest3(params, callback) {
         "wid": "color7"
     }];
     proxyprinttodiv("execute list", executeList, 99);
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
 
     });
 
@@ -758,7 +793,7 @@ exports.mttest3 = mttest3 = function mttest3(params, callback) {
         }
     }];
     proxyprinttodiv("execute list for query", executeList, 99);
-    executearray(executeList, function (err, res) {
+    execute(executeList, function (err, res) {
 
     });
 
@@ -1233,7 +1268,7 @@ exports.mttest333 = mttest333 = function mttest333(params, callback) {
     proxyprinttodiv("querylist", querylist, 99);
     proxyprinttodiv("verifylist", verifylist, 99);
 
-    executearray([addlist, querylist], function (err, res) {
+    execute([addlist, querylist], function (err, res) {
         verifyarray[res[1], verifylist]
     });
 
@@ -1472,7 +1507,7 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
     };
     var err;
     callback(err, params);
-    //	gets really slow it down
+    //  gets really slow it down
 }
 
 
@@ -1553,15 +1588,15 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
         "booksdto.pages": "00"
     }, "", "");
 
-    // 	//debugsubcat = "add";
-    //  	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-    // 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+    //  //debugsubcat = "add";
+    //      executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
     // // these added later
     // debuglevel=10;
     // debugsubcat = "get";
-    // 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-    // 	//executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+    //  //executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 
 
     // //debugsubcat = "get";
@@ -1581,33 +1616,33 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
     };
     var err;
     callback(err, params);
-    //	gets really slow it down
+    //  gets really slow it down
 }
 
 
 exports.dtoadd = dtoadd = function dtoadd(params, callback) { //widviewer 
-    // 	testclearstorage();	
+    //  testclearstorage(); 
 
-    // 	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
-    // 	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
-    // 	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
-    // 	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");  
+    //  executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
 
-    // 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
-    // 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
-    // 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
 
-    //    	executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
-    //  	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-    // 	executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+    //      executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
+    //      executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
     // executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
     // executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 
-    // // 	debuglevel=10;
-    // 	executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
-    // // 	debuglevel=0
-    // 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+    // //   debuglevel=10;
+    //  executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
+    // //   debuglevel=0
+    //  executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
     // }
 
     // function dtoadd(){ //widviewer 
@@ -1709,7 +1744,7 @@ exports.dtoadd = dtoadd = function dtoadd(params, callback) { //widviewer
     };
     var err;
     callback(err, params);
-    //	gets really slow it down
+    //  gets really slow it down
 }
 
 
@@ -2073,40 +2108,40 @@ exports.wv = wv = function wv(params, callback) { //widviewer
     callback(err, params);
 }
 
-// 	testclearstorage();	
+//  testclearstorage(); 
 
-// 	executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}, "", "");
 
-// 	// create dtos
-// 	executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","addfielddefault":"inherit"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"nodeDataArray","wid":"nodeDataArray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"leftArray","wid":"leftArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"topArray","wid":"topArray","class":"string","portColor":"string", "portId":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"bottomArray","wid":"bottomArray","portColor":"string", "portId":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"rightArray","wid":"rightArray","portColor":"string", "portId":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"linkDataArray","wid":"linkDataArray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"}, "", "");			
-// 	executetest("addwidmaster",{"metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultaction":"inherit"}, "", "");
-// 	// addthis was used in the last two since we needed to add parameters executethis, etc. -- we did not want the system to act on those parameters
-// 	// addthis could have been used to add all of these
+//  // create dtos
+//  executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");  
+//  executetest("addwidmaster",{"metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","addfielddefault":"inherit"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, "", ""); 
+//  executetest("addwidmaster",{"metadata.method":"nodeDataArray","wid":"nodeDataArray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"}, "", "");    
+//  executetest("addwidmaster",{"metadata.method":"leftArray","wid":"leftArray","class":"string","portColor":"string", "portId":"string"}, "", ""); 
+//  executetest("addwidmaster",{"metadata.method":"topArray","wid":"topArray","class":"string","portColor":"string", "portId":"string"}, "", "");   
+//  executetest("addwidmaster",{"metadata.method":"bottomArray","wid":"bottomArray","portColor":"string", "portId":"string"}, "", "");  
+//  executetest("addwidmaster",{"metadata.method":"rightArray","wid":"rightArray","portColor":"string", "portId":"string"}, "", "");    
+//  executetest("addwidmaster",{"metadata.method":"linkDataArray","wid":"linkDataArray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"}, "", "");           
+//  executetest("addwidmaster",{"metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"}, "", "");   
+//  executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultaction":"inherit"}, "", "");
+//  // addthis was used in the last two since we needed to add parameters executethis, etc. -- we did not want the system to act on those parameters
+//  // addthis could have been used to add all of these
 
-// 	// create relationships
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");	
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject"}, "", "");
-// 	executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules"}, "", "");
-// 	executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+//  // create relationships
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");    
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");    
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject"}, "", "");
+//  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules"}, "", "");
+//  executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
 
 // }
 
@@ -2172,7 +2207,7 @@ exports.ca1 = ca1 = function ca1(params, callback) {
         "secondarywid": "questiondto"
     }, "", "");
 
-    // Create the user dto	
+    // Create the user dto  
     executetest("addwidmaster", {
         "wid": "userdto",
         "metadata.method": "userdto",
@@ -2244,10 +2279,15 @@ exports.ca1 = ca1 = function ca1(params, callback) {
 
     executeobject = {};
     executeobject["wid"] = "roger";
-    resultobject = executethis(executeobject, getwidmaster);
-    proxyprinttodiv("end", resultobject, 99);
-    var err;
-    callback(err, params);
+    execute(executeobject, function (err, res) {
+        resultobject = res;
+        getwidmaster(res, function (err, res) {
+            proxyprinttodiv("end", resultobject, 99);
+            var err;
+            callback(err, params);
+
+        }); // TODO :: SAURABH  REVIEW THIS CONVERSION
+    });
 }
 
 
@@ -2256,27 +2296,47 @@ exports.w1 = w1 = function w1() {
     testclearstorage();
     var result;
     //result = executethis({"executethis":"func_bbb", "c":"0", "d":"1", "e":"2"}, func_bbb);
-    result = executethis({
+    // result = executethis({
+    //     "executethis": "func_b",
+    //     "c": "0",
+    //     "d": "1",
+    //     "e": "2"
+    // }, func_b);
+    execute({
         "executethis": "func_b",
         "c": "0",
         "d": "1",
         "e": "2"
-    }, func_b);
-    proxyprinttodiv('from test', result, 99);
+    }, function (err, res) {
+        func_b(res, function (err, res) {
+            proxyprinttodiv('from test', result, 99);
+        });
+    });
 }
 //{"d":"1","c":"0","executethis":"func_b","g":"4"}
 
 exports.w2 = w2 = function w2() {
     testclearstorage();
     var result;
-    result = executethis({
+    // result = executethis({
+    //     "executethis": "async_func_bbb",
+    //     "c": "0",
+    //     "d": "1",
+    //     "e": "2"
+    // }, async_func_bbb);
+    execute({
         "executethis": "async_func_bbb",
         "c": "0",
         "d": "1",
         "e": "2"
-    }, async_func_bbb);
+    }, function (err, res) {
+        result = res;
+        async_func_bbb(res, function (err, res) {
+            proxyprinttodiv('from test', result, 99);
+
+        });
+    })
     //result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
-    proxyprinttodiv('from test', result, 99);
 }
 
 //"executethis":"async_func_b","d":"1","g":"4","h":"5"
@@ -2297,14 +2357,25 @@ exports.w3 = w3 = function w3() {
     testclearstorage();
     debuglevel = 11;
     var result;
-    result = executethis({
+    // result = executethis({
+    //     "executethis": "async_func_bbb",
+    //     "c": "0",
+    //     "d": "1",
+    //     "e": "2"
+    // }, execute);
+
+    execute({
         "executethis": "async_func_bbb",
         "c": "0",
         "d": "1",
         "e": "2"
-    }, execute);
-    //result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
-    proxyprinttodiv('from test', result, 99);
+    }, function (err, res) {
+        result = res;
+        execute(result, function (err, res) {
+            //result = executethis({"executethis":"func_b", "c":"0", "d":"1", "e":"2"}, func_b);
+            proxyprinttodiv('from test', result, 99);
+        });
+    });
 }
 
 
@@ -2422,9 +2493,9 @@ exports.testaaa = testaaa = function testaaa() {
         "hue": "blue",
         "metadata.method": "colordto"
     }, "", "");
-    // executetest("getwidmaster", {"wid":"color1"}, "", "");	
+    // executetest("getwidmaster", {"wid":"color1"}, "", "");   
 
-    //		logverify("this_test","test_result","actual","","",getFromLocalStorage("assertion"));
+    //      logverify("this_test","test_result","actual","","",getFromLocalStorage("assertion"));
 }
 
 exports.testbbb = testbbb = function testbbb() {
@@ -2966,7 +3037,7 @@ exports.addi = addi = function addi() {
         "adddto.addfield.wid": "addfielddefault",
         "adddto.addfield.metadata.method": "defaultdto"
     });
-    //																 {"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.0.title":"none","booksdto.0.pages":"00","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.action":"none","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0..method":"defaultdto","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20"}
+    //                                                               {"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.0.title":"none","booksdto.0.pages":"00","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.action":"none","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0..method":"defaultdto","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20"}
 
     verifysummary("resultwid");
 
@@ -3052,11 +3123,11 @@ exports.addi = addi = function addi() {
     $('#divwidsdisplay').show('slow');
 
     /*
-	//get the new record
-	sequenceObjList.push({"seq":"seq01","command.action":"debugon"});
-	sequenceObjList.push({"seq":"seq01","command.action":"get","metadata.method":"authordto","wid":"startwid"});
-	sequenceObjList.push({"seq":"seq01","command.action":"debugoff"});
-	*/
+    //get the new record
+    sequenceObjList.push({"seq":"seq01","command.action":"debugon"});
+    sequenceObjList.push({"seq":"seq01","command.action":"get","metadata.method":"authordto","wid":"startwid"});
+    sequenceObjList.push({"seq":"seq01","command.action":"debugoff"});
+    */
 }
 
 exports.addnewi = addnewi = function addnewi() {
@@ -4388,11 +4459,11 @@ exports.adde = adde = function adde() {
     //executetest("getwidmaster", {"wid":"startwid"}, "", "");
 
     /*
-	//get the new record
-	sequenceObjList.push({"seq":"seq01","command.action":"debugon"});
-	sequenceObjList.push({"seq":"seq01","command.action":"get","metadata.method":"authordto","wid":"startwid"});
-	sequenceObjList.push({"seq":"seq01","command.action":"debugoff"});
-	*/
+    //get the new record
+    sequenceObjList.push({"seq":"seq01","command.action":"debugon"});
+    sequenceObjList.push({"seq":"seq01","command.action":"get","metadata.method":"authordto","wid":"startwid"});
+    sequenceObjList.push({"seq":"seq01","command.action":"debugoff"});
+    */
 }
 
 exports.addf = addf = function addf() {
@@ -5206,7 +5277,7 @@ exports.addoldi = addoldi = function addoldi() {
         "adddto.0.linkrules.0.metadata.method": "linkrules",
         "adddto.0.linkrules.0.wid": "20"
     });
-    //																 {"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.0.title":"none","booksdto.0.pages":"00","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.action":"none","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0..method":"defaultdto","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20"}
+    //                                                               {"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.0.title":"none","booksdto.0.pages":"00","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.action":"none","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0..method":"defaultdto","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20"}
 
     //{"readstartwid":"FAIL","readstartwid_diff":
     //{"adddto.0.addfield.0.display":"true","adddto.0.addfield.0.editable":"true","adddto.0.addfield.0.onreadactions":"none","adddto.0.addfield.0.oneditactions":"pop_up_alert",
@@ -5291,11 +5362,11 @@ exports.addoldi = addoldi = function addoldi() {
     $('#divwidsdisplay').show('slow');
 
     /*
-	//get the new record
-	sequenceObjList.push({"seq":"seq01","command.action":"debugon"});
-	sequenceObjList.push({"seq":"seq01","command.action":"get","metadata.method":"authordto","wid":"startwid"});
-	sequenceObjList.push({"seq":"seq01","command.action":"debugoff"});
-	*/
+    //get the new record
+    sequenceObjList.push({"seq":"seq01","command.action":"debugon"});
+    sequenceObjList.push({"seq":"seq01","command.action":"get","metadata.method":"authordto","wid":"startwid"});
+    sequenceObjList.push({"seq":"seq01","command.action":"debugoff"});
+    */
 }
 
 exports.seq3 = seq3 = function seq3() {
@@ -6070,7 +6141,7 @@ exports.addj = addj = function addj() {
 
     //executetest("addwidmaster", {"wid":"startwid","command.dtotype":"addfield", "fieldname":"a1","editable":"e1","display":"d1","oneditactions":"o1"}, "startwid_addfield1", "");
     //executetest("addwidmaster", {"wid":"startwid","command.dtotype":"addfield", "fieldname":"a2","editable":"e2","display":"d2","oneditactions":"o2"}, "startwid_addfield2", "");
-    //executetest("getwidmaster", {"wid":"startwid","command.dtotype":"addfield", "command.convertmethod":"dtonum"}, "startwid_addfield3", "");	
+    //executetest("getwidmaster", {"wid":"startwid","command.dtotype":"addfield", "command.convertmethod":"dtonum"}, "startwid_addfield3", ""); 
 
     proxyprinttodiv('logcomparemeek result before ***********************', result, true);
     executetest("debugon");
@@ -6113,13 +6184,13 @@ exports.addj = addj = function addj() {
 
 
     //executetest("debugon");
-    // 	executetest("getwidmaster", {"wid":"startwid","command.dtotype":"authordto"}, "startwid_authordto", "");
-    // 	executetest("getwidmaster", {"wid":"startwid","command.dtotype":"booksdto", "command.convertmethod":"dtonum"}, "startwid_dtonum_bookdto", "");
-    // 	executetest("getwidmaster", {"wid":"startwid","command.dtotype":"booksdto", "command.convertmethod":"num"}, "startwid_num_`bookdto", "");
-    // 	executetest("getwidmaster", {"wid":"startwid","command.dtotype":"booksdto"}, "startwid_bookdto", "");
+    //  executetest("getwidmaster", {"wid":"startwid","command.dtotype":"authordto"}, "startwid_authordto", "");
+    //  executetest("getwidmaster", {"wid":"startwid","command.dtotype":"booksdto", "command.convertmethod":"dtonum"}, "startwid_dtonum_bookdto", "");
+    //  executetest("getwidmaster", {"wid":"startwid","command.dtotype":"booksdto", "command.convertmethod":"num"}, "startwid_num_`bookdto", "");
+    //  executetest("getwidmaster", {"wid":"startwid","command.dtotype":"booksdto"}, "startwid_bookdto", "");
     // executetest("getwidmaster", {"wid":"startwid","command.dtotype":"palettedto"}, "startwid_palettedto", "");
     // executetest("getwidmaster", {"wid":"startwid","command.dtotype":"adddto"}, "startwid_adddto", "");
-    // executetest("getwidmaster", {"wid":"startwid","command.dtotype":"addfield"}, "startwid_addfield", "");	
+    // executetest("getwidmaster", {"wid":"startwid","command.dtotype":"addfield"}, "startwid_addfield", "");   
     // executetest("getwidmaster", {"wid":"startwid","command.dtotype":"actiondto"}, "startwid_actiondto", "");
     // executetest("getwidmaster", {"wid":"startwid","command.dtotype":"linkrules"}, "startwid_linkrules", "");
     // executetest("getwidmaster", {"wid":"startwid","command.dtotype":"gojsobject"}, "startwid_gojsobject", "");
@@ -6132,11 +6203,11 @@ exports.addj = addj = function addj() {
     //executetest("debugoff");
 
     /*
-	//get the new record
-	sequenceObjList.push({"seq":"seq01","command.action":"debugon"});
-	sequenceObjList.push({"seq":"seq01","command.action":"get","metadata.method":"authordto","wid":"startwid"});
-	sequenceObjList.push({"seq":"seq01","command.action":"debugoff"});
-	*/
+    //get the new record
+    sequenceObjList.push({"seq":"seq01","command.action":"debugon"});
+    sequenceObjList.push({"seq":"seq01","command.action":"get","metadata.method":"authordto","wid":"startwid"});
+    sequenceObjList.push({"seq":"seq01","command.action":"debugoff"});
+    */
 
     // Make sure the local storage is displayed
     displayAllWids();
@@ -6540,7 +6611,7 @@ exports.addk = addk = function addk() {
         "adddto.0.linkrules.0.metadata.method": "linkrules",
         "adddto.0.linkrules.0.wid": "20"
     });
-    //																 {"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.0.title":"none","booksdto.0.pages":"00","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.action":"none","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0..method":"defaultdto","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20"}
+    //                                                               {"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.0.title":"none","booksdto.0.pages":"00","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.action":"none","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0..method":"defaultdto","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20"}
 
     verifysummary("resultwid");
 
@@ -7007,7 +7078,7 @@ exports.addm = addm = function addm() {
         "adddto.0.linkrules.0.metadata.method": "linkrules",
         "adddto.0.linkrules.0.wid": "20"
     });
-    //																 {"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.0.title":"none","booksdto.0.pages":"00","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.action":"none","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0..method":"defaultdto","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20"}
+    //                                                               {"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.0.title":"none","booksdto.0.pages":"00","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"1","adddto.0.metadata.method":"adddto","adddto.0.wid":"13","adddto.0.actiondto.0.action":"none","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"14","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"16","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"18","adddto.0.addfield.0..method":"defaultdto","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"20"}
 
     verifysummary("resultwid");
 
@@ -7576,7 +7647,7 @@ exports.seq2 = seq2 = function seq2() {
     // "linkDataArray.5.from":"unit One","linkDataArray.5.to":"unit Two",
     // "linkDataArray.5.fromPort":"right0","linkDataArray.5.toPort":"left1",
     // "linkDataArray.6.from":"unit One","linkDataArray.6.to":"unit Two",
-    // "linkDataArray.6.fromPort":"right1","linkDataArray.6.toPort":"left2"});	
+    // "linkDataArray.6.fromPort":"right1","linkDataArray.6.toPort":"left2"});  
 
     // {"metadata.method":"gojsobject","wid":"widtest","class":"go.GraphLinksModel",
     // "linkfromportidproperty":"fromPort","linktoportidproperty":"toPort",
@@ -8068,13 +8139,13 @@ exports.addq = addq = function addq() {
         "rightclickdto.1.executethis": "getwidmaster"
     }, "", "");
     // executetest("addwidmaster",{"wid":"defaultrightclick",
-    // 							"metadata.method":"rightclickdto",
-    // 							"rightclickdto.0.displayname":"Open As Wid",
-    // 							"rightclickdto.0.preexecute":"setdtoforwid",
-    // 							"rightclickdto.0.executethis":"getwidmaster",
-    // 							"rightclickdto.1.displayname":"Open As json",
-    // 							"rightclickdto.0.preexecute":"setdtoforjson",
-    // 							"rightclickdto.1.executethis":"getwidmaster"}, "", "");
+    //                          "metadata.method":"rightclickdto",
+    //                          "rightclickdto.0.displayname":"Open As Wid",
+    //                          "rightclickdto.0.preexecute":"setdtoforwid",
+    //                          "rightclickdto.0.executethis":"getwidmaster",
+    //                          "rightclickdto.1.displayname":"Open As json",
+    //                          "rightclickdto.0.preexecute":"setdtoforjson",
+    //                          "rightclickdto.1.executethis":"getwidmaster"}, "", "");
 
 
     executetest("executethis", {
@@ -8088,13 +8159,13 @@ exports.addq = addq = function addq() {
         "actiondto.1.executethis": "getwidmaster"
     }, "", "");
     // executetest("addwidmaster",{"wid":"defaultaction",
-    // 							"metadata.method":"actiondto",
-    // 							"actiondto.0.displayname":"Open As Wid",
-    // 							"actiondto.0.preexecute":"setdtoforwid",
-    // 							"actiondto.0.executethis":"getwidmaster",
-    // 							"actiondto.1.displayname":"Open As json",
-    // 							"actiondto.0.preexecute":"setdtoforjson",
-    // 							"actiondto.1.executethis":"getwidmaster"}, "", "");
+    //                          "metadata.method":"actiondto",
+    //                          "actiondto.0.displayname":"Open As Wid",
+    //                          "actiondto.0.preexecute":"setdtoforwid",
+    //                          "actiondto.0.executethis":"getwidmaster",
+    //                          "actiondto.1.displayname":"Open As json",
+    //                          "actiondto.0.preexecute":"setdtoforjson",
+    //                          "actiondto.1.executethis":"getwidmaster"}, "", "");
 
     executetest("addwidmaster", {
         "metadata.method": "palettedto",
@@ -8345,8 +8416,8 @@ exports.luke122 = luke122 = function luke122() {
     // executetest("addwidmaster",{"wid":"myquery3","myquery1":"placeholder","myquery2":"placeholder"}, "", "");
     // executetest("addwidmaster",{"wid":"outputlanding1"}, "", "");
     // executetest("addwidmaster",{"wid":"outputlanding1"}, "", "");
-    // executetest("MongoDataQuery", {"singlemongoquery":"myquery1"}, "outputlanding1", "");	
-    //executetest("MongoDataQuery", {"multiplemongoquery":"myquery3"}, "outputlanding2", "");	
+    // executetest("MongoDataQuery", {"singlemongoquery":"myquery1"}, "outputlanding1", "");    
+    //executetest("MongoDataQuery", {"multiplemongoquery":"myquery3"}, "outputlanding2", "");   
 }
 // {"wid":"joe_jamison"}
 // {"metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.0.title":"Hello World!","booksdto.0.pages":"40","booksdto.0.metadata.method":"booksdto","booksdto.0.wid":"3","adddto.0.metadata.method":"adddto","adddto.0.wid":"23","adddto.0.actiondto.0.action":"{'color_screen':'blue'}","adddto.0.actiondto.0.metadata.method":"actiondto","adddto.0.actiondto.0.wid":"24","adddto.0.palettedto.0.widname":"joe_jamison","adddto.0.palettedto.0.category":"human","adddto.0.palettedto.0.subcategory":"author","adddto.0.palettedto.0.metadata.method":"palettedto","adddto.0.palettedto.0.wid":"26","adddto.0.palettedto.1.widname":"jessica_jamison","adddto.0.palettedto.1.category":"human","adddto.0.palettedto.1.subcategory":"wife","adddto.0.palettedto.1.metadata.method":"palettedto","adddto.0.palettedto.1.wid":"28","adddto.0.palettedto.2.widname":"mary_morris","adddto.0.palettedto.2.category":"human","adddto.0.palettedto.2.subcategory":"sister","adddto.0.palettedto.2.metadata.method":"palettedto","adddto.0.palettedto.2.wid":"30","adddto.0.addfield.0.fieldname":"name","adddto.0.addfield.0.metadata.method":"addfield","adddto.0.addfield.0.wid":"32","adddto.0.addfield.0.display":"true","adddto.0.addfield.0.editable":"true","adddto.0.addfield.0.onreadactions":"none","adddto.0.addfield.0.oneditactions":"pop_up_alert","adddto.0.linkrules.0.linkclass":"1","adddto.0.linkrules.0.min":"0","adddto.0.linkrules.0.max":"10","adddto.0.linkrules.0.metadata.method":"linkrules","adddto.0.linkrules.0.wid":"34"}'
@@ -8394,60 +8465,437 @@ exports.visualversion = visualversion = function visualversion() {
     logverify("this_test", "test_result", "actual", "", "", getFromLocalStorage("assertion"));
 }
 
+
+exports.mttest2 = mttest2 = function mttest2(params, callback) {
+    console.log("<< mongoquery_two_test_2 >>");
+
+    var result = null;
+    var ortests = true;
+    var andtests = false;
+    var orortests = false;
+    var andandtests = false;
+    var orandtests = false;
+    var orandtests20 = false;
+    var failedtests = false;
+    var verifytests = true;
+
+
+    var codedebug = false;
+    if (codedebug) {
+        debugcolor = 0;
+        debugon = true;
+        debugname = "";
+        debugsubcat = "";
+        debugcat = "query";
+        debugfilter = "";
+        debugdestination = 1;
+    }
+
+    testclearstorage();
+
+    var executeList = [];
+    executeList = addmttestdata2(callback);
+
+    var params;
+
+    execute(executeList, function (err, res) {
+        console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+
+        async.series([
+
+                function (cb1) {
+                    /* varify test cases */
+                    if (verifytests) {
+                        console.log("<< inside verifytests >>");
+
+                        var executeObj = {};
+                        executeObj["executethis"] = "querywid";
+                        executeObj["mongorawquery"] = '{"$or":[{"data.a":"string"}]}';
+                        executeList.push(executeObj);
+
+                        execute(executeList, function (err, res) {
+                            console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+                            result = res;
+
+                            var expectedResultArray = [];
+                            expectedResultArray.push({
+                                "wid": "testdto",
+                                "metadata": {
+                                    "method": "testdto"
+                                },
+                                "data": {
+                                    "b": "string",
+                                    "a": "string"
+                                }
+                            });
+
+                            console.log(' >>> test >>> ' + JSON.stringify(result[0][0]));
+                            console.log(' >>> expectedResultArray >>> ' + JSON.stringify(expectedResultArray[0]));
+                            params = logverify("mttest2", "mttest2_result", "", result[0][0].wid, "", "", expectedResultArray[0].wid);
+                            proxyprinttodiv("end of verify tests", "end of verify tests", 99);
+                            cb1(null);
+                        });
+                    } else {
+                        cb1(null);
+                    }
+                },
+
+                function (cb1) {
+                    /* $or queries */
+                    if (ortests) {
+
+                        async.series([
+                            function (cb2) {
+                                var mongorawquery = '{"$or":[{"data.a":"string"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
+                                    cb2(null);
+                                });
+                            },
+                            function (cb2) {
+                                var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"1"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                                    cb2(null);
+                                });
+                            },
+                            function (cb2) {
+                                //test fails
+                                var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
+                                    cb2(null);
+                                });
+                            }
+                        ], function (err, result) {
+                            expectedResultArrayString = [{
+                                "wid": "wid1",
+                                "metadata.method": "testdto",
+                                "data.b": "1",
+                                "data.a": "1"
+                            }, {
+                                "wid": "wid1",
+                                "metadata.method": "testdto",
+                                "data.b": "1",
+                                "data.a": "1"
+                            }, {
+                                "wid": "wid4",
+                                "metadata.method": "testdto",
+                                "data.b": "16",
+                                "data.a": "4"
+                            }];
+                            console.log(' >>> test >>> ' + JSON.stringify(result));
+                            console.log(' >>> expectedResultArray >>> ' + JSON.stringify(expectedResultArrayString));
+                            // params = logverify("mttest2", "mttest2_result", "", result, "", "", expectedResultArray);
+                            // params = logverify("mttest2", "mttest2_result", "", result[0], "", "", expectedResultArrayString[0]);
+                            // // JSON.stringify(result[1])===JSON.stringify(expectedResultArrayString[1])
+                            // proxyprinttodiv("end of verify tests", "end of verify tests", 99);
+                            cb1(null);
+                        });
+                    } else {
+                        cb1(null);
+                    }
+                },
+                function (cb1) {
+                    /* $and queries */
+                    if (andtests) {
+
+                        async.series([
+                            function (cb2) {
+                                var mongorawquery = '{"$and":[{"data.a":"string"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
+                                    cb2(null);
+                                });
+
+                            },
+                            function (cb2) {
+
+
+                                var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                                    cb2(null);
+                                });
+                            },
+                            function (cb2) {
+                                var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"16"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
+                                    cb2(null);
+                                });
+                            },
+                            function (cb2) {
+                                var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"},{"data.b":"1"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                                    cb2(null);
+                                });
+                            },
+                            function (cb2) {
+                                var mongorawquery = '{"$and":[{"data.a":"1"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                                    cb2(null);
+                                });
+                            },
+                            function (cb2) {
+
+                                var mongorawquery = '{"$and":[{"data.a":"5"}]}';
+                                mongoquery(mongorawquery, function (err, result) {
+                                    proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+                                    cb2(null);
+                                });
+                            },
+                            function (cb2) {
+
+                            }
+                        ], function (err, result) {
+                            expectedResultArrayString = [{}];
+                            console.log(' >>> test >>> ' + JSON.stringify(result));
+                            console.log(' >>> expectedResultArray >>> ' + JSON.stringify(expectedResultArrayString));
+                            // params = logverify("mttest2", "mttest2_result", "", result, "", "", expectedResultArray);
+                            // params = logverify("mttest2", "mttest2_result", "", result[0], "", "", expectedResultArrayString[0]);
+                            // // JSON.stringify(result[1])===JSON.stringify(expectedResultArrayString[1])
+                            // proxyprinttodiv("end of verify tests", "end of verify tests", 99);
+                            cb1(null);
+                        });
+                    } else {
+                        cb1(null);
+                    }
+                },
+
+                function (cb1) {
+                    /* $or-$or tests */
+                    if (orortests) {
+                        var mongorawquery = '{"$or":[{"data.a":"1"},{"$or":[{"data.b":"25"},{"data.a":"5"},{"data.a":"5"},{"data.a":"1"}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1,wid5]", result, 99);
+                        });
+
+                        var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"},{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"}]}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+                        });
+
+                        var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"16"}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid4,wid5]", result, 99);
+                        });
+                    } else {
+                        cb1(null);
+                    }
+                },
+
+                function (cb1) {
+
+                    /* $and-$and queries */
+                    if (andandtests) {
+                        var mongorawquery = '{"$and":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                        });
+                        var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+                        });
+                        var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"},{"$and":[{"data.b":"1"}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
+                        });
+                    } else {
+                        cb1(null);
+                    }
+                },
+                function (cb1) {
+                    /* $or-$and queries */
+                    if (orandtests) {
+                        var mongorawquery = '{"$or":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                        });
+                        var mongorawquery = '{"$or":[{"data.a":"5"},{"$and":[{"data.a":"4"},{"$and":[{"data.b":"1"}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+                        });
+                    } else {
+                        cb1(null);
+                    }
+                },
+                function (cb1) {
+                    /* 20 more test cases */
+                    if (orandtests20) {
+                        var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+                        });
+                        var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+                        });
+                        var mongorawquery = '{"$or":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
+                        });
+                        var mongorawquery = '{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
+                        });
+                        //test fails
+                        var mongorawquery = '{"$and":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+                        });
+                        var mongorawquery = '{"$and":[{"data.a":"4"},{"$and":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+                        });
+                    } else {
+                        cb1(null);
+                    }
+                },
+
+                function (cb1) {
+                    /* fail test cases */
+                    if (failedtests) {
+                        /*
+                                                    var mongorawquery = '{"$and":[{"data.a":"4"},{"$or":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
+                                                    mongoquery(mongorawquery, function (result){
+                                                        proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid4]", result, 99);
+                                                    });
+                                                    */
+                        var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
+                        mongoquery(mongorawquery, function (err, result) {
+                            proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
+                            cb1(null);
+                        });
+                    } else {
+                        cb1(null);
+                    }
+                }
+            ],
+
+            function (err, result) {
+                expectedResultArrayString = [{
+                    "wid": "wid1",
+                    "metadata.method": "testdto",
+                    "data.b": "1",
+                    "data.a": "1"
+                }, {
+                    "wid": "wid1",
+                    "metadata.method": "testdto",
+                    "data.b": "1",
+                    "data.a": "1"
+                }, {
+                    "wid": "wid4",
+                    "metadata.method": "testdto",
+                    "data.b": "16",
+                    "data.a": "4"
+                }];
+                console.log(' >>> test >>> ' + JSON.stringify(result));
+                console.log(' >>> expectedResultArray >>> ' + JSON.stringify(expectedResultArrayString));
+                // params = logverify("mttest2", "mttest2_result", "", result, "", "", expectedResultArray);
+                params = logverify("mttest2", "mttest2_result", "", result[0], "", "", expectedResultArrayString[0]);
+                // JSON.stringify(result[1])===JSON.stringify(expectedResultArrayString[1])
+                proxyprinttodiv("end of verify tests", "end of verify tests", 99);
+                callback(err, params);
+            });
+
+
+
+    });
+}
+
+function addmttestdata2(callback) {
+    console.log("<< addmttestdata >>");
+
+    proxyprinttodiv("staring data add", "data add", 99);
+    var widArray = [];
+
+    var dtoObj = {
+        "executethis": "updatewid",
+        "metadata.method": "testdto",
+        "wid": "testdto",
+        "a": "string",
+        "b": "string"
+    };
+    widArray.push(dtoObj);
+
+    var totalWids = 5; //during debugging
+    //var totalWids = 50;       //during real time testing
+    for (var i = 1; i <= totalWids; i++) {
+        var widObj = {};
+        widObj["executethis"] = "updatewid";
+        widObj["metadata.method"] = "testdto";
+        widObj["wid"] = "wid" + i;
+        widObj["a"] = "" + (i);
+        widObj["b"] = "" + (i * i);
+        widArray.push(widObj);
+    }
+
+
+    // execute(widArray, function (err, res) {
+    //     console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+    // });
+    // proxyprinttodiv("end of data add", "end data add", 99);
+
+    return widArray;
+}
+
 // Addwidmaster
 // wid required for now
 
 // Simple add/get wid
-// 	Done using wid seq2001
+//  Done using wid seq2001
 
-// Test addwid without 	command.dtotype
-// Test addwid with 		command.dtotype
+// Test addwid without  command.dtotype
+// Test addwid with         command.dtotype
 
-// Test addwid without 	command.accesstoken
-// Test addwid with 		command.accesstoken
+// Test addwid without  command.accesstoken
+// Test addwid with         command.accesstoken
 
-// Test addwid without 	command.inherit
-// Test addwid with 		command.inherit
+// Test addwid without  command.inherit
+// Test addwid with         command.inherit
 
-// Test addwid without 	metadata.method
-// Test addwid with 		metadata.method
+// Test addwid without  metadata.method
+// Test addwid with         metadata.method
 
-// Test addwid without 	metadata.method
-// Test addwid with 		metadata.method
+// Test addwid without  metadata.method
+// Test addwid with         metadata.method
 
 // Create wid using a single level dto
 // Verify the get of the wid with that dto
 
 // single level dto adding to same wid created with different dto
-// 	Planet has many moons, so it needs a moondto
-// 		A moondto could have name, size, color
+//  Planet has many moons, so it needs a moondto
+//      A moondto could have name, size, color
 
 
 // dual level
-// 	Planet has many moons, so it needs a moondto
-// 		A moondto could have name, size
-// 		A moon has many monsters, so it needs a monsterdto
-// 			A monsterdto could have color, number of claws
+//  Planet has many moons, so it needs a moondto
+//      A moondto could have name, size
+//      A moon has many monsters, so it needs a monsterdto
+//          A monsterdto could have color, number of claws
 // A moon and moster do not share any parameter names.
 
 // dual level same param
-// 	Planet has many moons, so it needs a moondto
-// 		A moondto could have name, size, color
-// 		A moon has many monsters, so it needs a monsterdto
-// 			A monsterdto could have color, number of claws
+//  Planet has many moons, so it needs a moondto
+//      A moondto could have name, size, color
+//      A moon has many monsters, so it needs a monsterdto
+//          A monsterdto could have color, number of claws
 // Now the moon and monster can both have a color.
 
 // dual <>
-// 	Get a listing of the moons orbiting planet x
+//  Get a listing of the moons orbiting planet x
 
 // triple
-// 	Planet has many moons, so it needs a moondto
-// 		A moondto could have name, size, color
-// 		A moon has many monsters, so it needs a monsterdto
-// 			A monsterdto could have color, number of claws
-// 				A monster has many victims, so it needs a victimdto
-// 					A victimdto could be gender, age	
+//  Planet has many moons, so it needs a moondto
+//      A moondto could have name, size, color
+//      A moon has many monsters, so it needs a monsterdto
+//          A monsterdto could have color, number of claws
+//              A monster has many victims, so it needs a victimdto
+//                  A victimdto could be gender, age    
 
 // test onetoone
-// 	A country has a name and a capital
-// 		The capital has a name and population
+//  A country has a name and a capital
+//      The capital has a name and population

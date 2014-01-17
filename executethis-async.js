@@ -560,7 +560,7 @@
     
      // takes in an array of inbound parameters(for different requests)
     // 
-    exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
+    exports.executearray = window.executearray = executearray = function execute(paramsArr, callback) {
         // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
         async.mapSeries(paramsArr, function (inboundparms, cbMap) {
             // each iteration 
