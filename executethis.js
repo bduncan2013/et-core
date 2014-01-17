@@ -33,7 +33,7 @@
 
         if ((incomingparams instanceof Array)) {
 
-            incomingparams['command'] = {
+            var commandobject = {
                 "executemethod": 'execute',
                 "excutefilter": 'addwid',
                 'executeorder': 'series',
@@ -49,8 +49,8 @@
             //     'command.executeorder': 'series',
             //     'command.executelimit': 15,
             // });
-            var commandobject = incomingparams.command;
-            delete incomingparams["command"];
+            // var commandobject = incomingparams.command;
+            //delete incomingparams["command"];
 
             executethismultiple(incomingparams, commandobject.executemethod, commandobject.executefilter,
                 commandobject.executeorder, commandobject.executelimit, function (err, retResults) {
@@ -112,11 +112,11 @@
                         overallError = extend(true, preError, midError, err);
 
                         if (Object.prototype.toString.call(postResults) !== '[object Array]') {
-                            if (postResults.length > 0) {
-                                postResults = postResults[0];
-                            } else {
-                                postResults = {};
-                            }
+                            // if (postResults.length > 0) {
+                            //     postResults = postResults[0];
+                            // } else {
+                            //     postResults = {};
+                            // }
                             var tempArray = [];
                             tempArray.push(postResults);
                             postResults = tempArray;
