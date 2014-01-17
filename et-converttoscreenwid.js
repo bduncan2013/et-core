@@ -15,5 +15,5 @@ $(document).ready(function() {
     // convert linked html page to a screenwid
     htmlToScreenwid(widName, $('body').html(), params);
 
-//    window.location = 'http://dripoint.com?wid=' + widName;
+    window.location = 'http://dripoint.com?wid=' + widName;
 });
