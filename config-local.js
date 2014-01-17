@@ -125,7 +125,7 @@ function resetMasterKey() {
 }
 
 function setdefaultparm() {
-    localStore.clear();
+//    localStore.clear();  // don't clear localStorage on every page load
     Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
     debuglevel = 0;
     widMasterKey = "widmaster_";
@@ -260,10 +260,11 @@ exports.bootprocess = bootprocess = function bootprocess() {
     setdefaultparm();
 
     proxyprinttodiv('Function bootprocess config', config, 30);
-    testclearstorage();
-    if (exports.environment === 'local') {
-        clearLocalStorage();
-    }
+    // we don't want localStorage cleared every page load so this is being commented - Jason
+//    testclearstorage();
+//    if (exports.environment === 'local') {
+//        clearLocalStorage();
+//    }
     test_results = {};
     //testAddWids();
     //displayAllWids();
