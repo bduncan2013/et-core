@@ -177,9 +177,6 @@ exports.rt1 = rt1 = function rt1(params, callback) {
 	params = logverify("readstartwid", "resultwid17", "startwid_toparray", "", "", {});
 	return verifysummary("test_results");
 	callback(err, params);
-
-
-
 }
 
 // This series of tests will send parameters to func_b.
@@ -227,7 +224,7 @@ exports.ettesttt = ettesttt = function ettesttt(params, callback) {
 		function (err, res) {
 		}
 	);
-	var err;callback(err, x);
+	var err;callback(err, test_results);
 }
 
 // This series is identical to tt, except that the functions called 
@@ -1305,7 +1302,7 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct6_result", "", res[0][0]ettest, "",{
+		res = logverify("unit_tests", "ettestct6_result", "", res[0][0], "",{
 		"mettestidexecute": "redir_b",
 		"postexecute": "redir_c",
 		"e": "2",
