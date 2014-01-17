@@ -228,11 +228,9 @@ exports.ettesttt = ettesttt = function ettesttt(params, callback) {
 		"executethis": "ettestt6"
 	}],
 		function (err, res) {
+			callback(err, res);
 		}
 	);
-	var err;
-
-	callback(err, test_results);
 }
 
 // This series is identical to tt, except that the functions called 
@@ -257,10 +255,9 @@ exports.ettestastt = ettestastt = function ettestastt(params, callback) {
 		"executethis": "ettestast6"
 	}],
 		function (err, res) {
+			callback(err, res);
 		}
 	);
-	var err;
-	callback(err, test_results);
 }
 
 // This series uses the sync functions of a,b, and c with changes to the
@@ -309,9 +306,9 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
 		"executethis": "ettestct20"
 	}],
 		function (err, res) {
+			callback(err, res);
 		}
 	);
-	var err;callback(err, test_results);
 }
 
 // These are the add/get tests to stress out the dto/dot notation system
@@ -380,7 +377,6 @@ exports.test99 = test99 = function test99(params, callback) {
 // Call func_b with no pre or post
 exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "func_b",
 		"c": "0",
@@ -388,21 +384,18 @@ exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
 		"e": "2"
 	}], 
 	function (err, res) {
-		res = logverify("unit_tests", "ettestt1_result", "", res[0][0], "",{
+		res = logverify("ettestt1_result", res[0][0], {
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
 	callback(err, res);
 	});
-
 }
 
 exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
     testclearstorage();
-    config = setconfig1();
-    
-    res = logverify2("ettestt1s_result",{
+    res = logverify("ettestt1s_result",{
             "d": "1",
             "c": "0",
             "g": "4"
@@ -417,9 +410,7 @@ exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
 
 exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
     testclearstorage();
-    config = setconfig1();
-    
-    res = logverify2("ettestt1sf_result",{
+    res = logverify("ettestt1sf_result",{
             "d": "1",
             "c": "0",
             "g": "4"
@@ -433,28 +424,9 @@ exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
     callback(err, res);
 }
 
-// An intentionally failing test to make sure failed tests fail
-exports.ettesttfail = ettesttfail = function ettesttfail(params, callback) {
-	testclearstorage();
-	// config = setconfig1();
-	executetest("executethis", {
-		"executethis": "func_b",
-		"c": "0",
-		"d": "1",
-		"e": "2"
-	}, "t1_output", "");
-	params = logverify("unit_tests", "ettesttfail_result", "ettesttfail_output", "", "", {
-		"d": "1",
-		"c": "0",
-		"g": "5"
-	});
-	callback(err, params);
-}
-
 // Call func_b with pre and post
 exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "func_b",
 		"c": "0",
@@ -464,7 +436,7 @@ exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
 		"postexecute": "func_c"
 	}], 
 	function (err, res) {
-		res = logverify("unit_tests", "ettestt2_result", "", res[0][0], "",{
+		res = logverify("ettestt2_result", res[0][0], {
 		"f": "3",
 		"g": "4",
 		"h": "5"
@@ -485,7 +457,7 @@ exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
 		"preexecute": "func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestt3_result", "", res[0][0], "",{
+		res = logverify("ettestt3_result", res[0][0], {
 		"c": "0",
 		"f": "3",
 		"g": "4"
@@ -506,12 +478,12 @@ exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
 		"postexecute": "func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestt3a_result", "", res[0][0], "",{
+		res = logverify("ettestt3a_result", res[0][0], {
 		"c": "0",
 		"g": "4",
 		"f": "3"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -527,12 +499,12 @@ exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
 		"postexecute": "func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestt4_result", "", res[0][0], "",{
+		res = logverify("ettestt4_result", res[0][0], {
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -548,12 +520,12 @@ exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
 		"preexecute": "func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestt4a_result", "", res[0][0], "",{
+		res = logverify("ettestt4a_result", res[0][0], {
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call func_b with func_a for pre and post
@@ -569,12 +541,12 @@ exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
 		"postexecute": "func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestt5_result", "", res[0][0], "",{
+		res = logverify("ettestt5_result", res[0][0], {
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call func_b with func_c for pre and post
@@ -590,12 +562,12 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
 		"postexecute": "func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestt6_result", "", res[0][0], "",{
+		res = logverify("ettestt6_result", res[0][0], {
 		"d": "1",
 		"h": "5",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call func_b with dothis
@@ -656,7 +628,6 @@ exports.t9 = t9 = function t9(params, callback) {
 
 exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -664,12 +635,12 @@ exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestast1_result", "", res[0][0], "",{
+		res = logverify("ettestast1_result", res[0][0], {
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call async_func_b with pre and post
@@ -685,18 +656,17 @@ exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
 		"postexecute": "async_func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestast2_result", "", res[0][0], "",{
+		res = logverify("ettestast2_result", res[0][0], {
 		"f": "3",
 		"g": "4",
 		"h": "5"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call async_func_b with only pre async_func_a
 exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -705,18 +675,17 @@ exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
 		"preexecute": "async_func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestast3_result", "", res[0][0], "",{
+		res = logverify("ettestast3_result", res[0][0], {
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call async_func_b with only post async_func_a -- same result as t3
 exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -725,18 +694,17 @@ exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
 		"postexecute": "async_func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestast3a_result", "", res[0][0], "",{
+		res = logverify("ettestast3a_result", res[0][0], {
 		"c": "0",
 		"g": "4",
 		"f": "3"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call async_func_b with only post
 exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -745,18 +713,17 @@ exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
 		"postexecute": "async_func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestast4_result", "", res[0][0], "",{
+		res = logverify("ettestast4_result", res[0][0], {
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call async_func_b with only pre async_func_c -- same result as t4
 exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -765,18 +732,17 @@ exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
 		"preexecute": "async_func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestast4a_result", "", res[0][0], "",{
+		res = logverify("ettestast4a_result", res[0][0], {
 		"d": "1",
 		"g": "4",
 		"h": "5"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call async_func_b with async_func_a for pre and post
 exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -786,18 +752,17 @@ exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
 		"postexecute": "async_func_a"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestast5_result", "", res[0][0], "",{
+		res = logverify("ettestast5_result", res[0][0], {
 		"c": "0",
 		"f": "3",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call async_func_b with async_func_c for pre and post
 exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "async_func_b",
 		"c": "0",
@@ -807,12 +772,12 @@ exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
 		"postexecute": "async_func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestast6_result", "", res[0][0], "",{
+		res = logverify("ettestast6_result", res[0][0], {
 		"d": "1",
 		"h": "5",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call async_func_d that will, in turn, call async_func_e  
@@ -860,7 +825,6 @@ exports.ast8 = ast8 = function ast8(params, callback) {
 // Call redir_b with no pre or post
 exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
 	testclearstorage();
-	// config = setconfig2();
 	execute([{
 		"executethis": "redir_b",
 		"c": "0",
@@ -888,7 +852,7 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct1_result", "", res[0], "",{
+		res = logverify("ettestct1_result", res[0][0], {
 		"d": "1",
 		"c": "0",
 		"g": "4",
@@ -913,13 +877,12 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call redir_b with pre and post
 exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
 	testclearstorage();
-	// config = setconfig2();
 	execute([{
 		"executethis": "redir_b",
 		"c": "0",
@@ -949,7 +912,7 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct2_result", "", res[0][0], "",{
+		res = logverify("ettestct2_result", res[0][0], {
 		"f": "3",
 		"g": "4",
 		"h": "5",
@@ -974,13 +937,12 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call redir_b with only pre redir_a
 exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
 	testclearstorage();
-	// config = setconfig2();
 	execute([{
 		"executethis": "redir_b",
 		"c": "0",
@@ -1009,7 +971,7 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct3_result", "", res[0][0], "",{
+		res = logverify("ettestct3_result", res[0][0], {
 		"c": "0",
 		"f": "3",
 		"g": "4",
@@ -1034,13 +996,12 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call redir_b with only post redir_a -- same result as t3
 exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
 	testclearstorage();
-	// config = setconfig2();
 	execute([{
 		"executethis": "redir_b",
 		"c": "0",
@@ -1069,7 +1030,7 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct3a_result", "", res[0][0], "",{
+		res = logverify("ettestct3a_result", res[0][0], {
 		"c": "0",
 		"g": "4",
 		"f": "3",
@@ -1094,13 +1055,12 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call redir_b with only post
 exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
 	testclearstorage();
-	// config = setconfig2();
 	execute([{
 		"executethis": "redir_b",
 		"c": "0",
@@ -1129,7 +1089,7 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct4_result", "", res[0][0], "",{
+		res = logverify("ettestct4_result", res[0][0], {
 		"d": "1",
 		"g": "4",
 		"h": "5",
@@ -1154,13 +1114,12 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call redir_b with only pre redir_c -- same result as t4
 exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
 	testclearstorage();
-	// config = setconfig2();
 	execute([{
 		"executethis": "redir_b",
 		"c": "0",
@@ -1189,7 +1148,7 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct4a_result", "", res[0][0], "",{
+		res = logverify("ettestct4a_result", res[0][0], {
 		"d": "1",
 		"g": "4",
 		"h": "5",
@@ -1214,13 +1173,12 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call redir_b with redir_a for pre and post
 exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
 	testclearstorage();
-	// config = setconfig2();
 	execute([{
 		"executethis": "redir_b",
 		"d": "1",
@@ -1250,7 +1208,7 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct5_result", "", res[0][0], "",{
+		res = logverify("ettestct5_result", res[0][0], {
 		"f": "3",
 		"g": "4",
 		"h": "5",
@@ -1275,13 +1233,12 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Call redir_b with redir_c for pre and post
 exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 	testclearstorage();
-	// config = setconfig2();
 	execute([{
 		"executethis": "redir_b",
 		"c": "0",
@@ -1311,10 +1268,10 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct6_result", "", res[0][0], "",{
-		"mettestidexecute": "redir_b",
-		"postexecute": "redir_c",
-		"e": "2",
+		res = logverify("ettestct6_result", res[0][0], {
+		// "mettestidexecute": "redir_b",
+		// "postexecute": "redir_c",
+		// "e": "2",
 		"g": "4",
 		"d": "1",
 		"h": "5",
@@ -1339,14 +1296,13 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // This will try pre with func a, but remapped with a configuration that
 // is passed into executethis...it still wants to hit func_b with mid
 exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"c": "0",
 		"d": "1",
@@ -1368,16 +1324,15 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
 			}]
 		}
 	}], 
-	// params = logverify("c_unit_tests","ettestct7_result","ettestct7_output","","",{"c":"0","d":"1","executethis":"func_b","ettestct7":"did some alerting","g":"4","howtodooverride":"you got your hottodooverwritten"});
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct7_result", "", res[0][0], "",{
+		res = logverify("ettestct7_result", res[0][0], {
 		"ct7": "did some alerting",
 		"configuration": {},
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // This will try pre with func a, 
@@ -1404,15 +1359,14 @@ exports.ettestct7a = ettestct7a = function ettestct7a(params, callback) {
 			}]
 		}
 	}],
-	// params = logverify("c_unit_tests","c_t7_result","c_t7_output","","",{"c":"0","d":"1","executethis":"func_b","ettestct7a":"did some alerting","g":"4","howtodooverride":"you got your hottodooverwritten"});
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct7a_result", "", res[0][0], "",{
+		res = logverify("ettestct7a_result", res[0][0], {
 		"c": "0",
 		"d": "1",
 		"ettestct7a": "did some alerting",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -1429,12 +1383,12 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct8_result", "", res[0][0], "",{
+		res = logverify("ettestct8_result", res[0][0], {
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
@@ -1450,28 +1404,27 @@ exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
 	}],
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct9_result", "", res[0][0], "",{
+		res = logverify("ettestct9_result", res[0][0], {
 		"does_not_exist": "func_b",
 		"d": "1",
 		"c": "0",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "does_not_exist",
 		"does_not_exist": "function () { return 'Keg of Beer'; }"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct9a_result", "", res[0][0], "",{
+		res = logverify("ettestct9a_result", res[0][0], {
 		"data": "Keg of Beer"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -1479,7 +1432,6 @@ exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
 // This test is to call func_b, remap does_not_exist to func_a and execute params to func_a and then to func_b
 exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "func_b",
 		"preexecute": "does_not_exist",
@@ -1490,13 +1442,13 @@ exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
 	}],
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct10_result", "", res[0][0], "",{
+		res = logverify("ettestct10_result", res[0][0], {
 		"does_not_exist": "func_a",
 		"f": "3",
 		"c": "0",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -1504,7 +1456,6 @@ exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
 // remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c.
 exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"executethis": "func_b",
 		"preexecute": "does_not_exist_1",
@@ -1517,14 +1468,14 @@ exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
 	}],
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct11_result", "", res[0][0], "",{
+		res = logverify("ettestct11_result", res[0][0], {
 		"does_not_exist_1": "func_a",
 		"does_not_exist_2": "func_c",
 		"f": "3",
 		"h": "5",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -1532,7 +1483,6 @@ exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
 // from a config that is passed in the parameters.
 exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
 	testclearstorage();
-	// config = setconfig1();
 	execute([{
 		"c": "0",
 		"d": "1",
@@ -1557,13 +1507,13 @@ exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct12_result", "", res[0][0], "",{
+		res = logverify("ettestct12_result", res[0][0], {
 		"c": "0",
 		"d": "1",
 		"ettestct12": "did some alerting",
 		"g": "4"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -1584,11 +1534,11 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
 		"executethis": "fire_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct13_result", "", res[2][0], "",{
+		res = logverify("ettestct13_result", res[2][0], {
 		"fire_c": "fire_c is now fired",
 		"cer2": "booberry"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -1606,7 +1556,7 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct14_result", "", res[0], "",{
+		res = logverify("ettestct14_result", res[0][0], {
 		"g": "4",
 		"cer2": "booberry",
 		"cer1": "alphabits",
@@ -1614,7 +1564,7 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
 		"cer3": "chex",
 		"h": "5"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 
@@ -1632,14 +1582,14 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct15_result", "", res[0][0], "",{
+		res = logverify("ettestct15_result", res[0][0], {
 		"g": "4",
 		"cer1": "booberry",
 		"f": "3",
 		"c": "0",
 		"cer2": "booberry"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the 
@@ -1675,7 +1625,7 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
 		}
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct16_result", "", res[0][0], "",{
+		res = logverify("ettestct16_result", res[0][0], {
 		"d": "1",
 		"c": "0",
 		"g": "4",
@@ -1706,7 +1656,7 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
 			}]
 		}
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function
@@ -1721,13 +1671,13 @@ exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct17_result", "", res[0][0], "",{
+		res = logverify("ettestct17_result", res[0][0], {
 		"d": "1",
 		"c": "0",
 		"g": "4",
 		"exdef": "executedefault was grabbed"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
@@ -1742,7 +1692,7 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
 		"e": "2"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct18_result", "", res[0][0], "",{
+		res = logverify("ettestct18_result", res[0][0], {
 		"exdef": "param after dothis and executeparam was grabbed",
 		"f": "3",
 		"c": "0",
@@ -1750,7 +1700,7 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
 		"g": "4"
 	});
 	// params = logverify("c_unit_tests","ct18_result","ct18_output","","", {"f":"3","c":"0","g":"4","myexfnparam":"hereismyfnparam" });
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params
@@ -1794,7 +1744,7 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 		"charlie": "1"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct19_result", "", res[0][0], "",{
+		res = logverify("ettestct19_result", res[0][0], {
 		"configuration": {},
 		"f": "3",
 		"g": "4",
@@ -1803,7 +1753,7 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 		"bravo": "1",
 		"charlie": "1"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are 
@@ -1817,7 +1767,7 @@ exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
 		"postexecute": "func_c"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestct20_result", "", res[0][0], "",{
+		res = logverify("ettestct20_result", res[0][0], {
 		"charlie": "4",
 		"g": "4",
 		"alpha": "4",
@@ -1825,7 +1775,7 @@ exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
 		"bravo": "4",
 		"h": "5"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -2115,12 +2065,12 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
 		"wid": "sounddto"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestag1_result", "", res[1][0], "",{
+		res = logverify("ettestag1_result", res[1][0], {
 		"note": "string",
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2202,12 +2152,12 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 		"wid": "color1"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestag2_result", "", res[3][0], "",{
+		res = logverify("ettestag2_result", res[3][0], {
 		"hue": "red",
 		"wid": "color1",
 		"metadata.method": "defaultdto"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2246,7 +2196,6 @@ exports.ag3_setup = ag3_setup = function ag3_setup(params, callback) {
 }
 // This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
-	// config = setconfig1();
 	testclearstorage();
 	execute([{
 		"executethis": "addwidmaster", 
@@ -2282,7 +2231,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 		"wid": "song1"
 	}],
 	function (err, res) {
-		res = logverify("unit_tests", "ettestag3_result", "", res[4][0], "",{
+		res = logverify("ettestag3_result", res[4][0], {
 		"title": "Highway to Hell",
 		"wid": "song1",
 		"metadata.method": "songdto",
@@ -2296,7 +2245,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 		"sounddto.2.wid": "5",
 		"sounddto.2.metadata.method": "sounddto"
 	});
-	callback(err, params);
+	callback(err, res);
 	});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
