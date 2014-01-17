@@ -265,6 +265,11 @@ function execute_stuff(isTest, isServer) {
 	$('#divprint').text("");
 	var function_to_execute = $('#function_to_run').val();
 
+	// check to make sure the test string is in the right format
+	if(function_to_execute.indexOf("ettest") === -1) {
+		function_to_execute = "ettest" + function_to_execute;
+	}
+
 	var my_execute_object = {"executethis":function_to_execute};
 
 	// if ($('#server_caller').prop('checked')) {		
