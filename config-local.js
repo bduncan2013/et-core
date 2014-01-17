@@ -89,7 +89,7 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
     var saveobject = {};
 
     if (inputWidgetObject['wid']) {
-        saveobject['wid'] = inputWidgetObject['widus'];
+        saveobject['wid'] = inputWidgetObject['wid'];
     } else {
         saveobject['wid'] = "";
     }
