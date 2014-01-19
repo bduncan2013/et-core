@@ -9,7 +9,7 @@
 // config dofn
 // 
 
-(function (window) {
+(function(window) {
     // 'use strict';
 
     var execute, executethis, etexecute;
@@ -53,7 +53,7 @@
             //delete incomingparams["command"];
 
             executethismultiple(incomingparams, commandobject.executemethod, commandobject.executefilter,
-                commandobject.executeorder, commandobject.executelimit, function (err, retResults) {
+                commandobject.executeorder, commandobject.executelimit, function(err, retResults) {
                     callback(overallError, retResults);
                 });
         } else {
@@ -69,7 +69,7 @@
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
             console.log('starting preexecute ' + nonCircularStringify(incomingparams));
-            dothisprocessor(incomingparams, 'preexecute', function (err, preResults) {
+            dothisprocessor(incomingparams, 'preexecute', function(err, preResults) {
                 preError = err;
                 //if (preResults instanceof Array) {preResults=preResults[0]};
                 console.log(' after preexecute >> ' + nonCircularStringify(preResults));
@@ -86,7 +86,7 @@
                     }
                 }
 
-                dothisprocessor(preResults, 'midexecute', function (err, midResults) {
+                dothisprocessor(preResults, 'midexecute', function(err, midResults) {
 
                     midError = err;
                     //if (midResults instanceof Array) {midResults=midResults[0]};
@@ -103,7 +103,7 @@
                         }
                     }
 
-                    dothisprocessor(midResults, 'postexecute', function (err, postResults) {
+                    dothisprocessor(midResults, 'postexecute', function(err, postResults) {
                         console.log(' after postexecute >> ' + nonCircularStringify(postResults));
                         //if (preResults instanceof Array) {postResults=postResults[0]};
                         if (postResults !== false && (!postResults))
@@ -138,7 +138,7 @@
             // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
             proxyprinttodiv('Function executearray paramsArr', paramsArr, 17);
             var resultlist = [];
-            async.mapSeries(paramsArr, function (inboundparms, cbMap) {
+            async.mapSeries(paramsArr, function(inboundparms, cbMap) {
                 // each iteration if only one item in list then convert to object—do this at end of execute
                 if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
                     cbMap(null, {
@@ -147,13 +147,13 @@
                 } else {
                     proxyprinttodiv('Function array array inboundparms', inboundparms, 99);
                     if (inboundparms instanceof Array) {
-                        executearray(inboundparms, function (err, retResults) {
+                        executearray(inboundparms, function(err, retResults) {
                             // resultlist.push(retResults);
                             cbMap(null, resultlist);
                         });
                     } else {
                         proxyprinttodiv('Function executearray inboundparms', inboundparms, 17);
-                        execute(inboundparms, function (err, retResults) {
+                        execute(inboundparms, function(err, retResults) {
                             console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
                             proxyprinttodiv('Function retResults', retResults, 17);
                             resultlist.push(retResults);
@@ -162,7 +162,7 @@
                         });
                     }
                 } // else
-            }, function (err, res) {
+            }, function(err, res) {
                 // end of all the execution that was meant to be
                 console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
                 console.log('asynchronously finished executing executearray.');
@@ -183,54 +183,54 @@
             var fnProcess = window[executeparameter];
             // filter the inboundparms as per the executeFilter condition
 
-            async.filter(paramsArr, executeFilterPass, function (filteredParamsArr) {
+            async.filter(paramsArr, executeFilterPass, function(filteredParamsArr) {
                     // results now equals to a subset with qualifying filter condition met
 
                     // process as per executeOrder value
                     switch (executeOrder) {
 
-                    case "series":
-                        async.mapSeriesLimit(filteredParamsArr, executeLimit, fnProcess, function (err, result) {
-                            resultlist.push(result);
-                            //callback(err, result);
-                            console.debug('processed passed array in a series manner.');
-                        });
-                        break;
+                        case "series":
+                            async.mapSeriesLimit(filteredParamsArr, executeLimit, fnProcess, function(err, result) {
+                                resultlist.push(result);
+                                //callback(err, result);
+                                console.debug('processed passed array in a series manner.');
+                            });
+                            break;
 
 
-                    case "parallel":
-                        async.mapLimit(filteredParamsArr, executeLimit, fnProcess, function (err, result) {
-                            resultlist.push(result);
-                            //callback(err, result);
-                            console.debug('processed passed array in a parallel manner.');
-                        });
-                        break;
+                        case "parallel":
+                            async.mapLimit(filteredParamsArr, executeLimit, fnProcess, function(err, result) {
+                                resultlist.push(result);
+                                //callback(err, result);
+                                console.debug('processed passed array in a parallel manner.');
+                            });
+                            break;
 
 
-                    case "waterfall":
-                        var fnarray = []
+                        case "waterfall":
+                            var fnarray = []
 
-                        // build a passable functions array for waterfall to process
-                        for (var i = 0;
-                            (i < filteredParamsArr.length && i < executeLimit); i++) {
-                            var fn = function (cb) {
-                                fnProcess(filteredParamsArr[i], function (err, res) {
-                                    cb(err, res);
-                                });
-                            };
-                            fnarray.push(fn);
-                        }
+                            // build a passable functions array for waterfall to process
+                            for (var i = 0;
+                                (i < filteredParamsArr.length && i < executeLimit); i++) {
+                                var fn = function(cb) {
+                                    fnProcess(filteredParamsArr[i], function(err, res) {
+                                        cb(err, res);
+                                    });
+                                };
+                                fnarray.push(fn);
+                            }
 
-                        async.waterfall(fnarray, function (err, result) {
-                            resultlist.push(result);
-                            //callback(err, result);
-                            console.debug('processed passed array in a waterfall manner.');
-                        });
-                        break;
+                            async.waterfall(fnarray, function(err, result) {
+                                resultlist.push(result);
+                                //callback(err, result);
+                                console.debug('processed passed array in a waterfall manner.');
+                            });
+                            break;
 
-                    default:
-                        console.debug('not processed anything .. no executeOrder received.');
-                        break;
+                        default:
+                            console.debug('not processed anything .. no executeOrder received.');
+                            break;
                     }
 
                 }
@@ -448,7 +448,7 @@
 
         var list = config0[configtarget];
         if (list != undefined && list.length > 1) {
-            list = list.sort(function (a, b) {
+            list = list.sort(function(a, b) {
                 if (a.executeorder > b.executeorder)
                     return 1;
                 else if (a.executeorder < b.executeorder)
@@ -696,7 +696,7 @@
         debugcolor++;
 
 
-        async.mapSeries(howToDoList, function (h, cbMapH) {
+        async.mapSeries(howToDoList, function(h, cbMapH) {
                 proxyprinttodiv("executelist begin how howallowexecute ", howallowexecute, 18);
                 proxyprinttodiv("dothis - h ", h, 18);
                 howToDo = h['dothis']; // get specific howToDo from list
@@ -715,7 +715,7 @@
                 whatallowexecute = howallowexecute;
                 whatexecuteorder = 1;
 
-                async.mapSeries(whatToDoList, function (w, cbMapW) {
+                async.mapSeries(whatToDoList, function(w, cbMapW) {
                         proxyprinttodiv("execute - I howallowexecute", howallowexecute, 18);
                         proxyprinttodiv("execute - I whatexecuteorder", whatallowexecute, 18);
                         proxyprinttodiv("execute - w", w, 18);
@@ -744,25 +744,51 @@
 
                         if ((howallowexecute) && (whatallowexecute)) { //if both allowed to execute
                             getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn,
-                                function (err, executeobject) {
+                                function(err, executeobject) {
                                     // always will get something back, even if errorfn...so always execute and store resutls
                                     proxyprinttodiv("executelist executeobject ", executeobject, 17);
                                     proxyprinttodiv("executelist executeobject ", executeobject.params, 17);
                                     proxyprinttodiv("executelist executeobject ", String(executeobject.targetfn), 17);
                                     if (executeobject.targetfn) {
-                                        executeobject.targetfn(executeobject.params, function (err, res) {
-                                            proxyprinttodiv("executelist result from execution ", res, 17);
-                                            whatallowexecute = false;
-                                            if (executeobject.executeflag === true) { // if executegetwid then execute with the results
-                                                execute(res, function (err, res) {
-                                                    outputResultsArr.push(res);
-                                                    cbMapW(null, "What Iteration");
-                                                })
-                                            } else { // executeflag=false
-                                                outputResultsArr.push(res);
-                                                cbMapW(null, "What Iteration");
+                                        authcall(executeobject.params, function(err, securitycheck) {
+                                            if (securitycheck) {
+                                                executeobject.targetfn(executeobject.params, function(err, res) {
+                                                    proxyprinttodiv("executelist result from execution ", res, 17);
+                                                    whatallowexecute = false;
+                                                    if (executeobject.executeflag === true) {
+                                                        execute(res, function(err, res) {
+                                                            // if executegetwid then execute with the results
+                                                            outputResultsArr.push(res);
+                                                            cbMapW(null, "What Iteration");
+                                                        });
+                                                    } else {
+                                                        // executeflag=false
+                                                        outputResultsArr.push(res);
+                                                        cbMapW(null, "What Iteration");
+                                                    }
+                                                });
+                                            } else {
+                                                // security check failed
+                                                callback(err, {
+                                                    'etstatus': 'unauthorized call.'
+                                                });
                                             }
                                         });
+
+
+                                        // create a google spreadsheet with intended data
+                                        // https://docs.google.com/spreadsheet/ccc?key=0AqSqNB4MEkB0dDZzZFE1bm1QRk8tYTBVNjZjWlpfSnc#gid=0
+
+                                        // executethis.js
+                                        // Add the security check 
+                                        // line 752 if (executeobject.executeflag === false)
+                                        // line 757 if (executeobject.executeflag === true) 
+
+                                        // remember that in the future the permissions list will also return a function name to be called for checking security
+
+                                        // we will use level
+
+                                        // All wids include their wid as group.  They should also return their dto (metadata.method) as a group    
                                     } // if executeobject.targetfn
                                     else {
                                         cbMapW(null, "What Iteration");
@@ -774,7 +800,8 @@
                             cbMapW(null, "What Iteration");
                         }
                     },
-                    function (err, res) {
+
+                    function(err, res) {
                         proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 17);
                         howallowexecute = false;
                         cbMapH(null, "How Iteration");
@@ -786,7 +813,8 @@
                 // map w,
 
             },
-            function (err, res) {
+
+            function(err, res) {
                 console.log('>>> very outside >>> ' + JSON.stringify(outputResultsArr));
                 proxyprinttodiv("execute - resultsArr", outputResultsArr, 17);
                 // executearray(resultsArr, function (err, res) {
@@ -915,55 +943,55 @@
         // switch (howToDo) {
         switch (howToDo) {
 
-        case "dothis": // previously executefn ... go look for fn to execute
-            if (whatToDoFn !== window[whatToDo]) {
-                targetfn = window[whatToDo];
-            } else {
-                targetfn = whatToDoFn;
-            }
+            case "dothis": // previously executefn ... go look for fn to execute
+                if (whatToDoFn !== window[whatToDo]) {
+                    targetfn = window[whatToDo];
+                } else {
+                    targetfn = whatToDoFn;
+                }
 
-            break;
-
-        case "executeparam":
-            if (params === undefined) {
-                targetfn = undefined;
                 break;
-            }
 
-            targetfn = params[whatToDo];
+            case "executeparam":
+                if (params === undefined) {
+                    targetfn = undefined;
+                    break;
+                }
 
-            // if (!targetfn instanceof Function) {
-            //     targetfn = window[targetfn];
-            // } else if (typeof targetfn === 'string') {
-            //     targetfn = window[targetfn];
-            // }
+                targetfn = params[whatToDo];
 
-            break;
+                // if (!targetfn instanceof Function) {
+                //     targetfn = window[targetfn];
+                // } else if (typeof targetfn === 'string') {
+                //     targetfn = window[targetfn];
+                // }
 
-        case "executegetwid":
-            targetfn = execute;
-            executeflag = true; // so caller gets wid and then executes with the results
-            //params = {};
-            params["executethis"] = "getwid";
-            params["wid"] = whatToDo;
+                break;
 
-            // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) { 
-            // tempobject=""
-            // if (tempobject !== undefined && tempobject['js']) {
-            //     targetfn = tempobject['js'];
-            //     fncheck = true;
-            // } else {
-            //     tempobject.skipExecuteObjCheck = true;
-            //     tempobject.params={};
-            //     callback({}, tempobject);
-            // }
-            // });
-            break;
+            case "executegetwid":
+                targetfn = execute;
+                executeflag = true; // so caller gets wid and then executes with the results
+                //params = {};
+                params["executethis"] = "getwid";
+                params["wid"] = whatToDo;
 
-        case "server":
-            targetfn = window["server"];
-            params['executethis'] = whatToDo;
-            break;
+                // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) { 
+                // tempobject=""
+                // if (tempobject !== undefined && tempobject['js']) {
+                //     targetfn = tempobject['js'];
+                //     fncheck = true;
+                // } else {
+                //     tempobject.skipExecuteObjCheck = true;
+                //     tempobject.params={};
+                //     callback({}, tempobject);
+                // }
+                // });
+                break;
+
+            case "server":
+                targetfn = window["server"];
+                params['executethis'] = whatToDo;
+                break;
         }
     }
 
@@ -985,55 +1013,55 @@
         // switch (howToDo) {
         switch (howToDo) {
 
-        case "dothis": // previously executefn ... go look for fn to execute
-            if (whatToDoFn !== window[whatToDo]) {
-                targetfn = window[whatToDo];
-            } else {
-                targetfn = whatToDoFn;
-            }
+            case "dothis": // previously executefn ... go look for fn to execute
+                if (whatToDoFn !== window[whatToDo]) {
+                    targetfn = window[whatToDo];
+                } else {
+                    targetfn = whatToDoFn;
+                }
 
-            break;
-
-        case "executeparam":
-            if (params === undefined) {
-                targetfn = undefined;
                 break;
-            }
 
-            targetfn = params[whatToDo];
+            case "executeparam":
+                if (params === undefined) {
+                    targetfn = undefined;
+                    break;
+                }
 
-            // if (!targetfn instanceof Function) {
-            //     targetfn = window[targetfn];
-            // } else if (typeof targetfn === 'string') {
-            //     targetfn = window[targetfn];
-            // }
+                targetfn = params[whatToDo];
 
-            break;
+                // if (!targetfn instanceof Function) {
+                //     targetfn = window[targetfn];
+                // } else if (typeof targetfn === 'string') {
+                //     targetfn = window[targetfn];
+                // }
 
-        case "executegetwid":
-            targetfn = execute;
-            executeflag = true; // so caller gets wid and then executes with the results
-            //params = {};
-            params["executethis"] = "getwid";
-            params["wid"] = whatToDo;
+                break;
 
-            // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) { 
-            // tempobject=""
-            // if (tempobject !== undefined && tempobject['js']) {
-            //     targetfn = tempobject['js'];
-            //     fncheck = true;
-            // } else {
-            //     tempobject.skipExecuteObjCheck = true;
-            //     tempobject.params={};
-            //     callback({}, tempobject);
-            // }
-            // });
-            break;
+            case "executegetwid":
+                targetfn = execute;
+                executeflag = true; // so caller gets wid and then executes with the results
+                //params = {};
+                params["executethis"] = "getwid";
+                params["wid"] = whatToDo;
 
-        case "server":
-            targetfn = window["server"];
-            params['executethis'] = whatToDo;
-            break;
+                // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) { 
+                // tempobject=""
+                // if (tempobject !== undefined && tempobject['js']) {
+                //     targetfn = tempobject['js'];
+                //     fncheck = true;
+                // } else {
+                //     tempobject.skipExecuteObjCheck = true;
+                //     tempobject.params={};
+                //     callback({}, tempobject);
+                // }
+                // });
+                break;
+
+            case "server":
+                targetfn = window["server"];
+                params['executethis'] = whatToDo;
+                break;
         }
 
         //proxyprinttodiv("getexecuteobject targetfn I", String(targetfn), 17);
@@ -1080,7 +1108,7 @@
     function nonCircularStringify(obj) {
         var cache = [];
 
-        return JSON.stringify(obj, function (key, value) {
+        return JSON.stringify(obj, function(key, value) {
             if (typeof value === 'object' && value !== null) {
                 if (cache.indexOf(value) !== -1) {
                     //found circular reference, discard key

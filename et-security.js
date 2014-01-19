@@ -3,6 +3,9 @@
 // remember security needs to be asynch…prob by doing an todolist or inline function
 
 (function (window) {
+
+    
+
     exports.securitycheck = securitycheck = function securitycheck(accesstoken, account, action, db, callback) {
         proxyprinttodiv('Function securityCheck() in : ', 'before');
 

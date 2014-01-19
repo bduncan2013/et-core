@@ -315,215 +315,211 @@ exports.mts2 = mts2 = function mts2(params, callback) {
 }
 
 
-exports.mttest1 = mttest1 = function mttest1(params, callback) {
+exports.mttest1 = mttest1 = function mttest1(params, callback){
     console.log("<< mongoquery_two_test >>");
-
-    var result = null;
-    var ortests = false;
-    var andtests = false;
-    var orortests = false;
-    var andandtests = false;
-    var orandtests = false;
+    
+    var ortests = true;
+    var andtests = true;
+    var orortests = true;
+    var andandtests = true;
+    var orandtests = true;
+    var failedtests = true;
+    
     var orandtests20 = false;
-    var failedtests = false;
-    var verifytests = true;
-
-
+    var verifytests = false;
+    var sifttests = false;
+    
     var codedebug = false;
-    if (codedebug) {
+    if(codedebug){
         debugcolor = 0;
         debugon = true;
         debugname = "";
         debugsubcat = "";
-        debugcat = "query";
+        debugcat = "mongoquery";
         debugfilter = "";
         debugdestination = 1;
+        debuglevel=30;
     }
-
+    
+    /* adding wids */
     testclearstorage();
-
     var executeList = [];
-    executeList = addmttestdata(callback);
-
-    var params;
+    executeList = addmttestdata(callback);    
     execute(executeList, function (err, res) {
         console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
-
-        /* varify test cases */
-        if (verifytests) {
-            console.log("<< inside verifytests >>");
-
-
-            var executeObj = {};
-            executeObj["executethis"] = "querywid";
-            executeObj["mongorawquery"] = '{"$or":[{"data.a":"string"}]}';
-            executeList.push(executeObj);
-
-            execute(executeList, function (err, res) {
-                console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
-                result = res;
-
-                var expectedResultArray = [];
-                expectedResultArray.push({
-                    "wid": "testdto",
-                    "metadata": {
-                        "method": "testdto"
-                    },
-                    "data": {
-                        "b": "string",
-                        "a": "string"
-                    }
-                });
-
-                console.log(' >>> test >>> ' + JSON.stringify(result[0][0]));
-                console.log(' >>> expectedResultArray >>> ' + JSON.stringify(expectedResultArray[0]));
-                params = logverify("mongoquery", "querywid_result", "", result[0][0].wid, "", "", expectedResultArray[0].wid);
-                proxyprinttodiv("end of verify tests", "end of verify tests", 99);
-                callback(err, params);
-            });
-        }
-
-        /* $or queries */
-        if (ortests) {
-            var mongorawquery = '{"$or":[{"data.a":"string"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
-            });
-
-            var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"1"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-            });
-            //test fails
-            var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
-            });
-        }
-
-        /* $and queries */
-        if (andtests) {
-            var mongorawquery = '{"$and":[{"data.a":"string"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
-            });
-
-            var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-            });
-
-            var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"16"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
-            });
-
-            var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"},{"data.b":"1"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-            });
-            var mongorawquery = '{"$and":[{"data.a":"1"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-            });
-
-            var mongorawquery = '{"$and":[{"data.a":"5"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
-            });
-        }
-
-        /* $or-$or tests */
-        if (orortests) {
-            var mongorawquery = '{"$or":[{"data.a":"1"},{"$or":[{"data.b":"25"},{"data.a":"5"},{"data.a":"5"},{"data.a":"1"}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1,wid5]", result, 99);
-            });
-
-            var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"},{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"}]}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
-            });
-
-            var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"16"}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid4,wid5]", result, 99);
-            });
-        }
-
-        /* $and-$and queries */
-        if (andandtests) {
-            var mongorawquery = '{"$and":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-            });
-            var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
-            });
-            var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"},{"$and":[{"data.b":"1"}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
-            });
-        }
-
-        /* $or-$and queries */
-        if (orandtests) {
-            var mongorawquery = '{"$or":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
-            });
-            var mongorawquery = '{"$or":[{"data.a":"5"},{"$and":[{"data.a":"4"},{"$and":[{"data.b":"1"}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
-            });
-        }
-
-        /* 20 more test cases */
-        if (orandtests20) {
-            var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
-            });
-            var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
-            });
-            var mongorawquery = '{"$or":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
-            });
-            var mongorawquery = '{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
-            });
-            //test fails
-            var mongorawquery = '{"$and":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
-            });
-            var mongorawquery = '{"$and":[{"data.a":"4"},{"$and":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
-            });
-        }
-
-        /* fail test cases */
-        if (failedtests) {
-            /*
-                var mongorawquery = '{"$and":[{"data.a":"4"},{"$or":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
-                mongoquery(mongorawquery, function (result){
-                    proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid4]", result, 99);
-                });
-                */
-            var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
-            mongoquery(mongorawquery, function (result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
-            });
-        }
-
-
     });
+
+    /* $or queries */   
+    if(ortests){
+        var mongorawquery = '{"$or":[{"data.a":"string"}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [testdto]", result, 99);
+        });
+
+        var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"1"}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+        });
+        //test fails
+        var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1, wid4]", result, 99);
+        });     
+        
+    }
+    
+    /* $and queries */
+    if(andtests){
+        var mongorawquery = '{"$and":[{"data.a":"string"}]}';
+        mongoquery(mongorawquery, function (err, result){
+           proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [testdto]", result, 99);
+        });
+        var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"}]}';
+        mongoquery(mongorawquery, function (err, result){
+           proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+        });
+        var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"16"}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- []", result, 99);
+        });
+        var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"},{"data.b":"1"}]}';
+        mongoquery(mongorawquery, function (err, result){
+           proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+        });
+        var mongorawquery = '{"$and":[{"data.a":"1"}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+        });
+        var mongorawquery = '{"$and":[{"data.a":"5"}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid5]", result, 99);
+        });     
+    }
+    
+    /* $or-$or tests */
+    if(orortests){
+        var mongorawquery = '{"$or":[{"data.a":"1"},{"$or":[{"data.b":"25"},{"data.a":"5"},{"data.a":"5"},{"data.a":"1"}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1,wid5]", result, 99);
+        });
+        var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"},{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"}]}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid5]", result, 99);
+        });
+        var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"16"}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid4,wid5]", result, 99);
+        });
+    }
+    
+    /* $and-$and queries */
+    if(andandtests){
+        var mongorawquery = '{"$and":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+        });
+        var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid5]", result, 99);
+        });
+        //test fails
+        var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"},{"$and":[{"data.b":"1"}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- []", result, 99);
+        });
+    }
+    
+    /* $or-$and queries */
+    if(orandtests){
+        var mongorawquery = '{"$or":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1]", result, 99);
+        });
+        var mongorawquery = '{"$or":[{"data.a":"5"},{"$and":[{"data.a":"4"},{"$and":[{"data.b":"1"}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid5]", result, 99);
+        });
+    }
+
+    /* fail test cases */
+    if(failedtests){
+        var mongorawquery = '{"$and":[{"data.a":"4"},{"$or":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid4]", result, 99);
+        });
+        var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid1, wid4]", result, 99);
+        }); 
+    }
+    
+    /* 20 more test cases */
+    if(orandtests20){
+        var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid25]", result, 99);
+        });
+        var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid25]", result, 99);
+        });
+        var mongorawquery = '{"$or":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid2,wid20,wid25]", result, 99);
+        });
+        var mongorawquery = '{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid2,wid20,wid25]", result, 99);
+        });
+        //test fails
+        var mongorawquery = '{"$and":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid25]", result, 99);
+        });
+        var mongorawquery = '{"$and":[{"data.a":"4"},{"$and":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [wid25]", result, 99);
+        });
+    }
+
+    /* varify test cases */
+    if(verifytests){
+        console.log("<< inside verifytests >>");
+        
+        var executeObj = {};
+        executeObj["executethis"]="querywid";
+        executeObj["mongorawquery"]= '{"$or":[{"data.a":"string"}]}';
+        executeList.push(executeObj);
+        
+        execute(executeList, function (err, res) {
+            console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
+            
+            var expectedResultArray = [];
+            expectedResultArray.push({"wid":"testdto","metadata.method":"testdto","data.b":"string","data.a":"string"});
+            params = logverify("mongoquery","resultwid1" ,res[1],"","",expectedResultArray);
+
+            proxyprinttodiv("end of verify tests", "end of verify tests", 99);
+        });
+    }
+        
+    /* Sift Test cases */
+    if(sifttests){
+        //sift syntax :-  var result =  sif({$operator:[cond],  [array]});
+        var widArray = [{"wid":"testdto","metadata":{"method":"testdto"},"data":{"b":"string","a":"string"}},{"wid":"wid1","metadata":{"method":"testdto"},"data":{"b":"1","a":"1"}}, {"wid":"wid2","metadata":{"method":"testdto"},"data":{"b":"4","a":"2"}}, {"wid":"wid3","metadata":{"method":"testdto"},"data":{"b":"9","a":"3"}},  {"wid":"wid4","metadata":{"method":"testdto"},"data":{"b":"16","a":"4"}}, {"wid":"wid5","metadata":{"method":"testdto"},"data":{"b":"25","a":"5"}}];
+        var mongorawquery = {"$or":[{"data.a":"string"}]};
+        var result = sift(mongorawquery, widArray);
+        proxyprinttodiv("widArray", widArray, 99);
+        proxyprinttodiv("mongorawquery", mongorawquery, 99);
+        proxyprinttodiv("result", result, 99);
+        
+        var mongorawquery = '{"$or":[{"data.a":"string"}]}';
+        mongoquery(mongorawquery, function (err, result){
+            proxyprinttodiv("result from mongoquery with query " +mongorawquery+ " -- expected result :- [testdto]", result, 99);
+        });
+    }
+
+    params={'test':'PASS'};
+    callback(params);
 }
 
 function addmttestdata(callback) {
