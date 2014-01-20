@@ -1,3 +1,53 @@
+// Wids :--
+// {"wid": "colordto", "metadata.method": "colordto", "hue": "string", "sat": "string"}
+// {"wid": "color1", "metadata.method": "colordto", "hue": "red", "sat": "red-sat"},
+// {"wid": "color2", "metadata.method": "colordto", "hue": "green",  "sat": "green-sat"}
+// {"wid": "color3", "metadata.method": "colordto", "hue": "blue", "sat": "blue-sat"}, 
+// {"wid": "color4", "metadata.method": "colordto", "hue": "cyan", "sat": "cyan-sat"},
+// {"wid": "color5", "metadata.method": "colordto", "hue": "magenta", "sat": "magenta-sat"},
+// {"wid": "color6", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color9"}, 
+// {"wid": "color7", "metadata.method": "colordto", "hue": "black", "sat": "black-sat"}
+// {"wid": "color8", "metadata.method": "colordto", "hue": "black", "sat": "red-sat"}
+// {"wid": "color9", "metadata.method": "colordto", "hue": "cyan", "sat": "red-sat"}
+
+// {"wid": "colordto2", "metadata.method": "colordto2", "light": "string", "chroma": "string"}
+// {"wid": "color10", "metadata.method": "colordto", "hue": "pink", "sat": "pink-sat", "colordto2.0.light": "pink-light", "colordto2.0.chroma": "pink-chroma", "colordto2.1.light": "pink-light1", "colordto2.1.chroma": "pink-chroma2", "colordto2.0.colordto3.intensity": "pink-intensity"}
+// {"wid": "colordto3", "metadata.method": "colordto3", "intensity": "string"}
+
+
+// 4. mongowid ----------------------------------------------------------------------------------------------------------
+// QueryWid(mongowid=color10, relationshipdirection=forward, relationshiptype=attributes, relationshipmethod=ALL, mongowidmethod=colordto2) :--
+// [it will create 4 wids {color10, colordto2.0[color201], colordto2.1[color202] , colordto2.0.colordto3[color301]} ]
+// {"wid": "color201", "metadata.method": "colordto2", "light": "pink-light", "chroma": "pink-chroma"}
+// {"wid": "color202", "metadata.method": "colordto2", "light": "pink-light2", "chroma": "pink-chroma2"}
+
+
+// QueryWid(mongowid=color10, relationshipdirection=forward, relationshiptype=attributes, relationshipmethod=last, mongowidmethod=colordto2) :--
+// {"wid": "color202", "metadata.method": "colordto2", "light": "pink-light2", "chroma": "pink-chroma2"}
+
+
+
+// 1. mongorawquery ----------------------------------------------------------------------------------------------------------
+// QueryWid(mongorawquery="{$or:[{"hue":"black"}]}") :--
+// {"wid": "color7", "metadata.method": "colordto", "hue": "black", "sat": "black-sat"}
+
+// 2. mongosinglequery ----------------------------------------------------------------------------------------------------------
+// QueryWid(mongosinglequery=color7, relationshipdirection=forward, relationshiptype=attributes, relationshipmethod=first) :-- 
+// [it will create $or["hue": "black", "sat": "black-sat"]]
+// {"wid": "color8", "metadata.method": "colordto", "hue": "black", "sat": "red-sat"}
+
+// QueryWid(mongosinglequery=color8, relationshipdirection=reverse, relationshiptype=attributes, relationshipmethod=last) :-- 
+// [it will create $or["hue": "black", "sat": "red-sat"]]
+// {"wid": "color1", "metadata.method": "colordto", "hue": "red", "sat": "red-sat"}
+
+// 3. mongomultiplequery ----------------------------------------------------------------------------------------------------------
+// QueryWid(mongomultiplequery=color6) :-- 
+// [ it will make query from child wids also ,,, == QueryWid($and[$or["hue": "black", "sat": "red-sat"], $or["hue": "cyan", "sat": "red-sat"]]) ]
+// [ $and[$or[color1,color7,color8,color9], $or[color1,color4,color8,color9,]]  ]
+// {"wid": "color1", "metadata.method": "colordto", "hue": "red", "sat": "red-sat"}
+// {"wid": "color8", "metadata.method": "colordto", "hue": "black", "sat": "red-sat"}
+// {"wid": "color9", "metadata.method": "colordto", "hue": "cyan", "sat": "red-sat"}
+
 exports.mttest4 = mttest4 = function mttest4(params, callback){
     console.log("<< mttest4 >>");
     
@@ -12,32 +62,30 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
         debugdestination = 1;
         debuglevel=30;
     }
-    
+    debuglevel=17;
     /* adding wids */
     testclearstorage();
     var addList = [
-        {"executeshis":"updatewid", "metadata.method": "colordto", "wid": "colordto", "hue": "string", "sat": "string"},
-        {"executeshis":"updatewid", "metadata.method": "colordto", "wid": "color1", "hue": "red", "sat": "red-sat"}
-        /*,
-        {"executeshis":"updatewid", "wid": "color2", "metadata.method": "colordto", "hue": "green",  "sat": "green-sat"},
-        {"executeshis":"updatewid", "wid": "color3", "metadata.method": "colordto", "hue": "blue", "sat": "blue-sat"}, 
-        {"executeshis":"updatewid", "wid": "color4", "metadata.method": "colordto", "hue": "cyan", "sat": "cyan-sat"},
-        {"executeshis":"updatewid", "wid": "color5", "metadata.method": "colordto", "hue": "magenta", "sat": "magenta-sat"},
-        {"executeshis":"updatewid", "wid": "color6", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color9"}, 
-        {"executeshis":"updatewid", "wid": "color7", "metadata.method": "colordto", "hue": "black", "sat": "black-sat"},
-        {"executeshis":"updatewid", "wid": "color8", "metadata.method": "colordto", "hue": "black", "sat": "red-sat"},
-        {"executeshis":"updatewid", "wid": "color9", "metadata.method": "colordto", "hue": "cyan", "sat": "red-sat"},
-        {"executeshis":"updatewid", "wid": "colordto2", "metadata.method": "colordto2", "light": "string", "chroma": "string"},
-        {"executeshis":"updatewid", "wid": "color10", "metadata.method": "colordto", "hue": "pink", "sat": "pink-sat", "colordto2.0.light": "pink-light", "colordto2.0.chroma": "pink-chroma", "colordto2.1.light": "pink-light1", "colordto2.1.chroma": "pink-chroma2", "colordto2.0.colordto3.intensity": "pink-intensity"},
-        {"executeshis":"updatewid", "wid": "colordto3", "metadata.method": "colordto3", "intensity": "string"}
-        */
+        {"executethis":"updatewid", "metadata.method": "colordto", "wid": "colordto", "hue": "string", "sat": "string"},
+        {"executethis":"updatewid", "metadata.method": "colordto", "wid": "color1", "hue": "red", "sat": "red-sat"},
+        {"executethis":"updatewid", "wid": "color2", "metadata.method": "colordto", "hue": "green",  "sat": "green-sat"},
+        {"executethis":"updatewid", "wid": "color3", "metadata.method": "colordto", "hue": "blue", "sat": "blue-sat"}, 
+        {"executethis":"updatewid", "wid": "color4", "metadata.method": "colordto", "hue": "cyan", "sat": "cyan-sat"},
+        {"executethis":"updatewid", "wid": "color5", "metadata.method": "colordto", "hue": "magenta", "sat": "magenta-sat"},
+        {"executethis":"updatewid", "wid": "color6", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color9"}, 
+        {"executethis":"updatewid", "wid": "color7", "metadata.method": "colordto", "hue": "black", "sat": "black-sat"},
+        {"executethis":"updatewid", "wid": "color8", "metadata.method": "colordto", "hue": "black", "sat": "red-sat"},
+        {"executethis":"updatewid", "wid": "color9", "metadata.method": "colordto", "hue": "cyan", "sat": "red-sat"},
+        {"executethis":"updatewid", "wid": "colordto2", "metadata.method": "colordto2", "light": "string", "chroma": "string"},
+        {"executethis":"updatewid", "wid": "color10", "metadata.method": "colordto", "hue": "pink", "sat": "pink-sat", "colordto2.0.light": "pink-light", "colordto2.0.chroma": "pink-chroma", "colordto2.1.light": "pink-light1", "colordto2.1.chroma": "pink-chroma2", "colordto2.0.colordto3.intensity": "pink-intensity"},
+        {"executethis":"updatewid", "wid": "colordto3", "metadata.method": "colordto3", "intensity": "string"}
     ];  
     execute(addList, function (err, res) {
         console.log(' >>> final response after addList >>> ' + JSON.stringify(res));
     });
    
-   var mongorawquerytests = false;
-   var mongosinglequerytests = false;
+   var mongorawquerytests = true;
+   var mongosinglequerytests = true;
    
     /* mongo raw queries */
     if(mongorawquerytests){
@@ -46,7 +94,7 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
                 "executethis": "querywid",
                 "mongorawquery": {
                     "$or": [{
-                        "hue": "red"
+                        "data.hue": "red"
                     }]
                 }
             }
@@ -72,7 +120,6 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
         });
     }
 } 
-
 exports.testcallback = testcallback = function testcallback(params, callback) {
     console.log("<< testcallback >>");
     params["test_result"] = "PASSnew";

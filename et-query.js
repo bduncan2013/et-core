@@ -174,7 +174,7 @@
         // then relationships
         // then after relationships
 
-        if (!((queParams['singlemongoquery'] !== undefined && queParams['singlemongoquery'] !== "") || (queParams['mongowid'] !== undefined && queParams['mongowid'] !== "") || (queParams['mongorawquery'] !== undefined && queParams['mongorawquery'] !== "") || (queParams['multiplemongoquery'] !== undefined && queParams['multiplemongoquery'] !== ""))) {
+        if (!((queParams['mongosinglequery'] !== undefined && queParams['mongosinglequery'] !== "") || (queParams['mongowid'] !== undefined && queParams['mongowid'] !== "") || (queParams['mongorawquery'] !== undefined && queParams['mongorawquery'] !== "") || (queParams['mongomultiplequery'] !== undefined && queParams['mongomultiplequery'] !== ""))) {
             if (callback instanceof Function) {
                 callback(undefined, [{}]);
             } else {
@@ -188,16 +188,18 @@
                     function step01(cb) {
                         debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
                         // Use single to set up a query with the params of 1 wid
-                        if (validParams(queParams) && queParams['singlemongoquery'] != undefined && countKeys(xtrParams) == 0) {
-                            console.log('singlemongoquery => ' + queParams['singlemongoquery']);
-                            var wid = queParams['singlemongoquery'];
-                            getwid({
+                        if (validParams(queParams) && queParams['mongosinglequery'] != undefined && countKeys(xtrParams) == 0) {
+                            console.log('singlemongoquery => ' + queParams['mongosinglequery']);
+                            var wid = queParams['mongosinglequery'];
+                            execute({
+                                'executethis':'getwid'
                                 'wid': wid
                             }, function (err, res) {
                                 var widObject = res;
                                 delete widObject['wid'];
                                 delete widObject['metadata.method'];
                                 mQueryString = BuildSingleQuery(widObject, "or", environmentdb);
+                                proxyprinttodiv('Function MongoDataQuery singlemongoquery : ', mQueryString, 99);
                                 //mQueryString = output.substring(0, output.length - 1);
                                 mongoquery(mQueryString, function (err, res) {
                                     output = res;
@@ -205,13 +207,13 @@
                                     cb(null, "step01");
                                 });
                             })
-                        } else if (queParams && queParams['multiplemongoquery']) {
+                        } else if (queParams && queParams['mongomultiplequery']) {
                             output = "";
                             var paramList = {};
-                            wid = queParams['multiplemongoquery'];
+                            wid = queParams['mongomultiplequery'];
 
-                            console.log('multiplemongoquery => ' + queParams['multiplemongoquery']);
-                            getwid({
+                            execute({
+                                'executethis':'getwid'
                                 'wid': wid
                             }, function (err, res) {
                                 var listOfWids = res;
@@ -1167,16 +1169,16 @@
             remove(parameters, "mongoquerywid");
         }
         var singlemongoquery = ""; // String I don't think we need this one
-        if (isParameterLower(parameters, "singlemongoquery")) {
-            singlemongoquery = parameters["singlemongoquery"];
-            queParams['singlemongoquery'] = singlemongoquery;
-            remove(parameters, "singlemongoquery");
+        if (isParameterLower(parameters, "mongosinglequery")) {
+            singlemongoquery = parameters["mongosinglequery"];
+            queParams["mongosinglequery"] = singlemongoquery;
+            remove(parameters, "mongosinglequery");
         }
         var multiplemongoquery = ""; // String 
-        if (isParameterLower(parameters, "multiplemongoquery")) {
-            multiplemongoquery = parameters["multiplemongoquery"];
-            queParams['multiplemongoquery'] = multiplemongoquery;
-            remove(parameters, "multiplemongoquery");
+        if (isParameterLower(parameters, "mongomultiplequery")) {
+            multiplemongoquery = parameters["mongomultiplequery"];
+            queParams["mongomultiplequery"] = multiplemongoquery;
+            remove(parameters,"mongomultiplequery");
         }
         var mongorelationshipdirection = ""; // String
         if (isParameterLower(parameters, "mongorelationshipdirection")) {

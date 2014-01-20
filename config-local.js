@@ -3,6 +3,39 @@ if (!exports) {
 }
 
 
+//function addtomongo(inputWidgetObject) {
+exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
+    var err;
+    delete inputWidgetObject['executethis'];
+    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject);
+    var widobject = {};
+    widobject = inputWidgetObject;
+    var widName = widobject['wid'];
+    addToLocalStorage(widMasterKey + widName, widobject);
+    widobject['wid'] = widName;
+    //return widobject;
+    callback(err, widobject);
+};
+
+//function getfrommongo(inputWidgetObject) {
+exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
+    //function getfrommongo(inputWidgetObject, target, callback) {
+    delete inputWidgetObject['executethis'];
+    var err;
+
+    var output = {};
+    if (inputWidgetObject["wid"]) {
+        var widKey = inputWidgetObject["wid"].toLowerCase();
+
+        output = getFromLocalStorage(widMasterKey + widKey);
+        if ((output == null) || (output === undefined)) {
+            output = {};
+        }
+
+    }
+    callback(err, output);
+}; //End of getfrommongo function
+
 (function (window) {
     // exports.environment = 'local';
 
@@ -261,7 +294,7 @@ function config123() {
 exports.bootprocess = bootprocess = function bootprocess() {
 
 
-    setdefaultparm();// TODO :: REMOVE THIS LATER :: ADDED BY SAURABH
+    setdefaultparm(); // TODO :: REMOVE THIS LATER :: ADDED BY SAURABH
     proxyprinttodiv('Function bootprocess config', config, 30);
     // we don't want localStorage cleared every page load so this is being commented - Jason
     execute({
@@ -269,13 +302,13 @@ exports.bootprocess = bootprocess = function bootprocess() {
         "wid": "etenvironment"
     }, function (err, result) {
         // read etenvironment, if not there then must be ok to clear out initial stuff
-        if (!result) {
+        if (result && result["something" != "something"]) {
             // then 'dirty' et environement
             execute({
                 "executethis": "updatewid",
                 "wid": "etenvironment",
                 "something": "something"
-            }, etappinstall) //,
+            }, etappinstall); //,
             // function (err, result) {
 
             // })
@@ -289,22 +322,25 @@ exports.bootprocess = bootprocess = function bootprocess() {
             //testAddWids();
             //displayAllWids();
         }
-
-        // bootprocess();
-
-        function etappinstall() { // exeucte only the first time app is installed -- once per lifetime
-            setdefaultparm();
-            testclearstorage();
-            if (exports.environment === 'local') {
-                clearLocalStorage();
-            }
-        }
     });
 
-    function etappstarted() {}; // execute only once per day when app is started
+    // bootprocess();
 
-    function etappnewpage() {}; // execute each time we go to new page
+    function etappinstall(err, res) { // exeucte only the first time app is installed -- once per lifetime
+        setdefaultparm();
+        testclearstorage();
+        if (exports.environment === 'local') {
+            clearLocalStorage();
+        }
+    }
 }
+
+function etappstarted() {}; // execute only once per day when app is started
+
+function etappnewpage() {}; // execute each time we go to new page
+
+
+bootprocess();
 
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
     var result;
@@ -985,39 +1021,6 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 // function addtomongo(widName, widobject) {
 //  addToLocalStorage(widMasterKey+widName, widobject);
 // }
-
-//function addtomongo(inputWidgetObject) {
-exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
-    var err;
-    delete inputWidgetObject['executethis'];
-    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject);
-    var widobject = {};
-    widobject = inputWidgetObject;
-    var widName = widobject['wid'];
-    addToLocalStorage(widMasterKey + widName, widobject);
-    widobject['wid'] = widName;
-    //return widobject;
-    callback(err, widobject);
-};
-
-//function getfrommongo(inputWidgetObject) {
-exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
-    //function getfrommongo(inputWidgetObject, target, callback) {
-    delete inputWidgetObject['executethis'];
-    var err;
-
-    var output = {};
-    if (inputWidgetObject["wid"]) {
-        var widKey = inputWidgetObject["wid"].toLowerCase();
-
-        output = getFromLocalStorage(widMasterKey + widKey);
-        if ((output == null) || (output === undefined)) {
-            output = {};
-        }
-
-    }
-    callback(err, output);
-}; //End of getfrommongo function
 
 function getwidcopy() {
     // step through local storage looking for
