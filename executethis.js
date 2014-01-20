@@ -1119,6 +1119,10 @@
             return value;
         });
     }
+
+    // call bootprocess() for the first time after all dependencies have been loaded
+    bootprocess();
+
     // takes in an array of inbound parameters(for different requests)
     // 
     // exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {

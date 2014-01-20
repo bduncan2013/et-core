@@ -1,6 +1,19 @@
-if (!exports) {
-    var exports = {};
-}
+if (!exports) { var exports = {}; }
+if (!config) { var config = {}; }
+if (!debugcolor) { var debugcolor = 0;}
+if (!Debug) { var Debug = 'false'; }
+if (!debugindent) { var debugindent = 0; }
+if (!debugname) { var debugname = ''; }
+if (!debugcat) { var debugcat = ''; }
+if (!debugsubcat) { var debugsubcat = ''; }
+if (!widMasterKey) { var widMasterKey = 'widmaster_'; }
+if (!debuglevel) { var debuglevel = 0; }
+if (!test_results) { var test_results = {}; }
+if (!potentialwid) { var potentialwid = 0; }
+if (!debugon) { var debugon = false; }
+if (!debugfilter) { var debugfilter = ''; }
+if (!debugdestination) { var debugdestination = 1; }
+if (!debuglinenum) { var debuglinenum = 1; }
 
 
 //function addtomongo(inputWidgetObject) {
@@ -173,8 +186,6 @@ function setdefaultparm() {
     debugcolor = 0;
     debugindent = 0;
     debuglinenum = 1;
-    test_results = {};
-
     
     exports.environment = 'local';
 
@@ -288,16 +299,13 @@ function config123() {
     return {
         "configuration": configuration
     }
-};
+}
 
 exports.config = config = config123(); //moved by Bill per Roger
 
 exports.bootprocess = bootprocess = function bootprocess() {
-
-
     setdefaultparm(); // TODO :: REMOVE THIS LATER :: ADDED BY SAURABH
     proxyprinttodiv('Function bootprocess config', config, 30);
-    // we don't want localStorage cleared every page load so this is being commented - Jason
     execute({
         "executethis": "getwid",
         "wid": "etenvironment"
@@ -315,17 +323,15 @@ exports.bootprocess = bootprocess = function bootprocess() {
             // })
 
             if (true) {
-                etappstarted
+                etappstarted();
             }
             if (true) {
-                etappnewpage
+                etappnewpage();
             }
             //testAddWids();
             //displayAllWids();
         }
     });
-
-    // bootprocess();
 
     function etappinstall(err, res) { // exeucte only the first time app is installed -- once per lifetime
         setdefaultparm();
@@ -334,11 +340,13 @@ exports.bootprocess = bootprocess = function bootprocess() {
             clearLocalStorage();
         }
     }
-}
+};
 
-function etappstarted() {}; // execute only once per day when app is started
+function etappstarted() {} // execute only once per day when app is started
 
-function etappnewpage() {}; // execute each time we go to new page
+function etappnewpage() {} // execute each time we go to new page
+
+//bootprocess();
 
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
     var result;
@@ -453,7 +461,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     }
 
     if (IsJsonString(inboundobj)) {
-        for (eachwid in localStorage) {
+        for (var eachwid in localStorage) {
             if (eachwid.indexOf(widMasterKey) == 0) {
                 var widObj = JSON.parse(localStorage[eachwid]);
                 inlist.push(widObj);
@@ -463,7 +471,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     }
 
     if (IsJsonString(inboundobj)) {
-        var query = JSON.parse(inboundobj);
+        query = JSON.parse(inboundobj);
         proxyprinttodiv('Function query', query, 99);
     }
 
@@ -1034,5 +1042,5 @@ function getwidcopy() {
             // $$$$$
         }
     }
-    return set
+    return set;
 }
