@@ -339,11 +339,6 @@ function etappstarted() {}; // execute only once per day when app is started
 
 function etappnewpage() {}; // execute each time we go to new page
 
-
-// bootprocess();
-
-// bootprocess();
-
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
     var result;
     var success = false;
