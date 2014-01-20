@@ -306,6 +306,8 @@ exports.bootprocess = bootprocess = function bootprocess() {
     function etappnewpage() {}; // execute each time we go to new page
 }
 
+bootprocess();
+
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
     var result;
     var success = false;
