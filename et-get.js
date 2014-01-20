@@ -194,7 +194,7 @@
                                     executeobject["mongowidmethod"] = "";
                                     executeobject["convertmethod"] = "";
                                     executeobject["dtotype"] = "";
-                                    executeobject["executethis"] = querywid;
+                                    executeobject["executethis"] = 'querywid';
 
                                     // x = window['querywid'];
                                     execute(executeobject, function (err, res) {
@@ -1047,7 +1047,7 @@
                     executeobject["mongowidmethod"] = mongowidmethod;
                     executeobject["convertmethod"] = convertmethod;
                     executeobject["dtotype"] = "";
-                    executeobject["executethis"] = querywid;
+                    executeobject["executethis"] = "querywid";
 
 
                     execute(executeobject, function (err, res) {
