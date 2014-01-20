@@ -192,7 +192,7 @@
                             console.log('singlemongoquery => ' + queParams['mongosinglequery']);
                             var wid = queParams['mongosinglequery'];
                             execute({
-                                'executethis':'getwid'
+                                'executethis':'getwid',
                                 'wid': wid
                             }, function (err, res) {
                                 var widObject = res;
@@ -213,7 +213,7 @@
                             wid = queParams['mongomultiplequery'];
 
                             execute({
-                                'executethis':'getwid'
+                                'executethis':'getwid',
                                 'wid': wid
                             }, function (err, res) {
                                 var listOfWids = res;
