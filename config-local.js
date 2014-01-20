@@ -175,7 +175,7 @@ function setdefaultparm() {
     debuglinenum = 1;
     test_results = {};
 
-    exports.config = config = config123();
+    
     exports.environment = 'local';
 
     exports.Debug = Debug;
@@ -290,6 +290,7 @@ function config123() {
     }
 };
 
+exports.config = config = config123(); //moved by Bill per Roger
 
 exports.bootprocess = bootprocess = function bootprocess() {
 
