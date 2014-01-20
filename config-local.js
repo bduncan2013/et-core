@@ -89,7 +89,7 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
     var saveobject = {};
 
     if (inputWidgetObject['wid']) {
-        saveobject['wid'] = inputWidgetObject['widus'];
+        saveobject['wid'] = inputWidgetObject['wid'];
     } else {
         saveobject['wid'] = "";
     }
@@ -125,7 +125,7 @@ function resetMasterKey() {
 }
 
 function setdefaultparm() {
-//    localStore.clear();  // don't clear localStorage on every page load
+    //    localStore.clear();  // don't clear localStorage on every page load
     Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
     debuglevel = 0;
     widMasterKey = "widmaster_";
@@ -139,6 +139,8 @@ function setdefaultparm() {
     debugdestination = 1;
     debugcolor = 0;
     debugindent = 0;
+    debuglinenum = 1;
+    test_results = {};
 
     exports.config = config = config123();
     exports.environment = 'local';
@@ -157,6 +159,7 @@ function setdefaultparm() {
     exports.debugdestination = debugdestination;
     exports.debugcolor = debugcolor;
     exports.debugindent = debugindent;
+    exports.debuglinenum = debuglinenum;
 }
 
 
@@ -256,22 +259,52 @@ function config123() {
 
 
 exports.bootprocess = bootprocess = function bootprocess() {
-    //exports.config = config = config123();
-    setdefaultparm();
 
+
+    setdefaultparm();// TODO :: REMOVE THIS LATER :: ADDED BY SAURABH
     proxyprinttodiv('Function bootprocess config', config, 30);
     // we don't want localStorage cleared every page load so this is being commented - Jason
-//    testclearstorage();
-//    if (exports.environment === 'local') {
-//        clearLocalStorage();
-//    }
-    test_results = {};
-    //testAddWids();
-    //displayAllWids();
-};
+    execute({
+        "executethis": "getwid",
+        "wid": "etenvironment"
+    }, function (err, result) {
+        // read etenvironment, if not there then must be ok to clear out initial stuff
+        if (!result) {
+            // then 'dirty' et environement
+            execute({
+                "executethis": "updatewid",
+                "wid": "etenvironment",
+                "something": "something"
+            }, etappinstall) //,
+            // function (err, result) {
 
-bootprocess();
+            // })
 
+            if (true) {
+                etappstarted
+            }
+            if (true) {
+                etappnewpage
+            }
+            //testAddWids();
+            //displayAllWids();
+        }
+
+        // bootprocess();
+
+        function etappinstall() { // exeucte only the first time app is installed -- once per lifetime
+            setdefaultparm();
+            testclearstorage();
+            if (exports.environment === 'local') {
+                clearLocalStorage();
+            }
+        }
+    });
+
+    function etappstarted() {}; // execute only once per day when app is started
+
+    function etappnewpage() {}; // execute each time we go to new page
+}
 
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
     var result;
@@ -371,11 +404,11 @@ exports.getDriApiData = getDriApiData = function getDriApiData(action, params, c
 
 exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     proxyprinttodiv('Function inboundobj', inboundobj, 30);
-    
+
     var inlist = [];
     var query;
     var outlist = [];
-    
+
     function IsJsonString(str) {
         try {
             JSON.parse(str);
@@ -394,12 +427,12 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         }
         proxyprinttodiv('Function inlist', inlist, 30);
     }
-    
+
     if (IsJsonString(inboundobj)) {
         var query = JSON.parse(inboundobj);
         proxyprinttodiv('Function query', query, 99);
     }
-    
+
     outlist = sift(query, inlist);
     proxyprinttodiv('Function outlist', outlist, 99);
     callback(null, outlist);
@@ -501,7 +534,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 //                     templist = processquery(searchobjectlist, right);
 //                     proxyprinttodiv('Function processquery after templist left', nonCircularStringify(templist), 30);
 //                     //proxyprinttodiv('Function listresult I', listresult, 30);
-//                     // added below %% add the array inside of another array
+//                     // added below % add the array inside of another array
 //                     //listresult.push(templist);
 //                     //listresult=templist;
 //                     templist = processoperator(searchobjectlist, templist, left);
@@ -541,16 +574,16 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 //             return value;
 //         });
 //     }
-    // function arrayUnique(array) {
-    // var a = array.concat();
-    // for(var i=0; i<a.length; ++i) {
-    //     for(var j=i+1; j<a.length; ++j) {
-    //         if(a[i] === a[j])
-    //             a.splice(j--, 1);
-    //     }
-    // }
-    // return a;
-    // };
+// function arrayUnique(array) {
+// var a = array.concat();
+// for(var i=0; i<a.length; ++i) {
+//     for(var j=i+1; j<a.length; ++j) {
+//         if(a[i] === a[j])
+//             a.splice(j--, 1);
+//     }
+// }
+// return a;
+// };
 
 //     function processoperator(inobjectlist, targetparameters, operator) {
 //         var eachwid;
@@ -616,7 +649,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 //             proxyprinttodiv('widrecord', widrecord, 30);
 //             equalobject = {};
 //             notequalobject = {};
-  
+
 //             for (eachtarget in targetparameters) { //go through each array inside array     
 //                 // paramters is a list [{a:b},{c:d}] or 
 //                 // paramters is a list [[{a:b},{c:d}], {e:f, g:h}]
@@ -675,9 +708,9 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 //                     resultlist.push(wid);
 //                 }
 //             }
-                    
+
 //             debugfn("processoperator end", "processoperator", "mongoquery", "end", debugcolor, debugindent, debugvars([4, 5]));
-       
+
 
 // }
 //         proxyprinttodiv('Function resultlist', resultlist, 30);

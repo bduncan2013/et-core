@@ -223,24 +223,26 @@
     exports.authcall = authcall = function authcall(inboundparams, callback) {
         proxyprinttodiv('Function fishoutAuthParams() in : ', 'before');
         var environment;
-        extend(true, environment, inboundparams['etenvironment']);
         var status = false;
+        // console.log(">>>>> env >>> "+ JSON.stringify(inboundparams['etenvironment']));
         if (!inboundparams['etenvironment']) {
             environment = {};
             environment['ac'] ='111111111';
             environment['account'] = '222222222';//set account to account of ac if no account
             environment['db'] = 'data';
             environment['action'] ='getwid';
+        }else{
+            environment = extend(true, environment, inboundparams['etenvironment']);
         } 
 
         delete inboundparams['etenvironment'];
 
-        var ac = environment['ac'];
+        var accesstoken = environment['ac'];
         var account = environment['account'];//set account to account of ac if no account
         var db = environment['db'];
         var action = environment['action'];
 
-        if(ac && ac !== '111111111'){
+        if(accesstoken && accesstoken !== '111111111'){
            // actual security check
            securitycheck(accesstoken, account, action, db, callback);
         }else{

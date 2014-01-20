@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var fileName = window.location.href.split('/').pop(),
         widName = fileName.substr(0, fileName.indexOf('.')),
         params = {};
@@ -10,7 +10,7 @@ $(document).ready(function() {
     if (typeof links != 'undefined') { params.links = links; }
 
     // append any existing style blocks to body before continuing
-    $('style').each(function() { $('body').append(this.outerHTML); });
+    $('style').each(function () { $('body').append(this.outerHTML); });
 
     // convert linked html page to a screenwid
     htmlToScreenwid(widName, $('body').html(), params);

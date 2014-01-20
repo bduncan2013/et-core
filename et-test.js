@@ -1,3 +1,78 @@
+exports.mttest4 = mttest4 = function mttest4(params, callback){
+    console.log("<< mttest4 >>");
+    
+    var codedebug = false;
+    if(codedebug){
+        debugcolor = 0;
+        debugon = true;
+        debugname = "";
+        debugsubcat = "";
+        debugcat = "mongoquery";
+        debugfilter = "";
+        debugdestination = 1;
+        debuglevel=30;
+    }
+    
+    /* adding wids */
+    testclearstorage();
+    var addList = [
+        {"executeshis":"updatewid", "metadata.method": "colordto", "wid": "colordto", "hue": "string", "sat": "string"},
+        {"executeshis":"updatewid", "metadata.method": "colordto", "wid": "color1", "hue": "red", "sat": "red-sat"}
+        /*,
+        {"executeshis":"updatewid", "wid": "color2", "metadata.method": "colordto", "hue": "green",  "sat": "green-sat"},
+        {"executeshis":"updatewid", "wid": "color3", "metadata.method": "colordto", "hue": "blue", "sat": "blue-sat"}, 
+        {"executeshis":"updatewid", "wid": "color4", "metadata.method": "colordto", "hue": "cyan", "sat": "cyan-sat"},
+        {"executeshis":"updatewid", "wid": "color5", "metadata.method": "colordto", "hue": "magenta", "sat": "magenta-sat"},
+        {"executeshis":"updatewid", "wid": "color6", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color9"}, 
+        {"executeshis":"updatewid", "wid": "color7", "metadata.method": "colordto", "hue": "black", "sat": "black-sat"},
+        {"executeshis":"updatewid", "wid": "color8", "metadata.method": "colordto", "hue": "black", "sat": "red-sat"},
+        {"executeshis":"updatewid", "wid": "color9", "metadata.method": "colordto", "hue": "cyan", "sat": "red-sat"},
+        {"executeshis":"updatewid", "wid": "colordto2", "metadata.method": "colordto2", "light": "string", "chroma": "string"},
+        {"executeshis":"updatewid", "wid": "color10", "metadata.method": "colordto", "hue": "pink", "sat": "pink-sat", "colordto2.0.light": "pink-light", "colordto2.0.chroma": "pink-chroma", "colordto2.1.light": "pink-light1", "colordto2.1.chroma": "pink-chroma2", "colordto2.0.colordto3.intensity": "pink-intensity"},
+        {"executeshis":"updatewid", "wid": "colordto3", "metadata.method": "colordto3", "intensity": "string"}
+        */
+    ];  
+    execute(addList, function (err, res) {
+        console.log(' >>> final response after addList >>> ' + JSON.stringify(res));
+    });
+   
+   var mongorawquerytests = false;
+   var mongosinglequerytests = false;
+   
+    /* mongo raw queries */
+    if(mongorawquerytests){
+        var queryList = [
+            {
+                "executethis": "querywid",
+                "mongorawquery": {
+                    "$or": [{
+                        "hue": "red"
+                    }]
+                }
+            }
+        ];
+        execute(queryList, function (err, res) {
+            console.log(' >>> final response after queryList >>> ' + JSON.stringify(res));
+        });
+    }
+    
+    /* mongo single queries */
+    if(mongosinglequerytests){
+        var queryList = [
+            {
+                "executethis": "querywid",
+                "mongosinglequery": "color7",
+                //"relationshipdirection": "forward",
+                //"relationshiptype": "attributes",
+                //"relationshipmethod": "first"
+            }
+        ];  
+        execute(queryList, function (err, res) {
+            console.log(' >>> final response after queryList >>> ' + JSON.stringify(res));
+        });
+    }
+} 
+
 exports.testcallback = testcallback = function testcallback(params, callback) {
     console.log("<< testcallback >>");
     params["test_result"] = "PASSnew";

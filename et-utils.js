@@ -84,6 +84,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     widMasterKey = "widmaster_";
     potentialwid = 0;
     localStore.clear();
+    localStorage.clear();
 };
 (function (window) {
 
@@ -1109,11 +1110,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 displaycolor = "pink"
             };
             var jsonPretty = JSON.stringify(outobject, "-", 4);
-
+            debuglinenum++;
             if (indent > 0) {
-                var temp_HTML = indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+                var temp_HTML = debuglinenum + " " +indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
             } else {
-                var temp_HTML = indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+                var temp_HTML = debuglinenum + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
             }
             console.log(jsonPretty);
             if (exports.environment === "local") {
@@ -1163,13 +1164,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         });
     }
 
-    var deepDiffMapper = function() {
+    var deepDiffMapper = function () {
         return {
             VALUE_CREATED: 'created',
             VALUE_UPDATED: 'updated',
             VALUE_DELETED: 'deleted',
             VALUE_UNCHANGED: 'unchanged',
-            map: function(obj1, obj2) {
+            map: function (obj1, obj2) {
                 if (this.isFunction(obj1) || this.isFunction(obj2)) {
                     throw 'Invalid argument. Function given, object expected.';
                 }
@@ -1195,7 +1196,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 }                
                 return diff;               
             },
-            compareValues: function(value1, value2) {
+            compareValues: function (value1, value2) {
                 if (value1 === value2) {
                     return this.VALUE_UNCHANGED;
                 }
@@ -1207,16 +1208,16 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 }              
                 return this.VALUE_UPDATED;
             },
-            isFunction: function(obj) {
+            isFunction: function (obj) {
                 return toString.apply(obj) === '[object Function]';
             },
-            isArray: function(obj) {
+            isArray: function (obj) {
                 return toString.apply(obj) === '[object Array]';
             },
-            isObject: function(obj) {
+            isObject: function (obj) {
                 return toString.apply(obj) === '[object Object]';
             },
-            isValue: function(obj) {
+            isValue: function (obj) {
                 return !this.isObject(obj) && !this.isArray(obj);
             }
         }
@@ -1224,7 +1225,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
 })(typeof window === "undefined" ? global : window);
 
-(function() {
+(function () {
     /*
  * Sift
  * 
@@ -1237,7 +1238,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         /**
          */
 
-        var _convertDotToSubObject = function(keyParts, value) {
+        var _convertDotToSubObject = function (keyParts, value) {
 
                 var subObject = {},
                 currentValue = subObject;
@@ -1254,13 +1255,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         /**
          */
 
-        var _queryParser = new (function() {
+        var _queryParser = new (function () {
 
                 /**
                  * tests against data
                  */
 
-                var priority = this.priority = function(statement, data) {
+                var priority = this.priority = function (statement, data) {
 
                         var exprs = statement.exprs,
                         priority = 0;
@@ -1286,7 +1287,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                  * parses a statement into something evaluable
                  */
 
-                var parse = this.parse = function(statement, key) {
+                var parse = this.parse = function (statement, key) {
 
                         //fixes sift(null, []) issue
                         if(!statement) statement = { $eq: statement };
@@ -1348,10 +1349,10 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         var stmt =  { 
                                 exprs: testers,
                                 k: key,
-                                test: function(value) {
+                                test: function (value) {
                                         return !!~stmt.priority(value);
                                 },
-                                priority: function(value) {
+                                priority: function (value) {
                                         return priority(stmt, value);
                                 }
                         };
@@ -1388,42 +1389,42 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $eq: function(a, b) {
+                        $eq: function (a, b) {
                                 return btop(a.test(b));
                         },
 
                         /**
                          */
 
-                        $ne: function(a, b) {
+                        $ne: function (a, b) {
                                 return btop(!a.test(b));
                         },
 
                         /**
                          */
 
-                        $lt: function(a, b) {
+                        $lt: function (a, b) {
                                 return btop(a > b);
                         },
 
                         /**
                          */
 
-                        $gt: function(a, b) {
+                        $gt: function (a, b) {
                                 return btop(a < b);
                         },
 
                         /**
                          */
 
-                        $lte: function(a, b) {
+                        $lte: function (a, b) {
                                 return btop(a >= b);
                         },
 
                         /**
                          */
 
-                        $gte: function(a, b) {
+                        $gte: function (a, b) {
                                 return btop(a <= b);
                         },
 
@@ -1431,14 +1432,14 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $exists: function(a, b) {
+                        $exists: function (a, b) {
                                 return btop(a === (b != null))
                         },
 
                         /**
                          */
 
-                        $in: function(a, b) {
+                        $in: function (a, b) {
 
                                 //intersecting an array
                                 if(b instanceof Array) {
@@ -1458,7 +1459,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $not: function(a, b) {
+                        $not: function (a, b) {
                                 if(!a.test) throw new Error("$not test should include an expression, not a value. Use $ne instead.");
                                 return btop(!a.test(b));
                         },
@@ -1466,7 +1467,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $type: function(a, b, org) {
+                        $type: function (a, b, org) {
 
                                 //instanceof doesn't work for strings / boolean. instanceof works with inheritance
                                 return org ? btop(org instanceof a || org.constructor == a) : -1;
@@ -1476,21 +1477,21 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                          */
 
 
-                        $nin: function(a, b) {
+                        $nin: function (a, b) {
                                 return ~_testers.$in(a, b) ? -1 : 0;
                         },
 
                         /**
                          */
 
-                        $mod: function(a, b) {
+                        $mod: function (a, b) {
                                 return b % a[0] == a[1] ? 0 : -1;
                         },
 
                         /**
                          */
 
-                        $all: function(a, b) {
+                        $all: function (a, b) {
 
                                 for(var i = a.length; i--;) {
                                         if(b.indexOf(a[i]) == -1) return -1;
@@ -1502,14 +1503,14 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $size: function(a, b) {
+                        $size: function (a, b) {
                                 return b ? btop(a == b.length) : -1;
                         },
 
                         /**
                          */
 
-                        $or: function(a, b) {
+                        $or: function (a, b) {
 
                                 var i = a.length, p, n = i;
 
@@ -1525,7 +1526,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $nor: function(a, b) {
+                        $nor: function (a, b) {
 
                                 var i = a.length, n = i;
 
@@ -1541,7 +1542,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $and: function(a, b) {
+                        $and: function (a, b) {
 
                                 for(var i = a.length; i--;) {
                                         if(!~priority(a[i], b)) {
@@ -1555,7 +1556,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $trav: function(a, b) {
+                        $trav: function (a, b) {
 
 
 
@@ -1580,7 +1581,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
 
-                        $eq: function(a) {
+                        $eq: function (a) {
                                 
                                 var fn;
 
@@ -1590,7 +1591,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                                         fn = a;
                                 } else {
                                         
-                                        fn = function(b) {        
+                                        fn = function (b) {        
                                                 if(b instanceof Array) {                
                                                         return ~b.indexOf(a);
                                                 } else {
@@ -1608,14 +1609,14 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         /**
                          */
                                 
-                         $ne: function(a) {
+                         $ne: function (a) {
                                 return _prepare.$eq(a);
                          }
                 };
 
 
 
-                var _getExpr = function(type, key, value) {
+                var _getExpr = function (type, key, value) {
 
                         var v = _comparable(value);
 
@@ -1636,11 +1637,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         })();
 
 
-        var getSelector = function(selector) {
+        var getSelector = function (selector) {
 
                 if(!selector) {
 
-                        return function(value) {
+                        return function (value) {
                                 return value;
                         };
 
@@ -1652,13 +1653,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 throw new Error("Unknown sift selector " + selector);
         }
 
-        var sifter = function(query, selector) {
+        var sifter = function (query, selector) {
 
                 //build the filter for the sifter
                 var filter = _queryParser.parse( query );
                         
                 //the function used to sift through the given array
-                var self = function(target) {
+                var self = function (target) {
                                 
                         var sifted = [], results = [], value, priority;
 
@@ -1680,7 +1681,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                         }
 
                         //sort the values
-                        sifted.sort(function(a, b) {
+                        sifted.sort(function (a, b) {
                                 return a.priority > b.priority ? -1 : 1;
                         });
 
@@ -1710,7 +1711,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
          * @param rawSelector the selector for plucking data from the given target
          */
 
-        var sift = function(query, target, rawSelector) {
+        var sift = function (query, target, rawSelector) {
 
                 //must be an array
                 if(typeof target != "object") {
@@ -1730,17 +1731,17 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
 
 
-        sift.use = function(options) {
+        sift.use = function (options) {
                 if(options.operators) sift.useOperators(options.operators);
         }
 
-        sift.useOperators = function(operators) {
+        sift.useOperators = function (operators) {
                 for(var key in operators) {
                         sift.useOperator(key, operators[key]);
                 }
         }
 
-        sift.useOperator = function(operator, optionsOrFn) {
+        sift.useOperator = function (operator, optionsOrFn) {
 
                 var options = {};
 

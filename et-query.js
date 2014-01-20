@@ -46,11 +46,14 @@
         var addParams = p[3];
         var xtrParams = p[4];
         var relafterParams = p[5];
+        var commandParams = p[6];
         var ListOfLists = [];
         var queryresults = {};
         var wid;
         var output;
-        var environmentdb = "data";
+        var environmentdb;
+
+        if (commandParams["db"]) {environmentdb=commandParams["db"]} else {environmentdb="data"}
 
 
         function debugvars(varlist) {
@@ -1128,6 +1131,14 @@
         var xtrParams = {};
         // Special case of relationship queries
         var relafterParams = {};
+        var commandParams = {};
+
+        var db = ""; // String
+        if (isParameterLower(parameters, "command.db")) {
+            db = parameters["command.db"];
+            commandParams["command.db"] = db;
+            remove(parameters, "command.db");
+        }
 
         var mongowid = ""; // String
         if (isParameterLower(parameters, "mongowid")) {
@@ -1307,6 +1318,7 @@
         p[3] = addParams;
         p[4] = xtrParams;
         p[5] = relafterParams;
+        p[6] = commandParams;
         return p;
     }
 
