@@ -84,7 +84,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     widMasterKey = "widmaster_";
     potentialwid = 0;
     localStore.clear();
-    localStorage.clear();
+    // localStorage.clear();
 };
 (function (window) {
 
