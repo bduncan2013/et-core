@@ -86,17 +86,18 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
    
    var mongorawquerytests = true;
    var mongosinglequerytests = true;
+   var mongomultiplequerytests = true;
    
     /* mongo raw queries */
     if(mongorawquerytests){
         var queryList = [
             {
                 "executethis": "querywid",
-                "mongorawquery": {
-                    "$or": [{
-                        "data.hue": "red"
-                    }]
-                }
+                "mongorawquery": '{"$or": [{ "data.hue": "red" }]}'
+                    
+                        
+                   
+               
             }
         ];
         execute(queryList, function (err, res) {
@@ -110,6 +111,21 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
             {
                 "executethis": "querywid",
                 "mongosinglequery": "color7",
+                //"relationshipdirection": "forward",
+                //"relationshiptype": "attributes",
+                //"relationshipmethod": "first"
+            }
+        ];  
+        execute(queryList, function (err, res) {
+            console.log(' >>> final response after queryList >>> ' + JSON.stringify(res));
+        });
+    }
+
+    if(mongomultiplequerytests) {
+        var queryList = [
+            {
+                "executethis": "querywid",
+                "mongomultiplequery" : "color6",
                 //"relationshipdirection": "forward",
                 //"relationshiptype": "attributes",
                 //"relationshipmethod": "first"

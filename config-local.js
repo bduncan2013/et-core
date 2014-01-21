@@ -442,8 +442,6 @@ exports.getDriApiData = getDriApiData = function getDriApiData(action, params, c
 };
 
 
-
-
 exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     proxyprinttodiv('Function inboundobj', inboundobj, 30);
 
@@ -460,15 +458,15 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         return true;
     }
 
-    if (IsJsonString(inboundobj)) {
-        for (var eachwid in localStorage) {
-            if (eachwid.indexOf(widMasterKey) == 0) {
-                var widObj = JSON.parse(localStorage[eachwid]);
-                inlist.push(widObj);
-            }
+
+    for (var eachwid in localStorage) {
+        if (eachwid.indexOf(widMasterKey) == 0) {
+            var widObj = JSON.parse(localStorage[eachwid]);
+            inlist.push(widObj);
         }
-        proxyprinttodiv('Function inlist', inlist, 30);
     }
+    proxyprinttodiv('Function inlist', inlist, 30);
+  
 
     if (IsJsonString(inboundobj)) {
         query = JSON.parse(inboundobj);
