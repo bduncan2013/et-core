@@ -281,8 +281,9 @@
                         // Primary Wid Section **********
                         if (validParams(queParams) && queParams && queParams['mongowid'] !== undefined) {
                             console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
-                            proxyprinttodiv('querywid output before mongowid', output, 99);
+                            
                             output = formatlist(output, "wid", "wid");
+                            proxyprinttodiv('querywid output before mongowid', output, 99);
                             if (output=[{}]) {output=[]};
                             proxyprinttodiv('querywid output after mongowid', output, 99);
                             output.push({

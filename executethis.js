@@ -145,7 +145,7 @@
                         'test1': 'Reached test1 code.. executearray function'
                     });
                 } else {
-                    proxyprinttodiv('Function array array inboundparms', inboundparms, 99);
+                    proxyprinttodiv('Function array array inboundparms', inboundparms, 17);
                     if (inboundparms instanceof Array) {
                         executearray(inboundparms, function (err, retResults) {
                             // resultlist.push(retResults);
@@ -166,7 +166,7 @@
                 // end of all the execution that was meant to be
                 console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
                 console.log('asynchronously finished executing executearray.');
-                proxyprinttodiv('Function executearray resultlist', resultlist, 99);
+                proxyprinttodiv('Function executearray resultlist', resultlist, 17);
                 callback(null, resultlist);
             });
         }

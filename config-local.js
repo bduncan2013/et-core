@@ -458,7 +458,6 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         return true;
     }
 
-
     for (var eachwid in localStorage) {
         if (eachwid.indexOf(widMasterKey) == 0) {
             var widObj = JSON.parse(localStorage[eachwid]);

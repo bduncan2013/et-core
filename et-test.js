@@ -72,7 +72,10 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
         {"executethis":"updatewid", "wid": "color3", "metadata.method": "colordto", "hue": "blue", "sat": "blue-sat"}, 
         {"executethis":"updatewid", "wid": "color4", "metadata.method": "colordto", "hue": "cyan", "sat": "cyan-sat"},
         {"executethis":"updatewid", "wid": "color5", "metadata.method": "colordto", "hue": "magenta", "sat": "magenta-sat"},
-        {"executethis":"updatewid", "wid": "color6", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color9"}, 
+        {"executethis":"updatewid", "wid": "color60", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color1"},
+        {"executethis":"updatewid", "wid": "color61", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color2"}, 
+        {"executethis":"updatewid", "wid": "color62", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color3"}, 
+        {"executethis":"updatewid", "wid": "color63", "metadata.method": "colordto", "primarywid": "color8", "secondarywid": "color4"},  
         {"executethis":"updatewid", "wid": "color7", "metadata.method": "colordto", "hue": "black", "sat": "black-sat"},
         {"executethis":"updatewid", "wid": "color8", "metadata.method": "colordto", "hue": "black", "sat": "red-sat"},
         {"executethis":"updatewid", "wid": "color9", "metadata.method": "colordto", "hue": "cyan", "sat": "red-sat"},
@@ -84,9 +87,10 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
         console.log(' >>> final response after addList >>> ' + JSON.stringify(res));
     });
    
-   var mongorawquerytests = true;
-   var mongosinglequerytests = true;
-   var mongomultiplequerytests = true;
+   var mongorawquerytests = false;
+   var mongosinglequerytests = false;
+   var mongomultiplequerytests = false;
+   var relationshiptests = true;
    
     /* mongo raw queries */
     if(mongorawquerytests){
@@ -94,7 +98,7 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
             {
                 "executethis": "querywid",
                 "mongorawquery": '{"$or": [{ "data.hue": "red" }]}'
-                    
+             
                         
                    
                
@@ -121,19 +125,20 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
         });
     }
 
-    if(mongomultiplequerytests) {
+    if(relationshiptests) {
         var queryList = [
             {
                 "executethis": "querywid",
-                "mongomultiplequery" : "color6",
-                //"relationshipdirection": "forward",
-                //"relationshiptype": "attributes",
-                //"relationshipmethod": "first"
+                "mongowid" : "color8",
+                "mongorelationshipdirection": "forward",
+                "mongorelationshiptype": "attributes",
+                "mongorelationshipmethod": "first"
             }
         ];  
         execute(queryList, function (err, res) {
             console.log(' >>> final response after queryList >>> ' + JSON.stringify(res));
         });
+
     }
 } 
 exports.testcallback = testcallback = function testcallback(params, callback) {
