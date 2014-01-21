@@ -345,13 +345,28 @@
         async.series([
 
                 function step1(cb) {
+
+                    for (var item in resultObj) { // now step through each record that could be changed
+                        proposedLeft = item;
+                        proposedRight = resultObj[item];
+                        proposedLeft = ""; // work on left first...check if add or remvove
+
+                        dtoloc = item.indexOf("addthis.");
+                        proposedLeft = proposedLeft.replace("addthis.", "");
+
+                        if (proposedLeft != "") {
+                            resultObj[proposedLeft] = proposedRight
+                        }
+                    }
+                        
+
                     if (((resultObj['wid'] !== undefined)) &&
                         ((resultObj['wid'] !== resultObj['metadata.method']) || (dtotype = "defaultdto"))) {
 
                         aggressivedto(resultObj['wid'], "", 10, function (err, res) {
                             dtoobject = res;
 
-                           
+                        
 
                             var listtodo = [];
                             for (var item in dtoobject) {
@@ -451,19 +466,7 @@
                         outputparameters = resultObj;
                     }
 
-                    for (var item in resultObj) { // now step through each record that could be changed
-                        proposedLeft = item;
-                        proposedRight = resultObj[item];
-                        proposedLeft = ""; // work on left first...check if add or remvove
-                        dtoloc = item.indexOf(dtotype + ".");
-
-                        dtoloc = item.indexOf("addthis.");
-                        proposedLeft = proposedLeft.replace("addthis.", "");
-
-                        if (proposedLeft != "") {
-                            outputparameters[proposedLeft] = proposedRight
-                        }
-                    }
+                    
                      
                     debugfn("getcleanparameters", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
