@@ -37,12 +37,12 @@ exports.localStore = localStore = function () {
 localStore.clear();
 
 
-exports.validParams = validParams = function validParams(obj){
+exports.validParams = validParams = function validParams(obj) {
     var keyLength = getObjectSize(obj);
     var status = false;
-    if(keyLength !== 0){
-        for(var k in obj){
-            if(obj[k]){
+    if (keyLength !== 0) {
+        for (var k in obj) {
+            if (obj[k]) {
                 status = true;
                 break;
             }
@@ -944,12 +944,12 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         var temp_string = JSON.stringify(result);
         // If there is a value of 'unchanged', there IS data that has passed,
         // so for now, set the 'test_results' to PASS.
-        if ( temp_string.indexOf("unchanged") !== -1 ) test_results = "PASS";
+        if (temp_string.indexOf("unchanged") !== -1) test_results = "PASS";
         // If there are any of 'created', 'updated', 'deleted', the tests now fails, even if
         // it passed before...if none of the 4 strings are found, the test_results will 
         // remain 'UNKNOWN'
-        if ( temp_string.indexOf("created") !== -1 || temp_string.indexOf("deleted") !== -1 || temp_string.indexOf("updated") !== -1 ) test_results = "FAIL";
-        
+        if (temp_string.indexOf("created") !== -1 || temp_string.indexOf("deleted") !== -1 || temp_string.indexOf("updated") !== -1) test_results = "FAIL";
+
         var data = {};
         data[test_name] = test_results;
         data[test_name + '_diff'] = result;
@@ -1009,7 +1009,9 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             processdebug = false
         }
         if (!processdebug) return;
-        if (!indebugdest) {indebugdest=debugdestination}
+        if (!indebugdest) {
+            indebugdest = debugdestination
+        }
         proxyprinttodiv('arrived debugname', debugname, 44);
 
         // If the color goes over 10, turn it back to black
@@ -1046,7 +1048,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
 
         }
-        
+
         switch (indebugdest) // 1 for print, 2 for googlespreadsheets, 3 for both
         {
         case 1:
@@ -1077,29 +1079,35 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
             proxyprinttodiv('arrived debuglog', debuglog, 44);
 
-            if (!outobject){outobject={}}
-            if (outobject[0]===undefined) {outobject[0]={}}
-            if (outobject[1]===undefined) {outobject[1]={}}
+            if (!outobject) {
+                outobject = {}
+            }
+            if (outobject[0] === undefined) {
+                outobject[0] = {}
+            }
+            if (outobject[1] === undefined) {
+                outobject[1] = {}
+            }
 
             var debugrecord = debuglog[indebugname];
             if (!debugrecord) {
-                debugrecord={}
-                debuglog[indebugname]={}
-                }
-            var inparm=debugrecord["inparm"];
-            var outparm=debugrecord["outparm"];
+                debugrecord = {}
+                debuglog[indebugname] = {}
+            }
+            var inparm = debugrecord["inparm"];
+            var outparm = debugrecord["outparm"];
             if (!inparm) {
-                inparm=[]
-                debuglog[indebugname]["inparm"]=[]
-                }
+                inparm = []
+                debuglog[indebugname]["inparm"] = []
+            }
             if (!outparm) {
-                outparm=[]
-                debuglog[indebugname]["outparm"]=[]
-                }
+                outparm = []
+                debuglog[indebugname]["outparm"] = []
+            }
             inparm.push(outobject[0]);
             outparm.push(outobject[1]);
-            debuglog[indebugname]["inparm"]=inparm;
-            debuglog[indebugname]["outparm"]=outparm;
+            debuglog[indebugname]["inparm"] = inparm;
+            debuglog[indebugname]["outparm"] = outparm;
             //dbug_print(outobject, 2);
             proxyprinttodiv('arrived debuglog end', debuglog, 44);
         }
@@ -1111,39 +1119,40 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
             var jsonPretty = JSON.stringify(debuglog, "-", 4);
             var temp_HTML = "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indebugindent) + "em'>" +
-                            "function etmultipleunittest( <br>" + jsonPretty + ", callback<br>   );" + "</div>";
+                "function etmultipleunittest( <br>" + jsonPretty + ", callback<br>   );" + "</div>";
             if (exports.environment === "local") {
                 $('#divprint').append(temp_HTML);
             }
         }
 
 
-// outhtml = "exports.ettestaaa = ettestaaaa = function ettestaaaaa(params, callback) {
-//     asynch([
-// "+
-// indebugname+"(
-//     {
-//         "c": "0",
-//         "d": "1",
-//         "e": "2"
-//     }
-// )
-//     ],
-//     function (err, res) {
-//         res = logverify("ettestaaa_result", res[0][0], 
+        // outhtml = "exports.ettestaaa = ettestaaaa = function ettestaaaaa(params, callback) {
+        //     asynch([
+        // "+
+        // indebugname+"(
+        //     {
+        //         "c": "0",
+        //         "d": "1",
+        //         "e": "2"
+        //     }
+        // )
+        //     ],
+        //     function (err, res) {
+        //         res = logverify("ettestaaa_result", res[0][0], 
 
-//         {
-//         "g": "4",
-//         "cer1": "booberry",
-//         "f": "3",
-//         "c": "0",
-//         "cer2": "booberry"
-//     }
+        //         {
+        //         "g": "4",
+        //         "cer1": "booberry",
+        //         "f": "3",
+        //         "c": "0",
+        //         "cer2": "booberry"
+        //     }
 
-//     );
-//     callback(err, res);
-//     });
-// }
+        //     );
+        //     callback(err, res);
+        //     });
+        // }
+
         function dbug_print(indent, displaycolor) {
 
             if (displaycolor == "") {
@@ -1152,7 +1161,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             var jsonPretty = JSON.stringify(outobject, "-", 4);
             debuglinenum++;
             if (indent > 0) {
-                var temp_HTML = debuglinenum + " " +indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+                var temp_HTML = debuglinenum + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
             } else {
                 var temp_HTML = debuglinenum + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
             }
@@ -1215,37 +1224,40 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                     throw 'Invalid argument. Function given, object expected.';
                 }
                 if (this.isValue(obj1) || this.isValue(obj2)) {
-                    return {type: this.compareValues(obj1, obj2), data: obj1 || obj2};
-                }               
+                    return {
+                        type: this.compareValues(obj1, obj2),
+                        data: obj1 || obj2
+                    };
+                }
                 var diff = {};
                 for (var key in obj1) {
                     if (this.isFunction(obj1[key])) {
                         continue;
-                    }      
+                    }
                     var value2 = undefined;
-                    if ('undefined' != typeof(obj2[key])) {
+                    if ('undefined' != typeof (obj2[key])) {
                         value2 = obj2[key];
-                    }                   
+                    }
                     diff[key] = this.map(obj1[key], value2);
                 }
                 for (var key in obj2) {
-                    if (this.isFunction(obj2[key]) || ('undefined' != typeof(diff[key]))) {
+                    if (this.isFunction(obj2[key]) || ('undefined' != typeof (diff[key]))) {
                         continue;
-                    }                    
+                    }
                     diff[key] = this.map(undefined, obj2[key]);
-                }                
-                return diff;               
+                }
+                return diff;
             },
             compareValues: function (value1, value2) {
                 if (value1 === value2) {
                     return this.VALUE_UNCHANGED;
                 }
-                if ('undefined' == typeof(value1)) {
+                if ('undefined' == typeof (value1)) {
                     return this.VALUE_CREATED;
                 }
-                if ('undefined' == typeof(value2)) {
+                if ('undefined' == typeof (value2)) {
                     return this.VALUE_DELETED;
-                }              
+                }
                 return this.VALUE_UPDATED;
             },
             isFunction: function (obj) {
@@ -1267,553 +1279,560 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
 (function () {
     /*
- * Sift
- * 
- * Copryright 2011, Craig Condon
- * Licensed under MIT
- *
- * Inspired by mongodb's query language 
- */
+     * Sift
+     *
+     * Copryright 2011, Craig Condon
+     * Licensed under MIT
+     *
+     * Inspired by mongodb's query language
+     */
 
-        /**
-         */
+    /**
+     */
 
-        var _convertDotToSubObject = function (keyParts, value) {
+    var _convertDotToSubObject = function (keyParts, value) {
 
-                var subObject = {},
-                currentValue = subObject;
+        var subObject = {},
+            currentValue = subObject;
 
-                for(var i = 0, n = keyParts.length - 1; i < n; i++) {
-                        currentValue = currentValue[keyParts[i]] = {};
-                }
-
-                currentValue[keyParts[i]] = value;
-                
-                return subObject;
+        for (var i = 0, n = keyParts.length - 1; i < n; i++) {
+            currentValue = currentValue[keyParts[i]] = {};
         }
 
+        currentValue[keyParts[i]] = value;
+
+        return subObject;
+    }
+
+    /**
+     */
+
+    var _queryParser = new(function () {
+
         /**
+         * tests against data
          */
 
-        var _queryParser = new (function () {
+        var priority = this.priority = function (statement, data) {
 
-                /**
-                 * tests against data
-                 */
+            var exprs = statement.exprs,
+                priority = 0;
 
-                var priority = this.priority = function (statement, data) {
+            //generally, expressions are ordered from least efficient, to most efficient.
+            for (var i = 0, n = exprs.length; i < n; i++) {
 
-                        var exprs = statement.exprs,
-                        priority = 0;
+                var expr = exprs[i],
+                    p;
 
-                        //generally, expressions are ordered from least efficient, to most efficient.
-                        for(var i = 0, n = exprs.length; i < n; i++) {
+                if (!~(p = expr.e(expr.v, _comparable(data), data))) return -1;
 
-                                var expr = exprs[i],
-                                p;
+                priority += p;
 
-                                if(!~(p = expr.e(expr.v, _comparable(data), data))) return -1;
+            }
 
-                                priority += p;
 
+            return priority;
+        }
+
+
+        /**
+         * parses a statement into something evaluable
+         */
+
+        var parse = this.parse = function (statement, key) {
+
+            //fixes sift(null, []) issue
+            if (!statement) statement = {
+                $eq: statement
+            };
+
+            var testers = [];
+
+            //if the statement is an object, then we're looking at something like: { key: match }
+            if (statement.constructor == Object) {
+
+                for (var k in statement) {
+
+                    //find the apropriate operator. If one doesn't exist, then it's a property, which means
+                    //we create a new statement (traversing) 
+                    var operator = !! _testers[k] ? k : '$trav',
+
+                        //value of given statement (the match)
+                        value = statement[k],
+
+                        //default = match
+                        exprValue = value;
+
+                    //if we're working with a traversable operator, then set the expr value
+                    if (TRAV_OP[operator]) {
+
+
+                        //using dot notation? convert into a sub-object
+                        if (~k.indexOf(".")) {
+                            var keyParts = k.split(".");
+                            k = keyParts.shift(); //we're using the first key, so remove it
+
+                            exprValue = value = _convertDotToSubObject(keyParts, value);
                         }
 
+                        //*if* the value is an array, then we're dealing with something like: $or, $and
+                        if (value instanceof Array) {
 
-                        return priority;
-                }
+                            exprValue = [];
 
+                            for (var i = value.length; i--;) {
+                                exprValue.push(parse(value[i]));
+                            }
 
-                /**
-                 * parses a statement into something evaluable
-                 */
-
-                var parse = this.parse = function (statement, key) {
-
-                        //fixes sift(null, []) issue
-                        if(!statement) statement = { $eq: statement };
-
-                        var testers = [];
-                                
-                        //if the statement is an object, then we're looking at something like: { key: match }
-                        if(statement.constructor == Object) {
-
-                                for(var k in statement) {
-
-                                        //find the apropriate operator. If one doesn't exist, then it's a property, which means
-                                        //we create a new statement (traversing) 
-                                        var operator = !!_testers[k] ?  k : '$trav',
-
-                                        //value of given statement (the match)
-                                        value = statement[k],
-
-                                        //default = match
-                                        exprValue = value;
-
-                                        //if we're working with a traversable operator, then set the expr value
-                                        if(TRAV_OP[operator]) {
-
-
-                                                //using dot notation? convert into a sub-object
-                                                if(~k.indexOf(".")) {
-                                                        var keyParts = k.split(".");
-                                                        k = keyParts.shift(); //we're using the first key, so remove it
-
-                                                        exprValue = value = _convertDotToSubObject(keyParts, value);
-                                                }
-                                                
-                                                //*if* the value is an array, then we're dealing with something like: $or, $and
-                                                if(value instanceof Array) {
-                                                        
-                                                        exprValue = [];
-
-                                                        for(var i = value.length; i--;) {
-                                                                exprValue.push(parse(value[i]));                
-                                                        }
-
-                                                //otherwise we're dealing with $trav
-                                                } else {        
-                                                        exprValue = parse(value, k);
-                                                }
-                                        } 
-
-                                        testers.push(_getExpr(operator, k, exprValue));
-
-                                }
-                                                                
-
-                        //otherwise we're comparing a particular value, so set to eq
+                            //otherwise we're dealing with $trav
                         } else {
-                                testers.push(_getExpr('$eq', k, statement));
+                            exprValue = parse(value, k);
                         }
+                    }
 
-                        var stmt =  { 
-                                exprs: testers,
-                                k: key,
-                                test: function (value) {
-                                        return !!~stmt.priority(value);
-                                },
-                                priority: function (value) {
-                                        return priority(stmt, value);
-                                }
-                        };
-                        
-                        return stmt;
-                
+                    testers.push(_getExpr(operator, k, exprValue));
+
                 }
 
 
-                //traversable statements
-                var TRAV_OP = this.traversable = {
-                        $and: true,
-                        $or: true,
-                        $nor: true,
-                        $trav: true,
-                        $not: true
-                };
+                //otherwise we're comparing a particular value, so set to eq
+            } else {
+                testers.push(_getExpr('$eq', k, statement));
+            }
 
-
-                function _comparable(value) {
-                        if(value instanceof Date) {
-                                return value.getTime();
-                        } else {
-                                return value;
-                        }
+            var stmt = {
+                exprs: testers,
+                k: key,
+                test: function (value) {
+                    return !!~stmt.priority(value);
+                },
+                priority: function (value) {
+                    return priority(stmt, value);
                 }
+            };
 
-                function btop(value) {
-                        return value ? 0 : -1;
-                }
-
-                var _testers = this.testers =  {
-
-                        /**
-                         */
-
-                        $eq: function (a, b) {
-                                return btop(a.test(b));
-                        },
-
-                        /**
-                         */
-
-                        $ne: function (a, b) {
-                                return btop(!a.test(b));
-                        },
-
-                        /**
-                         */
-
-                        $lt: function (a, b) {
-                                return btop(a > b);
-                        },
-
-                        /**
-                         */
-
-                        $gt: function (a, b) {
-                                return btop(a < b);
-                        },
-
-                        /**
-                         */
-
-                        $lte: function (a, b) {
-                                return btop(a >= b);
-                        },
-
-                        /**
-                         */
-
-                        $gte: function (a, b) {
-                                return btop(a <= b);
-                        },
-
-
-                        /**
-                         */
-
-                        $exists: function (a, b) {
-                                return btop(a === (b != null))
-                        },
-
-                        /**
-                         */
-
-                        $in: function (a, b) {
-
-                                //intersecting an array
-                                if(b instanceof Array) {
-
-                                        for(var i = b.length; i--;) {
-                                                if(~a.indexOf(b[i])) return i;
-                                        }        
-
-                                } else {
-                                        return btop(~a.indexOf(b));
-                                }
-
-
-                                return -1;
-                        },
-
-                        /**
-                         */
-
-                        $not: function (a, b) {
-                                if(!a.test) throw new Error("$not test should include an expression, not a value. Use $ne instead.");
-                                return btop(!a.test(b));
-                        },
-
-                        /**
-                         */
-
-                        $type: function (a, b, org) {
-
-                                //instanceof doesn't work for strings / boolean. instanceof works with inheritance
-                                return org ? btop(org instanceof a || org.constructor == a) : -1;
-                        },
-
-                        /**
-                         */
-
-
-                        $nin: function (a, b) {
-                                return ~_testers.$in(a, b) ? -1 : 0;
-                        },
-
-                        /**
-                         */
-
-                        $mod: function (a, b) {
-                                return b % a[0] == a[1] ? 0 : -1;
-                        },
-
-                        /**
-                         */
-
-                        $all: function (a, b) {
-
-                                for(var i = a.length; i--;) {
-                                        if(b.indexOf(a[i]) == -1) return -1;
-                                }
-
-                                return 0;
-                        },
-
-                        /**
-                         */
-
-                        $size: function (a, b) {
-                                return b ? btop(a == b.length) : -1;
-                        },
-
-                        /**
-                         */
-
-                        $or: function (a, b) {
-
-                                var i = a.length, p, n = i;
-
-                                for(; i--;) {
-                                        if(~priority(a[i], b)) {
-                                                return i;
-                                        }
-                                }
-
-                                return btop(n == 0);
-                        },
-
-                        /**
-                         */
-
-                        $nor: function (a, b) {
-
-                                var i = a.length, n = i;
-
-                                for(; i--;) {
-                                        if(~priority(a[i], b)) {
-                                                return -1;
-                                        }
-                                }
-
-                                return 0;
-                        },
-
-                        /**
-                         */
-
-                        $and: function (a, b) {
-
-                                for(var i = a.length; i--;) {
-                                        if(!~priority(a[i], b)) {
-                                                return -1;
-                                        }
-                                }
-
-                                return 0;
-                        },
-
-                        /**
-                         */
-
-                        $trav: function (a, b) {
-
-
-
-                                if(b instanceof Array) {
-                                        
-                                        for(var i = b.length; i--;) {
-                                                var subb = b[i];
-                                                if(subb[a.k] && ~priority(a, subb[a.k])) return i;
-                                        }
-
-                                        return -1;
-                                }
-
-                                //continue to traverse even if there isn't a value - this is needed for 
-                                //something like name:{$exists:false}
-                                return priority(a, b ? b[a.k] : undefined);
-                        }
-                }
-
-                var _prepare = {
-                        
-                        /**
-                         */
-
-                        $eq: function (a) {
-                                
-                                var fn;
-
-                                if(a instanceof RegExp) {
-                                        return a;
-                                } else if (a instanceof Function) {
-                                        fn = a;
-                                } else {
-                                        
-                                        fn = function (b) {        
-                                                if(b instanceof Array) {                
-                                                        return ~b.indexOf(a);
-                                                } else {
-                                                        return a == b;
-                                                }
-                                        }
-                                }
-
-                                return {
-                                        test: fn
-                                }
-
-                        },
-                        
-                        /**
-                         */
-                                
-                         $ne: function (a) {
-                                return _prepare.$eq(a);
-                         }
-                };
-
-
-
-                var _getExpr = function (type, key, value) {
-
-                        var v = _comparable(value);
-
-                        return { 
-
-                                //k key
-                                k: key, 
-
-                                //v value
-                                v: _prepare[type] ? _prepare[type](v) : v, 
-
-                                //e eval
-                                e: _testers[type] 
-                        };
-
-                }
-
-        })();
-
-
-        var getSelector = function (selector) {
-
-                if(!selector) {
-
-                        return function (value) {
-                                return value;
-                        };
-
-                } else 
-                if(typeof selector == 'function') {
-                        return selector;
-                }
-
-                throw new Error("Unknown sift selector " + selector);
-        }
-
-        var sifter = function (query, selector) {
-
-                //build the filter for the sifter
-                var filter = _queryParser.parse( query );
-                        
-                //the function used to sift through the given array
-                var self = function (target) {
-                                
-                        var sifted = [], results = [], value, priority;
-
-                        //I'll typically start from the end, but in this case we need to keep the order
-                        //of the array the same.
-                        for(var i = 0, n = target.length; i < n; i++) {
-
-                                value = selector(target[i]);
-
-                                //priority = -1? it's not something we can use.
-                                if(!~(priority = filter.priority( value ))) continue;
-
-                                //push all the sifted values to be sorted later. This is important particularly for statements
-                                //such as $or
-                                sifted.push({
-                                        value: value,
-                                        priority: priority
-                                });
-                        }
-
-                        //sort the values
-                        sifted.sort(function (a, b) {
-                                return a.priority > b.priority ? -1 : 1;
-                        });
-
-                        var values = Array(sifted.length);
-
-                        //finally, fetch the values & return them.
-                        for(var i = sifted.length; i--;) {
-                                values[i] = sifted[i].value;
-                        }
-
-                        return values;
-                }
-
-                //set the test function incase the sifter isn't needed
-                self.test   = filter.test;
-                self.score = filter.priority;
-                self.query  = query;
-
-                return self;
-        }
-
-
-        /**
-         * sifts the given function
-         * @param query the mongodb query
-         * @param target the target array
-         * @param rawSelector the selector for plucking data from the given target
-         */
-
-        var sift = function (query, target, rawSelector) {
-
-                //must be an array
-                if(typeof target != "object") {
-                        rawSelector = target;
-                        target = undefined;
-                }
-
-
-                var sft  = sifter(query, getSelector(rawSelector));
-
-                //target given? sift through it and return the filtered result
-                if(target) return sft(target);
-
-                //otherwise return the sifter func
-                return sft;
+            return stmt;
 
         }
 
 
-        sift.use = function (options) {
-                if(options.operators) sift.useOperators(options.operators);
+        //traversable statements
+        var TRAV_OP = this.traversable = {
+            $and: true,
+            $or: true,
+            $nor: true,
+            $trav: true,
+            $not: true
+        };
+
+
+        function _comparable(value) {
+            if (value instanceof Date) {
+                return value.getTime();
+            } else {
+                return value;
+            }
         }
 
-        sift.useOperators = function (operators) {
-                for(var key in operators) {
-                        sift.useOperator(key, operators[key]);
-                }
+        function btop(value) {
+            return value ? 0 : -1;
         }
 
-        sift.useOperator = function (operator, optionsOrFn) {
+        var _testers = this.testers = {
 
-                var options = {};
+            /**
+             */
 
-                if(typeof optionsOrFn == "object") {
-                        options = optionsOrFn;
+            $eq: function (a, b) {
+                return btop(a.test(b));
+            },
+
+            /**
+             */
+
+            $ne: function (a, b) {
+                return btop(!a.test(b));
+            },
+
+            /**
+             */
+
+            $lt: function (a, b) {
+                return btop(a > b);
+            },
+
+            /**
+             */
+
+            $gt: function (a, b) {
+                return btop(a < b);
+            },
+
+            /**
+             */
+
+            $lte: function (a, b) {
+                return btop(a >= b);
+            },
+
+            /**
+             */
+
+            $gte: function (a, b) {
+                return btop(a <= b);
+            },
+
+
+            /**
+             */
+
+            $exists: function (a, b) {
+                return btop(a === (b != null))
+            },
+
+            /**
+             */
+
+            $in: function (a, b) {
+
+                //intersecting an array
+                if (b instanceof Array) {
+
+                    for (var i = b.length; i--;) {
+                        if (~a.indexOf(b[i])) return i;
+                    }
+
                 } else {
-                        options = { test: optionsOrFn };
+                    return btop(~a.indexOf(b));
                 }
 
 
-                var key = "$" + operator;
-                _queryParser.testers[key] = options.test;
+                return -1;
+            },
 
-                if(options.traversable || options.traverse) {
-                        _queryParser.traversable[key] = true;
+            /**
+             */
+
+            $not: function (a, b) {
+                if (!a.test) throw new Error("$not test should include an expression, not a value. Use $ne instead.");
+                return btop(!a.test(b));
+            },
+
+            /**
+             */
+
+            $type: function (a, b, org) {
+
+                //instanceof doesn't work for strings / boolean. instanceof works with inheritance
+                return org ? btop(org instanceof a || org.constructor == a) : -1;
+            },
+
+            /**
+             */
+
+
+            $nin: function (a, b) {
+                return~ _testers.$in(a, b) ? -1 : 0;
+            },
+
+            /**
+             */
+
+            $mod: function (a, b) {
+                return b % a[0] == a[1] ? 0 : -1;
+            },
+
+            /**
+             */
+
+            $all: function (a, b) {
+
+                for (var i = a.length; i--;) {
+                    if (b.indexOf(a[i]) == -1) return -1;
                 }
+
+                return 0;
+            },
+
+            /**
+             */
+
+            $size: function (a, b) {
+                return b ? btop(a == b.length) : -1;
+            },
+
+            /**
+             */
+
+            $or: function (a, b) {
+
+                var i = a.length,
+                    p, n = i;
+
+                for (; i--;) {
+                    if (~priority(a[i], b)) {
+                        return i;
+                    }
+                }
+
+                return btop(n == 0);
+            },
+
+            /**
+             */
+
+            $nor: function (a, b) {
+
+                var i = a.length,
+                    n = i;
+
+                for (; i--;) {
+                    if (~priority(a[i], b)) {
+                        return -1;
+                    }
+                }
+
+                return 0;
+            },
+
+            /**
+             */
+
+            $and: function (a, b) {
+
+                for (var i = a.length; i--;) {
+                    if (!~priority(a[i], b)) {
+                        return -1;
+                    }
+                }
+
+                return 0;
+            },
+
+            /**
+             */
+
+            $trav: function (a, b) {
+
+
+
+                if (b instanceof Array) {
+
+                    for (var i = b.length; i--;) {
+                        var subb = b[i];
+                        if (subb[a.k] && ~priority(a, subb[a.k])) return i;
+                    }
+
+                    return -1;
+                }
+
+                //continue to traverse even if there isn't a value - this is needed for 
+                //something like name:{$exists:false}
+                return priority(a, b ? b[a.k] : undefined);
+            }
+        }
+
+        var _prepare = {
+
+            /**
+             */
+
+            $eq: function (a) {
+
+                var fn;
+
+                if (a instanceof RegExp) {
+                    return a;
+                } else if (a instanceof Function) {
+                    fn = a;
+                } else {
+
+                    fn = function (b) {
+                        if (b instanceof Array) {
+                            return~ b.indexOf(a);
+                        } else {
+                            return a == b;
+                        }
+                    }
+                }
+
+                return {
+                    test: fn
+                }
+
+            },
+
+            /**
+             */
+
+            $ne: function (a) {
+                return _prepare.$eq(a);
+            }
+        };
+
+
+
+        var _getExpr = function (type, key, value) {
+
+            var v = _comparable(value);
+
+            return {
+
+                //k key
+                k: key,
+
+                //v value
+                v: _prepare[type] ? _prepare[type](v) : v,
+
+                //e eval
+                e: _testers[type]
+            };
+
+        }
+
+    })();
+
+
+    var getSelector = function (selector) {
+
+        if (!selector) {
+
+            return function (value) {
+                return value;
+            };
+
+        } else
+        if (typeof selector == 'function') {
+            return selector;
+        }
+
+        throw new Error("Unknown sift selector " + selector);
+    }
+
+    var sifter = function (query, selector) {
+
+        //build the filter for the sifter
+        var filter = _queryParser.parse(query);
+
+        //the function used to sift through the given array
+        var self = function (target) {
+
+            var sifted = [],
+                results = [],
+                value, priority;
+
+            //I'll typically start from the end, but in this case we need to keep the order
+            //of the array the same.
+            for (var i = 0, n = target.length; i < n; i++) {
+
+                value = selector(target[i]);
+
+                //priority = -1? it's not something we can use.
+                if (!~(priority = filter.priority(value))) continue;
+
+                //push all the sifted values to be sorted later. This is important particularly for statements
+                //such as $or
+                sifted.push({
+                    value: value,
+                    priority: priority
+                });
+            }
+
+            //sort the values
+            sifted.sort(function (a, b) {
+                return a.priority > b.priority ? -1 : 1;
+            });
+
+            var values = Array(sifted.length);
+
+            //finally, fetch the values & return them.
+            for (var i = sifted.length; i--;) {
+                values[i] = sifted[i].value;
+            }
+
+            return values;
+        }
+
+        //set the test function incase the sifter isn't needed
+        self.test = filter.test;
+        self.score = filter.priority;
+        self.query = query;
+
+        return self;
+    }
+
+
+    /**
+     * sifts the given function
+     * @param query the mongodb query
+     * @param target the target array
+     * @param rawSelector the selector for plucking data from the given target
+     */
+
+    var sift = function (query, target, rawSelector) {
+
+        //must be an array
+        if (typeof target != "object") {
+            rawSelector = target;
+            target = undefined;
         }
 
 
-        //node.js?
-        if((typeof module != 'undefined') && (typeof module.exports != 'undefined')) {
-                
-                module.exports = sift;
+        var sft = sifter(query, getSelector(rawSelector));
 
-        } else 
+        //target given? sift through it and return the filtered result
+        if (target) return sft(target);
 
-        //browser?
-        if(typeof window != 'undefined') {
-                
-                window.sift = sift;
+        //otherwise return the sifter func
+        return sft;
 
+    }
+
+
+    sift.use = function (options) {
+        if (options.operators) sift.useOperators(options.operators);
+    }
+
+    sift.useOperators = function (operators) {
+        for (var key in operators) {
+            sift.useOperator(key, operators[key]);
         }
+    }
+
+    sift.useOperator = function (operator, optionsOrFn) {
+
+        var options = {};
+
+        if (typeof optionsOrFn == "object") {
+            options = optionsOrFn;
+        } else {
+            options = {
+                test: optionsOrFn
+            };
+        }
+
+
+        var key = "$" + operator;
+        _queryParser.testers[key] = options.test;
+
+        if (options.traversable || options.traverse) {
+            _queryParser.traversable[key] = true;
+        }
+    }
+
+
+    //node.js?
+    if ((typeof module != 'undefined') && (typeof module.exports != 'undefined')) {
+
+        module.exports = sift;
+
+    } else
+
+    //browser?
+    if (typeof window != 'undefined') {
+
+        window.sift = sift;
+
+    }
 
 })();
-
