@@ -108,24 +108,19 @@ widApp.factory('executeService', function($http, dataService) {
 //            } // MOVE etenvironment code to the server function in config-local.js
 
             execute(parameters, function(err, resultArray) {
-                if (err && Object.size(err) > 0) {
-                    console.log('execute error => ' + JSON.stringify(err));
-                }
-                else {
-                    for (var i = 0; i < resultArray.length; i++) {
-                        // if not logged in at this point send browser to login.html
-                        if (resultArray[i].etstatus) {
-                            if (resultArray[i].etstatus.status && resultArray[i].etstatus.status === 'unauthorized') {
-                                window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
-                            }
+                for (var i = 0; i < resultArray.length; i++) {
+                    // if not logged in at this point send browser to login.html
+                    if (resultArray[i].etstatus) {
+                        if (resultArray[i].etstatus.status && resultArray[i].etstatus.status === 'unauthorized') {
+                            window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
                         }
-
-                        dataService.storeData(resultArray[i], scope);
                     }
 
-                    // send array to callback
-                    if (callback instanceof Function) { callback(resultArray); }
+                    dataService.storeData(resultArray[i], scope);
                 }
+
+                // send array to callback
+                if (callback instanceof Function) { callback(err, resultArray); }
             });
         },
 
@@ -333,6 +328,11 @@ widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService', functio
 
     $scope.listLength = function(list) { return Object.size(list); };
 
+    $scope.getRawHtml = function() {
+        $('#rawhtml').text(document.getElementsByTagName('html')[0].outerHTML);
+        $scope.showrawhtml = true;
+    };
+
     //</editor-fold>
 }]);
 
@@ -384,9 +384,13 @@ var helper = {
 
                     angular.injector(['ng', 'widApp'])
                         .get('executeService')
-                        .executeThis(executeObj, scope, function(resultArray) {
-                            for (var i = 0; i < resultArray.length; i++) {
-                                if (resultArray[i].html) { helper.processHtml(resultArray[i]); }
+                        .executeThis(executeObj, scope, function(err, resultArray) {
+                            if (err && Object.size(err) > 0) {
+                                console.log('execute error while processing html => ' + JSON.stringify(err));
+                            } else {
+                                for (var i = 0; i < resultArray.length; i++) {
+                                    if (resultArray[i].html) { helper.processHtml(resultArray[i]); }
+                                }
                             }
                         });
                 } else if (screenWid.html[i].html) {
@@ -585,10 +589,14 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
-            .executeThis(executeObj, scope, function(resultArray) {
-                for (var i = 0; i < resultArray.length; i++) {
-                    if (resultArray[i].html) {
-                        helper.processHtml(resultArray[i]);
+            .executeThis(executeObj, scope, function(err, resultArray) {
+                if (err && Object.size(err) > 0) {
+                    console.log('execute error while processing html => ' + JSON.stringify(err));
+                } else {
+                    for (var i = 0; i < resultArray.length; i++) {
+                        if (resultArray[i].html) {
+                            helper.processHtml(resultArray[i]);
+                        }
                     }
                 }
             });
@@ -612,9 +620,9 @@ exports.angularExecuteThis = angularExecuteThis = function angularExecuteThis(pa
     var scope = $('body').scope();
     angular.injector(['ng', 'widApp'])
         .get('executeService')
-        .executeThis(parameters, scope, function(resultArray) {
+        .executeThis(parameters, scope, function(err, resultArray) {
             // do something here in the future?
-            if (callback instanceof Function) { callback(resultArray); }
+            if (callback instanceof Function) { callback(err, resultArray); }
         });
 };
 
@@ -649,7 +657,7 @@ function screenwidToHtml(screenWid, callback) {
     var htmlDom = $(screenWid.html),
         htmlString = '';
 
-    function addToDom(ele, cb) {
+    function addToElement(ele, cb) {
         var executeObj = NNMtoObj(ele.attributes);
 
         execute(executeObj, function(err, resultArray) {
@@ -665,7 +673,7 @@ function screenwidToHtml(screenWid, callback) {
         });
     }
 
-    async.each(htmlDom.filter('execute'), addToDom, function(err) {
+    async.each(htmlDom.filter('execute'), addToElement, function(err) {
         htmlDom.each(function(index, element) {
             if (element.outerHTML !== undefined) {
                 htmlString += element.outerHTML;
