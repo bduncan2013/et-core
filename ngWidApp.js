@@ -385,7 +385,7 @@ var helper = {
                     angular.injector(['ng', 'widApp'])
                         .get('executeService')
                         .executeThis(executeObj, scope, function(err, resultArray) {
-                            if (err && object.size(err) > 0) {
+                            if (err && Object.size(err) > 0) {
                                 console.log('execute error while processing html => ' + JSON.stringify(err));
                             } else {
                                 for (var i = 0; i < resultArray.length; i++) {
@@ -590,7 +590,7 @@ exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(pa
         angular.injector(['ng', 'widApp'])
             .get('executeService')
             .executeThis(executeObj, scope, function(err, resultArray) {
-                if (err && object.size(err) > 0) {
+                if (err && Object.size(err) > 0) {
                     console.log('execute error while processing html => ' + JSON.stringify(err));
                 } else {
                     for (var i = 0; i < resultArray.length; i++) {
