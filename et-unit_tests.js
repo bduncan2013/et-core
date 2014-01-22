@@ -2046,8 +2046,39 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 		"executethis": "getwidmaster",
 		"wid": "song1"
 	}],
+	// execute([{
+	// 	"executethis": "updatewid", 
+	// 	"wid": "authordto",
+	// 	"metadata.method": "authordto",
+	// 	"Author": "string"
+	// },
+	// {	
+	// 	"executethis": "updatewid", 
+	// 	"wid": "bookdto",
+	// 	"metadata.method": "bookdto",
+	// 	"title": "string"
+	// },
+	// {	
+	// 	"executethis": "updatewid", 
+	// 	"wid": "rel_author_to_book",
+	// 	"primarywid": "authordto",
+	// 	"secondarywid": "bookdto",
+	// 	"relationshiptype": "attributes"
+	// },
+	// {	
+	// 	"executethis": "updatewid", 
+	// 	"wid": "book1",
+	// 	"metadata.method": "bookdto",
+	// 	"title": "The book of testing",
+	// 	"authordto.0.author": "Sammy Sample"
+	// },
+	// {
+	// 	"executethis": "getwidmaster",
+	// 	"wid": "book1"
+	// }],
 	function (err, res) {
 		proxyprinttodiv('Function ag3 result ', res[4], 99);
+		alert(JSON.stringify(res));
 		res = logverify("ettestag3_result", res[4][0], {
 		"title": "Highway to Hell",
 		"wid": "song1",

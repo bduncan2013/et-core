@@ -90,10 +90,10 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
         console.log(' >>> final response after addList >>> ' + JSON.stringify(res));
     });
    
-   var mongorawquerytests = false;
+   var mongorawquerytests = true;
    var mongosinglequerytests = false;
    var mongomultiplequerytests = false;
-   var relationshiptests = true;
+   var relationshiptests = false;
 
     debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
         debugname = "";
@@ -107,7 +107,7 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
         var queryList = [
             {
                 "executethis": "querywid",
-                "mongorawquery": '{"$or": [{ "data.hue": "red" }]}'
+                "mongorawquery": '{"$or": [{ "wid": "color1" }]}'
              
                         
                    

@@ -5,6 +5,33 @@
     // external functions are testquery, querywid, relationShipQuery, aggregationQuery, addonQuery(
     // FYI we now call proxyprinttodiv which is in config that calls printtodiv
 
+    exports.converttoDRIstd = converttoDRIstd = function converttoDRIstd (inputObject) {
+    var db="data"
+    inputObject=ConvertFromDOTdri(inputObject);
+    for (var e in inputObject) { // any parameters not in a data object parm
+        if ((inputObject[e]!=="metadata")||(inputObject[e]!==db)||
+            (inputObject[e]!=="onetomany")||(inputObject[e]!=="onetooone")){
+            inputObject[db][e]=inputObject[e];
+            delete inputObject[e];
+            }
+        }
+    var currentdb = inputObject[db];
+    inputObject[db] = converttoDRIstd(currentdb); // recurse -- not convert what is inside of db/"data"
+    return inputObject
+    }
+
+    exports.convertfromDRIstd = convertfromDRIstd = function convertfromDRIstd (parameters) {
+        var db="data"
+        var dbobject = parameters[db]; // work with "data" object
+        for (var e in dbobject) { // any parameters not in a data object parm
+            if (e==db) {parameters=extend(parameters, convertfromDRIstd(dbobject[e]))} // note this should never happen
+            parameters[e]=extend(parameters[e], dbobject[e]); // append to root level
+            }
+        delete parameters[db];
+        parameters=ConvertToDOTdri(parameters);
+        return parameters
+    }
+
     exports.testquery = testquery = function testquery(parameters) {
         parameters["IAMALIVE"] = "hello";
         proxyprinttodiv('testquery parameters', parameters, true);
@@ -53,7 +80,11 @@
         var output;
         var environmentdb;
 
-        if (commandParams["db"]) {environmentdb=commandParams["db"]} else {environmentdb="data"}
+        if (commandParams["db"]) {
+            environmentdb = commandParams["db"]
+        } else {
+            environmentdb = "data"
+        }
 
 
         function debugvars(varlist) {
@@ -192,7 +223,7 @@
                             console.log('singlemongoquery => ' + queParams['mongosinglequery']);
                             var wid = queParams['mongosinglequery'];
                             execute({
-                                'executethis':'getwid',
+                                'executethis': 'getwid',
                                 'wid': wid
                             }, function (err, res) {
                                 var widObject = res;
@@ -213,7 +244,7 @@
                             wid = queParams['mongomultiplequery'];
 
                             execute({
-                                'executethis':'getwid',
+                                'executethis': 'getwid',
                                 'wid': wid
                             }, function (err, res) {
                                 var listOfWids = res;
@@ -281,14 +312,18 @@
                         // Primary Wid Section **********
                         if (validParams(queParams) && queParams && queParams['mongowid'] !== undefined) {
                             console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
-                            
-                            output = formatlist(output, "wid", "wid");
+                            //proxyprinttodiv('querywid output before format list mongowid', queParams, 99);
+                            output = formatlist(output, "wid", "wid", environmentdb);
                             proxyprinttodiv('querywid output before mongowid', output, 99);
-                            if (output=[{}]) {output=[]};
-                            proxyprinttodiv('querywid output after mongowid', output, 99);
+                            if (output = [{}]) {
+                                output = []
+                            };
+                            
                             output.push({
                                 'wid': queParams['mongowid']
                             });
+
+                            proxyprinttodiv('querywid output after mongowid', output, 99);
 
                             cb(null, "step02");
                         } else {
@@ -299,10 +334,10 @@
                     function step03(cb) {
                         // Relationship Section **********
                         // Skip if there are no relParams
-
+                        
                         if (validParams(relParams) && validParams(output)) {
                             if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
-                                output = formatlist(output, "wid", "wid")
+                                output = formatlist(output, "wid", "wid", environmentdb)
                             };
                             debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
 
@@ -325,15 +360,19 @@
                     function step04(cb) {
                         // Relationship Section **********
                         // Skip if there are no relParams
+                        
+                        if ((relParams) && (Object.keys(relParams).length !== 0)) {                            // added 1/22
+                            if (relParams["mongorelationshipdirection"] === 'forward') {
+                                output = formatlist(output, "secondarywid", "wid", environmentdb);
+                                
+                            } else {
+                                output = formatlist(output, "primarywid", "wid", environmentdb);
+                                
+                            }
+                        }
+
                         if ((validParams(relafterParams)) && (output) && (output.length > 0)) {
                             console.log('>>> ' + JSON.stringify(output))
-
-                            // added 1/22
-                            if (relParams["mongorelationshipdirection"] === 'forward') {
-                                output = formatlist(output, "data.secondarywid", "wid");
-                            } else {
-                                output = formatlist(output, "data.primarywid", "wid");
-                                }
 
                             mQueryString = queryafterrelationship(relafterParams, output);
                             console.log('mQueryString at step04 => ' + mQueryString);
@@ -358,13 +397,16 @@
                     debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
 
                     output = formatListFinal(output, environmentdb, null);
+                    
                     proxyprinttodiv('querywid output', output, 99);
 
-
+                    // ToDot -- should remove "data"
+                    // -- V1 --
+                    
                     if (callback instanceof Function) {
                         callback(err, output);
                     } else {
-                        return output;
+                        return saveobject;
                     }
 
 
@@ -436,7 +478,7 @@
 
     // will go through list, look for a specific parameter, create a new list based on that parameter
 
-    function formatlist(inlist, parmnamein, parmnameout) {
+    function formatlist(inlist, parmnamein, parmnameout, environmentdb) {
         var output = [];
         var widvalue;
 
@@ -465,7 +507,7 @@
                 };
 
                 var obj = {};
-                obj[widvalue] = item[parmnamein];
+                obj[widvalue] = item[environmentdb][parmnamein]; 
                 //obj["wid"] = widvalue;
                 output.push(obj); // &&& roger
                 //output[widvalue] = item[parmnamein]
@@ -504,35 +546,40 @@
             //for (var i=0; i< inlist.length; i++) {
             for (i in inlist) { // changed by roger &&&
                 var item = inlist[i];
+                var obj = {};
 
                 item = ConvertFromDOTdri(item);
 
-                if (!parmnameout) {
-                    widvalue = item['wid']
-                } else {
-                    widvalue = parmnameout
-                };
+                // if (!parmnameout) {
+                //     widvalue = item['wid']
+                // } else {
+                //     widvalue = parmnameout
+                // };
 
-                var obj = {};
-                obj[widvalue] = item[parmnamein];
-                if (item["method"] !== undefined && item["method"]["method"] !== undefined) {
-                    obj["metadata.method"] = item["metdata"]["method"];
+                if (item && countKeys(item) > 0) {
+                    if (item["data"]) {
+                        obj = item["data"];
+                    }
+
+                    if (item['wid']) {
+                        obj['wid'] = item['wid'];
+                    } else {
+                        obj['wid'] = "";
+                    }
+
+                    if (item['metadata']) {
+                        obj['metadata.method'] = item['metadata']['method'];
+                    } else {
+                        obj['metadata.method'] = "";
+                    }
                 }
+            
+                
+                //item[widvalue] = item[environmentdb][parmnamein]; 
+                //item["wid"] = widvalue;
                 output.push(obj); // &&& roger
                 //output[widvalue] = item[parmnamein]
             }
-            // }else if(inlist instanceof Object){
-            //     for (var item in inlist) {
-            //         if (!parmnameout) {
-            //             widvalue = item['wid']
-            //         } else {
-            //             widvalue = parmnameout
-            //         };
-            //         output.push({widvalue:item[parmnamein]}); // &&& roger
-            //         //output[widvalue] = item[parmnamein]
-            //     }
-            //     output[0] = output; // convert list to object
-            // }
             return output
         }
     }
@@ -558,7 +605,7 @@
     function BuildSingleQuery(parameters, outerquerytype, preamble) {
         proxyprinttodiv('querywid BuildSingleQuery parameters', parameters, 99);
         var key;
-        var parmarray=[];
+        var parmarray = [];
         // buildsinglequery, (parameters, outerquerytype, preamble) 
         // parameters can be list [{}]
         // or object {}
@@ -570,20 +617,21 @@
         // parameters can be [{a:b, c:d, e:f}] or {a:b, c:d, e:f}
         // if [] then remove []
 
-// jan 22        
+        // jan 22        
         // if (parameters instanceof Array) {
         //     parameters = parameters[0]
         // } 
 
-        if (!parameters) {return}
+        if (!parameters) {
+            return
+        }
 
         var parametersCount;
         if (parameters instanceof Array) {
             parametersCount = parameters.length
-            }
-        else {
-            parametersCount = Object.keys(parameters).length 
-            }
+        } else {
+            parametersCount = Object.keys(parameters).length
+        }
 
         if (parametersCount !== 1) {
             //returnString = ' {"$or": [';
@@ -592,27 +640,24 @@
             returnString = "";
         }
 
-// readded
-        if (parameters instanceof Array) { 
-            for(var i=0; i < parameters.length; i++){
-                for(var key in parameters[i]){
+        // readded
+        if (parameters instanceof Array) {
+            for (var i = 0; i < parameters.length; i++) {
+                for (var key in parameters[i]) {
                     returnString += BuildSimpleQuery(key, parameters[i][key], preamble);
-                    if(returnString.lastIndexOf(',')!==(returnString.length-1))
-                        {
+                    if (returnString.lastIndexOf(',') !== (returnString.length - 1)) {
                         returnString += ",";
-                        }
                     }
                 }
             }
-        else {
+        } else {
             for (key in parameters) {
                 returnString += BuildSimpleQuery(key, parameters[key], preamble);
-                if (returnString.lastIndexOf(',') !== (returnString.length - 1)) 
-                    {
+                if (returnString.lastIndexOf(',') !== (returnString.length - 1)) {
                     returnString += ",";
-                    }
                 }
             }
+        }
 
         returnString = returnString.substring(0, returnString.length - 1);
         // Close the string based on the number of listofparameters
@@ -642,7 +687,7 @@
         }; // default if not sent in
 
         var listofparametersCount = listofparameters.length;
-        if (listofparametersCount==0) return;
+        if (listofparametersCount == 0) return;
         // If it turns out you only have 1 set of params, dont start out the string with $and
         if (listofparametersCount == 1) {
             //returnString += "{";
@@ -655,11 +700,11 @@
         //for (var i = 0; i < listofparametersCount; i++) {
         //    if (listofparameters[i].length != 0) {
         for (i in listofparameters) {
-// jan 22
-              parameters = listofparameters[i]
-//            if (parameters instanceof Array) {
-//                parameters = parameters[0]
-//            };
+            // jan 22
+            parameters = listofparameters[i]
+            //            if (parameters instanceof Array) {
+            //                parameters = parameters[0]
+            //            };
 
             returnString += BuildSingleQuery(parameters, innerquerytype, preamble);
             if (returnString.lastIndexOf(',') !== (returnString.length - 1)) {
@@ -735,9 +780,11 @@
     }
     // Starting of relationShipQuery function
 
-    function relationShipQuery(parameters, input, environmentdb) {
+    function relationShipQuery(inputParameters, input, environmentdb) {
         proxyprinttodiv('Function relationShipQuery() Constant input : ', parameters);
         var output = {};
+        // TODO: added this quick to clone, needs to use extend
+        var parameters = JSON.parse(JSON.stringify(inputParameters));
         if (!environmentdb) {
             environmentdb = "data"
         };
@@ -1207,7 +1254,7 @@
         if (isParameterLower(parameters, "mongomultiplequery")) {
             multiplemongoquery = parameters["mongomultiplequery"];
             queParams["mongomultiplequery"] = multiplemongoquery;
-            remove(parameters,"mongomultiplequery");
+            remove(parameters, "mongomultiplequery");
         }
         var mongorelationshipdirection = ""; // String
         if (isParameterLower(parameters, "mongorelationshipdirection")) {
