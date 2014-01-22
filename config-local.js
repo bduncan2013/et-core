@@ -1,19 +1,51 @@
-if (!exports) { var exports = {}; }
-if (!config) { var config = {}; }
-if (!debugcolor) { var debugcolor = 0;}
-if (!Debug) { var Debug = 'false'; }
-if (!debugindent) { var debugindent = 0; }
-if (!debugname) { var debugname = ''; }
-if (!debugcat) { var debugcat = ''; }
-if (!debugsubcat) { var debugsubcat = ''; }
-if (!widMasterKey) { var widMasterKey = 'widmaster_'; }
-if (!debuglevel) { var debuglevel = 0; }
-if (!test_results) { var test_results = {}; }
-if (!potentialwid) { var potentialwid = 0; }
-if (!debugon) { var debugon = false; }
-if (!debugfilter) { var debugfilter = ''; }
-if (!debugdestination) { var debugdestination = 1; }
-if (!debuglinenum) { var debuglinenum = 1; }
+if (!exports) {
+    var exports = {};
+}
+if (!config) {
+    var config = {};
+}
+if (!debugcolor) {
+    var debugcolor = 0;
+}
+if (!Debug) {
+    var Debug = 'false';
+}
+if (!debugindent) {
+    var debugindent = 0;
+}
+if (!debugname) {
+    var debugname = '';
+}
+if (!debugcat) {
+    var debugcat = '';
+}
+if (!debugsubcat) {
+    var debugsubcat = '';
+}
+if (!widMasterKey) {
+    var widMasterKey = 'widmaster_';
+}
+if (!debuglevel) {
+    var debuglevel = 0;
+}
+if (!test_results) {
+    var test_results = {};
+}
+if (!potentialwid) {
+    var potentialwid = 0;
+}
+if (!debugon) {
+    var debugon = false;
+}
+if (!debugfilter) {
+    var debugfilter = '';
+}
+if (!debugdestination) {
+    var debugdestination = 1;
+}
+if (!debuglinenum) {
+    var debuglinenum = 1;
+}
 
 
 //function addtomongo(inputWidgetObject) {
@@ -161,7 +193,10 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
 
     offlineaddtomongo(saveobject, function (err, results) {
         proxyprinttodiv('Function updatewid in : x', results, 10);
-        debugfn("updatewid code generator", "updatewid", "add", "code", 2, 1, {0:inputObject, 1:results}, 4);
+        debugfn("updatewid code generator", "updatewid", "add", "code", 2, 1, {
+            0: inputObject,
+            1: results
+        }, 4);
         callback(err, results);
     });
 };
@@ -188,7 +223,7 @@ function setdefaultparm() {
     debugindent = 0;
     debuglinenum = 1;
 
-    test_results = {};  // can take out
+    test_results = {}; // can take out
     debuglog = {};
     exports.debuglog = debuglog = debuglog;
 
@@ -346,11 +381,12 @@ exports.bootprocess = bootprocess = function bootprocess() {
             clearLocalStorage();
         }
     }
+
+    function etappstarted() {} // execute only once per day when app is started
+
+    function etappnewpage() {} // execute each time we go to new page
 };
 
-function etappstarted() {} // execute only once per day when app is started
-
-function etappnewpage() {} // execute each time we go to new page
 
 //bootprocess();
 
@@ -471,7 +507,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         }
     }
     proxyprinttodiv('Function inlist', inlist, 30);
-  
+
 
     if (IsJsonString(inboundobj)) {
         query = JSON.parse(inboundobj);
@@ -480,13 +516,13 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 
     outlist = sift(query, inlist);
 
-        outlist = outlist.sort(function (aObj, bObj) {
-            var a = aObj["metadata"]["date"];
-            var b = bObj["metadata"]["date"];
-            if (a < b) return -1;
-            if (a > b) return 1;
-            return 0;
-        });
+    outlist = outlist.sort(function (aObj, bObj) {
+        var a = aObj["metadata"]["date"];
+        var b = bObj["metadata"]["date"];
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
+    });
 
 
     proxyprinttodiv('Function outlist', outlist, 99);

@@ -20,7 +20,7 @@
 
                 getfrommongo(inputWidgetObject, function (err, results) {
                     var outobject = {};
-                    if (results && (Object.keys(results).length > 0) {
+                    if (results && (Object.keys(results).length > 0)) {
                         if (results["data"]) {
                             outobject = results["data"];
                         }
@@ -225,8 +225,8 @@
                     }
 
                     async.mapSeries(listToDo, function (eachresult, cbMap) {
-                        var rightparameters = {};
-                        var params;
+                            var rightparameters = {};
+                            var params;
                             for (var key in moreDTOParameters[eachresult]) {
                                 rightparameters = moreDTOParameters[eachresult][key];
                             }
@@ -280,7 +280,7 @@
                 callback(err, ret);
             });
 
-       
+
     };
 
     function getcleanparameters(resultObj, dtotype, accesstoken, cleanmethod, convertmethod, callback) {
@@ -358,7 +358,7 @@
                             resultObj[proposedLeft] = proposedRight
                         }
                     }
-                        
+
 
                     if (((resultObj['wid'] !== undefined)) &&
                         ((resultObj['wid'] !== resultObj['metadata.method']) || (dtotype = "defaultdto"))) {
@@ -366,7 +366,7 @@
                         aggressivedto(resultObj['wid'], "", 10, function (err, res) {
                             dtoobject = res;
 
-                        
+
 
                             var listtodo = [];
                             for (var item in dtoobject) {
@@ -466,8 +466,8 @@
                         outputparameters = resultObj;
                     }
 
-                    
-                     
+
+
                     debugfn("getcleanparameters", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
                 }, // end step2
@@ -484,7 +484,7 @@
 
             function (err, results) {
                 callback(err, ret);
-                
+
             });
 
     }
@@ -599,7 +599,7 @@
                     olddebug = Debug;
 
                     if (resultObj && (Object.keys(resultObj).length !== 0) && (resultObj['wid'] != resultObj['metadata.method'])) {
-                        
+
                         getcleanparameters(resultObj, dtotype, accesstoken, "remove", convertMethod, function (err, res) {
                             resultObj = res;
                             resultObj = resultObj.parms;
@@ -623,9 +623,9 @@
                 }
             ],
             function (err, results) {
-                
+
                 callback(err, ret);
-                
+
             });
 
     };
@@ -915,13 +915,13 @@
 
                     },
                     function step3(cb) {
-                       
+
                         aggressivedto(widInput, "", 1, function (err, res) {
                             moreParameters = res;
                             debugfn("getWidMongo step3b", "getwidmongo", "get", "step3b", debugcolor, debugindent, debugvars([1]));
                             cb(null, 'three');
                         });
-                       
+
                     },
                     function step4(cb) {
                         if ((dtoGlobalParameters['metadata.method'] === undefined) ||
@@ -959,16 +959,16 @@
                                         getAndFormatNextLevel(widInput, "attributes", "last", "forward", item, convertMethod, accessToken, dtoin, function (err, res) {
                                             nextLevelParameters = res;
                                         });
-                                        
+
                                     }
                                     //TODO -- DONE
                                     // 10-5 took away dtotype --
                                     if (attr == "onetomany") { // if dto states 'onetomany' then search for related records that match property
-                                        
+
                                         getAndFormatNextLevel(widInput, "attributes", "all", "forward", item, convertMethod, accessToken, dtoin, function (err, res) {
                                             nextLevelParameters = res;
                                         });
-                                        
+
                                     } // 11-9 readded inherit from cleanparms here:
                                     //TODO -- DONE
                                     outgoingParameters = jsonConcat(outgoingParameters, nextLevelParameters);
@@ -991,9 +991,9 @@
                     }
                 ],
                 function (err, results) {
-                    
+
                     callback(err, ret);
-                    
+
                 });
 
 
