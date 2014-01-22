@@ -327,8 +327,14 @@
                         // Skip if there are no relParams
                         if ((validParams(relafterParams)) && (output) && (output.length > 0)) {
                             console.log('>>> ' + JSON.stringify(output))
-                            output = formatlist(output, "wid", "wid");
-                            // TODO :: START HERE.
+
+                            // added 1/22
+                            if (relParams["mongorelationshipdirection"] === 'forward') {
+                                output = formatlist(output, "data.secondarywid", "wid");
+                            } else {
+                                output = formatlist(output, "data.primarywid", "wid");
+                                }
+
                             mQueryString = queryafterrelationship(relafterParams, output);
                             console.log('mQueryString at step04 => ' + mQueryString);
                             // mongoquery(JSON.parse(mQueryString), function (res) {
@@ -550,6 +556,9 @@
     // will create a string query based on outerquerytype
 
     function BuildSingleQuery(parameters, outerquerytype, preamble) {
+        proxyprinttodiv('querywid BuildSingleQuery parameters', parameters, 99);
+        var key;
+        var parmarray=[];
         // buildsinglequery, (parameters, outerquerytype, preamble) 
         // parameters can be list [{}]
         // or object {}
@@ -560,13 +569,22 @@
         }; // default if not sent in
         // parameters can be [{a:b, c:d, e:f}] or {a:b, c:d, e:f}
         // if [] then remove []
+
+// jan 22        
+        // if (parameters instanceof Array) {
+        //     parameters = parameters[0]
+        // } 
+
+        if (!parameters) {return}
+
+        var parametersCount;
         if (parameters instanceof Array) {
-            parameters = parameters[0]
-        } // change by roger &&&
+            parametersCount = parameters.length
+            }
+        else {
+            parametersCount = Object.keys(parameters).length 
+            }
 
-        var parametersCount = countKeys(parameters); // changed by roger &&&
-
-        //var parametersCount = parameters.length; // &&& changed by roger
         if (parametersCount !== 1) {
             //returnString = ' {"$or": [';
             returnString = ' {"$' + outerquerytype + '": [';
@@ -574,32 +592,36 @@
             returnString = "";
         }
 
-        // &&& taken away by roger
-        // if (parameters instanceof Array) {
-        //     for(var i=0; i < parameters.length; i++){
-        //         for(var key in parameters[i]){
-        //             returnString += BuildSimpleQuery(key, parameters[i][key], preamble);
-        //             if(returnString.lastIndexOf(',')!==(returnString.length-1)){
-        //                 returnString += ",";
-        //             }
-        //         }
-        //     }
-        // }else{
-        for (key in parameters) {
-            returnString += BuildSimpleQuery(key, parameters[key], preamble);
-            if (returnString.lastIndexOf(',') !== (returnString.length - 1)) {
-                returnString += ",";
+// readded
+        if (parameters instanceof Array) { 
+            for(var i=0; i < parameters.length; i++){
+                for(var key in parameters[i]){
+                    returnString += BuildSimpleQuery(key, parameters[i][key], preamble);
+                    if(returnString.lastIndexOf(',')!==(returnString.length-1))
+                        {
+                        returnString += ",";
+                        }
+                    }
+                }
             }
-        }
-        //}
+        else {
+            for (key in parameters) {
+                returnString += BuildSimpleQuery(key, parameters[key], preamble);
+                if (returnString.lastIndexOf(',') !== (returnString.length - 1)) 
+                    {
+                    returnString += ",";
+                    }
+                }
+            }
 
         returnString = returnString.substring(0, returnString.length - 1);
         // Close the string based on the number of listofparameters
         if (parametersCount === 1) {
             returnString += "";
         } else {
-            returnString += "}";
+            returnString += "]}"; // added ]
         }
+        proxyprinttodiv('querywid buildsinglequery end', returnString, 99);
         return returnString;
     }
 
@@ -609,6 +631,7 @@
     function BuildMultipleQuery(listofparameters, outerquerytype, innerquerytype, preamble) {
         //buildmultiplequery (listofparameters, outerquerytype, innerquerytype, preamble)
         //list of parameters must be list: [{}, [], [], {}]
+        proxyprinttodiv('querywid buildmultiplequery listofparameters', listofparameters, 99);
         var returnString = "";
         var parameters;
         if (!outerquerytype) {
@@ -619,6 +642,7 @@
         }; // default if not sent in
 
         var listofparametersCount = listofparameters.length;
+        if (listofparametersCount==0) return;
         // If it turns out you only have 1 set of params, dont start out the string with $and
         if (listofparametersCount == 1) {
             //returnString += "{";
@@ -631,10 +655,12 @@
         //for (var i = 0; i < listofparametersCount; i++) {
         //    if (listofparameters[i].length != 0) {
         for (i in listofparameters) {
-            parameters = listofparameters[i]
-            if (parameters instanceof Array) {
-                parameters = parameters[0]
-            };
+// jan 22
+              parameters = listofparameters[i]
+//            if (parameters instanceof Array) {
+//                parameters = parameters[0]
+//            };
+
             returnString += BuildSingleQuery(parameters, innerquerytype, preamble);
             if (returnString.lastIndexOf(',') !== (returnString.length - 1)) {
                 returnString += ",";
@@ -652,7 +678,7 @@
         } else {
             returnString += "]}";
         }
-
+        proxyprinttodiv('querywid buildmultiplequery end', returnString, 99);
         return returnString;
     }
 
@@ -703,6 +729,8 @@
         // set2 = formatlist(set2, "wid", "wid");
         set3.push(set1);
         set3.push(set2);
+        proxyprinttodiv('querywid queryafterrelationship set3', set3, 99);
+
         return BuildMultipleQuery(set3, 'and', 'or', null);
     }
     // Starting of relationShipQuery function

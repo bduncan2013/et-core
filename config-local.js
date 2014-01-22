@@ -180,6 +180,9 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
     } else {
         saveobject['metadata']['method'] = "";
     }
+    saveobject['metadata']['date'] = new Date();
+    proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
+    proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
 
 
 
@@ -488,7 +491,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     proxyprinttodiv('Function inboundobj', inboundobj, 30);
 
     var inlist = [];
-    var query;
+    var query=inboundobj;
     var outlist = [];
 
     function IsJsonString(str) {
@@ -508,20 +511,25 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     }
     proxyprinttodiv('Function inlist', inlist, 30);
 
+    // proxyprinttodiv('before IsJsonString', IsJsonString(inboundobj), 99);
+        if (IsJsonString(inboundobj)) {
+            query = JSON.parse(inboundobj);
+        }
 
-    if (IsJsonString(inboundobj)) {
-        query = JSON.parse(inboundobj);
-        proxyprinttodiv('Function query', query, 99);
-    }
+    proxyprinttodiv('Function query', query, 99);
 
     outlist = sift(query, inlist);
 
+    // if date exists , return in date descending order
     outlist = outlist.sort(function (aObj, bObj) {
-        var a = aObj["metadata"]["date"];
-        var b = bObj["metadata"]["date"];
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
+        // var a = aObj["metadata"]["date"];
+        // var b = bObj["metadata"]["date"];
+        // if (a < b) return -1;
+        // if (a > b) return 1;
+        // return 0;
+
+        // descending order
+        return bObj["metadata"]["date"] - aObj["metadata"]["date"];
     });
 
 

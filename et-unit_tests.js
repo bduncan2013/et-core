@@ -2047,6 +2047,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 		"wid": "song1"
 	}],
 	function (err, res) {
+		proxyprinttodiv('Function ag3 result ', res[4], 99);
 		res = logverify("ettestag3_result", res[4][0], {
 		"title": "Highway to Hell",
 		"wid": "song1",

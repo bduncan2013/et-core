@@ -1428,6 +1428,8 @@
                 } else {
                     saveobject['metadata']['method'] = "";
                 }
+                //saveobject['metadata']['date'] = new Date();
+                //proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 99);
 
 
 

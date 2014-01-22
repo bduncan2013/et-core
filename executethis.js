@@ -805,7 +805,7 @@
                         proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 17);
                         howallowexecute = false;
                         cbMapH(null, "How Iteration");
-                        console.log(' completed whatToDoList iteration in sync fashion.');
+                        //console.log(' completed whatToDoList iteration in sync fashion.');
 
 
                     });
