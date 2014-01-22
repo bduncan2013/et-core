@@ -107,12 +107,12 @@
     //             async.series({
     //                     one: step1n1,
     //                     check1: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1n1", "desc", true, "from parent1", 99, debugvars());
+    //                         debugfn("addcleanparameters after step1n1", "desc", true, "from parent1", 15, debugvars());
     //                         cbcheck("")
     //                     }, //LM
     //                     two: step1n2,
     //                     check2: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1n2", "desc", true, "from parent1", 99, debugvars());
+    //                         debugfn("addcleanparameters after step1n2", "desc", true, "from parent1", 15, debugvars());
     //                         cbcheck("")
     //                     }, //LM
 
@@ -162,17 +162,17 @@
     //             async.series({
     //                     one: step1n3,
     //                     check1: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1n3", "desc", true, "from parent1", 99, debugvars());
+    //                         debugfn("addcleanparameters after step1n3", "desc", true, "from parent1", 15, debugvars());
     //                         cbcheck("")
     //                     }, //LM
     //                     two: step1n4,
     //                     check2: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1n4", "desc", true, "from parent1", 99, debugvars());
+    //                         debugfn("addcleanparameters after step1n4", "desc", true, "from parent1", 15, debugvars());
     //                         cbcheck("")
     //                     }, //LM
     //                     three: step1n5,
     //                     check3: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1", "step1n5", true, "from parent1", 99, debugvars());
+    //                         debugfn("addcleanparameters after step1", "step1n5", true, "from parent1", 15, debugvars());
     //                         cbcheck("")
     //                     } //LM
     //                 },
@@ -263,9 +263,9 @@
 
     //     async.series({
     //             one: step1,
-    //             // check1: function (cbcheck){debugfn("addcleanparameters after step1", "desc", true, "from parent1", 99, debugvars());cbcheck("")}
+    //             // check1: function (cbcheck){debugfn("addcleanparameters after step1", "desc", true, "from parent1", 15, debugvars());cbcheck("")}
     //             check1: function (cbcheck) {
-    //                 debugfn("addcleanparameters after step1", "desc", true, "from parent1", 99, debugvars());
+    //                 debugfn("addcleanparameters after step1", "desc", true, "from parent1", 15, debugvars());
     //                 cbcheck("")
     //             } //LM
 
@@ -640,12 +640,12 @@
             return resultObj;
         }
 
-        proxyprinttodiv('Function addwidmaster() inputObject : I ', inputObject, 99);
+        proxyprinttodiv('Function addwidmaster() inputObject : I ', inputObject, 15);
 
             AddWidParameters(OutParameters, function (err, ret) {
                 AddedObject = ret;
 
-                    proxyprinttodiv('Function addwidmaster() AddedObject >>>  : I ', AddedObject, 99);
+                    proxyprinttodiv('Function addwidmaster() AddedObject >>>  : I ', AddedObject, 15);
                     debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     callback(err, ret);
             });
@@ -829,7 +829,7 @@
                     "Wid": Wid
                 };
 
-                proxyprinttodiv('Function AddWidParameters() Wid : I ', Wid, 99);
+                proxyprinttodiv('Function AddWidParameters() Wid : I ', Wid, 15);
                 debugfn("AddWidParameters", " final response after steps ", "add", "sub", debugcolor, debugindent, debugvars([1]));
 
                     callback(err, ret);
@@ -1442,6 +1442,9 @@
                 addtomongo(saveobject, function (err, results) {
                     proxyprinttodiv('Function updatewid in : x', results, 10);
                     callback(err, results);
+                    // debugfn("updatewid code generator", "updatewid", "add", "code", debugcolor, debugindent, {inputObject, results}, 4);
+                    //debugfn("updatewid code generator", "updatewid", "add", "code", debugcolor, debugindent, results, 4);
+
                 });
             }
         });

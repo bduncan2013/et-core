@@ -982,21 +982,23 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         var debugobjectlist = (arguments[6]) ? arguments[6] : {
             "data": "none"
         };
+        var indebugdest = arguments[7] || ""; // level
         var displaycolor = indebugcolor;
         var tempdebugname = (debugname != "") ? debugname : indebugname;
         var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
         var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
 
-        // proxyprinttodiv('arrived debugfn', arguments, 99);
-        // proxyprinttodiv('arrived debugname', debugname, 99);
-        // proxyprinttodiv('arrived debugcat', debugcat, 99);
-        // proxyprinttodiv('arrived debugsubcat', debugsubcat, 99);
-        // proxyprinttodiv('arrived indebugname', indebugname, 99);
-        // proxyprinttodiv('arrived indebugcat', indebugcat, 99);
-        // proxyprinttodiv('arrived indebugsubcat', indebugsubcat, 99);
-        // proxyprinttodiv('arrived tempdebugname', tempdebugname, 99);
-        // proxyprinttodiv('arrived tempdebugcat', tempdebugcat, 99);
-        // proxyprinttodiv('arrived tempdebugsubcat', tempdebugsubcat, 99);
+        proxyprinttodiv('arrived debugfn', arguments, 44);
+        proxyprinttodiv('arrived debugname', debugname, 44);
+        proxyprinttodiv('arrived debugcat', debugcat, 44);
+        proxyprinttodiv('arrived debugsubcat', debugsubcat, 44);
+        proxyprinttodiv('arrived indebugname', indebugname, 44);
+        proxyprinttodiv('arrived indebugcat', indebugcat, 44);
+        proxyprinttodiv('arrived indebugsubcat', indebugsubcat, 44);
+        proxyprinttodiv('arrived indebugdest', indebugdest, 44);
+        proxyprinttodiv('arrived tempdebugname', tempdebugname, 44);
+        proxyprinttodiv('arrived tempdebugcat', tempdebugcat, 44);
+        proxyprinttodiv('arrived tempdebugsubcat', tempdebugsubcat, 44);
 
         if (indebugname == tempdebugname && indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {
             processdebug = true
@@ -1007,6 +1009,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             processdebug = false
         }
         if (!processdebug) return;
+        if (!indebugdest) {indebugdest=debugdestination}
+        proxyprinttodiv('arrived debugname', debugname, 44);
 
         // If the color goes over 10, turn it back to black
         if (displaycolor > 10) displaycolor = 0;
@@ -1040,56 +1044,10 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             // only the 1,2 var
             break;
 
-        case 3:
-            // level
-            break;
 
-        case 4:
-            // level
-            break;
-
-        case 5:
-            // level
-            break;
-
-        case 6:
-            // level
-            break;
-
-        case 7:
-            // level
-            break;
-
-        case 8:
-            // level
-            break;
-
-        case 9:
-            // level
-            break;
-
-        case 10:
-            // level
-            break;
         }
-        // widfilter: outobject={debugobjectlist["wid"], debugobjectlist["dtotype"], debugobjectlist["method"]}
-
-        // go to html file be able to enter
-        // exports.debugname = debugname = "";
-        // exports.debugsubcat = debugsubcat = "";
-        // exports.debugcat = debugcat = "";
-        // exports.debugfilter= debugfilter = "all";
-        // exports.debugdestination= debugdestination = "print";
-
-
-        //      make color based on indebugindent
-        //          1: temp_HTML=temp_HTML+" "
-        //          2: 
-        //          3: 
-        //          
-        //          
-        //          
-        switch (debugdestination) // 1 for print, 2 for googlespreadsheets, 3 for both
+        
+        switch (indebugdest) // 1 for print, 2 for googlespreadsheets, 3 for both
         {
         case 1:
             dbug_print(indebugindent, displaycolor);
@@ -1103,7 +1061,89 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             dbug_print(indebugindent, displaycolor);
             store_to_google(indebugname, outobject);
             break;
+        case 4:
+            etlogresults(indebugname, outobject)
+            break;
+        case 5:
+            etcreatecode(indebugindent, displaycolor, indebugname);
+            break;
         }
+
+        function etlogresults(indebugname, outobject) {
+            // if (debuglog=={}) {
+            //     debuglog[indebugname]["inparm"]=[]
+            //     debuglog[indebugname]["outparm"]=[]            
+            // }
+
+            proxyprinttodiv('arrived debuglog', debuglog, 44);
+
+            if (!outobject){outobject={}}
+            if (outobject[0]===undefined) {outobject[0]={}}
+            if (outobject[1]===undefined) {outobject[1]={}}
+
+            var debugrecord = debuglog[indebugname];
+            if (!debugrecord) {
+                debugrecord={}
+                debuglog[indebugname]={}
+                }
+            var inparm=debugrecord["inparm"];
+            var outparm=debugrecord["outparm"];
+            if (!inparm) {
+                inparm=[]
+                debuglog[indebugname]["inparm"]=[]
+                }
+            if (!outparm) {
+                outparm=[]
+                debuglog[indebugname]["outparm"]=[]
+                }
+            inparm.push(outobject[0]);
+            outparm.push(outobject[1]);
+            debuglog[indebugname]["inparm"]=inparm;
+            debuglog[indebugname]["outparm"]=outparm;
+            //dbug_print(outobject, 2);
+            proxyprinttodiv('arrived debuglog end', debuglog, 44);
+        }
+
+        function etcreatecode(indebugindent, displaycolor, indebugname) {
+            proxyprinttodiv('debugfn end debuglog[indebugname]', debuglog[indebugname], 44);
+            proxyprinttodiv('debugfn end debuglog[indebugname]["inparm"]', debuglog[indebugname]["inparm"], 44);
+            proxyprinttodiv('debugfn end debuglog[indebugname]["outparm"]', debuglog[indebugname]["outparm"], 44);
+
+            var jsonPretty = JSON.stringify(debuglog, "-", 4);
+            var temp_HTML = "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indebugindent) + "em'>" +
+                            "function etmultipleunittest( <br>" + jsonPretty + ", callback<br>   );" + "</div>";
+            if (exports.environment === "local") {
+                $('#divprint').append(temp_HTML);
+            }
+        }
+
+
+// outhtml = "exports.ettestaaa = ettestaaaa = function ettestaaaaa(params, callback) {
+//     asynch([
+// "+
+// indebugname+"(
+//     {
+//         "c": "0",
+//         "d": "1",
+//         "e": "2"
+//     }
+// )
+//     ],
+//     function (err, res) {
+//         res = logverify("ettestaaa_result", res[0][0], 
+
+//         {
+//         "g": "4",
+//         "cer1": "booberry",
+//         "f": "3",
+//         "c": "0",
+//         "cer2": "booberry"
+//     }
+
+//     );
+//     callback(err, res);
+//     });
+// }
         function dbug_print(indent, displaycolor) {
 
             if (displaycolor == "") {

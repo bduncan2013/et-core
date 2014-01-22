@@ -8,6 +8,44 @@ exports.initdto = initdto = function initdto(params, callback) {
     execute([
 
             {
+                //create userdto
+                "executethis": "addwidmaster",
+                "metadata.method": "userdto",
+                "wid": "userdto",
+                "widname": "wid",
+                "fname": "string",
+                "lname": "string",
+                "email": "string",
+                "email2": "string",
+                "address": "string",
+                "address2": "string",
+                "city": "string",
+                "state": "string",
+                "zip": "string",
+                "systemdto": "onetomany"
+            }, {
+                //create testdto
+                "executethis": "addwidmaster",
+                "metadata.method": "testdto",
+                "wid": "testdto",
+                "a": "string",
+                "b": "string",
+                "systemdto": "onetomany"
+            }, {
+                //create systemdto
+                "executethis": "addwidmaster",
+                "metadata.method": "systemdto",
+                "wid": "systemdto",
+                "creator": "accounttype",
+                "expiration": "datetime",
+                "offlinerule": "string",
+                "onlinerule": "string",
+                "securitydto": "onetomany",
+                "balancedto": "onetomany",
+                "categorydto": "onetomany",
+                "groupdto": "onetomany",
+                "permissiondto": "onetomany",
+            }, {
                 // create groupdto
                 "executethis": "addwidmaster",
                 "metadata.method": "groupdto",
@@ -23,7 +61,7 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "accesstoken": "string",
                 "status": "integer"
             }, {
-                // create permissionsdto
+                // create permissiondto
                 "executethis": "addwidmaster",
                 "metadata.method": "permissiondto",
                 "wid": "permissiondto",
@@ -33,6 +71,7 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "dbgroup": "dbtype",
                 "levelgroup": "leveltype"
             }, {
+                //create categorydto
                 "executethis": "addwidmaster",
                 "metadata.method": "categorydto",
                 "wid": "categorydto",
@@ -46,42 +85,24 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "wid": "balancedto",
                 "widname": "wid",
                 "balance": "integer"
-            }, {
 
-                //create userdto
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "wid": "userdto",
-                "widname": "wid",
-                "fname": "string",
-                "lname": "string",
-                "email": "string",
-                "email2": "string",
-                "address": "string",
-                "address2": "string",
-                "city": "string",
-                "state": "string",
-                "zip": "string"
             }, {
+                // create relationships permissiondto
                 "executethis": "addwidmaster",
-                "metadata.method": "systemdto",
-                "wid": "systemdto",
-                "creator": "accounttype",
-                "expiration": "datetime",
-                "offlinerule": "string",
-                "onlinerule": "string",
-                "securitydto": "onetomany",
-                "balancedto": "onetomany",
-                "permissiondto": "onetomany",
-                "userdto": "onetomany"
+                "wid": "relsystemdto_userdto",
+                "metadata.method": "relationshipdto",
+                "primarywid": "userdto",
+                "secondarywid": "systemdto"
             }, {
+                // create relationships testdto
                 "executethis": "addwidmaster",
-                "metadata.method": "testdto",
-                "wid": "testdto",
-                "a": "string",
-                "b": "string",
-                "systemdto": "onetomany"
+                "wid": "relsystemdto_testdto",
+                "metadata.method": "relationshipdto",
+                "primarywid": "testdto",
+                "secondarywid": "systemdto"
+
             }, {
+                // create relationships permissiondto
                 "executethis": "addwidmaster",
                 "wid": "rel_systemdto_groupdto",
                 "metadata.method": "relationshipdto",
@@ -101,7 +122,7 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "primarywid": "systemdto",
                 "secondarywid": "securitydto"
             }, {
-                // create relationships permissionsdto
+                // create relationships permissiondto
                 "executethis": "addwidmaster",
                 "wid": "relsystemdto_permissiondto",
                 "metadata.method": "relationshipdto",
@@ -115,21 +136,6 @@ exports.initdto = initdto = function initdto(params, callback) {
                 "metadata.method": "relationshipdto",
                 "primarywid": "systemdto",
                 "secondarywid": "balancedto"
-
-            }, {
-                // create relationships permissionsdto
-                "executethis": "addwidmaster",
-                "wid": "relsystemdto_userdto",
-                "metadata.method": "relationshipdto",
-                "primarywid": "systemdto",
-                "secondarywid": "userdto"
-            }, {
-                // create relationships permissionsdto
-                "executethis": "addwidmaster",
-                "wid": "relsystemdto_testdto",
-                "metadata.method": "relationshipdto",
-                "primarywid": "systemdto",
-                "secondarywid": "testdto"
             }
         ],
         function (err, res) {
@@ -137,104 +143,55 @@ exports.initdto = initdto = function initdto(params, callback) {
         });
 }
 
-exports.inittestdata = inittestdata = function inittestdata(params, callback) {
-
-    execute([{
-            "executethis": "addwidmaster",
-            "metadata.method": "userdto",
-            "wid": "roger1",
-            "fname": "string",
-            "lname": "string",
-            "systemdto.categorydto.categorytype": "string",
-            "systemdto.categorydto.categoryname": ""
-
-        }, {
-            "executethis": "addwidmaster",
-            "metadata.method": "categorydto",
-            "wid": "cat1",
-            "categorytype": "testtype",
-            "categoryname": "testcatname"
-        }],
-        function (err, res) {
-            callback(err, res)
-        });
-}
-
-exports.testme = testme = function testme(params, callback) {
-
-    execute({
-            "systemdto.securitydto.security.logged_id": false,
-            "fname": "john",
-            "lname": "doe",
-            "email": "jj@gmail.com",
-            "email2": "",
-            "address": "123 pleasant lane",
-            "address2": "apt 101",
-            "city": "Pleasantville",
-            "state": "Florida",
-            "zip": "26534",
-            "userid": "user",
-            "wid": "userdto",
-            "metadata.method": "userdto"
-        },
-        function (err, res) {
-            callback(err, res)
-        });
-}
-
-
-
-function addAuthorizedData(callback) {
-    // add a authorizeduser userdto
-    addwidmaster({
-        "executethis": "addwidmaster",
-        "metadata.method": "userdto",
-        "wid": "authorizeduser",
-        "fname": "john",
-        "lname": "doe",
-        "email": "jj@gmail.com",
-        "email2": "",
-        "address": "123 pleasant lane",
-        "address2": "apt 101",
-        "city": "Pleasantville",
-        "state": "Florida",
-        "zip": "26534",
-        "userid": "authorized",
-        "systemdto.securitydto.logged_id": true,
-        "systemdto.securitydto.accesstoken": "111",
-        "status": "integer",
-        "systemdto": "onetomany"
-    }, callback);
-}
-
-function addUnauthorizedData(callback) {
-    // add a  unauthorizeduser userdto
-    addwidmaster({
-        "executethis": "addwidmaster",
-        "metadata.method": "userdto",
-        "wid": "unauthorizeduser",
-        "fname": "john",
-        "lname": "doe",
-        "email": "jj@gmail.com",
-        "email2": "",
-        "address": "123 pleasant lane",
-        "address2": "apt 101",
-        "city": "Pleasantville",
-        "state": "Florida",
-        "zip": "26534",
-        "userid": "unauthorized",
-        "systemdto.securitydto.logged_id": false,
-        "systemdto.securitydto.accesstoken": "000",
-        "systemdto": "onetomany"
-    }, callback);
-}
-
 exports.initdto1 = initdto1 = function initdto1(params, callback) {
 
+
     testclearstorage();
+    if (exports.environment === "local") {
+        clearLocalStorage();
+    }
     execute([
 
+
             {
+                //create userdto
+                "executethis": "addwidmaster",
+                "metadata.method": "userdto",
+                "wid": "userdto",
+                "widname": "wid",
+                "fname": "string",
+                "lname": "string",
+                "email": "string",
+                "email2": "string",
+                "address": "string",
+                "address2": "string",
+                "city": "string",
+                "state": "string",
+                "zip": "string",
+                "systemdto": "onetomany"
+            }, {
+                //create testdto
+                "executethis": "addwidmaster",
+                "metadata.method": "testdto",
+                "wid": "testdto",
+                "a": "string",
+                "b": "string",
+                "systemdto": "onetomany"
+            }, {
+                //create systemdto
+                "executethis": "addwidmaster",
+                "metadata.method": "systemdto",
+                "wid": "systemdto",
+                "creator": "accounttype",
+                "expiration": "datetime",
+                "offlinerule": "string",
+                "onlinerule": "string",
+                "securitydto": "onetomany",
+                "balancedto": "onetomany",
+                "categorydto": "onetomany",
+                "groupdto": "onetomany",
+                "permissiondto": "onetomany",
+            }, {
                 // create groupdto
                 "executethis": "addwidmaster",
                 "metadata.method": "groupdto",
@@ -250,7 +207,7 @@ exports.initdto1 = initdto1 = function initdto1(params, callback) {
                 "accesstoken": "string",
                 "status": "integer"
             }, {
-                // create permissionsdto
+                // create permissiondto
                 "executethis": "addwidmaster",
                 "metadata.method": "permissiondto",
                 "wid": "permissiondto",
@@ -260,19 +217,22 @@ exports.initdto1 = initdto1 = function initdto1(params, callback) {
                 "dbgroup": "dbtype",
                 "levelgroup": "leveltype"
             }, {
+                //create categorydto
                 "executethis": "addwidmaster",
                 "metadata.method": "categorydto",
                 "wid": "categorydto",
                 "categorytype": "string",
                 "categoryname": "categorytype"
             }, {
+
                 // create balancedto
                 "executethis": "addwidmaster",
                 "metadata.method": "balancedto",
                 "wid": "balancedto",
                 "widname": "wid",
                 "balance": "integer"
-            }
+
+            },
         ],
         function (err, res) {
             callback(err, res)
@@ -283,89 +243,62 @@ exports.initdto1 = initdto1 = function initdto1(params, callback) {
 exports.initdto2 = initdto2 = function initdto2(params, callback) {
 
     execute([{
+            // create relationships permissiondto
+            "executethis": "addwidmaster",
+            "wid": "relsystemdto_userdto",
+            "metadata.method": "relationshipdto",
+            "data.relationshiptype": "attributes",
+            "data.primarywid": "userdto",
+            "data.secondarywid": "systemdto"
+        }, {
+            // create relationships testdto
+            "executethis": "addwidmaster",
+            "wid": "relsystemdto_testdto",
+            "metadata.method": "relationshipdto",
+            "data.relationshiptype": "attributes",
+            "data.primarywid": "testdto",
+            "data.secondarywid": "systemdto"
 
-            //create userdto
-            "executethis": "addwidmaster",
-            "metadata.method": "userdto",
-            "wid": "userdto",
-            "widname": "wid",
-            "fname": "string",
-            "lname": "string",
-            "email": "string",
-            "email2": "string",
-            "address": "string",
-            "address2": "string",
-            "city": "string",
-            "state": "string",
-            "zip": "string"
         }, {
-            "executethis": "addwidmaster",
-            "metadata.method": "systemdto",
-            "wid": "systemdto",
-            "creator": "accounttype",
-            "expiration": "datetime",
-            "offlinerule": "string",
-            "onlinerule": "string",
-            "securitydto": "onetomany",
-            "balancedto": "onetomany",
-            "permissiondto": "onetomany",
-            "userdto": "onetomany"
-        }, {
-            "executethis": "addwidmaster",
-            "metadata.method": "testdto",
-            "wid": "testdto",
-            "a": "string",
-            "b": "string",
-            "systemdto": "onetomany"
-        }, {
+            // create relationships permissiondto
             "executethis": "addwidmaster",
             "wid": "rel_systemdto_groupdto",
             "metadata.method": "relationshipdto",
-            "primarywid": "systemdto",
-            "secondarywid": "groupdto"
+            "data.relationshiptype": "attributes",
+            "data.primarywid": "systemdto",
+            "data.secondarywid": "groupdto"
         }, {
             "executethis": "addwidmaster",
             "wid": "rel_systemdto_categorydto",
             "metadata.method": "relationshipdto",
-            "primarywid": "systemdto",
-            "secondarywid": "categorydto"
+            "data.relationshiptype": "attributes",
+            "data.primarywid": "systemdto",
+            "data.secondarywid": "categorydto"
         }, {
             // create relationships securitydto
             "executethis": "addwidmaster",
             "wid": "relsystemdto_securitydto",
             "metadata.method": "relationshipdto",
-            "primarywid": "systemdto",
-            "secondarywid": "securitydto"
+            "data.relationshiptype": "attributes",
+            "data.primarywid": "systemdto",
+            "data.secondarywid": "securitydto"
         }, {
-            // create relationships permissionsdto
+            // create relationships permissiondto
             "executethis": "addwidmaster",
             "wid": "relsystemdto_permissiondto",
             "metadata.method": "relationshipdto",
-            "primarywid": "systemdto",
-            "secondarywid": "permissiondto"
+            "data.relationshiptype": "attributes",
+            "data.primarywid": "systemdto",
+            "data.secondarywid": "permissiondto"
 
         }, {
             // create relationships statusdto
             "executethis": "addwidmaster",
             "wid": "relsystemdto_balancedto",
             "metadata.method": "relationshipdto",
-            "primarywid": "systemdto",
-            "secondarywid": "balancedto"
-
-        }, {
-            // create relationships permissionsdto
-            "executethis": "addwidmaster",
-            "wid": "relsystemdto_userdto",
-            "metadata.method": "relationshipdto",
-            "primarywid": "systemdto",
-            "secondarywid": "userdto"
-        }, {
-            // create relationships permissionsdto
-            "executethis": "addwidmaster",
-            "wid": "relsystemdto_testdto",
-            "metadata.method": "relationshipdto",
-            "primarywid": "systemdto",
-            "secondarywid": "testdto"
+            "data.relationshiptype": "attributes",
+            "data.primarywid": "systemdto",
+            "data.secondarywid": "balancedto"
         }],
         function (err, res) {
             callback(err, res)
@@ -384,59 +317,83 @@ exports.initdto2 = initdto2 = function initdto2(params, callback) {
 // however we try to access it (using getwidmaster) using admin group user
 exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
 
+
     // initdto1({}, function (err, res) {
 
 
     //     initdto2({}, function (err, res) {
 
-            async.series([
-                    function (cb) {
-                        createuser("authuser1", "abcd1234abcd1234abcd1234abcd1234", "1", cb);
-                    },
-                    function (cb) {
-                        creategroup("authuser1", "admins", "admin", cb);
-                    },
-                    function (cb) {
-                        createpermission("authuser1", "admin", "admin", "getwidmaster", "db", "1", cb);
-                    },
-                    function (cb) {
-                        createtestaction("stuff1", "", cb); //widname,owner,grantee,action,cb
-                    },
-                    function (cb) {
-                        createpermission("stuff1", "staff", "staff", "getwidmaster", "db", "1", cb);
-                    },
-                    function (cb) {
-                        creategroup("authuser1", "staff", "staff", cb);
-                    }
-                ],
-                function (err, res) {
-                    console.log('created 3 users for user, assigned groups ');
-                    var etenvironment = {
-                        "ac": "abcd1234abcd1234abcd1234abcd1234",
-                        "action": "getwidmaster",
-                        // "account": "admin",
-                        "account": "staff",
-                        "db": "db"
-                    };
-
-                    var commandobject = {
-                        "executemethod": 'execute',
-                        "excutefilter": 'addwid',
-                        'executeorder': 'series',
-                        'executelimit': '15'
-                    };
-
-                    var request1 = {
-                        "etenvironment": etenvironment,
-                        "command": commandobject,
-                        "executethis": "getwidmaster",
-                        "wid": "stuff1"
-                    };
-
-                    // perform request with unuthorized user 
-                    // (user in a seperate group not having permissions to do a getwidmaster on stuff1)
-                    execute(request1, callback);
+    async.series([
+            function (cb) {
+                createuser("authuser1", "abcd1234abcd1234abcd1234abcd1234", "1", "staff", "staff", "getwidmaster", "db", "1", function (err, res) {
+                    cb(null, "");
                 });
+            },
+            // function (cb) {
+            //     creategroup("userdto", "admins", "staff", function (err, res) {
+            //         cb(null, "");
+            //     });
+            // },
+            // function (cb) {
+            //     createpermission("userdto", "staff", "staff", "getwidmaster", "db", "1", function (err, res) {
+            //         cb(null, "");
+            //     });
+            // },
+            function (cb) {
+                createtestaction("stuff1", "authuser1", function (err, res) {
+                    cb(null, "");
+                }); //widname,owner,grantee,action,cb
+            },
+            // function (cb) {
+            //     createpermission("stuff1", "staff", "staff", "getwidmaster", "db", "1", function (err, res) {
+            //         cb(null, "");
+            //     });
+            // },
+            // function (cb) {
+            //     creategroup("userdto", "staff", "staff", function (err, res) {
+            //         cb(null, "");
+            //     });
+            // },
+            function (cb) {
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": "authuser1"
+                }, function (err, res) {
+                    console.log(' >>> final response >>> ' + JSON.stringify(res))
+                    cb(null);
+                });
+            }
+        ],
+        function (err, res) {
+            console.log('created 3 users for user, assigned groups ');
+            var etenvironment = {
+                "ac": "abcd1234abcd1234abcd1234abcd1234",
+                "action": "getwidmaster",
+                // "account": "admin",
+                "account": "staff",
+                "db": "db"
+            };
+
+            var commandobject = {
+                "executemethod": 'execute',
+                "excutefilter": '',
+                'executeorder': 'series',
+                'executelimit': '15'
+            };
+
+            var request1 = {
+                "etenvironment": etenvironment,
+                "command": commandobject,
+                "executethis": "getwidmaster",
+                "wid": "stuff1"
+            };
+
+            // perform request with unuthorized user 
+            // (user in a seperate group not having permissions to do a getwidmaster on stuff1)
+            execute(request1, function (err, resp) {
+                console.log(" >>>>>> response from access to stuff 1 >>>>>  ");
+            });
+        });
     //     });
     // });
 }
@@ -446,56 +403,24 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
 // however we try to access it (using getwidmaster) using admin group user
 exports.etauth1 = etauth1 = function etauth1(params, callback) {
 
-    testclearstorage();
+    clearLocalStorage();
 
-    async.series([
-            function (cb) {
-                createuser("authuser1", "abcd1234abcd1234abcd1234abcd1234", "1", cb);
-            },
-            function (cb) {
-                creategroup("authuser1", "admins", "admin", cb);
-            },
-            function (cb) {
-                createpermission("authuser1", "admin", "admin", "admin", "db", "1", cb);
-            },
-            function (cb) {
-                createtestaction("stuff1", "", cb); //widname,owner,grantee,action,cb
-            },
-            function (cb) {
-                createpermission("stuff1", "staff", "staff", "getwidmaster", "db", "1", cb);
-            },
-            function (cb) {
-                creategroup("authuser3", "staff", "staff", cb);
-            }
-        ],
+
+    execute([{
+            "executethis": "initdto1"
+        }, {
+            "executethis": "initdto2"
+        }, {
+            "executethis": "etauthtest1"
+        }],
         function (err, res) {
             console.log('created user, test data, assigned groups ');
 
-            var etenvironment = {
-                "ac": "abcd1234abcd1234abcd1234abcd1234",
-                "action": "getwidmaster",
-                // "account": "admin",
-                "account": "staff",
-                "db": "db"
-            };
-
-            // add environment
-            executetest("addwidmaster", {
-                "wid": "environment",
-                "environment": etenvironment
-            }, "", "");
-
-            // get stuff1 using getwidmaster
-            // perform request with unuthorized user 
-            // (user in a seperate group not having permissions to do a getwidmaster on stuff1)
-            executetest("getwidmaster", {
-                "wid": "stuff1"
-            }, "", "");
 
         });
 }
 
-exports.createuser = createuser = function createuser(userwid, ac, loginlevel, cb1) {
+exports.createuser = createuser = function createuser(userwid, ac, loginlevel, granteegroup, actiongroup, targetgroup, dbgroup, levelgroup, cb1) {
     execute([{
             // add user 
             "executethis": "addwidmaster",
@@ -513,26 +438,26 @@ exports.createuser = createuser = function createuser(userwid, ac, loginlevel, c
             "zip": "26534",
             "userid": "authorized",
             "status": "integer",
-            "systemdto": "onetomany",
+            // "systemdto": "onetomany",
             // security data 
-            "systemdto.securitydto.logged_id": true,
+            "systemdto.securitydto.logged_id": "true",
             "systemdto.securitydto.accesstoken": ac,
             "systemdto.securitydto.level": loginlevel,
             // permissions data 
-            // "systemdto.permissionsdto.granteegroup": "admin",
-            // "systemdto.permissionsdto.actiongroup": "getwidmaster",
-            // "systemdto.permissionsdto.targetgroup": "admin",
-            // "systemdto.permissionsdto.dbgroup": "test",
-            // "systemdto.permissionsdto.levelgroup": "",
+            "systemdto.permissiondto.granteegroup": "staff",
+            "systemdto.permissiondto.actiongroup": "getwidmaster",
+            "systemdto.permissiondto.targetgroup": "staff",
+            "systemdto.permissiondto.dbgroup": "db",
+            "systemdto.permissiondto.levelgroup": "1",
             // group data 
-            "systemdto.groupdto.groupname": "admins",
-            "systemdto.groupdto.grouptype": "admin",
+            "systemdto.groupdto.groupname": "staff",
+            "systemdto.groupdto.grouptype": "staff",
             // category data
             "systemdto.categorydto.categorytype": "string",
             "systemdto.categorydto.categoryname": "testcatname"
         }],
         function (err, res) {
-            console.log('created userdto for user ' + userwid);
+            console.log('created userdto for user ' + JSON.stringify(res));
             cb1(err, res)
         });
 }
@@ -547,8 +472,7 @@ exports.creategroup = creategroup = function creategroup(userwid, groupname, gro
             "grouptype": grouptype,
             "wid": "admingroup",
             "systemdto": "onetomany",
-            // group data 
-            "systemdto.userdto.wid": userwid
+
         },
         function (err, res) {
             console.log('created groupname for user ' + groupname);
@@ -556,37 +480,141 @@ exports.creategroup = creategroup = function creategroup(userwid, groupname, gro
         });
 }
 
-exports.createpermission = createpermission = function createpermission(userwid, granteegroup, actiongroup, targetgroup, dbgroup, levelgroup, callback) {
-    execute({
-            // update user 
-            "executethis": "addwidmaster",
-            "metadata.method": "permissiondto",
-            "metadata.owner": "system",
-            "wid": "getwidmasterpermission",
-            "granteegroup": granteegroup,
-            "levelgroup": levelgroup,
-            "dbgroup": dbgroup,
-            "targetgroup": targetgroup,
-            "systemdto": "onetomany",
-            "systemdto.userdto.wid": userwid
-            // group data 
-        },
-        function (err, res) {
-            console.log('created groupname for user ' + groupname);
-            callback(err, res)
-        });
-}
+// exports.createpermission = createpermission = function createpermission(userwid, granteegroup, actiongroup, targetgroup, dbgroup, levelgroup, callback) {
+//     execute({
+//             // update user 
+//             "executethis": "addwidmaster",
+
+//             "wid": userwid
+//             // group data 
+//         },
+//         function (err, res) {
+//             // console.log('created groupname for user ' + groupname);
+//             callback(err, res)
+//         });
+// }
 
 exports.createtestaction = createtestaction = function createtestaction(widname, owner, callback) {
     execute([{
             // add test data -- stuff
             "executethis": "addwidmaster",
-            "metadata.method": widname,
+            // "metadata.method": "testdto",
             "metadata.owner": owner,
-            "wid": widname
+            "wid": widname,
+            // permissions data 
+            "systemdto.permissiondto.granteegroup": "staff",
+            "systemdto.permissiondto.actiongroup": "getwidmaster",
+            "systemdto.permissiondto.targetgroup": "staff",
+            "systemdto.permissiondto.dbgroup": "db",
+            "systemdto.permissiondto.levelgroup": "1"
         }],
         function (err, res) {
-            console.log('created testdata for data --  ' + widname);
+            console.log('created testdata for data --  ' + JSON.stringify(res));
             callback(err, res)
         });
+}
+
+
+// createuser(userwid, ac, securitylevel )
+// createwid(wid, owneruserwid, securitylevel)
+// addgrouptowid(wid, groupwid)
+// addpermission(userwid, usergroup, actiongroup, targertgroup, databasegroup, level)
+// testsecurity(ac, action, target, database, expectation)
+
+exports.test1000 = test1000 = function 1000(parm, callback) {
+
+// create users
+// creates wids
+// we put users and put wids into groups
+// we create actiongroups, targetroups, 
+// we put groups insdie of groups
+// we add permissions
+// we test
+    createuser("rogeruser", "rogerac", 99);
+    createuser("codyuser", "codyac", 99);
+    addpermission("rogeruser","codyuser","executethis","createcoupon", "data", 50)
+    testsecurity("codyac", "executethis", "createcoupon", "data", true);
+
+
+    addgrouptowid("codyuser","driemployeegroup")
+    addpermission("rogeruser","driemployeegroup","executethis","createcoupon", "data", 50)
+    testsecurity("codyac", "executethis", "createcoupon", "data", true);
+
+    addgrouptowid("anything","createcoupon")
+    testsecurity("codyac", "executethis", "createcoupon", "data", true);
+}
+
+// roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 99 so this should work.
+exports.test1001 = test1001 = function test1001(params, callback){
+
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
+	testsecurity("codyac", "executethis", "createcoupon", "data", true");
+
+}
+
+// roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 0 so this should fail.
+exports.test1002 = test1002 = function test1002(params, callback){
+
+	createuser("codyuser", "codyac", 0);
+	createuser("rogeruser", "rogerac", 99);
+	addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
+	testsecurity("codyac", "executethis", "createcoupon", "data", false");
+
+}
+
+// cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should be able to create a datawid.
+exports.test1003 = test1003 = function test1003(params, callback){
+
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	
+	addpermission("rogeruser", "driemployeesgroup", "executethis", "createdatawid", "data", 50);
+	testsecurity("codyac", "executethis", "createdatawid", "data", true");
+
+}
+
+// cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should not be able to create a datawid as his security level is too low.
+exports.test1003 = test1003 = function test1003(params, callback){
+
+	createuser("codyuser", "codyac", 0);
+	createuser("rogeruser", "rogerac", 99);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	
+	addpermission("rogeruser", "driemployeesgroup", "executethis", "createdatawid", "data", 50);
+	testsecurity("codyac", "executethis", "createdatawid", "data", false");
+
+}
+
+// drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
+exports.test1003 = test1003 = function test1003(params, callback){
+
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	createuser("billuser", "billac", 99);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	addgrouptowid("billuser", "drimanagersgroup");
+	addgrouptowid("rogeruser", "drimanagersgroup");
+	addgrouptowid("drimanagersgroup", "driemployeesgroup");
+	
+	addpermission("codyuser", "drimanagersgroup", "executethis", "editcoupon", "data", 50);
+	testsecurity("billac", "executethis", "createdatawid", "data", true");
+
+}
+
+// drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
+exports.test1003 = test1003 = function test1003(params, callback){
+
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	createuser("billuser", "billac", 99);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	addgrouptowid("billuser", "drimanagersgroup");
+	addgrouptowid("rogeruser", "drimanagersgroup");
+	
+	addpermission("codyuser", "drimanagersgroup", "executethis", "editcoupon", "data", 50);
+	testsecurity("billac", "executethis", "createdatawid", "data", true");
+
 }

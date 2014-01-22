@@ -20,7 +20,7 @@
 
                 getfrommongo(inputWidgetObject, function (err, results) {
                     var outobject = {};
-                    if (results && countKeys(results) > 0) {
+                    if (results && (Object.keys(results).length > 0) {
                         if (results["data"]) {
                             outobject = results["data"];
                         }
@@ -31,7 +31,7 @@
                             outobject['wid'] = "";
                         }
 
-                        if (results['metadata']) {
+                        if (results['metadata']) { // note date will not come back
                             outobject['metadata.method'] = results['metadata']['method'];
                         } else {
                             outobject['metadata.method'] = "";
