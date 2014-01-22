@@ -521,131 +521,130 @@ exports.createtestaction = createtestaction = function createtestaction(widname,
 // addpermission(userwid, usergroup, actiongroup, targertgroup, databasegroup, level)
 // testsecurity(ac, action, target, database, expectation)
 
-exports.test1000 = test1000 = function test1000(parm, callback) {
+exports.test1000 = test1000 = function 1000(parm, callback) {
 
-    // create users
-    // creates wids
-    // we put users and put wids into groups
-    // we create actiongroups, targetroups, 
-    // we put groups insdie of groups
-    // we add permissions
-    // we test
+// create users
+// creates wids
+// we put users and put wids into groups
+// we create actiongroups, targetroups, 
+// we put groups insdie of groups
+// we add permissions
+// we test
     createuser("rogeruser", "rogerac", 99);
     createuser("codyuser", "codyac", 99);
-    addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50)
+    addpermission("rogeruser","codyuser","executethis","createcoupon", "data", 50)
     testsecurity("codyac", "executethis", "createcoupon", "data", true);
 
 
-    addgrouptowid("codyuser", "driemployeegroup")
-    addpermission("rogeruser", "driemployeegroup", "executethis", "createcoupon", "data", 50)
+    addgrouptowid("codyuser","driemployeegroup")
+    addpermission("rogeruser","driemployeegroup","executethis","createcoupon", "data", 50)
     testsecurity("codyac", "executethis", "createcoupon", "data", true);
 
-    addgrouptowid("anything", "createcoupon")
+    addgrouptowid("anything","createcoupon")
     testsecurity("codyac", "executethis", "createcoupon", "data", true);
 }
 
 // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 99 so this should work.
-exports.test1001 = test1001 = function test1001(params, callback) {
+exports.test1001 = test1001 = function test1001(params, callback){
 
-    createuser("codyuser", "codyac", 99);
-    createuser("rogeruser", "rogerac", 99);
-    addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
-    testsecurity("codyac", "executethis", "createcoupon", "data", true);
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
+	testsecurity("codyac", "executethis", "createcoupon", "data", true");
 
 }
 
 // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 0 so this should fail.
-// exports.test1002 = test1002 = function test1002(params, callback) {
+exports.test1002 = test1002 = function test1002(params, callback){
 
-//     createuser("codyuser", "codyac", 0);
-//     createuser("rogeruser ", "
-//         rogerac ", 99);
-//     addpermission("
-//         rogeruser ", "
-//         codyuser ", "
-//         executethis ", "
-//         createcoupon ", "
-//         data ", 50);
-//     testsecurity("
-//         codyac ", "
-//         executethis ", "
-//         createcoupon ", "
-//         data ", false);
+	createuser("codyuser", "codyac", 0);
+	createuser("rogeruser", "rogerac", 99);
+	addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
+	testsecurity("codyac", "executethis", "createcoupon", "data", false");
 
-// }
+}
 
-// // cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should be able to create a datawid.
-// exports.test1003 = test1003 = function test1003(params, callback) {
+// cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should be able to create a datawid.
+exports.test1003 = test1003 = function test1003(params, callback){
 
-//     createuser("codyuser", "codyac", 99);
-//     createuser("rogeruser", "rogerac", 99);
-//     addgrouptowid("codyuser", "driemployeesgroup");
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	
+	addpermission("rogeruser", "driemployeesgroup", "executethis", "createdatawid", "data", 50);
+	testsecurity("codyac", "executethis", "createdatawid", "data", true");
 
-//     addpermission("rogeruser", "driemployeesgroup", "executethis", "createdatawid", "data", 50);
-//     testsecurity("codyac", "executethis", "createdatawid", "data", true);
+}
 
-// }
+// cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should not be able to create a datawid as his security level is too low.
+exports.test1003 = test1003 = function test1003(params, callback){
 
-// // cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should not be able to create a datawid as his security level is too low.
-// exports.test1003 = test1003 = function test1003(params, callback) {
+	createuser("codyuser", "codyac", 0);
+	createuser("rogeruser", "rogerac", 99);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	
+	addpermission("rogeruser", "driemployeesgroup", "executethis", "createdatawid", "data", 50);
+	testsecurity("codyac", "executethis", "createdatawid", "data", false");
 
-//     createuser("codyuser", "codyac ", 0);
-//     createuser("rogeruser", "rogerac ", 99);
-//     addgrouptowid("codyuser", "driemployeesgroup ");
+}
 
-//     addpermission("rogeruser", "driemployeesgroup", "executethis", "createdatawid", "data", 50);
-//     testsecurity("codyac", "executethis", "createdatawid", "data", false);
+// drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
+exports.test1003 = test1003 = function test1003(params, callback){
 
-// }
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	createuser("billuser", "billac", 99);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	addgrouptowid("billuser", "drimanagersgroup");
+	addgrouptowid("rogeruser", "drimanagersgroup");
+	addgrouptowid("drimanagersgroup", "driemployeesgroup");
+	
+	addpermission("codyuser", "drimanagersgroup", "executethis", "editcoupon", "data", 50);
+	testsecurity("billac", "executethis", "createdatawid", "data", true");
 
-// // drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
-// exports.test1003 = test1003 = function test1003(params, callback) {
+}
 
-//     createuser("codyuser", "codyac", 99);
-//     createuser("rogeruser", "rogerac", 99);
-//     createuser("billuser", "billac", 99);
-//     addgrouptowid("codyuser", "driemployeesgroup");
-//     addgrouptowid("billuser", "drimanagersgroup");
-//     addgrouptowid("rogeruser", "drimanagersgroup");
-//     addgrouptowid("drimanagersgroup", "driemployeesgroup");
+// drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill shouldn't be able to edit Cody's coupons (his security level is too low).
+exports.test1004 = test1004 = function test1004(params, callback){
 
-//     addpermission("codyuser", "drimanagersgroup", "executethis", "editcoupon", "data", 50);
-//     testsecurity("billac", "executethis", "createdatawid", "data", true);
+	createuser("codyuser", "codyac", 0);
+	createuser("rogeruser", "rogerac", 99);
+	createuser("billuser", "billac", 50);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	addgrouptowid("billuser", "drimanagersgroup");
+	addgrouptowid("rogeruser", "drimanagersgroup");
+	addgrouptowid("drimanagersgroup", "driemployeesgroup");
+	
+	addpermission("codyuser", "drimanagersgroup", "executethis", "editcoupon", "data", 50);
+	testsecurity("billac", "executethis", "createdatawid", "data", false");
 
-// }
+}
 
-// // drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
-// exports.test1003 = test1003 = function test1003(params, callback) {
+// driemployees is a member of driusers. cody is a member of driemployees. permission is given to driusers to edit coupons by roger. cody should be able to edit coupons
+exports.test1005 = test1005 = function test1005(params, callback){
 
-//     createuser("
-//         codyuser ", "
-//         codyac ", 99);
-//     createuser("
-//         rogeruser ", "
-//         rogerac ", 99);
-//     createuser("
-//         billuser ", "
-//         billac ", 99);
-//     addgrouptowid("
-//         codyuser ", "
-//         driemployeesgroup ");
-//     addgrouptowid("
-//         billuser ", "
-//         drimanagersgroup ");
-//     addgrouptowid("
-//         rogeruser ", "
-//         drimanagersgroup ");
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	addgrouptowid("codyuser", "driemployees");
+	addgrouptowid("drimemployees", "driusers");
+	
+	addpermission("rogerac", "driusers", "executethis", "createloyalty", "data", 50);
+	testsecurity("codyac", "executethis", "createdatawid", "data", true");
 
-//     addpermission("
-//         codyuser ", "
-//         drimanagersgroup ", "
-//         executethis ", "
-//         editcoupon ", "
-//         data ", 50);
-//     testsecurity("
-//         billac ", "
-//         executethis ", "
-//         createdatawid ", "
-//         data ", true);
+}
 
-// }
+// drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill shouldn't be able to edit Cody's coupons (his security level is too low).
+exports.test1006 = test1006 = function test1006(params, callback){
+
+	createuser("codyuser", "codyac", 99);
+	createuser("rogeruser", "rogerac", 99);
+	createuser("billuser", "billac", 50);
+	addgrouptowid("codyuser", "driemployeesgroup");
+	addgrouptowid("billuser", "drimanagersgroup");
+	addgrouptowid("rogeruser", "drimanagersgroup");
+	addgrouptowid("drimanagersgroup", "driemployeesgroup");
+	
+	addpermission("codyuser", "drimanagersgroup", "executethis", "editcoupon", "data", 50);
+	testsecurity("billac", "executethis", "createdatawid", "data", true");
+
+}

@@ -972,7 +972,7 @@
                 targetfn = execute;
                 executeflag = true; // so caller gets wid and then executes with the results
                 //params = {};
-                params["executethis"] = "getwid";
+                params["executethis"] = "getwidmaster";
                 params["wid"] = whatToDo;
 
                 // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) { 

@@ -57,14 +57,17 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
         debugon = true;
         debugname = "";
         debugsubcat = "";
-        debugcat = "mongoquery";
+        debugcat = "mongoquerycode";
         debugfilter = "";
         debugdestination = 1;
         debuglevel=30;
     }
-    debuglevel=17;
+    //debuglevel=17;
     /* adding wids */
     testclearstorage();
+        debugname = "updatewid";
+        debugsubcat = "code";
+        debugcat = "add";
     var addList = [
         {"executethis":"updatewid", "metadata.method": "colordto", "wid": "colordto", "hue": "string", "sat": "string"},
         {"executethis":"updatewid", "metadata.method": "colordto", "wid": "color1", "hue": "red", "sat": "red-sat"},
@@ -91,6 +94,13 @@ exports.mttest4 = mttest4 = function mttest4(params, callback){
    var mongosinglequerytests = false;
    var mongomultiplequerytests = false;
    var relationshiptests = true;
+
+    debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+        debugname = "";
+        debugsubcat = "";
+        debugcat = "";
+
+   
    
     /* mongo raw queries */
     if(mongorawquerytests){

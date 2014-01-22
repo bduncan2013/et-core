@@ -4,7 +4,7 @@
 
 (function (window) {
 
-    
+
 
     exports.securitycheck = securitycheck = function securitycheck(accesstoken, account, action, db, callback) {
         proxyprinttodiv('Function securityCheck() in : ', 'before');
@@ -118,10 +118,10 @@
                 callback(err, ret);
             }
         });
-        if (exports.environment === "local") {
-            while (ret === undefined) {}
-            return ret;
-        }
+        // if (exports.environment === "local") {
+        //     while (ret === undefined) {}
+        //     return ret;
+        // }
     }
 
     // get all the groupdto wids for a given wid
@@ -227,28 +227,35 @@
         // console.log(">>>>> env >>> "+ JSON.stringify(inboundparams['etenvironment']));
         if (!inboundparams['etenvironment']) {
             environment = {};
-            environment['ac'] ='111111111';
-            environment['account'] = '222222222';//set account to account of ac if no account
+            environment['ac'] = '111111111';
+            environment['account'] = '222222222'; //set account to account of ac if no account
             environment['db'] = 'data';
-            environment['action'] ='getwid';
-        }else{
+            environment['action'] = 'getwid';
+        } else {
             environment = extend(true, environment, inboundparams['etenvironment']);
-        } 
+        }
 
         delete inboundparams['etenvironment'];
 
         var accesstoken = environment['ac'];
-        var account = environment['account'];//set account to account of ac if no account
+        var account = environment['account']; //set account to account of ac if no account
         var db = environment['db'];
         var action = environment['action'];
 
-        if(accesstoken && accesstoken !== '111111111'){
-           // actual security check
-           securitycheck(accesstoken, account, action, db, callback);
-        }else{
+        if (accesstoken && accesstoken !== '111111111') {
+            // actual security check
+            securitycheck(accesstoken, account, action, db, callback);
+        } else {
             // fake security check
             callback(null, true);
         }
     }
 
+
+
+    exports.sec1 = sec1 = function sec1() {
+        securitycheck("abcd1234abcd1234abcd1234abcd1234", "staff", "getwidmaster", "db", function(err,res){
+            alert(res);
+        });
+    }
 })(typeof window == "undefined" ? global : window);
