@@ -109,8 +109,8 @@ exports.bootprocess = bootprocess = function bootprocess() {
 function setappinstallparm() {}
 
 function setdefaultparm() {
-    testclearstorage();
-    clearLocalStorage();
+//    testclearstorage();  // commented by Jason, please don't clear local storage everytime.
+//    clearLocalStorage();  // as it severely hinders testing
     exports.config = config = config123();
     Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
     debuglevel = 0;
