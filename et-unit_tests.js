@@ -1089,7 +1089,7 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
 		"e": "2"
 	};
 
-	w = extend(z,{"configuration": x});
+	w = extend(true, z, {"configuration": x});
 		
 	execute([
 		w
@@ -1101,8 +1101,9 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
 		"g": "4"
 	});
 
-	var y = extend(config);
-	config = extend(config,x);
+	var y;
+	extend(true, y, config);
+	extend(ture, config, x);
 
 	execute([
 		z
@@ -1319,7 +1320,7 @@ exports.tmp1 = tmp1 = function tmp1(params, callback) {
 		"e": "2"
 	}
 
-	w = extend(z,{"configuration": x});
+	w = extend(true, z, {"configuration": x});
 
 	execute([
 		w
@@ -1399,7 +1400,7 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
 		{"executethis": "fire_c"}
 		];
 
-	w = extend(z,{"configuration": x});
+	w = extend(true, z, {"configuration": x});
 
 	execute([
 		w
@@ -1521,7 +1522,7 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
 		"e": "2"
 	};
 
-	w = extend(z,{"configuration": x});
+	w = extend(true, z, {"configuration": x});
 
 	execute([
 		w

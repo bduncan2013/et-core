@@ -104,6 +104,7 @@
                     }
 
                     dothisprocessor(midResults, 'postexecute', function (err, postResults) {
+                        var overallError;
                         console.log(' after postexecute >> ' + nonCircularStringify(postResults));
                         //if (preResults instanceof Array) {postResults=postResults[0]};
                         if (postResults !== false && (!postResults))

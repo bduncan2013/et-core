@@ -129,7 +129,7 @@ function getwidobject(wid, convertMethod, dtotype, callback) {
 //
 exports.converttoDRIstd = converttoDRIstd = function converttoDRIstd (inputObject) {
     var db="data"
-    inputObject=ConvertFromDOTdri(inputObject);
+    inputObject = ConvertFromDOTdri(inputObject);
     for (var e in inputObject) { // any parameters not in a data object parm
         if ((inputObject[e]!=="metadata")||(inputObject[e]!==db)||
             (inputObject[e]!=="onetomany")||(inputObject[e]!=="onetooone")){
@@ -146,8 +146,8 @@ exports.convertfromDRIstd = convertfromDRIstd = function convertfromDRIstd (para
     var db="data"
     var dbobject = parameters[db]; // work with "data" object
     for (var e in dbobject) { // any parameters not in a data object parm
-        if (e==db) {parameters=extend(parameters, convertfromDRIstd(dbobject[e]))} // note this should never happen
-        parameters[e]=extend(parameters[e], dbobject[e]); // append to root level
+        if (e == db) { extend(true, parameters, convertfromDRIstd(dbobject[e]))} // note this should never happen
+            extend(true, parameters[e], dbobject[e]); // append to root level
         }
     delete parameters[db];
     parameters=ConvertToDOTdri(parameters);

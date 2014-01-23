@@ -115,7 +115,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     // Utility function to cleanup mentioned attr:val pairs from JSON passed in
     exports.cleanupParameters = cleanupParameters = function cleanupParameters(inboundParameters, paramsToClean) {
-        var clonedObject = {};
+        var outBoundParameters;
+
         extend(true, outBoundParameters, inboundParameters); // clone received params
 
         for (var i = 0; i < paramsToClean.length; i++) {
@@ -128,13 +129,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     // utility function to merge two JSON objects
     exports.mergeParameters = mergeParameters = function mergeParameters(c1, c2) {
-        var clonedObject = {};
+        var mergedMap;
+
         extend(true, mergedMap, c1); // clone received params
 
         for (var attr in c2) {
             mergedMap[attr] = c2[attr];
         }
-
 
         return mergedMap;
     };
