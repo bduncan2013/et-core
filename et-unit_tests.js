@@ -1,3 +1,48 @@
+// List of tests:
+// ettestt1 
+// ettestt2
+// ettestt3
+// ettestt3a
+// ettestt4
+// ettestt4a
+// ettestt5
+// ettestt6
+// 
+// ettestast1 
+// ettestast2
+// ettestast3
+// ettestast3a
+// ettestast4
+// ettestast4a
+// ettestast5
+// ettestast6
+// 
+// ettestag1
+// ettestag2
+// ettestag3
+// 
+// ettestct1
+// ettestct2
+// ettestct3
+// ettestct3a
+// ettestct4
+// ettestct4a
+// ettestct5
+// ettestct6
+// ettestct7
+// ettestct8
+// ettestct9
+// ettestct10
+// ettestct11
+// ettestct13
+// ettestct14
+// ettestct15
+// ettestct16
+// ettestct17
+// ettestct18
+// ettestct19
+// ettestct20
+
 // at stands for 'all tests', this will run a suite 
 // of tests that are known to pass
 exports.ettestat = ettestat = function ettestat(params, callback) {
@@ -21,7 +66,6 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
 		});
 	});
 }
-
 
 // This series of tests will send parameters to func_b.
 // There are variations of pre and post execute applied to 
@@ -1294,20 +1338,20 @@ exports.tmp1 = tmp1 = function tmp1(params, callback) {
 	var x = {
 			"redir_a": [{
 				"dothis": "func_a",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
 			}],
 			"redir_b": [{
 				"dothis": "func_b",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
 			}],
 			"redir_c": [{
 				"dothis": "func_c",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
 			}]
 		};
@@ -1332,6 +1376,145 @@ exports.tmp1 = tmp1 = function tmp1(params, callback) {
 		"configuration": {
 			"redir_a": [{
 				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		}
+	});
+	callback(err, res);
+	});
+}
+
+//---------------------------
+
+exports.tmp2 = tmp2 = function tmp2(params, callback) {
+	testclearstorage();
+	var temp_config = extend(config);
+
+	var x = {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		};
+
+	var z = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2"
+	}
+
+	config.configuration = extend(config.configuration, x);
+
+	execute([
+		z
+	],
+	function (err, res) {
+		res = logverify("tmp2_result", res[0][0], {
+		"d": "1",
+		"c": "0",
+		"g": "4"
+	});
+	config = extend(temp_config);
+	callback(err, res);
+	});
+}
+
+//---------------------------
+
+function tmp4 (params, callback) {
+	assert = {
+		"d": "1",
+		"c": "0",
+		"g": "4"
+	};
+	parameters = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		}
+	};
+	master_test_and_verify (parameters, assert, callback);
+	var err;
+	callback (err, res);
+}
+
+function tmp5 (params, callback) {
+	parameters = {
+			"executethis": "func_b",
+			"c": "0",
+			"d": "1",
+			"e": "2"
+		}
+
+	assert = {
+			"d": "1",
+			"c": "0",
+			"g": "4"
+		}
+
+	test_and_verify (parameters, assert, true, function (err, res) {
+			callback (err, res);
+		});
+}
+
+function tmp6 (params, callback) {
+	parameters = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
 				"tryorder": 0,
 				"executeorder": 0,
 				"params": {}
@@ -1349,10 +1532,242 @@ exports.tmp1 = tmp1 = function tmp1(params, callback) {
 				"params": {}
 			}]
 		}
+	}
+
+	assert = {
+		"d": "1",
+		"c": "0",
+		"g": "4",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
+	}
+	// example of testing without config issues
+	// test_and_verify (parameters, assert, function (err, res) {
+	// 		callback (err, res);
+	// 	});
+	master_test_and_verify (parameters, assert, function (err, res) {
+		callback (err, res);
 	});
+}
+
+function master_test_and_verify (parameters, assert, callback) {
+	var err;
+	var results=[];
+	var temp_config = {};
+	var c_assert = {};
+	var c_parameters = {};
+
+	// Take a snapshot of the default config
+	extend(true, temp_config, config);
+	// Make copies of the original parameters and assert
+	extend(true, c_parameters, parameters);
+	extend(true, c_assert, assert);
+
+	// Call test_and_verify with the config parameters in the parameters
+	test_and_verify("execute", c_parameters, c_assert, function (err, res) {
+		// Add res to return data
+		results.push(res);
+		
+		// Add the config parameters to the default config
+		extend(true, config.configuration, parameters["configuration"]);
+
+		// Reload c_parameters and delete the config
+		c_parameters = extend(true, {}, parameters);
+		delete c_parameters["configuration"];
+
+		// Reload the assertion and delete the config
+		c_assert = extend(true, {}, assert);
+		delete c_assert["configuration"];
+
+		// Call test_and_verify with c_ verion -- actual config changed
+		test_and_verify("execute", c_parameters, c_assert, function (err, res_2) {
+			// Add res to return data
+			results.push(res_2);
+			// Set the config back to normal
+			config = extend(true, {}, temp_config);
+			callback (err, results);
+		});
+	});
+}
+
+exports.test_and_verify = test_and_verify = function test_and_verify(fnname, parameters, assert, callback) {
+	testclearstorage();
+	window[fnname]([
+		parameters
+	],
+	function (err, res) {
+		res = logverify(fnname, res[0][0], assert);
+		callback(err, res);
+	});
+}
+
+
+exports.tmp3 = tmp3 = function tmp3(params, callback) {
+	testclearstorage();
+	var temp_config = extend(config);
+
+	var x = {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		};
+
+	var z = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2"
+	}
+
+	w = extend(z,{"configuration": x});
+
+	execute([
+		w
+	],
+	function (err, res) {
+		res = logverify("tmp3_result", res[0][0], {
+		"d": "1",
+		"c": "0",
+		"g": "4",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		}
+	});
+
+				config = extend(temp_config);
+				config.configuration = extend(config.configuration, x);
+
+				var r2 = execute([
+					z
+				],
+				function (err, res_1) {
+					alert("res_1[0][0]: " + JSON.stringify(res_1[0][0]));
+					res_1 = logverify("tmp3a_result", res_1[0][0], {
+					"d": "1",
+					"c": "0",
+					"g": "4"
+				});
+				alert("res_1: " + JSON.stringify(res_1));
+					callback(err, res_1);
+				});
+				
+				alert("r2: " + JSON.stringify(r2));
+				res = extend(res, r2);
+				alert(JSON.stringify(res));
+				config = extend(temp_config);
+
 	callback(err, res);
 	});
 }
+
+
+// function tmp5 (params, callback) {
+// 	parameters = {
+// 			"executethis": "func_b",
+// 			"c": "0",
+// 			"d": "1",
+// 			"e": "2"
+// 		}
+
+// 	assert = {
+// 			"d": "1",
+// 			"c": "0",
+// 			"g": "4"
+// 		}
+
+// test_and_verify (parameters, assert, true, function (err, res) {
+// 		callback (err, res);
+// 	});
+ 	
+//	// master_test_and_verify (parameters, assert, function (err, res) {
+//	// 	callback (err, res);
+//	// });
+// }
+
+
+// function master_test_and_verify (parameters, assert, callback) {
+// 	var err;
+// 	var results=[];
+// 	test_and_verify(parameters, assert, false, function (err, res) {
+// 		results.push(res);
+// 		test_and_verify(parameters, assert, true, function (err, res) {
+// 			results.push(res);
+// 			callback (err, results);
+// 		});
+// 	});
+// }
+
+// exports.test_and_verify = test_and_verify = function test_and_verify(params, assert, config_flag, callback) {
+// 	testclearstorage();
+// 	var temp_config = extend(config);
+// 	var actual_parameters = params;
+// 	var actual_assert = assert;
+		
+// 	if (config_flag) {
+// 		config.configuration = extend(config.configuration, params["configuration"]);
+// 		delete actual_parameters["configuration"];
+// 	} else actual_assert = extend(assert, {"configuration": params["configuration"]});
+
+// 	execute([
+// 		actual_parameters
+// 	],
+// 	function (err, res) {
+// 		res = logverify("test_and_verify_result: **" + config_flag + "**", res[0][0], actual_assert);
+// 		config = extend(temp_config);
+// 		callback(err, res);
+// 	});
+// }
+
 // ***************************************************************************************************
 
 
@@ -2977,4 +3392,24 @@ exports.test_new = test_new = function test_new(params, callback) {
 	});
 }
 
-// logverify(testname, resultwid, parmwid1, parameterobj1, parmwid2, parameterobj2)
+exports.uwid1 = uwid1 = function uwid1(params, callback) {
+	testclearstorage();
+
+	execute([{
+		"executethis": "addwidmaster",
+		"wid": "getexecutetest",
+		"addthis.executethis": "func_b"
+	}, {
+		"executethis": "getwidmaster",
+		"wid": "getexecutetest"
+	}], 
+	function (err, res) {
+		alert(JSON.stringify(res[1][0]));
+		// The following will pass...it shows what the getwidmaster returns
+		// res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
+		
+		// This assertion is what is expected, but it fails
+		res = logverify("uwid1", res[1][0], {"g": "4"});
+		callback(err, res);
+	});
+}

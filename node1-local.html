@@ -10,22 +10,23 @@
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./bootstrap/css/bootstrap-theme.min.css">
     <script src="./bootstrap/js/bootstrap.min.js"></script>
+
     <script src="./async.js"></script>
     <script src="et-utils.js"></script>	
-
-    <script src="executethis.js"></script>
-	<script src="et-security.js"></script>
     <script src="config-local.js"></script>
-	<!-- <script src="et-testing.js" type="text/javascript"></script> -->
-	<script src="et-unit_tests.js"></script>
+
+	<script src="et-query.js"></script>
+	<script src="et-security.js"></script>
+    <script src="executethis.js"></script>
 	<script src="et-get.js"></script>
 	<script src="et-add.js"></script>
-	<script src="et-query.js"></script>
 
 	<script src="et-test.js"></script>
+	<script src="et-unit_tests.js"></script>
     <script src="et-dto.js"></script>
 	<script src="cody.js"></script>
 
+	<!-- <script src="et-testing.js" type="text/javascript"></script> -->
 <style  type="text/css">
         body {
         padding-top: 15px;
@@ -83,6 +84,7 @@ function test4(params) {
 			<input id='execute_function' class='btn btn-primary' type='button' value='Run Function'/>
 			<input id='execute_server_test' class='btn btn-primary' type='button' value='Run Server Test'/>
 			<input id='execute_server_function' class='btn btn-primary' type='button' value='Run Server Function'/>
+			<input id='et-test' class='btn btn-primary' type='button' value='et'/>
 			<input id='get_copy' class='btn btn-info' type='button' value='Copy for get wid'/>
 			<input id='add_copy' class='btn btn-info' type='button' value='Copy for add wid'/>
 			<input id='output_to_input' class='btn btn-warning' type='button' value='Output to Input'/>
@@ -322,6 +324,11 @@ $('#execute_test').click(function () {
 	execute_stuff(true, false);
 });
 
+$('#et-test').click(function () {
+	$('#function_to_run').val("ettest" + $('#function_to_run').val());
+	execute_stuff(true, false);
+});
+
 $('#execute_function').click(function () {
 	execute_stuff(false, false);
 });
@@ -378,14 +385,16 @@ function show_function_output2 (err, result_array) {
 	// Iterate throught the array
 	for (var x in result_array) {
 		// Convert the object to string
-		var result = JSON.stringify(result_array[x]);
+		// var result = JSON.stringify(result_array[x]);
+        var jsonPretty = JSON.stringify(result_array[x], "-", 4);
+        var tmp_html = syntaxHighlight(jsonPretty);
 		// Assume the outcome is inknown
 		var ultimate_pass_fail = "UNKNOWN";
 		// Append the text on the screen
-		$('#Function_Output').append(result);
+		$('#Function_Output').append("<pre>" + tmp_html + "</pre>");
 		// This 
-	    if ( result.indexOf("PASS") !== -1 ) ultimate_pass_fail = "PASS";
-	    if ( result.indexOf("FAIL") !== -1 ) ultimate_pass_fail = "FAIL";
+	    if ( tmp_html.indexOf("PASS") !== -1 ) ultimate_pass_fail = "PASS";
+	    if ( tmp_html.indexOf("FAIL") !== -1 ) ultimate_pass_fail = "FAIL";
 	}  
 	showPassFail(ultimate_pass_fail);
 }
@@ -630,6 +639,7 @@ function checkBeforeSubmit(){
 		document.getElementById('success').innerHTML='Submitted';
 	}
 }
+
 </script>
 
 <div id='google_data' style='display:none'>
