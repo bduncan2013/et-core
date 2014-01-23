@@ -525,7 +525,10 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         // return 0;
 
         // descending order
-        return bObj["metadata"]["date"] - aObj["metadata"]["date"];
+        // return bObj["metadata"]["date"] - aObj["metadata"]["date"];
+        // return (bObj["metadata"]["date"] > aObj["metadata"]["date"]) ? 1 : (bObj["metadata"]["date"] < aObj["metadata"]["date"]) ? -1 : 0;
+        // return Date.parse(bObj["metadata"]["date"]) - Date.parse(aObj["metadata"]["date"]);
+        return Date.parse(aObj["metadata"]["date"]) - Date.parse(bObj["metadata"]["date"]);
     });
 
 
