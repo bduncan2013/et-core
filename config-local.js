@@ -4,14 +4,31 @@ if (!exports) {
 if (!config) {
     var config = {};
 }
-if (!debugcolor) {
-    var debugcolor = 0;
+if (!environment) {
+    var environment='local';
 }
+if (!widMasterKey) {
+    var widMasterKey = 'widmaster_';
+}
+if (!potentialwid) {
+    var potentialwid = 0;
+}
+
 if (!Debug) {
     var Debug = 'false';
 }
+if (!debuglevel) {
+    var debuglevel = 0;
+}
+if (!debugon) {
+    var debugon = false;
+}
+
 if (!debugindent) {
     var debugindent = 0;
+}
+if (!debugcolor) {
+    var debugcolor = 0;
 }
 if (!debugname) {
     var debugname = '';
@@ -22,21 +39,6 @@ if (!debugcat) {
 if (!debugsubcat) {
     var debugsubcat = '';
 }
-if (!widMasterKey) {
-    var widMasterKey = 'widmaster_';
-}
-if (!debuglevel) {
-    var debuglevel = 0;
-}
-if (!test_results) {
-    var test_results = {};
-}
-if (!potentialwid) {
-    var potentialwid = 0;
-}
-if (!debugon) {
-    var debugon = false;
-}
 if (!debugfilter) {
     var debugfilter = '';
 }
@@ -46,171 +48,70 @@ if (!debugdestination) {
 if (!debuglinenum) {
     var debuglinenum = 1;
 }
-
-
-//function addtomongo(inputWidgetObject) {
-exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
-    var err;
-    delete inputWidgetObject['executethis'];
-    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject);
-    var widobject = {};
-    widobject = inputWidgetObject;
-    var widName = widobject['wid'];
-    addToLocalStorage(widMasterKey + widName, widobject);
-    widobject['wid'] = widName;
-    //return widobject;
-    callback(err, widobject);
-};
-
-//function getfrommongo(inputWidgetObject) {
-exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
-    //function getfrommongo(inputWidgetObject, target, callback) {
-    delete inputWidgetObject['executethis'];
-    var err;
-
-    var output = {};
-    if (inputWidgetObject["wid"]) {
-        var widKey = inputWidgetObject["wid"].toLowerCase();
-
-        output = getFromLocalStorage(widMasterKey + widKey);
-        if ((output == null) || (output === undefined)) {
-            output = {};
-        }
-
-    }
-    callback(err, output);
-}; //End of getfrommongo function
-
-(function (window) {
-    // exports.environment = 'local';
-
-    // exports.Debug = Debug = 'false';
-    // exports.debuglevel = debuglevel = 0;
-    // exports.widMasterKey = widMasterKey = "widmaster_";
-    // exports.test_results = test_results = {};
-    // exports.potentialwid = potentialwid = 0;
-
-    // //do not change these constants
-    // //exports.debugon = debugon = true;
-    // exports.debugname = debugname = "";
-    // exports.debugsubcat = debugsubcat = "";
-    // exports.debugcat = debugcat = "";
-    // exports.debugfilter = debugfilter = "";
-    // exports.debugdestination = debugdestination = 1;
-    // exports.debugcolor = debugcolor = 0;
-    // exports.debugindent = debugindent = 0;
-
-
-    // exports.offlinemongoquery = window.offlinemongoquery = offlinemongoquery = function offlinemongoquery(params, callback) {
-    //     offlinemongoquery(params, callback);
-    // }
-
-    exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
-        return JSON.parse(localStorage.getItem(key));
-    };
-
-    exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = function addToLocalStorage(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    };
-
-    exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
-        widMasterKey = "widmaster_";
-        localStorage.clear();
-        potentialwid = 0;
-    };
-
-    exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
-        localStorage.removeItem(key);
-    };
-
-
-})(typeof window == "undefined" ? global : window);
-
-
-
-exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
-    delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
-
-    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
-    // var outobjectarr = [];
-
-    offlinegetfrommongo(inputWidgetObject, function (err, results) {
-        var outobject = {};
-        if (results && countKeys(results) > 0) {
-            if (results["data"]) {
-                outobject = results["data"];
-            }
-
-            if (results['wid']) {
-                outobject['wid'] = results['wid'];
-            } else {
-                outobject['wid'] = "";
-            }
-
-            if (results['metadata']) {
-                outobject['metadata.method'] = results['metadata']['method'];
-            } else {
-                outobject['metadata.method'] = "";
-            }
-        }
-
-        callback(err, outobject);
-    });
-};
-
-exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
-    var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
-
-    delete inputWidgetObject['executethis'];
-    proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 10);
-    // for conversion:
-    var saveobject = {};
-
-    if (inputWidgetObject['wid']) {
-        saveobject['wid'] = inputWidgetObject['wid'];
-    } else {
-        saveobject['wid'] = "";
-    }
-
-    delete inputWidgetObject['wid'];
-
-    saveobject['metadata'] = {};
-    if (inputWidgetObject['metadata.method']) {
-        saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
-    } else {
-        saveobject['metadata']['method'] = "";
-    }
-    saveobject['metadata']['date'] = new Date();
-    proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
-    proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
-
-
-
-    // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
-    delete inputWidgetObject['metadata.method'];
-    if (inputWidgetObject) {
-        saveobject['data'] = inputWidgetObject;
-    } else {
-        saveobject['data'] = "";
-    }
-
-    offlineaddtomongo(saveobject, function (err, results) {
-        proxyprinttodiv('Function updatewid in : x', results, 10);
-        debugfn("updatewid code generator", "updatewid", "add", "code", 2, 1, {
-            0: inputObject,
-            1: results
-        }, 4);
-        callback(err, results);
-    });
-};
-
-
-function resetMasterKey() {
-    widMasterKey = "widmaster_";
+if (!debuglog) {
+    var debuglog ={};
 }
 
+if (!test_results) {
+    var test_results = {};
+}
+
+exports.bootprocess = bootprocess = function bootprocess() {
+    if (confg={}) {setdefaultparm()}; 
+    proxyprinttodiv('Function bootprocess config', config, 99);
+    execute({
+        "executethis": "getwid",
+        "wid": "etenvironment"
+    }, function (err, result) {
+        //proxyprinttodiv('Function bootprocess result', result, 99);
+        // read etenvironment, if not there then must be ok to clear out initial stuff
+        if (Object.keys(result).length == 0) {
+            // then 'dirty' et environement
+            execute({
+                "executethis": "updatewid",
+                "wid": "etenvironment",
+                "something": "something"
+            }, etappinstall()); //,
+            // function (err, result) {
+
+            // })
+
+            if (true) {
+                etappstarted();
+            }
+            if (true) {
+                etappnewpage();
+            }
+            //testAddWids();
+            //displayAllWids();
+        }
+    });
+    proxyprinttodiv('Function END bootprocess config', config, 99);
+
+
+    function etappinstall() { // exeucte only the first time app is installed -- once per lifetime
+        setappinstallparm();
+        testclearstorage();
+        if (exports.environment === 'local') {
+            clearLocalStorage();
+        }
+    }
+
+    function etappstarted() {} // execute only once per day when app is started
+
+    function etappnewpage() {} // execute each time we go to new page
+};
+
+
+//bootprocess();
+//exports.config = config = config123(); //moved by Bill per Roger
+
+function setappinstallparm() {}
+
 function setdefaultparm() {
-    //    localStore.clear();  // don't clear localStorage on every page load
+    testclearstorage();
+    clearLocalStorage();
+    exports.config = config = config123();
     Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
     debuglevel = 0;
     widMasterKey = "widmaster_";
@@ -225,13 +126,10 @@ function setdefaultparm() {
     debugcolor = 0;
     debugindent = 0;
     debuglinenum = 1;
-
+    exports.environment = environment;
     test_results = {}; // can take out
     debuglog = {};
     exports.debuglog = debuglog = debuglog;
-
-    exports.config = config = config123();
-    exports.environment = 'local';
 
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
@@ -345,53 +243,151 @@ function config123() {
     }
 }
 
-exports.config = config = config123(); //moved by Bill per Roger
+//exports.config = config = config123();
 
-exports.bootprocess = bootprocess = function bootprocess() {
-    setdefaultparm(); // TODO :: REMOVE THIS LATER :: ADDED BY SAURABH
-    proxyprinttodiv('Function bootprocess config', config, 30);
-    execute({
-        "executethis": "getwid",
-        "wid": "etenvironment"
-    }, function (err, result) {
-        // read etenvironment, if not there then must be ok to clear out initial stuff
-        if (result && result["something" != "something"]) {
-            // then 'dirty' et environement
-            execute({
-                "executethis": "updatewid",
-                "wid": "etenvironment",
-                "something": "something"
-            }, etappinstall); //,
-            // function (err, result) {
 
-            // })
 
-            if (true) {
-                etappstarted();
-            }
-            if (true) {
-                etappnewpage();
-            }
-            //testAddWids();
-            //displayAllWids();
+//function addtomongo(inputWidgetObject) {
+exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
+    var err;
+    delete inputWidgetObject['executethis'];
+    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject);
+    var widobject = {};
+    widobject = inputWidgetObject;
+    var widName = widobject['wid'];
+    addToLocalStorage(widMasterKey + widName, widobject);
+    widobject['wid'] = widName;
+    //return widobject;
+    callback(err, widobject);
+};
+
+//function getfrommongo(inputWidgetObject) {
+exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
+    //function getfrommongo(inputWidgetObject, target, callback) {
+    delete inputWidgetObject['executethis'];
+    var err;
+
+    var output = {};
+    if (inputWidgetObject["wid"]) {
+        var widKey = inputWidgetObject["wid"].toLowerCase();
+
+        output = getFromLocalStorage(widMasterKey + widKey);
+        if ((output == null) || (output === undefined)) {
+            output = {};
         }
+
+    }
+    callback(err, output);
+}; //End of getfrommongo function
+//(function (window) {
+
+
+    exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
+        return JSON.parse(localStorage.getItem(key));
+    };
+
+    exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = function addToLocalStorage(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    };
+
+    exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
+        widMasterKey = "widmaster_";
+        localStorage.clear();
+        potentialwid = 0;
+    };
+
+    exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
+        localStorage.removeItem(key);
+    };
+
+
+//})(typeof window == "undefined" ? global : window);
+
+
+
+exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
+    delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
+
+    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
+    // var outobjectarr = [];
+
+    offlinegetfrommongo(inputWidgetObject, function (err, results) {
+        var outobject = {};
+        if (results && countKeys(results) > 0) {
+            if (results["data"]) {
+                outobject = results["data"];
+            }
+
+            if (results['wid']) {
+                outobject['wid'] = results['wid'];
+            } else {
+                outobject['wid'] = "";
+            }
+
+            if (results['metadata']) {
+                outobject['metadata.method'] = results['metadata']['method'];
+            } else {
+                outobject['metadata.method'] = "";
+            }
+        }
+
+        callback(err, outobject);
     });
+};
 
-    function etappinstall(err, res) { // exeucte only the first time app is installed -- once per lifetime
-        setdefaultparm();
-        testclearstorage();
-        if (exports.environment === 'local') {
-            clearLocalStorage();
-        }
+exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
+    var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
+
+    delete inputWidgetObject['executethis'];
+    proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 10);
+    // for conversion:
+    var saveobject = {};
+
+    if (inputWidgetObject['wid']) {
+        saveobject['wid'] = inputWidgetObject['wid'];
+    } else {
+        saveobject['wid'] = "";
     }
 
-    function etappstarted() {} // execute only once per day when app is started
+    delete inputWidgetObject['wid'];
 
-    function etappnewpage() {} // execute each time we go to new page
+    saveobject['metadata'] = {};
+    if (inputWidgetObject['metadata.method']) {
+        saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
+    } else {
+        saveobject['metadata']['method'] = "";
+    }
+    saveobject['metadata']['date'] = new Date();
+    proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
+    proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
+
+
+
+    // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
+    delete inputWidgetObject['metadata.method'];
+    if (inputWidgetObject) {
+        saveobject['data'] = inputWidgetObject;
+    } else {
+        saveobject['data'] = "";
+    }
+
+    offlineaddtomongo(saveobject, function (err, results) {
+        proxyprinttodiv('Function updatewid in : x', results, 10);
+        debugfn("updatewid code generator", "updatewid", "add", "code", 2, 1, {
+            0: inputObject,
+            1: results
+        }, 4);
+        callback(err, results);
+    });
 };
 
 
-//bootprocess();
+function resetMasterKey() {
+    widMasterKey = "widmaster_";
+}
+
+
+
 
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
     var result;
@@ -510,13 +506,13 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         }
     }
     proxyprinttodiv('Function inlist', inlist, 30);
-
-    // proxyprinttodiv('before IsJsonString', IsJsonString(inboundobj), 99);
+    proxyprinttodiv('before IsJsonString', inboundobj, 30);
         if (IsJsonString(inboundobj)) {
             query = JSON.parse(inboundobj);
         }
 
-    proxyprinttodiv('Function query', query, 99);
+    proxyprinttodiv('Function query', query, 30);
+    //proxyprinttodiv('Function query',  stringify(query), 99);
 
     outlist = sift(query, inlist);
 
@@ -533,7 +529,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     });
 
 
-    proxyprinttodiv('Function outlist', outlist, 99);
+    proxyprinttodiv('Function outlist', outlist, 30);
     callback(null, outlist);
 }
 

@@ -550,7 +550,9 @@
                     };
                     executeobject["executethis"] = querywid;
                     execute(executeobject, function (err, res) {
-                        widset = res[0];
+                        proxyprinttodiv('Function relationshiptype executeobject', executeobject,75);
+                        proxyprinttodiv('Function relationshiptype res', res,75);
+                        widset = res;
                         debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb("");
                     });
@@ -1056,7 +1058,10 @@
                                             //var widlist=querywidlocal(executeobject);  // **
                                             // widlist = executethis(executeobject, querywid);
                                             execute(executeobject, function (err, res) {
-                                                widlist = res[0];
+                                                proxyprinttodiv('Function AddMaster executeobject', executeobject,75);
+                                                proxyprinttodiv('Function AddMaster res', res,75);
+
+                                                widlist = res;
                                                 // **** 10-31
                                                 //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
                                                 proxyprinttodiv('Function AddMaster : widlist, these are the wids related to parent and current child', widlist);
@@ -1429,7 +1434,7 @@
                     saveobject['metadata']['method'] = "";
                 }
                 //saveobject['metadata']['date'] = new Date();
-                //proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 99);
+                //proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 75);
 
 
 

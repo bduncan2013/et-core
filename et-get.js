@@ -102,7 +102,7 @@
 
                 function step1(cb) {
                     if (!level) {
-                        level = 99
+                        level = 10
                     } else {
                         level = level - 1;
                     } //how many levels to try
@@ -198,7 +198,9 @@
 
                                     // x = window['querywid'];
                                     execute(executeobject, function (err, res) {
-                                        moreDTOParameters = res[0];
+                                        proxyprinttodiv('Function aggressivedto executeobject', executeobject,10);
+                                        proxyprinttodiv('Function aggressivedto res', res,10);
+                                        moreDTOParameters = res;
                                         debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb1(null, 'step2n1');
                                     });
@@ -220,14 +222,14 @@
                 function step3(cb) {
                     var listToDo = [];
 
-                    for (var eachresult in moreDTOParameters) {
+                    for (var eachresult in moreDTOParameters) { // list, for each item in list
                         listToDo.push(eachresult);
                     }
 
                     async.mapSeries(listToDo, function (eachresult, cbMap) {
                             var rightparameters = {};
                             var params;
-                            for (var key in moreDTOParameters[eachresult]) {
+                            for (var key in moreDTOParameters[eachresult]) { // list is {wid : {}}
                                 rightparameters = moreDTOParameters[eachresult][key];
                             }
 
@@ -347,17 +349,11 @@
                 function step1(cb) {
 
                     for (var item in resultObj) { // now step through each record that could be changed
-                        proposedLeft = item;
-                        proposedRight = resultObj[item];
-                        proposedLeft = ""; // work on left first...check if add or remvove
-
-                        dtoloc = item.indexOf("addthis.");
-                        proposedLeft = proposedLeft.replace("addthis.", "");
-
-                        if (proposedLeft != "") {
-                            resultObj[proposedLeft] = proposedRight
+                        if (item.indexOf("addthis.") !== -1) { // if you found "addthis." then remove from resultObj
+                            resultObj[item.replace("addthis.", "")]=resultObj[item]; // then and readd without addthis
+                            delete resultObj[item]; // delete the old one
+                            }
                         }
-                    }
 
 
                     if (((resultObj['wid'] !== undefined)) &&
@@ -928,19 +924,19 @@
                             (dtoGlobalParameters['metadata.method'] == "") || (dtoin == "defaultdto")) {
                             dtoGlobalParameters = moreParameters
                         }
-                        //proxyprinttodiv('Function getWidMongo() dtoGlobalParameters ', dtoGlobalParameters,99);
+                        //proxyprinttodiv('Function getWidMongo() dtoGlobalParameters ', dtoGlobalParameters,10);
 
                         currentLevelObjectList = objectToList(currentLevelObject);
                         dtoGlobalParametersList = objectToList(dtoGlobalParameters);
-                        //proxyprinttodiv('Function getWidMongo() dtoGlobalParametersList ', dtoGlobalParametersList,99);
+                        //proxyprinttodiv('Function getWidMongo() dtoGlobalParametersList ', dtoGlobalParametersList,10);
                         currentLevelObjectList = SplitObjectList(currentLevelObjectList, dtoGlobalParametersList);
-                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList I ', currentLevelObjectList,99);
+                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList I ', currentLevelObjectList,10);
                         currentLevelObjectList = currentLevelObjectList.match;
-                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList II ', currentLevelObjectList,99);
+                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList II ', currentLevelObjectList,10);
                         currentLevelObject = listToObject(currentLevelObjectList);
-                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList III ', currentLevelObjectList,99);
+                        //proxyprinttodiv('Function getWidMongo() currentLevelObjectList III ', currentLevelObjectList,10);
                         outgoingParameters = currentLevelObject;
-                        //proxyprinttodiv('Function getWidMongo() outgoingParameters ', outgoingParameters,99);
+                        //proxyprinttodiv('Function getWidMongo() outgoingParameters ', outgoingParameters,10);
                         dtoGlobalParameters = moreParameters; // line added 11-9 -- step through an agressive dto
                         debugfn("getWidMongo step4", "getwidmongo", "get", "step4", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'four');
@@ -1069,25 +1065,29 @@
 
 
                     execute(executeobject, function (err, res) {
-                        relatedParameters = res[0]; //TODO -- DONE
+                        proxyprinttodiv('Function getwidmongo executeobject', executeobject,10);
+                        proxyprinttodiv('Function getWidMongo res', res,10);
+                        relatedParameters = res; 
                         debugfn("getAndFormatNextLevel", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null)
                     })
 
                 },
                 function part2(cb) {
-                    if (Object.keys(relatedParameters).length == 0) {
-
+                    //if (Object.keys(relatedParameters).length == 0) {   changed 1/23
+                    if (relatedParameters.length == 0) {
                         ret = nextLevelParametersObject;
+                        callback(err, ret);
 
-                        if (callback instanceof Function) {
-                            callback(err, ret);
-                        }
+                        // bottom commented 1/12
+                        // if (callback instanceof Function) {
+                        //     callback(err, ret);
+                        // }
 
-                        if (exports.environment === "local") {
-                            while (ret === undefined) {}
-                            return ret;
-                        }
+                        // if (exports.environment === "local") {
+                        //     while (ret === undefined) {}
+                        //     return ret;
+                        // }
 
                     } else {
                         listToDo = [];
@@ -1097,7 +1097,7 @@
                         }
                         async.mapSeries(listToDo, function (iteration, cbMap) {
                                 rowresult = relatedParameters[iteration];
-
+                                proxyprinttodiv('Function getAndFormatNextLevel rowresult', rowresult,10);
                                 for (var key in rowresult) {
                                     proposedLeft = key;
                                     proposedRight = rowresult[key];
@@ -1158,6 +1158,7 @@
                 function part3(cb) {
                     nextLevelParametersObject = listToObject(nextLevelParameters);
                     ret = nextLevelParametersObject;
+                    proxyprinttodiv('Function getAndFormatNextLevel ret', ret,10);
                     debugfn("getAndFormatNextLevel", "part3", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 }
