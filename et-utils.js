@@ -86,12 +86,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     localStore.clear();
     // localStorage.clear();
 };
+
 (function (window) {
-
-
-
-
-
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
         if (obj && obj instanceof Object) {

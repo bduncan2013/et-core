@@ -2013,7 +2013,6 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 }
 // This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
-	testclearstorage();
 	execute([{
 		"executethis": "addwidmaster", 
 		"wid": "sounddto",
@@ -2040,46 +2039,18 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 		"metadata.method": "songdto",
 		"title": "Highway to Hell",
 		"sounddto.0.note": "A flat",
+		
 		"sounddto.1.note": "B sharp",
+		
 		"sounddto.2.note": "C flat"
+		
 	},
 	{
 		"executethis": "getwidmaster",
 		"wid": "song1"
 	}],
-	// execute([{
-	// 	"executethis": "updatewid", 
-	// 	"wid": "authordto",
-	// 	"metadata.method": "authordto",
-	// 	"Author": "string"
-	// },
-	// {	
-	// 	"executethis": "updatewid", 
-	// 	"wid": "bookdto",
-	// 	"metadata.method": "bookdto",
-	// 	"title": "string"
-	// },
-	// {	
-	// 	"executethis": "updatewid", 
-	// 	"wid": "rel_author_to_book",
-	// 	"primarywid": "authordto",
-	// 	"secondarywid": "bookdto",
-	// 	"relationshiptype": "attributes"
-	// },
-	// {	
-	// 	"executethis": "updatewid", 
-	// 	"wid": "book1",
-	// 	"metadata.method": "bookdto",
-	// 	"title": "The book of testing",
-	// 	"authordto.0.author": "Sammy Sample"
-	// },
-	// {
-	// 	"executethis": "getwidmaster",
-	// 	"wid": "book1"
-	// }],
 	function (err, res) {
-		proxyprinttodiv('Function ag3 result ', res[4], 99);
-		alert(JSON.stringify(res));
+		proxyprinttodiv('Function ag3 result ', res[4][0], 99);
 		res = logverify("ettestag3_result", res[4][0], {
 		"title": "Highway to Hell",
 		"wid": "song1",
@@ -2113,9 +2084,6 @@ exports.sleep = sleep = function sleep(milliseconds) {
 }
 
 // Here are the different configs used in the tests
-
-
-
 exports.func_async = func_async = function func_async(parameters, callback) {
 	delete parameters["d"];
 	console.log('from func_async');

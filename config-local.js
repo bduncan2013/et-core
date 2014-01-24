@@ -338,7 +338,7 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
         //     }
         // }
 
-        proxyprinttodiv('Function getwid out : outobject', outobject, 99);
+        proxyprinttodiv('Function getwid out : outobject', outobject, 17);
 
         callback(err, outobject);
     });
