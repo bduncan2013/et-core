@@ -3010,4 +3010,26 @@ exports.test_new = test_new = function test_new(params, callback) {
 	});
 }
 
+exports.uwid1 = uwid1 = function uwid1(params, callback) {
+ testclearstorage();
+
+ execute([{
+  "executethis": "addwidmaster",
+  "wid": "getexecutetest",
+  "addthis.executethis": "func_b"
+ }, {
+  "executethis": "getexecutetest"
+ }], 
+ function (err, res) {
+ 	alert("uwid1 test result" + JSON.stringify(res));
+	  alert(JSON.stringify(res[1][0]));
+	  // The following will pass...it shows what the getwidmaster returns
+	  // res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
+	  
+	  // This assertion is what is expected, but it fails
+	  res = logverify("uwid1", res[1][0], {"g": "4"});
+
+	  callback(err, res);
+ });
+}
 // logverify(testname, resultwid, parmwid1, parameterobj1, parmwid2, parameterobj2)
