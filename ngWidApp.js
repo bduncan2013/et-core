@@ -405,7 +405,7 @@ widApp.controller('scaffoldCtrl', ['$scope', 'dataService', 'executeService', fu
         "if ($('.delbtn').hasClass('btn-danger')) { if (!executeobj.metadata) { executeobj.metadata = {}; } executeobj.metadata.status = 5; actiontaken = 'deleted'; toggledelete(); } " +
         "execute(executeobj, function(err, resultsArr) { " +
         "if(err && Object.size(err) > 0) { $('#errorlog').html(JSON.stringify(err)); } " +
-        "else { $('#successlog').html('" + $scope.wid + " was successfully ' + actiontaken + '.'); } });}");
+        "else { $('#successlog').html('" + $scope.wid + " was successfully ' + actiontaken + '.'); $('.delrowbtn').remove(); } });}");
 
     var deleteCheckEle = $(document.createElement('script'));
     deleteCheckEle.html("function toggledelete() { $('.delbtn').toggleClass('btn-danger'); " +
@@ -514,7 +514,7 @@ var helper = {
         "</div><div class='input-group col-md-6'>" +
         "<span class='input-group-addon'>Value</span>" +
         "<input type='text' class='pvalue form-control'>" +
-        "<div class='input-group-btn'>" +
+        "<div class='input-group-btn delrowbtn'>" +
         "<button class='btn btn-info' onclick='$(this).parent().parent().parent().remove();'>-</button></div></div></span>",
 
     processHtml: function(screenWid) {
