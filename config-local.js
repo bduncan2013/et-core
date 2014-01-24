@@ -41,7 +41,7 @@ if (!debugsubcat) {
 }
 if (!debugfilter) {
     var debugfilter = '';
-}
+} 
 if (!debugdestination) {
     var debugdestination = 1;
 }
@@ -308,7 +308,7 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
 exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
     delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
 
-    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
+    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 17);
     // var outobjectarr = [];
 
     offlinegetfrommongo(inputWidgetObject, function (err, results) {
@@ -330,6 +330,15 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
                 outobject['metadata.method'] = "";
             }
         }
+
+        // for (var item in outobject) { // now step through each record that could be changed
+        //     if (item.indexOf("addthis.") !== -1) { // if you found "addthis." then remove from outobject
+        //         outobject[item.replace("addthis.", "")] = outobject[item]; // then and readd without addthis
+        //         delete outobject[item]; // delete the old one
+        //     }
+        // }
+
+        proxyprinttodiv('Function getwid out : outobject', outobject, 99);
 
         callback(err, outobject);
     });

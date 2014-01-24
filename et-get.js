@@ -347,14 +347,14 @@
         async.series([
 
                 function step1(cb) {
-
                     for (var item in resultObj) { // now step through each record that could be changed
                         if (item.indexOf("addthis.") !== -1) { // if you found "addthis." then remove from resultObj
                             resultObj[item.replace("addthis.", "")]=resultObj[item]; // then and readd without addthis
                             delete resultObj[item]; // delete the old one
                             }
-                        }
+                    }
 
+                    proxyprinttodiv("getcleanparameters removed addthis: ", resultObj, 99);
 
                     if (((resultObj['wid'] !== undefined)) &&
                         ((resultObj['wid'] !== resultObj['metadata.method']) || (dtotype = "defaultdto"))) {
@@ -462,8 +462,6 @@
                         outputparameters = resultObj;
                     }
 
-
-
                     debugfn("getcleanparameters", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
                 }, // end step2
@@ -482,9 +480,7 @@
                 callback(err, ret);
 
             });
-
     }
-
 
     exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
         var ret = undefined;
@@ -552,9 +548,6 @@
                         debugfn("getwidmaster step1 b", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'one');
                     });
-
-
-
                 },
                 function step2(cb) {
                     // could be moved inside clean parm?
