@@ -952,6 +952,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         
         var data = {};
         data[test_name] = test_results;
+        data["test_name"] = test_name;
         data[test_name + '_diff'] = result;
         return data;
     }

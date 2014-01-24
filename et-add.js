@@ -900,6 +900,13 @@
                     "widlist": widlist,
                     "err": err,
                     "res": res
+                },
+                3: {
+                    // unit test debug vars to include
+                    "dtoList": dtoList, 
+                    "parameterList": parameterList, 
+                    "widName": widName, 
+                    "dtotype": dtotype
                 }
             };
             var resultObj = {};
@@ -1208,7 +1215,10 @@
                     debugfn("AddMaster", "end map at step 4", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null); // step 4 function callback
                 }
-            ], //end step 4 function
+            ], 
+            //end step 4 function
+            // For making unit_tests of addmaster...changed 'sub' to 'unit'
+            // debugfn("AddMaster", "end map at step 4", "add", "unit", debugcolor, debugindent, debugvars([3]));
 
             function (err, results) {
                 ret = ParentWid;

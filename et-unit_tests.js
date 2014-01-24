@@ -132,42 +132,42 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
 		"executethis": "ettestct1"
 		},{ 
 		"executethis": "ettestct2"
-		},{
-		"executethis": "ettestct3"
-		},{ 
-		"executethis": "ettestct3a"
-		},{ 
-		"executethis": "ettestct4"
-		},{ 
-		"executethis": "ettestct4a"
-		},{
-		"executethis": "ettestct5"
-		},{ 
-		"executethis": "ettestct6"
-		},{
-		"executethis": "ettestct7"
-		},{ 
-		"executethis": "ettestct8"
-		},{ 
-		"executethis": "ettestct9"
-		},{ 
-		"executethis": "ettestct10"
-		},{
-		"executethis": "ettestct11"
-		},{ 
-		"executethis": "ettestct13"
-		},{
-		"executethis": "ettestct14"
-		},{ 
-		"executethis": "ettestct15"
-		},{ 
-		"executethis": "ettestct16"
-		},{ 
-		"executethis": "ettestct18"
-		},{
-		"executethis": "ettestct19"
-		},{ 
-		"executethis": "ettestct20"
+		// },{
+		// "executethis": "ettestct3"
+		// },{ 
+		// "executethis": "ettestct3a"
+		// },{ 
+		// "executethis": "ettestct4"
+		// },{ 
+		// "executethis": "ettestct4a"
+		// },{
+		// "executethis": "ettestct5"
+		// },{ 
+		// "executethis": "ettestct6"
+		// },{
+		// "executethis": "ettestct7"
+		// // },{ 
+		// // "executethis": "ettestct8"
+		// },{ 
+		// "executethis": "ettestct9"
+		// },{ 
+		// "executethis": "ettestct10"
+		// },{
+		// "executethis": "ettestct11"
+		// },{ 
+		// "executethis": "ettestct13"
+		// },{
+		// "executethis": "ettestct14"
+		// },{ 
+		// "executethis": "ettestct15"
+		// },{ 
+		// "executethis": "ettestct16"
+		// },{ 
+		// "executethis": "ettestct18"
+		// },{
+		// "executethis": "ettestct19"
+		// },{ 
+		// "executethis": "ettestct20"
 	}],
 		function (err, res) {
 			callback(err, res);
@@ -197,20 +197,18 @@ exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
 // Call func_b with no pre or post
 exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}], 
-	function (err, res) {
-		res = logverify("ettestt1_result", res[0][0], {
+	}
+	var assert = {
 		"d": "1",
 		"c": "0",
 		"g": "4"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
 exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
@@ -247,25 +245,24 @@ exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
 // Call func_b with pre and post
 exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "func_a",
 		"postexecute": "func_c"
-	}], 
-	function (err, res) {
-		res = logverify("ettestt2_result", res[0][0], {
+	} 
+	var assert = {
 		"f": "3",
 		"g": "4",
 		"h": "5"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
-// Call func_b with only pre func_a
+// Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b 
+// in midexecute.
 exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
 	testclearstorage();
 	execute([{
