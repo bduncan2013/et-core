@@ -377,7 +377,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
                     }, function (err, testdto) {
                         proxyprinttodiv('Function getwidmaster on stuff1 ', JSON.stringify(testdto), 99);
                         console.log(" >>>> testdto >>> " + JSON.stringify(testdto));
-                        cb(null, "");
+                         cb(null, "");
                     });
                 }); //widname,owner,grantee,action,cb
             },
@@ -431,6 +431,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
             execute(request1, function (err, resp) {
                 console.log(" >>>>>> response from access to stuff 1 >>>>>  " + JSON.stringify(resp));
                 proxyprinttodiv(">>>>>> response from access to stuff 1 >>>>>  ", JSON.stringify(resp), 99);
+
             });
         });
     //     });

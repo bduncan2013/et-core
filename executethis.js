@@ -49,6 +49,8 @@
                 }
             }
 
+        }
+
             if (arguments[2]) {
                 incomingparams = arguments[0];
                 commandobject = arguments[1];
@@ -58,11 +60,6 @@
                 commandobject = commandobjectDefaults;
                 callback = arguments[1]
             }
-        }else{
-            incomingparams = arguments[0];
-            callback = arguments[1]
-        }
-
 
 
         if ((commandobject) || (incomingparams instanceof Array)) {
