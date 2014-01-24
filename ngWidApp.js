@@ -379,7 +379,8 @@ widApp.controller('scaffoldCtrl', ['$scope', 'dataService', 'executeService', fu
         '<script src="js/et-converttoscreenwid.js"></script>'+
         '<script>var widforview = "' + $scope.wid + '", ' +
         'links = [{class:"updatewidbtn",trigger:"click",action:"commitchangestowid"},' +
-        '{class:"delbtn",trigger:"click",action:"toggledelete"}]; </script>');
+        '{class:"delbtn",trigger:"click",action:"toggledelete"}]; </script>' +
+        '<style>.input-group { padding: 3px; }</style>');
 
     $scope.sDOM.append(head);
 
