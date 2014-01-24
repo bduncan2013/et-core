@@ -1,3 +1,18 @@
+// finish execute multiple
+
+// make sure your security data is being entered correctly — prove it by getwidmaster on both dto and data.
+
+// —
+// take a look at addhoc.js
+// why cannot I not call “startwidviewer” (executethis: createdto) — causes error, but I can call createdto directly?
+
+// please add the functions as shown in et-dto — so security can be checked
+
+// —
+
+// Can you write the function etmultipleunittest() in line 622 then move to et-utils.
+
+
 // Creating groupdto, securitydto, statusdto and balanceddto
 // securitydto holds accesstoken, status
 // groupdto holds group, each wid auto lists itself and its creator
@@ -224,7 +239,6 @@ exports.initdto1 = initdto1 = function initdto1(params, callback) {
                 "categorytype": "string",
                 "categoryname": "categorytype"
             }, {
-
                 // create balancedto
                 "executethis": "addwidmaster",
                 "metadata.method": "balancedto",
@@ -243,6 +257,9 @@ exports.initdto1 = initdto1 = function initdto1(params, callback) {
             }
         ],
         function (err, res) {
+
+
+
             callback(err, res)
         });
 }
@@ -309,6 +326,10 @@ exports.initdto2 = initdto2 = function initdto2(params, callback) {
             "secondarywid": "balancedto"
         }],
         function (err, res) {
+            proxyprinttodiv('Function initdto2 --- userdto ', JSON.stringify(userdto), 99);
+            
+
+
             callback(err, res)
         });
 }
@@ -334,7 +355,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
 
     async.series([
             function (cb) {
-                createuserold("authuser1", "abcd1234abcd1234abcd1234abcd1234", "1", "staff", "staff", "getwidmaster", "db", "1", function (err, res) {
+                createuserold("authuser1", "abcd1234abcd1234abcd1234abcd1234", "1", "staff", "staff", "getwidmaster", "data", "1", function (err, res) {
                     cb(null, "");
                 });
             },
@@ -350,7 +371,14 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
             // },
             function (cb) {
                 createtestaction("stuff1", "authuser1", function (err, res) {
-                    cb(null, "");
+                    execute({
+                        "wid": "testdto",
+                        "executethis": "getwidmaster"
+                    }, function (err, testdto) {
+                        proxyprinttodiv('Function getwidmaster on stuff1 ', JSON.stringify(testdto), 99);
+                        console.log(" >>>> testdto >>> " + JSON.stringify(testdto));
+                        cb(null, "");
+                    });
                 }); //widname,owner,grantee,action,cb
             },
             // function (cb) {
@@ -368,6 +396,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
                     "executethis": "getwidmaster",
                     "wid": "authuser1"
                 }, function (err, res) {
+                    proxyprinttodiv('Function getwidmaster on authuser1 ', JSON.stringify(res), 99);
                     console.log(' >>> final response >>> ' + JSON.stringify(res))
                     cb(null);
                 });
@@ -380,7 +409,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
                 "action": "getwidmaster",
                 // "account": "admin",
                 "account": "staff",
-                "db": "db"
+                "db": "data"
             };
 
             var commandobject = {
@@ -400,7 +429,8 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
             // perform request with unuthorized user 
             // (user in a seperate group not having permissions to do a getwidmaster on stuff1)
             execute(request1, function (err, resp) {
-                console.log(" >>>>>> response from access to stuff 1 >>>>>  ");
+                console.log(" >>>>>> response from access to stuff 1 >>>>>  " + JSON.stringify(resp));
+                proxyprinttodiv(">>>>>> response from access to stuff 1 >>>>>  ", JSON.stringify(resp), 99);
             });
         });
     //     });
@@ -410,24 +440,155 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
 // this test shall result in an unauthorized access error
 // we create testdata stuff1 and provide access to it to only staff group memners
 // however we try to access it (using getwidmaster) using admin group user
-exports.etauth1 = etauth1 = function etauth1(params, callback) {
+exports.auth1 = auth1 = function auth1(params, callback) {
+    clearLocalStorage();
+    execute({
+        "executethis": "initdto1"
+    }, function (err, res) {
+        execute({
+            "executethis": "initdto2"
+        }, function (err, res) {
+            execute([{
+                "executethis": "etauthtest1"
+            }], function (err, res) {
+                console.log('created user, test data, assigned groups ');
+                callback(err, res);
+            });
+        });
+    });
+}
+
+// series
+exports.multi1 = multi1 = function multi1(params, callback) {
 
     clearLocalStorage();
 
+    var commandobject = {
+        "executemethod": 'execute',
+        "excutefilter": '',
+        'executeorder': 'series',
+        'executelimit': '15'
+    }
 
     execute([{
-            "executethis": "initdto1"
+            "executethis": "addwidmaster",
+            "wid": "test1addded",
+            "data1": {
+                "te1": "da1",
+                "te2": "da2"
+            }
         }, {
-            "executethis": "initdto2"
+            "executethis": "getwidmaster",
+            "wid": "test1addded"
         }, {
-            "executethis": "etauthtest1"
-        }],
+            "executethis": "addwidmaster",
+            "wid": "test2addded",
+            "data1": {
+                "te21": "da21",
+                "te22": "da22"
+            }
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "test2addded"
+        }], commandobject,
         function (err, res) {
-            console.log('created user, test data, assigned groups ');
-
-
+            console.log('multi1 processed');
+            callback(err, res);
         });
 }
+
+// parallel
+exports.multi2 = multi2 = function multi2(params, callback) {
+
+    clearLocalStorage();
+
+    var commandobject = {
+        "executemethod": 'execute',
+        "excutefilter": '',
+        'executeorder': 'parallel',
+        'executelimit': '15'
+    }
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "test1addded",
+            "data1": {
+                "te1": "da1",
+                "te2": "da2"
+            }
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "test1addded"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "test2addded",
+            "data1": {
+                "te21": "da21",
+                "te22": "da22"
+            }
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "test2addded"
+        }], commandobject,
+        function (err, res) {
+            console.log('multi2 processed');
+            callback(err, res);
+        });
+}
+
+// waterfall
+exports.multi3 = multi3 = function multi3(params, callback) {
+
+    clearLocalStorage();
+
+    var commandobject = {
+        "executemethod": 'execute',
+        "excutefilter": '',
+        'executeorder': 'waterfall',
+        'executelimit': '15'
+    }
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "test1addded",
+            "data1": {
+                "te1": "da1",
+                "te2": "da2"
+            }
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "test1addded"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "test2addded",
+            "data1": {
+                "te21": "da21",
+                "te22": "da22"
+            }
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "test2addded"
+        }], commandobject,
+        function (err, res) {
+            console.log('multi3 processed');
+            callback(err, res);
+        });
+}
+
+// finish execute multiple
+
+// make sure your security data is being entered correctly — prove it by getwidmaster on both dto and data.
+
+// —
+// take a look at addhoc.js
+// why cannot I not call “startwidviewer” (executethis: createdto) — causes error, but I can call createdto directly?
+
+// please add the functions as shown in et-dto — so security can be checked
+
+// —
+
+
+// Can you write the function etmultipleunittest() in line 622 then move to et-utils.
 
 exports.createuserold = createuserold = function createuserold(userwid, ac, loginlevel, granteegroup, actiongroup, targetgroup, dbgroup, levelgroup, cb1) {
     execute([{
@@ -456,7 +617,7 @@ exports.createuserold = createuserold = function createuserold(userwid, ac, logi
             "systemdto.permissiondto.granteegroup": "staff",
             "systemdto.permissiondto.actiongroup": "getwidmaster",
             "systemdto.permissiondto.targetgroup": "staff",
-            "systemdto.permissiondto.dbgroup": "db",
+            "systemdto.permissiondto.dbgroup": "data",
             "systemdto.permissiondto.levelgroup": "1",
             // group data 
             "systemdto.groupdto.groupname": "staff",
@@ -508,14 +669,14 @@ exports.createtestaction = createtestaction = function createtestaction(widname,
     execute([{
             // add test data -- stuff
             "executethis": "addwidmaster",
-            // "metadata.method": "testdto",
+            "metadata.method": "testdto",
             "metadata.owner": owner,
             "wid": widname,
             // permissions data 
             "systemdto.permissiondto.granteegroup": "staff",
             "systemdto.permissiondto.actiongroup": "getwidmaster",
             "systemdto.permissiondto.targetgroup": "staff",
-            "systemdto.permissiondto.dbgroup": "db",
+            "systemdto.permissiondto.dbgroup": "data",
             "systemdto.permissiondto.levelgroup": "1"
         }],
         function (err, res) {
@@ -757,7 +918,7 @@ exports.createuser = createuser = function createuser(userwid, ac, loginlevel, c
             "systemdto.permissiondto.granteegroup": userwid,
             "systemdto.permissiondto.actiongroup": "getwidmaster",
             "systemdto.permissiondto.targetgroup": userwid,
-            "systemdto.permissiondto.dbgroup": "db",
+            "systemdto.permissiondto.dbgroup": "data",
             "systemdto.permissiondto.levelgroup": "1",
             // group data 
             "systemdto.groupdto.groupname": userwid,

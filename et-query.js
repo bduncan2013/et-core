@@ -510,6 +510,10 @@
     function formatlist(inlist, parmnamein, parmnameout, environmentdb) {
         var output = [];
         var widvalue;
+        proxyprinttodiv('querywid formatlist inlist', inlist, 99);
+        proxyprinttodiv('querywid formatlist parmnamein', parmnamein, 99);
+        proxyprinttodiv('querywid formatlist parmnameout', parmnameout, 99);
+        proxyprinttodiv('querywid formatlist environmentdb', environmentdb, 99);
 
         if (inlist === undefined || inlist.length === 0) {
             return [];
@@ -536,7 +540,7 @@
                 };
 
                 var obj = {};
-                obj[widvalue] = item[environmentdb][parmnamein];
+                if (item[environmentdb] && item[environmentdb][parmnamein]) {obj[widvalue] = item[environmentdb][parmnamein]};
                 //obj["wid"] = widvalue;
 
 
