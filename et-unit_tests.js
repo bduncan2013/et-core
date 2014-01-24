@@ -1,3 +1,48 @@
+// List of tests:
+// ettestt1 
+// ettestt2
+// ettestt3
+// ettestt3a
+// ettestt4
+// ettestt4a
+// ettestt5
+// ettestt6
+// 
+// ettestast1 
+// ettestast2
+// ettestast3
+// ettestast3a
+// ettestast4
+// ettestast4a
+// ettestast5
+// ettestast6
+// 
+// ettestag1
+// ettestag2
+// ettestag3
+// 
+// ettestct1
+// ettestct2
+// ettestct3
+// ettestct3a
+// ettestct4
+// ettestct4a
+// ettestct5
+// ettestct6
+// ettestct7
+// ettestct8
+// ettestct9
+// ettestct10
+// ettestct11
+// ettestct13
+// ettestct14
+// ettestct15
+// ettestct16
+// ettestct17
+// ettestct18
+// ettestct19
+// ettestct20
+
 // at stands for 'all tests', this will run a suite 
 // of tests that are known to pass
 exports.ettestat = ettestat = function ettestat(params, callback) {
@@ -21,7 +66,6 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
 		});
 	});
 }
-
 
 // This series of tests will send parameters to func_b.
 // There are variations of pre and post execute applied to 
@@ -88,42 +132,42 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
 		"executethis": "ettestct1"
 		},{ 
 		"executethis": "ettestct2"
-		},{
-		"executethis": "ettestct3"
-		},{ 
-		"executethis": "ettestct3a"
-		},{ 
-		"executethis": "ettestct4"
-		},{ 
-		"executethis": "ettestct4a"
-		},{
-		"executethis": "ettestct5"
-		},{ 
-		"executethis": "ettestct6"
-		},{
-		"executethis": "ettestct7"
-		},{ 
-		"executethis": "ettestct8"
-		},{ 
-		"executethis": "ettestct9"
-		},{ 
-		"executethis": "ettestct10"
-		},{
-		"executethis": "ettestct11"
-		},{ 
-		"executethis": "ettestct13"
-		},{
-		"executethis": "ettestct14"
-		},{ 
-		"executethis": "ettestct15"
-		},{ 
-		"executethis": "ettestct16"
-		},{ 
-		"executethis": "ettestct18"
-		},{
-		"executethis": "ettestct19"
-		},{ 
-		"executethis": "ettestct20"
+		// },{
+		// "executethis": "ettestct3"
+		// },{ 
+		// "executethis": "ettestct3a"
+		// },{ 
+		// "executethis": "ettestct4"
+		// },{ 
+		// "executethis": "ettestct4a"
+		// },{
+		// "executethis": "ettestct5"
+		// },{ 
+		// "executethis": "ettestct6"
+		// },{
+		// "executethis": "ettestct7"
+		// // },{ 
+		// // "executethis": "ettestct8"
+		// },{ 
+		// "executethis": "ettestct9"
+		// },{ 
+		// "executethis": "ettestct10"
+		// },{
+		// "executethis": "ettestct11"
+		// },{ 
+		// "executethis": "ettestct13"
+		// },{
+		// "executethis": "ettestct14"
+		// },{ 
+		// "executethis": "ettestct15"
+		// },{ 
+		// "executethis": "ettestct16"
+		// },{ 
+		// "executethis": "ettestct18"
+		// },{
+		// "executethis": "ettestct19"
+		// },{ 
+		// "executethis": "ettestct20"
 	}],
 		function (err, res) {
 			callback(err, res);
@@ -153,20 +197,18 @@ exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
 // Call func_b with no pre or post
 exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}], 
-	function (err, res) {
-		res = logverify("ettestt1_result", res[0][0], {
+	}
+	var assert = {
 		"d": "1",
 		"c": "0",
 		"g": "4"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
 exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
@@ -203,25 +245,24 @@ exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
 // Call func_b with pre and post
 exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2",
 		"preexecute": "func_a",
 		"postexecute": "func_c"
-	}], 
-	function (err, res) {
-		res = logverify("ettestt2_result", res[0][0], {
+	} 
+	var assert = {
 		"f": "3",
 		"g": "4",
 		"h": "5"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
-// Call func_b with only pre func_a
+// Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b 
+// in midexecute.
 exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
 	testclearstorage();
 	execute([{
@@ -503,8 +544,7 @@ exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // Call redir_b with no pre or post
 exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
-	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -529,9 +569,8 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct1_result", res[0][0], {
+	}
+	var assert = {
 		"d": "1",
 		"c": "0",
 		"g": "4",
@@ -555,14 +594,12 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Call redir_b with pre and post
 exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
-	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -589,9 +626,8 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct2_result", res[0][0], {
+	}
+	var assert = {
 		"f": "3",
 		"g": "4",
 		"h": "5",
@@ -615,14 +651,12 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Call redir_b with only pre redir_a
 exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
-	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -648,9 +682,8 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct3_result", res[0][0], {
+	}
+	var assert = {
 		"c": "0",
 		"f": "3",
 		"g": "4",
@@ -674,14 +707,12 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Call redir_b with only post redir_a -- same result as t3
 exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
-	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -707,9 +738,8 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct3a_result", res[0][0], {
+	}
+	var assert = {
 		"c": "0",
 		"g": "4",
 		"f": "3",
@@ -733,14 +763,12 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Call redir_b with only post
 exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
-	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -766,9 +794,8 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct4_result", res[0][0], {
+	}
+	var assert = {
 		"d": "1",
 		"g": "4",
 		"h": "5",
@@ -792,14 +819,13 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Call redir_b with only pre redir_c -- same result as t4
 exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -825,9 +851,8 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct4a_result", res[0][0], {
+	}
+	var assert = {
 		"d": "1",
 		"g": "4",
 		"h": "5",
@@ -851,14 +876,13 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Call redir_b with redir_a for pre and post
 exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "redir_b",
 		"d": "1",
 		"e": "2",
@@ -885,9 +909,8 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct5_result", res[0][0], {
+	}
+	var assert = {
 		"f": "3",
 		"g": "4",
 		"h": "5",
@@ -911,14 +934,13 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Call redir_b with redir_c for pre and post
 exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "redir_b",
 		"c": "0",
 		"d": "1",
@@ -945,9 +967,8 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct6_result", res[0][0], {
+	}
+	var assert = {
 		// "mettestidexecute": "redir_b",
 		// "postexecute": "redir_c",
 		// "e": "2",
@@ -974,15 +995,14 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // This will try pre with func a, but remapped with a configuration that
 // is passed into executethis...it still wants to hit func_b with mid
 exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"c": "0",
 		"d": "1",
 		"e": "2",
@@ -1002,22 +1022,20 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
 				"params": {}
 			}]
 		}
-	}], 
-	function (err, res) {
-		res = logverify("ettestct7_result", res[0][0], {
+	}
+	var assert = {
 		"ct7": "did some alerting",
 		"configuration": {},
 		"d": "1",
 		"c": "0",
 		"g": "4"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // This will try pre with func a, 
 exports.ettestct7a = ettestct7a = function ettestct7a(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"c": "0",
 		"d": "1",
 		"e": "2",
@@ -1036,199 +1054,124 @@ exports.ettestct7a = ettestct7a = function ettestct7a(params, callback) {
 				"params": {}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct7a_result", res[0][0], {
+	}
+	var assert = {
 		"c": "0",
 		"d": "1",
 		"ettestct7a": "did some alerting",
 		"g": "4"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // This test asserts that the tryorder in the config is successful
 // and causes executethis to call dothis, not server, or the others
 exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
 	testclearstorage();
 	// config = setconfig5();
-	var x = {
+	var parameters = {
+		"executethis": "func_b",
+		"c": "0",
+		"d": "1",
+
+		"e": "2",
+		"configuration": {
 			"midexecute": 
 			[
-			{
-				"executeorder": 1,
-				"tryorder": 10,
-				"dothis": 'server',
-				"params": {}
-			},
-						{
-				"executeorder": 1,
-				"tryorder": 4,
-				"dothis": 'executeparam',
-				"params": {}
-			},
-			{
-				"executeorder": 1,
-				"tryorder": 7,
-				"dothis": 'executegetwid',
-				"params": {}
-			},
-			{
-				"executeorder": 1,
-				"tryorder": 1,
-				"dothis": 'dothis',
-				"params": {}
-			}
+				{
+					"executeorder": 1,
+					"tryorder": 10,
+					"dothis": 'server',
+					"params": {}
+				},
+							{
+					"executeorder": 1,
+					"tryorder": 4,
+					"dothis": 'executeparam',
+					"params": {}
+				},
+				{
+					"executeorder": 1,
+					"tryorder": 7,
+					"dothis": 'executegetwid',
+					"params": {}
+				},
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {}
+				}
 			]
-		} 
-	
-	var z = {
-		"executethis": "func_b",
-		"c": "0",
-		"d": "1",
-		"e": "2"
-	};
-
-	w = extend(true, z, {"configuration": x});
-		
-	execute([
-		w
-	],
-	function (err, res) {
-		res = logverify("ettestct8_result", res[0][0], {
+		}
+	}
+	var assert = {
 		"d": "1",
 		"c": "0",
 		"g": "4"
-	});
+	}
 
-	var y;
-	extend(true, y, config);
-	extend(ture, config, x);
-
-	execute([
-		z
-	],
-	function (err, res) {
-		res = logverify("ettestct8_result", res[0][0], {
-		"d": "1",
-		"c": "0",
-		"g": "4"
-	});
-	config = y;
-	callback(err, res);
-	});
-	});
-}
-
-exports.ettestct8c = ettestct8c = function ettestct8c(params, callback) {
-	testclearstorage();
-	var temp_config = config;
-	
-	config.configuration.midExecute[0].executeorder = 1;
-	config.configuration.midExecute[0].tryorder = 10;
-	config.configuration.midExecute[0].dothis = 'server';
-	config.configuration.midExecute[0].params = {};
-
-	config.configuration.midExecute[1] = {};
-	config.configuration.midExecute[1].executeorder = 1;
-	config.configuration.midExecute[1].tryorder = 4;
-	config.configuration.midExecute[1].dothis = 'executeparam';
-	config.configuration.midExecute[1].params = {};
-
-	config.configuration.midExecute[2] = {};
-	config.configuration.midExecute[2].executeorder = 1;
-	config.configuration.midExecute[2].tryorder = 7;
-	config.configuration.midExecute[2].dothis = 'executegetwid';
-	config.configuration.midExecute[2].params = {};
-
-	config.configuration.midExecute[3] = {};
-	config.configuration.midExecute[3].executeorder = 1;
-	config.configuration.midExecute[3].tryorder = 1;
-	config.configuration.midExecute[3].dothis = 'dothis';
-	config.configuration.midExecute[3].params = {};
-
-	execute([{
-		"executethis": "func_b",
-		"c": "0",
-		"d": "1",
-		"e": "2"
-	}],
-	function (err, res) {
-		res = logverify("ettestct8_result", res[0][0], {
-		"d": "1",
-		"c": "0",
-		"g": "4"
-	});
-	config = temp_config;
-	callback(err, res);
-	});
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "does_not_exist",
 		"does_not_exist": "func_b",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}],
+	}
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
-	function (err, res) {
-		res = logverify("ettestct9_result", res[0][0], {
+	var assert = {
 		"does_not_exist": "func_b",
 		"d": "1",
 		"c": "0",
 		"g": "4"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "does_not_exist",
-		"does_not_exist": "function () { return 'Keg of Beer'; }"
-	}],
-	function (err, res) {
-		res = logverify("ettestct9a_result", res[0][0], {
+		"does_not_exist": "function () { return {data: 'Keg of Beer'}; }"
+	}
+	var assert = {
 		"data": "Keg of Beer"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
 
 // This test is to call func_b, remap does_not_exist to func_a and execute params to func_a and then to func_b
 exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"preexecute": "does_not_exist",
 		"does_not_exist": "func_a",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}],
+	}
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
-	function (err, res) {
-		res = logverify("ettestct10_result", res[0][0], {
+	var assert = {
 		"does_not_exist": "func_a",
 		"f": "3",
 		"c": "0",
 		"g": "4"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
 // This test is to call func_b, remap does_not_exist_1 to func_a,
 // remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c.
 exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"preexecute": "does_not_exist_1",
 		"does_not_exist_1": "func_a",
@@ -1237,25 +1180,23 @@ exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}],
+	}
 	// since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
-	function (err, res) {
-		res = logverify("ettestct11_result", res[0][0], {
+	var assert = {
 		"does_not_exist_1": "func_a",
 		"does_not_exist_2": "func_c",
 		"f": "3",
 		"h": "5",
 		"g": "4"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
 // This test is to send in a config as parameter of a config. This allows for the server to recieve a config
 // from a config that is passed in the parameters.
 exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
 	testclearstorage();
-	execute([{
+	var parameters = {
 		"c": "0",
 		"d": "1",
 		"e": "2",
@@ -1277,141 +1218,62 @@ exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
 				"e": "f"
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct12_result", res[0][0], {
+	}
+	var assert = {
 		"c": "0",
 		"d": "1",
 		"ettestct12": "did some alerting",
 		"g": "4"
-	});
-	callback(err, res);
-	});
-}
-
-// ***************************************************************************************************
-exports.tmp1 = tmp1 = function tmp1(params, callback) {
-	testclearstorage();
-	var x = {
-			"redir_a": [{
-				"dothis": "func_a",
-				"tryorder": 0,
-				"executeorder": 0,
-				"params": {}
-			}],
-			"redir_b": [{
-				"dothis": "func_b",
-				"tryorder": 0,
-				"executeorder": 0,
-				"params": {}
-			}],
-			"redir_c": [{
-				"dothis": "func_c",
-				"tryorder": 0,
-				"executeorder": 0,
-				"params": {}
-			}]
-		};
-
-	var z = {
-		"executethis": "redir_b",
-		"c": "0",
-		"d": "1",
-		"e": "2"
 	}
-
-	w = extend(true, z, {"configuration": x});
-
-	execute([
-		w
-	],
-	function (err, res) {
-		res = logverify("tmp1_result", res[0][0], {
-		"d": "1",
-		"c": "0",
-		"g": "4",
-		"configuration": {
-			"redir_a": [{
-				"dothis": "func_a",
-				"tryorder": 0,
-				"executeorder": 0,
-				"params": {}
-			}],
-			"redir_b": [{
-				"dothis": "func_b",
-				"tryorder": 0,
-				"executeorder": 0,
-				"params": {}
-			}],
-			"redir_c": [{
-				"dothis": "func_c",
-				"tryorder": 0,
-				"executeorder": 0,
-				"params": {}
-			}]
-		}
-	});
-	callback(err, res);
-	});
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
-// ***************************************************************************************************
-
 
 // This test is to test a config where a and b do not exist, but func_c does and c will execute. You
 // should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in
 // the results
 exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
 	testclearstorage();
-	// config = setconfig6();
-	
-	var x = {
-		"preexecute": 
-		[
-			{
-				"executeorder": 1,
-				"tryorder": 1,
-				"dothis": 'dothis',
-				"params": {'cer1': 'alphabits'}
-			}
-		],
-		"midexecute": 
-		[
-			{
-				"executeorder": 1,
-				"tryorder": 1,
-				"dothis": 'dothis',
-				"params": {'cer2': 'booberry'}
-			}
-		],
-		"postexecute": 
-		[
-			{
-				"executeorder": 1,
-				"tryorder": 1,
-				"dothis": 'dothis',
-				"params": {'cer3': 'chex'}
-			}
-		]
-	};
 
-	var z = [
-		{"executethis": "a"},
-		{"executethis": "b"},
-		{"executethis": "fire_c"}
-		];
+	var parameters = {
+		"executethis": "a",
+		"executethis": "b",
+		"executethis": "fire_c",
+		"configuration": {
+			"preexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer1': 'alphabits'}
+				}
+			],
+			"midexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer2': 'booberry'}
+				}
+			],
+			"postexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer3': 'chex'}
+				}
+			]
+		}
 
-	w = extend(true, z, {"configuration": x});
-
-	execute([
-		w
-	],
-	function (err, res) {
-		res = logverify("ettestct13_result", res[2][0], {
+	}
+	var assert = {
 		"fire_c": "fire_c is now fired",
 		"cer2": "booberry"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
 exports.ettestct13c = ettestct13c = function ettestct13c(params, callback) {
@@ -1473,62 +1335,45 @@ exports.ettestct13c = ettestct13c = function ettestct13c(params, callback) {
 // The results should have the a,b,c cereals, along with the regular params.
 exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
 	testclearstorage();
-
-	// execute([{
-	// 	"executethis": "func_b",
-	// 	"preexecute": "func_a",
-	// 	"postexecute": "func_c",
-	// 	"c": "0",
-	// 	"d": "1",
-	// 	"e": "2"
-	// }],
-
-		var x = {
-		"preexecute": 
-		[
-			{
-				"executeorder": 1,
-				"tryorder": 1,
-				"dothis": 'dothis',
-				"params": {'cer1': 'alphabits'}
-			}
-		],
-		"midexecute": 
-		[
-			{
-				"executeorder": 1,
-				"tryorder": 1,
-				"dothis": 'dothis',
-				"params": {'cer2': 'booberry'}
-			}
-		],
-		"postexecute": 
-		[
-			{
-				"executeorder": 1,
-				"tryorder": 1,
-				"dothis": 'dothis',
-				"params": {'cer3': 'chex'}
-			}
-		]
-	};
-
-	var z = {
+	var parameters = {
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"postexecute": "func_c",
 		"c": "0",
 		"d": "1",
-		"e": "2"
+		"e": "2",
+		"configuration": {
+			"preexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer1': 'alphabits'}
+				}
+			],
+			"midexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer2': 'booberry'}
+				}
+			],
+			"postexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer3': 'chex'}
+				}
+			]
+		}
 	};
 
-	w = extend(true, z, {"configuration": x});
-
-	execute([
-		w
-	],
-	function (err, res) {
-		res = logverify("ettestct14_result", res[0][0], {
+	var assert = {
 		"g": "4",
 		"cer2": "booberry",
 		"cer1": "alphabits",
@@ -1536,42 +1381,98 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
 		"cer3": "chex",
 		"h": "5",
 		"configuration": {}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 
 
-// This will send the alphabits param in the preexecute config, but will overriding it in the args to
-// win out? It does...the config params are lost and the 'arg' params from the config win out.
+// This will send the alphabits param in the preexecute config, but will be overriding it in the args..
+// Which one will win out? It does...the config params are lost and the 'arg' params from the config win out.
 exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
 	testclearstorage();
-	config = setconfig6();
-	execute([{
+	// config = setconfig6();
+	var parameters = {
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"cer1": "booberry",
 		"c": "0",
 		"d": "1",
-		"e": "2"
-	}],
-	function (err, res) {
-		res = logverify("ettestct15_result", res[0][0], {
+		"e": "2",
+		"configuration": {
+			"preexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer1': 'alphabits'}
+				}
+			],
+			"midexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer2': 'booberry'}
+				}
+			],
+			"postexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer3': 'chex'}
+				}
+			]
+		}
+	}
+	assert = {
 		"g": "4",
 		"cer1": "booberry",
 		"f": "3",
 		"c": "0",
-		"cer2": "booberry"
-	});
-	callback(err, res);
-	});
+		"cer2": "booberry",
+		"configuration": {
+			"preexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer1': 'alphabits'}
+				}
+			],
+			"midexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer2': 'booberry'}
+				}
+			],
+			"postexecute": 
+			[
+				{
+					"executeorder": 1,
+					"tryorder": 1,
+					"dothis": 'dothis',
+					"params": {'cer3': 'chex'}
+				}
+			]
+		}
+
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the 
 // config params in the assertion wid.
 exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
 	testclearstorage();
 	config = setconfig2();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"preexecute": "mock_server",
 		"c": "0",
@@ -1580,102 +1481,115 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
 		"configuration": {
 			"redir_a": [{
 				"dothis": "func_a",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
 			}],
 			"redir_b": [{
 				"dothis": "func_b",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
 			}],
 			"redir_c": [{
 				"dothis": "func_c",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
+			}],
+			"mock_server": [{
+				"dothis": "cic_output",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {
+					"configuration": {
+						"login1": [{
+							"executeorder": 1,
+							"tryorder": 1,
+							"dothis": "login",
+							"params": {}
+						}]
+					}
+				}
 			}]
 		}
-	}],
-	function (err, res) {
-		res = logverify("ettestct16_result", res[0][0], {
-		"d": "1",
+	}
+	
+	var assert = {
 		"c": "0",
+		"d": "1",
 		"g": "4",
 		"configuration": {
 			"login1": [{
-				"executeorder": 0,
-				"tryorder": 0,
+				"executeorder": 1,
+				"tryorder": 1,
 				"dothis": "login",
 				"params": {}
 			}],
 			"redir_a": [{
 				"dothis": "func_a",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
 			}],
 			"redir_b": [{
 				"dothis": "func_b",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
 			}],
 			"redir_c": [{
 				"dothis": "func_c",
-				"tryorder": 0,
-				"executeorder": 0,
+				"tryorder": 1,
+				"executeorder": 1,
 				"params": {}
 			}]
 		}
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function
 // or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.
 exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
 	testclearstorage();
 	config = setconfig7();
-	execute([{
+	var parameters = {
 		"executethis": "doesnotexist",
 		"c": "0",
 		"d": "1",
-		"e": "2"
-	}],
-	function (err, res) {
-		res = logverify("ettestct17_result", res[0][0], {
+		"e": "2",
+		"configuration":
+		{ 
+			midExecute : {'exdef': 'param after dothis and executeparam was grabbed'}
+		}
+	}
+	var assert = {
 		"d": "1",
 		"c": "0",
 		"g": "4",
 		"exdef": "executedefault was grabbed"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
 exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
 	testclearstorage();
 	config = setconfig7();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"c": "0",
 		"d": "1",
 		"e": "2"
-	}],
-	function (err, res) {
-		res = logverify("ettestct18_result", res[0][0], {
+	}
+	var assert = {
 		"exdef": "param after dothis and executeparam was grabbed",
 		"f": "3",
 		"c": "0",
 		"myexfnparam": "hereismyfnparam",
 		"g": "4"
-	});
-	// params = logverify("c_unit_tests","ct18_result","ct18_output","","", {"f":"3","c":"0","g":"4","myexfnparam":"hereismyfnparam" });
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params
 // sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, 
@@ -1683,7 +1597,7 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
 exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 	testclearstorage();
 	config = setconfig8();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"postexecute": "func_c",
@@ -1716,9 +1630,8 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 		"alpha": "1",
 		"bravo": "1",
 		"charlie": "1"
-	}],
-	function (err, res) {
-		res = logverify("ettestct19_result", res[0][0], {
+	}
+	var assert = {
 		"configuration": {},
 		"f": "3",
 		"g": "4",
@@ -1726,31 +1639,28 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 		"alpha": "1",
 		"bravo": "1",
 		"charlie": "1"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are 
 // all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
 exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
 	testclearstorage();
 	config = setconfig8();
-	execute([{
+	var parameters = {
 		"executethis": "func_b",
 		"preexecute": "func_a",
 		"postexecute": "func_c"
-	}],
-	function (err, res) {
-		res = logverify("ettestct20_result", res[0][0], {
+	}
+	var assert = {
 		"charlie": "4",
 		"g": "4",
 		"alpha": "4",
 		"f": "3",
 		"bravo": "4",
 		"h": "5"
-	});
-	callback(err, res);
-	});
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -2982,22 +2892,362 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
 	testclearstorage();
 
 	execute([{
-	"executethis": "addwidmaster",
-	"wid": "getexecutetest",
-	"addthis.executethis": "func_b"
+		"executethis": "addwidmaster",
+		"wid": "getexecutetest",
+		"addthis.executethis": "func_b"
 	}, {
-	"executethis": "getexecutetest"
+		"executethis": "getwidmaster",
+		"wid": "getexecutetest"
 	}], 
- 	function (err, res) {
-	 	proxyprinttodiv("uwid1's amazing return: ", res[1][0], 99);
-
-	  	// The following will pass...it shows what the getwidmaster returns
-	  	// res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
-	  
-	  	// This assertion is what is expected, but it fails
-	  	res = logverify("uwid1", res[1][0], [{"wid":"getexecutetest","metadata.method":"defaultdto","g":"4"}]);
-
-	  	callback(err, res);	
+	function (err, res) {
+		alert(JSON.stringify(res[1][0]));
+		// The following will pass...it shows what the getwidmaster returns
+		// res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
+		
+		// This assertion is what is expected, but it fails
+		res = logverify("uwid1", res[1][0], {"g": "4"});
+		callback(err, res);
 	});
 }
-// logverify(testname, resultwid, parmwid1, parameterobj1, parmwid2, parameterobj2)
+
+exports.tmp1 = tmp1 = function tmp1(params, callback) {
+	testclearstorage();
+	var x = {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		};
+
+	var z = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2"
+	}
+
+	w = extend(z,{"configuration": x});
+
+	execute([
+		w
+	],
+	function (err, res) {
+		res = logverify("tmp1_result", res[0][0], {
+		"d": "1",
+		"c": "0",
+		"g": "4",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		}
+	});
+	callback(err, res);
+	});
+}
+
+//---------------------------
+
+exports.tmp2 = tmp2 = function tmp2(params, callback) {
+	testclearstorage();
+	var temp_config = extend(config);
+
+	var x = {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		};
+
+	var z = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2"
+	}
+
+	config.configuration = extend(config.configuration, x);
+
+	execute([
+		z
+	],
+	function (err, res) {
+		res = logverify("tmp2_result", res[0][0], {
+		"d": "1",
+		"c": "0",
+		"g": "4"
+	});
+	config = extend(temp_config);
+	callback(err, res);
+	});
+}
+
+//---------------------------
+
+function tmp4 (params, callback) {
+	assert = {
+		"d": "1",
+		"c": "0",
+		"g": "4"
+	};
+	parameters = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		}
+	};
+	master_test_and_verify (parameters, assert, callback);
+	var err;
+	callback (err, res);
+}
+
+function tmp5 (params, callback) {
+	parameters = {
+			"executethis": "func_b",
+			"c": "0",
+			"d": "1",
+			"e": "2"
+		}
+
+	assert = {
+			"d": "1",
+			"c": "0",
+			"g": "4"
+		}
+
+	test_and_verify (parameters, assert, true, function (err, res) {
+			callback (err, res);
+		});
+}
+
+function tmp6 (params, callback) {
+	parameters = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
+	}
+	assert = {
+		"d": "1",
+		"c": "0",
+		"g": "4",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 0,
+				"executeorder": 0,
+				"params": {}
+			}]
+		}
+	}
+	master_test_and_verify (this.targetfn.name, parameters, assert, function (err, res) {callback (err, res)});
+}
+
+exports.tmp3 = tmp3 = function tmp3(params, callback) {
+	testclearstorage();
+	var temp_config = extend(config);
+
+	var x = {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		};
+
+	var z = {
+		"executethis": "redir_b",
+		"c": "0",
+		"d": "1",
+		"e": "2"
+	}
+
+	w = extend(z,{"configuration": x});
+
+	execute([
+		w
+	],
+	function (err, res) {
+		res = logverify("tmp3_result", res[0][0], {
+		"d": "1",
+		"c": "0",
+		"g": "4",
+		"configuration": {
+			"redir_a": [{
+				"dothis": "func_a",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_b": [{
+				"dothis": "func_b",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}],
+			"redir_c": [{
+				"dothis": "func_c",
+				"tryorder": 1,
+				"executeorder": 1,
+				"params": {}
+			}]
+		}
+	});
+
+				config = extend(temp_config);
+				config.configuration = extend(config.configuration, x);
+
+				var r2 = execute([
+					z
+				],
+				function (err, res_1) {
+					alert("res_1[0][0]: " + JSON.stringify(res_1[0][0]));
+					res_1 = logverify("tmp3a_result", res_1[0][0], {
+					"d": "1",
+					"c": "0",
+					"g": "4"
+				});
+				alert("res_1: " + JSON.stringify(res_1));
+					callback(err, res_1);
+				});
+				
+				alert("r2: " + JSON.stringify(r2));
+				res = extend(res, r2);
+				alert(JSON.stringify(res));
+				config = extend(temp_config);
+
+	callback(err, res);
+	});
+}
+
+
+// function tmp5 (params, callback) {
+// 	parameters = {
+// 			"executethis": "func_b",
+// 			"c": "0",
+// 			"d": "1",
+// 			"e": "2"
+// 		}
+
+// 	assert = {
+// 			"d": "1",
+// 			"c": "0",
+// 			"g": "4"
+// 		}
+
+// test_and_verify (parameters, assert, true, function (err, res) {
+// 		callback (err, res);
+// 	});
+ 	
+//	// master_test_and_verify (parameters, assert, function (err, res) {
+//	// 	callback (err, res);
+//	// });
+// }
