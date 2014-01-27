@@ -536,6 +536,7 @@
                         "key": "metadata.method",
                         "value": "relationshipdto"
                     });
+                    proxyprinttodiv('Function AddMongoRelationship - InList', InList, 99);
                     debugfn("AddMongoRelationship", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("");
                 },
@@ -550,8 +551,8 @@
                     };
                     executeobject["executethis"] = querywid;
                     execute(executeobject, function (err, res) {
-                        proxyprinttodiv('Function relationshiptype executeobject', executeobject, 75);
-                        proxyprinttodiv('Function relationshiptype res', res, 75);
+                        proxyprinttodiv('Function relationshiptype executeobject', executeobject, 99);
+                        proxyprinttodiv('Function relationshiptype res', res, 99);
                         widset = res;
                         debugfn("AddMongoRelationship", "step2", "add", "sub", debugcolor, debugindent, debugvars([1]));
                         cb("");
@@ -559,7 +560,7 @@
                 },
 
                 function step3(cb) {
-                    proxyprinttodiv('Function AddMongoRelationship, ******************* 1 : ', widset, 90);
+                    proxyprinttodiv('Function AddMongoRelationship, ******************* 1 : ', widset, 99);
                     var widobject = {};
                     if (widset.length > 0) {
                         widobject = widset[0]
@@ -569,7 +570,7 @@
                     InList.push(widobject);
 
                     widset = InList;
-                    proxyprinttodiv('Function AddMongoRelationship, ******************* 2 : ', widset, 90);
+                    proxyprinttodiv('Function AddMongoRelationship, ******************* 2 : ', widset, 99);
                     debugfn("AddMongoRelationship", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("");
                 },

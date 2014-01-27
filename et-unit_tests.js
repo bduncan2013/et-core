@@ -1923,6 +1923,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 }
 // This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
+
 	testclearstorage();
 
     debugname = "";
@@ -1956,8 +1957,11 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 		"metadata.method": "songdto",
 		"title": "Highway to Hell",
 		"sounddto.0.note": "A flat",
+		
 		"sounddto.1.note": "B sharp",
+		
 		"sounddto.2.note": "C flat"
+		
 	},
 	{
 		"executethis": "getwidmaster",
@@ -2002,8 +2006,6 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     debugcat = "";
     debugsubcat = "";
 
-		proxyprinttodiv('Function ag3 result ', res[4], 99);
-		alert(JSON.stringify(res));
 		res = logverify("ettestag3_result", res[4][0], {
 		"title": "Highway to Hell",
 		"wid": "song1",
@@ -2039,9 +2041,6 @@ exports.sleep = sleep = function sleep(milliseconds) {
 }
 
 // Here are the different configs used in the tests
-
-
-
 exports.func_async = func_async = function func_async(parameters, callback) {
 	delete parameters["d"];
 	console.log('from func_async');
@@ -3298,4 +3297,22 @@ exports.tmp3 = tmp3 = function tmp3(params, callback) {
 //	// master_test_and_verify (parameters, assert, function (err, res) {
 //	// 	callback (err, res);
 //	// });
+// }
+// 	"executethis": "addwidmaster",
+// 	"wid": "getexecutetest",
+// 	"addthis.executethis": "func_b"
+// 	}, {
+// 	"executethis": "getexecutetest"
+// 	}], 
+//  	function (err, res) {
+// 	 	proxyprinttodiv("uwid1's amazing return: ", res[1][0], 99);
+
+// 	  	// The following will pass...it shows what the getwidmaster returns
+// 	  	// res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
+	  
+// 	  	// This assertion is what is expected, but it fails
+// 	  	res = logverify("uwid1", res[1][0], [{"wid":"getexecutetest","metadata.method":"defaultdto","g":"4"}]);
+
+// 	  	callback(err, res);	
+// 	});
 // }

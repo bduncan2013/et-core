@@ -335,7 +335,7 @@
             // so we check to see if there is something on the right hand side for the target (pre, mid, post)
             if (params[target] !== undefined) {
 
-                // it is possible the function sent in a string or an actual function...we need to convert to string for config lookup
+                // it is possible the function sent in is a string or an actual function...we need to convert to string for config lookup
                 if (params[target] instanceof Function) {
                     targetname = params[target].name; // get the targetname
                     targetfunction = params[target]; // get targetfunction (whole function)
@@ -698,7 +698,7 @@
 
 
         async.mapSeries(howToDoList, function (h, cbMapH) {
-                proxyprinttodiv("executelist begin how howallowexecute ", howallowexecute, 18);
+                proxyprinttodiv("executelist begin how howallowexecute ", howallowexecute, 17);
                 proxyprinttodiv("dothis - h ", h, 18);
                 howToDo = h['dothis']; // get specific howToDo from list
                 howToDoParams = h['params']; // get params that were stored
@@ -706,7 +706,7 @@
                     howToDoParams = {};
                 }
 
-                proxyprinttodiv("executelist howToDo ", howToDo, 18);
+                proxyprinttodiv("executelist howToDo ", howToDo, 17);
                 if (howexecuteorder !== h.executeorder) {
                     // if orders are different, then we are in new iteration of do, reset flat to allow how execute
                     howallowexecute = true;
@@ -717,8 +717,8 @@
                 whatexecuteorder = 1;
 
                 async.mapSeries(whatToDoList, function (w, cbMapW) {
-                        proxyprinttodiv("execute - I howallowexecute", howallowexecute, 18);
-                        proxyprinttodiv("execute - I whatexecuteorder", whatallowexecute, 18);
+                        proxyprinttodiv("execute - I howallowexecute", howallowexecute, 17);
+                        proxyprinttodiv("execute - I whatexecuteorder", whatallowexecute, 17);
                         proxyprinttodiv("execute - w", w, 18);
                         if (w[howToDo]) {
                             whatToDo = w[howToDo]; // try to get specific config for whatToDo
@@ -731,7 +731,7 @@
                         if ((whatToDoParams === undefined) || (whatToDoParams === "")) {
                             whatToDoParams = {};
                         }
-                        proxyprinttodiv("execute - whatToDo", whatToDo, 18);
+                        proxyprinttodiv("execute - whatToDo", whatToDo, 17);
 
                         if (whatexecuteorder !== w.executeorder) {
                             // executeorder changed, reset whatallowexecute, other allow it to remain
@@ -739,23 +739,35 @@
                         }
                         whatexecuteorder = w.executeorder;
 
-                        proxyprinttodiv("executelist end what howallowexecute ", howallowexecute, 18);
-                        proxyprinttodiv("executelist end what whatallowexecute ", whatallowexecute, 18);
+                        proxyprinttodiv("executelist end what howallowexecute ", howallowexecute, 17);
+                        proxyprinttodiv("executelist end what whatallowexecute ", whatallowexecute, 17);
                         //debugfn("executelist", "executelist", "execute", "mid", debugcolor, debugindent, debugvars([1, 2, 3]));
 
                         if ((howallowexecute) && (whatallowexecute)) { //if both allowed to execute
                             getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn,
                                 function (err, executeobject) {
                                     // always will get something back, even if errorfn...so always execute and store resutls
-                                    proxyprinttodiv("executelist executeobject ", executeobject, 17);
-                                    proxyprinttodiv("executelist executeobject ", executeobject.params, 17);
-                                    proxyprinttodiv("executelist executeobject ", String(executeobject.targetfn), 17);
-                                    if (executeobject.targetfn) {
+                                    proxyprinttodiv("executelist executeobject: ", executeobject, 17);
+                                    proxyprinttodiv("executelist executeobject.params: ", executeobject.params, 17);
+                                    proxyprinttodiv("executelist executeobject.targetfn: ", String(executeobject.targetfn), 17);
+                                    if (typeof executeobject.targetfn === 'function') { // there was a chance of a none function getting in here -- Joe
                                         authcall(executeobject.params, function (err, securitycheck) {
                                             if (securitycheck) {
                                                 executeobject.targetfn(executeobject.params, function (err, res) {
                                                     proxyprinttodiv("executelist result from execution ", res, 17);
+
+                                                    // This section helps control the iteration -- Joe
+                                                    // ***********************************************
                                                     whatallowexecute = false;
+                                                    howallowexecute = false;
+
+                                                    if ((res === undefined) || (res === {})) { // may be issues with empty object
+                                                        whatallowexecute = true;
+                                                        howallowexecute = true;
+                                                        executeobject.executeflag === false;
+                                                    }
+                                                    // ************************************************
+
                                                     if (executeobject.executeflag === true) {
                                                         execute(res, function (err, res) {
                                                             // if executegetwid then execute with the results
@@ -804,11 +816,9 @@
 
                     function (err, res) {
                         proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 17);
-                        howallowexecute = false;
+                        
                         cbMapH(null, "How Iteration");
                         //console.log(' completed whatToDoList iteration in sync fashion.');
-
-
                     });
 
                 // map w,
@@ -928,73 +938,6 @@
     // } // fn
 
 
-    function getexecuteobject(params, howToDo, whatToDo, whatToDoFn, callback) {
-        // code tries to get appropriate executeobject...will always return something even if error fn
-        var targetfn = undefined;
-        var executeflag = false;
-
-        proxyprinttodiv("getexecuteobject howToDo", howToDo, 17);
-        proxyprinttodiv("getexecuteobject whatToDo", whatToDo, 17);
-        //proxyprinttodiv("getexecuteobject fn whatToDo", String(window[whatToDo]), 17);
-        if ((!howToDo) || (!whatToDo)) {
-            params["etstatus"] = "invalidconfig"
-            targetfn = executeerror
-        }
-
-        // switch (howToDo) {
-        switch (howToDo) {
-
-        case "dothis": // previously executefn ... go look for fn to execute
-            if (whatToDoFn !== window[whatToDo]) {
-                targetfn = window[whatToDo];
-            } else {
-                targetfn = whatToDoFn;
-            }
-
-            break;
-
-        case "executeparam":
-            if (params === undefined) {
-                targetfn = undefined;
-                break;
-            }
-
-            targetfn = params[whatToDo];
-
-            // if (!targetfn instanceof Function) {
-            //     targetfn = window[targetfn];
-            // } else if (typeof targetfn === 'string') {
-            //     targetfn = window[targetfn];
-            // }
-
-            break;
-
-        case "executegetwid":
-            targetfn = execute;
-            executeflag = true; // so caller gets wid and then executes with the results
-            //params = {};
-            params["executethis"] = "getwidmaster";
-            params["wid"] = whatToDo;
-
-            // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) { 
-            // tempobject=""
-            // if (tempobject !== undefined && tempobject['js']) {
-            //     targetfn = tempobject['js'];
-            //     fncheck = true;
-            // } else {
-            //     tempobject.skipExecuteObjCheck = true;
-            //     tempobject.params={};
-            //     callback({}, tempobject);
-            // }
-            // });
-            break;
-
-        case "server":
-            targetfn = window["server"];
-            params['executethis'] = whatToDo;
-            break;
-        }
-    }
 
 
 
@@ -1028,7 +971,6 @@
                 targetfn = undefined;
                 break;
             }
-
             targetfn = params[whatToDo];
 
             // if (!targetfn instanceof Function) {
@@ -1058,6 +1000,7 @@
             // }
             // });
             break;
+
 
         case "server":
             targetfn = window["server"];

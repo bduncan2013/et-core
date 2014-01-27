@@ -41,7 +41,7 @@ if (!debugsubcat) {
 }
 if (!debugfilter) {
     var debugfilter = '';
-}
+} 
 if (!debugdestination) {
     var debugdestination = 1;
 }
@@ -317,8 +317,9 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
     callback(err, widobject);
 };
 
-//function getfrommongo(inputWidgetObject) {
+
 exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
+    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 17);
 
     var collection = "DRI";
     var keycollection = "DRIKEY"
@@ -345,13 +346,21 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
 
     callback(err, output);
 }; //End of getfrommongo function
-
-
 exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
     proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
     offlinegetfrommongo(inputWidgetObject, function (err, resultobject) {
         // convert the object from dri standard before returnning it
         callback({}, convertfromdriformat(resultobject));
+        // for (var item in outobject) { // now step through each record that could be changed
+        //     if (item.indexOf("addthis.") !== -1) { // if you found "addthis." then remove from outobject
+        //         outobject[item.replace("addthis.", "")] = outobject[item]; // then and readd without addthis
+        //         delete outobject[item]; // delete the old one
+        //     }
+        // }
+
+        proxyprinttodiv('Function getwid out : outobject', outobject, 17);
+
+        callback(err, outobject);
     });
 };
 
