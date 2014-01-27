@@ -57,7 +57,7 @@ if (!test_results) {
 }
 
 exports.bootprocess = bootprocess = function bootprocess() {
-    if (config === {}) {setdefaultparm()}; 
+    if (Object.keys(config).length === 0) { setdefaultparm() }; 
     etappinstall(); // take out later
     proxyprinttodiv('Function bootprocess config', config, 1);
     execute({
@@ -71,13 +71,16 @@ exports.bootprocess = bootprocess = function bootprocess() {
         result={};
         //****
         if (result instanceof Array) {result=result[0]}
-        if (Object.keys(result).length == 0) {
+        if (Object.keys(result).length === 0) {
             // then 'dirty' et environement
             execute({
                 "executethis": "updatewid",
                 "wid": "etenvironment",
                 "something": "something"
-            },  function (err, result) {etappinstall(err, result) })
+            }, etappinstall); //,
+            // function (err, result) {
+
+            // })
 
             if (true) {
                 etappstarted();
