@@ -1927,7 +1927,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
     debugname = "";
     debugcat = "";
-    debugsubcat = "code";
+    debugsubcat = "";
 
     
 	execute([{

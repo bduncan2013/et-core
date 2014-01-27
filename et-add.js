@@ -950,8 +950,10 @@
                         }
                     }
 
-                    ParentdtoList = dtoList; // now go through childrent list and delete from copy of incoming parameters
-                    ParentList = parameterList; // anything related to these children
+                    // extend(true, ParentdtoList, dtoList);
+                    ParentdtoList = JSON.parse(JSON.stringify(dtoList)); // now go through childrent list and delete from copy of incoming parameters
+                    // extend(true, ParentList, parameterList);
+                    ParentList = JSON.parse(JSON.stringify(parameterList)); // anything related to these children
 
                     for (var currentparameter in ChildrenListobj) {
                         ParentList = MatchDelete(ParentList, currentparameter);
@@ -976,21 +978,24 @@
                 function step3(cb) {
                     RelatedListParameters = SplitObjectList(parameterList, ParentList); // figure out what the left over parameters are
                     RelatedListParameters = RelatedListParameters.nomatch;
+
                     RelatedListdto = SplitObjectList(dtoList, ParentdtoList);
+
                     RelatedListdto = RelatedListdto.nomatch;
-                    proxyprinttodiv('Function AddMaster : RelatedListdto', RelatedListdto, 75);
-                    proxyprinttodiv('Function AddMaster : RelatedListParameters', RelatedListParameters, 75);
+                    proxyprinttodiv('Function AddMaster : RelatedListdto', RelatedListdto, 17);
+                    proxyprinttodiv('Function AddMaster : RelatedListParameters', RelatedListParameters, 17);
                     debugfn("AddMaster", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 },
                 function step4(cb) { // create work
                     var listtodo = [];
-                    proxyprinttodiv('Function AddMaster : ChildrenListobj ', ChildrenListobj, 75);
+                    proxyprinttodiv('Function AddMaster : ChildrenListobj ', ChildrenListobj, 17);
                     for (var childrentype in ChildrenListobj) {
                         listtodo.push(childrentype);
                     }
+
                     async.mapSeries(listtodo, function (childrentype, cbMap) {
-                            async.series([
+                        async.series([
 
                                     function step4n1(cb) {
                                         editflag = 'false';
@@ -1000,9 +1005,9 @@
                                         for (var currentcount in RelatedListParameters) {
                                             //proxyprinttodiv('Function AddMaster : currentcount', currentcount);
                                             var currentparameter = RelatedListParameters[currentcount].key;
-                                            //proxyprinttodiv('Function AddMaster : currentparameter', currentparameter);
+                                            proxyprinttodiv('Function AddMaster : currentparameter', currentparameter, 17);
                                             splitkey = currentparameter.split(".");
-                                            //proxyprinttodiv('Function AddMaster : splitkey', splitkey);
+                                            proxyprinttodiv('Function AddMaster : splitkey', splitkey, 17);
                                             if (splitkey[0] == childrentype) {
                                                 currentNumber = 0;
                                                 if (splitkey[1] !== undefined) {
@@ -1010,8 +1015,8 @@
                                                 }
                                                 //proxyprinttodiv('Function AddMaster : currentNumber', currentNumber);
                                                 if (currentNumber >= 0) {
-                                                    //proxyprinttodiv('Function AddMaster : currentNumber II ', currentNumber);
-                                                    parameterindexobj.push[currentNumber]
+                                                    proxyprinttodiv('Function AddMaster : currentNumber II ', currentNumber, 17);
+                                                    parameterindexobj.push(currentNumber);
                                                     //parameterindexobj[splitkey[1]] = splitkey[0];
                                                     // 1 booksdto
                                                     // 3 booksdto
@@ -1027,6 +1032,8 @@
                                         function sortNumber(a,b) {
                                             return a - b;
                                             }
+
+                                        proxyprinttodiv('Function AddMaster : parameterindexobj, before sort', parameterindexobj, 17);
 
                                         if (parameterindexobj.length!=0) { // since array 
                                             parameterindexobj=parameterindexobj.sort(sortNumber);
@@ -1045,7 +1052,7 @@
 
                                         // parameterindexobj = sortable;
 
-                                        proxyprinttodiv('Function AddMaster : parameterindexobj, sorted, which children have dots ', parameterindexobj, 75);
+                                        proxyprinttodiv('Function AddMaster : parameterindexobj, sorted, which children have dots ', parameterindexobj, 17);
 
                                         proxyprinttodiv('Function AddMaster : editflag ', editflag, 75);
                                         // ** note there will be issues with sort
@@ -1098,112 +1105,101 @@
                                             cb(null);
                                         }
                                     },
+
                                     function step4n3(cb) {
                                         // do children with numbers first
-
                                         SplitParameters = MatchPrefixDelete(RelatedListdto, childrentype);
                                         ChildrendtoList = SplitParameters.match;
                                         RelatedListdto = SplitParameters.nomatch;
-
                                         // save copy for next iteration
                                         proxyprinttodiv('Function AddMaster : ChildrendtoList - 111, parameters for current child', ChildrendtoList, 75);
                                         proxyprinttodiv('Function AddMaster : RelatedListdto - 111, dto for current child, now determine if number or not A/B', RelatedListdto, 75);
-
                                         debugfn("AddMaster", "step4n3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
-/*                                    function step4n4(cb) {
-                                        proxyprinttodiv('Function AddMaster : parameterindexobj',parameterindexobj, 75);
-                                        if (parameterindexobj.length!=0) { // since array 
-                                        //if (Object.keys(parameterindexobj).length !== 0) {
-                                            async.series([
+                                    
+                                    function step4n4(cb) {
+                                        proxyprinttodiv('Function AddMaster : parameterindexobj', parameterindexobj, 17);
+                                        
+                                        if (parameterindexobj.length !== 0) { // since array 
+                                            var listtodo = [];
+                                            proxyprinttodiv('Function AddMaster : parameterindexobj past if', parameterindexobj, 17);
+                                            
+                                            async.mapSeries(parameterindexobj, function (currentchild, cbMap) { //cbMap needed at end 
+                                                
+                                                async.series([ // asynch series 4n4n1n-
+                                                    
+                                                    function step4n4n1n1(cb) {
+                                                        proxyprinttodiv('Function AddMaster : childrenttype.currentchild - 222, process this number first, look up in widlist', childrentype + '.' + currentchild, 99);
+                                                        
+                                                        SplitParameters = MatchPrefixDelete(RelatedListParameters, childrentype + '.' + currentchild); // separate parameters to those that start with curr number
+                                                        
+                                                        var ParametersToAdd = {};
+                                                        proxyprinttodiv('Function AddMaster : Parameters to add before match', ParametersToAdd, 99);
 
-                                                    function step4n4n1(cb) {
-                                                        var listtodo = [];
+                                                        ParametersToAdd = SplitParameters.match;
+                                                        proxyprinttodiv('Function AddMaster : Parameters to add after match', ParametersToAdd, 99);
+                                                        RelatedListParameters = SplitParameters.nomatch; // each iteration relatedlistparameter will become smaller
+                                                        
+                                                        if (Object.keys(ParametersToAdd).length !== 0) {
+                                                            widtoadd = '';
+                                                            
+                                                            if ((editflag = 'true') && (widlist != "")) {
+                                                                
+                                                                if (widlist[currentchild] !== undefined) { // removed -1
+                                                                    
+                                                                    for (var widName in widlist[currentchild]) { // removed -1
+                                                                        widtoadd = widName;
+                                                                    }
+                                                                }
+                                                            }
+                                                        } // count keys parm add
+                                                        debugfn("AddMaster", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                        cb(null); // step step4n4n1n1
+                                                    }, // end step4n4n1n1
+                                                    
+                                                    function step4n4n1n2(cb) {
+                                                        AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
+                                                            ChildWid = res;
+                                                            debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
+                                                                0: originalarguments,
+                                                                1: res,
+                                                                2: executionid
+                                                            }, 4);
+                                                            debugfn("AddMaster", "step4n1n2b", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                            cb("");
+                                                        });
+                                                    }, // end step4n4n1n2
 
-        
-                                                        for (var currentchild in parameterindexobj) {
-                                                            listtodo.push(parameterindexobj[currentchild]);
-                                                        }
-                                                        proxyprinttodiv('Function AddMaster : listtodo',listtodo, 75);
-                                                        async.mapSeries(listtodo, function (currentchild, cbMap) {
-                                                                async.series([ // asynch series 4n1n-
+                                                    function step4n4n1n3(cb) {
+                                                        AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
+                                                            debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
+                                                                0: originalarguments,
+                                                                1: res,
+                                                                2: executionid
+                                                                }, 4);
+                                                            debugfn("AddMaster", "step4n4n1n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                            cb("");
+                                                        });
+                                                    } // end step4n41n3
+                                                ], // asynch series end array
+                                                
+                                                function (err, results) { // asynch series callback
+                                                    cb(""); // yupe calling back with nothin
+                                                }); // end async series
+                                                cbMap(null); // async map callback -- needed for async library to work
+                                            }, // async map end object
 
-                                                                        function step4n4n1n1(cb) {
-                                                                            proxyprinttodiv('Function AddMaster : childrenttype.currentchild - 222, process this number first, look up in widlist', childrentype + '.' + currentchild, 75);
-                                                                            SplitParameters = MatchPrefixDelete(RelatedListParameters, childrentype + '.' + currentchild); // separate parameters to those that start with curr number
-                                                                            ParametersToAdd = SplitParameters.match;
-                                                                            RelatedListParameters = SplitParameters.nomatch; // each iteration relatedlistparameter will become smaller
-                                                                            //proxyprinttodiv('Function AddMaster : editflag', editflag);
-                                                                            //if (ParametersToAdd.length!==0) {     ****
-                                                                            if (countKeys(ParametersToAdd) !== 0) {
-                                                                                widtoadd = '';
-                                                                                if ((editflag = 'true') && (widlist != "")) {
-                                                                                    if (widlist[currentchild] !== undefined) { // removed -1
-                                                                                        for (var widName in widlist[currentchild]) { // removed -1
-                                                                                            widtoadd = widName;
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            } // count keys parm add
-                                                                            debugfn("AddMaster", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                                                                            cb(null); // step step4n4n1n1
-                                                                        },
-                                                                        function step4n4n1n2(cb) {
-                                                                            
-                                                                                AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
-                                                                                    ChildWid = res;
-                                                                                    debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
-                                                                                        0: originalarguments,
-                                                                                        1: res,
-                                                                                        2: executionid
-                                                                                    }, 4);
-                                                                                    debugfn("AddMaster", "step4n1n2b", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                                                                                    cb(""); // step step4n4n1n2
-                                                                                });
-                                                                        },
-                                                                        function step4n4n1n3(cb) {
-                                                                                AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
-                                                                                    debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
-                                                                                            0: originalarguments,
-                                                                                            1: res,
-                                                                                            2: executionid
-                                                                                        }, 4);
-                                                                                    debugfn("AddMaster", "step4n4n1n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                                                                                    cb("");
-                                                                                }); // step step4n4n1n3
-                                                                        }
-                                                                    ], // asynch series 4n1n-
-                                                                    //function (err, results) {
-
-                                                                        cbMap(null)); // map series -- added
-
-                                                                    //}
-                                                                      // asynch series 4n1n-
-
-                                                                //cbMap(null); // map series
-
-                                                            }, // finishes asych map
-                                                            //function (err, results) {
-
-                                                            //}
-                                                            cb(null) 
-                                                            ); // end async map
-
-                                                        //cb(null); 
-
-                                                    } // step4n4n1
-                                                ],
-                                                cb(null) // step4n4 callback
-                                                //function (err, results) {
-                                                //}
-                                                ); // end async series
-                                            //cb(null); // step4n4 callback
+                                            function (err, results) { // async map callback
+                                                cbMap(null);
+                                            }); // end async map
                                         } // end if
-                                    else {
-                                        callback(null); // step4n4 callback
+
+                                        else {
+                                            callback(null); // step4n4 callback
                                         }
-                                    }, // end function step4n4*/
+                                    }, // end function step4n4 
+
                                     function step4n5(cb) {
                                         SplitParameters = MatchPrefixDelete(RelatedListParameters, childrentype); // split parameters based on childtype
                                         ParametersToAdd = SplitParameters.match; // do right now

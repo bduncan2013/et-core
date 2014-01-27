@@ -338,7 +338,7 @@
                             }
                     }
 
-                    proxyprinttodiv("getcleanparameters removed addthis: ", resultObj, 99);
+                    proxyprinttodiv("getcleanparameters removed addthis: ", resultObj, 17);
 
                     if (((resultObj['wid'] !== undefined)) &&
                         ((resultObj['wid'] !== resultObj['metadata.method']) || (dtotype = "defaultdto"))) {
@@ -1055,8 +1055,8 @@
 
 
                     execute(executeobject, function (err, res) {
-                        proxyprinttodiv('Function getwidmongo executeobject', executeobject,99);
-                        proxyprinttodiv('Function getWidMongo res', res,99);
+                        proxyprinttodiv('Function getwidmongo executeobject', executeobject,17);
+                        proxyprinttodiv('Function getWidMongo res', res,17);
                         relatedParameters = res; 
                         debugfn("getAndFormatNextLevel", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null)
@@ -1094,7 +1094,7 @@
                                     proposedRight = rowresult[key];
                                 }
                                 // added 1/26
-                                proxyprinttodiv('Function getAndFormatNextLevel() rowresult', rowresult, 99);
+                                proxyprinttodiv('Function getAndFormatNextLevel() rowresult', rowresult, 17);
                                 mongowidmethod=proposedRight["metadata.method"]
 
                                 if (convertmethod == "wid") {
