@@ -57,7 +57,7 @@ if (!test_results) {
 }
 
 exports.bootprocess = bootprocess = function bootprocess() {
-    if (confg={}) {setdefaultparm()}; 
+    if (config === {}) {setdefaultparm()}; 
     etappinstall(); // take out later
     proxyprinttodiv('Function bootprocess config', config, 1);
     execute({
