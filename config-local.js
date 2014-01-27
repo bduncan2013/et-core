@@ -77,10 +77,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
                 "executethis": "updatewid",
                 "wid": "etenvironment",
                 "something": "something"
-            }, etappinstall(err, result)); //,
-            // function (err, result) {
-
-            // })
+            },  function (err, result) {etappinstall(err, result) })
 
             if (true) {
                 etappstarted();
