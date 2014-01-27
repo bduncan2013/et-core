@@ -24,22 +24,20 @@
     // );
 
     // if ((incomingparams instanceof Array)) {
+
+
     exports.execute = window.execute = execute = function execute() {
         var result, preError, midError, overallError;
-        var incomingparams, finalCallback, callback, commandobject;
-        proxyprinttodiv("execute - inboundparms", arguments, 99);
+        var incomingparams, callback, commandobject;
 
         var commandobjectDefaults = {
             "executemethod": 'execute',
             "excutefilter": '',
-            'executeorder': 'executearray',
-            'isNotLast': true,
-            'executelimit': 15,
-            'callback': function (err, resp) {
-                console.log(' >>>>> callback after an iteration >>>  ' + JSON.stringify(resp));
-            }
+            'executeorder': 'series',
+            'executelimit': 15
         };
 
+        // if (arguments[0] instanceof Array) {
         if (arguments[2]) {
             // 3 params
             if (!arguments[1]) {
@@ -60,15 +58,13 @@
             callback = arguments[1];
         }
 
-        // if (arguments[0] instanceof Array) {
-        if (arguments[0] instanceof Array) {
-            executethismultiple(incomingparams, commandobject, callback);
+        if (incomingparams instanceof Array) {
+            executethismultiple(incomingparams, commandobject, function (err, retResults) {
+                console.log(' >>>>>>>>>>>> came here, i saw you >>>>>');
+                console.log(' >>>>>>>>>>>> came here, i saw you >>>>>' + JSON.stringify(retResults));
+                callback(overallError, retResults);
+            });
         } else {
-            incomingparams = arguments[0];
-            // incomingparams = arguments[1];
-            callback = arguments[1];
-
-
             incomingparams = toLowerKeys(incomingparams);
 
             proxyprinttodiv("execute - inboundparms", incomingparams, 11);
@@ -136,16 +132,8 @@
                             tempArray.push(postResults);
                             postResults = tempArray;
                         }
-                        proxyprinttodiv("execute - single -  end inboundparms", incomingparams, 99);
-                        proxyprinttodiv("execute - single - end", postResults, 99);
 
-                        // if(commandobject && commandobject.isNotLast){
-                        proxyprinttodiv("execute - calling interim callback", postResults, 99);
-                        callback(err, postResults);
-                        // }else{
-                        //     proxyprinttodiv("execute - calling final callback  - end", postResults, 99);
-                        //     callback(overallError, postResults);
-                        // }
+                        callback(overallError, postResults);
                     });
                 });
             });
@@ -192,7 +180,7 @@
                 if (!resultlist) {
                     resultlist = []
                 }
-                cb(null, resultlist);
+                callback(null, resultlist);
             });
         }
 
@@ -202,135 +190,69 @@
             callback(true);
         }
 
-        if (true) {
-            executearray(paramsArr, cb);
-        } else {
-
-            proxyprinttodiv('Function executearray paramsArr', paramsArr, 99);
-
-            var resultlist = [];
-            var fnProcess = window[commandobject.executemethod];
-            // var fnProcess = window['executearray'];
-            // filter the inboundparms as per the executeFilter condition
-
-            async.filter(paramsArr, executeFilterPass, function (filteredParamsArr) {
-                // results now equals to a subset with qualifying filter condition met
-
-                // process as per executeOrder value
-                switch (commandobject.executeorder) {
-
-                case "series":
-                    // async.mapSeriesLimit(filteredParamsArr, commandobject.executelimit, fnProcess, function (err, result) {
-                    async.mapSeries(filteredParamsArr, function (filteredParam, cbMap) {
-                        execute(filteredParam, cbMap);
-                    }, function (err, result) {
-                        // TODO :: Saurabh :: the limit is not addressed in this   
-                        proxyprinttodiv('Function executearray result', result, 99);
-                        // resultlist.push(result);
-                        proxyprinttodiv('Function executearray resultlist', resultlist, 99);
-
-                        cb(err, result);
-                        console.debug('processed passed array in a series manner.');
-                    });
-
-                    // series processing of multiple
-                    // async.timesSeries(filteredParamsArr.length, function (n, next) {
-                    //     if(n!==(filteredParamsArr.length-1)){
-                    //         commandobject.isNotLast = true;
-                    //     }else{
-                    //         commandobject.isNotLast = false;
-                    //     }
-                    //     fnProcess(filteredParamsArr[n], commandobject, function (err, res) {
-                    //         console.debug(" >>>> done iteration >>> " + n + " >>> times.");
-                    //         next(err, res);
-                    //     });
-                    // }, function (err, finalResult) {
-                    //     // TODO :: Saurabh :: the limit is not addressed in this   
-                    //     // resultlist.push(result);
-                    //     proxyprinttodiv('Function executearray resultlist', finalResult, 99);
-                    //     console.debug(" >>>> done series processing >>> " + filteredParamsArr.length + " >>> times.");
-                    //     console.debug('processed passed array in a series manner.');
-                    //     cb(err, finalResult);
-                    // });
-                    break;
+        // if (true) {
+        //     executearray(paramsArr, callback);
+        // } else {
 
 
-                case "parallel":
-                    async.mapLimit(filteredParamsArr, commandobject.executelimit, fnProcess, function (err, result) {
-                        resultlist.push(result);
-                        cb(err, resultlist);
-                        console.debug('processed passed array in a parallel manner.');
-                    });
-                    break;
+        var resultlist = [];
+        var fnProcess = window[commandobject.executemethod];
+        // var fnProcess = window['executearray'];
+        // filter the inboundparms as per the executeFilter condition
+
+        async.filter(paramsArr, executeFilterPass, function (filteredParamsArr) {
+            // results now equals to a subset with qualifying filter condition met
+
+            // process as per executeOrder value
+            switch (commandobject.executeorder) {
+
+            case "series":
+                // async.mapSeriesLimit(filteredParamsArr, commandobject.executelimit, fnProcess, function (err, result) {
+                async.mapSeries(filteredParamsArr, fnProcess, function (err, result) {
+                    // TODO :: Saurabh :: the limit is not addressed in this   
+                    resultlist.push(result);
+                    cb(err, result);
+                    console.debug('processed passed array in a series manner.');
+                });
+                break;
 
 
-                case "waterfall":
-                    var fnarray = []
+            case "parallel":
+                async.mapLimit(filteredParamsArr, commandobject.executelimit, fnProcess, function (err, result) {
+                    resultlist.push(result);
+                    cb(err, resultlist);
+                    console.debug('processed passed array in a parallel manner.');
+                });
+                break;
 
-                    // build a passable functions array for waterfall to process
-                    for (var i = 0;
-                        (i < filteredParamsArr.length && i < commandobject.executelimit); i++) {
-                        var fn = function (cb1) {
-                            fnProcess(filteredParamsArr[i], function (err, res) {
-                                cb1(err, res);
-                            });
-                        };
-                        fnarray.push(fn);
-                    }
 
-                    async.waterfall(fnarray, function (err, result) {
-                        resultlist.push(result);
-                        cb(err, resultlist);
-                        console.debug('processed passed array in a waterfall manner.');
-                    });
-                    break;
+            case "waterfall":
+                var fnarray = []
 
-                case "executearray":
-                    console.log('>>>> filteredParamsArr beginning >>>> ' + JSON.stringify(filteredParamsArr));
-                    proxyprinttodiv('Function executearray filteredParamsArr', paramsArr, 17);
-                    var resultlist = [];
-                    async.mapSeries(filteredParamsArr, function (inboundparms, cbMap) {
-                        // each iteration if only one item in list then convert to object—do this at end of execute
-                        if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
-                            cbMap(null, {
-                                'test1': 'Reached test1 code.. executearray function'
-                            });
-                        } else {
-                            proxyprinttodiv('Function array array inboundparms', inboundparms, 17);
-                            if (inboundparms instanceof Array) {
-                                execute(inboundparms, function (err, retResults) {
-                                    resultlist.push(retResults);
-                                    cbMap(null, resultlist);
-                                });
-                            } else {
-                                proxyprinttodiv('Function executearray inboundparms', inboundparms, 17);
-                                execute(inboundparms, function (err, retResults) {
-                                    console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
-                                    proxyprinttodiv('Function retResults', retResults, 17);
-                                    resultlist.push(retResults);
-                                    proxyprinttodiv('Function resultlist', resultlist, 17);
-                                    cbMap(null, resultlist);
-                                });
-                            }
-                        } // else
-                    }, function (err, res) {
-                        // end of all the execution that was meant to be
-                        console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
-                        console.log('asynchronously finished executing executearray.');
-                        proxyprinttodiv('Function executearray resultlist', resultlist, 99);
-                        if (!resultlist) {
-                            resultlist = []
-                        }
-                        commandobject.callback(null, resultlist);
-                    });
-                    break;
-
-                default:
-                    console.debug('not processed anything .. no executeOrder received.');
-                    break;
+                // build a passable functions array for waterfall to process
+                for (var i = 0;
+                    (i < filteredParamsArr.length && i < commandobject.executelimit); i++) {
+                    var fn = function (cb1) {
+                        fnProcess(filteredParamsArr[i], function (err, res) {
+                            cb1(err, res);
+                        });
+                    };
+                    fnarray.push(fn);
                 }
-            });
-        }
+
+                async.waterfall(fnarray, function (err, result) {
+                    resultlist.push(result);
+                    cb(err, resultlist);
+                    console.debug('processed passed array in a waterfall manner.');
+                });
+                break;
+
+            default:
+                console.debug('not processed anything .. no executeOrder received.');
+                break;
+            }
+        });
+        // }
     }
 
 

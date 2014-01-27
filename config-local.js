@@ -65,13 +65,14 @@ exports.bootprocess = bootprocess = function bootprocess() {
     }, function (err, result) {
         //proxyprinttodiv('Function bootprocess result', result, 99);
         // read etenvironment, if not there then must be ok to clear out initial stuff
+        if (result instanceof Array) {result=result[0]}
         if (Object.keys(result).length == 0) {
             // then 'dirty' et environement
             execute({
                 "executethis": "updatewid",
                 "wid": "etenvironment",
                 "something": "something"
-            }, etappinstall()); //,
+            }, etappinstall(err, result)); //,
             // function (err, result) {
 
             // })
@@ -89,7 +90,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
     proxyprinttodiv('Function END bootprocess config', config, 99);
 
 
-    function etappinstall() { // exeucte only the first time app is installed -- once per lifetime
+    function etappinstall(err, result) { // exeucte only the first time app is installed -- once per lifetime
         setappinstallparm();
         testclearstorage();
         if (exports.environment === 'local') {
@@ -126,6 +127,7 @@ function setdefaultparm() {
     debugcolor = 0;
     debugindent = 0;
     debuglinenum = 1;
+    environment="local";
     exports.environment = environment;
     test_results = {}; // can take out
     debuglog = {};

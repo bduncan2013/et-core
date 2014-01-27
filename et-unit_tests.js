@@ -1944,7 +1944,7 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
 		"wid": "sounddto"
 	}],
 	function (err, res) {
-		res = logverify("ettestag1_result", res[1][0], {
+		res = logverify("ettestag1_result", res, {
 		"note": "string",
 		"wid": "sounddto",
 		"metadata.method": "sounddto"
@@ -2078,7 +2078,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 	// 	"wid": "book1"
 	// }],
 	function (err, res) {
-		proxyprinttodiv('Function ag3 result ', res[4], 99);
+		proxyprinttodiv('Function ag3 result ', res, 99);
 		alert(JSON.stringify(res));
 		res = logverify("ettestag3_result", res[4][0], {
 		"title": "Highway to Hell",
