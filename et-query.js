@@ -510,8 +510,9 @@
                 var obj = {};
                 obj[widvalue] = item[environmentdb][parmnamein];
                 //obj["wid"] = widvalue;
+
+
                 output.push(obj); // &&& roger
-                
                 //output[widvalue] = item[parmnamein]
             }
             // }else if(inlist instanceof Object){

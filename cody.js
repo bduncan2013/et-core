@@ -28,19 +28,21 @@ exports.etdocsimpledto = etdocsimpledto = function etdocsimpledto(params, callba
 
 // Let's create a simple wid:
 
-exports.c0 = c0 = function c0(){
+exports.c0 = c0 = function c0(params, callback){
 	testclearstorage();
 	
 	// 1) first, let's setup the dto. A DTO gives us the "shell" for creating wids of a certain type. In this case, we want to setup an author "shell" so that we can add many author records.
 	// the structure for a basic dto is like this: {"wid":"xxx","metadata.method":"xxx","field1":"type","field2":"type"}.
 	// here is our author DTO:
-	executetest("addwidmaster",{"wid":"authordto","metadata.method":"authordto","name":"string","age":"string"}, "", "");
-	
-	// 2) second, let's create an author named Jim. This is easy, just fill in the DTO fields from above:
-	executetest("addwidmaster",{"wid":"jim","metadata.method":"authordto","name":"Jim","age":"34"}, "", "");
-	
-	// 3) now, let's get this
+	execute({"executethis":"addwidmaster","wid":"authordto","metadata.method":"authordto","name":"string","age":"string"}, 
+		// 2) second, let's create an author named Jim. This is easy, just fill in the DTO fields from above:
+		execute({"executethis":"addwidmaster","wid":"jim","metadata.method":"authordto","name":"Jim","age":"34"}, 	
+			// 3) now, let's get this
+			callback(err, {"PASS":"PASS"})
+			) // jim
+		) // author
 }
+   
 
 exports.c1 = c1 = function c1(){
 
@@ -172,324 +174,76 @@ exports.cody1 = cody1 = function cody1(params, callback){
 */
 
 
-
-exports.dtott = dtott = function dtott(params, callback) { //widviewer 
-
-    testclearstorage();
-
-    debugcolor = 0;
-    debugon = true;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
-    //debuglevel=15;
-
-
-    executetest("addwidmaster", {
-        "wid": "roger",
-        "name": "colburn",
-        "a": "b"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "authordto",
-        "wid": "authordto",
-        "name": "string",
-        "age": "string",
-        "booksdto": "onetomany",
-        "adddto": "onetoone"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "booksdto",
-        "wid": "booksdto",
-        "title": "string",
-        "pages": "string"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "relationshipdto",
-        "wid": "relbooktoauthor",
-        "primarywid": "authordto",
-        "secondarywid": "booksdto"
-    }, "", "");
-
-    //debugname = "addwidparameters";
-    // debuglevel=20;
-    // debugcat = "add";
-    //debugsubcat = "core";
-    debugname = "AddMongoRelationship";
-    //debuglevel = 10;
-    executetest("getwidmaster", {
-        "wid": "authordto",
-        "command.convertmethod": "dto"
-    }, "author_get_result", "");
-    //{"name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","booksdto.onetomany.title":"string","booksdto.onetomany.pages":"string"}
-    //debuglevel=80;
-    executetest("addwidmaster", {
-        "metadata.method": "authordto",
-        "wid": "startwid",
-        "name": "start wid",
-        "age": "00",
-        "booksdto.wid": "add",
-        "booksdto.title": "none",
-        "booksdto.pages": "00"
-    }, "", "");
-
-    executetest("getwidmaster", {
-        "wid": "startwid"
-    }, "startwid_get_result", "");
-
-    //executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
-    //{"name":"string","age":"string","metadata.method":"authordto","wid":"authordto","booksdto":"onetomany","adddto":"onetoone","booksdto.booksdto.title":"string","booksdto.booksdto.pages":"string","booksdto.booksdto.metadata.method":"booksdto","booksdto.booksdto.wid":"booksdto"}
-    params = {
-        'test': 'PASS'
-    };
-    var err;
-    callback(err, params);
-    //  gets really slow it down
-}
-
-
-
-exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer 
-
-    testclearstorage();
-
-    debugon = true;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
-    //debuglevel=15;
-    executetest("addwidmaster", {
-        "metadata.method": "adddto",
-        "wid": "adddto",
-        "actiondto": "onetomany"
-    }, "", "");
-    debuglevel = 0;
-    executetest("addwidmaster", {
-        "metadata.method": "authordto",
-        "wid": "authordto",
-        "name": "string",
-        "age": "string",
-        "booksdto": "onetomany",
-        "adddto": "onetoone"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "booksdto",
-        "wid": "booksdto",
-        "title": "string",
-        "pages": "string"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "actiondto",
-        "wid": "actiondto",
-        "displayname": "string",
-        "actiondescription": "string",
-        "category": "string",
-        "subcategory": "string",
-        "addthis.preexecute": "string",
-        "addthis.executethis": "string",
-        "addthis.postexecute": "string"
-    }, "", "");
-
-    executetest("addwidmaster", {
-        "metadata.method": "relationshipdto",
-        "wid": "relbooktoauthor",
-        "primarywid": "authordto",
-        "secondarywid": "booksdto"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "relationshipdto",
-        "wid": "reladddtotoauthor",
-        "primarywid": "authordto",
-        "secondarywid": "adddto"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "relationshipdto",
-        "wid": "rel_actiondto_adddto",
-        "primarywid": "adddto",
-        "secondarywid": "actiondto"
-    }, "", "");
-
-
-    debugsubcat = "core";
-    debugname = "addmaster";
-
-    executetest("addwidmaster", {
-        "metadata.method": "authordto",
-        "wid": "startwid",
-        "name": "start wid",
-        "age": "00",
-        "booksdto.wid": "add",
-        "booksdto.title": "none",
-        "booksdto.pages": "00"
-    }, "", "");
-
-    //  //debugsubcat = "add";
-    //      executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-
-    // // these added later
-    // debuglevel=10;
-    // debugsubcat = "get";
-    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-    //  //executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-
-
-    // //debugsubcat = "get";
-    executetest("getwidmaster", {
-        "wid": "startwid"
-    }, "startwid_get_result", "");
-
-    executetest("getwidmaster", {
-        "wid": "authordto"
-    }, "author_get_result", "");
-    executetest("getwidmaster", {
-        "wid": "authordto",
-        "command.convertmethod": "dto"
-    }, "author_get_result_dto", "");
-    params = {
-        'test': 'PASS'
-    };
-    var err;
-    callback(err, params);
-    //  gets really slow it down
-}
-
-
-exports.dtoadd = dtoadd = function dtoadd(params, callback) { //widviewer 
-    //  testclearstorage(); 
-
-    //  executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
-    //  executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
-    //  executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");  
-    //  executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
-
-    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
-    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
-    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
-
-    //      executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
-    //      executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
-
-    // executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-    // executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
-
-    // //   debuglevel=10;
-    //  executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
-    // //   debuglevel=0
-    //  executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
-    // }
-
-    // function dtoadd(){ //widviewer 
-    testclearstorage();
-    debuglevel = 15;
-    executetest("addwidmaster", {
-        "metadata.method": "adddto",
-        "wid": "adddto",
-        "actiondto": "onetomany"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "authordto",
-        "wid": "authordto",
-        "name": "string",
-        "age": "string",
-        "booksdto": "onetomany",
-        "adddto": "onetoone"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "booksdto",
-        "wid": "booksdto",
-        "title": "string",
-        "pages": "string"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "actiondto",
-        "wid": "actiondto",
-        "displayname": "string",
-        "actiondescription": "string",
-        "category": "string",
-        "subcategory": "string",
-        "addthis.preexecute": "string",
-        "addthis.executethis": "string",
-        "addthis.postexecute": "string"
-    }, "", "");
-
-    executetest("addwidmaster", {
-        "metadata.method": "relationshipdto",
-        "wid": "relbooktoauthor",
-        "primarywid": "authordto",
-        "secondarywid": "booksdto"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "relationshipdto",
-        "wid": "reladddtotoauthor",
-        "primarywid": "authordto",
-        "secondarywid": "adddto"
-    }, "", "");
-    executetest("addwidmaster", {
-        "metadata.method": "relationshipdto",
-        "wid": "rel_actiondto_adddto",
-        "primarywid": "adddto",
-        "secondarywid": "actiondto"
-    }, "", "");
-
-    executetest("addwidmaster", {
-        "metadata.method": "authordto",
-        "wid": "startwid",
-        "name": "start wid",
-        "age": "00",
-        "booksdto.title": "none",
-        "booksdto.pages": "00"
-    }, "", "");
-    executetest("addwidmaster", {
-        "wid": "startwid",
-        "metadata.method": "authordto",
-        "adddto.actiondto.displayname": "4Open As Wid",
-        "adddto.actiondto.actiondescription": "desc4",
-        "adddto.actiondto.category": "button",
-        "adddto.actiondto.subcategory": "o4",
-        "adddto.actiondto.addthis.preexecute": "setdtoforwid",
-        "adddto.actiondto.addthis.executethis": "getwidmaster",
-        "adddto.actiondto.addthis.postexecute": "getwidmaster"
-    });
-    executetest("addwidmaster", {
-        "wid": "startwid",
-        "metadata.method": "authordto",
-        "adddto.actiondto.displayname": "5Open As Wid",
-        "adddto.actiondto.actiondescription": "desc5",
-        "adddto.actiondto.category": "button",
-        "adddto.actiondto.subcategory": "o5",
-        "adddto.actiondto.addthis.preexecute": "setdtoforwid",
-        "adddto.actiondto.addthis.executethis": "getwidmaster",
-        "adddto.actiondto.addthis.postexecute": "getwidmaster"
-    });
-
-    debuglevel = 0;
-
-    debuglevel = 83;
-    executetest("getwidmaster", {
-        "wid": "startwid"
-    }, "startwid_get_result", "");
-    debuglevel = 0;
-    executetest("getwidmaster", {
-        "wid": "authordto"
-    }, "author_get_result", "");
-    params = {
-        'test': 'PASS'
-    };
-    var err;
-    callback(err, params);
-    //  gets really slow it down
-}
-
-
 //function wv(){ //widviewer 
 exports.wv = wv = function wv(params, callback) { //widviewer 
-    testclearstorage();
+	    // create dtos  
+    var executeList = [ 
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"},
+        {"executethis":"updatewid","metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"},  
+        {"executethis":"updatewid","metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"},
+        {"executethis":"updatewid","metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"},
+        {"executethis":"updatewid","metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, 
+        {"executethis":"updatewid","metadata.method":"nodedataarray","wid":"nodedataarray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"},    
+        {"executethis":"updatewid","metadata.method":"leftarray","wid":"leftarray","class":"string","portColor":"string", "portId":"string"}, 
+        {"executethis":"updatewid","metadata.method":"toparray","wid":"toparray","class":"string","portColor":"string", "portId":"string"},
+        {"executethis":"updatewid","metadata.method":"bottomarray","wid":"bottomarray","portColor":"string", "portId":"string"},  
+        {"executethis":"updatewid","metadata.method":"rightarray","wid":"rightarray","portColor":"string", "portId":"string"},    
+        {"executethis":"updatewid","metadata.method":"linkdataarray","wid":"linkdataarray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"},           
+        {"executethis":"updatewid","metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"},   
+        {"executethis":"updatewid","metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultmasteractions":"inherit"}
+    ];
+
+    execute(executeList, function (err, res) {
+        console.log(' >>> final response after create dtos executeList >>> ' + JSON.stringify(res));
+        // create relationships
+        executeList = [     
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"},    
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"},    
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"},
+        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}
+       ];
+        execute(executeList, function (err, res) {
+
+            var executeList = [
+            //{"executethis":"addwidmaster","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
+                // {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
+                // {"executethis":"updatewid","metadata.method":"booksdto","wid":"222","title":"The X Factor","pages":"300"},
+                // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"}
+
+            ];
+            //debuglevel=10;
+            //debugname="getwidmongo"
+            //debugcat="add";
+            //debugsubcat="sub"
+            debugcolor=1
+            execute(executeList, function (err, res) {
+                console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
+                //debugname="aggressivedto";
+                //debuglevel=10;
+                //aggressivedto("authordto", "", 10, function (err, res) {
+                //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
+                getwidmaster({"wid":"elizabeth_heart"}, function (err, res) {
+                    callback({}, res);
+                    })
+                });
+            });
+        });
+    }   
+
+ 
 
     // create defaults
     // default actions at the actiondto
@@ -883,6 +637,323 @@ exports.wv = wv = function wv(params, callback) { //widviewer
 //  executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
 
 // }
+
+
+
+
+exports.dtott = dtott = function dtott(params, callback) { //widviewer 
+
+    testclearstorage();
+
+    debugcolor = 0;
+    debugon = true;
+    debugname = "";
+    debugsubcat = "";
+    debugcat = "";
+    debugfilter = "";
+    debugdestination = 1;
+    //debuglevel=15;
+
+
+    executetest("addwidmaster", {
+        "wid": "roger",
+        "name": "colburn",
+        "a": "b"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "authordto",
+        "wid": "authordto",
+        "name": "string",
+        "age": "string",
+        "booksdto": "onetomany",
+        "adddto": "onetoone"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "booksdto",
+        "wid": "booksdto",
+        "title": "string",
+        "pages": "string"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "relationshipdto",
+        "wid": "relbooktoauthor",
+        "primarywid": "authordto",
+        "secondarywid": "booksdto"
+    }, "", "");
+
+    //debugname = "addwidparameters";
+    // debuglevel=20;
+    // debugcat = "add";
+    //debugsubcat = "core";
+    debugname = "AddMongoRelationship";
+    //debuglevel = 10;
+    executetest("getwidmaster", {
+        "wid": "authordto",
+        "command.convertmethod": "dto"
+    }, "author_get_result", "");
+    //{"name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","booksdto.onetomany.title":"string","booksdto.onetomany.pages":"string"}
+    //debuglevel=80;
+    executetest("addwidmaster", {
+        "metadata.method": "authordto",
+        "wid": "startwid",
+        "name": "start wid",
+        "age": "00",
+        "booksdto.wid": "add",
+        "booksdto.title": "none",
+        "booksdto.pages": "00"
+    }, "", "");
+
+    executetest("getwidmaster", {
+        "wid": "startwid"
+    }, "startwid_get_result", "");
+
+    //executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+    //{"name":"string","age":"string","metadata.method":"authordto","wid":"authordto","booksdto":"onetomany","adddto":"onetoone","booksdto.booksdto.title":"string","booksdto.booksdto.pages":"string","booksdto.booksdto.metadata.method":"booksdto","booksdto.booksdto.wid":"booksdto"}
+    params = {
+        'test': 'PASS'
+    };
+    var err;
+    callback(err, params);
+    //  gets really slow it down
+}
+
+
+
+exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer 
+
+    testclearstorage();
+
+    debugon = true;
+    debugname = "";
+    debugsubcat = "";
+    debugcat = "";
+    debugfilter = "";
+    debugdestination = 1;
+    //debuglevel=15;
+    executetest("addwidmaster", {
+        "metadata.method": "adddto",
+        "wid": "adddto",
+        "actiondto": "onetomany"
+    }, "", "");
+    debuglevel = 0;
+    executetest("addwidmaster", {
+        "metadata.method": "authordto",
+        "wid": "authordto",
+        "name": "string",
+        "age": "string",
+        "booksdto": "onetomany",
+        "adddto": "onetoone"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "booksdto",
+        "wid": "booksdto",
+        "title": "string",
+        "pages": "string"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "actiondto",
+        "wid": "actiondto",
+        "displayname": "string",
+        "actiondescription": "string",
+        "category": "string",
+        "subcategory": "string",
+        "addthis.preexecute": "string",
+        "addthis.executethis": "string",
+        "addthis.postexecute": "string"
+    }, "", "");
+
+    executetest("addwidmaster", {
+        "metadata.method": "relationshipdto",
+        "wid": "relbooktoauthor",
+        "primarywid": "authordto",
+        "secondarywid": "booksdto"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "relationshipdto",
+        "wid": "reladddtotoauthor",
+        "primarywid": "authordto",
+        "secondarywid": "adddto"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "relationshipdto",
+        "wid": "rel_actiondto_adddto",
+        "primarywid": "adddto",
+        "secondarywid": "actiondto"
+    }, "", "");
+
+
+    debugsubcat = "core";
+    debugname = "addmaster";
+
+    executetest("addwidmaster", {
+        "metadata.method": "authordto",
+        "wid": "startwid",
+        "name": "start wid",
+        "age": "00",
+        "booksdto.wid": "add",
+        "booksdto.title": "none",
+        "booksdto.pages": "00"
+    }, "", "");
+
+    //  //debugsubcat = "add";
+    //      executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+
+    // // these added later
+    // debuglevel=10;
+    // debugsubcat = "get";
+    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+    //  //executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+
+
+    // //debugsubcat = "get";
+    executetest("getwidmaster", {
+        "wid": "startwid"
+    }, "startwid_get_result", "");
+
+    executetest("getwidmaster", {
+        "wid": "authordto"
+    }, "author_get_result", "");
+    executetest("getwidmaster", {
+        "wid": "authordto",
+        "command.convertmethod": "dto"
+    }, "author_get_result_dto", "");
+    params = {
+        'test': 'PASS'
+    };
+    var err;
+    callback(err, params);
+    //  gets really slow it down
+}
+
+
+exports.dtoadd = dtoadd = function dtoadd(params, callback) { //widviewer 
+    //  testclearstorage(); 
+
+    //  executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","actiondto":"onetomany"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");  
+    //  executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}, "", "");
+
+    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
+    //  executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
+
+    //      executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
+    //      executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+    //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
+
+    // executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+    // executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"adddto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
+
+    // //   debuglevel=10;
+    //  executetest("getwidmaster", {"wid":"startwid"}, "startwid_get_result", "");
+    // //   debuglevel=0
+    //  executetest("getwidmaster", {"wid":"authordto"}, "author_get_result", "");
+    // }
+
+    // function dtoadd(){ //widviewer 
+    testclearstorage();
+    debuglevel = 15;
+    executetest("addwidmaster", {
+        "metadata.method": "adddto",
+        "wid": "adddto",
+        "actiondto": "onetomany"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "authordto",
+        "wid": "authordto",
+        "name": "string",
+        "age": "string",
+        "booksdto": "onetomany",
+        "adddto": "onetoone"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "booksdto",
+        "wid": "booksdto",
+        "title": "string",
+        "pages": "string"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "actiondto",
+        "wid": "actiondto",
+        "displayname": "string",
+        "actiondescription": "string",
+        "category": "string",
+        "subcategory": "string",
+        "addthis.preexecute": "string",
+        "addthis.executethis": "string",
+        "addthis.postexecute": "string"
+    }, "", "");
+
+    executetest("addwidmaster", {
+        "metadata.method": "relationshipdto",
+        "wid": "relbooktoauthor",
+        "primarywid": "authordto",
+        "secondarywid": "booksdto"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "relationshipdto",
+        "wid": "reladddtotoauthor",
+        "primarywid": "authordto",
+        "secondarywid": "adddto"
+    }, "", "");
+    executetest("addwidmaster", {
+        "metadata.method": "relationshipdto",
+        "wid": "rel_actiondto_adddto",
+        "primarywid": "adddto",
+        "secondarywid": "actiondto"
+    }, "", "");
+
+    executetest("addwidmaster", {
+        "metadata.method": "authordto",
+        "wid": "startwid",
+        "name": "start wid",
+        "age": "00",
+        "booksdto.title": "none",
+        "booksdto.pages": "00"
+    }, "", "");
+    executetest("addwidmaster", {
+        "wid": "startwid",
+        "metadata.method": "authordto",
+        "adddto.actiondto.displayname": "4Open As Wid",
+        "adddto.actiondto.actiondescription": "desc4",
+        "adddto.actiondto.category": "button",
+        "adddto.actiondto.subcategory": "o4",
+        "adddto.actiondto.addthis.preexecute": "setdtoforwid",
+        "adddto.actiondto.addthis.executethis": "getwidmaster",
+        "adddto.actiondto.addthis.postexecute": "getwidmaster"
+    });
+    executetest("addwidmaster", {
+        "wid": "startwid",
+        "metadata.method": "authordto",
+        "adddto.actiondto.displayname": "5Open As Wid",
+        "adddto.actiondto.actiondescription": "desc5",
+        "adddto.actiondto.category": "button",
+        "adddto.actiondto.subcategory": "o5",
+        "adddto.actiondto.addthis.preexecute": "setdtoforwid",
+        "adddto.actiondto.addthis.executethis": "getwidmaster",
+        "adddto.actiondto.addthis.postexecute": "getwidmaster"
+    });
+
+    debuglevel = 0;
+
+    debuglevel = 83;
+    executetest("getwidmaster", {
+        "wid": "startwid"
+    }, "startwid_get_result", "");
+    debuglevel = 0;
+    executetest("getwidmaster", {
+        "wid": "authordto"
+    }, "author_get_result", "");
+    params = {
+        'test': 'PASS'
+    };
+    var err;
+    callback(err, params);
+    //  gets really slow it down
+}
+
 
 
 exports.ca1 = ca1 = function ca1(params, callback) {

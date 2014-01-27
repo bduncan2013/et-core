@@ -298,7 +298,7 @@ exports.convertDRIToFlat = convertDRIToFlat = function convertDRIToFlat (inputOb
                                         tObj[metaKey] = metaVal;
                                         var convObj = ConvertToDOTdri(tObj);
                                         Object.keys(convObj).forEach(function (convKey) {
-                                            var convVal = metaVal[convKey];
+                                            var convVal = convObj[convKey];
                                             retObject[convKey] = convVal;                                    
                                         });                                
                                 } else {
@@ -310,7 +310,17 @@ exports.convertDRIToFlat = convertDRIToFlat = function convertDRIToFlat (inputOb
                 }else if(key === "data"){
                     Object.keys(val).forEach(function (dataKey) {
                         var dataVal = val[dataKey];
-                        retObject[dataKey] = dataVal;
+                        if (dataVal && typeof dataVal === "object") {
+                                var tObj = {};
+                                tObj[dataKey] = dataVal;
+                                var convObj = ConvertToDOTdri(tObj);
+                                Object.keys(convObj).forEach(function (convKey) {
+                                    var convVal = convObj[convKey];
+                                    retObject[convKey] = convVal;                                    
+                                });                                
+                        } else {
+                            retObject[dataKey] = dataVal; // it's not an object, so set the property
+                        }
                     });
                 }else
                 {
@@ -324,7 +334,80 @@ exports.convertDRIToFlat = convertDRIToFlat = function convertDRIToFlat (inputOb
 }
 
 exports.convertFlatToDRI = convertFlatToDRI = function convertFlatToDRI (inputObjectArray) {
+    var results = [];
+    for (var i in inputObjectArray) {
+        var retObj = {};
+        var inpObj = inputObjectArray[i];
+        Object.keys(inpObj).forEach(function (key) {
+            var val = inpObj[key];
+            if(key === "wid"){
+                retObj["wid"] = val; 
+            }else if (key === "metadata.method") 
+            {
+                retObj["metadata"] = {"method":val};
+            } else{
+                if (val === "onetomany") { //will be pushed to metadata
+                    var tObj = {};
+                    tObj[key] = val;
+                    var convObj = ConvertFromDOTdri(tObj);
+                    Object.keys(convObj).forEach(function (convKey) {
+                        var convVal = convObj[convKey];
+                        retObj["metadata"][convKey] = convVal;                                    
+                    });                                
+                } else{ //will be pushed to data
+                    retObj["data"] = {};
+                    var tObj = {};
+                    tObj[key] = val;
+                    var convObj = ConvertFromDOTdri(tObj);
+                    Object.keys(convObj).forEach(function (convKey) {
+                        var convVal = convObj[convKey];
+                        retObj["data"][convKey] = convVal;                                    
+                    });                                                    
+                };
+            }
+        }); 
+        results.push(retObj);       
+    };
+    return results;
+}
 
+exports.test_convertDRIToFlat = test_convertDRIToFlat = function test_convertDRIToFlat () {
+    console.log(JSON.stringify(convertDRIToFlat([{
+                                                    "wid":"a",
+                                                    "metadata": {
+                                                        "method": "b", 
+                                                        "f": {"type": "onetomany", "expiration": 0},
+                                                        "n.p.q": {"type": "onetomany", "expiration": 0},
+                                                        "data": {"type": "parent", "expiration": 0}
+                                                          },
+                                                    "data": {"c":"e", "h": {"j": {"k" : "m"}}}
+                                                    }])));    
+}
+
+// {
+// "wid":"a",
+// "metadata.method":"b",
+// "metadata.method.f.type":"onetomany",
+// "metadata.method.f.expiration":0,
+// "metadata.method.n.p.q.type":"onetomany",
+// "metadata.method.n.p.q.expiration":0,
+// "metadata.method.data.type":"parent",
+// "metadata.method.data.expiration":0,
+// "c":"e", 
+// "h.j.k": "m"   
+// }
+
+exports.test_convertFlatToDRI = test_convertFlatToDRI = function test_convertFlatToDRI () {
+    console.log(JSON.stringify(convertFlatToDRI([{
+                                                    "wid":"a",
+                                                    "metadata": {
+                                                        "method": "b", 
+                                                        "f": {"type": "onetomany", "expiration": 0},
+                                                        "n.p.q": {"type": "onetomany", "expiration": 0},
+                                                        "data": {"type": "parent", "expiration": 0}
+                                                          },
+                                                    "data": {"c":"e", "h": {"j": {"k" : "m"}}}
+                                                    }])));    
 }
 
 exports.aotest = aotest = function aotest(params, callback) {

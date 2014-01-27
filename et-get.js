@@ -18,33 +18,28 @@
                 proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
                 // var outobjectarr = [];
 
+                getfrommongo(inputWidgetObject, function (err, results) {
+                    var outobject = {};
+                    if (results && (Object.keys(results).length > 0)) {
+                        if (results["data"]) {
+                            outobject = results["data"];
+                        }
 
-    getfrommongo(inputWidgetObject, function (err, resultobject) {
-        // convert the object from dri standard before returnning it
-        callback({}, convertfromdriformat(resultobject));
-    });
-                // getfrommongo(inputWidgetObject, function (err, results) {
-                //     var outobject = {};
-                //     if (results && (Object.keys(results).length > 0)) {
-                //         if (results["data"]) {
-                //             outobject = results["data"];
-                //         }
+                        if (results['wid']) {
+                            outobject['wid'] = results['wid'];
+                        } else {
+                            outobject['wid'] = "";
+                        }
 
-                //         if (results['wid']) {
-                //             outobject['wid'] = results['wid'];
-                //         } else {
-                //             outobject['wid'] = "";
-                //         }
+                        if (results['metadata']) { // note date will not come back
+                            outobject['metadata.method'] = results['metadata']['method'];
+                        } else {
+                            outobject['metadata.method'] = "";
+                        }
+                    }
 
-                //         if (results['metadata']) { // note date will not come back
-                //             outobject['metadata.method'] = results['metadata']['method'];
-                //         } else {
-                //             outobject['metadata.method'] = "";
-                //         }
-                //     }
-
-                //     callback(err, outobject);
-                // });
+                    callback(err, outobject);
+                });
             }
         });
     }

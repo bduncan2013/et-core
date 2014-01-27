@@ -38,24 +38,16 @@ localStore.clear();
 
 
 exports.validParams = validParams = function validParams(obj) {
-
+    var keyLength = getObjectSize(obj);
     var status = false;
-    if(obj instanceof Array){
-        if(obj.length === 0 || (!obj[0]['wid'])){
-            status = false;
-        }
-    }else{
-        var keyLength = getObjectSize(obj);
-        if (keyLength !== 0) {
-            for (var k in obj) {
-                if (obj[k]) {
-                    status = true;
-                    break;
-                }
+    if (keyLength !== 0) {
+        for (var k in obj) {
+            if (obj[k]) {
+                status = true;
+                break;
             }
         }
     }
-
     return status;
 }
 
@@ -94,8 +86,12 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     localStore.clear();
     // localStorage.clear();
 };
-
 (function (window) {
+
+
+
+
+
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
         if (obj && obj instanceof Object) {
