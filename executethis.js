@@ -74,7 +74,7 @@
                 console.log(' after preexecute >> ' + nonCircularStringify(preResults));
                 console.log('starting midexecute ' + nonCircularStringify(incomingparams));
 
-                if (preResults !== false && (!preResults))
+                if (!preResults)
                     preResults = {};
 
                 if (Object.prototype.toString.call(preResults) === '[object Array]') {
@@ -91,7 +91,7 @@
                     //if (midResults instanceof Array) {midResults=midResults[0]};
                     console.log(' after midexecute >> ' + nonCircularStringify(midResults));
 
-                    if (midResults !== false && (!midResults))
+                    if (!midResults)
                         midResults = {};
 
                     if (Object.prototype.toString.call(midResults) === '[object Array]') {
@@ -103,10 +103,10 @@
                     }
 
                     dothisprocessor(midResults, 'postexecute', function (err, postResults) {
-                        var overallError;
+                        
                         console.log(' after postexecute >> ' + nonCircularStringify(postResults));
                         //if (preResults instanceof Array) {postResults=postResults[0]};
-                        if (postResults !== false && (!postResults))
+                        if (!postResults)
                             postResults = {};
 
                         overallError = extend(true, preError, midError, err);
