@@ -33,7 +33,7 @@ function getWidMongo(widInput, convertMethod, accessToken, dtoin, callback) {
         })
 }
 
-function getwidobjectOth(wid, convertMethod, dtotype, callback) {
+function getwidobject(wid, convertMethod, dtotype, callback) {
         var results = [];
         var executeobject={};
         execute({"executethis":"getwid", "wid":wid}, function (err, results) {
@@ -67,7 +67,7 @@ function getwidobjectOth(wid, convertMethod, dtotype, callback) {
                         for(var j in relationshipslist)
                         {
                             var _wid = relationshipslist[j];
-                            if(_wid["metadata.method"] === _dto)
+                            if(_wid.metadata.method === _dto)
                             {
                                 results.push(_wid);
                             }
@@ -80,23 +80,6 @@ function getwidobjectOth(wid, convertMethod, dtotype, callback) {
 });
 }
 
-function getwidobject(wid, convertMethod, dtotype, callback) {
-    var executeobject={};
-    execute({"executethis":"getwid", "wid":wid}, function (err, results) {
-        ParentWid=results["wid"]
-        executeobject={}; 
-        executeobject["mongowid"]=ParentWid; 
-        executeobject["mongorelationshiptype"]="attributes"; 
-        executeobject["mongorelationshipmethod"]="all"; 
-        executeobject["mongorelationshipdirection"]="forward"; 
-        executeobject["mongowidmethod"]="" //current dto; 
-        executeobject["executethis"]="querywid"; 
-        execute({executeobject, function (err, relationshipslist) {
-
-
-
-    });
-}
 
 /*
     get onetomany list
@@ -129,7 +112,7 @@ function getwidobject(wid, convertMethod, dtotype, callback) {
 //
 exports.converttoDRIstd = converttoDRIstd = function converttoDRIstd (inputObject) {
     var db="data"
-    inputObject = ConvertFromDOTdri(inputObject);
+    inputObject=ConvertFromDOTdri(inputObject);
     for (var e in inputObject) { // any parameters not in a data object parm
         if ((inputObject[e]!=="metadata")||(inputObject[e]!==db)||
             (inputObject[e]!=="onetomany")||(inputObject[e]!=="onetooone")){
@@ -146,8 +129,8 @@ exports.convertfromDRIstd = convertfromDRIstd = function convertfromDRIstd (para
     var db="data"
     var dbobject = parameters[db]; // work with "data" object
     for (var e in dbobject) { // any parameters not in a data object parm
-        if (e == db) { extend(true, parameters, convertfromDRIstd(dbobject[e]))} // note this should never happen
-            extend(true, parameters[e], dbobject[e]); // append to root level
+        if (e==db) {parameters=extend(parameters, convertfromDRIstd(dbobject[e]))} // note this should never happen
+        parameters[e]=extend(parameters[e], dbobject[e]); // append to root level
         }
     delete parameters[db];
     parameters=ConvertToDOTdri(parameters);
@@ -160,14 +143,14 @@ function AddMaster(dtoList, parameterList, widName, dtotype, callback) {
     var relationshiptype=""
     var inputdto=converttoDRIstd(listToObject(dtoList));
     var inputObject= converttoDRIstd(listToObject(parameterList));
-    addobject(inputObject, inputdto, parentwid, relationshiptype, function (err, addobject) {
+    addwidobject(inputObject, inputdto, parentwid, relationshiptype, function (err, addobject) {
                 callback(null, convertfromDRIstd(addobject));
                 });
 }
 
 // parentwid and relationshiptype are optional and are needed for subcall addrecord -- 
 //it is a flag if a relationship record should be added as a record is added
-exports.addobject = addobject = function addobject (inputObject, inputdto, parentwid, relationshiptype, callbackcallback) {
+function addwidobject (inputObject, inputdto, parentwid, relationshiptype, callbackcallback) {
 	//fish out  onetoone and onetomany parameters
     var db="data";
 	var parObject = {};
@@ -258,6 +241,92 @@ exports.addrecord = addrecord = function addrecord (inputrecord, inputdto, Paren
         })
 }
 
+/*
+
+{
+"_id":"some id",
+"wid":"authordto",
+"metdata" : { 
+        "method" : "authrodto", 
+        "data" : {
+                "type" : "onetomany", 
+                "expiration": 999, 
+                "owner":"wid33", 
+                "synchrules":""
+                },
+        "booksdto": {"type": "onetomany", "expiration":0, "owner":"wid33", "synchrules":""},
+        "adddto": {"type": "onetomany", "expiration":0, "owner":"wid33", "synchrules":""}
+    },
+"data":{"name":"string","age":"string"}
+}
+
+*/
+
+/*
+"_id":"some id",
+"wid":"authordto",
+"metdata" : { "method" : "authrodto", 
+        "data" : {"type" : "onetomany", 
+                "expiration": 999, 
+                "owner":"wid33", 
+                "synchrules":""
+                },
+        "booksdto": {"type": "onetomany", "expiration":0, "owner":"wid33", "synchrules":""},
+        "adddto": {"type": "onetomany", "expiration":0, "owner":"wid33", "synchrules":""}
+}
+*/
+exports.convertDRIToFlat = convertDRIToFlat = function convertDRIToFlat (inputObjectArray) {
+    var results = [];
+    for (var a in inputObjectArray) {
+        var retObject={};
+        var inpObj = inputObjectArray[a];
+
+        Object.keys(inpObj).forEach(function (key) {
+            var val = inpObj[key];
+                if(key === "metadata")
+                {
+                    Object.keys(val).forEach(function (metaKey) {
+                        var metaVal = val[metaKey];
+                            if(metaKey === "method")
+                            {
+                                retObject["metadata.method"] = metaVal;
+                            }else if(metaKey === "data"){
+                                //leaving it 
+                            }else {
+                                if (metaVal && typeof metaVal === "object") {
+                                        var tObj = {};
+                                        tObj[metaKey] = metaVal;
+                                        var convObj = ConvertToDOTdri(tObj);
+                                        Object.keys(convObj).forEach(function (convKey) {
+                                            var convVal = metaVal[convKey];
+                                            retObject[convKey] = convVal;                                    
+                                        });                                
+                                } else {
+                                    retObject[metaKey] = metaVal; // it's not an object, so set the property
+                                }
+                            }
+                        // use val
+                    });
+                }else if(key === "data"){
+                    Object.keys(val).forEach(function (dataKey) {
+                        var dataVal = val[dataKey];
+                        retObject[dataKey] = dataVal;
+                    });
+                }else
+                {
+                    retObject[key] = val;
+                }
+
+        });
+        results.push(retObject);
+    }
+    return results;
+}
+
+exports.convertFlatToDRI = convertFlatToDRI = function convertFlatToDRI (inputObjectArray) {
+
+}
+
 exports.aotest = aotest = function aotest(params, callback) {
     testclearstorage();
     // config = setconfig1();
@@ -274,8 +343,6 @@ exports.aotest = aotest = function aotest(params, callback) {
               {"wid":"2","metadata.method":"booksdto","data":{"title":"stringXXX"}}],
          "adddto":[]
          },
-        "onetomany" : ["booksdto", "adddto"],
-        "onetooone" : []
         }],
     function (err, res) {
         res = logverify("aotest_result", res[0][0], {
@@ -290,8 +357,6 @@ exports.aotest = aotest = function aotest(params, callback) {
               {"wid":"2","metadata.method":"booksdto","data":{"title":"stringXXX"}}],
          "adddto":[]
          },
-        "onetomany" : ["booksdto", "adddto"],
-        "onetooone" : []
         }
         );
     callback(err, res);
@@ -299,20 +364,33 @@ exports.aotest = aotest = function aotest(params, callback) {
 }
 
 
-// var a = addobject({
-// 	"wid":"authordtoXXX",
-// 	"metadata.method":"authordto",
-// 	"data":
-// 		{	"name":"stringXXX",
-// 			"age":"stringXXX",
-// 			"booksdto":
-// 				[
-// 					{"wid":"1","metadata.method":"booksdto","data":{"title":"stringXXX"}},
-//       {"wid":"2","metadata.method":"booksdto","data":{"title":"stringXXX"}}],
-//  "adddto":[]
-//  },
-// "onetomany" : ["booksdto", "adddto"],
-// "onetooone" : []
-// });
 
-// console.log(a);
+    // exports.converttoDRIstd = converttoDRIstd = function converttoDRIstd(inputObject) {
+    //     var db = "data"
+    //     inputObject = ConvertFromDOTdri(inputObject);
+    //     for (var e in inputObject) { // any parameters not in a data object parm
+    //         if ((inputObject[e] !== "metadata") || (inputObject[e] !== db) ||
+    //             (inputObject[e] !== "onetomany") || (inputObject[e] !== "onetooone")) {
+    //             inputObject[db][e] = inputObject[e];
+    //             delete inputObject[e];
+    //         }
+    //     }
+    //     var currentdb = inputObject[db];
+    //     inputObject[db] = converttoDRIstd(currentdb); // recurse -- not convert what is inside of db/"data"
+    //     return inputObject
+    // }
+
+    // exports.convertfromDRIstd = convertfromDRIstd = function convertfromDRIstd(parameters) {
+    //     var db = "data"
+    //     var dbobject = parameters[db]; // work with "data" object
+    //     for (var e in dbobject) { // any parameters not in a data object parm
+    //         if (e == db) {
+    //             parameters = extend(parameters, convertfromDRIstd(dbobject[e]))
+    //         } // note this should never happen
+    //         parameters[e] = extend(parameters[e], dbobject[e]); // append to root level
+    //     }
+    //     delete parameters[db];
+    //     parameters = ConvertToDOTdri(parameters);
+    //     return parameters
+    // }
+

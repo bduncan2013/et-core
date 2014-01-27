@@ -58,13 +58,18 @@ if (!test_results) {
 
 exports.bootprocess = bootprocess = function bootprocess() {
     if (confg={}) {setdefaultparm()}; 
-    proxyprinttodiv('Function bootprocess config', config, 99);
+    etappinstall(); // take out later
+    proxyprinttodiv('Function bootprocess config', config, 1);
     execute({
         "executethis": "getwid",
         "wid": "etenvironment"
-    }, function (err, result) {
-        //proxyprinttodiv('Function bootprocess result', result, 99);
+        }, function (err, result) {
+        //proxyprinttodiv('Function bootprocess result', result, 1);
         // read etenvironment, if not there then must be ok to clear out initial stuff
+
+        // ***** temporary
+        result={};
+        //****
         if (result instanceof Array) {result=result[0]}
         if (Object.keys(result).length == 0) {
             // then 'dirty' et environement
@@ -87,7 +92,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
             //displayAllWids();
         }
     });
-    proxyprinttodiv('Function END bootprocess config', config, 99);
+    proxyprinttodiv('Function END bootprocess config', config, 1);
 
 
     function etappinstall(err, result) { // exeucte only the first time app is installed -- once per lifetime
@@ -95,6 +100,8 @@ exports.bootprocess = bootprocess = function bootprocess() {
         testclearstorage();
         if (exports.environment === 'local') {
             clearLocalStorage();
+            addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
+            addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}})
         }
     }
 
@@ -248,42 +255,6 @@ function config123() {
 //exports.config = config = config123();
 
 
-
-//function addtomongo(inputWidgetObject) {
-exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
-    var err;
-    delete inputWidgetObject['executethis'];
-    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject);
-    var widobject = {};
-    widobject = inputWidgetObject;
-    var widName = widobject['wid'];
-    addToLocalStorage(widMasterKey + widName, widobject);
-    widobject['wid'] = widName;
-    //return widobject;
-    callback(err, widobject);
-};
-
-//function getfrommongo(inputWidgetObject) {
-exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
-    //function getfrommongo(inputWidgetObject, target, callback) {
-    delete inputWidgetObject['executethis'];
-    var err;
-
-    var output = {};
-    if (inputWidgetObject["wid"]) {
-        var widKey = inputWidgetObject["wid"].toLowerCase();
-
-        output = getFromLocalStorage(widMasterKey + widKey);
-        if ((output == null) || (output === undefined)) {
-            output = {};
-        }
-
-    }
-    callback(err, output);
-}; //End of getfrommongo function
-//(function (window) {
-
-
     exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
         return JSON.parse(localStorage.getItem(key));
     };
@@ -303,54 +274,139 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
     };
 
 
-//})(typeof window == "undefined" ? global : window);
 
+//function addtomongo(inputWidgetObject) {
+exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
+    var collection="DRI";
+    var keycollection = "DRIKEY"
+    var err={};
+    var widobject = {};
+    var database = {};
+    var keydatabase = {};
+    var record;
+    var widName = inputWidgetObject['wid'];
+    var found=false;
+    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject,1);
+    proxyprinttodiv('Function addtomongo widName', widName,1);
+    database = getFromLocalStorage(collection);
+    proxyprinttodiv('Function addtomongo database', database,1);
 
-
-exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
-    delete inputWidgetObject['executethis']; // ** added by Saurabh 11/9
-
-    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
-    // var outobjectarr = [];
-
-    offlinegetfrommongo(inputWidgetObject, function (err, results) {
-        var outobject = {};
-        if (results && countKeys(results) > 0) {
-            if (results["data"]) {
-                outobject = results["data"];
-            }
-
-            if (results['wid']) {
-                outobject['wid'] = results['wid'];
-            } else {
-                outobject['wid'] = "";
-            }
-
-            if (results['metadata']) {
-                outobject['metadata.method'] = results['metadata']['method'];
-            } else {
-                outobject['metadata.method'] = "";
+    for (record in database) {
+        proxyprinttodiv('Function addtomongo database[record]', database[record],1);
+        if (database[record]["wid"]==widName) {
+            database[record]=inputWidgetObject;
+            proxyprinttodiv('Function addtomongo found', database[record],1);
+            found=true;
+            break;
             }
         }
 
-        callback(err, outobject);
+    if (!found) {
+           database.push(inputWidgetObject);
+        }
+
+    keydatabase = getFromLocalStorage(keycollection);
+    keydatabase[widName]=inputWidgetObject;
+ 
+    addToLocalStorage(collection, database);
+    addToLocalStorage(keycollection, keydatabase);
+    //widobject = inputWidgetObject;
+    // addToLocalStorage(widMasterKey + widName, widobject);
+    //widobject['wid'] = widName;
+    //return widobject;
+    callback(err, widobject);
+};
+
+//function getfrommongo(inputWidgetObject) {
+exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
+
+    var collection = "DRI";
+    var keycollection = "DRIKEY"
+    var err={};
+    var output = {};
+    var keydatabase = {};
+    var record;
+    var widName = inputWidgetObject['wid'];
+    if (widName) {
+        keydatabase = getFromLocalStorage(keycollection);
+        output = keydatabase[widName];
+        //output = getFromLocalStorage(widMasterKey + widKey);
+        //database = getFromLocalStorage(collection);
+        // for (record in database) {
+        //     if (database[record]["wid"]==widName) {
+        //         output=database[record];
+        //         break;
+        //         }
+        //     }
+        }
+    else { // if no widname
+        err={};
+        }
+
+    callback(err, output);
+}; //End of getfrommongo function
+
+
+exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
+    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
+    offlinegetfrommongo(inputWidgetObject, function (err, resultobject) {
+        // convert the object from dri standard before returnning it
+        callback({}, convertfromdriformat(resultobject));
     });
 };
 
+exports.convertfromdriformat = window.convertfromdriformat = convertfromdriformat =  function convertfromdriformat(widobject) {
+    var outobject = {};
+    if ((widobject) && (Object.keys(widobject).length > 0)) {
+        if (widobject["data"]) {
+            outobject = widobject["data"];
+        }
+        
+        if (widobject['wid']) {
+            outobject['wid'] = widobject['wid'];
+        } else {
+            outobject['wid'] = "";
+        }
+
+        if (widobject['metadata']) {
+            outobject['metadata.method'] = widobject['metadata']['method'];
+        } else {
+            outobject['metadata.method'] = "";
+        }
+    }
+    return outobject;   
+}
+
 exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
+    var originalarguments=arguments;
+    var executionid = new Date();
+
+    // convert to dri format before saving
+    offlineaddtomongo(converttodriformat(inputObject), function (err, results) {
+        proxyprinttodiv('Function updatewid in : x', results, 10);
+        debugfn("updatewid code generator", "updatewid", "", "code", 2, 1, {
+                0: originalarguments,
+                1: results,
+                2: executionid
+            }, 4);
+        callback({}, results);
+    });
+};
+
+exports.converttodriformat = window.converttodriformat = converttodriformat = function converttodriformat(inputObject) {
     var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
 
     delete inputWidgetObject['executethis'];
-    proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 10);
+    proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
     // for conversion:
     var saveobject = {};
 
     if (inputWidgetObject['wid']) {
-        saveobject['wid'] = inputWidgetObject['wid'];
+        saveobject['wid'] = inputWidgetObject['wid'].toLowerCase();
     } else {
         saveobject['wid'] = "";
     }
-
+    proxyprinttodiv('Function updatewid in : saveobject 0', saveobject, 1);
     delete inputWidgetObject['wid'];
 
     saveobject['metadata'] = {};
@@ -363,7 +419,7 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
     proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
     proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
 
-
+    proxyprinttodiv('Function updatewid in : saveobject I', saveobject, 1);
 
     // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
     delete inputWidgetObject['metadata.method'];
@@ -373,15 +429,10 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
         saveobject['data'] = "";
     }
 
-    offlineaddtomongo(saveobject, function (err, results) {
-        proxyprinttodiv('Function updatewid in : x', results, 10);
-        debugfn("updatewid code generator", "updatewid", "add", "code", 2, 1, {
-            0: inputObject,
-            1: results
-        }, 4);
-        callback(err, results);
-    });
-};
+    proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
+    return saveobject;
+}
+
 
 
 function resetMasterKey() {
@@ -488,10 +539,6 @@ exports.getDriApiData = getDriApiData = function getDriApiData(action, params, c
 exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     proxyprinttodiv('Function inboundobj', inboundobj, 30);
 
-    var inlist = [];
-    var query=inboundobj;
-    var outlist = [];
-
     function IsJsonString(str) {
         try {
             JSON.parse(str);
@@ -501,22 +548,32 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         return true;
     }
 
-    for (var eachwid in localStorage) {
-        if (eachwid.indexOf(widMasterKey) == 0) {
-            var widObj = JSON.parse(localStorage[eachwid]);
-            inlist.push(widObj);
-        }
-    }
-    proxyprinttodiv('Function inlist', inlist, 30);
+    // for (var eachwid in localStorage) {
+    //     if (eachwid.indexOf(widMasterKey) == 0) {
+    //         var widObj = JSON.parse(localStorage[eachwid]);
+    //         inlist.push(widObj);
+    //     }
+    // }
+    var query=inboundobj;
+    var outlist = [];
+    var convertedlist = [];
+    var resultlist=[];
+    var collection = "DRI";
+    var keycollection = "DRIKEY";
+    var database = {};
+    var keydatabase = {};
+
+    database = getFromLocalStorage(collection);
+
+    proxyprinttodiv('Function inlist', database, 30);
     proxyprinttodiv('before IsJsonString', inboundobj, 30);
         if (IsJsonString(inboundobj)) {
             query = JSON.parse(inboundobj);
         }
-
     proxyprinttodiv('Function query', query, 30);
-    //proxyprinttodiv('Function query',  stringify(query), 99);
+    //proxyprinttodiv('Function query',  stringify(query), 1);
 
-    outlist = sift(query, inlist);
+    outlist = sift(query, database);
 
     // if date exists , return in date descending order
     outlist = outlist.sort(function (aObj, bObj) {
@@ -533,24 +590,28 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
         return Date.parse(aObj["metadata"]["date"]) - Date.parse(bObj["metadata"]["date"]);
     });
 
+    keydatabase=getFromLocalStorage(keycollection);
+    for (eachrecord in outlist) {
+        resultlist.push(keydatabase[outlist[eachrecord]["wid"]]);
+        }
 
     proxyprinttodiv('Function outlist', outlist, 30);
-    callback(null, outlist);
+    callback(null, resultlist);
 }
 
-function getwidcopy() {
-    // step through local storage looking for
-    var set = {}; // get a copy of all local storage ***
-    var resultobject = {};
-    var wid = "";
-    for (var key in localStorage) {
-        if (key.indexOf(widMasterKey) == 0) {
-            key = key.substring(10);
-            resultobject = getFromLocalStorage(widMasterKey + key);
-            wid = resultobject['wid'];
-            set[wid] = resultobject;
-            // $$$$$
-        }
-    }
-    return set;
-}
+// function getwidcopy() {
+//     // step through local storage looking for
+//     var set = {}; // get a copy of all local storage ***
+//     var resultobject = {};
+//     var wid = "";
+//     for (var key in localStorage) {
+//         if (key.indexOf(widMasterKey) == 0) {
+//             key = key.substring(10);
+//             resultobject = getFromLocalStorage(widMasterKey + key);
+//             wid = resultobject['wid'];
+//             set[wid] = resultobject;
+//             // $$$$$
+//         }
+//     }
+//     return set;
+// }

@@ -5,34 +5,6 @@
     // external functions are testquery, querywid, relationShipQuery, aggregationQuery, addonQuery(
     // FYI we now call proxyprinttodiv which is in config that calls printtodiv
 
-    exports.converttoDRIstd = converttoDRIstd = function converttoDRIstd(inputObject) {
-        var db = "data"
-        inputObject = ConvertFromDOTdri(inputObject);
-        for (var e in inputObject) { // any parameters not in a data object parm
-            if ((inputObject[e] !== "metadata") || (inputObject[e] !== db) ||
-                (inputObject[e] !== "onetomany") || (inputObject[e] !== "onetooone")) {
-                inputObject[db][e] = inputObject[e];
-                delete inputObject[e];
-            }
-        }
-        var currentdb = inputObject[db];
-        inputObject[db] = converttoDRIstd(currentdb); // recurse -- not convert what is inside of db/"data"
-        return inputObject
-    }
-
-    exports.convertfromDRIstd = convertfromDRIstd = function convertfromDRIstd(parameters) {
-        var db = "data"
-        var dbobject = parameters[db]; // work with "data" object
-        for (var e in dbobject) { // any parameters not in a data object parm
-            if (e == db) {
-                parameters = extend(parameters, convertfromDRIstd(dbobject[e]))
-            } // note this should never happen
-            parameters[e] = extend(parameters[e], dbobject[e]); // append to root level
-        }
-        delete parameters[db];
-        parameters = ConvertToDOTdri(parameters);
-        return parameters
-    }
 
     exports.testquery = testquery = function testquery(parameters) {
         parameters["IAMALIVE"] = "hello";
@@ -510,10 +482,6 @@
     function formatlist(inlist, parmnamein, parmnameout, environmentdb) {
         var output = [];
         var widvalue;
-        proxyprinttodiv('querywid formatlist inlist', inlist, 99);
-        proxyprinttodiv('querywid formatlist parmnamein', parmnamein, 99);
-        proxyprinttodiv('querywid formatlist parmnameout', parmnameout, 99);
-        proxyprinttodiv('querywid formatlist environmentdb', environmentdb, 99);
 
         if (inlist === undefined || inlist.length === 0) {
             return [];
@@ -540,11 +508,10 @@
                 };
 
                 var obj = {};
-                if (item[environmentdb] && item[environmentdb][parmnamein]) {obj[widvalue] = item[environmentdb][parmnamein]};
+                obj[widvalue] = item[environmentdb][parmnamein];
                 //obj["wid"] = widvalue;
-
-
                 output.push(obj); // &&& roger
+                
                 //output[widvalue] = item[parmnamein]
             }
             // }else if(inlist instanceof Object){
@@ -564,54 +531,70 @@
     }
 
     function formatListFinal(inlist, environmentdb) {
+        // var widvalue;
+        // var newobject = {};
+        // var item;
+        // var obj={};
+        // var wid;
         var output = [];
-        var widvalue;
-        var newobject = {};
-        var item;
-        var obj={};
-        var wid;
+        var keycollection = "DRIKEY";
+        var keydatabase={};
+        var output = [];
+        var database = {};
+        var record;
+        var eachresult;
 
         if (inlist === undefined || inlist.length === 0) {
             return [];
         } else {
 
-            for (i in inlist) { 
-                item = inlist[i];
-                obj = {};
+        keydatabase = getFromLocalStorage(keycollection);
 
-                item = ConvertFromDOTdri(item);
-
-                if (item && countKeys(item) > 0) {
-                    if (item[environmentdb]) {
-                        obj = item[environmentdb];
-                    }
-
-                wid = item['wid'];
-                if (!wid) {wid=""};
-                obj['wid'] = wid;
-
-                if (item['metadata']) {
-                        obj['metadata.method'] = item['metadata']['method'];
-                    } else {
-                        obj['metadata.method'] = "";
-                    }
+        proxyprinttodiv('querywid formatlist inlist ', inlist, 1);
+            for (eachresult in inlist) { 
+                record={};
+                proxyprinttodiv('querywid formatlist inlist[eachresult] ', inlist[eachresult], 1);
+                proxyprinttodiv('querywid formatlist convertfromdriformat(inlist[eachresult]) ', convertfromdriformat(inlist[eachresult]), 1);
+                record[inlist[eachresult]["wid"]]=convertfromdriformat(keydatabase[inlist[eachresult]["wid"]]);
+                output.push(record);  
                 }
 
-                newobject={};
-                newobject[wid] = obj;
-                proxyprinttodiv('querywid formatlist newobject', newobject, 28);
-                output.push(newobject); 
-                // format 
+            // for (i in inlist) { 
+            //     item = inlist[i];
+            //     obj = {};
+                // item = ConvertFromDOTdri(item);
+                // //proxyprinttodiv('querywid formatlist item', item, 1);
+
+                // if (item && countKeys(item) > 0) {
+                //     if (item[environmentdb]) {
+                //         obj = item[environmentdb];
+                //     }
+
+
+                // if (!wid) {wid=""};
+                // obj['wid'] = wid;
+
+                // if (item['metadata']) {
+                //         obj['metadata.method'] = item['metadata']['method'];
+                //     } else {
+                //         obj['metadata.method'] = "";
+                //     }
+                // }
+
+                // newobject={};
+                // newobject[wid] = obj;
+                // proxyprinttodiv('querywid formatlist newobject', newobject, 28);
+                // output.push(newobject); 
+                // // format 
                 // [
                 // {wid1: {wid:wid1, a:b, c:d}}
                 // {wid2: {wid:wid2, a:b, c:d}}
                 // {wid3: {wid:wid3, a:b, c:d}}
                 // ]
 
-            }
+            } // else
             return output
         }
-    }
 
     //in: key, value, preamble 
     //out STRING: {preamble.key: value}

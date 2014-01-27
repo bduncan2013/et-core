@@ -18,28 +18,33 @@
                 proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
                 // var outobjectarr = [];
 
-                getfrommongo(inputWidgetObject, function (err, results) {
-                    var outobject = {};
-                    if (results && (Object.keys(results).length > 0)) {
-                        if (results["data"]) {
-                            outobject = results["data"];
-                        }
 
-                        if (results['wid']) {
-                            outobject['wid'] = results['wid'];
-                        } else {
-                            outobject['wid'] = "";
-                        }
+    getfrommongo(inputWidgetObject, function (err, resultobject) {
+        // convert the object from dri standard before returnning it
+        callback({}, convertfromdriformat(resultobject));
+    });
+                // getfrommongo(inputWidgetObject, function (err, results) {
+                //     var outobject = {};
+                //     if (results && (Object.keys(results).length > 0)) {
+                //         if (results["data"]) {
+                //             outobject = results["data"];
+                //         }
 
-                        if (results['metadata']) { // note date will not come back
-                            outobject['metadata.method'] = results['metadata']['method'];
-                        } else {
-                            outobject['metadata.method'] = "";
-                        }
-                    }
+                //         if (results['wid']) {
+                //             outobject['wid'] = results['wid'];
+                //         } else {
+                //             outobject['wid'] = "";
+                //         }
 
-                    callback(err, outobject);
-                });
+                //         if (results['metadata']) { // note date will not come back
+                //             outobject['metadata.method'] = results['metadata']['method'];
+                //         } else {
+                //             outobject['metadata.method'] = "";
+                //         }
+                //     }
+
+                //     callback(err, outobject);
+                // });
             }
         });
     }
@@ -47,40 +52,31 @@
 
     exports.aggressivedto = aggressivedto = function aggressivedto(widInput, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
         // local vars
-        var moreDTOParameters = {};
+        var moreDTOParameters;
         var targetwid = "";
         var nexttargetwid = "";
         var nextpreamble = "";
         var executeobject = {};
         var parameterObject;
-        var x;
-        var ret = undefined;
         var err;
-
-        // global vars
-        // does this need to be global ?
-        dtoGlobalParameters = {};
+        var res;
+        var dtoGlobalParameters = {};
 
         function debugvars(varlist) {
             var allvars = {
                 1: {
+                    "widInput":widInput,
+                    "preamble":preamble,
+                    "level":level,
+                    "parameterObject": parameterObject,
                     "moreDTOParameters": moreDTOParameters,
                     "targetwid": targetwid,
-                    "nexttargetwid": nexttargetwid,
-                    "nextpreamble": nextpreamble,
                     "eachresult": '',
                     "key": '',
                     "rightparameters": {},
                     "executeobject": executeobject,
-                    "parameterObject": parameterObject,
-                    "x": x,
-                    "ret": ret,
+                    "dtoGlobalParameters": dtoGlobalParameters,
                     "err": err
-                },
-                2: {
-                    "moreDTOParameters": moreDTOParameters,
-                    "targetwid": targetwid,
-                    "nexttargetwid": nexttargetwid
                 }
             };
             var resultObj = {};
@@ -116,75 +112,62 @@
                     targetwid = widInput;
                     executeobject["wid"] = widInput;
                     executeobject['executethis'] = 'getwid';
-                    execute(executeobject, function (err, res) {
-                        parameterObject = res[0];
-                        debugfn("aggressivedto", "step1", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                        cb(null);
+                    execute(executeobject, function (err, res) { // getwid
+                        res=res[0];
+                        if (Object.keys(res).length != 0) {
+                            parameterObject = res;
+                            moreDTOParameters=parameterObject;
+                            debugfn("aggressivedto getwid", "aggressivedto", "get", "begin", debugcolor, debugindent, debugvars([1]));
+                            if ((parameterObject["metadata.method"]) && (parameterObject["metadata.method"]!=targetwid)) {
+                                targetwid = parameterObject['metadata.method'];
+                                executeobject = {};
+                                executeobject["wid"] = targetwid;
+                                executeobject["executethis"] = 'getwid';
+                                execute(executeobject, function (err, res) { // now get method
+                                    res=res[0];
+                                    proxyprinttodiv('Function aggressivedto resultlist', res,10);
+                                    debugfn("aggressivedto get method", "aggressivedto", "get", "begin", debugcolor, debugindent, debugvars([1]));
+                                    if (Object.keys(res).length != 0) {
+                                        moreDTOParameters=res;
+                                        }
+                                    cb(null)
+                                    })
+                                }
+                            else {
+                                cb(null)
+                                }
+                            }
+                        else { // if no object
+                            targetwid=""; // if no object to follow then targetwid="";
+                            cb(null);
+                            }                       
                     });
                 },
+                // parameterObject = wid, moreDTOparameters = methdd, targetwid = chain to follow
 
                 function step2(cb) {
-                    // TODO :: add steps here -- DONE
-
-
-                    // if ((parameterObject !== undefined) && (parameterObject['metadata.method'] != "") && (parameterObject['metadata.method'] != targetwid)) {
-                    //     targetwid = parameterObject['metadata.method'];
-                    //     executeobject = {};
-                    //     executeobject["wid"] = targetwid;
-                    //     executeobject["executethis"] = 'getwid';
-
-
-                    //     execute(executeobject, function (err, res) {
-                    //         moreDTOParameters = res;
-                    //         if (Object.keys(moreDTOParameters).length != 0) {
-                    //             parameterObject = jsonConcat(parameterObject, moreDTOParameters)
-                    //         }
-                    //     });
-                    //     // moreDTOParameters = executethis(executeobject, getwid); // TODO -- DONE
-                    //     // if (Object.keys(moreDTOParameters).length != 0) {
-                    //     //     parameterObject = jsonConcat(parameterObject, moreDTOParameters)
-                    //     // }
-                    // }
-
-                    // executeobject = {};
-                    // executeobject["mongowid"] = targetwid;
-                    // executeobject["mongorelationshiptype"] = "attributes";
-                    // executeobject["mongorelationshipmethod"] = "all";
-                    // executeobject["mongorelationshipdirection"] = "forward";
-                    // executeobject["mongowidmethod"] = "";
-                    // executeobject["convertmethod"] = "";
-                    // executeobject["dtotype"] = "";
-                    // executeobject["executethis"] = querywid;
-
-                    // // var x = window['querywid'];
-                    // execute(executeobject, function (err, res) {
-                    //     moreParameters = res;
-                    //     cb(null, 'two');
-                    // });
-                    // // moreParameters = executethis(executeobject, getwidmaster); // TODO -- DONE
-                    // // moreDTOParameters = executethis(executeobject, x); // TODO -- DONE
-
-
-                    if ((parameterObject !== undefined) && (parameterObject['metadata.method'] != "") && (parameterObject['metadata.method'] != targetwid)) {
+                    proxyprinttodiv('Function aggressivedto targetwid', targetwid,10);
+                    if (targetwid!="") {
+                    //if ((parameterObject !== undefined) && (parameterObject['metadata.method'] != "") && (parameterObject['metadata.method'] != targetwid)) {
                         async.series([ // asynch step1n2
 
-                                function step2n1(cb1) {
-                                    targetwid = parameterObject['metadata.method'];
-                                    executeobject = {};
-                                    executeobject["wid"] = targetwid;
-                                    executeobject["executethis"] = 'getwid';
+                                // function step2n1(cb1) {
+                                //     targetwid = parameterObject['metadata.method'];
+                                //     executeobject = {};
+                                //     executeobject["wid"] = targetwid;
+                                //     executeobject["executethis"] = 'getwid';
 
 
-                                    execute(executeobject, function (err, res) {
-                                        moreDTOParameters = res[0];
-                                        if (Object.keys(moreDTOParameters).length != 0) {
-                                            parameterObject = jsonConcat(parameterObject, moreDTOParameters)
-                                        }
-                                        debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                                        cb1(null, 'step2n1');
-                                    });
+                                //     execute(executeobject, function (err, res) {
+                                //         moreDTOParameters = res[0];
+                                //         if (Object.keys(moreDTOParameters).length != 0) {
+                                //             parameterObject = jsonConcat(parameterObject, moreDTOParameters)
+                                //         }
+                                //         debugfn("aggressivedto step2n1", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
+                                //         cb1(null, 'step2n1');
+                                //     });
 
-                                },
+                                // },
                                 function step2n2(cb1) {
                                     executeobject = {};
                                     executeobject["mongowid"] = targetwid;
@@ -195,13 +178,11 @@
                                     executeobject["convertmethod"] = "";
                                     executeobject["dtotype"] = "";
                                     executeobject["executethis"] = 'querywid';
-
-                                    // x = window['querywid'];
                                     execute(executeobject, function (err, res) {
                                         proxyprinttodiv('Function aggressivedto executeobject', executeobject,10);
                                         proxyprinttodiv('Function aggressivedto res', res,10);
                                         moreDTOParameters = res;
-                                        debugfn("aggressivedto", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                        debugfn("aggressivedto step2n2", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
                                         cb1(null, 'step2n1');
                                     });
                                 }
@@ -210,76 +191,84 @@
                                 if (err) {
                                     throw err;
                                 }
-                                debugfn("aggressivedto", "if ((parameterObject !== undefined)  A", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                                debugfn("aggressivedto if", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
                                 cb(null, 'two');
                             });
                     } else {
-                        debugfn("aggressivedto", "if ((parameterObject !== undefined)  B", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                        debugfn("aggressivedto if ii", "aggressivedto", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     }
                 },
-                // needs some fancy list async rewrite
                 function step3(cb) {
-                    var listToDo = [];
+                    if (moreDTOParameters && moreDTOParameters.length>0) {
+                        var listToDo = [];
+                        var eachresult;
+                        proxyprinttodiv('Function aggressivedto moreDTOParameters', moreDTOParameters,10);
+                        for (eachresult in moreDTOParameters) { // list, for each item in list
+                            listToDo.push(eachresult);
+                        }
 
-                    for (var eachresult in moreDTOParameters) { // list, for each item in list
-                        listToDo.push(eachresult);
-                    }
+                        async.mapSeries(listToDo, function (eachresult, cbMap) {
+                                var rightparameters = {};
+                                var params;
+                                var key;
+                                proxyprinttodiv('Function aggressivedto moreDTOParameters[eachresult]', moreDTOParameters[eachresult],10);
+                                for (key in moreDTOParameters[eachresult]) { 
+                                    rightparameters = moreDTOParameters[eachresult][key];
+                                }
+                                // list is {wid : {}}
+                                // key = wid
 
-                    async.mapSeries(listToDo, function (eachresult, cbMap) {
-                            var rightparameters = {};
-                            var params;
-                            for (var key in moreDTOParameters[eachresult]) { // list is {wid : {}}
-                                rightparameters = moreDTOParameters[eachresult][key];
-                            }
+                                // from dto create outgoing object
+                                // if (moreDTOParameters[key]) {
+                                //     parameterObject[key] = moreDTOParameters[key]
+                                // }
+                                if (level > 0) {
+                                    async.series([
 
-                            // from dto create outgoing object
-                            if (moreDTOParameters[key]) {
-                                parameterObject[key] = moreDTOParameters[key]
-                            }
-                            if (level > 0) {
-                                async.series([
+                                            function step3n1(cbn1) {
+                                                proxyprinttodiv('Function aggressivedto recurse', key,10);
+                                                aggressivedto(key, key, level, function (err, data) { //TODO consider -- DONE
+                                                    params = data;
+                                                    debugfn("aggressivedto step3n1", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
+                                                    cbn1(null);
+                                                });
+                                            },
+                                            function step3n2(cbn2) {
+                                                parameterObject = jsonConcat(parameterObject, params);
+                                                debugfn("aggressivedto step3n2", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
+                                                cbn2(null);
+                                            }
+                                        ],
+                                        function (err, results) {
 
-                                        function step3n1(cbn1) {
+                                        });
+                                }
+                                cbMap(null);
+                            },
+                            function (err, res) {
+                                if (err) {
+                                    throw err;
+                                }
+                            });
 
-                                            aggressivedto(key, key, level, function (err, data) { //TODO consider -- DONE
-                                                params = data;
-                                                debugfn("aggressivedto", "step3b", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                                                cbn1(null);
-                                            });
-                                        },
-                                        function step3n2(cbn2) {
-                                            parameterObject = jsonConcat(parameterObject, params);
-                                            debugfn("aggressivedto", "step3n2", "get", "sub", debugcolor, debugindent, debugvars([1]));
-                                            cbn2(null);
-                                        }
-                                    ],
-                                    function (err, results) {
-
-                                    });
-                            }
-                            cbMap(null);
-                        },
-                        function (err, res) {
-                            if (err) {
-                                throw err;
-                            }
-                        });
-
-                    cb(null, 'three')
-                },
+                        cb(null, 'three')
+                        } // length > 0 
+                    else {
+                        cb(null, 'three')
+                        }
+                    },
                 function step4(cb) {
-                    var dtoGlobalParameters = {};
+
                     for (var eachresult in parameterObject) {
                         dtoGlobalParameters[preamble + eachresult] = parameterObject[eachresult];
                     }
-                    ret = dtoGlobalParameters;
-                    debugfn("aggressivedto", "step4", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                    debugfn("aggressivedto step4", "aggressivedto", "get", "end", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'four');
                 }
             ],
             function (err, results) {
-                callback(err, ret);
+                callback(err, dtoGlobalParameters);
             });
 
 
@@ -347,14 +336,14 @@
         async.series([
 
                 function step1(cb) {
-
                     for (var item in resultObj) { // now step through each record that could be changed
                         if (item.indexOf("addthis.") !== -1) { // if you found "addthis." then remove from resultObj
                             resultObj[item.replace("addthis.", "")]=resultObj[item]; // then and readd without addthis
                             delete resultObj[item]; // delete the old one
                             }
-                        }
+                    }
 
+                    proxyprinttodiv("getcleanparameters removed addthis: ", resultObj, 99);
 
                     if (((resultObj['wid'] !== undefined)) &&
                         ((resultObj['wid'] !== resultObj['metadata.method']) || (dtotype = "defaultdto"))) {
@@ -462,8 +451,6 @@
                         outputparameters = resultObj;
                     }
 
-
-
                     debugfn("getcleanparameters", "step2", "get", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'two');
                 }, // end step2
@@ -482,9 +469,7 @@
                 callback(err, ret);
 
             });
-
     }
-
 
     exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
         var ret = undefined;
@@ -552,9 +537,6 @@
                         debugfn("getwidmaster step1 b", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'one');
                     });
-
-
-
                 },
                 function step2(cb) {
                     // could be moved inside clean parm?
@@ -797,6 +779,8 @@
     // }
 
     function getWidMongo(widInput, convertMethod, accessToken, dtoin, callback) {
+        var originalarguments=arguments;
+        var executionid = new Date();
         var dtoGlobalParameters = {};
         var attr = "";
         var nextLevelParameters = {};
@@ -910,15 +894,15 @@
                         }
 
                     },
-                    function step3(cb) {
+                    // function step3(cb) {
 
-                        aggressivedto(widInput, "", 1, function (err, res) {
-                            moreParameters = res;
-                            debugfn("getWidMongo step3b", "getwidmongo", "get", "step3b", debugcolor, debugindent, debugvars([1]));
-                            cb(null, 'three');
-                        });
+                    //     aggressivedto(widInput, "", 1, function (err, res) {
+                    //         moreParameters = res;
+                    //         debugfn("getWidMongo step3b", "getwidmongo", "get", "step3b", debugcolor, debugindent, debugvars([1]));
+                    //         cb(null, 'three');
+                    //     });
 
-                    },
+                    // },
                     function step4(cb) {
                         if ((dtoGlobalParameters['metadata.method'] === undefined) ||
                             (dtoGlobalParameters['metadata.method'] == "") || (dtoin == "defaultdto")) {
@@ -942,7 +926,14 @@
                         cb(null, 'four');
                     },
                     function step5(cb) {
-                        var listToDo = [];
+                        getAndFormatNextLevel(widInput, "attributes", "all", "forward", "", convertMethod, accessToken, dtoin, function (err, res) {
+                            nextLevelParameters = res;
+                            outgoingParameters = jsonConcat(outgoingParameters, nextLevelParameters);
+                            cb(null, 'five');
+                            });
+                        },
+
+    /*                    var listToDo = [];
                         for (var item in dtoGlobalParameters) {
                             listToDo.push(item);
                         }
@@ -978,7 +969,7 @@
                                 }
                                 cb(null, 'five');
                             });
-                    },
+                    },*/
                     function step6(cb) {
                         Debug = olddebug;
                         ret = outgoingParameters;
@@ -987,7 +978,11 @@
                     }
                 ],
                 function (err, results) {
-
+                    debugfn("getwidmongo code generator", "getwidmongo", "get", "code", 2, 1, {
+                                        0: originalarguments,
+                                        1: ret,
+                                        2: executionid
+                                    }, 4);
                     callback(err, ret);
 
                 });
@@ -1065,8 +1060,8 @@
 
 
                     execute(executeobject, function (err, res) {
-                        proxyprinttodiv('Function getwidmongo executeobject', executeobject,10);
-                        proxyprinttodiv('Function getWidMongo res', res,10);
+                        proxyprinttodiv('Function getwidmongo executeobject', executeobject,99);
+                        proxyprinttodiv('Function getWidMongo res', res,99);
                         relatedParameters = res; 
                         debugfn("getAndFormatNextLevel", "part1", "get", "sub", debugcolor, debugindent, debugvars([1]));
                         cb(null)
@@ -1092,7 +1087,8 @@
                     } else {
                         listToDo = [];
                         for (iteration = 0;
-                            (iteration < countKeys(relatedParameters)); iteration++) {
+                            //(iteration < countKeys(relatedParameters)); iteration++) {
+                            (iteration < relatedParameters.length); iteration++) {
                             listToDo.push(iteration);
                         }
                         async.mapSeries(listToDo, function (iteration, cbMap) {
@@ -1102,6 +1098,9 @@
                                     proposedLeft = key;
                                     proposedRight = rowresult[key];
                                 }
+                                // added 1/26
+                                proxyprinttodiv('Function getAndFormatNextLevel() rowresult', rowresult, 99);
+                                mongowidmethod=proposedRight["metadata.method"]
 
                                 if (convertmethod == "wid") {
                                     nextLevelParameters.push({
@@ -1118,33 +1117,37 @@
                                 }
 
                                 if ((convertmethod == "") || (convertmethod == "dto") || (convertmethod == "toobject") ||
-                                    (convertmethod == "num") || (convertmethod == "dtonum")) {
+                                    (convertmethod == "num") || (convertmethod == "dtonum")) 
+                                    {
 
 
                                     getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin, function (err, res) {
-                                        ret = drillDownParameters = res;
-                                    });
-                                    for (var item in drillDownParameters) {
-                                        if ((convertmethod == "dto") && ((item == "wid") || (item == "metadata.method"))) {} // left empty by design
-                                        else {
-                                            proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; // removed +1
-                                            // added 11-18
-                                            proxyprinttodiv('Function getAndFormatNextLevel() mongorelationshipmethod', mongorelationshipmethod, 11);
-                                            if (((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) ||
-                                                (mongorelationshipmethod == "last")) {
-                                                //if ((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) {
-                                                proposedLeft = mongowidmethod + "." + item;
-                                            }
+                                        drillDownParameters = res;
+                                        // }); --- moved down 1/26
+                                        for (var item in drillDownParameters) {
+                                            if ((convertmethod == "dto") && ((item == "wid") || (item == "metadata.method"))) 
+                                                {
+                                                } // left empty by design
+                                            else {
+                                                proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; // removed +1
+                                                // added 11-18
+                                                proxyprinttodiv('Function getAndFormatNextLevel() mongorelationshipmethod', mongorelationshipmethod, 11);
+                                                if (((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) ||
+                                                    (mongorelationshipmethod == "last")) {
+                                                    //if ((convertmethod == "dto") && (countKeys(relatedParameters) == 1)) {
+                                                    proposedLeft = mongowidmethod + "." + item;
+                                                }
 
-                                            proposedRight = drillDownParameters[item];
-                                        }
-                                        nextLevelParameters.push({
-                                            "key": proposedLeft,
-                                            "value": proposedRight
-                                        });
+                                                proposedRight = drillDownParameters[item];
+                                                }
+                                            nextLevelParameters.push({
+                                                "key": proposedLeft,
+                                                "value": proposedRight
+                                                });
+                                            }
+                                        }); // moved from above getwidmongo
                                     }
-                                }
-                                cbMap(null);
+                                    cbMap(null);
                             },
                             function (err, res) {
                                 if (err) {

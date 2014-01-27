@@ -239,6 +239,7 @@ exports.initdto1 = initdto1 = function initdto1(params, callback) {
                 "categorytype": "string",
                 "categoryname": "categorytype"
             }, {
+
                 // create balancedto
                 "executethis": "addwidmaster",
                 "metadata.method": "balancedto",
@@ -257,9 +258,6 @@ exports.initdto1 = initdto1 = function initdto1(params, callback) {
             }
         ],
         function (err, res) {
-
-
-
             callback(err, res)
         });
 }
@@ -326,10 +324,6 @@ exports.initdto2 = initdto2 = function initdto2(params, callback) {
             "secondarywid": "balancedto"
         }],
         function (err, res) {
-            proxyprinttodiv('Function initdto2 --- userdto ', JSON.stringify(userdto), 99);
-            
-
-
             callback(err, res)
         });
 }
@@ -409,7 +403,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
                 "action": "getwidmaster",
                 // "account": "admin",
                 "account": "staff",
-                "db": "data"
+                "db": "db"
             };
 
             var commandobject = {
@@ -429,9 +423,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
             // perform request with unuthorized user 
             // (user in a seperate group not having permissions to do a getwidmaster on stuff1)
             execute(request1, function (err, resp) {
-                console.log(" >>>>>> response from access to stuff 1 >>>>>  " + JSON.stringify(resp));
-                proxyprinttodiv(">>>>>> response from access to stuff 1 >>>>>  ", JSON.stringify(resp), 99);
-
+                console.log(" >>>>>> response from access to stuff 1 >>>>>  ");
             });
         });
     //     });
@@ -618,7 +610,7 @@ exports.createuserold = createuserold = function createuserold(userwid, ac, logi
             "systemdto.permissiondto.granteegroup": "staff",
             "systemdto.permissiondto.actiongroup": "getwidmaster",
             "systemdto.permissiondto.targetgroup": "staff",
-            "systemdto.permissiondto.dbgroup": "data",
+            "systemdto.permissiondto.dbgroup": "db",
             "systemdto.permissiondto.levelgroup": "1",
             // group data 
             "systemdto.groupdto.groupname": "staff",
@@ -670,14 +662,14 @@ exports.createtestaction = createtestaction = function createtestaction(widname,
     execute([{
             // add test data -- stuff
             "executethis": "addwidmaster",
-            "metadata.method": "testdto",
+            // "metadata.method": "testdto",
             "metadata.owner": owner,
             "wid": widname,
             // permissions data 
             "systemdto.permissiondto.granteegroup": "staff",
             "systemdto.permissiondto.actiongroup": "getwidmaster",
             "systemdto.permissiondto.targetgroup": "staff",
-            "systemdto.permissiondto.dbgroup": "data",
+            "systemdto.permissiondto.dbgroup": "db",
             "systemdto.permissiondto.levelgroup": "1"
         }],
         function (err, res) {
@@ -919,7 +911,7 @@ exports.createuser = createuser = function createuser(userwid, ac, loginlevel, c
             "systemdto.permissiondto.granteegroup": userwid,
             "systemdto.permissiondto.actiongroup": "getwidmaster",
             "systemdto.permissiondto.targetgroup": userwid,
-            "systemdto.permissiondto.dbgroup": "data",
+            "systemdto.permissiondto.dbgroup": "db",
             "systemdto.permissiondto.levelgroup": "1",
             // group data 
             "systemdto.groupdto.groupname": userwid,
