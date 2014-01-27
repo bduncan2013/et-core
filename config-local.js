@@ -310,8 +310,10 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
  
     addToLocalStorage(collection, database);
     addToLocalStorage(keycollection, keydatabase);
-    //widobject = inputWidgetObject;
-    // addToLocalStorage(widMasterKey + widName, widobject);
+    //******
+    widobject = inputWidgetObject;
+    addToLocalStorage(widMasterKey + widName, widobject);
+    //******
     //widobject['wid'] = widName;
     //return widobject;
     callback(err, widobject);
