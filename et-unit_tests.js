@@ -146,28 +146,30 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             "executethis": "ettestct6"
             },{
             "executethis": "ettestct7"
+            // ct8 will break the ctt test run
             // // },{ 
             // // "executethis": "ettestct8"
-            // },{ 
-            // "executethis": "ettestct9"
-            // },{ 
-            // "executethis": "ettestct10"
-            // },{
-            // "executethis": "ettestct11"
-            // },{ 
-            // "executethis": "ettestct13"
-            // },{
-            // "executethis": "ettestct14"
-            // },{ 
-            // "executethis": "ettestct15"
+            },{ 
+            "executethis": "ettestct9"
+            },{ 
+            "executethis": "ettestct10"
+            },{
+            "executethis": "ettestct11"
+            },{ 
+            "executethis": "ettestct13"
+            },{
+            "executethis": "ettestct14"
+            },{ 
+            "executethis": "ettestct15"
+            // ct16 will break the ctt test run
             // },{ 
             // "executethis": "ettestct16"
-            // },{ 
-            // "executethis": "ettestct18"
-            // },{
-            // "executethis": "ettestct19"
-            // },{ 
-            // "executethis": "ettestct20"
+            },{ 
+            "executethis": "ettestct18"
+            },{
+            "executethis": "ettestct19"
+            },{ 
+            "executethis": "ettestct20"
         }],
         function (err, res) {
             callback(err, res);
@@ -1063,41 +1065,11 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
         callback(err, res)
     });
 }
-// This will try pre with func a, 
-exports.ettestct7a = ettestct7a = function ettestct7a(params, callback) {
-    testclearstorage();
-    var parameters = {
-        "c": "0",
-        "d": "1",
-        "e": "2",
-        "preexecute": "a",
-        "configuration": {
-            "preexecute": [{
-                "dothis": "dothis",
-                "tryorder": "0",
-                "executeorder": "0",
-                "params": {}
-            }],
-            "a": [{
-                "dothis": "alertFn1",
-                "tryorder": "0",
-                "executeorder": "0",
-                "params": {}
-            }]
-        }
-    }
-    var assert = {
-        "c": "0",
-        "d": "1",
-        "ettestct7a": "did some alerting",
-        "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
-        callback(err, res)
-    });
-}
+
 // This test asserts that the tryorder in the config is successful
-// and causes executethis to call dothis, not server, or the others
+// and causes executethis to call dothis, not server, or the others. As of jan 28, it
+// still fails to reorder them and calls the server instead. It breaks the code and will not
+// simply call func_b locally.
 exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
     testclearstorage();
     // config = setconfig5();
@@ -1105,7 +1077,6 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
         "executethis": "func_b",
         "c": "0",
         "d": "1",
-
         "e": "2",
         "configuration": {
             "midexecute": [{
@@ -1142,7 +1113,7 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
     });
 }
 
-// This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
+// This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
     testclearstorage();
     var parameters = {
@@ -1163,7 +1134,7 @@ exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
         callback(err, res)
     });
 }
-// This test is to call func_b, add in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
+// This test is to call does_not_exist, remapped to a function in the parameters. So far it does not work...never has.
 exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
     testclearstorage();
     var parameters = {
@@ -1178,8 +1149,8 @@ exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
     });
 }
 
-
-// This test is to call func_b, remap does_not_exist to func_a and execute params to func_a and then to func_b
+// This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So
+// far it does not work, and never has.
 exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
     testclearstorage();
     var parameters = {
@@ -1204,6 +1175,7 @@ exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
 
 // This test is to call func_b, remap does_not_exist_1 to func_a,
 // remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c.
+// None of these ever work...
 exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
     testclearstorage();
     var parameters = {
@@ -1241,13 +1213,13 @@ exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
         "configuration": {
             "preexecute": [{
                 "dothis": "dothis",
-                "tryorder": "0",
-                "executeorder": "0"
+                "tryorder": "1",
+                "executeorder": "1"
             }],
             "a": [{
                 "dothis": "alertFn1",
-                "tryorder": "0",
-                "executeorder": "0"
+                "tryorder": "1",
+                "executeorder": "1"
             }],
             "params": [{
                 "a": "b",
@@ -1312,37 +1284,6 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
     master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
         callback(err, res)
     });
-}
-
-exports.ettestct13c = ettestct13c = function ettestct13c(params, callback) {
-    testclearstorage();
-    // config = setconfig6();
-    var temp_config = config;
-
-    config.configuration.preExecute[0].params = {
-        "cer1": "alphbits"
-    };
-    config.configuration.midExecute[0].params = {
-        "cer2": "booberry"
-    };
-    config.configuration.postExecute[0].params = {
-        "cer3": "chex"
-    };
-
-    execute([{
-            "executethis": "a"
-        }, {
-            "executethis": "b"
-        }, {
-            "executethis": "fire_c"
-        }],
-        function (err, res) {
-            res = logverify("ettestct13_result", res[2][0], {
-                "fire_c": "fire_c is now fired",
-                "cer2": "booberry"
-            });
-            callback(err, res);
-        });
 }
 
 // This is original ct14 test
@@ -1731,7 +1672,8 @@ exports.ct1000 = ct1000 = function ct1000(params, callback) {
     callback(err, params);
 }
 
-
+// This is just a stub function to do a little work...really just a way to show that
+// a function call can be made.
 exports.alertFn1 = alertFn1 = function alertFn1(params, callback) {
     // alert('ct7 has alerted');
     params["ct7"] = "did some alerting";
@@ -1742,22 +1684,22 @@ exports.alertFn1 = alertFn1 = function alertFn1(params, callback) {
 
 
 }
-// Test to call a function
-exports.ft1 = ft1 = function ft1(params, callback) {
-    testclearstorage();
-    executetest("executethis", {
-        "executethis": "func_b",
-        "c": "0",
-        "d": "1",
-        "e": "2"
-    }, "ft1_output", "");
-    params = logverify("c_unit_tests", "ft1_result", "ft1_output", "", "", {
-        "c": "0",
-        "d": "1",
-        "g": "4"
-    });
-    callback(err, params);
-}
+// // Test to call a function
+// exports.ft1 = ft1 = function ft1(params, callback) {
+//     testclearstorage();
+//     executetest("executethis", {
+//         "executethis": "func_b",
+//         "c": "0",
+//         "d": "1",
+//         "e": "2"
+//     }, "ft1_output", "");
+//     params = logverify("c_unit_tests", "ft1_result", "ft1_output", "", "", {
+//         "c": "0",
+//         "d": "1",
+//         "g": "4"
+//     });
+//     callback(err, params);
+// }
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -1793,15 +1735,15 @@ exports.func_c = func_c = function func_c(parameters, callback) {
     callback(err, parameters);
 }
 
-// This is used when a and b do not exist, but 
-
+// This is used when a and b do not exist, but the fire_c
+// is sent as a parameter, and that parameter is to call fire_c.
 exports.fire_c = fire_c = function fire_c(parameters, callback) {
     parameters["fire_c"] = "fire_c is now fired";
     var err;
     callback(err, parameters);
 }
 
-// These are the async versions of the above calls
+// These are the async versions of the above func_a, _b, and _c.
 exports.async_func_a = async_func_a = function async_func_a(parameters, callback) {
     delete parameters["d"];
     parameters["f"] = "3";
@@ -1826,76 +1768,6 @@ exports.async_func_c = async_func_c = function async_func_c(parameters, callback
     callback(err, parameters);
 }
 
-exports.async_func_d = async_func_d = function async_func_d(parameters, callback) {
-    var t = parameters["d"];
-    parameters['executethis'] = 'async_func_e';
-    parameters = executethis(parameters);
-    sleep(500);
-    if (parameters["d"] == t) parameters["d"] = t + ":added";
-    delete parameters["e"];
-    parameters["h"] = "5";
-    var err;
-    callback(err, parameters);
-}
-
-exports.async_func_e = async_func_e = function async_func_e(parameters) {
-    sleep(500);
-    // alert('func_e');
-    delete parameters["d"];
-    parameters["h"] = "7";
-    return parameters;
-}
-
-exports.async_func_d1 = async_func_d1 = function async_func_d1(parameters) {
-    parameters['executethis'] = 'async_func_e1';
-    parameters = executethis(parameters, "execute");
-    sleep(500);
-    parameters["h"] = "5";
-    return parameters;
-    // callback (parameters);
-}
-
-exports.async_func_e1 = async_func_e1 = function async_func_e1(parameters, callback) {
-    sleep(500);
-    // alert('func_e1');
-    parameters['executethis'] = 'async_func_f';
-    parameters = executethis(parameters, execute);
-    var err;
-    callback(err, parameters);
-    // return parameters;
-}
-
-exports.async_func_f = async_func_f = function async_func_f(parameters, callback) {
-    sleep(500);
-    // alert('func_f');
-    parameters["rubies"] = "red";
-    parameters['executethis'] = async_func_g;
-    parameters = executethis(parameters, execute);
-    var err;
-    callback(err, parameters);
-    // return parameters;
-}
-
-exports.async_func_g = async_func_g = function async_func_g(parameters, callback) {
-    sleep(500);
-    // alert('func_g');
-    parameters["emeralds"] = "green";
-    parameters['executethis'] = async_func_h;
-    parameters = executethis(parameters, execute);
-    var err;
-    callback(err, parameters);
-    // return parameters;
-}
-
-exports.async_func_h = async_func_h = function async_func_h(parameters, callback) {
-    sleep(500);
-    // alert('diamonds');
-    parameters["diamonds"] = "you are rich!!";
-    console.log('Struck diamonds -- five levels deep in executethis');
-    var err;
-    callback(err, parameters);
-    // return parameters;
-}
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -2101,905 +1973,52 @@ exports.sleep = sleep = function sleep(milliseconds) {
 
 
 
-exports.func_async = func_async = function func_async(parameters, callback) {
-    delete parameters["d"];
-    console.log('from func_async');
-    // var f = function (){
-    // sleep(3000);
-    // parameters["m"] = "now you waited for 1000 ms";
-    // printToDiv('func_async',parameters,1);	
-    // };
-    // f();
+// exports.func_async = func_async = function func_async(parameters, callback) {
+//     delete parameters["d"];
+//     console.log('from func_async');
+//     // var f = function (){
+//     // sleep(3000);
+//     // parameters["m"] = "now you waited for 1000 ms";
+//     // printToDiv('func_async',parameters,1);	
+//     // };
+//     // f();
 
-    // echo ajax request
-    echoCall('/echo', 'GET', false,
-        function (data) {
-            parameters["m"] = "now you waited for the async call";
-            printToDiv('func_async_success', parameters, 1);
-            console.log('from func_async success');
-        },
-        function (data) {
-            parameters["m"] = "now you waited for the async call";
-            printToDiv('func_async_error', parameters, 1);
-            console.log('from func_async error');
-        }
-    );
-    printToDiv('func_async -- ', parameters, 1);
-    // var err;callback(err, parameters);
-    var err;
-    callback(err, parameters);
-}
+//     // echo ajax request
+//     echoCall('/echo', 'GET', false,
+//         function (data) {
+//             parameters["m"] = "now you waited for the async call";
+//             printToDiv('func_async_success', parameters, 1);
+//             console.log('from func_async success');
+//         },
+//         function (data) {
+//             parameters["m"] = "now you waited for the async call";
+//             printToDiv('func_async_error', parameters, 1);
+//             console.log('from func_async error');
+//         }
+//     );
+//     printToDiv('func_async -- ', parameters, 1);
+//     // var err;callback(err, parameters);
+//     var err;
+//     callback(err, parameters);
+// }
 
-exports.echoCall = echoCall = function echoCall(url, type, asyncVal, successCallback, errorCallback) {
-    jQuery.ajax({
-        url: url,
-        tupe: type,
-        async: asyncVal,
-        cache: false,
-        dataType: "html",
-        success: successCallback,
-        error: errorCallback
-    });
-}
+// exports.echoCall = echoCall = function echoCall(url, type, asyncVal, successCallback, errorCallback) {
+//     jQuery.ajax({
+//         url: url,
+//         tupe: type,
+//         async: asyncVal,
+//         cache: false,
+//         dataType: "html",
+//         success: successCallback,
+//         error: errorCallback
+//     });
+// }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-// The standard config with normal order and no redirects
-exports.setconfig1 = setconfig1 = function setconfig1() {
-    configuration = {};
-    configuration.environment = 'local';
 
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'dothis';
-    configuration.preExecute[0].params = {};
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executedefault';
-    configuration.preExecute[2].params = {};
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'dothis';
-    configuration.midExecute[0].params = {};
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    configuration.midExecute[2].dothis = 'executedefault';
-    configuration.midExecute[2].params = {};
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
-    configuration.midExecute[3].dothis = 'server';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'dothis';
-    configuration.postExecute[0].params = {};
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[1].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executedefault';
-    configuration.postExecute[2].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-    configuration.postExecute[2].params = {};
-
-    // configuration.MongoAddEditPrepare = {};
-    //  configuration.MongoAddEditPrepare.synchronous = true;
-
-    //  configuration.AddMongoRelationship = {};
-    //  configuration.AddMongoRelationship.synchronous = true;
-
-    //  configuration.addwidmaster = {};
-    //  configuration.addwidmaster.synchronous = true;
-
-    //  configuration.AddWidParameters = {};
-    //  configuration.AddWidParameters.synchronous = true;
-
-    //  configuration.AddMaster = {};
-    //  configuration.AddMaster.synchronous = true;
-
-    //  configuration.aggressivedto = {};
-    //  configuration.aggressivedto.synchronous = true;
-
-    //  configuration.getcleanparameters = {};
-    //  configuration.getcleanparameters.synchronous = true;
-
-    //  configuration.getwidmaster = {};
-    //  configuration.getwidmaster.synchronous = true;
-
-
-    //  configuration.getWidMongo = {};
-    //  configuration.getWidMongo.synchronous = true;
-
-    //  configuration.getAndFormatNextLevel = {};
-    //  configuration.getAndFormatNextLevel.synchronous = true;  
-
-    //  configuration.addcleanparameters = {};
-    //  configuration.addcleanparameters.synchronous = true;
-    // ----------------------
-    // configuration.MongoAddEditPrepare = {};
-    // configuration.MongoAddEditPrepare.synchronous = false;
-
-    // configuration.AddMongoRelationship = {};
-    // configuration.AddMongoRelationship.synchronous = false;
-
-    // configuration.addcleanparameters = {};
-    // configuration.addcleanparameters.synchronous = false;
-
-    // configuration.addwidmaster = {};
-    // configuration.addwidmaster.synchronous = false;
-
-    // configuration.AddWidParameters = {};
-    // configuration.AddWidParameters.synchronous = false;
-
-    // configuration.AddMaster = {};
-    // configuration.AddMaster.synchronous = false;
-
-    // configuration.aggressivedto = {};
-    // configuration.aggressivedto.synchronous = false;
-
-    // configuration.getcleanparameters = {};
-    // configuration.getcleanparameters.synchronous = false;
-
-    // configuration.getwidmaster = {};
-    // configuration.getwidmaster.synchronous = false;
-
-    // configuration.getWidMongo = {};
-    // configuration.getWidMongo.synchronous = false;
-
-    // configuration.getAndFormatNextLevel = {};
-    // configuration.getAndFormatNextLevel.synchronous = false;
-
-    configuration.getwid = [];
-    configuration.getwid[0] = {};
-    configuration.getwid[0].executeorder = 0;
-    configuration.getwid[0].tryorder = 0;
-    configuration.getwid[0].dothis = 'offlinegetwid';
-    configuration.getwid[0].params = {};
-
-    configuration.updatewid = [];
-    configuration.updatewid[0] = {};
-    configuration.updatewid[0].executeorder = 0;
-    configuration.updatewid[0].tryorder = 0;
-    configuration.updatewid[0].dothis = 'offlineupdatewid';
-    configuration.updatewid[0].params = {};
-
-    configuration.getfrommongo = [];
-    configuration.getfrommongo[0] = {};
-    configuration.getfrommongo[0].executeorder = 0;
-    configuration.getfrommongo[0].tryorder = 0;
-    configuration.getfrommongo[0].dothis = 'offlinegetfrommongo';
-    configuration.getfrommongo[0].params = {};
-
-    return {
-        "configuration": configuration
-    }
-}
-
-// This config is to test the redirection of functions. The various ct(x)
-// tests make calls to redir_a mapped to func_a, redir_b to func_b and
-// redir_c to func_c. The idea is that the tests will have the same output 
-// as the tt tests, but with calling all the redir_(x) functions instead.
-exports.setconfig2 = setconfig2 = function setconfig2() {
-    configuration = {};
-    configuration.environment = 'local';
-
-    configuration.getwid = [];
-    configuration.getwid[0] = {};
-    configuration.getwid[0].executeorder = 0;
-    configuration.getwid[0].tryorder = 0;
-    configuration.getwid[0].dothis = 'offlinegetfrommongo';
-    configuration.getwid[0].params = {};
-
-    configuration.updatewid = [];
-    configuration.updatewid[0] = {};
-    configuration.updatewid[0].order = 0;
-    configuration.updatewid[0].dothis = 'offlineaddtomongo';
-    configuration.updatewid[0].params = {};
-
-    configuration.querywid = [];
-    configuration.querywid[0] = {};
-    configuration.querywid[0].order = 0;
-    configuration.querywid[0].dothis = 'querywid';
-    configuration.querywid[0].params = {};
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'dothis';
-    configuration.preExecute[0].params = {};
-
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executedefault';
-    configuration.preExecute[2].params = {};
-
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'dothis';
-    configuration.midExecute[0].params = {};
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    configuration.midExecute[2].dothis = 'executedefault';
-    configuration.midExecute[2].params = {};
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
-    configuration.midExecute[3].dothis = 'server';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'dothis';
-    configuration.postExecute[0].params = {};
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[1].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executedefault';
-    configuration.postExecute[2].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-    configuration.postExecute[2].params = {};
-
-    configuration.redir_a = [];
-    configuration.redir_a[0] = {};
-    configuration.redir_a[0].executeorder = 0;
-    configuration.redir_a[0].tryorder = 0;
-    configuration.redir_a[0].dothis = 'func_a';
-    configuration.redir_a[0].params = {};
-
-    configuration.redir_b = [];
-    configuration.redir_b[0] = {};
-    configuration.redir_b[0].executeorder = 0;
-    configuration.redir_b[0].tryorder = 0;
-    configuration.redir_b[0].dothis = 'func_b';
-    configuration.redir_b[0].params = {};
-
-    configuration.redir_c = [];
-    configuration.redir_c[0] = {};
-    configuration.redir_c[0].executeorder = 0;
-    configuration.redir_c[0].tryorder = 0;
-    configuration.redir_c[0].dothis = 'func_c';
-    configuration.redir_c[0].params = {};
-
-    configuration.mock_server = [];
-    configuration.mock_server[0] = {};
-    configuration.mock_server[0].executeorder = 0;
-    configuration.mock_server[0].tryorder = 0;
-    configuration.mock_server[0].dothis = 'cic_output';
-    configuration.mock_server[0].params = {
-        "configuration": {
-            "login1": [{
-                "executeorder": 0,
-                "tryorder": 0,
-                "dothis": "login",
-                "params": {}
-            }]
-        }
-    }
-
-    return {
-        "configuration": configuration
-    }
-}
-
-// This config is to test redirecting preexecute to function_f and see what happens
-exports.setconfig3 = setconfig3 = function setconfig3() {
-    configuration = {};
-    configuration.environment = 'local';
-
-    configuration.getwid = [];
-    configuration.getwid[0] = {};
-    configuration.getwid[0].order = 0;
-    configuration.getwid[0].dothis = 'offlinegetfrommongo';
-    configuration.getwid[0].params = {};
-
-    configuration.updatewid = [];
-    configuration.updatewid[0] = {};
-    configuration.updatewid[0].order = 0;
-    configuration.updatewid[0].dothis = 'offlineaddtomongo';
-    configuration.updatewid[0].params = {};
-
-    configuration.querywid = [];
-    configuration.querywid[0] = {};
-    configuration.querywid[0].order = 0;
-    configuration.querywid[0].dothis = 'querywid';
-    configuration.querywid[0].params = {};
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'dothis';
-    configuration.preExecute[0].params = {};
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executedefault';
-    configuration.preExecute[2].params = {};
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'dothis';
-    configuration.midExecute[0].params = {};
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    configuration.midExecute[2].dothis = 'executedefault';
-    configuration.midExecute[2].params = {};
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
-    configuration.midExecute[3].dothis = 'server';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'dothis';
-    configuration.postExecute[0].params = {};
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[1].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executedefault';
-    configuration.postExecute[2].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-    configuration.postExecute[2].params = {};
-
-    return {
-        "configuration": configuration
-    }
-}
-// Looking to get preexecute to acually fire func_g...not func_a, as the test calls for
-exports.setconfig4 = setconfig4 = function setconfig4() {
-    configuration = {};
-
-    configuration.getwid = [];
-    configuration.getwid[0] = {};
-    configuration.getwid[0].order = 0;
-    configuration.getwid[0].dothis = 'offlinegetfrommongo';
-    configuration.getwid[0].params = {};
-
-    configuration.updatewid = [];
-    configuration.updatewid[0] = {};
-    configuration.updatewid[0].order = 0;
-    configuration.updatewid[0].dothis = 'offlineaddtomongo';
-    configuration.updatewid[0].params = {};
-
-    configuration.querywid = [];
-    configuration.querywid[0] = {};
-    configuration.querywid[0].order = 0;
-    configuration.querywid[0].dothis = 'querywid';
-    configuration.querywid[0].params = {};
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'func_g'; // This is the change to remark
-    configuration.preExecute[0].params = {};
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executedefault';
-    configuration.preExecute[2].params = {};
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'dothis';
-    configuration.midExecute[0].params = {};
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    configuration.midExecute[2].dothis = 'executedefault';
-    configuration.midExecute[2].params = {};
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
-    configuration.midExecute[3].dothis = 'server';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'dothis';
-    configuration.postExecute[0].params = {};
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[1].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executedefault';
-    configuration.postExecute[2].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-    configuration.postExecute[2].params = {};
-
-    return {
-        "configuration": configuration
-    }
-}
-// This is the config to use to test the tryorder...
-// mid has the usual settings in an order that should
-// be resorted by dothis...if successful, the mid order should
-// be the same as it always is, not the way this config is set
-exports.setconfig5 = setconfig5 = function setconfig5() {
-    configuration = {};
-    configuration.environment = 'local';
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'dothis';
-    configuration.preExecute[0].params = {};
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executedefault';
-    configuration.preExecute[2].params = {};
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'server';
-    configuration.midExecute[0].params = {};
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 4;
-    configuration.midExecute[1].tryorder = 4;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 7;
-    configuration.midExecute[2].tryorder = 7;
-    configuration.midExecute[2].dothis = 'executedefault';
-    configuration.midExecute[2].params = {};
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 1;
-    configuration.midExecute[3].tryorder = 1;
-    configuration.midExecute[3].dothis = 'dothis';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'dothis';
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executedefault';
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-
-    return {
-        "configuration": configuration
-    }
-}
-// This config is for testing a and b not there, but c is
-exports.setconfig6 = setconfig6 = function setconfig6() {
-    configuration = {};
-    configuration.environment = 'local';
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'dothis';
-    configuration.preExecute[0].params = {
-        'cer1': 'alphabits'
-    };
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executedefault';
-    configuration.preExecute[2].params = {};
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'dothis';
-    configuration.midExecute[0].params = {
-        'cer2': 'booberry'
-    };
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    configuration.midExecute[2].dothis = 'executedefault';
-    configuration.midExecute[2].params = {};
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
-    configuration.midExecute[3].dothis = 'server';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'dothis';
-    configuration.postExecute[0].params = {
-        'cer3': 'chex'
-    };
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[1].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executedefault';
-    configuration.postExecute[2].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-    configuration.postExecute[2].params = {};
-
-    return {
-        "configuration": configuration
-    }
-}
-
-// This config is to test he executedefault...does it make it there if dothis and executeparam do 
-// not exist.  
-exports.setconfig7 = setconfig7 = function setconfig7() {
-    configuration = {};
-    configuration.environment = 'local';
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'dothis';
-    configuration.preExecute[0].params = {
-        'myexfnparam': 'hereismyfnparam'
-    };
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executedefault';
-    configuration.preExecute[2].params = {};
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'dothis';
-    configuration.midExecute[0].params = {};
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    // configuration.midExecute[2].dothis = 'executedefault'; // This is replaced with func_b to simulate getting to executedefault
-    configuration.midExecute[2].dothis = 'func_b';
-    configuration.midExecute[2].params = {
-        'exdef': 'param after dothis and executeparam was grabbed'
-    };
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
-    configuration.midExecute[3].dothis = 'server';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'dothis';
-    configuration.postExecute[0].params = {};
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[1].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executedefault';
-    configuration.postExecute[2].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-    configuration.postExecute[2].params = {};
-
-    return {
-        "configuration": configuration
-    }
-}
-
-exports.setconfig8 = setconfig8 = function setconfig8() {
-    configuration = {};
-    configuration.environment = 'local';
-
-    configuration.preExecute = [];
-    configuration.preExecute[0] = {};
-    configuration.preExecute[0].executeorder = 0;
-    configuration.preExecute[0].tryorder = 0;
-    configuration.preExecute[0].dothis = 'dothis';
-    configuration.preExecute[0].params = {
-        "alpha": "4"
-    };
-    configuration.preExecute[1] = {};
-    configuration.preExecute[1].executeorder = 0;
-    configuration.preExecute[1].tryorder = 0;
-    configuration.preExecute[1].dothis = 'executeparam';
-    configuration.preExecute[1].params = {};
-    configuration.preExecute[2] = {};
-    configuration.preExecute[2].executeorder = 0;
-    configuration.preExecute[2].tryorder = 0;
-    configuration.preExecute[2].dothis = 'executedefault';
-    configuration.preExecute[2].params = {};
-    configuration.preExecute[3] = {};
-    configuration.preExecute[3].executeorder = 0;
-    configuration.preExecute[3].tryorder = 0;
-    configuration.preExecute[3].dothis = 'server';
-    configuration.preExecute[3].params = {};
-
-    configuration.midExecute = [];
-    configuration.midExecute[0] = {};
-    configuration.midExecute[0].executeorder = 0;
-    configuration.midExecute[0].tryorder = 0;
-    configuration.midExecute[0].dothis = 'dothis';
-    configuration.midExecute[0].params = {
-        "bravo": "4"
-    };
-    configuration.midExecute[1] = {};
-    configuration.midExecute[1].executeorder = 0;
-    configuration.midExecute[1].tryorder = 0;
-    configuration.midExecute[1].dothis = 'executeparam';
-    configuration.midExecute[1].params = {};
-    configuration.midExecute[2] = {};
-    configuration.midExecute[2].executeorder = 0;
-    configuration.midExecute[2].tryorder = 0;
-    configuration.midExecute[2].dothis = 'executedefault';
-    configuration.midExecute[2].params = {};
-    configuration.midExecute[3] = {};
-    configuration.midExecute[3].executeorder = 0;
-    configuration.midExecute[3].tryorder = 0;
-    configuration.midExecute[3].dothis = 'server';
-    configuration.midExecute[3].params = {};
-
-    configuration.postExecute = [];
-    configuration.postExecute[0] = {};
-    configuration.postExecute[0].executeorder = 0;
-    configuration.postExecute[0].tryorder = 0;
-    configuration.postExecute[0].dothis = 'dothis';
-    configuration.postExecute[0].params = {
-        "charlie": "4"
-    };
-    configuration.postExecute[1] = {};
-    configuration.postExecute[1].executeorder = 0;
-    configuration.postExecute[1].tryorder = 0;
-    configuration.postExecute[1].dothis = 'executeparam';
-    configuration.postExecute[1].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'executedefault';
-    configuration.postExecute[2].params = {};
-    configuration.postExecute[2] = {};
-    configuration.postExecute[2].executeorder = 0;
-    configuration.postExecute[2].tryorder = 0;
-    configuration.postExecute[2].dothis = 'server';
-    configuration.postExecute[2].params = {};
-
-    configuration.func_a = [];
-    configuration.func_a[0] = {};
-    configuration.func_a[0].order = 0;
-    configuration.func_a[0].dothis = 'func_a';
-    configuration.func_a[0].params = {
-        "alpha": "2"
-    };
-
-    configuration.func_b = [];
-    configuration.func_b[0] = {};
-    configuration.func_b[0].order = 0;
-    configuration.func_b[0].dothis = 'func_b';
-    configuration.func_b[0].params = {
-        "bravo": "2"
-    };
-
-    configuration.func_c = [];
-    configuration.func_c[0] = {};
-    configuration.func_c[0].order = 0;
-    configuration.func_c[0].dothis = 'func_c';
-    configuration.func_c[0].params = {
-        "charlie": "2"
-    };
-
-    return {
-        "configuration": configuration
-    }
-}
-
-exports.test_new = test_new = function test_new(params, callback) {
-    testclearstorage();
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "new_test_wid_1",
-            "height": "17 meters"
-        }, {
-            "executethis": "getwidmaster",
-            "wid": "new_test_wid_1"
-        }],
-        function (err, res) {
-            res = logverify("unit_tests", "test_new_result", "", res[1][0], "", {
-                "height": "17 meters",
-                "wid": "new_test_wid_1",
-                "metadata.method": "defaultdto"
-            });
-            if (callback instanceof Function) {
-                callback(err, res);
-            } else {
-                return res;
-            }
-        });
-}
-
+// Used as a test for having a executethis in the parameters
 exports.uwid1 = uwid1 = function uwid1(params, callback) {
     testclearstorage();
 
@@ -3024,350 +2043,3 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
         });
 }
 
-exports.tmp1 = tmp1 = function tmp1(params, callback) {
-    testclearstorage();
-    var x = {
-        "redir_a": [{
-            "dothis": "func_a",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }],
-        "redir_b": [{
-            "dothis": "func_b",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }],
-        "redir_c": [{
-            "dothis": "func_c",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }]
-    };
-
-    var z = {
-        "executethis": "redir_b",
-        "c": "0",
-        "d": "1",
-        "e": "2"
-    }
-
-    w = extend(z, {
-        "configuration": x
-    });
-
-    execute([
-            w
-        ],
-        function (err, res) {
-            res = logverify("tmp1_result", res[0][0], {
-                "d": "1",
-                "c": "0",
-                "g": "4",
-                "configuration": {
-                    "redir_a": [{
-                        "dothis": "func_a",
-                        "tryorder": 1,
-                        "executeorder": 1,
-                        "params": {}
-                    }],
-                    "redir_b": [{
-                        "dothis": "func_b",
-                        "tryorder": 1,
-                        "executeorder": 1,
-                        "params": {}
-                    }],
-                    "redir_c": [{
-                        "dothis": "func_c",
-                        "tryorder": 1,
-                        "executeorder": 1,
-                        "params": {}
-                    }]
-                }
-            });
-            callback(err, res);
-        });
-}
-
-//---------------------------
-
-exports.tmp2 = tmp2 = function tmp2(params, callback) {
-    testclearstorage();
-    var temp_config = extend(config);
-
-    var x = {
-        "redir_a": [{
-            "dothis": "func_a",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }],
-        "redir_b": [{
-            "dothis": "func_b",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }],
-        "redir_c": [{
-            "dothis": "func_c",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }]
-    };
-
-    var z = {
-        "executethis": "redir_b",
-        "c": "0",
-        "d": "1",
-        "e": "2"
-    }
-
-    config.configuration = extend(config.configuration, x);
-
-    execute([
-            z
-        ],
-        function (err, res) {
-            res = logverify("tmp2_result", res[0][0], {
-                "d": "1",
-                "c": "0",
-                "g": "4"
-            });
-            config = extend(temp_config);
-            callback(err, res);
-        });
-}
-
-//---------------------------
-
-function tmp4(params, callback) {
-    assert = {
-        "d": "1",
-        "c": "0",
-        "g": "4"
-    };
-    parameters = {
-        "executethis": "redir_b",
-        "c": "0",
-        "d": "1",
-        "e": "2",
-        "configuration": {
-            "redir_a": [{
-                "dothis": "func_a",
-                "tryorder": 1,
-                "executeorder": 1,
-                "params": {}
-            }],
-            "redir_b": [{
-                "dothis": "func_b",
-                "tryorder": 1,
-                "executeorder": 1,
-                "params": {}
-            }],
-            "redir_c": [{
-                "dothis": "func_c",
-                "tryorder": 1,
-                "executeorder": 1,
-                "params": {}
-            }]
-        }
-    };
-    master_test_and_verify(parameters, assert, callback);
-    var err;
-    callback(err, res);
-}
-
-function tmp5(params, callback) {
-    parameters = {
-        "executethis": "func_b",
-        "c": "0",
-        "d": "1",
-        "e": "2"
-    }
-
-    assert = {
-        "d": "1",
-        "c": "0",
-        "g": "4"
-    }
-
-    test_and_verify(parameters, assert, true, function (err, res) {
-        callback(err, res);
-    });
-}
-
-function tmp6(params, callback) {
-    parameters = {
-        "executethis": "redir_b",
-        "c": "0",
-        "d": "1",
-        "e": "2",
-        "configuration": {
-            "redir_a": [{
-                "dothis": "func_a",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {}
-            }],
-            "redir_b": [{
-                "dothis": "func_b",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {}
-            }],
-            "redir_c": [{
-                "dothis": "func_c",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {}
-            }]
-        }
-    }
-    assert = {
-        "d": "1",
-        "c": "0",
-        "g": "4",
-        "configuration": {
-            "redir_a": [{
-                "dothis": "func_a",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {}
-            }],
-            "redir_b": [{
-                "dothis": "func_b",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {}
-            }],
-            "redir_c": [{
-                "dothis": "func_c",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {}
-            }]
-        }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
-        callback(err, res)
-    });
-}
-
-exports.tmp3 = tmp3 = function tmp3(params, callback) {
-    testclearstorage();
-    var temp_config = extend(config);
-
-    var x = {
-        "redir_a": [{
-            "dothis": "func_a",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }],
-        "redir_b": [{
-            "dothis": "func_b",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }],
-        "redir_c": [{
-            "dothis": "func_c",
-            "tryorder": 1,
-            "executeorder": 1,
-            "params": {}
-        }]
-    };
-
-    var z = {
-        "executethis": "redir_b",
-        "c": "0",
-        "d": "1",
-        "e": "2"
-    }
-
-    w = extend(z, {
-        "configuration": x
-    });
-
-    execute([
-            w
-        ],
-        function (err, res) {
-            res = logverify("tmp3_result", res[0][0], {
-                "d": "1",
-                "c": "0",
-                "g": "4",
-                "configuration": {
-                    "redir_a": [{
-                        "dothis": "func_a",
-                        "tryorder": 1,
-                        "executeorder": 1,
-                        "params": {}
-                    }],
-                    "redir_b": [{
-                        "dothis": "func_b",
-                        "tryorder": 1,
-                        "executeorder": 1,
-                        "params": {}
-                    }],
-                    "redir_c": [{
-                        "dothis": "func_c",
-                        "tryorder": 1,
-                        "executeorder": 1,
-                        "params": {}
-                    }]
-                }
-            });
-
-            config = extend(temp_config);
-            config.configuration = extend(config.configuration, x);
-
-            var r2 = execute([
-                    z
-                ],
-                function (err, res_1) {
-                    alert("res_1[0][0]: " + JSON.stringify(res_1[0][0]));
-                    res_1 = logverify("tmp3a_result", res_1[0][0], {
-                        "d": "1",
-                        "c": "0",
-                        "g": "4"
-                    });
-                    alert("res_1: " + JSON.stringify(res_1));
-                    callback(err, res_1);
-                });
-
-            alert("r2: " + JSON.stringify(r2));
-            res = extend(res, r2);
-            alert(JSON.stringify(res));
-            config = extend(temp_config);
-
-            callback(err, res);
-        });
-}
-
-
-// function tmp5 (params, callback) {
-// 	parameters = {
-// 			"executethis": "func_b",
-// 			"c": "0",
-// 			"d": "1",
-// 			"e": "2"
-// 		}
-
-// 	assert = {
-// 			"d": "1",
-// 			"c": "0",
-// 			"g": "4"
-// 		}
-
-// test_and_verify (parameters, assert, true, function (err, res) {
-// 		callback (err, res);
-// 	});
-
-//	// master_test_and_verify (parameters, assert, function (err, res) {
-//	// 	callback (err, res);
-//	// });
-// }
