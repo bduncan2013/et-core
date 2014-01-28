@@ -1037,7 +1037,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         debugfilter = 0;
         switch (debugfilter) {
         case 0:
-            outobject = debugobjectlist;
+            outobject = JSON.parse(JSON.stringify(debugobjectlist));
             break;
 
         case 1:

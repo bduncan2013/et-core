@@ -880,7 +880,7 @@
                         execute(executeobject, function (err, res) {
                             currentLevelObject = res[0];
                             debugfn("getWidMongo part1", "getwidmongo", "get", "part", debugcolor, debugindent, debugvars([1]));
-                            cb(null, 'part1');
+                            cb(null);
                         });
                     },
                     function step2(cb) {
@@ -896,12 +896,12 @@
                                 dtoGlobalParameters = res[0]; //TODO -- DONE
                                 console.log(dtoGlobalParameters);
                                 debugfn("getWidMongo step2a", "getwidmongo", "get", "step2a", debugcolor, debugindent, debugvars([1]));
-                                cb(null, 'two');
+                                cb(null);
                             }); //TODO -- DONE
 
                         } else {
                             debugfn("getWidMongo step2b", "getwidmongo", "get", "step2b", debugcolor, debugindent, debugvars([1]));
-                            cb(null, 'two');
+                            cb(null);
                         }
 
                     },
@@ -936,17 +936,22 @@
                         //proxyprinttodiv('Function getWidMongo() outgoingParameters ', outgoingParameters,10);
                         dtoGlobalParameters = moreParameters; // line added 10-9 -- step through an agressive dto
                         debugfn("getWidMongo step4", "getwidmongo", "get", "step4", debugcolor, debugindent, debugvars([1]));
-                        cb(null, 'four');
+                        cb(null);
                     },
                     function step5(cb) {
                         getAndFormatNextLevel(widInput, "attributes", "all", "forward", "", convertMethod, accessToken, dtoin, function (err, res) {
-                            nextLevelParameters = res;
-                            proxyprinttodiv('Function getwidmongo nextLevelParameters --', nextLevelParameters,10);
-                            outgoingParameters = jsonConcat(outgoingParameters, nextLevelParameters);
-                            proxyprinttodiv('Function getwidmongo outgoingParameters --', outgoingParameters,10);
-                            cb(null, 'five');
-                            });
-                        },
+                            if((res) && (Object.keys(res).length !== 0)) {
+                                nextLevelParameters = res;
+                                proxyprinttodiv('Function getwidmongo nextLevelParameters --', nextLevelParameters, 17);
+                                outgoingParameters = extend(true, outgoingParameters, nextLevelParameters);
+                                proxyprinttodiv('Function getwidmongo outgoingParameters --', outgoingParameters,10);
+                                cb(null);
+                            }
+                            else {
+                                cb(null);
+                            }
+                        });
+                    },
 
     /*                    var listToDo = [];
                         for (var item in dtoGlobalParameters) {
@@ -987,9 +992,11 @@
                     },*/
                     function step6(cb) {
                         Debug = olddebug;
+                        //ret = JSON.parse(JSON.stringify(outgoingParameters));
                         ret = outgoingParameters;
                         debugfn("getWidMongo step6", "getwidmongo", "get", "step6", debugcolor, debugindent, debugvars([1]));
-                        cb(null, 'six');
+                        proxyprinttodiv('Function getwidmongo ret A', ret, 99);
+                        cb(null, ret);
                     }
                 ],
                 function (err, results) {
@@ -998,8 +1005,8 @@
                                         1: ret,
                                         2: executionid
                                     }, 4);
-                    callback(err, ret);
-
+                    callback(err, results[4]);
+                    proxyprinttodiv('Function getwidmongo ret B', results, 99);
                 });
 
 
@@ -1018,7 +1025,7 @@
         var proposedLeft = "";
         var proposedRight = "";
         var iteration = 0;
-        var relatedParameters;
+        var relatedParameters =[];
         var listToDo;
         var ret = undefined;
         var err;
@@ -1075,18 +1082,24 @@
 
 
                     execute(executeobject, function (err, res) {
-                        proxyprinttodiv('Function format executeobject', executeobject,10);
-                        proxyprinttodiv('Function resukts from format res', res,10);
-                        relatedParameters = res; 
-                        debugfn("getAndFormatNextLevel I", "getformat", "get", "start", debugcolor, debugindent, debugvars([1]));
-                        cb(null)
-                    })
+                        if((res) && (res.length !== 0)) {
+                            proxyprinttodiv('Function format executeobject', executeobject,10);
+                            proxyprinttodiv('Function results from format res', res, 17);
+                            relatedParameters = res; 
+                            debugfn("getAndFormatNextLevel I", "getformat", "get", "start", debugcolor, debugindent, debugvars([1]));
+                            cb(null);
+                        }
+                        else {
+                            cb(null);
+                            callback(err, res);
+                        }
+                    });
 
                 },
                 function part2(cb) {
                     //if (Object.keys(relatedParameters).length == 0) {   changed 1/23
-                    if (relatedParameters.length == 0) {
-                        nextLevelParameters=[];
+                    if (relatedParameters.length === 0) {
+                        nextLevelParameters = [];
                         cb(""); // changed 1/28 should go to step 3
                         //ret = nextLevelParametersObject;
                         //callback(err, ret);
@@ -1099,87 +1112,116 @@
                             listToDo.push(iteration);
                             }
 
-                        async.mapSeries(listToDo, function (iteration, cbMap) {
+
+                        proxyprinttodiv('Function getAndFormatNextLevel -- listToDo --', listToDo, 99);
+                        //async.mapSeries(listToDo, function (iteration, cbMap) {
+                        for (var iteration in listToDo) {
                             rowresult = relatedParameters[iteration];
-                            proxyprinttodiv('Function getAndFormatNextLevel rowresult', rowresult,10);
+                            proxyprinttodiv('Function getAndFormatNextLevel -- iteration --', iteration, 99);
+                            proxyprinttodiv('Function getAndFormatNextLevel rowresult', rowresult, 17);
                             for (var key in rowresult) {
                                 proposedLeft = key;
                                 proposedRight = rowresult[key];
-                                }
+                            }
+                            proxyprinttodiv('Function getAndFormatNextLevel proposedLeft', proposedLeft, 17);
+                            proxyprinttodiv('Function getAndFormatNextLevel proposedRight', proposedRight, 17);
                             
-                            proxyprinttodiv('Function getAndFormatNextLevel proposedLeft', proposedLeft,10);
-                            proxyprinttodiv('Function getAndFormatNextLevel proposedRight', proposedRight,10);
-                            mongowidmethod=proposedRight["metadata.method"]
+                            mongowidmethod = proposedRight["metadata.method"]
 
-                            if (convertmethod == "wid") {
+                            if (convertmethod === "wid") {
                                 nextLevelParameters.push({
                                     "key": mongowidmethod,
                                     "value": proposedLeft
                                 });
                             }
 
-                            if (convertmethod == "json") {
+                            if (convertmethod === "json") {
                                 nextLevelParameters.push({
                                     "key": mongowidmethod,
                                     "value": JSON.stringify(proposedRight)
                                 });
                             }
 
-                            if ((convertmethod == "") || (convertmethod == "dto") || (convertmethod == "toobject") ||
-                                (convertmethod == "num") || (convertmethod == "dtonum")) 
+                            if ((convertmethod === "") || (convertmethod === "dto") || (convertmethod === "toobject") ||
+                                (convertmethod === "num") || (convertmethod === "dtonum")) 
                                 {
 
                                 debugfn("getAndFormatNextLevel II", "getformat", "get", "mid", debugcolor, debugindent, debugvars([1]));
                                 debugcolor++;
                                 debugindent++;
-                                getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin, function (err, res) {
-                                    debugcolor--;
-                                    debugindent--;
-                                    drillDownParameters = res;
-                                    // }); --- moved down 1/26
-                                    proxyprinttodiv('Function getAndFormatNextLevel() loop drillDownParameters', drillDownParameters, 10);
-                                    proxyprinttodiv('Function getAndFormatNextLevel() loop convertmethod', convertmethod, 10);
-
-                                    for (var item in drillDownParameters) {
-                                        proxyprinttodiv('Function getAndFormatNextLevel() loop item', item, 10);
-                                        proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; 
-                                        if (convertmethod==="dto") {
-                                            proposedLeft=mongowidmethod + "." + item;
-                                            }
-                                        proposedRight = drillDownParameters[item];
-                                        proxyprinttodiv('Function getAndFormatNextLevel() loop proposedLeft', proposedLeft, 10);
-                                        proxyprinttodiv('Function getAndFormatNextLevel() loop proposedRight', proposedRight, 10);
-
-                                        if (((item=="wid") || (item=="metadata.method")) && (convertmethod=="dto")) {
-                                            // left empty by design
-                                            }
-                                        else {
-                                            nextLevelParameters.push({
-                                                "key": proposedLeft,
-                                                "value": proposedRight
-                                                });    
-                                            }
-                                        proxyprinttodiv('Function getAndFormatNextLevel() nextLevelParameters', nextLevelParameters, 10);
-                                        } // for
-                                    cbMap(null);
-                                    }); // getwidmongo
-                                } // if ||
-                            else {
-                                cbMap(null);
+                                
+                                proxyprinttodiv('Function getAndFormatNextLevel() before getWidMongo -- proposedLeft', proposedLeft, 17);
+                                proxyprinttodiv('Function getAndFormatNextLevel() before getWidMongo -- convertmethod', convertmethod, 17);
+                                proxyprinttodiv('Function getAndFormatNextLevel() before getWidMongo -- accesstoken', accesstoken, 17);
+                                proxyprinttodiv('Function getAndFormatNextLevel() before getWidMongo -- dtoin', dtoin, 17);
+                                if (proposedLeft === '13') {
+                                    debugfn("wid 13 a", "special", "get", "mid", debugcolor, debugindent, debugvars([1,2]));
                                 }
-                        },
-                        function (err, res) {
-                            if (err) {
-                                throw err;
+                                getWidMongo(proposedLeft, convertmethod, accesstoken, dtoin, function (err, res) {
+                                    if (proposedLeft === '13') {
+                                    debugfn("wid 13 b", "special", "get", "mid", debugcolor, debugindent, debugvars([1,2]));
+                                }
+
+                                    proxyprinttodiv('Function !!! getWidMongo() rowresult !!!', rowresult, 99);
+                                    proxyprinttodiv('Function !!! getWidMongo() res !!!', res, 99);
+                                    proxyprinttodiv('Function !!! getWidMongo() proposedLeft !!!', proposedLeft, 99);
+                                    
+                                    if((res) && (Object.keys(res).length !== 0)) {
+                                        debugcolor--;
+                                        debugindent--;
+                                        drillDownParameters = res;
+                                        // }); --- moved down 1/26
+                                        proxyprinttodiv('Function getAndFormatNextLevel() loop drillDownParameters', drillDownParameters, 17);
+                                        proxyprinttodiv('Function getAndFormatNextLevel() loop convertmethod', convertmethod, 10);
+
+                                        for (var item in drillDownParameters) {
+                                            proxyprinttodiv('Function getAndFormatNextLevel() loop item', item, 10);
+                                            proposedLeft = mongowidmethod + "." + String(iteration) + "." + item; 
+                                            if (convertmethod === "dto") {
+                                                proposedLeft = mongowidmethod + "." + item;
+                                                }
+                                            proposedRight = drillDownParameters[item];
+                                            proxyprinttodiv('Function getAndFormatNextLevel() loop proposedLeft', proposedLeft, 10);
+                                            proxyprinttodiv('Function getAndFormatNextLevel() loop proposedRight', proposedRight, 10);
+
+                                            if (((item === "wid") || (item === "metadata.method")) && (convertmethod === "dto")) {
+                                                // left empty by design
+                                                }
+                                            else {
+                                                nextLevelParameters.push({
+                                                    "key": proposedLeft,
+                                                    "value": proposedRight
+                                                    });
+                                            }
+                                        } // for
+                                        proxyprinttodiv('Function getAndFormatNextLevel() nextLevelParameters', nextLevelParameters, 17);
+                                        //cbMap(null);
+                                    }
+                                    else {
+                                        // proxyprinttodiv('Function getAndFormatNextLevel() skiped getwidmong', rowresult, 99);
+                                        //cbMap(null);
+                                    }
+                                }); // getwidmongo
+                            } // if ||
+                            else {
+                                //cbMap(null);
                             }
-                        }); // mapseries
+                        // },
+                        // function (err, res) {
+                        //     if (err) {
+                        //         throw err;
+                        //     }
+                            
+                        // }); // mapseries
+                        }
+                    
                     } // else
                 debugfn("getAndFormatNextLevel III", "getformat", "get", "mid", debugcolor, debugindent, debugvars([1]));
                 cb(null, 'two');
                 },
 
                 function part3(cb) {
-                    proxyprinttodiv('Function getAndFormatNextLevel() nextLevelParameters end', nextLevelParameters, 10);
+                    proxyprinttodiv('Function getAndFormatNextLevel() nextLevelParameters end', nextLevelParameters, 17);
 
                     nextLevelParametersObject = listToObject(nextLevelParameters);
                     ret = nextLevelParametersObject;

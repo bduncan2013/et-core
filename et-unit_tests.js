@@ -2047,7 +2047,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         function (err, res) {
 
 
-            debugfn("update code generator END", "addmaster", "", "code", debugcolor, debugindent, {}, 5);
+            // debugfn("update code generator END", "addmaster", "", "code", debugcolor, debugindent, {}, 5);
             debugname = "";
             debugcat = "";
             debugsubcat = "";
