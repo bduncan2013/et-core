@@ -387,6 +387,7 @@ $('#output_to_input').click(function () {
 
 
 function return_long (result_array) {
+	// You don't know the outcome of the test yet.
 	var ultimate_pass_fail = "UNKNOWN";
 	var did_fail_flag = false;
 	var did_pass_flag = false;
@@ -397,13 +398,14 @@ function return_long (result_array) {
         var jsonPretty = JSON.stringify(result_array[x], "-", 4);
         tmp_html_long = jsonPretty;
     	tmp_output_long += "<pre>" + tmp_html_long + "</pre>";
-		}
-
-    if ( tmp_html_long.indexOf("PASS") !== -1 ) did_pass_flag = true;
-    if ( tmp_html_long.indexOf("FAIL") !== -1 ) did_fail_flag = true;
-
-
+    	// If a 'pass' is found, a pass 'could' happen.
+	    if ( tmp_html_long.indexOf("PASS") !== -1 ) did_pass_flag = true;
+	    // If a 'fail' is found, a fail 'could' happen.
+	    if ( tmp_html_long.indexOf("FAIL") !== -1 ) did_fail_flag = true;
+	}
+	// If there is a pass with no fail, the data passes.
 	if (did_pass_flag && !did_fail_flag) ultimate_pass_fail = "PASS";
+	// If there are any fails at all, the data fails.
 	if (did_fail_flag) ultimate_pass_fail = "FAIL";
 	
 	showPassFail(ultimate_pass_fail);

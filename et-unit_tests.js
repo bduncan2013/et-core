@@ -132,20 +132,20 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             "executethis": "ettestct1"
         }, {
             "executethis": "ettestct2"
-            // },{
-            // "executethis": "ettestct3"
-            // },{ 
-            // "executethis": "ettestct3a"
-            // },{ 
-            // "executethis": "ettestct4"
-            // },{ 
-            // "executethis": "ettestct4a"
-            // },{
-            // "executethis": "ettestct5"
-            // },{ 
-            // "executethis": "ettestct6"
-            // },{
-            // "executethis": "ettestct7"
+            },{
+            "executethis": "ettestct3"
+            },{ 
+            "executethis": "ettestct3a"
+            },{ 
+            "executethis": "ettestct4"
+            },{ 
+            "executethis": "ettestct4a"
+            },{
+            "executethis": "ettestct5"
+            },{ 
+            "executethis": "ettestct6"
+            },{
+            "executethis": "ettestct7"
             // // },{ 
             // // "executethis": "ettestct8"
             // },{ 
@@ -194,7 +194,7 @@ exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // functions a,b,c manipulate parameters
-// Call func_b with no pre or post
+// Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters
 exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
     testclearstorage();
     var parameters = {
@@ -212,7 +212,7 @@ exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
         callback(err, res)
     });
 }
-
+// Not an 'at' test...used to test the verify system. This is a passing test.
 exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
     testclearstorage();
     res = logverify("ettestt1s_result", {
@@ -227,7 +227,7 @@ exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
     var err;
     callback(err, res);
 }
-
+// Not an 'at' test...used to tes the veryify system. This is a failing test.
 exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
     testclearstorage();
     res = logverify("ettestt1sf_result", {
@@ -244,7 +244,7 @@ exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
     callback(err, res);
 }
 
-// Call func_b with pre and post
+// Call func_b, but also tell preexecute to call func_a and postexecute to call func_c.
 exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
     testclearstorage();
     var parameters = {
@@ -266,7 +266,7 @@ exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
 }
 
 // Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b 
-// in midexecute.
+// in midexecute and nothing in post execute.
 exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
     testclearstorage();
     execute([{
@@ -286,7 +286,8 @@ exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
         });
 }
 
-// Call func_b with only post func_a -- same result as t3
+// Call func_b with only post func_a -- same result as t3. This is to make sure that not
+// calling pre is ok...this calls only mid and post.
 exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
     testclearstorage();
     execute([{
@@ -306,7 +307,8 @@ exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
         });
 }
 
-// Call func_b with only post
+// Call mid with func_b and post with func_c, assuring that multiple functions exectue
+// well, no matter where in the pre/mid/post they are placed.
 exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
     testclearstorage();
     execute([{
@@ -326,7 +328,8 @@ exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
         });
 }
 
-// Call func_b with only pre func_c -- same result as t4
+// Call mid with func_b and pre with func_c, assuring that multiple functions exectue
+// well, no matter where in the pre/mid/post they are placed.
 exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
     testclearstorage();
     execute([{
@@ -345,7 +348,8 @@ exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
             callback(err, res);
         });
 }
-// Call func_b with func_a for pre and post
+// Call func_b with func_a for pre and post to ensure that calling the same
+// function more than once is not a problem for the system.
 exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
     testclearstorage();
     execute([{
@@ -365,7 +369,9 @@ exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
             callback(err, res);
         });
 }
-// Call func_b with func_c for pre and post
+// Double check that calling func_b with func_c for pre and post to ensure that calling the same
+// function more than once is not a problem for the system. Essentially showing that tt5 was not 
+// a fluke, but a repeatable concept.
 exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
     testclearstorage();
     execute([{
@@ -389,7 +395,8 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-
+// This whole section will mirror the tt tests, but call functions that have intentional
+// delays to test the async portioins of the system.
 exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
     testclearstorage();
     execute([{
@@ -407,7 +414,8 @@ exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
             callback(err, res);
         });
 }
-// Call async_func_b with pre and post
+// Call async_func_b with pre calling func_a and post calling func_c...each simply
+// deletes a prameter and add a parameter.
 exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
     testclearstorage();
     execute([{
@@ -427,7 +435,7 @@ exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
             callback(err, res);
         });
 }
-// Call async_func_b with only pre async_func_a
+// Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.
 exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
     testclearstorage();
     execute([{
@@ -546,7 +554,7 @@ exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-// Call redir_b with no pre or post
+// Call redir_b. The config should remap redir_b to call func_b with no pre or post execution.
 exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
     var parameters = {
         "executethis": "redir_b",
@@ -603,7 +611,8 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
         callback(err, res)
     });
 }
-// Call redir_b with pre and post
+// Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and
+// also remap redir_c to func_c.
 exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
     var parameters = {
         "executethis": "redir_b",
@@ -662,7 +671,7 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
         callback(err, res)
     });
 }
-// Call redir_b with only pre redir_a
+// Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all.
 exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
     var parameters = {
         "executethis": "redir_b",
@@ -720,7 +729,8 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
         callback(err, res)
     });
 }
-// Call redir_b with only post redir_a -- same result as t3
+// Call redir_b with only post redir_a -- same result as ct3, but putting the only remap
+// call in post instead of pre.
 exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
     var parameters = {
         "executethis": "redir_b",
@@ -778,7 +788,8 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
         callback(err, res)
     });
 }
-// Call redir_b with only post
+// Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any 
+// function in either pre or post.
 exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
     var parameters = {
         "executethis": "redir_b",
@@ -895,16 +906,16 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
         callback(err, res)
     });
 }
-// Call redir_b with redir_a for pre and post
+// Call redir_b with a remapping of redir_a to func_a for both pre and post.
 exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
     testclearstorage();
     var parameters = {
         "executethis": "redir_b",
+        "c": "0",
         "d": "1",
         "e": "2",
-        "c": "3",
         "preexecute": "redir_a",
-        "postexecute": "redir_c",
+        "postexecute": "redir_a",
         "configuration": {
             "redir_a": [{
                 "dothis": "func_a",
@@ -927,9 +938,9 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
         }
     }
     var assert = {
+        "c": "0",
         "f": "3",
         "g": "4",
-        "h": "5",
         "configuration": {
             "redir_a": [{
                 "dothis": "func_a",
@@ -955,7 +966,8 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
         callback(err, res)
     });
 }
-// Call redir_b with redir_c for pre and post
+// Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions
+// can be used with the same effect.
 exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
     testclearstorage();
     var parameters = {
@@ -987,9 +999,6 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
         }
     }
     var assert = {
-        // "mettestidexecute": "redir_b",
-        // "postexecute": "redir_c",
-        // "e": "2",
         "g": "4",
         "d": "1",
         "h": "5",
