@@ -274,6 +274,85 @@ exports.ast7 = ast7 = function ast7(params, callback) {
 	});
 	callback(err, params);
 }
+
+
+exports.async_func_d = async_func_d = function async_func_d(parameters, callback) {
+    var t = parameters["d"];
+    parameters['executethis'] = 'async_func_e';
+    parameters = executethis(parameters);
+    sleep(500);
+    if (parameters["d"] == t) parameters["d"] = t + ":added";
+    delete parameters["e"];
+    parameters["h"] = "5";
+    var err;
+    callback(err, parameters);
+}
+
+exports.async_func_e = async_func_e = function async_func_e(parameters) {
+    sleep(500);
+    // alert('func_e');
+    delete parameters["d"];
+    parameters["h"] = "7";
+    return parameters;
+}
+
+exports.async_func_d1 = async_func_d1 = function async_func_d1(parameters) {
+    parameters['executethis'] = 'async_func_e1';
+    parameters = executethis(parameters, "execute");
+    sleep(500);
+    parameters["h"] = "5";
+    return parameters;
+    // callback (parameters);
+}
+
+exports.async_func_e1 = async_func_e1 = function async_func_e1(parameters, callback) {
+    sleep(500);
+    // alert('func_e1');
+    parameters['executethis'] = 'async_func_f';
+    parameters = executethis(parameters, execute);
+    var err;
+    callback(err, parameters);
+    // return parameters;
+}
+
+exports.async_func_f = async_func_f = function async_func_f(parameters, callback) {
+    sleep(500);
+    // alert('func_f');
+    parameters["rubies"] = "red";
+    parameters['executethis'] = async_func_g;
+    parameters = executethis(parameters, execute);
+    var err;
+    callback(err, parameters);
+    // return parameters;
+}
+
+exports.async_func_g = async_func_g = function async_func_g(parameters, callback) {
+    sleep(500);
+    // alert('func_g');
+    parameters["emeralds"] = "green";
+    parameters['executethis'] = async_func_h;
+    parameters = executethis(parameters, execute);
+    var err;
+    callback(err, parameters);
+    // return parameters;
+}
+
+exports.async_func_h = async_func_h = function async_func_h(parameters, callback) {
+    sleep(500);
+    // alert('diamonds');
+    parameters["diamonds"] = "you are rich!!";
+    console.log('Struck diamonds -- five levels deep in executethis');
+    var err;
+    callback(err, parameters);
+    // return parameters;
+}
+
+
+
+
+
+
+
 // Call async_func_d_1 that will, in turn, call async_func_e_1, and then async_func_f, async_func_g, and async_func_h.
 // If the diamond makes out of async_func_h...it will show executethis can go five layers deep into et and return with a parameter
 // to the as_t8_output...pretty cool 
@@ -3194,4 +3273,1191 @@ exports.extraparams = extraparams = function extraparams(params, callback) {
 	// return verifysummary("test_results");
 }
 
+// *****************
+// These are all the old used to get the new test and verify system up
+// *****************
+
+exports.tmp1 = tmp1 = function tmp1(params, callback) {
+    testclearstorage();
+    var x = {
+        "redir_a": [{
+            "dothis": "func_a",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }],
+        "redir_b": [{
+            "dothis": "func_b",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }],
+        "redir_c": [{
+            "dothis": "func_c",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }]
+    };
+
+    var z = {
+        "executethis": "redir_b",
+        "c": "0",
+        "d": "1",
+        "e": "2"
+    }
+
+    w = extend(z, {
+        "configuration": x
+    });
+
+    execute([
+            w
+        ],
+        function (err, res) {
+            res = logverify("tmp1_result", res[0][0], {
+                "d": "1",
+                "c": "0",
+                "g": "4",
+                "configuration": {
+                    "redir_a": [{
+                        "dothis": "func_a",
+                        "tryorder": 1,
+                        "executeorder": 1,
+                        "params": {}
+                    }],
+                    "redir_b": [{
+                        "dothis": "func_b",
+                        "tryorder": 1,
+                        "executeorder": 1,
+                        "params": {}
+                    }],
+                    "redir_c": [{
+                        "dothis": "func_c",
+                        "tryorder": 1,
+                        "executeorder": 1,
+                        "params": {}
+                    }]
+                }
+            });
+            callback(err, res);
+        });
+}
+
+//---------------------------
+
+exports.tmp2 = tmp2 = function tmp2(params, callback) {
+    testclearstorage();
+    var temp_config = extend(config);
+
+    var x = {
+        "redir_a": [{
+            "dothis": "func_a",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }],
+        "redir_b": [{
+            "dothis": "func_b",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }],
+        "redir_c": [{
+            "dothis": "func_c",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }]
+    };
+
+    var z = {
+        "executethis": "redir_b",
+        "c": "0",
+        "d": "1",
+        "e": "2"
+    }
+
+    config.configuration = extend(config.configuration, x);
+
+    execute([
+            z
+        ],
+        function (err, res) {
+            res = logverify("tmp2_result", res[0][0], {
+                "d": "1",
+                "c": "0",
+                "g": "4"
+            });
+            config = extend(temp_config);
+            callback(err, res);
+        });
+}
+
+//---------------------------
+
+function tmp4(params, callback) {
+    assert = {
+        "d": "1",
+        "c": "0",
+        "g": "4"
+    };
+    parameters = {
+        "executethis": "redir_b",
+        "c": "0",
+        "d": "1",
+        "e": "2",
+        "configuration": {
+            "redir_a": [{
+                "dothis": "func_a",
+                "tryorder": 1,
+                "executeorder": 1,
+                "params": {}
+            }],
+            "redir_b": [{
+                "dothis": "func_b",
+                "tryorder": 1,
+                "executeorder": 1,
+                "params": {}
+            }],
+            "redir_c": [{
+                "dothis": "func_c",
+                "tryorder": 1,
+                "executeorder": 1,
+                "params": {}
+            }]
+        }
+    };
+    master_test_and_verify(parameters, assert, callback);
+    var err;
+    callback(err, res);
+}
+
+function tmp5(params, callback) {
+    parameters = {
+        "executethis": "func_b",
+        "c": "0",
+        "d": "1",
+        "e": "2"
+    }
+
+    assert = {
+        "d": "1",
+        "c": "0",
+        "g": "4"
+    }
+
+    test_and_verify(parameters, assert, true, function (err, res) {
+        callback(err, res);
+    });
+}
+
+function tmp6(params, callback) {
+    parameters = {
+        "executethis": "redir_b",
+        "c": "0",
+        "d": "1",
+        "e": "2",
+        "configuration": {
+            "redir_a": [{
+                "dothis": "func_a",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {}
+            }],
+            "redir_b": [{
+                "dothis": "func_b",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {}
+            }],
+            "redir_c": [{
+                "dothis": "func_c",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {}
+            }]
+        }
+    }
+    assert = {
+        "d": "1",
+        "c": "0",
+        "g": "4",
+        "configuration": {
+            "redir_a": [{
+                "dothis": "func_a",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {}
+            }],
+            "redir_b": [{
+                "dothis": "func_b",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {}
+            }],
+            "redir_c": [{
+                "dothis": "func_c",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {}
+            }]
+        }
+    }
+    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+        callback(err, res)
+    });
+}
+
+exports.tmp3 = tmp3 = function tmp3(params, callback) {
+    testclearstorage();
+    var temp_config = extend(config);
+
+    var x = {
+        "redir_a": [{
+            "dothis": "func_a",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }],
+        "redir_b": [{
+            "dothis": "func_b",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }],
+        "redir_c": [{
+            "dothis": "func_c",
+            "tryorder": 1,
+            "executeorder": 1,
+            "params": {}
+        }]
+    };
+
+    var z = {
+        "executethis": "redir_b",
+        "c": "0",
+        "d": "1",
+        "e": "2"
+    }
+
+    w = extend(z, {
+        "configuration": x
+    });
+
+    execute([
+            w
+        ],
+        function (err, res) {
+            res = logverify("tmp3_result", res[0][0], {
+                "d": "1",
+                "c": "0",
+                "g": "4",
+                "configuration": {
+                    "redir_a": [{
+                        "dothis": "func_a",
+                        "tryorder": 1,
+                        "executeorder": 1,
+                        "params": {}
+                    }],
+                    "redir_b": [{
+                        "dothis": "func_b",
+                        "tryorder": 1,
+                        "executeorder": 1,
+                        "params": {}
+                    }],
+                    "redir_c": [{
+                        "dothis": "func_c",
+                        "tryorder": 1,
+                        "executeorder": 1,
+                        "params": {}
+                    }]
+                }
+            });
+
+            config = extend(temp_config);
+            config.configuration = extend(config.configuration, x);
+
+            var r2 = execute([
+                    z
+                ],
+                function (err, res_1) {
+                    alert("res_1[0][0]: " + JSON.stringify(res_1[0][0]));
+                    res_1 = logverify("tmp3a_result", res_1[0][0], {
+                        "d": "1",
+                        "c": "0",
+                        "g": "4"
+                    });
+                    alert("res_1: " + JSON.stringify(res_1));
+                    callback(err, res_1);
+                });
+
+            alert("r2: " + JSON.stringify(r2));
+            res = extend(res, r2);
+            alert(JSON.stringify(res));
+            config = extend(temp_config);
+
+            callback(err, res);
+        });
+}
+
+// function tmp5 (params, callback) {
+// 	parameters = {
+// 			"executethis": "func_b",
+// 			"c": "0",
+// 			"d": "1",
+// 			"e": "2"
+// 		}
+
+// 	assert = {
+// 			"d": "1",
+// 			"c": "0",
+// 			"g": "4"
+// 		}
+
+// test_and_verify (parameters, assert, true, function (err, res) {
+// 		callback (err, res);
+// 	});
+
+//	// master_test_and_verify (parameters, assert, function (err, res) {
+//	// 	callback (err, res);
+//	// });
+// }
+
+
+// *****************
+// These are all the old configs that used to be used in the tests...now all the configs
+// are passed in as params instead
+// *****************
+
+// The standard config with normal order and no redirects
+// exports.setconfig1 = setconfig1 = function setconfig1() {
+//     configuration = {};
+//     configuration.environment = 'local';
+
+
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 0;
+//     configuration.preExecute[0].dothis = 'dothis';
+//     configuration.preExecute[0].params = {};
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 0;
+//     configuration.preExecute[1].dothis = 'executeparam';
+//     configuration.preExecute[1].params = {};
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 0;
+//     configuration.preExecute[2].dothis = 'executedefault';
+//     configuration.preExecute[2].params = {};
+//     configuration.preExecute[3] = {};
+//     configuration.preExecute[3].executeorder = 0;
+//     configuration.preExecute[3].tryorder = 0;
+//     configuration.preExecute[3].dothis = 'server';
+//     configuration.preExecute[3].params = {};
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'dothis';
+//     configuration.midExecute[0].params = {};
+//     configuration.midExecute[1] = {};
+//     configuration.midExecute[1].executeorder = 0;
+//     configuration.midExecute[1].tryorder = 0;
+//     configuration.midExecute[1].dothis = 'executeparam';
+//     configuration.midExecute[1].params = {};
+//     configuration.midExecute[2] = {};
+//     configuration.midExecute[2].executeorder = 0;
+//     configuration.midExecute[2].tryorder = 0;
+//     configuration.midExecute[2].dothis = 'executedefault';
+//     configuration.midExecute[2].params = {};
+//     configuration.midExecute[3] = {};
+//     configuration.midExecute[3].executeorder = 0;
+//     configuration.midExecute[3].tryorder = 0;
+//     configuration.midExecute[3].dothis = 'server';
+//     configuration.midExecute[3].params = {};
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 0;
+//     configuration.postExecute[0].dothis = 'dothis';
+//     configuration.postExecute[0].params = {};
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 0;
+//     configuration.postExecute[1].dothis = 'executeparam';
+//     configuration.postExecute[1].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'executedefault';
+//     configuration.postExecute[2].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'server';
+//     configuration.postExecute[2].params = {};
+
+//     // configuration.MongoAddEditPrepare = {};
+//     //  configuration.MongoAddEditPrepare.synchronous = true;
+
+//     //  configuration.AddMongoRelationship = {};
+//     //  configuration.AddMongoRelationship.synchronous = true;
+
+//     //  configuration.addwidmaster = {};
+//     //  configuration.addwidmaster.synchronous = true;
+
+//     //  configuration.AddWidParameters = {};
+//     //  configuration.AddWidParameters.synchronous = true;
+
+//     //  configuration.AddMaster = {};
+//     //  configuration.AddMaster.synchronous = true;
+
+//     //  configuration.aggressivedto = {};
+//     //  configuration.aggressivedto.synchronous = true;
+
+//     //  configuration.getcleanparameters = {};
+//     //  configuration.getcleanparameters.synchronous = true;
+
+//     //  configuration.getwidmaster = {};
+//     //  configuration.getwidmaster.synchronous = true;
+
+
+//     //  configuration.getWidMongo = {};
+//     //  configuration.getWidMongo.synchronous = true;
+
+//     //  configuration.getAndFormatNextLevel = {};
+//     //  configuration.getAndFormatNextLevel.synchronous = true;  
+
+//     //  configuration.addcleanparameters = {};
+//     //  configuration.addcleanparameters.synchronous = true;
+//     // ----------------------
+//     // configuration.MongoAddEditPrepare = {};
+//     // configuration.MongoAddEditPrepare.synchronous = false;
+
+//     // configuration.AddMongoRelationship = {};
+//     // configuration.AddMongoRelationship.synchronous = false;
+
+//     // configuration.addcleanparameters = {};
+//     // configuration.addcleanparameters.synchronous = false;
+
+//     // configuration.addwidmaster = {};
+//     // configuration.addwidmaster.synchronous = false;
+
+//     // configuration.AddWidParameters = {};
+//     // configuration.AddWidParameters.synchronous = false;
+
+//     // configuration.AddMaster = {};
+//     // configuration.AddMaster.synchronous = false;
+
+//     // configuration.aggressivedto = {};
+//     // configuration.aggressivedto.synchronous = false;
+
+//     // configuration.getcleanparameters = {};
+//     // configuration.getcleanparameters.synchronous = false;
+
+//     // configuration.getwidmaster = {};
+//     // configuration.getwidmaster.synchronous = false;
+
+//     // configuration.getWidMongo = {};
+//     // configuration.getWidMongo.synchronous = false;
+
+//     // configuration.getAndFormatNextLevel = {};
+//     // configuration.getAndFormatNextLevel.synchronous = false;
+
+//     configuration.getwid = [];
+//     configuration.getwid[0] = {};
+//     configuration.getwid[0].executeorder = 0;
+//     configuration.getwid[0].tryorder = 0;
+//     configuration.getwid[0].dothis = 'offlinegetwid';
+//     configuration.getwid[0].params = {};
+
+//     configuration.updatewid = [];
+//     configuration.updatewid[0] = {};
+//     configuration.updatewid[0].executeorder = 0;
+//     configuration.updatewid[0].tryorder = 0;
+//     configuration.updatewid[0].dothis = 'offlineupdatewid';
+//     configuration.updatewid[0].params = {};
+
+//     configuration.getfrommongo = [];
+//     configuration.getfrommongo[0] = {};
+//     configuration.getfrommongo[0].executeorder = 0;
+//     configuration.getfrommongo[0].tryorder = 0;
+//     configuration.getfrommongo[0].dothis = 'offlinegetfrommongo';
+//     configuration.getfrommongo[0].params = {};
+
+//     return {
+//         "configuration": configuration
+//     }
+// }
+
+// // This config is to test the redirection of functions. The various ct(x)
+// // tests make calls to redir_a mapped to func_a, redir_b to func_b and
+// // redir_c to func_c. The idea is that the tests will have the same output 
+// // as the tt tests, but with calling all the redir_(x) functions instead.
+// exports.setconfig2 = setconfig2 = function setconfig2() {
+//     configuration = {};
+//     configuration.environment = 'local';
+
+//     configuration.getwid = [];
+//     configuration.getwid[0] = {};
+//     configuration.getwid[0].executeorder = 0;
+//     configuration.getwid[0].tryorder = 0;
+//     configuration.getwid[0].dothis = 'offlinegetfrommongo';
+//     configuration.getwid[0].params = {};
+
+//     configuration.updatewid = [];
+//     configuration.updatewid[0] = {};
+//     configuration.updatewid[0].order = 0;
+//     configuration.updatewid[0].dothis = 'offlineaddtomongo';
+//     configuration.updatewid[0].params = {};
+
+//     configuration.querywid = [];
+//     configuration.querywid[0] = {};
+//     configuration.querywid[0].order = 0;
+//     configuration.querywid[0].dothis = 'querywid';
+//     configuration.querywid[0].params = {};
+
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 0;
+//     configuration.preExecute[0].dothis = 'dothis';
+//     configuration.preExecute[0].params = {};
+
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 0;
+//     configuration.preExecute[1].dothis = 'executeparam';
+//     configuration.preExecute[1].params = {};
+
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 0;
+//     configuration.preExecute[2].dothis = 'executedefault';
+//     configuration.preExecute[2].params = {};
+
+//     configuration.preExecute[3] = {};
+//     configuration.preExecute[3].executeorder = 0;
+//     configuration.preExecute[3].tryorder = 0;
+//     configuration.preExecute[3].dothis = 'server';
+//     configuration.preExecute[3].params = {};
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'dothis';
+//     configuration.midExecute[0].params = {};
+//     configuration.midExecute[1] = {};
+//     configuration.midExecute[1].executeorder = 0;
+//     configuration.midExecute[1].tryorder = 0;
+//     configuration.midExecute[1].dothis = 'executeparam';
+//     configuration.midExecute[1].params = {};
+//     configuration.midExecute[2] = {};
+//     configuration.midExecute[2].executeorder = 0;
+//     configuration.midExecute[2].tryorder = 0;
+//     configuration.midExecute[2].dothis = 'executedefault';
+//     configuration.midExecute[2].params = {};
+//     configuration.midExecute[3] = {};
+//     configuration.midExecute[3].executeorder = 0;
+//     configuration.midExecute[3].tryorder = 0;
+//     configuration.midExecute[3].dothis = 'server';
+//     configuration.midExecute[3].params = {};
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 0;
+//     configuration.postExecute[0].dothis = 'dothis';
+//     configuration.postExecute[0].params = {};
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 0;
+//     configuration.postExecute[1].dothis = 'executeparam';
+//     configuration.postExecute[1].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'executedefault';
+//     configuration.postExecute[2].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'server';
+//     configuration.postExecute[2].params = {};
+
+//     configuration.redir_a = [];
+//     configuration.redir_a[0] = {};
+//     configuration.redir_a[0].executeorder = 0;
+//     configuration.redir_a[0].tryorder = 0;
+//     configuration.redir_a[0].dothis = 'func_a';
+//     configuration.redir_a[0].params = {};
+
+//     configuration.redir_b = [];
+//     configuration.redir_b[0] = {};
+//     configuration.redir_b[0].executeorder = 0;
+//     configuration.redir_b[0].tryorder = 0;
+//     configuration.redir_b[0].dothis = 'func_b';
+//     configuration.redir_b[0].params = {};
+
+//     configuration.redir_c = [];
+//     configuration.redir_c[0] = {};
+//     configuration.redir_c[0].executeorder = 0;
+//     configuration.redir_c[0].tryorder = 0;
+//     configuration.redir_c[0].dothis = 'func_c';
+//     configuration.redir_c[0].params = {};
+
+//     configuration.mock_server = [];
+//     configuration.mock_server[0] = {};
+//     configuration.mock_server[0].executeorder = 0;
+//     configuration.mock_server[0].tryorder = 0;
+//     configuration.mock_server[0].dothis = 'cic_output';
+//     configuration.mock_server[0].params = {
+//         "configuration": {
+//             "login1": [{
+//                 "executeorder": 0,
+//                 "tryorder": 0,
+//                 "dothis": "login",
+//                 "params": {}
+//             }]
+//         }
+//     }
+
+//     return {
+//         "configuration": configuration
+//     }
+// }
+
+// // This config is to test redirecting preexecute to function_f and see what happens
+// exports.setconfig3 = setconfig3 = function setconfig3() {
+//     configuration = {};
+//     configuration.environment = 'local';
+
+//     configuration.getwid = [];
+//     configuration.getwid[0] = {};
+//     configuration.getwid[0].order = 0;
+//     configuration.getwid[0].dothis = 'offlinegetfrommongo';
+//     configuration.getwid[0].params = {};
+
+//     configuration.updatewid = [];
+//     configuration.updatewid[0] = {};
+//     configuration.updatewid[0].order = 0;
+//     configuration.updatewid[0].dothis = 'offlineaddtomongo';
+//     configuration.updatewid[0].params = {};
+
+//     configuration.querywid = [];
+//     configuration.querywid[0] = {};
+//     configuration.querywid[0].order = 0;
+//     configuration.querywid[0].dothis = 'querywid';
+//     configuration.querywid[0].params = {};
+
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 0;
+//     configuration.preExecute[0].dothis = 'dothis';
+//     configuration.preExecute[0].params = {};
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 0;
+//     configuration.preExecute[1].dothis = 'executeparam';
+//     configuration.preExecute[1].params = {};
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 0;
+//     configuration.preExecute[2].dothis = 'executedefault';
+//     configuration.preExecute[2].params = {};
+//     configuration.preExecute[3] = {};
+//     configuration.preExecute[3].executeorder = 0;
+//     configuration.preExecute[3].tryorder = 0;
+//     configuration.preExecute[3].dothis = 'server';
+//     configuration.preExecute[3].params = {};
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'dothis';
+//     configuration.midExecute[0].params = {};
+//     configuration.midExecute[1] = {};
+//     configuration.midExecute[1].executeorder = 0;
+//     configuration.midExecute[1].tryorder = 0;
+//     configuration.midExecute[1].dothis = 'executeparam';
+//     configuration.midExecute[1].params = {};
+//     configuration.midExecute[2] = {};
+//     configuration.midExecute[2].executeorder = 0;
+//     configuration.midExecute[2].tryorder = 0;
+//     configuration.midExecute[2].dothis = 'executedefault';
+//     configuration.midExecute[2].params = {};
+//     configuration.midExecute[3] = {};
+//     configuration.midExecute[3].executeorder = 0;
+//     configuration.midExecute[3].tryorder = 0;
+//     configuration.midExecute[3].dothis = 'server';
+//     configuration.midExecute[3].params = {};
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 0;
+//     configuration.postExecute[0].dothis = 'dothis';
+//     configuration.postExecute[0].params = {};
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 0;
+//     configuration.postExecute[1].dothis = 'executeparam';
+//     configuration.postExecute[1].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'executedefault';
+//     configuration.postExecute[2].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'server';
+//     configuration.postExecute[2].params = {};
+
+//     return {
+//         "configuration": configuration
+//     }
+// }
+// // Looking to get preexecute to acually fire func_g...not func_a, as the test calls for
+// exports.setconfig4 = setconfig4 = function setconfig4() {
+//     configuration = {};
+
+//     configuration.getwid = [];
+//     configuration.getwid[0] = {};
+//     configuration.getwid[0].order = 0;
+//     configuration.getwid[0].dothis = 'offlinegetfrommongo';
+//     configuration.getwid[0].params = {};
+
+//     configuration.updatewid = [];
+//     configuration.updatewid[0] = {};
+//     configuration.updatewid[0].order = 0;
+//     configuration.updatewid[0].dothis = 'offlineaddtomongo';
+//     configuration.updatewid[0].params = {};
+
+//     configuration.querywid = [];
+//     configuration.querywid[0] = {};
+//     configuration.querywid[0].order = 0;
+//     configuration.querywid[0].dothis = 'querywid';
+//     configuration.querywid[0].params = {};
+
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 0;
+//     configuration.preExecute[0].dothis = 'func_g'; // This is the change to remark
+//     configuration.preExecute[0].params = {};
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 0;
+//     configuration.preExecute[1].dothis = 'executeparam';
+//     configuration.preExecute[1].params = {};
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 0;
+//     configuration.preExecute[2].dothis = 'executedefault';
+//     configuration.preExecute[2].params = {};
+//     configuration.preExecute[3] = {};
+//     configuration.preExecute[3].executeorder = 0;
+//     configuration.preExecute[3].tryorder = 0;
+//     configuration.preExecute[3].dothis = 'server';
+//     configuration.preExecute[3].params = {};
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'dothis';
+//     configuration.midExecute[0].params = {};
+//     configuration.midExecute[1] = {};
+//     configuration.midExecute[1].executeorder = 0;
+//     configuration.midExecute[1].tryorder = 0;
+//     configuration.midExecute[1].dothis = 'executeparam';
+//     configuration.midExecute[1].params = {};
+//     configuration.midExecute[2] = {};
+//     configuration.midExecute[2].executeorder = 0;
+//     configuration.midExecute[2].tryorder = 0;
+//     configuration.midExecute[2].dothis = 'executedefault';
+//     configuration.midExecute[2].params = {};
+//     configuration.midExecute[3] = {};
+//     configuration.midExecute[3].executeorder = 0;
+//     configuration.midExecute[3].tryorder = 0;
+//     configuration.midExecute[3].dothis = 'server';
+//     configuration.midExecute[3].params = {};
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 0;
+//     configuration.postExecute[0].dothis = 'dothis';
+//     configuration.postExecute[0].params = {};
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 0;
+//     configuration.postExecute[1].dothis = 'executeparam';
+//     configuration.postExecute[1].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'executedefault';
+//     configuration.postExecute[2].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'server';
+//     configuration.postExecute[2].params = {};
+
+//     return {
+//         "configuration": configuration
+//     }
+// }
+// // This is the config to use to test the tryorder...
+// // mid has the usual settings in an order that should
+// // be resorted by dothis...if successful, the mid order should
+// // be the same as it always is, not the way this config is set
+// exports.setconfig5 = setconfig5 = function setconfig5() {
+//     configuration = {};
+//     configuration.environment = 'local';
+
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 0;
+//     configuration.preExecute[0].dothis = 'dothis';
+//     configuration.preExecute[0].params = {};
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 0;
+//     configuration.preExecute[1].dothis = 'executeparam';
+//     configuration.preExecute[1].params = {};
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 0;
+//     configuration.preExecute[2].dothis = 'executedefault';
+//     configuration.preExecute[2].params = {};
+//     configuration.preExecute[3] = {};
+//     configuration.preExecute[3].executeorder = 0;
+//     configuration.preExecute[3].tryorder = 0;
+//     configuration.preExecute[3].dothis = 'server';
+//     configuration.preExecute[3].params = {};
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'server';
+//     configuration.midExecute[0].params = {};
+//     configuration.midExecute[1] = {};
+//     configuration.midExecute[1].executeorder = 4;
+//     configuration.midExecute[1].tryorder = 4;
+//     configuration.midExecute[1].dothis = 'executeparam';
+//     configuration.midExecute[1].params = {};
+//     configuration.midExecute[2] = {};
+//     configuration.midExecute[2].executeorder = 7;
+//     configuration.midExecute[2].tryorder = 7;
+//     configuration.midExecute[2].dothis = 'executedefault';
+//     configuration.midExecute[2].params = {};
+//     configuration.midExecute[3] = {};
+//     configuration.midExecute[3].executeorder = 1;
+//     configuration.midExecute[3].tryorder = 1;
+//     configuration.midExecute[3].dothis = 'dothis';
+//     configuration.midExecute[3].params = {};
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 0;
+//     configuration.postExecute[0].dothis = 'dothis';
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 0;
+//     configuration.postExecute[1].dothis = 'executeparam';
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'executedefault';
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'server';
+
+//     return {
+//         "configuration": configuration
+//     }
+// }
+// // This config is for testing a and b not there, but c is
+// exports.setconfig6 = setconfig6 = function setconfig6() {
+//     configuration = {};
+//     configuration.environment = 'local';
+
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 0;
+//     configuration.preExecute[0].dothis = 'dothis';
+//     configuration.preExecute[0].params = {
+//         'cer1': 'alphabits'
+//     };
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 0;
+//     configuration.preExecute[1].dothis = 'executeparam';
+//     configuration.preExecute[1].params = {};
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 0;
+//     configuration.preExecute[2].dothis = 'executedefault';
+//     configuration.preExecute[2].params = {};
+//     configuration.preExecute[3] = {};
+//     configuration.preExecute[3].executeorder = 0;
+//     configuration.preExecute[3].tryorder = 0;
+//     configuration.preExecute[3].dothis = 'server';
+//     configuration.preExecute[3].params = {};
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'dothis';
+//     configuration.midExecute[0].params = {
+//         'cer2': 'booberry'
+//     };
+//     configuration.midExecute[1] = {};
+//     configuration.midExecute[1].executeorder = 0;
+//     configuration.midExecute[1].tryorder = 0;
+//     configuration.midExecute[1].dothis = 'executeparam';
+//     configuration.midExecute[1].params = {};
+//     configuration.midExecute[2] = {};
+//     configuration.midExecute[2].executeorder = 0;
+//     configuration.midExecute[2].tryorder = 0;
+//     configuration.midExecute[2].dothis = 'executedefault';
+//     configuration.midExecute[2].params = {};
+//     configuration.midExecute[3] = {};
+//     configuration.midExecute[3].executeorder = 0;
+//     configuration.midExecute[3].tryorder = 0;
+//     configuration.midExecute[3].dothis = 'server';
+//     configuration.midExecute[3].params = {};
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 0;
+//     configuration.postExecute[0].dothis = 'dothis';
+//     configuration.postExecute[0].params = {
+//         'cer3': 'chex'
+//     };
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 0;
+//     configuration.postExecute[1].dothis = 'executeparam';
+//     configuration.postExecute[1].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'executedefault';
+//     configuration.postExecute[2].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'server';
+//     configuration.postExecute[2].params = {};
+
+//     return {
+//         "configuration": configuration
+//     }
+// }
+
+// // This config is to test he executedefault...does it make it there if dothis and executeparam do 
+// // not exist.  
+// exports.setconfig7 = setconfig7 = function setconfig7() {
+//     configuration = {};
+//     configuration.environment = 'local';
+
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 0;
+//     configuration.preExecute[0].dothis = 'dothis';
+//     configuration.preExecute[0].params = {
+//         'myexfnparam': 'hereismyfnparam'
+//     };
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 0;
+//     configuration.preExecute[1].dothis = 'executeparam';
+//     configuration.preExecute[1].params = {};
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 0;
+//     configuration.preExecute[2].dothis = 'executedefault';
+//     configuration.preExecute[2].params = {};
+//     configuration.preExecute[3] = {};
+//     configuration.preExecute[3].executeorder = 0;
+//     configuration.preExecute[3].tryorder = 0;
+//     configuration.preExecute[3].dothis = 'server';
+//     configuration.preExecute[3].params = {};
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'dothis';
+//     configuration.midExecute[0].params = {};
+//     configuration.midExecute[1] = {};
+//     configuration.midExecute[1].executeorder = 0;
+//     configuration.midExecute[1].tryorder = 0;
+//     configuration.midExecute[1].dothis = 'executeparam';
+//     configuration.midExecute[1].params = {};
+//     configuration.midExecute[2] = {};
+//     configuration.midExecute[2].executeorder = 0;
+//     configuration.midExecute[2].tryorder = 0;
+//     // configuration.midExecute[2].dothis = 'executedefault'; // This is replaced with func_b to simulate getting to executedefault
+//     configuration.midExecute[2].dothis = 'func_b';
+//     configuration.midExecute[2].params = {
+//         'exdef': 'param after dothis and executeparam was grabbed'
+//     };
+//     configuration.midExecute[3] = {};
+//     configuration.midExecute[3].executeorder = 0;
+//     configuration.midExecute[3].tryorder = 0;
+//     configuration.midExecute[3].dothis = 'server';
+//     configuration.midExecute[3].params = {};
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 0;
+//     configuration.postExecute[0].dothis = 'dothis';
+//     configuration.postExecute[0].params = {};
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 0;
+//     configuration.postExecute[1].dothis = 'executeparam';
+//     configuration.postExecute[1].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'executedefault';
+//     configuration.postExecute[2].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'server';
+//     configuration.postExecute[2].params = {};
+
+//     return {
+//         "configuration": configuration
+//     }
+// }
+
+// exports.setconfig8 = setconfig8 = function setconfig8() {
+//     configuration = {};
+//     configuration.environment = 'local';
+
+//     configuration.preExecute = [];
+//     configuration.preExecute[0] = {};
+//     configuration.preExecute[0].executeorder = 0;
+//     configuration.preExecute[0].tryorder = 0;
+//     configuration.preExecute[0].dothis = 'dothis';
+//     configuration.preExecute[0].params = {
+//         "alpha": "4"
+//     };
+//     configuration.preExecute[1] = {};
+//     configuration.preExecute[1].executeorder = 0;
+//     configuration.preExecute[1].tryorder = 0;
+//     configuration.preExecute[1].dothis = 'executeparam';
+//     configuration.preExecute[1].params = {};
+//     configuration.preExecute[2] = {};
+//     configuration.preExecute[2].executeorder = 0;
+//     configuration.preExecute[2].tryorder = 0;
+//     configuration.preExecute[2].dothis = 'executedefault';
+//     configuration.preExecute[2].params = {};
+//     configuration.preExecute[3] = {};
+//     configuration.preExecute[3].executeorder = 0;
+//     configuration.preExecute[3].tryorder = 0;
+//     configuration.preExecute[3].dothis = 'server';
+//     configuration.preExecute[3].params = {};
+
+//     configuration.midExecute = [];
+//     configuration.midExecute[0] = {};
+//     configuration.midExecute[0].executeorder = 0;
+//     configuration.midExecute[0].tryorder = 0;
+//     configuration.midExecute[0].dothis = 'dothis';
+//     configuration.midExecute[0].params = {
+//         "bravo": "4"
+//     };
+//     configuration.midExecute[1] = {};
+//     configuration.midExecute[1].executeorder = 0;
+//     configuration.midExecute[1].tryorder = 0;
+//     configuration.midExecute[1].dothis = 'executeparam';
+//     configuration.midExecute[1].params = {};
+//     configuration.midExecute[2] = {};
+//     configuration.midExecute[2].executeorder = 0;
+//     configuration.midExecute[2].tryorder = 0;
+//     configuration.midExecute[2].dothis = 'executedefault';
+//     configuration.midExecute[2].params = {};
+//     configuration.midExecute[3] = {};
+//     configuration.midExecute[3].executeorder = 0;
+//     configuration.midExecute[3].tryorder = 0;
+//     configuration.midExecute[3].dothis = 'server';
+//     configuration.midExecute[3].params = {};
+
+//     configuration.postExecute = [];
+//     configuration.postExecute[0] = {};
+//     configuration.postExecute[0].executeorder = 0;
+//     configuration.postExecute[0].tryorder = 0;
+//     configuration.postExecute[0].dothis = 'dothis';
+//     configuration.postExecute[0].params = {
+//         "charlie": "4"
+//     };
+//     configuration.postExecute[1] = {};
+//     configuration.postExecute[1].executeorder = 0;
+//     configuration.postExecute[1].tryorder = 0;
+//     configuration.postExecute[1].dothis = 'executeparam';
+//     configuration.postExecute[1].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'executedefault';
+//     configuration.postExecute[2].params = {};
+//     configuration.postExecute[2] = {};
+//     configuration.postExecute[2].executeorder = 0;
+//     configuration.postExecute[2].tryorder = 0;
+//     configuration.postExecute[2].dothis = 'server';
+//     configuration.postExecute[2].params = {};
+
+// //     configuration.func_a = [];
+// //     configuration.func_a[0] = {};
+// //     configuration.func_a[0].order = 0;
+// //     configuration.func_a[0].dothis = 'func_a';
+// //     configuration.func_a[0].params = {
+// //         "alpha": "2"
+// //     };
+
+// //     configuration.func_b = [];
+// //     configuration.func_b[0] = {};
+// //     configuration.func_b[0].order = 0;
+// //     configuration.func_b[0].dothis = 'func_b';
+// //     configuration.func_b[0].params = {
+// //         "bravo": "2"
+// //     };
+
+// //     configuration.func_c = [];
+// //     configuration.func_c[0] = {};
+// //     configuration.func_c[0].order = 0;
+// //     configuration.func_c[0].dothis = 'func_c';
+// //     configuration.func_c[0].params = {
+// //         "charlie": "2"
+// //     };
+
+// //     return {
+// //         "configuration": configuration
+// //     }
+// // }
 
