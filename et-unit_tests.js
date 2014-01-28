@@ -1,50 +1,94 @@
 // List of tests:
-// ettestt1 
-// ettestt2
-// ettestt3
-// ettestt3a
-// ettestt4
-// ettestt4a
-// ettestt5
-// ettestt6
 // 
-// ettestast1 
-// ettestast2
-// ettestast3
-// ettestast3a
-// ettestast4
-// ettestast4a
-// ettestast5
-// ettestast6
+// The tt tests will test the various combinations of calling pre, mid, and post by passing parameters
+// of the pre and post (mis is the execute).
 // 
-// ettestag1
-// ettestag2
-// ettestag3
+// ettestt1     Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters
+// ettestt2     Call func_b, but also tell preexecute to call func_a and postexecute to call func_c.
+// ettestt3     Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b 
+//              in midexecute and nothing in post execute.
+// ettestt3a    Call func_b with only post func_a -- same result as t3. This is to make sure that not
+//              calling pre is ok...this calls only mid and post.
+// ettestt4     Call mid with func_b and post with func_c, assuring that multiple functions exectue
+//              well, no matter where in the pre/mid/post they are placed. 
+// ettestt4a    Call mid with func_b and pre with func_c, assuring that multiple functions exectue
+//              well, no matter where in the pre/mid/post they are placed.
+// ettestt5     Call func_b with func_a for pre and post to ensure that calling the same
+//              function more than once is not a problem for the system.
+// ettestt6     Double check that calling func_b with func_c for pre and post to ensure that calling the same
+//              function more than once is not a problem for the system. Essentially showing that tt5 was not
+//              a fluke, but a repeatable concept.
+//              
+// The astt tests will mirror the tt tests, but all the functions that are called will intentionally
+// take a long time (500ms) to check how the async portion of the code handles functions that can take a long
+// time to complete.            
+//              
+// ettestast1   Call async_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters  
+// ettestast2   Call async_func_b with pre calling func_a and post calling func_c...each simply
+//              deletes a prameter and add a parameter.
+// ettestast3   Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.
+// ettestast3a  Call async_func_b with only post async_func_a -- same result as ast3
+// ettestast4   Call async_func_b with only post calling async_c  
+// ettestast4a  Call async_func_b with only pre async_func_c -- same result as t4
+// ettestast5   Call async_func_b with async_func_a for pre and post
+// ettestast6   Call async_func_b with async_func_c for pre and post
 // 
-// ettestct1
-// ettestct2
-// ettestct3
-// ettestct3a
-// ettestct4
-// ettestct4a
-// ettestct5
-// ettestct6
-// ettestct7
-// ettestct8
-// ettestct9
-// ettestct10
-// ettestct11
-// ettestct13
-// ettestct14
-// ettestct15
-// ettestct16
-// ettestct17
-// ettestct18
-// ettestct19
-// ettestct20
+// ettestag1    
+// ettestag2    
+// ettestag3    
+// 
+// The ctt tests will alter the configuration. By default, the config is altered twice. First by passing
+// in parameters that will alter the config. Second by changing the config itself and stripping out any
+// mention of the configuration in the parameters. All the redir_ functions are intentionally calling a function
+// that is mapped to another function. I.e. redir_a is mapped to func_a, redir_b to func_b, and redir_c to func_c.
+// After ct6, the tests start to try calling functions that are not there
+// 
+// ettestct1    Call redir_b. The config should remap redir_b to call func_b with no pre or post execution.
+// ettestct2    Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and
+//              also remap redir_c to func_c.
+// ettestct3    Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all.
+// ettestct3a   Call redir_b with only post redir_a -- same result as ct3, but putting the only remap
+//              call in post instead of pre.
+// ettestct4    Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any 
+//              function in either pre or post.
+// ettestct4a   Call redir_b with only pre redir_c -- same result as t4
+// ettestct5    Call redir_b with a remapping of redir_a to func_a for both pre and post.
+// ettestct6    Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions
+//              can be used with the same effect.
+// ettestct7    This will try pre with func a, but remapped with a configuration thatis passed into executethis...
+//              it still wants to hit func_b with mid
+// ettestct8 doest not run yet --- This test asserts that the tryorder in the config is successful
+//              and causes executethis to call dothis, not server, or the others. As of jan 28, it
+//              still fails to reorder them and calls the server instead. It breaks the code and will not
+//              simply call func_b locally.
+// ettestct9    This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to 
+//              func_b and execute...so far it doesn't work....
+// ettestct10   This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So
+//              far it does not work, and never has.
+// ettestct11   This test is to call func_b, remap does_not_exist_1 to func_a,
+//              remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c.
+//              None of these ever work...
+// ettestct13   This test is to test a config where a and b do not exist, but func_c does and c will execute. You
+//              should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in
+//              the results
+// ettestct14   Here is the modified ct14 test
+//              This test is to test a config where a config with params is sent to pre, mid, and post.
+//              The results should have the a,b,c cereals, along with the regular params.
+// ettestct15   This will send the alphabits param in the preexecute config, but will be overriding it in the args..
+//              Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. 
+// ettestct16 doest not run yet --- Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the 
+//              config params in the assertion wid.
+// ettestct17 doest not run yet --- To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function
+//              or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.
+// ettestct18 doest not run yet --- This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
+// ettestct19 doest not run yet --- This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params
+//              sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, 
+//              the args sent to executethis will always win...not any of the 3 places in the config that they are set.
+// ettestct20 doest not run yet --- Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are 
+// all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
 
 // at stands for 'all tests', this will run a suite 
-// of tests that are known to pass
+// of tests that are known to run, but not necessarily pass
 exports.ettestat = ettestat = function ettestat(params, callback) {
     bootprocess();
 
@@ -161,15 +205,16 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             "executethis": "ettestct14"
             },{ 
             "executethis": "ettestct15"
+            // These still need the configs to be converted to be passed in as parameters.
             // ct16 will break the ctt test run
             // },{ 
             // "executethis": "ettestct16"
-            },{ 
-            "executethis": "ettestct18"
-            },{
-            "executethis": "ettestct19"
-            },{ 
-            "executethis": "ettestct20"
+            // },{ 
+            // "executethis": "ettestct18"
+            // },{
+            // "executethis": "ettestct19"
+            // },{ 
+            // "executethis": "ettestct20"
         }],
         function (err, res) {
             callback(err, res);
@@ -1449,7 +1494,7 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
 // config params in the assertion wid.
 exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
     testclearstorage();
-    config = setconfig2();
+    // config = setconfig2();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "mock_server",
