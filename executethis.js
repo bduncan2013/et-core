@@ -103,7 +103,7 @@
                     }
 
                     dothisprocessor(midResults, 'postexecute', function (err, postResults) {
-                        
+
                         console.log(' after postexecute >> ' + nonCircularStringify(postResults));
                         //if (preResults instanceof Array) {postResults=postResults[0]};
                         if (!postResults)
@@ -122,6 +122,7 @@
                             postResults = tempArray;
                         }
 
+
                         callback(overallError, postResults);
                     });
                 });
@@ -134,7 +135,7 @@
 
 
 
-        function executearray(paramsArr, callback) {
+        function executearray(paramsArr, cb1) {
             // console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
             proxyprinttodiv('Function executearray paramsArr', paramsArr, 17);
             var resultlist = [];
@@ -167,7 +168,7 @@
                 console.log('>>>> retResults final  >>>> ' + JSON.stringify(res));
                 console.log('asynchronously finished executing executearray.');
                 proxyprinttodiv('Function executearray resultlist', resultlist, 17);
-                callback(null, resultlist);
+                cb1(null, resultlist);
             });
         }
 
@@ -816,7 +817,7 @@
 
                     function (err, res) {
                         proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 17);
-                        
+
                         cbMapH(null, "How Iteration");
                         //console.log(' completed whatToDoList iteration in sync fashion.');
                     });

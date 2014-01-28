@@ -869,6 +869,7 @@
         var err;
         var res;
         var ret = undefined;
+        var childrentype;
 
         function debugvars(varlist) {
             var allvars = {
@@ -915,6 +916,14 @@
                 },
                 4: {
                     "ParentObject": ParentObject
+                },
+                5: {
+                    "widtoadd": widtoadd,
+                    "ParametersToAdd": ParametersToAdd,
+                    "ChildrendtoList": ChildrendtoList,
+                    "childrentype": childrentype,
+                    "ParentWid": ParentWid,
+                    "ChildWid": ChildWid
                 }
             };
             var resultObj = {};
@@ -990,14 +999,16 @@
                 function step4(cb) { // create work
                     var listtodo = [];
                     proxyprinttodiv('Function AddMaster : ChildrenListobj ', ChildrenListobj, 17);
-                    for (var childrentype in ChildrenListobj) {
-                        listtodo.push(childrentype);
+                    for (var eachchild in ChildrenListobj) {
+                        listtodo.push(eachchild);
                     }
 
-                    async.mapSeries(listtodo, function (childrentype, cbMap) {
+                    async.mapSeries(listtodo, function (eachchild, cbMap) {
                         async.series([
 
                                     function step4n1(cb) {
+                                        childrentype=eachchild;
+                                        proxyprinttodiv('Function AddMaster : childrentype', childrentype, 17);
                                         editflag = 'false';
                                         attr = ChildrenListobj[childrentype]; // onetoone or onetomany?  -left side of ChildrenListobj is the dto name
                                         parameterindexobj = []; // create a list of (children) parameters that start with number
@@ -1071,7 +1082,7 @@
                                             attrtype = 'all'; // onetomany --- read all records
                                         }
                                         widlist = [];
-                                        debugfn("AddMaster", "step4", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                        debugfn("AddMaster step4", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
                                     function step4n2(cb) {
@@ -1097,11 +1108,11 @@
                                                 // **** 10-31
                                                 //var widlist = simpleQuery(ParentWid, "attributes", attrtype, "forward", childrentype, "", "");
                                                 proxyprinttodiv('Function AddMaster : widlist, these are the wids related to parent and current child', widlist);
-                                                debugfn("AddMaster", "step4n2a", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                debugfn("AddMaster step4n2a", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                 cb(null);
                                             })
                                         } else {
-                                            debugfn("AddMaster", "step4n2b", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                            debugfn("AddMaster addmaster", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                             cb(null);
                                         }
                                     },
@@ -1114,7 +1125,7 @@
                                         // save copy for next iteration
                                         proxyprinttodiv('Function AddMaster : ChildrendtoList - 111, parameters for current child', ChildrendtoList, 75);
                                         proxyprinttodiv('Function AddMaster : RelatedListdto - 111, dto for current child, now determine if number or not A/B', RelatedListdto, 75);
-                                        debugfn("AddMaster", "step4n3", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                        debugfn("AddMaster step4n3", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
                                     
@@ -1123,24 +1134,21 @@
                                         
                                         if (parameterindexobj.length !== 0) { // since array 
                                             var listtodo = [];
-                                            proxyprinttodiv('Function AddMaster : parameterindexobj past if', parameterindexobj, 17);
+                                            proxyprinttodiv('Function AddMaster : parameterindexobj about to iterate', parameterindexobj, 17);
                                             
                                             async.mapSeries(parameterindexobj, function (currentchild, cbMap) { //cbMap needed at end 
                                                 
                                                 async.series([ // asynch series 4n4n1n-
                                                     
                                                     function step4n4n1n1(cb) {
-                                                        proxyprinttodiv('Function AddMaster : childrenttype.currentchild - 222, process this number first, look up in widlist', childrentype + '.' + currentchild, 99);
+                                                        ParametersToAdd = {};
+                                                        proxyprinttodiv('Function AddMaster : childrenttype.currentchild - 222, process this number first, look up in widlist', childrentype + '.' + currentchild, 17);
                                                         
                                                         SplitParameters = MatchPrefixDelete(RelatedListParameters, childrentype + '.' + currentchild); // separate parameters to those that start with curr number
-                                                        
-                                                        var ParametersToAdd = {};
-                                                        proxyprinttodiv('Function AddMaster : Parameters to add before match', ParametersToAdd, 99);
-
                                                         ParametersToAdd = SplitParameters.match;
-                                                        proxyprinttodiv('Function AddMaster : Parameters to add after match', ParametersToAdd, 99);
+                                                        proxyprinttodiv('Function AddMaster : Parameters to add after match', ParametersToAdd, 17);
                                                         RelatedListParameters = SplitParameters.nomatch; // each iteration relatedlistparameter will become smaller
-                                                        
+                                                        proxyprinttodiv('Function AddMaster : RelatedListParameters to add after', RelatedListParameters, 17);
                                                         if (Object.keys(ParametersToAdd).length !== 0) {
                                                             widtoadd = '';
                                                             
@@ -1159,6 +1167,7 @@
                                                     }, // end step4n4n1n1
                                                     
                                                     function step4n4n1n2(cb) {
+                                                        debugfn("addmaster before add add I", "addrecord", "add", "add", 2, 1, debugvars([5]));
                                                         AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
                                                             ChildWid = res;
                                                             debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
@@ -1166,37 +1175,44 @@
                                                                 1: res,
                                                                 2: executionid
                                                             }, 4);
-                                                            debugfn("AddMaster", "step4n1n2b", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                            debugfn("AddMaster step4n1n2b", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                             cb("");
                                                         });
                                                     }, // end step4n4n1n2
 
                                                     function step4n4n1n3(cb) {
+                                                        debugfn("addmaster before add rel II", "addrecord", "add", "add", 2, 1, debugvars([5]));
                                                         AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
                                                             debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
                                                                 0: originalarguments,
                                                                 1: res,
                                                                 2: executionid
                                                                 }, 4);
-                                                            debugfn("AddMaster", "step4n4n1n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                            debugfn("AddMaster step4n4n1n3b", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                             cb("");
                                                         });
                                                     } // end step4n41n3
                                                 ], // asynch series end array
                                                 
                                                 function (err, results) { // asynch series callback
-                                                    cb(""); // yupe calling back with nothin
+                                                    // cb(""); // taken out by roger yupe calling back with nothin
+                                                    cbMap(null); // moved up from two lines down by roger
                                                 }); // end async series
-                                                cbMap(null); // async map callback -- needed for async library to work
+                                                //cbMap(null); // moved up by roger--async map callback -- needed for async library to work
                                             }, // async map end object
 
                                             function (err, results) { // async map callback
-                                                cbMap(null);
+                                                cb(""); // change by roger cbMap(null);
+
                                             }); // end async map
                                         } // end if
 
                                         else {
-                                            callback(null); // step4n4 callback
+
+
+
+                                            cb(null); // added by roger
+                                            //callback(null); take away by roger// step4n4 callback
                                         }
                                     }, // end function step4n4 
 
@@ -1207,7 +1223,7 @@
                                         proxyprinttodiv('Function AddMaster : 222-222 ParametersToAdd', ParametersToAdd, 75);
                                         proxyprinttodiv('Function AddMaster : 222-222 RelatedListParameters', RelatedListParameters, 75);
 
-                                        debugfn("AddMaster", "step4n4n5", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                        debugfn("AddMaster step4n5", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
                                     function step4n6(cb) {
@@ -1223,10 +1239,11 @@
                                                                 }
                                                             }
                                                         }
-                                                        debugfn("AddMaster", "step4n6", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                        debugfn("AddMaster step4n6", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                         cb(null);
                                                     },
                                                     function step4n6n2(cb) {
+                                                            debugfn("addmaster before add II", "addrecord", "add", "add", 2, 1, debugvars([5]));
                                                             AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
                                                                 ChildWid = res;
                                                                 debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
@@ -1234,18 +1251,19 @@
                                                                         1: res,
                                                                         2: executionid
                                                                     }, 4);
-                                                                debugfn("AddMaster", "step4n62b", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                                debugfn("AddMaster step4n62b", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                 cb("");
                                                             });
                                                     },
                                                     function step4n6n3(cb) {
+                                                        debugfn("addmaster before add rel II", "addrecord", "add", "add", 2, 1, debugvars([5]));
                                                         AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
                                                                 debugfn("addmaster code gen AddMongoRelationship", "addrecord", "add", "code", 2, 1, {
                                                                         0: originalarguments,
                                                                         1: res,
                                                                         2: executionid
                                                                     }, 4);
-                                                                debugfn("AddMaster", "step4n6n3b", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                                                debugfn("AddMaster add rel step4n6n3", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                                 cb("");
                                                             });
                                                     }
@@ -1254,9 +1272,9 @@
 
                                                 }); // end async series
                                         } //end if
-                                        debugfn("AddMaster", "if (Object.keys(parameterindexobj)", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                        debugfn("AddMaster near end", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
-                                    }
+                                    } // of step4n6
                                 ],
                                 function (err, results) {
 
@@ -1267,7 +1285,7 @@
                         function (err, results) {
 
                         }); // end map at step 4
-                    debugfn("AddMaster", "end map at step 4", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                    debugfn("AddMaster end step 4", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null); // step 4 function callback
                 }
             ], 
@@ -1478,44 +1496,48 @@
 
                 var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
 
-                delete inputWidgetObject['executethis'];
-                proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 10);
-                // for conversion:
-                var saveobject = {};
+                // delete inputWidgetObject['executethis'];
+                // proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 10);
+                // // for conversion:
+                // var saveobject = {};
 
-                if (inputWidgetObject['wid']) {
-                    saveobject['wid'] = inputWidgetObject['wid'];
-                } else {
-                    saveobject['wid'] = "";
-                }
+                // if (inputWidgetObject['wid']) {
+                //     saveobject['wid'] = inputWidgetObject['wid'];
+                // } else {
+                //     saveobject['wid'] = "";
+                // }
 
-                delete inputWidgetObject['wid'];
+                // delete inputWidgetObject['wid'];
 
-                saveobject['metadata'] = {};
-                if (inputWidgetObject['metadata.method']) {
-                    saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
-                } else {
-                    saveobject['metadata']['method'] = "";
-                }
-                //saveobject['metadata']['date'] = new Date();
-                //proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 75);
+                // saveobject['metadata'] = {};
+                // if (inputWidgetObject['metadata.method']) {
+                //     saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
+                // } else {
+                //     saveobject['metadata']['method'] = "";
+                // }
+                // //saveobject['metadata']['date'] = new Date();
+                // //proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 75);
 
 
 
-                // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
-                delete inputWidgetObject['metadata.method'];
-                if (inputWidgetObject) {
-                    saveobject['data'] = inputWidgetObject;
-                } else {
-                    saveobject['data'] = "";
-                }
+                // // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
+                // delete inputWidgetObject['metadata.method'];
+                // if (inputWidgetObject) {
+                //     saveobject['data'] = inputWidgetObject;
+                // } else {
+                //     saveobject['data'] = "";
+                // }
 
-                addtomongo(saveobject, function (err, results) {
-                    proxyprinttodiv('Function updatewid in : x', results, 10);
-                    callback(err, results);
-                    // debugfn("updatewid code generator", "updatewid", "add", "code", debugcolor, debugindent, {inputObject, results}, 4);
-                    //debugfn("updatewid code generator", "updatewid", "add", "code", debugcolor, debugindent, results, 4);
+                // addtomongo(saveobject, function (err, results) {
+                //     proxyprinttodiv('Function updatewid in : x', results, 10);
+                //     callback(err, results);
+                //     // debugfn("updatewid code generator", "updatewid", "add", "code", debugcolor, debugindent, {inputObject, results}, 4);
+                //     //debugfn("updatewid code generator", "updatewid", "add", "code", debugcolor, debugindent, results, 4);
 
+                // });
+
+                offlineaddtomongo(converttodriformat(inputWidgetObject), function (err, results) {
+                    callback({}, results);
                 });
             }
         });
