@@ -984,6 +984,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         var debugobjectlist = (arguments[6]) ? arguments[6] : {
             "data": "none"
         };
+        //var debugobjectlist = JSON.parse(JSON.stringify(tempdebugobjectlist));
         var indebugdest = arguments[7] || ""; // level
         var displaycolor = indebugcolor;
         var tempdebugname = (debugname != "") ? debugname : indebugname;
@@ -1037,7 +1038,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         debugfilter = 0;
         switch (debugfilter) {
         case 0:
-            outobject = JSON.parse(JSON.stringify(debugobjectlist));
+            outobject = debugobjectlist;
             break;
 
         case 1:
