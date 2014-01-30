@@ -150,10 +150,10 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
 
 exports.startwidviewer = startwidviewer = function startwidviewer(params, callback){
 //exports.addmoreactions = addmoreactions = function addmoreactions(params, callback) {
-    // debugname=""
-    // debuglevel=10;
-    // debugcolor=1;
-    // debugindent=1;
+    debugname=""
+    debuglevel=10;
+    debugcolor=1;
+    debugindent=1;
     var executeList = [ 
         {            
             "executethis":"addwidmaster",
@@ -339,9 +339,8 @@ exports.startwidviewer = startwidviewer = function startwidviewer(params, callba
         // }
     ];
     execute(executeList, function (err, res) {
-        debugname = "special";
-        getwidmaster({"wid":"startwid"}, function (err, res) {
-        //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
+        //getwidmaster({"wid":"startwid"}, function (err, res) {
+        getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
 
             callback({}, res);
             });
@@ -357,7 +356,7 @@ exports.testexecutefunctions = testexecutefunctions = function testexecutefuncti
     /* executethis -- start */
     executeobject = {"exeuctethis":"addwidmaster","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"};
     resultobject = executethis(executeobject, addwidmaster);
-    proxyprinttodiv("end", resultobject, 17);   
+    proxyprinttodiv("end", resultobject, 99);   
     /* executethis -- end */
     
     /* execute -- start */

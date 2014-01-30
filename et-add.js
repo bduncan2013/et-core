@@ -858,7 +858,7 @@
         var ChildWid = '';
         var widtoadd = '';
         var widlist = [];
-        var parameterindexobj = [];
+        var parameterindexobj = {};
         var splitkey = '';
         var currentNumber = 0;
         var sortable = [];
@@ -1007,18 +1007,11 @@
                         async.series([
 
                                     function step4n1(cb) {
-                                        // clear out variables
-                                        proxyprinttodiv('Function AddMaster : listtodo', listtodo, 17);
-                                        proxyprinttodiv('Function AddMaster : eachchild', eachchild, 17);
-
-                                        parameterindexobj = []; // create a list of (children) parameters that start with number
-                                        ParametersToAdd = [];
-
-                                        childrentype = eachchild;
+                                        childrentype=eachchild;
                                         proxyprinttodiv('Function AddMaster : childrentype', childrentype, 17);
                                         editflag = 'false';
                                         attr = ChildrenListobj[childrentype]; // onetoone or onetomany?  -left side of ChildrenListobj is the dto name
-                                        
+                                        parameterindexobj = []; // create a list of (children) parameters that start with number
 
                                         for (var currentcount in RelatedListParameters) {
                                             //proxyprinttodiv('Function AddMaster : currentcount', currentcount);
@@ -1053,8 +1046,8 @@
 
                                         proxyprinttodiv('Function AddMaster : parameterindexobj, before sort', parameterindexobj, 17);
 
-                                        if (parameterindexobj.length !== 0) { // since array 
-                                            parameterindexobj = parameterindexobj.sort(sortNumber);
+                                        if (parameterindexobj.length!=0) { // since array 
+                                            parameterindexobj=parameterindexobj.sort(sortNumber);
                                             editflag = 'true'; 
                                         }
 
@@ -1081,11 +1074,11 @@
                                         // }
 
                                         //proxyprinttodiv('Function AddMaster : editflag', editflag);
-                                        if (attr === 'onetoone') {
+                                        if (attr == 'onetoone') {
                                             editflag = 'true'; // onetoone is alway edit true
                                             attrtype = 'last'; // onetoone -- read last record
                                         }
-                                        if (attr === 'onetomany') {
+                                        if (attr == 'onetomany') {
                                             attrtype = 'all'; // onetomany --- read all records
                                         }
                                         widlist = [];
@@ -1130,8 +1123,8 @@
                                         ChildrendtoList = SplitParameters.match;
                                         RelatedListdto = SplitParameters.nomatch;
                                         // save copy for next iteration
-                                        proxyprinttodiv('Function AddMaster : ChildrendtoList - 111, parameters for current child', ChildrendtoList, 17);
-                                        proxyprinttodiv('Function AddMaster : RelatedListdto - 111, dto for current child, now determine if number or not A/B', RelatedListdto, 17);
+                                        proxyprinttodiv('Function AddMaster : ChildrendtoList - 111, parameters for current child', ChildrendtoList, 75);
+                                        proxyprinttodiv('Function AddMaster : RelatedListdto - 111, dto for current child, now determine if number or not A/B', RelatedListdto, 75);
                                         debugfn("AddMaster step4n3", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
@@ -1148,7 +1141,7 @@
                                                 async.series([ // asynch series 4n4n1n-
                                                     
                                                     function step4n4n1n1(cb) {
-                                                        ParametersToAdd = [];
+                                                        ParametersToAdd = {};
                                                         proxyprinttodiv('Function AddMaster : childrenttype.currentchild - 222, process this number first, look up in widlist', childrentype + '.' + currentchild, 17);
                                                         
                                                         SplitParameters = MatchPrefixDelete(RelatedListParameters, childrentype + '.' + currentchild); // separate parameters to those that start with curr number
@@ -1156,7 +1149,7 @@
                                                         proxyprinttodiv('Function AddMaster : Parameters to add after match', ParametersToAdd, 17);
                                                         RelatedListParameters = SplitParameters.nomatch; // each iteration relatedlistparameter will become smaller
                                                         proxyprinttodiv('Function AddMaster : RelatedListParameters to add after', RelatedListParameters, 17);
-                                                        if (ParametersToAdd.length !== 0) {
+                                                        if (Object.keys(ParametersToAdd).length !== 0) {
                                                             widtoadd = '';
                                                             
                                                             if ((editflag = 'true') && (widlist != "")) {
@@ -1169,7 +1162,6 @@
                                                                 }
                                                             }
                                                         } // count keys parm add
-                                                        proxyprinttodiv('Function AddMaster : ParameterIndex <<< widtoadd >>>', widtoadd, 17);
                                                         debugfn("AddMaster", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                         cb(null); // step step4n4n1n1
                                                     }, // end step4n4n1n1
@@ -1225,43 +1217,35 @@
                                     }, // end function step4n4 
 
                                     function step4n5(cb) {
-                                        ParametersToAdd = [];
                                         SplitParameters = MatchPrefixDelete(RelatedListParameters, childrentype); // split parameters based on childtype
                                         ParametersToAdd = SplitParameters.match; // do right now
                                         RelatedListParameters = SplitParameters.nomatch; // do next iteration
-                                        proxyprinttodiv('Function AddMaster : 222-222 ParametersToAdd', ParametersToAdd, 17);
-                                        proxyprinttodiv('Function AddMaster : 222-222 RelatedListParameters', RelatedListParameters, 17);
+                                        proxyprinttodiv('Function AddMaster : 222-222 ParametersToAdd', ParametersToAdd, 75);
+                                        proxyprinttodiv('Function AddMaster : 222-222 RelatedListParameters', RelatedListParameters, 75);
 
                                         debugfn("AddMaster step4n5", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                         cb(null);
                                     },
                                     function step4n6(cb) {
-                                        if (ParametersToAdd.length !== 0) {
-                                            proxyprinttodiv('Function AddMaster : 222-222 ParametersToAdd', ParametersToAdd, 17);
+                                        if (countKeys(ParametersToAdd) !== 0) {
                                             async.series([
 
                                                     function step4n6n1(cb) {
                                                         widtoadd = ''; // this is to catch onetoone case
-                                                        if ((attr === 'onetoone') && (widlist !== "")) {
+                                                        if ((attr == 'onetoone') && (widlist != "")) {
                                                             if (widlist[0] !== undefined) {
                                                                 for (var widName in widlist[0]) {
                                                                     widtoadd = widName;
                                                                 }
                                                             }
                                                         }
-                                                        proxyprinttodiv('Function AddMaster : 222-222 widtoadd', widtoadd, 17);
-                                                        proxyprinttodiv('Function AddMaster : 222-222 attr', attr, 17);
-                                                        proxyprinttodiv('Function AddMaster : 222-222 widlist', widlist, 17);
                                                         debugfn("AddMaster step4n6", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
                                                         cb(null);
                                                     },
-
                                                     function step4n6n2(cb) {
                                                             debugfn("addmaster before add II", "addrecord", "add", "add", 2, 1, debugvars([5]));
-                                                            proxyprinttodiv('Function AddMaster : 222-222 childrentype', childrentype, 17);
                                                             AddMaster(ChildrendtoList, ParametersToAdd, widtoadd, childrentype, function (err, res) {
                                                                 ChildWid = res;
-                                                                proxyprinttodiv('Function AddMaster : 222-222 addmaster res', res, 17);
                                                                 debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
                                                                         0: originalarguments,
                                                                         1: res,
@@ -1285,13 +1269,11 @@
                                                     }
                                                 ],
                                                 function (err, results) {
-                                                    cb(null);
+
                                                 }); // end async series
                                         } //end if
-                                        else {
-                                            cb(null);
-                                        }
                                         debugfn("AddMaster near end", "addmaster", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                                        cb(null);
                                     } // of step4n6
                                 ],
                                 function (err, results) {
