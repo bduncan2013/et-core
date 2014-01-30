@@ -339,8 +339,14 @@ exports.startwidviewer = startwidviewer = function startwidviewer(params, callba
         // }
     ];
     execute(executeList, function (err, res) {
+// <<<<<<< HEAD
         //getwidmaster({"wid":"startwid"}, function (err, res) {
         getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
+// =======
+//         // debugname = "special";
+//         getwidmaster({"wid":"startwid"}, function (err, res) {
+//         //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
+// >>>>>>> d8e2d1ce40d1613714ea393927fde749d82c9269
 
             callback({}, res);
             });

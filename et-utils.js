@@ -984,6 +984,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         var debugobjectlist = (arguments[6]) ? arguments[6] : {
             "data": "none"
         };
+        //var debugobjectlist = JSON.parse(JSON.stringify(tempdebugobjectlist));
         var indebugdest = arguments[7] || ""; // level
         var displaycolor = indebugcolor;
         var tempdebugname = (debugname != "") ? debugname : indebugname;

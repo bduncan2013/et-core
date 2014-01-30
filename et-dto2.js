@@ -80,7 +80,6 @@ exports.initdto = initdto = function initdto(params, callback) {
 
                 "systemdto": "onetoone"
             }, {
-
                 // create balancedto
                 "executethis": "updatewid",
                 "metadata.method": "balancedto",
