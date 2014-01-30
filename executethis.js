@@ -34,6 +34,11 @@
 
         var incomingparams, commandobject, callback;
         if (arguments[2]) {
+            if (arguments[1] && arguments[1].executefilter && arguments[1].executemethod && arguments[1].executeorder && arguments[1].executelimit) {
+                // replace default commandobject with passed in one
+                defaultCommandObject = arguments[1];
+            }
+
             incomingparams = arguments[0];
             commandobject = defaultCommandObject;
             callback = arguments[2];
@@ -173,7 +178,7 @@
 
     exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(todolist, commandobject, callback) {
 
-        if (true) {
+        if (false) {
             var output = [];
             async.eachSeries(todolist, function (eachtodo, cbMap) {
                 proxyprinttodiv("executethismultiple - iteration - eachtodo ", eachtodo, 99);
@@ -211,10 +216,18 @@
             }
 
             async.filter(todolist, filterParams, function (filteredParams) {
+
+                //filter 1st n request only
+                if(filteredParams && (filteredParams.length > commandobject.executelimit)){
+                    filteredParams = filteredParams.splice(15);
+                }    
+
                 var output = [];
                 switch (commandobject.executeorder) {
+
+
                 case 'series':
-                    async.eachSeries(filteredParams, function (eachtodo, cbMap) {
+                    async.mapSeries(filteredParams, function (eachtodo, cbMap) {
                         proxyprinttodiv("executethismultiple - iteration - eachtodo ", eachtodo, 99);
                         var fn = eachtodo[0]['fn'];
                         var parms = eachtodo[1];
@@ -233,40 +246,65 @@
 
                 case 'waterfall':
 
-                    function createFnArray(filteredParams) {
+                    function createFnArray(filteredParams, output) {
+
+
                         var fnArray = [];
+                        var output = [];
                         for (var i = 0; i < filteredParams.length; i++) {
                             var params = filteredParams[i];
-                            var func = function (params, cb1) {
-                                proxyprinttodiv("executethismultiple - waterfall -- iteration - eachtodo ", eachtodo, 99);
-                                var fn = filteredParams[i]['fn'];
-                                var parms = filteredParams[i][1];
-                                // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
-                                window[fn](parms, function (err, resp) {
-                                    // window[fn](parms, function (err, resp) {
-                                    output.push(resp);
-                                    cbMap(null);
-                                });
-                                cb1(null, 'done');
-                            };
+                            proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 99);
+                            var func = getFunction(params);
                             fnArray.push(func);
                         }
-                        return fnArray;
-                    }
 
+                        function getFunction(params) {
+                            return function (cb1) {
+                                var fn = params[0]['fn'];
+                                var fnparms = params[1];
+                                // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
+                                window[fn](fnparms, function (err, resp) {
+                                    // window[fn](parms, function (err, resp) {
+                                    output.push(resp);
+                                    // cbMap(null);
+                                    cb1(null);
+                                });
+                            };
+                        }
+                        return fnArray;
+                    };
                     async.waterfall(createFnArray(filteredParams), function (err, resp) {
-                        callback(err, output);
+                        callback(err, resp);
                     });
+
+                    // var fnparmsArray = [];
+                    // var fnArray = [];
+                    // proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 99);
+                    // for (var i = 0; i < filteredParams.length; i++) {
+                    //     var params = filteredParams[i];
+                    //     var fn = params[0]['fn'];
+                    //     var fnparms = params[1];
+                    //     fnparmsArray.push(fnparms);
+                    //     fnArray.push(fn);
+                    // }
+
+                    // async.waterfall(
+                    //     for (var i = 0; i < fnArray.length; i++) {
+                    //         async.apply(window[fnArray[i]], fnparmsArray[i]),
+                    //     }
+                    // , function (err, resp) {
+                    //     callback(err, resp);
+                    // });
+
 
                     break;
 
                 case 'parallel':
 
-                    async.each(filteredParams, function (eachtodo, cbMap) {
+                    async.map(filteredParams, function (eachtodo, cbMap) {
                         proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 99);
                         var fn = eachtodo[0]['fn'];
                         var parms = eachtodo[1];
-                        // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
                         window[fn](parms, function (err, resp) {
                             // window[fn](parms, function (err, resp) {
                             output.push(resp);
@@ -280,11 +318,7 @@
                     break;
                 }
             });
-
         }
-
-
-
     }
 
     exports.mirror = window.mirror = mirror = function mirror(params, callback) {

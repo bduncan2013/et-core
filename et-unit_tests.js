@@ -2088,3 +2088,28 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
         });
 }
 
+// call multiple requests in a series fashion
+exports.ettestseries = ettestseries = function ettestseries(params, callback) {
+    testclearstorage();
+    execute([{
+            "executethis": "addwid",
+            "c": "0",
+            "d": "1",
+            "e": "2",
+            "wid":"test"
+        },{
+            "executethis": "addwid",
+            "wid":"subtest"
+        },{
+            "executethis": "getwid",
+            "wid":"test"
+        }],
+        function (err, res) {
+            res = logverify("ettestt3a_result", res[0][0], {
+                "c": "0",
+                "g": "4",
+                "f": "3"
+            });
+            callback(err, res);
+        });
+}

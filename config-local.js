@@ -350,10 +350,20 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
 
 
 exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
+    var convertedobject={};
     proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
     offlinegetfrommongo(inputWidgetObject, function (err, resultobject) {
         // convert the object from dri standard before returnning it
-        callback({}, convertfromdriformat(resultobject));
+        proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject, 1);
+
+        var convertedobject=convertfromdriformat(resultobject)
+        proxyprinttodiv('Function getwid in : convertedobject', convertedobject, 1);
+        if (inputWidgetObject['command.convertmethod']==='toobject') {
+            callback({}, ConvertFromDOTdri(convertedobject))
+            }
+        else {
+            callback({}, convertedobject);
+        }
     });
 };
 

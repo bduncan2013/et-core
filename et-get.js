@@ -536,7 +536,11 @@
                     convertMethod = parameters["command.convertmethod"];
 
                     getWidMongo(wid, convertMethod, accesstoken, dtotype, "", 10, function (err, data) { //TODO consider -- DONE -- Remove 4th postion ""
-                        resultObj = data;
+                        if(!data){
+                            resultObj = data;
+                        }else{
+                            resultObj = converttodotdri(data);
+                        } 
                         debugfn("getwidmaster step1 b", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'one');
                     });
@@ -1275,7 +1279,7 @@
 
 
 exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod, accesstoken, dtotype, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
-    proxyprinttodiv('Function getwidmongo hit I', null, 99);
+    //proxyprinttodiv('Function getwidmongo hit I', null, 10);
     // local vars
     var moreDTOParameters;
     var targetwid = "";
@@ -1286,6 +1290,8 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
     var err;
     var res;
     var dtoGlobalParameters = {};
+    var params,eachdto,dtogroup,iteration, proposedLeft;
+    var dtolist = {};
 
     function debugvars(varlist) {
         var allvars = {
@@ -1301,7 +1307,9 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
                 "rightparameters": {},
                 "executeobject": executeobject,
                 "dtoGlobalParameters": dtoGlobalParameters,
-                "err": err
+                "err": err,
+                "dtolist":dtolist,
+                "params":params
             }
         };
         var resultObj = {};
@@ -1322,7 +1330,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
     async.series([
 
         function step1(cb) {
-            proxyprinttodiv('Function getwidmongo step 1 hit with widInput:', widInput, 99);
+            proxyprinttodiv('Function getwidmongo step 1 hit with widInput:', widInput, 10);
             if (!level) {
                 level = 10
             } 
@@ -1338,10 +1346,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
 
             targetwid = widInput;
             executeobject["wid"] = widInput;
+            executeobject["command.convertmethod"]="toobject";
             executeobject['executethis'] = 'getwid';
             
             execute(executeobject, function (err, res) { // getwid
-                proxyprinttodiv('Function getwidmongo res', res, 99);
+                proxyprinttodiv('Function getwidmongo getwid res', res, 10);
                 res=res[0];
                 
                 if (Object.keys(res).length != 0) {
@@ -1377,26 +1386,33 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
         // parameterObject = wid, moreDTOparameters = methdd, targetwid = chain to follow
 
         function step2(cb) {
-            proxyprinttodiv('Function getwidmongo step 2 hit', null, 99);
-
+            //proxyprinttodiv('Function getwidmongo step 2 hit', null, 10);
             if (targetwid != "") {
                 async.series([ // asynch step1n2
                         function step2n1(cb1) {
-                            proxyprinttodiv('Function getwidmongo step 2n1 hit', null, 99);
+                            //proxyprinttodiv('Function getwidmongo step 2n1 hit', null, 10);
                             executeobject = {};
                             executeobject["mongowid"] = targetwid;
                             executeobject["mongorelationshiptype"] = "attributes";
                             executeobject["mongorelationshipmethod"] = "all";
                             executeobject["mongorelationshipdirection"] = "forward";
                             executeobject["mongowidmethod"] = "";
-                            executeobject["convertmethod"] = "";
+                            executeobject["command.convertmethod"] = "toobject";
                             executeobject["dtotype"] = "";
                             executeobject["executethis"] = 'querywid';
                             execute(executeobject, function (err, res) {
-                                proxyprinttodiv('Function aggressivedto executeobject', executeobject,10);
-                                proxyprinttodiv('Function aggressivedto res', res,10);
+                                // we get data that looks like this:
+                                // [{wid1: {metadata.method: booksdto, a:b}},
+                                // {wid2: {metadata.method: booksdto, a:c}},
+                                // {wid3: {metadata.method: adddto, d:e}},
+                                // {wid4: {metadata.method: booksdto, a:f}},
+                                // {wid5: {metadata.method: booksdto, a:g}},
+                                // {wid6: {metadata.method: adddto, d:j}},
+                                // {wid7: {metadata.method: othersdto, k:m}}]
+                                proxyprinttodiv('Function getwidmongo executeobject', executeobject,10);
+                                proxyprinttodiv('Function getwidmongo query res', res,10);
                                 moreDTOParameters = res;
-                                debugfn("aggressivedto step2n2", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
+                                //debugfn("getwidmongo step2n2", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
                                 cb1(null, 'step2n1');
                             });
                         }
@@ -1405,11 +1421,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
                         if (err) {
                             throw err;
                         }
-                        debugfn("aggressivedto if", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
+                        //debugfn("getwidmongo if", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     });
             } else {
-                debugfn("aggressivedto if ii", "aggressivedto", "get", "sub", debugcolor, debugindent, debugvars([1]));
+                //debugfn("getwidmongo if ii", "getwidmongo", "get", "sub", debugcolor, debugindent, debugvars([1]));
                 cb(null, 'two');
             }
         },
@@ -1417,47 +1433,60 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
             if (moreDTOParameters && moreDTOParameters.length>0) {
                 var listToDo = [];
                 var eachresult;
-                proxyprinttodiv('Function aggressivedto moreDTOParameters', moreDTOParameters,10);
+                var rightparameters = {};  
+                var left; 
+                var key;
+                proxyprinttodiv('Function getwidmongo moreDTOParameters', moreDTOParameters,10);
                 for (eachresult in moreDTOParameters) { // list, for each item in list
+                    for (key in moreDTOParameters[eachresult]) { // list is {wid : {}} --key = wid
+                        rightparameters = moreDTOParameters[eachresult][key];
+                        }
+                    left = rightparameters['metadata']['method']
+                    dtolist[left]=rightparameters['metadata']['method'];
+                    // create dto
                     listToDo.push(eachresult);
                 }
+                proxyprinttodiv('Function getwidmongo dtolist', dtolist,10);
 
                 async.mapSeries(listToDo, function (eachresult, cbMap) {
                         var rightparameters = {};
                         var params;
                         var key;
-                        proxyprinttodiv('Function aggressivedto moreDTOParameters[eachresult]', moreDTOParameters[eachresult],10);
-                        for (key in moreDTOParameters[eachresult]) { 
+                        proxyprinttodiv('Function getwidmongo moreDTOParameters[eachresult]', moreDTOParameters[eachresult],10);
+                        for (key in moreDTOParameters[eachresult]) { // list is {wid : {}} --key = wid
                             rightparameters = moreDTOParameters[eachresult][key];
                         }
-                        // list is {wid : {}}
-                        // key = wid
-
-                        // from dto create outgoing object
-                        // if (moreDTOParameters[key]) {
-                        //     parameterObject[key] = moreDTOParameters[key]
-                        // }
+                        
                         if (level > 0) {
-                            async.series([
+                            //async.series([
 
-                                    function step3n1(cbn1) {
-                                        proxyprinttodiv('Function aggressivedto recurse', key, 99);
-                                        // wid, convertMethod, accesstoken, dtotype, "", function (err, data)
-                                        getWidMongo(key, convertmethod, accesstoken, dtotype, rightparameters["metadata.method"], level, function (err, data) { //TODO consider -- DONE
-                                            params = data;
-                                            debugfn("aggressivedto step3n1", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
-                                            cbn1(null);
-                                        });
-                                    },
-                                    function step3n2(cbn2) {
-                                        parameterObject = jsonConcat(parameterObject, params);
-                                        debugfn("aggressivedto step3n2", "aggressivedto", "get", "mid", debugcolor, debugindent, debugvars([1]));
-                                        cbn2(null);
-                                    }
-                                ],
-                                function (err, results) {
+                                    //function step3n1(cbn1) {
+                            proxyprinttodiv('Function getwidmongo recurse', key, 10);
+                            // wid, convertMethod, accesstoken, dtotype, "", function (err, data)
+                            debugfn("getwidmongo before recusr", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
 
-                                });
+                            debugcolor++
+                            debugindent++
+                            getWidMongo(key, convertmethod, accesstoken, dtotype, rightparameters["metadata"]["method"], level, function (err, params) { 
+                                proxyprinttodiv('Function getwidmongo params', params, 10);
+                                debugcolor--
+                                debugindent--
+                                if (Object.keys(params).length) {
+                                    //parameterObject = extend(true, parameterObject, params);
+                                    proxyprinttodiv('Function getwidmongo parameterObject before ', parameterObject, 10);
+                                    if (!parameterObject[params["metadata"]["method"]]) {parameterObject[params["metadata"]["method"]]=[]}
+                                    parameterObject[params["metadata"]["method"]].push(params); //&&&
+                                    //parameterObject = jsonConcat(parameterObject, params); // &&&
+                                    proxyprinttodiv('Function getwidmongo parameterObject after', parameterObject, 10);
+                                    debugfn("getwidmongo aferrecurse", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
+                                    //cbn1(null);
+                                }
+                            });
+                                    //}
+                                // ],
+                                // function (err, results) {
+
+                                // });
                         }
                         cbMap(null);
                     },
@@ -1474,25 +1503,40 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
                 }
             },
         function step4(cb) {
-
-
 //
 // we need to sort and group by method
 
+            // for (eachdto in dtolist) {
+            //     proxyprinttodiv('Function getwidmongo dtolist[eachdto]', dtolist[eachdto], 10);
+            //     dtogroup = parameterObject[eachdto]
+            //     proxyprinttodiv('Function getwidmongo dtogroup', dtogroup, 10);
+            //     if (dtogroup && Object.keys(dtogroup).length>0) {
+            //         for (iteration=0; iteration < Object.keys(dtogroup).length; iteration++) {
+            //             eachresult=dtogroup[iteration];
+            //             proxyprinttodiv('Function getwidmongo eachresult', eachresult, 10);
+            //             proposedLeft=preamble + iteration + "." + eachresult;
+            //             proxyprinttodiv('Function getwidmongo proposedLeft', proposedLeft, 10);
+            //             parameterObject[proposedLeft] = parameterObject[eachresult];
+            //             delete parameterObject[eachresult];
+            //             }
+            //         }
+            //     }
 
-            var iteration=0;
-            var proposedLeft;
+            //dtoGlobalParameters[preamble] = parameterObject
+            // for (var eachresult in parameterObject) {
+            //     //proposedLeft=eachresult;
+            //     proposedLeft=preamble + eachresult;
+            //     dtoGlobalParameters[proposedLeft] = parameterObject[eachresult];
+            // }
+            
+            dtoGlobalParameters = parameterObject
 
-            for (var eachresult in parameterObject) {
-                proposedLeft=preamble + iteration + "." + eachresult;
-                iteration++
-                dtoGlobalParameters[proposedLeft] = parameterObject[eachresult];
-            }
-            debugfn("aggressivedto step4", "aggressivedto", "get", "end", debugcolor, debugindent, debugvars([1]));
+            debugfn("getwidmongo end step4", "getwidmongo", "get", "end", debugcolor, debugindent, debugvars([1]));
             cb(null, 'four');
         }
     ],
     function (err, results) {
+        proxyprinttodiv('Function getwidmongo dtoGlobalParameters', dtoGlobalParameters, 10);
         callback(err, dtoGlobalParameters);
     });
 
@@ -1501,15 +1545,16 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
 
 exports.r11 = r11 = function r11(params, callback) {
     clearLocalStorage();
-    proxyprinttodiv('Function arrived in r11', "hello", 99);
-    var DRI = [{"wid":"initialwid","initialwid":"hello from bootprocess"},{"wid":"authordto","metadata":{"method":"authordto","date":"2014-01-29T18:38:08.745Z"},"data":{"name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}},{"wid":"booksdto","metadata":{"method":"booksdto","date":"2014-01-29T18:38:08.747Z"},"data":{"title":"string","pages":"string"}},{"wid":"adddto","metadata":{"method":"adddto","date":"2014-01-29T18:38:08.750Z"},"data":{"addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}},{"wid":"addfield","metadata":{"method":"addfield","date":"2014-01-29T18:38:08.752Z"},"data":{"fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"}},{"wid":"gojsobject","metadata":{"method":"gojsobject","date":"2014-01-29T18:38:08.754Z"},"data":{"class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}},{"wid":"nodedataarray","metadata":{"method":"nodedataarray","date":"2014-01-29T18:38:08.756Z"},"data":{"key":"string","loc":"string","leftArray":"onetomany","topArray":"onetomany","bottomArray":"onetomany","rightArray":"onetomany"}},{"wid":"leftarray","metadata":{"method":"leftarray","date":"2014-01-29T18:38:08.759Z"},"data":{"class":"string","portColor":"string","portId":"string"}},{"wid":"toparray","metadata":{"method":"toparray","date":"2014-01-29T18:38:08.760Z"},"data":{"class":"string","portColor":"string","portId":"string"}},{"wid":"bottomarray","metadata":{"method":"bottomarray","date":"2014-01-29T18:38:08.762Z"},"data":{"portColor":"string","portId":"string"}},{"wid":"rightarray","metadata":{"method":"rightarray","date":"2014-01-29T18:38:08.764Z"},"data":{"portColor":"string","portId":"string"}},{"wid":"linkdataarray","metadata":{"method":"linkdataarray","date":"2014-01-29T18:38:08.767Z"},"data":{"from":"string","to":"string","fromPort":"string","toPort":"string"}},{"wid":"linkrules","metadata":{"method":"linkrules","date":"2014-01-29T18:38:08.769Z"},"data":{"linkclass":"string","min":"string","max":"string"}},{"wid":"actiondto","metadata":{"method":"actiondto","date":"2014-01-29T18:38:08.772Z"},"data":{"displayname":"string","actiondescription":"string","category":"string","subcategory":"string","addthis.preexecute":"string","addthis.executethis":"string","addthis.postexecute":"string","defaultmasteractions":"inherit"}},{"wid":"relbooktoauthor","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.777Z"},"data":{"primarywid":"authordto","secondarywid":"booksdto","relationshiptype":"attributes"}},{"wid":"reladddtotoauthor","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.779Z"},"data":{"primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"}},{"wid":"gojsrel1","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.781Z"},"data":{"primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"}},{"wid":"gojsrel2","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.783Z"},"data":{"primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"}},{"wid":"gojsrel3","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.785Z"},"data":{"primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"}},{"wid":"gojsrel4","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.787Z"},"data":{"primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"}},{"wid":"gojsrel5","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.789Z"},"data":{"primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"}},{"wid":"gojsrel6","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.793Z"},"data":{"primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"}},{"wid":"rel_actiondto_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.796Z"},"data":{"primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"}},{"wid":"rel_addfield_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.799Z"},"data":{"primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"}},{"wid":"rel_gojsobject_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.801Z"},"data":{"primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"}},{"wid":"rel_linkrules_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.803Z"},"data":{"primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}},{"wid":"joe_jamison","metadata":{"method":"authordto","date":"2014-01-29T18:38:09.107Z"},"data":{"name":"Joe Jamison","age":"32"}},{"wid":"1","metadata":{"method":"booksdto","date":"2014-01-29T18:38:09.114Z"},"data":{"title":"Hello World!","pages":"40"}},{"wid":"2","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:09.121Z"},"data":{"primarywid":"joe_jamison","secondarywid":"1","relationshiptype":"attributes"}},{"wid":"sarah_jones","metadata":{"method":"authordto","date":"2014-01-29T18:38:09.783Z"},"data":{"name":"Sarah Jones","age":"40"}},{"wid":"3","metadata":{"method":"booksdto","date":"2014-01-29T18:38:09.786Z"},"data":{"title":"The Sands of Time","pages":"378"}},{"wid":"4","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:09.818Z"},"data":{"primarywid":"sarah_jones","secondarywid":"3","relationshiptype":"attributes"}},{"wid":"mike_williams","metadata":{"method":"authordto","date":"2014-01-29T18:38:10.874Z"},"data":{"name":"Mike Williams","age":"36"}},{"wid":"5","metadata":{"method":"booksdto","date":"2014-01-29T18:38:10.877Z"},"data":{"title":"Attack on the Mainframe","pages":"600"}},{"wid":"6","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:10.884Z"},"data":{"primarywid":"mike_williams","secondarywid":"5","relationshiptype":"attributes"}},{"wid":"jerry_stone","metadata":{"method":"authordto","date":"2014-01-29T18:38:12.306Z"},"data":{"name":"Jerry Stone","age":"41"}},{"wid":"7","metadata":{"method":"booksdto","date":"2014-01-29T18:38:12.310Z"},"data":{"title":"Carpentry 101","pages":"120"}},{"wid":"8","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:12.316Z"},"data":{"primarywid":"jerry_stone","secondarywid":"7","relationshiptype":"attributes"}},{"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-01-29T18:38:14.101Z"},"data":{"name":"Elizabeth Heart","age":"50"}},{"wid":"9","metadata":{"method":"booksdto","date":"2014-01-29T18:38:14.104Z"},"data":{"title":"The X Factor","pages":"300"}},{"wid":"10","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:14.110Z"},"data":{"primarywid":"elizabeth_heart","secondarywid":"9","relationshiptype":"attributes"}},{"wid":"startwid","metadata":{"method":"authordto","date":"2014-01-29T18:38:18.801Z"},"data":{"name":"start wid","age":"00"}},{"wid":"11","metadata":{"method":"booksdto","date":"2014-01-29T18:38:18.805Z"},"data":{"title":"none","pages":"00"}},{"wid":"12","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.812Z"},"data":{"primarywid":"startwid","secondarywid":"11","relationshiptype":"attributes"}},{"wid":"13","metadata":{"method":"adddto","date":"2014-01-29T18:38:18.822Z"},"data":{}},{"wid":"14","metadata":{"method":"actiondto","date":"2014-01-29T18:38:18.833Z"},"data":{"widname":"startwid","displayname":"Process Blur","actiondescription":"string","category":"blur","subcategory":"name","addthis.prexecute":"","addthis.executethis":"fieldrequired","addthis.postexecute":"getwidmaster"}},{"wid":"15","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.841Z"},"data":{"primarywid":"13","secondarywid":"14","relationshiptype":"attributes"}},{"wid":"16","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.850Z"},"data":{"primarywid":"startwid","secondarywid":"13","relationshiptype":"attributes"}}];
-    var DRIKEY = {"1":{"wid":"1","metadata":{"method":"booksdto","date":"2014-01-29T18:38:09.114Z"},"data":{"title":"Hello World!","pages":"40"}},"2":{"wid":"2","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:09.121Z"},"data":{"primarywid":"joe_jamison","secondarywid":"1","relationshiptype":"attributes"}},"3":{"wid":"3","metadata":{"method":"booksdto","date":"2014-01-29T18:38:09.786Z"},"data":{"title":"The Sands of Time","pages":"378"}},"4":{"wid":"4","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:09.818Z"},"data":{"primarywid":"sarah_jones","secondarywid":"3","relationshiptype":"attributes"}},"5":{"wid":"5","metadata":{"method":"booksdto","date":"2014-01-29T18:38:10.877Z"},"data":{"title":"Attack on the Mainframe","pages":"600"}},"6":{"wid":"6","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:10.884Z"},"data":{"primarywid":"mike_williams","secondarywid":"5","relationshiptype":"attributes"}},"7":{"wid":"7","metadata":{"method":"booksdto","date":"2014-01-29T18:38:12.310Z"},"data":{"title":"Carpentry 101","pages":"120"}},"8":{"wid":"8","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:12.316Z"},"data":{"primarywid":"jerry_stone","secondarywid":"7","relationshiptype":"attributes"}},"9":{"wid":"9","metadata":{"method":"booksdto","date":"2014-01-29T18:38:14.104Z"},"data":{"title":"The X Factor","pages":"300"}},"10":{"wid":"10","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:14.110Z"},"data":{"primarywid":"elizabeth_heart","secondarywid":"9","relationshiptype":"attributes"}},"11":{"wid":"11","metadata":{"method":"booksdto","date":"2014-01-29T18:38:18.805Z"},"data":{"title":"none","pages":"00"}},"12":{"wid":"12","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.812Z"},"data":{"primarywid":"startwid","secondarywid":"11","relationshiptype":"attributes"}},"13":{"wid":"13","metadata":{"method":"adddto","date":"2014-01-29T18:38:18.822Z"},"data":{}},"14":{"wid":"14","metadata":{"method":"actiondto","date":"2014-01-29T18:38:18.833Z"},"data":{"widname":"startwid","displayname":"Process Blur","actiondescription":"string","category":"blur","subcategory":"name","addthis.prexecute":"","addthis.executethis":"fieldrequired","addthis.postexecute":"getwidmaster"}},"15":{"wid":"15","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.841Z"},"data":{"primarywid":"13","secondarywid":"14","relationshiptype":"attributes"}},"16":{"wid":"16","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.850Z"},"data":{"primarywid":"startwid","secondarywid":"13","relationshiptype":"attributes"}},"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"authordto":{"wid":"authordto","metadata":{"method":"authordto","date":"2014-01-29T18:38:08.745Z"},"data":{"name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}},"booksdto":{"wid":"booksdto","metadata":{"method":"booksdto","date":"2014-01-29T18:38:08.747Z"},"data":{"title":"string","pages":"string"}},"adddto":{"wid":"adddto","metadata":{"method":"adddto","date":"2014-01-29T18:38:08.750Z"},"data":{"addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}},"addfield":{"wid":"addfield","metadata":{"method":"addfield","date":"2014-01-29T18:38:08.752Z"},"data":{"fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"}},"gojsobject":{"wid":"gojsobject","metadata":{"method":"gojsobject","date":"2014-01-29T18:38:08.754Z"},"data":{"class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}},"nodedataarray":{"wid":"nodedataarray","metadata":{"method":"nodedataarray","date":"2014-01-29T18:38:08.756Z"},"data":{"key":"string","loc":"string","leftArray":"onetomany","topArray":"onetomany","bottomArray":"onetomany","rightArray":"onetomany"}},"leftarray":{"wid":"leftarray","metadata":{"method":"leftarray","date":"2014-01-29T18:38:08.759Z"},"data":{"class":"string","portColor":"string","portId":"string"}},"toparray":{"wid":"toparray","metadata":{"method":"toparray","date":"2014-01-29T18:38:08.760Z"},"data":{"class":"string","portColor":"string","portId":"string"}},"bottomarray":{"wid":"bottomarray","metadata":{"method":"bottomarray","date":"2014-01-29T18:38:08.762Z"},"data":{"portColor":"string","portId":"string"}},"rightarray":{"wid":"rightarray","metadata":{"method":"rightarray","date":"2014-01-29T18:38:08.764Z"},"data":{"portColor":"string","portId":"string"}},"linkdataarray":{"wid":"linkdataarray","metadata":{"method":"linkdataarray","date":"2014-01-29T18:38:08.767Z"},"data":{"from":"string","to":"string","fromPort":"string","toPort":"string"}},"linkrules":{"wid":"linkrules","metadata":{"method":"linkrules","date":"2014-01-29T18:38:08.769Z"},"data":{"linkclass":"string","min":"string","max":"string"}},"actiondto":{"wid":"actiondto","metadata":{"method":"actiondto","date":"2014-01-29T18:38:08.772Z"},"data":{"displayname":"string","actiondescription":"string","category":"string","subcategory":"string","addthis.preexecute":"string","addthis.executethis":"string","addthis.postexecute":"string","defaultmasteractions":"inherit"}},"relbooktoauthor":{"wid":"relbooktoauthor","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.777Z"},"data":{"primarywid":"authordto","secondarywid":"booksdto","relationshiptype":"attributes"}},"reladddtotoauthor":{"wid":"reladddtotoauthor","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.779Z"},"data":{"primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"}},"gojsrel1":{"wid":"gojsrel1","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.781Z"},"data":{"primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"}},"gojsrel2":{"wid":"gojsrel2","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.783Z"},"data":{"primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"}},"gojsrel3":{"wid":"gojsrel3","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.785Z"},"data":{"primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"}},"gojsrel4":{"wid":"gojsrel4","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.787Z"},"data":{"primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"}},"gojsrel5":{"wid":"gojsrel5","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.789Z"},"data":{"primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"}},"gojsrel6":{"wid":"gojsrel6","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.793Z"},"data":{"primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"}},"rel_actiondto_adddto":{"wid":"rel_actiondto_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.796Z"},"data":{"primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"}},"rel_addfield_adddto":{"wid":"rel_addfield_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.799Z"},"data":{"primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"}},"rel_gojsobject_adddto":{"wid":"rel_gojsobject_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.801Z"},"data":{"primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"}},"rel_linkrules_adddto":{"wid":"rel_linkrules_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.803Z"},"data":{"primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}},"joe_jamison":{"wid":"joe_jamison","metadata":{"method":"authordto","date":"2014-01-29T18:38:09.107Z"},"data":{"name":"Joe Jamison","age":"32"}},"sarah_jones":{"wid":"sarah_jones","metadata":{"method":"authordto","date":"2014-01-29T18:38:09.783Z"},"data":{"name":"Sarah Jones","age":"40"}},"mike_williams":{"wid":"mike_williams","metadata":{"method":"authordto","date":"2014-01-29T18:38:10.874Z"},"data":{"name":"Mike Williams","age":"36"}},"jerry_stone":{"wid":"jerry_stone","metadata":{"method":"authordto","date":"2014-01-29T18:38:12.306Z"},"data":{"name":"Jerry Stone","age":"41"}},"elizabeth_heart":{"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-01-29T18:38:14.101Z"},"data":{"name":"Elizabeth Heart","age":"50"}},"startwid":{"wid":"startwid","metadata":{"method":"authordto","date":"2014-01-29T18:38:18.801Z"},"data":{"name":"start wid","age":"00"}}};
+    proxyprinttodiv('Function arrived in r11', "hello", 10);
+    var DRI = [{"wid":"initialwid","initialwid":"hello from bootprocess"},{"wid":"authordto","metadata":{"method":"authordto","date":"2014-01-29T18:38:08.745Z"},"data":{"name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}},{"wid":"booksdto","metadata":{"method":"booksdto","date":"2014-01-29T18:38:08.747Z"},"data":{"title":"string","pages":"string"}},{"wid":"adddto","metadata":{"method":"adddto","date":"2014-01-29T18:38:08.750Z"},"data":{"addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}},{"wid":"addfield","metadata":{"method":"addfield","date":"2014-01-29T18:38:08.752Z"},"data":{"fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"}},{"wid":"gojsobject","metadata":{"method":"gojsobject","date":"2014-01-29T18:38:08.754Z"},"data":{"class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}},{"wid":"nodedataarray","metadata":{"method":"nodedataarray","date":"2014-01-29T18:38:08.756Z"},"data":{"key":"string","loc":"string","leftArray":"onetomany","topArray":"onetomany","bottomArray":"onetomany","rightArray":"onetomany"}},{"wid":"leftarray","metadata":{"method":"leftarray","date":"2014-01-29T18:38:08.759Z"},"data":{"class":"string","portColor":"string","portId":"string"}},{"wid":"toparray","metadata":{"method":"toparray","date":"2014-01-29T18:38:08.760Z"},"data":{"class":"string","portColor":"string","portId":"string"}},{"wid":"bottomarray","metadata":{"method":"bottomarray","date":"2014-01-29T18:38:08.762Z"},"data":{"portColor":"string","portId":"string"}},{"wid":"rightarray","metadata":{"method":"rightarray","date":"2014-01-29T18:38:08.764Z"},"data":{"portColor":"string","portId":"string"}},{"wid":"linkdataarray","metadata":{"method":"linkdataarray","date":"2014-01-29T18:38:08.767Z"},"data":{"from":"string","to":"string","fromPort":"string","toPort":"string"}},{"wid":"linkrules","metadata":{"method":"linkrules","date":"2014-01-29T18:38:08.769Z"},"data":{"linkclass":"string","min":"string","max":"string"}},{"wid":"actiondto","metadata":{"method":"actiondto","date":"2014-01-29T18:38:08.772Z"},"data":{"displayname":"string","actiondescription":"string","category":"string","subcategory":"string","addthis.preexecute":"string","addthis.executethis":"string","addthis.postexecute":"string","defaultmasteractions":"inherit"}},{"wid":"relbooktoauthor","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.777Z"},"data":{"primarywid":"authordto","secondarywid":"booksdto","relationshiptype":"attributes"}},{"wid":"reladddtotoauthor","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.779Z"},"data":{"primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"}},{"wid":"gojsrel1","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.781Z"},"data":{"primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"}},{"wid":"gojsrel2","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.783Z"},"data":{"primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"}},{"wid":"gojsrel3","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.785Z"},"data":{"primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"}},{"wid":"gojsrel4","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.787Z"},"data":{"primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"}},{"wid":"gojsrel5","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.789Z"},"data":{"primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"}},{"wid":"gojsrel6","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.793Z"},"data":{"primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"}},{"wid":"rel_actiondto_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.796Z"},"data":{"primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"}},{"wid":"rel_addfield_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.710Z"},"data":{"primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"}},{"wid":"rel_gojsobject_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.801Z"},"data":{"primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"}},{"wid":"rel_linkrules_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.803Z"},"data":{"primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}},{"wid":"joe_jamison","metadata":{"method":"authordto","date":"2014-01-29T18:38:09.107Z"},"data":{"name":"Joe Jamison","age":"32"}},{"wid":"1","metadata":{"method":"booksdto","date":"2014-01-29T18:38:09.114Z"},"data":{"title":"Hello World!","pages":"40"}},{"wid":"2","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:09.121Z"},"data":{"primarywid":"joe_jamison","secondarywid":"1","relationshiptype":"attributes"}},{"wid":"sarah_jones","metadata":{"method":"authordto","date":"2014-01-29T18:38:09.783Z"},"data":{"name":"Sarah Jones","age":"40"}},{"wid":"3","metadata":{"method":"booksdto","date":"2014-01-29T18:38:09.786Z"},"data":{"title":"The Sands of Time","pages":"378"}},{"wid":"4","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:09.818Z"},"data":{"primarywid":"sarah_jones","secondarywid":"3","relationshiptype":"attributes"}},{"wid":"mike_williams","metadata":{"method":"authordto","date":"2014-01-29T18:38:10.874Z"},"data":{"name":"Mike Williams","age":"36"}},{"wid":"5","metadata":{"method":"booksdto","date":"2014-01-29T18:38:10.877Z"},"data":{"title":"Attack on the Mainframe","pages":"600"}},{"wid":"6","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:10.884Z"},"data":{"primarywid":"mike_williams","secondarywid":"5","relationshiptype":"attributes"}},{"wid":"jerry_stone","metadata":{"method":"authordto","date":"2014-01-29T18:38:12.306Z"},"data":{"name":"Jerry Stone","age":"41"}},{"wid":"7","metadata":{"method":"booksdto","date":"2014-01-29T18:38:12.310Z"},"data":{"title":"Carpentry 101","pages":"120"}},{"wid":"8","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:12.316Z"},"data":{"primarywid":"jerry_stone","secondarywid":"7","relationshiptype":"attributes"}},{"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-01-29T18:38:14.101Z"},"data":{"name":"Elizabeth Heart","age":"50"}},{"wid":"9","metadata":{"method":"booksdto","date":"2014-01-29T18:38:14.104Z"},"data":{"title":"The X Factor","pages":"300"}},{"wid":"10","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:14.110Z"},"data":{"primarywid":"elizabeth_heart","secondarywid":"9","relationshiptype":"attributes"}},{"wid":"startwid","metadata":{"method":"authordto","date":"2014-01-29T18:38:18.801Z"},"data":{"name":"start wid","age":"00"}},{"wid":"11","metadata":{"method":"booksdto","date":"2014-01-29T18:38:18.805Z"},"data":{"title":"none","pages":"00"}},{"wid":"12","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.812Z"},"data":{"primarywid":"startwid","secondarywid":"11","relationshiptype":"attributes"}},{"wid":"13","metadata":{"method":"adddto","date":"2014-01-29T18:38:18.822Z"},"data":{}},{"wid":"14","metadata":{"method":"actiondto","date":"2014-01-29T18:38:18.833Z"},"data":{"widname":"startwid","displayname":"Process Blur","actiondescription":"string","category":"blur","subcategory":"name","addthis.prexecute":"","addthis.executethis":"fieldrequired","addthis.postexecute":"getwidmaster"}},{"wid":"15","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.841Z"},"data":{"primarywid":"13","secondarywid":"14","relationshiptype":"attributes"}},{"wid":"16","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.850Z"},"data":{"primarywid":"startwid","secondarywid":"13","relationshiptype":"attributes"}}];
+    var DRIKEY = {"1":{"wid":"1","metadata":{"method":"booksdto","date":"2014-01-29T18:38:09.114Z"},"data":{"title":"Hello World!","pages":"40"}},"2":{"wid":"2","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:09.121Z"},"data":{"primarywid":"joe_jamison","secondarywid":"1","relationshiptype":"attributes"}},"3":{"wid":"3","metadata":{"method":"booksdto","date":"2014-01-29T18:38:09.786Z"},"data":{"title":"The Sands of Time","pages":"378"}},"4":{"wid":"4","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:09.818Z"},"data":{"primarywid":"sarah_jones","secondarywid":"3","relationshiptype":"attributes"}},"5":{"wid":"5","metadata":{"method":"booksdto","date":"2014-01-29T18:38:10.877Z"},"data":{"title":"Attack on the Mainframe","pages":"600"}},"6":{"wid":"6","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:10.884Z"},"data":{"primarywid":"mike_williams","secondarywid":"5","relationshiptype":"attributes"}},"7":{"wid":"7","metadata":{"method":"booksdto","date":"2014-01-29T18:38:12.310Z"},"data":{"title":"Carpentry 101","pages":"120"}},"8":{"wid":"8","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:12.316Z"},"data":{"primarywid":"jerry_stone","secondarywid":"7","relationshiptype":"attributes"}},"9":{"wid":"9","metadata":{"method":"booksdto","date":"2014-01-29T18:38:14.104Z"},"data":{"title":"The X Factor","pages":"300"}},"10":{"wid":"10","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:14.110Z"},"data":{"primarywid":"elizabeth_heart","secondarywid":"9","relationshiptype":"attributes"}},"11":{"wid":"11","metadata":{"method":"booksdto","date":"2014-01-29T18:38:18.805Z"},"data":{"title":"none","pages":"00"}},"12":{"wid":"12","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.812Z"},"data":{"primarywid":"startwid","secondarywid":"11","relationshiptype":"attributes"}},"13":{"wid":"13","metadata":{"method":"adddto","date":"2014-01-29T18:38:18.822Z"},"data":{}},"14":{"wid":"14","metadata":{"method":"actiondto","date":"2014-01-29T18:38:18.833Z"},"data":{"widname":"startwid","displayname":"Process Blur","actiondescription":"string","category":"blur","subcategory":"name","addthis.prexecute":"","addthis.executethis":"fieldrequired","addthis.postexecute":"getwidmaster"}},"15":{"wid":"15","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.841Z"},"data":{"primarywid":"13","secondarywid":"14","relationshiptype":"attributes"}},"16":{"wid":"16","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:18.850Z"},"data":{"primarywid":"startwid","secondarywid":"13","relationshiptype":"attributes"}},"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"authordto":{"wid":"authordto","metadata":{"method":"authordto","date":"2014-01-29T18:38:08.745Z"},"data":{"name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}},"booksdto":{"wid":"booksdto","metadata":{"method":"booksdto","date":"2014-01-29T18:38:08.747Z"},"data":{"title":"string","pages":"string"}},"adddto":{"wid":"adddto","metadata":{"method":"adddto","date":"2014-01-29T18:38:08.750Z"},"data":{"addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}},"addfield":{"wid":"addfield","metadata":{"method":"addfield","date":"2014-01-29T18:38:08.752Z"},"data":{"fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"}},"gojsobject":{"wid":"gojsobject","metadata":{"method":"gojsobject","date":"2014-01-29T18:38:08.754Z"},"data":{"class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}},"nodedataarray":{"wid":"nodedataarray","metadata":{"method":"nodedataarray","date":"2014-01-29T18:38:08.756Z"},"data":{"key":"string","loc":"string","leftArray":"onetomany","topArray":"onetomany","bottomArray":"onetomany","rightArray":"onetomany"}},"leftarray":{"wid":"leftarray","metadata":{"method":"leftarray","date":"2014-01-29T18:38:08.759Z"},"data":{"class":"string","portColor":"string","portId":"string"}},"toparray":{"wid":"toparray","metadata":{"method":"toparray","date":"2014-01-29T18:38:08.760Z"},"data":{"class":"string","portColor":"string","portId":"string"}},"bottomarray":{"wid":"bottomarray","metadata":{"method":"bottomarray","date":"2014-01-29T18:38:08.762Z"},"data":{"portColor":"string","portId":"string"}},"rightarray":{"wid":"rightarray","metadata":{"method":"rightarray","date":"2014-01-29T18:38:08.764Z"},"data":{"portColor":"string","portId":"string"}},"linkdataarray":{"wid":"linkdataarray","metadata":{"method":"linkdataarray","date":"2014-01-29T18:38:08.767Z"},"data":{"from":"string","to":"string","fromPort":"string","toPort":"string"}},"linkrules":{"wid":"linkrules","metadata":{"method":"linkrules","date":"2014-01-29T18:38:08.769Z"},"data":{"linkclass":"string","min":"string","max":"string"}},"actiondto":{"wid":"actiondto","metadata":{"method":"actiondto","date":"2014-01-29T18:38:08.772Z"},"data":{"displayname":"string","actiondescription":"string","category":"string","subcategory":"string","addthis.preexecute":"string","addthis.executethis":"string","addthis.postexecute":"string","defaultmasteractions":"inherit"}},"relbooktoauthor":{"wid":"relbooktoauthor","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.777Z"},"data":{"primarywid":"authordto","secondarywid":"booksdto","relationshiptype":"attributes"}},"reladddtotoauthor":{"wid":"reladddtotoauthor","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.779Z"},"data":{"primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"}},"gojsrel1":{"wid":"gojsrel1","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.781Z"},"data":{"primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"}},"gojsrel2":{"wid":"gojsrel2","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.783Z"},"data":{"primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"}},"gojsrel3":{"wid":"gojsrel3","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.785Z"},"data":{"primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"}},"gojsrel4":{"wid":"gojsrel4","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.787Z"},"data":{"primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"}},"gojsrel5":{"wid":"gojsrel5","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.789Z"},"data":{"primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"}},"gojsrel6":{"wid":"gojsrel6","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.793Z"},"data":{"primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"}},"rel_actiondto_adddto":{"wid":"rel_actiondto_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.796Z"},"data":{"primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"}},"rel_addfield_adddto":{"wid":"rel_addfield_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.710Z"},"data":{"primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"}},"rel_gojsobject_adddto":{"wid":"rel_gojsobject_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.801Z"},"data":{"primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"}},"rel_linkrules_adddto":{"wid":"rel_linkrules_adddto","metadata":{"method":"relationshipdto","date":"2014-01-29T18:38:08.803Z"},"data":{"primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}},"joe_jamison":{"wid":"joe_jamison","metadata":{"method":"authordto","date":"2014-01-29T18:38:09.107Z"},"data":{"name":"Joe Jamison","age":"32"}},"sarah_jones":{"wid":"sarah_jones","metadata":{"method":"authordto","date":"2014-01-29T18:38:09.783Z"},"data":{"name":"Sarah Jones","age":"40"}},"mike_williams":{"wid":"mike_williams","metadata":{"method":"authordto","date":"2014-01-29T18:38:10.874Z"},"data":{"name":"Mike Williams","age":"36"}},"jerry_stone":{"wid":"jerry_stone","metadata":{"method":"authordto","date":"2014-01-29T18:38:12.306Z"},"data":{"name":"Jerry Stone","age":"41"}},"elizabeth_heart":{"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-01-29T18:38:14.101Z"},"data":{"name":"Elizabeth Heart","age":"50"}},"startwid":{"wid":"startwid","metadata":{"method":"authordto","date":"2014-01-29T18:38:18.801Z"},"data":{"name":"start wid","age":"00"}}};
 
     addToLocalStorage("DRI", DRI);
     addToLocalStorage("DRIKEY", DRIKEY);
 
-    proxyprinttodiv('Function getwidmongo hit', null, 99);
+    proxyprinttodiv('Function getwidmongo hit', null, 10);
     debuglevel=10;
+    debugname="getwidmongo"
     getWidMongo("startwid", "", "", "", "", 10, function (err, res) {
         alert(JSON.stringify(res));
         callback({}, res)

@@ -53,7 +53,9 @@
         var wid;
         var output;
         var environmentdb;
-
+        var convertmethod=commandParams['command.convertmethod'];
+        //proxyprinttodiv('querywid convertmethod', convertmethod, 99);
+        //proxyprinttodiv('querywid commandParams', commandParams, 99);
         if (commandParams["db"]) {
             environmentdb = commandParams["db"]
         } else {
@@ -400,7 +402,7 @@
 
                     proxyprinttodiv('querywid before output', output, 28);
 
-                    output = formatListFinal(output, environmentdb);
+                    output = formatListFinal(output, environmentdb, convertmethod);
 
                     proxyprinttodiv('querywid after output', output, 28);
 
@@ -531,7 +533,7 @@
         }
     }
 
-    function formatListFinal(inlist, environmentdb) {
+    function formatListFinal(inlist, environmentdb, convertmethod) {
         // var widvalue;
         // var newobject = {};
         // var item;
@@ -556,7 +558,13 @@
                 record={};
                 proxyprinttodiv('querywid formatlist inlist[eachresult] ', inlist[eachresult], 1);
                 proxyprinttodiv('querywid formatlist convertfromdriformat(inlist[eachresult]) ', convertfromdriformat(inlist[eachresult]), 1);
-                record[inlist[eachresult]["wid"]]=convertfromdriformat(keydatabase[inlist[eachresult]["wid"]]);
+                if (convertmethod==="toobject") {
+                    record[inlist[eachresult]["wid"]]=keydatabase[inlist[eachresult]["wid"]];
+                    }
+                else {
+                    record[inlist[eachresult]["wid"]]=convertfromdriformat(keydatabase[inlist[eachresult]["wid"]]);
+                    }
+
                 output.push(record);  
                 }
 
@@ -1236,6 +1244,12 @@
             db = parameters["command.db"];
             commandParams["command.db"] = db;
             remove(parameters, "command.db");
+        }
+        var convertmethod = ""; // String
+        if (isParameterLower(parameters, "command.convertmethod")) {
+            convertmethod = parameters["command.convertmethod"];
+            commandParams["command.convertmethod"] = convertmethod;
+            remove(parameters, "command.convertmethod");
         }
 
         var mongowid = ""; // String
