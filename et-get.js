@@ -1453,6 +1453,8 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
                         var rightparameters = {};
                         var params;
                         var key;
+                        var metadataMethod;
+
                         proxyprinttodiv('Function getwidmongo moreDTOParameters[eachresult]', moreDTOParameters[eachresult],10);
                         for (key in moreDTOParameters[eachresult]) { // list is {wid : {}} --key = wid
                             rightparameters = moreDTOParameters[eachresult][key];
@@ -1475,13 +1477,18 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
                                 if (Object.keys(params).length!==0) {
                                     //parameterObject = extend(true, parameterObject, params);
                                     proxyprinttodiv('Function getwidmongo rightparameters before ', rightparameters, 10);
-                                    if (rightparameters["data"]["linktype"]==="onetomany") {
-                                        if (!parameterObject[params["metadata"]["method"]]) {parameterObject[params["metadata"]["method"]]=[]}
-                                            parameterObject[params["metadata"]["method"]].push(params); //&&&
-                                            }
-                                        else{ // if onetoone
-                                           parameterObject[params["metadata"]["method"]]=params;
-                                           }
+                                    if (rightparameters["data"]["linktype"] === "onetomany") {
+                                      
+                                        if (Object.prototype.toString.call(parameterObject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
+                                            parameterObject[rightparameters["metadata"]["method"]]=[]; 
+                                        }
+                                            
+                                        parameterObject[rightparameters["metadata"]["method"]].push(params); 
+                                
+                                        }
+                                        else { // if onetoone
+                                            parameterObject[rightparameters["metadata"]["method"]]=params;
+                                        }
                                     //parameterObject = jsonConcat(parameterObject, params); // &&&
                                     proxyprinttodiv('Function getwidmongo parameterObject after', parameterObject, 10);
                                     debugfn("getwidmongo aferrecurse", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
