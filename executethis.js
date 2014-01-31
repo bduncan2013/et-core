@@ -43,7 +43,7 @@
                     } else {
                         var item = [];
                         item.push({
-                            "fn": commandobject.executemethod
+                            "fn": "execute"
                         });
                         item.push(incomingparams[i]);
                         argsArray.push(item);
@@ -452,6 +452,15 @@
         var output = [];
         var fn = params[0]['fn'];
         var fnparams = params[1];
+
+        if(params[1] instanceof Array){
+            fnparams = params[1];
+        }else{
+            var arr = [];
+            arr.push(params[1]);
+            fnparams = arr;
+        }
+
         var fncallbck = function (err, resp) {
             // window[fn](parms, function (err, resp) {
             output.push(resp);
