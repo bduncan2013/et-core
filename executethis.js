@@ -14,19 +14,19 @@
 
     var execute, executethis, etexecute;
 
-    //     execute([
-    // {executethis: a, b:c, d:e},
-    // {executethis: f, g:h}
-    // {executethis: j: k:l}
-    // ],
-    // command: {type: waternfale, fn: exeucte, etc},
-    // callback
-    // );
+    //     in execute() if not array then proceed normal
+    //  if array then for then step through the top level of that array
+    // for each item in the array create an execute object for multiple
+    // after creating the array call multiple 
+    //     just before before calling execute one
+    // check to see if the object looks like this [{fn: ...if it does then proceed to execute one
+    // else step through item in eacttodo, for each call execute()
 
+    // then we would still need some more logic in mutiple
     // if ((incomingparams instanceof Array)) {
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
 
-        
+
         var result, preError, midError, overallError;
         // var incomingparams = {};
         // extend(true, incomingparams, received_params); // clone received params
@@ -252,7 +252,7 @@
                                     // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
                                     output.push(res);
                                     cb1(null);
-                                });    
+                                });
                             };
                         }
                         return fnArray;
@@ -366,7 +366,7 @@
         );
 
         executeone(data[0], function (err, res) {
-             proxyprinttodiv("mut1 - mut1 -- res ", res, 99);
+            proxyprinttodiv("mut1 - mut1 -- res ", res, 99);
             callback(err, res)
         });
     }
@@ -404,7 +404,46 @@
         );
 
         executethismultiple(data, function (err, res) {
-             proxyprinttodiv("mut2 - mut2 -- res ", res, 99);
+            proxyprinttodiv("mut2 - mut2 -- res ", res, 99);
+            callback(err, res)
+        });
+    }
+
+    exports.mut3 = mut3 = function mut3(params, callback) {
+        testclearstorage();
+
+        var data = [];
+        data.push(
+            [{
+                    "fn": "updatewid"
+                },
+                [{
+                    "wid": "test1",
+                    "c1": "d1"
+                }]
+            ]
+        );
+        data.push(
+            [{
+                    "fn": "getwid"
+                },
+                [{
+                    "wid": "test1"
+                }]
+            ]
+        );
+        data.push(
+            [{
+                    "fn": "getwid"
+                },
+                [{
+                    "wid": "test1"
+                }]
+            ]
+        );
+
+        executethismultiple(data, function (err, res) {
+            proxyprinttodiv("mut3 - mut3 -- res ", res, 99);
             callback(err, res)
         });
     }
