@@ -36,7 +36,7 @@
         var mQueryString = "";
 
         // Fish out params
-        proxyprinttodiv('querywid parameters I', parameters, 28);
+        proxyprinttodiv('querywid parameters I', parameters, 99);
         var p = fishOut(parameters);
         console.log('object that came back from fishOut => ' + JSON.stringify(p));
         proxyprinttodiv('querywid parameters', parameters, 28);
@@ -54,6 +54,7 @@
         var output;
         var environmentdb;
         var convertmethod=commandParams['command.convertmethod'];
+        var extraparameters={};
         //proxyprinttodiv('querywid convertmethod', convertmethod, 99);
         //proxyprinttodiv('querywid commandParams', commandParams, 99);
         if (commandParams["db"]) {
@@ -361,10 +362,14 @@
 
                         if ((relParams) && (Object.keys(relParams).length !== 0)) { // added 1/22
                             if (relParams["mongorelationshipdirection"] === 'forward') {
-                                 output = formatlist(output, "secondarywid", "wid", environmentdb);
+                                // get a copy of relationship records
+                                extraparameters=copylist(output, null,"secondarywid" , environmentdb);
+                                output = formatlist(output, "secondarywid", "wid", environmentdb);
                                 } 
                             if (relParams["mongorelationshipdirection"] === 'backward') 
                                  {
+                                 // get a copy of relationship records
+                                extraparameters=copylist(output, null,"primarywid" , environmentdb);
                                 output = formatlist(output, "primarywid", "wid", environmentdb);
                                 }
                             }
@@ -402,7 +407,7 @@
 
                     proxyprinttodiv('querywid before output', output, 28);
 
-                    output = formatListFinal(output, environmentdb, convertmethod);
+                    output = formatListFinal(output, environmentdb, convertmethod, extraparameters);
 
                     proxyprinttodiv('querywid after output', output, 28);
 
@@ -481,64 +486,114 @@
 
     // will go through list, look for a specific parameter, create a new list based on that parameter
 
-    function formatlist(inlist, parmnamein, parmnameout, environmentdb) {
-        var output = [];
+
+
+    // formatlist (inlist, parmnamein, parmnameout, environment) 
+    //     inlist must be a list in standard mongo output: [{}, {}, {}]
+    //     this funcitin converts this list to [x:{}, x:{}, x:{}] or [{x:{}}, {x:{}}, {x:{}}]
+    //     it looks for parmnamein/out in {} ... based on what it finds produces a result
+    //     execpetions...if parmaneout="wid" then x will be "wid"
+    //     if parmnamein = "" then entire envrionendb (entire record will be sent)
+function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         var widvalue;
+        var item;
+        var i;
+        var obj = {};
+        var wid = {};
 
         if (inlist === undefined || inlist.length === 0) {
             return [];
         } else {
+            proxyprinttodiv('querywid copylist inlist ', inlist, 28);
 
-            // formatlist (inlist, parmnamein, parmnameout) 
-            //     inlist must be a list in standard mongo output:
-            //     [{}, {}, {}]
-            //     produces a list in dri wid list format
-            //     [wid:{}, wid:{}, wid:{}]
-            // &&& roger it show("")ould always get a list and produce list -- necessit of if statement would be warning something wrong
-            //if(inlist instanceof Array){
-            //for (var i=0; i< inlist.length; i++) {
+
+            proxyprinttodiv('querywid copylist parmnameout ', parmnameout, 28);
+            proxyprinttodiv('querywid copylist parmnamein ', parmnamein, 28);
             for (i in inlist) { // changed by roger &&&
-                var item = inlist[i];
+                item = inlist[i];
 
                 item = ConvertFromDOTdri(item);
+                proxyprinttodiv('querywid copylist item ', item, 28);
+
+                widvalue = item[environmentdb][parmnameout];
+
+                proxyprinttodiv('querywid copylist widvalue ', widvalue, 28);
+
+                if (parmnamein) {
+                     obj[widvalue] = item[environmentdb][parmnamein];
+                    }
+                else{
+                    obj[widvalue] = item[environmentdb];
+                    }
+               
+                proxyprinttodiv('querywid copylist obj ', obj, 28);
 
 
-                if (!parmnameout) {
-                    widvalue = item['wid']
-                } else {
-                    widvalue = parmnameout
-                };
+                    //[x:{}, x:{}, x:{}] 
 
-                var obj = {};
-                obj[widvalue] = item[environmentdb][parmnamein];
-                //obj["wid"] = widvalue;
-
-
-                output.push(obj); // &&& roger
-                //output[widvalue] = item[parmnamein]
             }
-            // }else if(inlist instanceof Object){
-            //     for (var item in inlist) {
-            //         if (!parmnameout) {
-            //             widvalue = item['wid']
-            //         } else {
-            //             widvalue = parmnameout
-            //         };
-            //         output.push({widvalue:item[parmnamein]}); // &&& roger
-            //         //output[widvalue] = item[parmnamein]
-            //     }
-            //     output[0] = output; // convert list to object
-            // }
+            proxyprinttodiv('querywid copylist obj ', obj, 28);
+            return obj;
+        }
+    }
+
+    function formatlist(inlist, parmnamein, parmnameout, environmentdb) {
+        var output = [];
+        var widvalue;
+        var item;
+        var i;
+        var obj = {};
+        var wid = {};
+
+        if (inlist === undefined || inlist.length === 0) {
+            return [];
+        } else {
+            proxyprinttodiv('querywid formatlist inlist ', inlist, 28);
+
+
+            proxyprinttodiv('querywid formatlist parmnameout ', parmnameout, 28);
+            proxyprinttodiv('querywid formatlist parmnamein ', parmnamein, 28);
+            for (i in inlist) { // changed by roger &&&
+                item = inlist[i];
+
+                item = ConvertFromDOTdri(item);
+                proxyprinttodiv('querywid formatlist item ', item, 28);
+
+                if (parmnameout!=="wid") {
+                    widvalue = item[environmentdb][parmnameout];
+                    }
+                else {
+                    widvalue = "wid"
+                    }
+
+                proxyprinttodiv('querywid formatlist widvalue ', widvalue, 28);
+                obj = {};
+                if (parmnamein) {
+                     obj[widvalue] = item[environmentdb][parmnamein];
+                    }
+                else{
+                    obj[widvalue] = item[environmentdb];
+                    }
+               
+                proxyprinttodiv('querywid formatlist obj[widvalue] ', obj[widvalue], 28);
+
+                if (parmnameout==="wid") {
+                    output.push(obj); // [{x:{}}, {x:{}}, {x:{}}]
+                    }
+                else {
+                    output[widvalue] = obj[widvalue]
+                    //[x:{}, x:{}, x:{}] 
+                }
+
+            }
+            proxyprinttodiv('querywid formatlist output ', output, 28);
             return output
         }
     }
 
-    function formatListFinal(inlist, environmentdb, convertmethod) {
-        // var widvalue;
-        // var newobject = {};
-        // var item;
-        // var obj={};
-        // var wid;
+    // takes inlist, looks for wid, then goes to main database to get a get clean complete converted copy of that wid
+    // also looks in extra paramters, append information found about that wid to results also
+    function formatListFinal(inlist, environmentdb, convertmethod, extraparameters) {
         var output = [];
         var keycollection = "DRIKEY";
         var keydatabase={};
@@ -546,6 +601,8 @@
         var database = {};
         var record;
         var eachresult;
+        var widrecord;
+        var extrarecord = {};
 
         if (inlist === undefined || inlist.length === 0) {
             return [];
@@ -553,57 +610,34 @@
 
         keydatabase = getFromLocalStorage(keycollection);
 
-        proxyprinttodiv('querywid formatlist inlist ', inlist, 1);
+        proxyprinttodiv('querywid finalformatlist inlist ', inlist, 28);
+        proxyprinttodiv('querywid finalformatlist extraparameters ', extraparameters, 28);
             for (eachresult in inlist) { 
                 record={};
-                proxyprinttodiv('querywid formatlist inlist[eachresult] ', inlist[eachresult], 1);
-                proxyprinttodiv('querywid formatlist convertfromdriformat(inlist[eachresult]) ', convertfromdriformat(inlist[eachresult]), 1);
+                wid = inlist[eachresult]["wid"];
+                proxyprinttodiv('querywid finalformatlist wid ', wid, 28);
+                proxyprinttodiv('querywid finalformatlist keydatabase[wid] ', keydatabase[wid], 28);
+
+                widrecord = keydatabase[wid];
+                extrarecord[environmentdb]=extraparameters[wid]
+                proxyprinttodiv('querywid finalformatlist widrecord', widrecord, 28);
+                proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
+                widrecord = extend(true ,widrecord, extrarecord);
+                proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 28);
+
                 if (convertmethod==="toobject") {
-                    record[inlist[eachresult]["wid"]]=keydatabase[inlist[eachresult]["wid"]];
+                    record[wid]=widrecord;
                     }
                 else {
-                    record[inlist[eachresult]["wid"]]=convertfromdriformat(keydatabase[inlist[eachresult]["wid"]]);
+                    record[wid]=convertfromdriformat(widrecord);
                     }
 
                 output.push(record);  
                 }
 
-            // for (i in inlist) { 
-            //     item = inlist[i];
-            //     obj = {};
-                // item = ConvertFromDOTdri(item);
-                // //proxyprinttodiv('querywid formatlist item', item, 1);
-
-                // if (item && countKeys(item) > 0) {
-                //     if (item[environmentdb]) {
-                //         obj = item[environmentdb];
-                //     }
-
-
-                // if (!wid) {wid=""};
-                // obj['wid'] = wid;
-
-                // if (item['metadata']) {
-                //         obj['metadata.method'] = item['metadata']['method'];
-                //     } else {
-                //         obj['metadata.method'] = "";
-                //     }
-                // }
-
-                // newobject={};
-                // newobject[wid] = obj;
-                // proxyprinttodiv('querywid formatlist newobject', newobject, 28);
-                // output.push(newobject); 
-                // // format 
-                // [
-                // {wid1: {wid:wid1, a:b, c:d}}
-                // {wid2: {wid:wid2, a:b, c:d}}
-                // {wid3: {wid:wid3, a:b, c:d}}
-                // ]
-
-            } // else
             return output
         }
+    }
 
     //in: key, value, preamble 
     //out STRING: {preamble.key: value}

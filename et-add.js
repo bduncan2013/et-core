@@ -530,11 +530,15 @@
                     });
                     InList.push({
                         "key": "relationshiptype",
-                        "value": attr.toLowerCase()
+                        "value": "attributes"
                     });
                     InList.push({
                         "key": "metadata.method",
                         "value": "relationshipdto"
+                    });
+                    InList.push({
+                        "key": "linktype",
+                        "value": attr.toLowerCase()
                     });
                     debugfn("AddMongoRelationship", "step1", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb("");
@@ -1182,7 +1186,7 @@
 
                                                     function step4n4n1n3(cb) {
                                                         debugfn("addmaster before add rel II", "addrecord", "add", "add", 2, 1, debugvars([5]));
-                                                        AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
+                                                        AddMongoRelationship(ParentWid, ChildWid, attr, function (err, res) {
                                                             debugfn("addmaster code generator", "addrecord", "add", "code", 2, 1, {
                                                                 0: originalarguments,
                                                                 1: res,
@@ -1257,7 +1261,7 @@
                                                     },
                                                     function step4n6n3(cb) {
                                                         debugfn("addmaster before add rel II", "addrecord", "add", "add", 2, 1, debugvars([5]));
-                                                        AddMongoRelationship(ParentWid, ChildWid, "attributes", function (err, res) {
+                                                        AddMongoRelationship(ParentWid, ChildWid, attr, function (err, res) {
                                                                 debugfn("addmaster code gen AddMongoRelationship", "addrecord", "add", "code", 2, 1, {
                                                                         0: originalarguments,
                                                                         1: res,

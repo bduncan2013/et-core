@@ -230,7 +230,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
         function (err, res) {
             var etenvironment = {
                 "ac": "abcd1234abcd1234abcd1234abcd1234",
-                "action": "getwidmaster",
+                "action": "getwidmongo",
                 // "account": "admin",
                 "account": "staff",
                 "db": "db"
@@ -246,7 +246,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
             var request1 = {
                 "etenvironment": etenvironment,
                 // "command": commandobject,
-                "executethis": "getwidmaster",
+                "executethis": "getwidmongo",
                 "wid": "stuff1",
                 "metadata.method":"testdto"
             };

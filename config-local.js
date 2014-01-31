@@ -574,6 +574,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     var keycollection = "DRIKEY";
     var database = {};
     var keydatabase = {};
+    var eachwid;
 
     database = getFromLocalStorage(collection);
 
@@ -604,7 +605,8 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 
     keydatabase=getFromLocalStorage(keycollection);
     for (eachrecord in outlist) {
-        resultlist.push(keydatabase[outlist[eachrecord]["wid"]]);
+        eachwid=keydatabase[outlist[eachrecord]["wid"]]
+        resultlist.push(eachwid);
         }
 
     proxyprinttodiv('Function outlist', outlist, 30);

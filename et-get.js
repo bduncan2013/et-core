@@ -537,9 +537,9 @@
 
                     getWidMongo(wid, convertMethod, accesstoken, dtotype, "", 10, function (err, data) { //TODO consider -- DONE -- Remove 4th postion ""
                         if(!data){
-                            resultObj = data;
+                            resultObj = {};
                         }else{
-                            resultObj = converttodotdri(data);
+                            resultObj = ConvertToDOTdri(data);
                         } 
                         debugfn("getwidmaster step1 b", "getwidmaster", "get", "step1", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'one');
@@ -1355,6 +1355,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
                 
                 if (Object.keys(res).length != 0) {
                     parameterObject = res;
+                    proxyprinttodiv('Function getwidmongo getwid res', res,10);
                     moreDTOParameters=parameterObject;
                     // debugfn("aggressivedto getwid", "aggressivedto", "get", "begin", debugcolor, debugindent, debugvars([1]));
                     // if ((parameterObject["metadata.method"]) && (parameterObject["metadata.method"]!=targetwid)) {
@@ -1471,16 +1472,24 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod
                                 proxyprinttodiv('Function getwidmongo params', params, 10);
                                 debugcolor--
                                 debugindent--
-                                if (Object.keys(params).length) {
+                                if (Object.keys(params).length!==0) {
                                     //parameterObject = extend(true, parameterObject, params);
-                                    proxyprinttodiv('Function getwidmongo parameterObject before ', parameterObject, 10);
-                                    if (!parameterObject[params["metadata"]["method"]]) {parameterObject[params["metadata"]["method"]]=[]}
-                                    parameterObject[params["metadata"]["method"]].push(params); //&&&
+                                    proxyprinttodiv('Function getwidmongo rightparameters before ', rightparameters, 10);
+                                    if (rightparameters["data"]["linktype"]==="onetomany") {
+                                        if (!parameterObject[params["metadata"]["method"]]) {parameterObject[params["metadata"]["method"]]=[]}
+                                            parameterObject[params["metadata"]["method"]].push(params); //&&&
+                                            }
+                                        else{ // if onetoone
+                                           parameterObject[params["metadata"]["method"]]=params;
+                                           }
                                     //parameterObject = jsonConcat(parameterObject, params); // &&&
                                     proxyprinttodiv('Function getwidmongo parameterObject after', parameterObject, 10);
                                     debugfn("getwidmongo aferrecurse", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
                                     //cbn1(null);
-                                }
+                                   }
+                                else { // if nothing returned
+
+                                    }
                             });
                                     //}
                                 // ],

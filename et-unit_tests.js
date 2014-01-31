@@ -101,8 +101,8 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
 
             ettestctt(result, function (err, result) {
                 // ettestagtt(result, function () {
-                // 	var err;
-                // 	callback(err, result);	
+                //  var err;
+                //  callback(err, result);  
                 // });
                 var err;
                 callback(err, result);
@@ -176,34 +176,34 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             "executethis": "ettestct1"
         }, {
             "executethis": "ettestct2"
-            },{
+        }, {
             "executethis": "ettestct3"
-            },{ 
+        }, {
             "executethis": "ettestct3a"
-            },{ 
+        }, {
             "executethis": "ettestct4"
-            },{ 
+        }, {
             "executethis": "ettestct4a"
-            },{
+        }, {
             "executethis": "ettestct5"
-            },{ 
+        }, {
             "executethis": "ettestct6"
-            },{
+        }, {
             "executethis": "ettestct7"
             // ct8 will break the ctt test run
             // // },{ 
             // // "executethis": "ettestct8"
-            },{ 
+        }, {
             "executethis": "ettestct9"
-            },{ 
+        }, {
             "executethis": "ettestct10"
-            },{
+        }, {
             "executethis": "ettestct11"
-            },{ 
+        }, {
             "executethis": "ettestct13"
-            },{
+        }, {
             "executethis": "ettestct14"
-            },{ 
+        }, {
             "executethis": "ettestct15"
             // These still need the configs to be converted to be passed in as parameters.
             // ct16 will break the ctt test run
@@ -259,6 +259,9 @@ exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
         callback(err, res)
     });
 }
+
+
+
 // Not an 'at' test...used to test the verify system. This is a passing test.
 exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
     testclearstorage();
@@ -1335,27 +1338,27 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
 // // This test is to test a config where a config with params is sent to pre, mid, and post.
 // // The results should have the a,b,c cereals, along with the regular params.
 // exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
-// 	testclearstorage();
-// 	config = setconfig6();
-// 	execute([{
-// 		"executethis": "func_b",
-// 		"preexecute": "func_a",
-// 		"postexecute": "func_c",
-// 		"c": "0",
-// 		"d": "1",
-// 		"e": "2"
-// 	}],
-// 	function (err, res) {
-// 		res = logverify("ettestct14_result", res[0][0], {
-// 		"g": "4",
-// 		"cer2": "booberry",
-// 		"cer1": "alphabits",
-// 		"f": "3",
-// 		"cer3": "chex",
-// 		"h": "5"
-// 	});
-// 	callback(err, res);
-// 	});
+//  testclearstorage();
+//  config = setconfig6();
+//  execute([{
+//      "executethis": "func_b",
+//      "preexecute": "func_a",
+//      "postexecute": "func_c",
+//      "c": "0",
+//      "d": "1",
+//      "e": "2"
+//  }],
+//  function (err, res) {
+//      res = logverify("ettestct14_result", res[0][0], {
+//      "g": "4",
+//      "cer2": "booberry",
+//      "cer1": "alphabits",
+//      "f": "3",
+//      "cer3": "chex",
+//      "h": "5"
+//  });
+//  callback(err, res);
+//  });
 // }
 
 // Here is the modified ct14 test
@@ -1830,7 +1833,7 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
             "wid": "sounddto"
         }],
         function (err, res) {
-        	proxyprinttodiv('Function ag1 result ', res, 99);
+            proxyprinttodiv('Function ag1 result ', res, 99);
             res = logverify("ettestag1_result", res[1][0], {
                 "note": "string",
                 "wid": "sounddto",
@@ -1843,25 +1846,25 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
 // // This will test the ability to write a dto to the db, use that dto to write
 // // a wid with that dto, and get the results of getting that wid.
 // exports.ag211 = ag211 = function ag211(params, callback) {
-// 	// testclearstorage();
-// 	// ag2_setup();
-// 	executetest("getwidmaster", {
-// 		"wid": "color1"
-// 	}, "get_color1_result", "");
+//  // testclearstorage();
+//  // ag2_setup();
+//  executetest("getwidmaster", {
+//      "wid": "color1"
+//  }, "get_color1_result", "");
 
-// 	params = logverify("alpha_unit_tests", "ag2_result", "get_color1_result", "", "", {
-// 		"hue": "red",
-// 		"wid": "color1",
-// 		"metadata.method": "defaultdto"
-// 	});
+//  params = logverify("alpha_unit_tests", "ag2_result", "get_color1_result", "", "", {
+//      "hue": "red",
+//      "wid": "color1",
+//      "metadata.method": "defaultdto"
+//  });
 
-// 	console.log(' >>>>>> ' + params);
+//  console.log(' >>>>>> ' + params);
 
-// 	if (callback instanceof Function) {
-// 		var err;callback(err,params);
-// 	} else {
-// 		return params;
-// 	}
+//  if (callback instanceof Function) {
+//      var err;callback(err,params);
+//  } else {
+//      return params;
+//  }
 // }
 
 // This will test the ability to write a dto to the db, use that dto to write
@@ -1940,34 +1943,34 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             "wid": "song1"
         }],
         // execute([{
-        // 	"executethis": "updatewid", 
-        // 	"wid": "authordto",
-        // 	"metadata.method": "authordto",
-        // 	"Author": "string"
+        //  "executethis": "updatewid", 
+        //  "wid": "authordto",
+        //  "metadata.method": "authordto",
+        //  "Author": "string"
         // },
-        // {	
-        // 	"executethis": "updatewid", 
-        // 	"wid": "bookdto",
-        // 	"metadata.method": "bookdto",
-        // 	"title": "string"
+        // {    
+        //  "executethis": "updatewid", 
+        //  "wid": "bookdto",
+        //  "metadata.method": "bookdto",
+        //  "title": "string"
         // },
-        // {	
-        // 	"executethis": "updatewid", 
-        // 	"wid": "rel_author_to_book",
-        // 	"primarywid": "authordto",
-        // 	"secondarywid": "bookdto",
-        // 	"relationshiptype": "attributes"
+        // {    
+        //  "executethis": "updatewid", 
+        //  "wid": "rel_author_to_book",
+        //  "primarywid": "authordto",
+        //  "secondarywid": "bookdto",
+        //  "relationshiptype": "attributes"
         // },
-        // {	
-        // 	"executethis": "updatewid", 
-        // 	"wid": "book1",
-        // 	"metadata.method": "bookdto",
-        // 	"title": "The book of testing",
-        // 	"authordto.0.author": "Sammy Sample"
+        // {    
+        //  "executethis": "updatewid", 
+        //  "wid": "book1",
+        //  "metadata.method": "bookdto",
+        //  "title": "The book of testing",
+        //  "authordto.0.author": "Sammy Sample"
         // },
         // {
-        // 	"executethis": "getwidmaster",
-        // 	"wid": "book1"
+        //  "executethis": "getwidmaster",
+        //  "wid": "book1"
         // }],
 
         function (err, res) {
@@ -2024,7 +2027,7 @@ exports.sleep = sleep = function sleep(milliseconds) {
 //     // var f = function (){
 //     // sleep(3000);
 //     // parameters["m"] = "now you waited for 1000 ms";
-//     // printToDiv('func_async',parameters,1);	
+//     // printToDiv('func_async',parameters,1);    
 //     // };
 //     // f();
 
@@ -2096,13 +2099,13 @@ exports.ettestseries = ettestseries = function ettestseries(params, callback) {
             "c": "0",
             "d": "1",
             "e": "2",
-            "wid":"test"
-        },{
+            "wid": "test"
+        }, {
             "executethis": "addwid",
-            "wid":"subtest"
-        },{
+            "wid": "subtest"
+        }, {
             "executethis": "getwid",
-            "wid":"test"
+            "wid": "test"
         }],
         function (err, res) {
             res = logverify("ettestt3a_result", res[0][0], {
@@ -2112,4 +2115,141 @@ exports.ettestseries = ettestseries = function ettestseries(params, callback) {
             });
             callback(err, res);
         });
+}
+
+exports.ettestmultiple = ettestmultiple = function ettestmultiple(params, callback) {
+    testclearstorage();
+    var commandobject = {};
+    commandobject['executemethod'] = "execute";
+    commandobject['executelimit'] = 15;
+    commandobject['executeorder'] = 'series';
+    commandobject['executefilter'] = 'addwid';
+
+    var parameters = [
+        [{
+            "fn": "updatewid"
+        }, {
+            "wid": "a",
+            "a1": "a2",
+            "b1": "b2"
+        }]
+    ];
+
+    // executethismultiple(parameters, commandobject, function(err,res){
+    // alert(JSON.stringify(res));
+    var assert = [
+        [{
+            "fn": "updatewid"
+        }],
+        [{
+            "wid": "a",
+            "a1": "a2",
+            "b1": "b2"
+        }]
+    ];
+    test_and_verify("executethismultiple", "execute", parameters, assert, function (err, res) {
+        proxyprinttodiv('Function ettestmultiple result ', res, 99);
+        callback(err, res)
+    });
+    // });
+    // test_and_verify("executethismultiple", parameters, assert, function (err, res) {
+    //     callback(err, res)
+    // });
+}
+
+exports.ettestmultiple1 = ettestmultiple1 = function ettestmultiple1(params, callback) {
+    testclearstorage();
+    var commandobject = {};
+    commandobject['executemethod'] = "execute";
+    commandobject['executelimit'] = 15;
+    commandobject['executeorder'] = 'series';
+    commandobject['executefilter'] = 'addwid';
+
+    var parameters = [
+        [{
+            "fn": "ettestt1"
+        }, {}],
+        [{
+            "fn": "ettestmultiple"
+        }, {}],
+        [{
+            "fn": "ettestt1"
+        }, {}],
+        [{
+            "fn": "ettestmultiple"
+        }, {}]
+    ];
+
+    var assert = [];
+    // executethismultiple(parameters, commandobject, function(err,res){
+    // alert(JSON.stringify(res));
+    test_and_verify("ettestmultiple1", "execute", parameters, assert, function (err, res) {
+        proxyprinttodiv('Function ettestmultiple1 result ', res, 99);
+        callback(err, res)
+    });
+    // });
+    // test_and_verify("executethismultiple", parameters, assert, function (err, res) {
+    //     callback(err, res)
+    // });
+}
+
+
+exports.mut = mut = function mut(params, callback) {
+    testclearstorage();
+
+    var commandobject = {};
+    commandobject['executemethod'] = "execute";
+    commandobject['executelimit'] = 15;
+    commandobject['executeorder'] = 'series';
+    commandobject['executefilter'] = 'addwid';
+    // commandobject['executefilter'] = 'offlineupdatewid';
+
+    var data = [];
+    data.push(
+        [{
+                "fn": "func_b2"
+            },
+            [
+                "test", {
+                    "a": "b"
+                }, {
+                    "c": "d"
+                }
+            ]
+        ]
+    );
+
+
+    executethismultiple(data, commandobject, function (err, res) {
+        callback(err, res)
+    });
+}
+
+
+function func_b2(p1, p2, p3, callback) {
+    var data = {};
+    data = jsonConcat(p2, p3);
+    data[p1] = 'hello';
+
+    var err;
+    callback({}, data);
+}
+
+
+function b2c(params, callback) {
+    executeone([[{"fn":"func_b22"},["test", {
+        "a": "b"
+    }, {
+        "c": "d"
+    }]]],undefined,callback);
+}
+
+
+
+function func_b22(params, callback) {
+    func_b2("test", {
+        "a": "b"
+    }, {
+        "c": "d"
+    }, callback);
 }

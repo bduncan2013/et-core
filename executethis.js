@@ -24,30 +24,9 @@
     // );
 
     // if ((incomingparams instanceof Array)) {
-    exports.execute = window.execute = execute = function execute() {
+    exports.execute = window.execute = execute = function execute(incomingparams, callback) {
 
-        var defaultCommandObject = {};
-        defaultCommandObject['executefilter'] = 'addwid';
-        defaultCommandObject['executelimit'] = 15;
-        defaultCommandObject['executemethod'] = 'execute';
-        defaultCommandObject['executeorder'] = 'series';
-
-        var incomingparams, commandobject, callback;
-        if (arguments[2]) {
-            if (arguments[1] && arguments[1].executefilter && arguments[1].executemethod && arguments[1].executeorder && arguments[1].executelimit) {
-                // replace default commandobject with passed in one
-                defaultCommandObject = arguments[1];
-            }
-
-            incomingparams = arguments[0];
-            commandobject = defaultCommandObject;
-            callback = arguments[2];
-        } else {
-            incomingparams = arguments[0];
-            commandobject = defaultCommandObject;
-            callback = arguments[1];
-        }
-
+        
         var result, preError, midError, overallError;
         // var incomingparams = {};
         // extend(true, incomingparams, received_params); // clone received params
@@ -75,7 +54,7 @@
             var argsArray = [];
             populateArray(argsArray, incomingparams);
 
-            executethismultiple(argsArray, commandobject, callback);
+            executethismultiple(argsArray, callback);
 
 
         } else {
@@ -176,7 +155,20 @@
     //     });
     // }
 
-    exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(todolist, commandobject, callback) {
+    exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(todolist, callback, commandobject) {
+
+        var defaultCommandObject = {};
+        defaultCommandObject['executefilter'] = 'addwid';
+        defaultCommandObject['executelimit'] = 15;
+        defaultCommandObject['executemethod'] = 'execute';
+        defaultCommandObject['executeorder'] = 'series';
+
+        if (commandobject) {
+            defaultCommandObject = arguments[2];
+        }
+
+        commandobject = defaultCommandObject;
+
 
         if (false) {
             var output = [];
@@ -187,7 +179,7 @@
 
                 if (parms instanceof Array) {
 
-                    executethismultiple(parms, undefined, function (err, resp) {
+                    executethismultiple(parms, function (err, resp) {
                         // output.push(resp);
                         cbMap(null);
                     });
@@ -218,9 +210,9 @@
             async.filter(todolist, filterParams, function (filteredParams) {
 
                 //filter 1st n request only
-                if(filteredParams && (filteredParams.length > commandobject.executelimit)){
+                if (filteredParams && (filteredParams.length > commandobject.executelimit)) {
                     filteredParams = filteredParams.splice(15);
-                }    
+                }
 
                 var output = [];
                 switch (commandobject.executeorder) {
@@ -228,13 +220,9 @@
 
                 case 'series':
                     async.mapSeries(filteredParams, function (eachtodo, cbMap) {
-                        proxyprinttodiv("executethismultiple - iteration - eachtodo ", eachtodo, 99);
-                        var fn = eachtodo[0]['fn'];
-                        var parms = eachtodo[1];
-                        // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
-                        window[fn](parms, function (err, resp) {
-                            // window[fn](parms, function (err, resp) {
-                            output.push(resp);
+                        executeone(eachtodo, function (err, res) {
+                            // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
+                            output.push(res);
                             cbMap(null);
                         });
                     }, function (err, resp) {
@@ -260,15 +248,11 @@
 
                         function getFunction(params) {
                             return function (cb1) {
-                                var fn = params[0]['fn'];
-                                var fnparms = params[1];
-                                // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
-                                window[fn](fnparms, function (err, resp) {
-                                    // window[fn](parms, function (err, resp) {
-                                    output.push(resp);
-                                    // cbMap(null);
+                                executeone(params, function (err, res) {
+                                    // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
+                                    output.push(res);
                                     cb1(null);
-                                });
+                                });    
                             };
                         }
                         return fnArray;
@@ -303,11 +287,8 @@
 
                     async.map(filteredParams, function (eachtodo, cbMap) {
                         proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 99);
-                        var fn = eachtodo[0]['fn'];
-                        var parms = eachtodo[1];
-                        window[fn](parms, function (err, resp) {
-                            // window[fn](parms, function (err, resp) {
-                            output.push(resp);
+                        executeone(eachtodo, function (err, res) {
+                            output.push(res);
                             cbMap(null);
                         });
                     }, function (err, resp) {
@@ -363,6 +344,85 @@
                 callback(err, res);
             }
         );
+    }
+
+
+    exports.mut1 = mut1 = function mut1(params, callback) {
+        testclearstorage();
+
+        var data = [];
+        data.push(
+            [{
+                    "fn": "func_b2"
+                },
+                [
+                    "test", {
+                        "a": "b"
+                    }, {
+                        "c": "d"
+                    }
+                ]
+            ]
+        );
+
+        executeone(data[0], function (err, res) {
+             proxyprinttodiv("mut1 - mut1 -- res ", res, 99);
+            callback(err, res)
+        });
+    }
+
+
+    exports.mut2 = mut2 = function mut2(params, callback) {
+        testclearstorage();
+
+        var data = [];
+        data.push(
+            [{
+                    "fn": "func_b2"
+                },
+                [
+                    "test", {
+                        "a": "b"
+                    }, {
+                        "c": "d"
+                    }
+                ]
+            ]
+        );
+        data.push(
+            [{
+                    "fn": "func_b2"
+                },
+                [
+                    "test", {
+                        "a": "b"
+                    }, {
+                        "c": "d"
+                    }
+                ]
+            ]
+        );
+
+        executethismultiple(data, function (err, res) {
+             proxyprinttodiv("mut2 - mut2 -- res ", res, 99);
+            callback(err, res)
+        });
+    }
+
+    exports.executeone = executeone = function executeone(params, callback) {
+        var output = [];
+        var fn = params[0]['fn'];
+        var fnparams = params[1];
+        var fncallbck = function (err, resp) {
+            // window[fn](parms, function (err, resp) {
+            output.push(resp);
+            proxyprinttodiv("executeone - output ", output, 99);
+            // cbMap(null);
+            callback(err, output);
+        };
+        fnparams.push(fncallbck);
+        // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
+        window[fn].apply(window, fnparams);
     }
 
 
@@ -1249,6 +1309,36 @@
     //     executethismultiple(paramsarray, parameters.command.executemethod, parameters.command.executefilter,
     //         parameters.command.executeorder, parameters.command.executelimit, callback);
     // }
+
+
+    function test121212(todolist, commandobject, callback) {
+
+        var defaultCommandObject = {};
+        defaultCommandObject['executefilter'] = 'addwid';
+        defaultCommandObject['executelimit'] = 15;
+        defaultCommandObject['executemethod'] = 'execute';
+        defaultCommandObject['executeorder'] = 'series';
+
+        if (!commandobject) {
+            commandobject = defaultCommandObject;
+        }
+
+        todolist = [
+            [{
+                    "fn": "func_b22"
+                },
+                ["test", {
+                    "a": "b"
+                }, {
+                    "c": "d"
+                }]
+            ]
+        ];
+
+        executethismultiple(todolist, commandobject, callback);
+
+
+    }
 })(typeof window == "undefined" ? global : window);
 
 
