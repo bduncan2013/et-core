@@ -2162,10 +2162,10 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     // debugname = "updatewid";
     
     // To call querywid data
-    // debugname = "querywid";
+    debugname = "querywid";
     
     // To call offlinegetwid data
-    debugname = "offlinegetwid";
+    // debugname = "offlinegetwid";
 
     debugcat = "";
     debugsubcat = "code";
