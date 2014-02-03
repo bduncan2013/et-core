@@ -2158,7 +2158,15 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     testclearstorage();
 
     debuglevel = 75;
-    debugname = "updatewid";
+    // To call updatewid data (offlineupdatewid)
+    // debugname = "updatewid";
+    
+    // To call querywid data
+    // debugname = "querywid";
+    
+    // To call offlinegetwid data
+    debugname = "offlinegetwid";
+
     debugcat = "";
     debugsubcat = "code";
 
@@ -2227,7 +2235,14 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
 
             // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
-            debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 9);
+             
+            // These will create the code on the screen from the logged data
+            console.log('--**result**----**result**----**result**----**result**----**result**----**result**--')
+             
+            // debugfn("update code generator END",        "updatewid",        "add",      "code",     debugcolor, debugindent, {}, 9);
+            debugfn("querywid code generator END",      "querywid",         "query",    "code",     debugcolor, debugindent, {}, 9);
+            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",      "code",     debugcolor, debugindent, {}, 9);
+
             debugname = "";
             debugcat = "";
             debugsubcat = "";
@@ -2637,7 +2652,7 @@ exports.test121212 = test121212 = function test121212(params, callback) {
     testclearstorage();
 
 
-    var todolist = 
+    var todolist = [
         [{
                 "fn": "test_and_verify"
             },
@@ -2647,16 +2662,16 @@ exports.test121212 = test121212 = function test121212(params, callback) {
                     "c": "0",
                     "d": "1",
                     "e": "2"
-                }, [{
+                }, {
                     "c": "0",
                     "d": "1",
                     "g": "4"
-                }]
+                }
             ]
         ]
-    ;
-    test_and_verify(todolist[1][0], todolist[1][1], todolist[1][2], todolist[1][3], callback);
-    // executethismultiple(todolist, callback);
+    ];
+    // test_and_verify(todolist[1][0], todolist[1][1], todolist[1][2], todolist[1][3], callback);
+    executethismultiple(todolist, callback);
 
 }
 

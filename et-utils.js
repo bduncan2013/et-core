@@ -972,7 +972,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             "purple",
             "lime",
             "green",
-            "aqua"
+            "MediumBlue"
         ]
 
         var indebugdesc = String(arguments[0]) || ""; // 
@@ -1072,6 +1072,17 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         case 5:
             etcreatecode(indebugindent, displaycolor, indebugname);
             break;
+        case 6:
+            outobject[3]=getFromLocalStorage("DRI");
+            outobject[4]=getFromLocalStorage("DRIKEY");
+            etlogresults(indebugname, outobject)
+            break;
+        case 7:
+            etcreatecode(indebugindent, displaycolor, indebugname);
+            break;
+        case 9:
+            create_string(indebugindent, displaycolor, indebugname);
+            break;
         }
 
         function etlogresults(indebugname, outobject) {
@@ -1090,6 +1101,12 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             if (outobject[2] === undefined) {
                 outobject[2] = new Date();
             }
+            if (outobject[3] === undefined) {
+                outobject[3] = {};
+            }
+            if (outobject[4] === undefined) {
+                outobject[4] = {};
+            }
             proxyprinttodiv('debugfn indebugname', indebugname, 44);
             proxyprinttodiv('debugfn etlogresults', outobject, 44);
             outobject[2] = indebugname + outobject[2].getTime();
@@ -1102,6 +1119,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             temparray.push(tempvar);
             temparray.push(outobject[0]);
             temparray.push(outobject[1]);
+            temparray.push(outobject[3]);
+            temparray.push(outobject[4]);
             if (!debuglog[outobject[2]]) {
                 debuglog[outobject[2]]=[]
                 }
@@ -1111,6 +1130,50 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             //debuglog.push(temparray);
             proxyprinttodiv('arrived debuglog end', debuglog, 44);
         }
+
+        function create_string() {
+                console.log('debuglog.length: ++++++++++++++++++++++++++++++++++++++++' + debuglog.length);
+            var i = 0;
+            for (eachtest in debuglog) {
+                i++;
+                testresults=debuglog[eachtest];
+                var test_to_print = "";
+                var data = {};
+
+                var name        = testresults[0][0]['command']['executemethod'];
+                var parameters  = JSON.stringify(testresults[0][1]['0'], "-", 4);
+                var assert      = JSON.stringify(testresults[0][2], "-", 4);
+
+                // var database    = JSON.stringify(testresults[0][3], "-", 4);
+                var database    = JSON.stringify(testresults[0][3]);
+
+                test_to_print = '[\n    [\n' +
+                                '        {"fn": "test_and_verify"},\n        [\n' +         
+                                '           "' + name          + '",\n'   +
+                                '           "' + name          + '",\n'   +
+                                '            ' + parameters    + ',\n'    +
+                                '            ' + assert        + ',\n'    +
+                                '            ' + database      + '\n        ]\n'  +
+                                '    ]\n],\n';
+
+
+                // test_to_print = '[\n' +
+                //                 '    {"fn": "test_and_verify"},\n'                      +
+                //                 '    {"name": "'                        + name          + '",\n'   +
+                //                 '     "fnname": "'                      + name          + '",\n'   +
+                //                 '     "parameters": '                   + parameters    + ',\n'   +
+                //                 '     "assert": '                       + assert        + '}\n'    +
+                //                 '],\n';
+
+                if (eachtest == debuglog.length -1) {
+                    alert('eachtest: ' + eachtest);
+                }
+                $('#divprint').append(test_to_print);
+            }
+        }
+
+                            // '    "asstert": outobject[2]\n' +
+                // var jsonPretty = '+++++++++++++++++\n' + JSON.stringify(testresults, "-", 4);
 
         function etcreatecode(indebugindent, displaycolor, indebugname) {
             proxyprinttodiv('debugfn end debuglog', debuglog, 99);
@@ -1132,6 +1195,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                     // proxyprinttodiv('   debugfn subtest[2]', subtest[2], 99);
 
                     }
+                if (testresults[3]) {}
+                if (testresults[4]) {}
                 }
 
             var jsonPretty = JSON.stringify(resultlog, "-", 4);
@@ -1183,7 +1248,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         function dbug_print(indent, displaycolor) {
 
             if (displaycolor == "") {
-                displaycolor = "pink"
+                displaycolor = "brown"
             };
             var jsonPretty = JSON.stringify(outobject, "-", 4);
             debuglinenum++;
@@ -1221,7 +1286,71 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         // storetogoogle
     }
 
-    
+        //    function etlogresults(indebugname, outobject) {
+
+        //     proxyprinttodiv('arrived debuglog', debuglog, 44);
+
+        //     if (!outobject) {
+        //         outobject = {}
+        //     }
+        //     if (outobject[0] === undefined) {
+        //         outobject[0] = {}
+        //     }
+        //     if (outobject[1] === undefined) {
+        //         outobject[1] = {}
+        //     }
+        //     if (outobject[2] === undefined) {
+        //         outobject[2] = new Date();
+        //     }
+
+        //     proxyprinttodiv('debugfn indebugname', indebugname, 44);
+        //     proxyprinttodiv('debugfn etlogresults', outobject, 44);
+        //     outobject[2] = indebugname + outobject[2].getTime();
+            
+        //     var temparray=[];
+        //     var tempvar = {};
+        //     var temp_string = "";
+
+        //     // tempvar["command"]={};
+        //     // tempvar["command"]["executemethod"]=indebugname;
+        //     // temp_string = '[{"fn": "test_and_verify","name":' + indebugname +',"fnname":' + indebugname +',"parameters":' + outobject[0] + ',"asstert":' + outobject[1] + ',"database": "db_data"}]';
+        //     tempvar = {
+        //                 "fn": "test_and_verify",
+        //                 "name": indebugname,
+        //                 "fnname": indebugname,
+        //                 "parameters": outobject[0],
+        //                 "asstert": outobject[1],
+        //                 "database": "db_data"
+        //             };
+
+        //     tempvar["fn"]=indebugname;
+        //     // temparray.push(tempvar);
+        //     // temparray.push(outobject[0]);
+        //     // temparray.push(outobject[1]);
+
+        //     if (!debuglog[outobject[2]]) {
+        //         debuglog[outobject[2]]=[]
+        //         }
+
+        //     // debuglog[outobject[2]].push(temparray);
+        //     debuglog[outobject[2]].push(tempvar);
+
+
+
+        //     // tempvar["fn"]=indebugname;
+        //     // temparray.push(tempvar);
+        //     // temparray.push(outobject[0]);
+        //     // temparray.push(outobject[1]);
+
+        //     // if (!debuglog[outobject[2]]) {
+        //     //     debuglog[outobject[2]]=[]
+        //     //     }
+        //     // //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 99);
+        //     // //proxyprinttodiv('arrived temparray', temparray, 99);
+        //     // debuglog[outobject[2]].push(temparray);
+        //     // //debuglog.push(temparray);
+        //     // proxyprinttodiv('arrived debuglog end', debuglog, 44);
+        // } 
 
     var deepDiffMapper = function () {
         return {
@@ -1863,7 +1992,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         window.sift = sift;
     }
 
-	exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify (testname, parameters, assert, callback) {
+	exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify (testname, parameters, assert, database, command, callback) {
 		var err;
 		var results=[];
 		var temp_config = {};
@@ -1877,7 +2006,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 		extend(true, c_assert, assert);
 
 		// Call test_and_verify with the config parameters in the parameters
-		test_and_verify(testname, "execute", c_parameters, c_assert, function (err, res) {
+		test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
 			// Add res to return data
 			results.push(res);
 			
@@ -1893,7 +2022,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 			delete c_assert["configuration"];
 
 			// Call test_and_verify with c_ verion -- actual config changed
-			test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, function (err, res_2) {
+			test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
 				// Add res to return data
 				results.push(res_2);
 				// Set the config back to normal
@@ -1914,7 +2043,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 	// 	});
 	// }
 
-    exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
+    exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
     testclearstorage();
     window[fnname](
         parameters

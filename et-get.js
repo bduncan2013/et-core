@@ -475,6 +475,8 @@
     }
 
     exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
+        var inbound_parameters = {};
+        extend(true, inbound_parameters, parameters);
         var ret = undefined;
         var resultObj = {};
         var inherit;
