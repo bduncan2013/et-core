@@ -1093,18 +1093,18 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             proxyprinttodiv('debugfn indebugname', indebugname, 44);
             proxyprinttodiv('debugfn etlogresults', outobject, 44);
             outobject[2] = indebugname + outobject[2].getTime();
-            
-            var temparray=[];
+
+            var temparray = [];
             var tempvar = {};
 
-            tempvar["command"]={};
-            tempvar["command"]["executemethod"]=indebugname;
+            tempvar["command"] = {};
+            tempvar["command"]["executemethod"] = indebugname;
             temparray.push(tempvar);
             temparray.push(outobject[0]);
             temparray.push(outobject[1]);
             if (!debuglog[outobject[2]]) {
-                debuglog[outobject[2]]=[]
-                }
+                debuglog[outobject[2]] = []
+            }
             //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 99);
             //proxyprinttodiv('arrived temparray', temparray, 99);
             debuglog[outobject[2]].push(temparray);
@@ -1114,30 +1114,30 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
         function etcreatecode(indebugindent, displaycolor, indebugname) {
             proxyprinttodiv('debugfn end debuglog', debuglog, 99);
-            var resultlog=[];
+            var resultlog = [];
             var eachtest;
             var eachsubtest;
             var testresults;
             var subtest;
 
             for (eachtest in debuglog) {
-                testresults=debuglog[eachtest];
+                testresults = debuglog[eachtest];
                 //proxyprinttodiv('debugfn testresults', testresults, 99);
                 for (eachsubtest in testresults) {
-                    subtest=testresults[eachsubtest];
+                    subtest = testresults[eachsubtest];
                     resultlog.push(subtest);
                     // proxyprinttodiv('debugfn subtest', subtest, 99);
                     // proxyprinttodiv('   debugfn subtest[0]', subtest[0], 99);
                     // proxyprinttodiv('   debugfn subtest[1]', subtest[1], 99);
                     // proxyprinttodiv('   debugfn subtest[2]', subtest[2], 99);
 
-                    }
                 }
+            }
 
             var jsonPretty = JSON.stringify(resultlog, "-", 4);
             var temp_HTML = "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indebugindent) + "em'>" +
                 "<br> Include at function to be tested, begining of function: <br>        var originalarguments=arguments;" +
-                "<br> End of function:<br> " + 
+                "<br> End of function:<br> " +
                 "        debugfn('-desc-', '-functioname-', '-cat-', '-subcat-', -color-, -indent-, { <br>" +
                 "               0: originalarguments,  // <br>" +
                 "               1: ret                 // <br>" +
@@ -1221,7 +1221,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         // storetogoogle
     }
 
-    
+
 
     var deepDiffMapper = function () {
         return {
@@ -1285,7 +1285,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
     }();
 
-    exports.syntaxHighlight = syntaxHighlight= function syntaxHighlight(json) {
+    exports.syntaxHighlight = syntaxHighlight = function syntaxHighlight(json) {
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
             var cls = 'number';
@@ -1863,56 +1863,66 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         window.sift = sift;
     }
 
-	exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify (testname, parameters, assert, callback) {
-		var err;
-		var results=[];
-		var temp_config = {};
-		var c_assert = {};
-		var c_parameters = {};
+    exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify(testname, parameters, assert, callback) {
+        var err;
+        var results = [];
+        var temp_config = {};
+        var c_assert = {};
+        var c_parameters = {};
 
-		// Take a snapshot of the default config
-		extend(true, temp_config, config);
-		// Make copies of the original parameters and assert
-		extend(true, c_parameters, parameters);
-		extend(true, c_assert, assert);
+        // Take a snapshot of the default config
+        extend(true, temp_config, config);
+        // Make copies of the original parameters and assert
+        extend(true, c_parameters, parameters);
+        extend(true, c_assert, assert);
 
-		// Call test_and_verify with the config parameters in the parameters
-		test_and_verify(testname, "execute", c_parameters, c_assert, function (err, res) {
-			// Add res to return data
-			results.push(res);
-			
-			// Add the config parameters to the default config
-			extend(true, config.configuration, parameters["configuration"]);
+        // Call test_and_verify with the config parameters in the parameters
+        test_and_verify(testname, "execute", c_parameters, c_assert, function (err, res) {
+            // Add res to return data
+            results.push(res);
 
-			// Reload c_parameters and delete the config
-			c_parameters = extend(true, {}, parameters);
-			delete c_parameters["configuration"];
+            // Add the config parameters to the default config
+            extend(true, config.configuration, parameters["configuration"]);
 
-			// Reload the assertion and delete the config
-			c_assert = extend(true, {}, assert);
-			delete c_assert["configuration"];
+            // Reload c_parameters and delete the config
+            c_parameters = extend(true, {}, parameters);
+            delete c_parameters["configuration"];
 
-			// Call test_and_verify with c_ verion -- actual config changed
-			test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, function (err, res_2) {
-				// Add res to return data
-				results.push(res_2);
-				// Set the config back to normal
-				config = extend(true, {}, temp_config);
-				callback (err, results);
-			});
-		});
-	}
+            // Reload the assertion and delete the config
+            c_assert = extend(true, {}, assert);
+            delete c_assert["configuration"];
 
-	exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
-		testclearstorage();
-		window[fnname]([
-			parameters
-		],
-		function (err, res) {
-			res = logverify(testname, res[0][0], assert);
-			callback(err, res);
-		});
-	}
+            // Call test_and_verify with c_ verion -- actual config changed
+            test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, function (err, res_2) {
+                // Add res to return data
+                results.push(res_2);
+                // Set the config back to normal
+                config = extend(true, {}, temp_config);
+                callback(err, results);
+            });
+        });
+    }
+
+    // exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
+    //  testclearstorage();
+    //  window[fnname]([
+    //      parameters
+    //  ],
+    //  function (err, res) {
+    //      res = logverify(testname, res[0][0], assert);
+    //      callback(err, res);
+    //  });
+    // }
+
+    exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
+        testclearstorage();
+        window[fnname](
+            parameters,
+            function (err, res) {
+                res = logverify(testname, res, assert);
+                callback(err, res);
+            });
+    }
 
 
 })();

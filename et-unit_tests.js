@@ -1978,7 +1978,9 @@ exports.func_b = func_b = function func_b(parameters, callback) {
     // alert('b');
 
     var err;
-    callback(err, parameters);
+    var outputArr = [];
+    outputArr.push(parameters);
+    callback(err, outputArr);
 }
 
 exports.func_c = func_c = function func_c(parameters, callback) {
@@ -2480,14 +2482,14 @@ exports.testnested4 = testnested4 = function testnested4(params, callback) {
     testclearstorage();
 
     var inparams = [{
-            "executethis": "addwidmaster",
-            "wid": "a2-56",
-            "a2": "b2"
-        },{
-            "executethis": "getwidmaster",
-            "wid": "a2-56",
-            "a2": "b2"
-        }];
+        "executethis": "addwidmaster",
+        "wid": "a2-56",
+        "a2": "b2"
+    }, {
+        "executethis": "getwidmaster",
+        "wid": "a2-56",
+        "a2": "b2"
+    }];
 
     execute(inparams, callback);
 }
@@ -2496,14 +2498,23 @@ exports.testnested5 = testnested5 = function testnested5(params, callback) {
     testclearstorage();
 
     var inparams = {
-            "executethis": "addwidmaster",
-            "wid": "a2-56",
-            "a2": "b2"
-        };
+        "executethis": "addwidmaster",
+        "wid": "a2-56",
+        "a2": "b2"
+    };
 
     execute(inparams, callback);
 }
 
+exports.testnested6 = testnested6 = function testnested6(params, callback) {
+    testclearstorage();
+
+    var inparams = {
+        "executethis": "test121212"
+    };
+
+    execute(inparams, callback);
+}
 
 exports.testnested2 = testnested2 = function testnested2(params, callback) {
     testclearstorage();
@@ -2644,6 +2655,28 @@ exports.test121212 = test121212 = function test121212(params, callback) {
                     "c": "0",
                     "d": "1",
                     "e": "2"
+                },
+                [{
+                    "c": "0",
+                    "d": "1",
+                    "g": "4"
+                }]
+            ]
+        ]
+    ];
+    // test_and_verify(todolist[1][0], todolist[1][1], todolist[1][2], todolist[1][3], callback);
+    executethismultiple(todolist, callback);
+
+    /*    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
+            [
+                "func_b",
+                "func_b", {
+                    "c": "0",
+                    "d": "1",
+                    "e": "2"
                 }, {
                     "c": "0",
                     "d": "1",
@@ -2653,7 +2686,7 @@ exports.test121212 = test121212 = function test121212(params, callback) {
         ]
     ];
 
-    executethismultiple(todolist, callback);
+    executethismultiple(todolist, callback);*/
 
     // todolist = 
     //     [

@@ -100,18 +100,18 @@
     exports.executeone = executeone = function executeone(params, callback) {
         // execute one processes siglelevel arrays because they have to be either  
         // [{fn:fn},[a:b]] or like this [{execuethis:a, b:c}]
+        // proxyprinttodiv("executeone - params >> params ", params, 99);
         var fn;
         var fnparams = [];
         var output = [];
 
         var fncallbck = function (err, resp) {
             output.push(resp);
-            callback(err, output[0]);
+            callback(err, output);
         };
 
-        proxyprinttodiv("executeone - params >> params ", params, 17);
         if (params[0] && params[0].fn) {
-            proxyprinttodiv("executeone - params >> fn ", params, 17);
+            proxyprinttodiv("executeone - params >> fn ", params, 99);
             fn = params[0]['fn'];
             fnparams = params[1];
         } else {
@@ -181,7 +181,7 @@
                         // if the inside of the array is not an array then it sends either  [{fn:fn},[a:b]] or like this [{execuethis:a, b:c}] to execugeone
 
                         if ((!(eachtodo instanceof Array && eachtodo[0] && eachtodo[0].fn && eachtodo[1] instanceof Array && eachtodo.length === 2)) && (!(typeof eachtodo === "object" && eachtodo['executethis']))) {
-                            // proxyprinttodiv("series - eachtodo", eachtodo, 99);
+                            proxyprinttodiv("series - eachtodo 1st condition", eachtodo, 99);
                             executethismultiple(eachtodo, cbMap);
                         } else if (eachtodo instanceof Array && eachtodo[0] && eachtodo[0].fn && eachtodo[1] instanceof Array && eachtodo.length === 2) {
                             executeone(eachtodo, function (err, res) {
