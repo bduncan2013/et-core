@@ -1,3 +1,69 @@
+exports.createdtos = createdtos = function createdtos(params, callback) {
+    // create dtos  
+    //debuglevel=75;
+    //debugsubcat="add"
+    //debugname="getwidmaster"
+    var executeList = [{
+        //create userdto
+        "executethis": "addwidmaster",
+        "metadata.method": "userdto",
+        "wid": "userdto",
+        "widname": "wid",
+        "fname": "string",
+        "lname": "string",
+        "email": "string",
+        "email2": "string",
+        "address": "string",
+        "address2": "string",
+        "city": "string",
+        "state": "string",
+        "zip": "string",
+        "metadata.booksdto.type": "onetomany",
+        "metadata.adddto.type": "onetoone",
+        "defaultauthordtoactions": "inherit"
+    }, {
+        "executethis": "updatewid",
+        "metadata.method": "booksdto",
+        "wid": "booksdto",
+        "title": "string",
+        "pages": "string"
+    }, {
+        "executethis": "updatewid",
+        "metadata.method": "adddto",
+        "wid": "adddto",
+        "metadata.addfield.type": "onetomany",
+        "metadata.gojsobject.type": "onetoone",
+        "metadata.linkrules.type": "onetomany",
+        "metadata.actiondto.type": "onetomany",
+        "defaultadddtoactions": "inherit"
+    }, {
+        "executethis": "updatewid",
+        "metadata.method": "linkrules",
+        "wid": "linkrules",
+        "linkclass": "string",
+        "min": "string",
+        "max": "string"
+    }, {
+        "executethis": "updatewid",
+        "metadata.method": "actiondto",
+        "wid": "actiondto",
+        "displayname": "string",
+        "actiondescription": "string",
+        "category": "string",
+        "subcategory": "string",
+        "addthis.preexecute": "string",
+        "addthis.executethis": "string",
+        "addthis.postexecute": "string",
+        "defaultmasteractions": "inherit"
+    }];
+
+    execute(executeList, function (err, res) {
+        console.log(' >>> final response after create dtos executeList >>> ' + JSON.stringify(res));
+
+    });
+}
+
+
 exports.secdata1 = secdata1 = function secdata1(params, callback) {
     // create dtos  
     var executeList = [
@@ -99,7 +165,7 @@ exports.secdata2 = secdata2 = function secdata2(params, callback) {
             "executethis": "addwidmaster",
             "wid": "relsystemdto_userdto",
             "metadata.method": "relationshipdto",
-            "relationshiptype":"attributes",
+            "relationshiptype": "attributes",
             "primarywid": "userdto",
             "secondarywid": "systemdto"
         }, {
@@ -107,7 +173,7 @@ exports.secdata2 = secdata2 = function secdata2(params, callback) {
             "executethis": "addwidmaster",
             "wid": "relsystemdto_testdto",
             "metadata.method": "relationshipdto",
-            "relationshiptype":"attributes",
+            "relationshiptype": "attributes",
             "primarywid": "testdto",
             "secondarywid": "systemdto"
 
@@ -116,14 +182,14 @@ exports.secdata2 = secdata2 = function secdata2(params, callback) {
             "executethis": "addwidmaster",
             "wid": "rel_systemdto_groupdto",
             "metadata.method": "relationshipdto",
-            "relationshiptype":"attributes",
+            "relationshiptype": "attributes",
             "primarywid": "systemdto",
             "secondarywid": "groupdto"
         }, {
             "executethis": "addwidmaster",
             "wid": "rel_systemdto_categorydto",
             "metadata.method": "relationshipdto",
-            "relationshiptype":"attributes",
+            "relationshiptype": "attributes",
             "primarywid": "systemdto",
             "secondarywid": "categorydto"
         }, {
@@ -131,7 +197,7 @@ exports.secdata2 = secdata2 = function secdata2(params, callback) {
             "executethis": "addwidmaster",
             "wid": "relsystemdto_securitydto",
             "metadata.method": "relationshipdto",
-            "relationshiptype":"attributes",
+            "relationshiptype": "attributes",
             "primarywid": "systemdto",
             "secondarywid": "securitydto"
         }, {
@@ -139,7 +205,7 @@ exports.secdata2 = secdata2 = function secdata2(params, callback) {
             "executethis": "addwidmaster",
             "wid": "relsystemdto_permissiondto",
             "metadata.method": "relationshipdto",
-            "relationshiptype":"attributes",
+            "relationshiptype": "attributes",
             "primarywid": "systemdto",
             "secondarywid": "permissiondto"
 
@@ -148,7 +214,7 @@ exports.secdata2 = secdata2 = function secdata2(params, callback) {
             "executethis": "addwidmaster",
             "wid": "relsystemdto_balancedto",
             "metadata.method": "relationshipdto",
-            "relationshiptype":"attributes",
+            "relationshiptype": "attributes",
             "primarywid": "systemdto",
             "secondarywid": "balancedto"
         }
@@ -248,7 +314,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
                 // "command": commandobject,
                 "executethis": "getwidmongo",
                 "wid": "stuff1",
-                "metadata.method":"testdto"
+                "metadata.method": "testdto"
             };
 
             // perform request with unuthorized user 
