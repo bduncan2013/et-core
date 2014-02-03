@@ -1903,16 +1903,27 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 		});
 	}
 
-	exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
-		testclearstorage();
-		window[fnname]([
-			parameters
-		],
-		function (err, res) {
-			res = logverify(testname, res[0][0], assert);
-			callback(err, res);
-		});
-	}
+	// exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
+	// 	testclearstorage();
+	// 	window[fnname]([
+	// 		parameters
+	// 	],
+	// 	function (err, res) {
+	// 		res = logverify(testname, res[0][0], assert);
+	// 		callback(err, res);
+	// 	});
+	// }
+
+    exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
+    testclearstorage();
+    window[fnname](
+        parameters
+    ,
+    function (err, res) {
+        res = logverify(testname, res, assert);
+        callback(err, res);
+    });
+}
 
 
 })();

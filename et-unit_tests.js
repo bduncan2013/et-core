@@ -457,23 +457,21 @@ exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
 // Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters
 exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
     testclearstorage();
-    var parameters = {
-        "executethis": "func_b",
-        "c": "0",
-        "d": "1",
-        "e": "2"
-    }
-    var assert = {
-        "d": "1",
-        "c": "0",
-        "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
-        callback(err, res)
-    });
+    execute([{
+            "executethis": "func_b",
+            "c": "0",
+            "d": "1",
+            "e": "2"
+        }],
+        function (err, res) {
+            res = logverify("ettestt3_result", res[0][0], {
+                "c": "0",
+                "d": "1",
+                "g": "4"
+            });
+            callback(err, res);
+        });
 }
-
-
 
 // Not an 'at' test...used to test the verify system. This is a passing test.
 exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
@@ -490,6 +488,11 @@ exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
     var err;
     callback(err, res);
 }
+
+
+
+
+
 // Not an 'at' test...used to tes the veryify system. This is a failing test.
 exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
     testclearstorage();
@@ -510,22 +513,22 @@ exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
 // Call func_b, but also tell preexecute to call func_a and postexecute to call func_c.
 exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
     testclearstorage();
-    var parameters = {
-        "executethis": "func_b",
-        "c": "0",
-        "d": "1",
-        "e": "2",
-        "preexecute": "func_a",
-        "postexecute": "func_c"
-    }
-    var assert = {
-        "f": "3",
-        "g": "4",
-        "h": "5"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
-        callback(err, res)
-    });
+    execute([{
+            "executethis": "func_b",
+            "c": "0",
+            "d": "1",
+            "e": "2",
+            "preexecute": "func_a",
+            "postexecute": "func_c"
+        }],
+        function (err, res) {
+            res = logverify("ettestt3_result", res[0][0], {
+                "f": "3",
+                "g": "4",
+                "h": "5"
+            });
+            callback(err, res);
+        });
 }
 
 // Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b 
@@ -2588,53 +2591,53 @@ exports.testmultiplenested = testmultiplenested = function testmultiplenested(pa
     executethismultiple(inparams, callback);
 }
 
-exports.t121212 = t121212 = function t121212(params, callback) {
-    testclearstorage();
+// exports.t121212 = t121212 = function t121212(params, callback) {
+//     testclearstorage();
 
-    var todolist = [
-        [{
-                "fn": "test_and_verify"
-            },
-            [
-                "func_b",
-                "func_b", {
-                    "c": "01",
-                    "d": "11",
-                    "e": "21"
-                }, {
-                    "c": "02",
-                    "d": "12",
-                    "g": "42"
-                }
-            ]
-        ],
-        [{
-                "fn": "addwid4params"
-            },
-            [
-                "a", "b", "c", "d"
-            ]
+//     var todolist = [
+//         [{
+//                 "fn": "test_and_verify"
+//             },
+//             [
+//                 "func_b",
+//                 "func_b", {
+//                     "c": "01",
+//                     "d": "11",
+//                     "e": "21"
+//                 }, {
+//                     "c": "02",
+//                     "d": "12",
+//                     "g": "42"
+//                 }
+//             ]
+//         ],
+//         [{
+//                 "fn": "addwid4params"
+//             },
+//             [
+//                 "a", "b", "c", "d"
+//             ]
 
-        ],
-        [{
-                "fn": "addwid4params"
-            },
-            [
-                "12", "23", "34", "45"
-            ]
+//         ],
+//         [{
+//                 "fn": "addwid4params"
+//             },
+//             [
+//                 "12", "23", "34", "45"
+//             ]
 
-        ]
+//         ]
 
-    ];
+//     ];
 
-    executethismultiple(todolist, callback);
-}
+//     executethismultiple(todolist, callback);
+// }
 
 exports.test121212 = test121212 = function test121212(params, callback) {
     testclearstorage();
 
 
-    var todolist = [
+    var todolist = 
         [{
                 "fn": "test_and_verify"
             },
@@ -2644,16 +2647,61 @@ exports.test121212 = test121212 = function test121212(params, callback) {
                     "c": "0",
                     "d": "1",
                     "e": "2"
-                }, {
+                }, [{
                     "c": "0",
                     "d": "1",
                     "g": "4"
-                }
+                }]
             ]
         ]
-    ];
+    ;
+    test_and_verify(todolist[1][0], todolist[1][1], todolist[1][2], todolist[1][3], callback);
+    // executethismultiple(todolist, callback);
 
-    executethismultiple(todolist, callback);
+}
+
+function func_b2(p1, p2, p3, p4, callback) {
+    data = {};
+    delete p3['e'];
+    data = jsonConcat(p3, p4);
+    data[p1] = 'hello';
+
+    var err;
+    callback({}, data);
+}
+
+function func_b22(params, callback) {
+    func_b2("test", {
+        "a": "b"
+    }, {
+        "c": "d"
+    }, callback);
+}
+
+
+
+
+exports.exec_mul_test = function exec_mul_test(data) {
+    for (d in data) {
+        // test_and_verify(data[d]);
+
+        // exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
+
+        var a = data[d][1]['name'];
+        var b = data[d][1]['fnname'];
+        var c = [data[d][1]['parameters']];
+
+        var d = [data[d][1]['assert']];
+
+        console.log('a: ' + a);
+        console.log('b: ' + b);
+        console.log('c: ' + JSON.stringify(c));
+        console.log('d: ' + JSON.stringify(d));
+
+        test_and_verify(a, b, c, d);
+
+    }
+}
 
     // todolist = 
     //     [
@@ -2803,27 +2851,8 @@ exports.test121212 = test121212 = function test121212(params, callback) {
     //     ];
 
     // executethismultiple(todolist, callback, commandobject);
-}
 
-function func_b2(p1, p2, p3, p4, callback) {
-    data = {};
-    delete p3['e'];
-    data = jsonConcat(p3, p4);
-    data[p1] = 'hello';
-
-    var err;
-    callback({}, data);
-}
-
-function func_b22(params, callback) {
-    func_b2("test", {
-        "a": "b"
-    }, {
-        "c": "d"
-    }, callback);
-}
-
-// data.push(
+    // data.push(
 
 //         [
 //             {"fn": "test_and_verify"},
@@ -2887,27 +2916,3 @@ function func_b22(params, callback) {
 // exec_mut(data, function (err, res) {
 //     callback(err, res)
 // });
-
-
-
-exports.exec_mul_test = function exec_mul_test(data) {
-    for (d in data) {
-        // test_and_verify(data[d]);
-
-        // exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
-
-        var a = data[d][1]['name'];
-        var b = data[d][1]['fnname'];
-        var c = [data[d][1]['parameters']];
-
-        var d = [data[d][1]['assert']];
-
-        console.log('a: ' + a);
-        console.log('b: ' + b);
-        console.log('c: ' + JSON.stringify(c));
-        console.log('d: ' + JSON.stringify(d));
-
-        test_and_verify(a, b, c, d);
-
-    }
-}

@@ -106,7 +106,7 @@
 
         var fncallbck = function (err, resp) {
             output.push(resp);
-            callback(err, output[0]);
+            callback(err, output); //callback(err, output[0]);
         };
 
         proxyprinttodiv("executeone - params >> params ", params, 17);
