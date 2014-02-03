@@ -15,7 +15,8 @@
     //Starting of querywid function...formerly MongoDataQuery
     //exports.querywid = querywid = function (parameters,target,callback) {
     exports.querywid = querywid = function querywid(parameters, callback) { // can change to call back
-
+        var inbound_parameters = {};
+        extend(true, inbound_parameters, parameters);
         delete parameters['executethis']; //** added 11/2
 
         // var x = window['mongoquery'];
@@ -408,6 +409,15 @@
                     proxyprinttodiv('querywid before output', output, 28);
 
                     output = formatListFinal(output, environmentdb, convertmethod, extraparameters);
+
+                    console.log('------------------: ');
+                    console.log('inbound_parameters: ' + JSON.stringify(inbound_parameters));
+                    console.log('output: ' + JSON.stringify(output));
+
+                    debugfn("querywid code generator", "querywid", "", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: output
+                    }, 6);
 
                     proxyprinttodiv('querywid after output', output, 28);
 
