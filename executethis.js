@@ -23,7 +23,7 @@
 
 
         if ((incomingparams instanceof Array)) {
-            proxyprinttodiv("execute - array params received ", incomingparams, 99);
+            proxyprinttodiv("execute - array params received ", incomingparams, 17);
 
 
             executethismultiple(incomingparams, callback);
@@ -109,9 +109,9 @@
             callback(err, output[0]);
         };
 
-        proxyprinttodiv("executeone - params >> params ", params, 99);
+        proxyprinttodiv("executeone - params >> params ", params, 17);
         if (params[0] && params[0].fn) {
-            proxyprinttodiv("executeone - params >> fn ", params, 99);
+            proxyprinttodiv("executeone - params >> fn ", params, 17);
             fn = params[0]['fn'];
             fnparams = params[1];
         } else {
@@ -156,7 +156,7 @@
             commandobject = defaultCommandObject;
         }
 
-        proxyprinttodiv("executethismultiple - outside iteration - inparams ", inparams, 99);
+        proxyprinttodiv("executethismultiple - outside iteration - inparams ", inparams, 17);
 
         function filterParams(item, callback) {
             callback(item == item);
@@ -176,7 +176,7 @@
 
             case 'series':
                 async.mapSeries(filteredParams, function (eachtodo, cbMap) {
-                        proxyprinttodiv("executethismultiple - eachtodo ", eachtodo, 99);
+                        proxyprinttodiv("executethismultiple - eachtodo ", eachtodo, 17);
 
                         // if the inside of the array is not an array then it sends either  [{fn:fn},[a:b]] or like this [{execuethis:a, b:c}] to execugeone
 
@@ -190,7 +190,7 @@
                                 cbMap(null);
                             });
                         } else {
-                            proxyprinttodiv("series - eachtodo", eachtodo, 99);
+                            proxyprinttodiv("series - eachtodo", eachtodo, 17);
                             var eachtodoArr = [];
                             eachtodoArr.push(eachtodo);
 
@@ -217,7 +217,7 @@
                     var output = [];
                     for (var i = 0; i < filteredParams.length; i++) {
                         var params = filteredParams[i];
-                        proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 99);
+                        proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 17);
                         var func = getFunction(params);
                         fnArray.push(func);
                     }
@@ -262,14 +262,14 @@
             case 'parallel':
 
                 async.map(filteredParams, function (eachtodo, cbMap) {
-                    proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 99);
+                    proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 17);
                     executeone(eachtodo, function (err, res) {
                         output.push(res);
                         cbMap(null);
                     });
                 }, function (err, resp) {
                     // if any of the saves produced an error, err would equal that error
-                    proxyprinttodiv("executethismultiple - parallel -- output ", output, 99);
+                    proxyprinttodiv("executethismultiple - parallel -- output ", output, 17);
                     callback(err, output);
                 });
                 break;
