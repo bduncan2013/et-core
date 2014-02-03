@@ -386,6 +386,10 @@ exports.convertfromdriformat = window.convertfromdriformat = convertfromdriforma
         }
 
         if (widobject['metadata']) {
+            // deleting date from metadata, this is a fix for ag3
+            if (widobject['metadata']['date']) {
+                delete widobject['metadata']['date'];
+            }
             outobject['metadata'] = widobject['metadata'];
 
         } else {
@@ -440,7 +444,11 @@ exports.converttodriformat = window.converttodriformat = converttodriformat = fu
     var db = "data"
     var wid;
     var metadata;
+    var date;
     if (command && command.db) {db = command.db}
+    
+    inputWidgetObject['metadata.date'] = new Date();
+    
     inputWidgetObject = ConvertFromDOTdri(inputWidgetObject);
     if (inputWidgetObject['wid']) {
         wid = inputWidgetObject['wid']
@@ -450,6 +458,7 @@ exports.converttodriformat = window.converttodriformat = converttodriformat = fu
         metadata = inputWidgetObject['metadata']
         delete inputWidgetObject['metadata']
         }
+
 
     // for (eachwid in inputWidgetObject) {
     //     if ((inputWidgetObject[eachwid] == "onetomany") (inputWidgetObject[eachwid]=="onetoone")) {
