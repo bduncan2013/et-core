@@ -367,11 +367,16 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
     });
 };
 
-exports.convertfromdriformat = window.convertfromdriformat = convertfromdriformat =  function convertfromdriformat(widobject) {
+exports.convertfromdriformat = window.convertfromdriformat = convertfromdriformat =  function convertfromdriformat(widobject, command) {
     var outobject = {};
+    var db="data"
+    if (command && command.db) {db = command.db}
+
+    //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
+
     if ((widobject) && (Object.keys(widobject).length > 0)) {
-        if (widobject["data"]) {
-            outobject = widobject["data"];
+        if (widobject[db]) {
+            outobject = widobject[db];
         }
         
         if (widobject['wid']) {
@@ -381,11 +386,33 @@ exports.convertfromdriformat = window.convertfromdriformat = convertfromdriforma
         }
 
         if (widobject['metadata']) {
-            outobject['metadata.method'] = widobject['metadata']['method'];
+            outobject['metadata'] = widobject['metadata'];
+
         } else {
-            outobject['metadata.method'] = "";
+            outobject['metadata'] = "";
         }
+        outobject = ConvertToDOTdri(outobject);
     }
+
+    // if ((widobject) && (Object.keys(widobject).length > 0)) {
+    //     if (widobject["data"]) {
+    //         outobject = widobject["data"];
+    //     }
+        
+    //     if (widobject['wid']) {
+    //         outobject['wid'] = widobject['wid'];
+    //     } else {
+    //         outobject['wid'] = "";
+    //     }
+
+    //     if (widobject['metadata']) {
+    //         outobject['metadata.method'] = widobject['metadata']['method'];
+    //         //&& added
+
+    //     } else {
+    //         outobject['metadata.method'] = "";
+    //     }
+    // }
     return outobject;   
 }
 
@@ -405,41 +432,71 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
     });
 };
 
-exports.converttodriformat = window.converttodriformat = converttodriformat = function converttodriformat(inputObject) {
+exports.converttodriformat = window.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
     var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
-
     delete inputWidgetObject['executethis'];
     proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
-    // for conversion:
     var saveobject = {};
-
+    var db = "data"
+    var wid;
+    var metadata;
+    if (command && command.db) {db = command.db}
+    inputWidgetObject = ConvertFromDOTdri(inputWidgetObject);
     if (inputWidgetObject['wid']) {
-        saveobject['wid'] = inputWidgetObject['wid'].toLowerCase();
-    } else {
-        saveobject['wid'] = "";
-    }
-    proxyprinttodiv('Function updatewid in : saveobject 0', saveobject, 1);
-    delete inputWidgetObject['wid'];
+        wid = inputWidgetObject['wid']
+        delete inputWidgetObject['wid']
+        }
+    if (inputWidgetObject['metadata']) {
+        metadata = inputWidgetObject['metadata']
+        delete inputWidgetObject['metadata']
+        }
 
-    saveobject['metadata'] = {};
-    if (inputWidgetObject['metadata.method']) {
-        saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
-    } else {
-        saveobject['metadata']['method'] = "";
-    }
-    saveobject['metadata']['date'] = new Date();
-    proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
-    proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
+    // for (eachwid in inputWidgetObject) {
+    //     if ((inputWidgetObject[eachwid] == "onetomany") (inputWidgetObject[eachwid]=="onetoone")) {
+    //         inputWidgetObject['metadata'][eachwid]['type']=inputWidgetObject[eachwid]
+    //         delete inputWidgetObject[eachwid];
+    //         }
+    //     }
+    saveobject[db] = inputWidgetObject;
+    saveobject['wid'] = wid;
+    saveobject['metadata'] = metadata;
+    //saveobject = ConvertFromDOTdri(saveobject); // in case command.db = x.y.z nested was sent in
 
-    proxyprinttodiv('Function updatewid in : saveobject I', saveobject, 1);
+    // saveobject['wid']=wid;
+    // saveobject['metadata.method']=method;
+    // if (inputWidgetObject) {
+    //     saveobject['data'] = inputWidgetObject;
+    //     }
+    // saveobject = ConvertFromDOTdri(inputWidgetObject);
 
-    // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
-    delete inputWidgetObject['metadata.method'];
-    if (inputWidgetObject) {
-        saveobject['data'] = inputWidgetObject;
-    } else {
-        saveobject['data'] = "";
-    }
+
+    // if (inputWidgetObject['wid']) {
+    //     saveobject['wid'] = inputWidgetObject['wid'].toLowerCase();
+    // } else {
+    //     saveobject['wid'] = "";
+    // }
+    // proxyprinttodiv('Function updatewid in : saveobject 0', saveobject, 1);
+    // delete inputWidgetObject['wid'];
+
+    // saveobject['metadata'] = {};
+    // if (inputWidgetObject['metadata.method']) {
+    //     saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
+    // } else {
+    //     saveobject['metadata']['method'] = "";
+    // }
+    // saveobject['metadata']['date'] = new Date();
+    // proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
+    // proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
+
+    // proxyprinttodiv('Function updatewid in : saveobject I', saveobject, 1);
+
+    // // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
+    // delete inputWidgetObject['metadata.method'];
+    // if (inputWidgetObject) {
+    //     saveobject['data'] = inputWidgetObject;
+    // } else {
+    //     saveobject['data'] = "";
+    // }
 
     proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
     return saveobject;

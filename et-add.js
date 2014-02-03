@@ -953,13 +953,14 @@
                         "parameterList": parameterList,
                         "widName": widName,
                         "dtotype": dtotype
-                    });
+                    },97);
                     // go through list of incoming parameters to generate a list of childrent dtos
                     dtoobject = listToObject(dtoList); // generate a copy of dtolist that is an object
-                    for (var key in dtoobject) { // go through each parameter
-                        if ((dtoobject[key] == 'onetomany') || (dtoobject[key] == 'onetoone')) {
+                    dtoobject = ConvertFromDOTdri(dtoobject);
+                    for (var key in dtoobject["metadata"]) { // go through each parameter
+                        if ((dtoobject["metadata"][key]["type"] == 'onetomany') || (dtoobject["metadata"][key]["type"] == 'onetoone')) {
                             // see if dto list tells us is a child
-                            ChildrenListobj[key] = dtoobject[key]; // add it to children object list
+                            ChildrenListobj[key] = dtoobject["metadata"][key]["type"]; // add it to children object list
                         }
                     }
 
@@ -995,14 +996,14 @@
                     RelatedListdto = SplitObjectList(dtoList, ParentdtoList);
 
                     RelatedListdto = RelatedListdto.nomatch;
-                    proxyprinttodiv('Function AddMaster : RelatedListdto', RelatedListdto, 17);
-                    proxyprinttodiv('Function AddMaster : RelatedListParameters', RelatedListParameters, 17);
+                    proxyprinttodiv('Function AddMaster : RelatedListdto', RelatedListdto, 97);
+                    proxyprinttodiv('Function AddMaster : RelatedListParameters', RelatedListParameters, 97);
                     debugfn("AddMaster", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                     cb(null, 'three');
                 },
                 function step4(cb) { // create work
                     var listtodo = [];
-                    proxyprinttodiv('Function AddMaster : ChildrenListobj ', ChildrenListobj, 17);
+                    proxyprinttodiv('Function AddMaster : ChildrenListobj ', ChildrenListobj, 97);
                     for (var eachchild in ChildrenListobj) {
                         listtodo.push(eachchild);
                     }
@@ -1012,7 +1013,7 @@
 
                                     function step4n1(cb) {
                                         childrentype=eachchild;
-                                        proxyprinttodiv('Function AddMaster : childrentype', childrentype, 17);
+                                        proxyprinttodiv('Function AddMaster : childrentype', childrentype, 97);
                                         editflag = 'false';
                                         attr = ChildrenListobj[childrentype]; // onetoone or onetomany?  -left side of ChildrenListobj is the dto name
                                         parameterindexobj = []; // create a list of (children) parameters that start with number
@@ -1020,9 +1021,9 @@
                                         for (var currentcount in RelatedListParameters) {
                                             //proxyprinttodiv('Function AddMaster : currentcount', currentcount);
                                             var currentparameter = RelatedListParameters[currentcount].key;
-                                            proxyprinttodiv('Function AddMaster : currentparameter', currentparameter, 17);
+                                            proxyprinttodiv('Function AddMaster : currentparameter', currentparameter, 97);
                                             splitkey = currentparameter.split(".");
-                                            proxyprinttodiv('Function AddMaster : splitkey', splitkey, 17);
+                                            proxyprinttodiv('Function AddMaster : splitkey', splitkey, 97);
                                             if (splitkey[0] == childrentype) {
                                                 currentNumber = 0;
                                                 if (splitkey[1] !== undefined) {
@@ -1030,7 +1031,7 @@
                                                 }
                                                 //proxyprinttodiv('Function AddMaster : currentNumber', currentNumber);
                                                 if (currentNumber >= 0) {
-                                                    proxyprinttodiv('Function AddMaster : currentNumber II ', currentNumber, 17);
+                                                    proxyprinttodiv('Function AddMaster : currentNumber II ', currentNumber, 97);
                                                     parameterindexobj.push(currentNumber);
                                                     //parameterindexobj[splitkey[1]] = splitkey[0];
                                                     // 1 booksdto
@@ -1048,7 +1049,7 @@
                                             return a - b;
                                             }
 
-                                        proxyprinttodiv('Function AddMaster : parameterindexobj, before sort', parameterindexobj, 17);
+                                        proxyprinttodiv('Function AddMaster : parameterindexobj, before sort', parameterindexobj, 97);
 
                                         if (parameterindexobj.length!=0) { // since array 
                                             parameterindexobj=parameterindexobj.sort(sortNumber);
@@ -1067,7 +1068,7 @@
 
                                         // parameterindexobj = sortable;
 
-                                        proxyprinttodiv('Function AddMaster : parameterindexobj, sorted, which children have dots ', parameterindexobj, 17);
+                                        proxyprinttodiv('Function AddMaster : parameterindexobj, sorted, which children have dots ', parameterindexobj, 97);
 
                                         proxyprinttodiv('Function AddMaster : editflag ', editflag, 75);
                                         // ** note there will be issues with sort
@@ -1134,11 +1135,11 @@
                                     },
                                     
                                     function step4n4(cb) {
-                                        proxyprinttodiv('Function AddMaster : parameterindexobj', parameterindexobj, 17);
+                                        proxyprinttodiv('Function AddMaster : parameterindexobj', parameterindexobj, 97);
                                         
                                         if (parameterindexobj.length !== 0) { // since array 
                                             var listtodo = [];
-                                            proxyprinttodiv('Function AddMaster : parameterindexobj about to iterate', parameterindexobj, 17);
+                                            proxyprinttodiv('Function AddMaster : parameterindexobj about to iterate', parameterindexobj, 97);
                                             
                                             async.mapSeries(parameterindexobj, function (currentchild, cbMap) { //cbMap needed at end 
                                                 
@@ -1146,13 +1147,13 @@
                                                     
                                                     function step4n4n1n1(cb) {
                                                         ParametersToAdd = {};
-                                                        proxyprinttodiv('Function AddMaster : childrenttype.currentchild - 222, process this number first, look up in widlist', childrentype + '.' + currentchild, 17);
+                                                        proxyprinttodiv('Function AddMaster : childrenttype.currentchild - 222, process this number first, look up in widlist', childrentype + '.' + currentchild, 97);
                                                         
                                                         SplitParameters = MatchPrefixDelete(RelatedListParameters, childrentype + '.' + currentchild); // separate parameters to those that start with curr number
                                                         ParametersToAdd = SplitParameters.match;
-                                                        proxyprinttodiv('Function AddMaster : Parameters to add after match', ParametersToAdd, 17);
+                                                        proxyprinttodiv('Function AddMaster : Parameters to add after match', ParametersToAdd, 97);
                                                         RelatedListParameters = SplitParameters.nomatch; // each iteration relatedlistparameter will become smaller
-                                                        proxyprinttodiv('Function AddMaster : RelatedListParameters to add after', RelatedListParameters, 17);
+                                                        proxyprinttodiv('Function AddMaster : RelatedListParameters to add after', RelatedListParameters, 97);
                                                         if (Object.keys(ParametersToAdd).length !== 0) {
                                                             widtoadd = '';
                                                             

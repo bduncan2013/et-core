@@ -1,82 +1,196 @@
-exports.r22 = r22 = function r22(params, callback) {
-    // create dtos  
-    //debuglevel=75;
-    //debugsubcat="add"
-    //debugname="getwidmaster"
-    var executeList = [ 
-        {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"},
-        {"executethis":"updatewid","metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"},  
-        {"executethis":"updatewid","metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"},
-        {"executethis":"updatewid","metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"},
-        {"executethis":"updatewid","metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, 
-        {"executethis":"updatewid","metadata.method":"nodedataarray","wid":"nodedataarray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"},    
-        {"executethis":"updatewid","metadata.method":"leftarray","wid":"leftarray","class":"string","portColor":"string", "portId":"string"}, 
-        {"executethis":"updatewid","metadata.method":"toparray","wid":"toparray","class":"string","portColor":"string", "portId":"string"},
-        {"executethis":"updatewid","metadata.method":"bottomarray","wid":"bottomarray","portColor":"string", "portId":"string"},  
-        {"executethis":"updatewid","metadata.method":"rightarray","wid":"rightarray","portColor":"string", "portId":"string"},    
-        {"executethis":"updatewid","metadata.method":"linkdataarray","wid":"linkdataarray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"},           
-        {"executethis":"updatewid","metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"},   
-        {"executethis":"updatewid","metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultmasteractions":"inherit"}
-    ];
+/* Adding data for the survey */
+exports.surveydata = surveydata = function surveydata(params, callback) {
 
-    execute(executeList, function (err, res) {
-        console.log(' >>> final response after create dtos executeList >>> ' + JSON.stringify(res));
-        // create relationships
-        executeList = [     
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"},
-        {"linktype": "onetoone", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"},    
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"},    
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}
-       ];
-        execute(executeList, function (err, res) {
-
-            var executeList = [
-
-            //{"executethis":"addwidmaster","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
-
-                // {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
-                // {"executethis":"updatewid","metadata.method":"booksdto","wid":"222","title":"The X Factor","pages":"300"},
-                // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"}
-
-            ];
-            //debuglevel=10;
-            //debugname="getwidmongo"
-            //debugcat="add";
-            //debugsubcat="sub"
-    debugname="getwidmongo"
-    debuglevel=10;
+    debugname="addmaster"
+    debuglevel=97;
     debugcolor=1;
     debugindent=1;
-            debugcolor=1
-            execute(executeList, function (err, res) {
-                console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
-                //debugname="aggressivedto";
-                //debuglevel=10;
-                //aggressivedto("authordto", "", 10, function (err, res) {
-                //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
-                getWidMongo("authordto", "", "", "", "", 10, function (err, res) {
-                //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
-                    callback({}, res);
-                    })
-                });
-            });
-        });
-    }   
+    debugcolor=5
 
+    execute([
 
+    // Create the user dto  
+        { "executethis":"updatewid", "wid": "userdto", "metadata.method": "userdto","userid":"number", "first": "string", "last": "string", "metadata.surveydto.type": "onetomany" },
+                // Create the survey dto
+        { "executethis":"updatewid", "wid": "surveydto", "metadata.method": "surveydto", "title": "string", "description": "string"},   //, "metadata.questiondto.type": "onetomany"
+        // Relate the survey dto to the question dto (surveys can have multiple questions)
+        { "executethis":"updatewid", "linktype": "onetomany", "wid": "relationshipdto1", "metadata.method": "relationshipdto", "primarywid": "userdto", "secondarywid": "surveydto", "relationshiptype":"attributes" },
+        // Adding user data 
+        { "executethis":"updatewid", "wid": "bill", "metadata.method": "userdto","userid":"2", "first": "Bill", "last": "Duncan" },
+        //{"executethis": "updatewid", "wid": "mysurvey", "metadata.method": "userdto", "userdto": [{ "metadata.method": "userdto", "userid": "2", "first": "Bill", "last": "Duncan"}] },
+        // Create the survey
+        {"executethis": "updatewid", "wid": "happy", "metadata.method": "surveydto", "title": "Happy Meter", "description": "Daily rating of how you 'feel' things are going." },
+        {"executethis":"updatewid", "linktype": "onetomany", "wid": "relationshipdto2", "metadata.method": "relationshipdto", "primarywid": "bill", "secondarywid": "happy", "relationshiptype":"attributes" },
+ 
+        {"executethis":"getwidmaster", "wid":"bill"},
+        {"executethis":"getwidmaster", "wid":"happy"},
+
+        {"executethis":"addwidmaster", "wid": "bill2", "metadata.method": "userdto","userid":"2", "first": "Bill", "last": "Duncan", "surveydto.title": "Happy Meter", "surveydto.description": "Daily rating of how you 'feel' things are going." },
+        {"executethis":"getwidmaster", "wid":"bill2"}
+    ],
+    function (err, res) {
+        proxyprinttodiv('Function update userdto', res[0], 99);
+        proxyprinttodiv('Function update surveydto', res[1], 99);
+        proxyprinttodiv('Function update relationshipdto1', res[2], 99);
+        proxyprinttodiv('Function update bill', res[3], 99);
+        proxyprinttodiv('Function update happy', res[4], 99);
+        proxyprinttodiv('Function update relationshipdto1', res[5], 99);
+        proxyprinttodiv('Function get bill', res[6], 99);
+        proxyprinttodiv('Function get happy', res[7], 99);
+        proxyprinttodiv('Function update bill2', res[8], 99);
+        proxyprinttodiv('Function get bill2', res[9], 99);      
+        callback(err, res)
+    });
+}
+
+/* Adding data for the survey with addwidmaster */
+exports.surveydata2 = surveydata2 = function surveydata2(params, callback) {
+
+    execute([
+
+        // Create the user dto  
+        { "executethis":"updatewid", "wid": "userdto", "metadata.method": "userdto","userid":"number", "first": "string", "last": "string", "surveydto": "onetomany" },
+                // Create the survey dto
+        { "executethis":"updatewid", "wid": "surveydto", "metadata.method": "surveydto", "title": "string", "description": "string", "questiondto": "onetomany" },
+
+        // Adding user data 
+
+        {
+        "executethis": "addwidmaster",
+        "wid": "happy",
+        "metadata":{"method": "surveydto", "userdto":{"type":"onetomany"}},
+        "userdto": {
+            "metadata":{"method": "userdto"},
+            "userid": "2",
+            "first": "Bill",
+            "last": "Duncan"
+        },
+        "surveydto": {
+            "metadata":{"method": "surveydto"},
+            "title": "Happy Meter",
+            "description": "Daily rating of how you feel"
+        }
+        },
+
+        {"executethis":"getwidmaster", "wid":"Bill"},
+        {"executethis":"getwidmaster", "wid":"happy"}
+    ],
+    function (err, res) {
+        proxyprinttodiv('Function getwidmongo parameterObject after', res[0], 99);
+        proxyprinttodiv('Function getwidmongo parameterObject after', res[1], 99);
+        proxyprinttodiv('Function getwidmongo parameterObject after', res[2], 99);
+        proxyprinttodiv('Function getwidmongo parameterObject after', res[3], 99);
+        proxyprinttodiv('Function getwidmongo parameterObject after', res[4], 99);
+        callback(err, res)
+    });
+}
+
+/* Adding data for a flat survey */
+exports.surveydtoflat = surveydtoflat = function surveydtoflat(params, callback) {
+
+execute([
+    // Create the flatsurveydto dto 
+        {"executethis": "updatewid",
+            "wid": "flatsurveydto",
+            "metadata.method": "flatsurveydto",
+            "userdto": "userdto",
+            "surveydto": {
+                "questiondto": [
+                    {
+                        "answerdto": [
+                            "answerdto"
+                        ]
+                    },
+                    {
+                        "responsedto": [
+                            "responsedto"
+                        ]
+                    }
+                ]
+            }
+        },
+
+    // Create the flatsurvey data
+        {
+        "executethis": "updatewid",
+        "wid": "flatsurvey",
+        "metadata.method": "flatsurveydto",
+        "userdto": {
+            "metadata.method": "userdto",
+            "userid": "2",
+            "first": "Bill",
+            "last": "Duncan"
+        },
+        "surveydto": {
+            "metadata.method": "surveydto",
+            "title": "Happy Meter",
+            "description": "Daily rating of how you feel",
+            "questiondto": [
+                                {
+                                    "metadata.method": "questiondto",
+                                    "question": "How do you feel today?",
+                                    "answerdto": {
+                                        "metadata.method": "answerdto",
+                                        "answers": [
+                                            "Outstanding",
+                                            "Great",
+                                            "Okay",
+                                            "Tired",
+                                            "Sick"
+                                        ]
+                                    },
+                                    "responsedto": [
+                                        {
+                                            "response": "Outstanding",
+                                            "userid": "2"
+                                        },
+                                        {
+                                            "response": "Sick",
+                                            "userid": "3"
+                                        },
+                                        {
+                                            "response": "Tired",
+                                            "userid": "4"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metadata.method": "questiondto",
+                                    "question": "How do you think you will feel tomorrow?",
+                                    "answerdto": {
+                                        "metadata.method": "answerdto",
+                                        "answers": [
+                                            "Fantastic",
+                                            "Can't stop me now",
+                                            "Okay",
+                                            "I'll be better tomorrow",
+                                            "Terrible"
+                                        ]
+                                    },
+                                    "responsedto": [
+                                        {
+                                            "response": "Outstanding",
+                                            "userid": "2"
+                                        },
+                                        {
+                                            "response": "Okay",
+                                            "userid": "3"
+                                        },
+                                        {
+                                            "response": "Sick",
+                                            "userid": "4"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+        },
+        { "executethis": "getwidmaster", "wid": "flatsurvey" }
+    ],
+    function (err, res) {
+        callback(err, res)
+    });
+}
 // Wids :--
 // {"wid": "colordto", "metadata.method": "colordto", "hue": "string", "sat": "string"}
 // {"wid": "color1", "metadata.method": "colordto", "hue": "red", "sat": "red-sat"},

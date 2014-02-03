@@ -1,10 +1,213 @@
+function etunittesttester(parm, callback) {
+    var unittestdb = [{
+        "fn": "ettest1"
+    }, {
+        "test": "short desc of test",
+        "type": "hourly"
+    }, {
+        "fn": "ettestt2"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestt3"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestt3a"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestt4"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestt4a"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestt5"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestt6"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestast1"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestast2"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestast3"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestast3a"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettest4"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettest4a"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettest5"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettest6"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestag1"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestag2"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestag3"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct1"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct2"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct3"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct3a"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct4"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct4a"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct5"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct6"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct7"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct8"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct9"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct10"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct11"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct13"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct14"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct15"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct16"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct17"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct18"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct19"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }, {
+        "fn": "ettestct20"
+    }, {
+        "test": "short desc of test",
+        "type": ""
+    }];
+}
 // List of tests:
 // 
 // The tt tests will test the various combinations of calling pre, mid, and post by passing parameters
 // of the pre and post (mis is the execute).
 // 
 // ettestt1     Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters
-// ettestt2     Call func_b, but also tell preexecute to call func_a and postexecute to call func_c.
+// ettestt2     Call func_b, but also tell preexecutetunittesttestere to call func_a and postexecute to call func_c.
 // ettestt3     Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b 
 //              in midexecute and nothing in post execute.
 // ettestt3a    Call func_b with only post func_a -- same result as t3. This is to make sure that not
@@ -89,17 +292,16 @@
 
 // at stands for 'all tests', this will run a suite 
 // of tests that are known to run, but not necessarily pass
-exports.ettestat = ettestat = function ettestat(params, callback) {
-    bootprocess();
 
+
+exports.ettestat = ettestat = function ettestat(params, callback) {
     var result = {};
     var err;
 
     ettesttt(result, function (err, result) {
-
         ettestastt(result, function (err, result) {
-
             ettestctt(result, function (err, result) {
+
                 // ettestagtt(result, function () {
                 //  var err;
                 //  callback(err, result);  
@@ -111,6 +313,18 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     });
 }
 
+exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
+    var result = {};
+    var err;
+    ettestagtt(result, function (err, result) {
+        ettestctt(result, function (err, result) {
+            callback(err, result);
+        });
+    });
+}
+
+
+// -------------------------------------------------------------------------------------------------------
 // This series of tests will send parameters to func_b.
 // There are variations of pre and post execute applied to 
 // the calling of func_b. In pre, mid, and post, a parameter is 
@@ -205,10 +419,9 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             "executethis": "ettestct14"
         }, {
             "executethis": "ettestct15"
+        }, {
+            "executethis": "ettestct16"
             // These still need the configs to be converted to be passed in as parameters.
-            // ct16 will break the ctt test run
-            // },{ 
-            // "executethis": "ettestct16"
             // },{ 
             // "executethis": "ettestct18"
             // },{
@@ -231,10 +444,10 @@ exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
         }, {
             "executethis": "ettestag3"
         }],
-        function (err, res) {}
+        function (err, res) {
+            callback(err, res);
+        }
     );
-    var err;
-    callback(err, test_results);
 }
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -1497,7 +1710,6 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
 // config params in the assertion wid.
 exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
     testclearstorage();
-    // config = setconfig2();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "mock_server",
@@ -1576,48 +1788,62 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
         callback(err, res)
     });
 }
-// To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function
-// or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.
+
+// This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
 exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
     testclearstorage();
-    config = setconfig7();
     var parameters = {
-        "executethis": "doesnotexist",
+        "executethis": "func_b",
         "c": "0",
         "d": "1",
         "e": "2",
         "configuration": {
-            midExecute: {
-                'exdef': 'param after dothis and executeparam was grabbed'
-            }
+            "midexecute": [{
+                "dothis": "dothis",
+                "tryorder": "1",
+                "executeorder": "1",
+                "params": {
+                    "exdef": "param after dothis and executeparam was grabbed"
+                }
+            }]
         }
     }
     var assert = {
+        "exdef": "param after dothis and executeparam was grabbed",
         "d": "1",
         "c": "0",
-        "g": "4",
-        "exdef": "executedefault was grabbed"
+        "g": "4"
     }
     master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
         callback(err, res)
     });
 }
+
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
 exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
     testclearstorage();
-    config = setconfig7();
+    // config = setconfig7();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "func_a",
         "c": "0",
         "d": "1",
-        "e": "2"
+        "e": "2",
+        "configuration": {
+            "midexecute": [{
+                "dothis": "dothis",
+                "tryorder": "1",
+                "executeorder": "1",
+                "params": {
+                    "exdef": "param after dothis and executeparam was grabbed"
+                }
+            }]
+        }
     }
     var assert = {
         "exdef": "param after dothis and executeparam was grabbed",
         "f": "3",
         "c": "0",
-        "myexfnparam": "hereismyfnparam",
         "g": "4"
     }
     master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
@@ -1728,26 +1954,7 @@ exports.alertFn1 = alertFn1 = function alertFn1(params, callback) {
     // delete params["configuration"];
     var err;
     callback(err, params);
-
-
-
 }
-// // Test to call a function
-// exports.ft1 = ft1 = function ft1(params, callback) {
-//     testclearstorage();
-//     executetest("executethis", {
-//         "executethis": "func_b",
-//         "c": "0",
-//         "d": "1",
-//         "e": "2"
-//     }, "ft1_output", "");
-//     params = logverify("c_unit_tests", "ft1_result", "ft1_output", "", "", {
-//         "c": "0",
-//         "d": "1",
-//         "g": "4"
-//     });
-//     callback(err, params);
-// }
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -1821,6 +2028,7 @@ exports.async_func_c = async_func_c = function async_func_c(parameters, callback
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 // This will test the ability to write a dto to the db and retrieve it
+
 exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
     testclearstorage();
     execute([{
@@ -1839,6 +2047,45 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
                 "wid": "sounddto",
                 "metadata.method": "sounddto"
             });
+            callback(err, res);
+        });
+}
+
+exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
+    testclearstorage();
+
+    debuglevel = 75;
+    debugname = "updatewid";
+    debugcat = "";
+    debugsubcat = "";
+
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "superhero",
+            "name": "Nick"
+        }, {
+            "executethis": "updatewid",
+            "wid": "superhero",
+            "name": "Nick Fury"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "superhero"
+        }],
+        function (err, res) {
+            proxyprinttodiv('Function ag1 result ', res, 99);
+            res = logverify("ettestag1a_result", res[2][0], {
+                "name": "Nick Fury",
+                "wid": "superhero",
+                "metadata.method": ""
+            });
+
+
+            debugfn("updatewid code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+            debugname = "";
+            debugcat = "";
+            debugsubcat = "";
+
             callback(err, res);
         });
 }
@@ -1908,9 +2155,9 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     testclearstorage();
 
     debuglevel = 75;
-    debugname = "getwidmongo";
+    debugname = "updatewid";
     debugcat = "";
-    debugsubcat = "";
+    debugsubcat = "code";
 
 
     execute([{
@@ -1923,7 +2170,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             "wid": "songdto",
             "metadata.method": "songdto",
             "title": "string",
-            "sounddto": "onetomany"
+            "metadata.sounddto.type": "onetomany"
         }, {
             "executethis": "addwidmaster",
             "wid": "rel_sound_to_song",
@@ -1976,7 +2223,8 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         function (err, res) {
 
 
-            debugfn("update code generator END", "addmaster", "", "code", debugcolor, debugindent, {}, 5);
+            // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+            debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 9);
             debugname = "";
             debugcat = "";
             debugsubcat = "";
@@ -1997,8 +2245,6 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
                 "sounddto.2.wid": "5",
                 "sounddto.2.metadata.method": "sounddto"
             });
-
-
             callback(err, res);
         });
 }
@@ -2091,108 +2337,35 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
         });
 }
 
-// call multiple requests in a series fashion
-exports.ettestseries = ettestseries = function ettestseries(params, callback) {
-    testclearstorage();
-    execute([{
-            "executethis": "addwid",
-            "c": "0",
-            "d": "1",
-            "e": "2",
-            "wid": "test"
-        }, {
-            "executethis": "addwid",
-            "wid": "subtest"
-        }, {
-            "executethis": "getwid",
-            "wid": "test"
-        }],
-        function (err, res) {
-            res = logverify("ettestt3a_result", res[0][0], {
-                "c": "0",
-                "g": "4",
-                "f": "3"
-            });
-            callback(err, res);
-        });
-}
 
-exports.ettestmultiple = ettestmultiple = function ettestmultiple(params, callback) {
-    testclearstorage();
-    var commandobject = {};
-    commandobject['executemethod'] = "execute";
-    commandobject['executelimit'] = 15;
-    commandobject['executeorder'] = 'series';
-    commandobject['executefilter'] = 'addwid';
+// exports.uw = uw = function uw(params, callback) {
 
-    var parameters = [
-        [{
-            "fn": "updatewid"
-        }, {
-            "wid": "a",
-            "a1": "a2",
-            "b1": "b2"
-        }]
-    ];
+//     // build database ??
 
-    // executethismultiple(parameters, commandobject, function(err,res){
-    // alert(JSON.stringify(res));
-    var assert = [
-        [{
-            "fn": "updatewid"
-        }],
-        [{
-            "wid": "a",
-            "a1": "a2",
-            "b1": "b2"
-        }]
-    ];
-    test_and_verify("executethismultiple", "execute", parameters, assert, function (err, res) {
-        proxyprinttodiv('Function ettestmultiple result ', res, 99);
-        callback(err, res)
-    });
-    // });
-    // test_and_verify("executethismultiple", parameters, assert, function (err, res) {
-    //     callback(err, res)
-    // });
-}
+//     // Here are the ins and outs, but without a db, the test wont work
 
-exports.ettestmultiple1 = ettestmultiple1 = function ettestmultiple1(params, callback) {
-    testclearstorage();
-    var commandobject = {};
-    commandobject['executemethod'] = "execute";
-    commandobject['executelimit'] = 15;
-    commandobject['executeorder'] = 'series';
-    commandobject['executefilter'] = 'addwid';
+//     var parameters = {
+//         "executemethod": "updatewid",
+//         "metadata.method": "sounddto",
+//         "wid": "sounddto",
+//         "note": "string"
+//     }
 
-    var parameters = [
-        [{
-            "fn": "ettestt1"
-        }, {}],
-        [{
-            "fn": "ettestmultiple"
-        }, {}],
-        [{
-            "fn": "ettestt1"
-        }, {}],
-        [{
-            "fn": "ettestmultiple"
-        }, {}]
-    ];
+//     var assert = {
+//             "wid": "sounddto",
+//             "metadata": {
+//                 "method": "sounddto",
+//                 "date": "2014-01-30T14:15:21.572Z"
+//             },
+//             "data": {
+//                 "note": "string"
+//             }
 
-    var assert = [];
-    // executethismultiple(parameters, commandobject, function(err,res){
-    // alert(JSON.stringify(res));
-    test_and_verify("ettestmultiple1", "execute", parameters, assert, function (err, res) {
-        proxyprinttodiv('Function ettestmultiple1 result ', res, 99);
-        callback(err, res)
-    });
-    // });
-    // test_and_verify("executethismultiple", parameters, assert, function (err, res) {
-    //     callback(err, res)
-    // });
-}
+//     // test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+//         callback(err, res)
+//     });
 
+// }
 
 exports.mut = mut = function mut(params, callback) {
     testclearstorage();
@@ -2220,31 +2393,427 @@ exports.mut = mut = function mut(params, callback) {
     );
 
 
-    executethismultiple(data, commandobject, function (err, res) {
+    executethismultiple(data, function (err, res) {
         callback(err, res)
     });
 }
 
+exports.addwid4params = addwid4params = function addwid4params(a, b, c, d, callback) {
 
-function func_b2(p1, p2, p3, callback) {
-    var data = {};
-    data = jsonConcat(p2, p3);
+    var paramsDataString = "{\"" + a + "\":\"" + a + "\",\"" + b + "\":\"" + b + "\",\"" + c + "\":\"" + c + "\",\"" + d + "\":\"" + d + "\"}";
+    // alert(paramsDataString);
+    var json = JSON.parse(paramsDataString);
+    addwidmaster(json, callback);
+}
+
+exports.testnested1 = testnested1 = function testnested1(params, callback) {
+    testclearstorage();
+
+    var inparams = [
+        [{
+            "executethis": "addwidmaster",
+            "wid": "a2-56",
+            "a2": "b2"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "a2-56"
+        }],
+        [{
+            "executethis": "addwidmaster",
+            "wid": "a2-57",
+            "a2": "b2"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "a2-57"
+        }],
+        [{
+            "executethis": "addwidmaster",
+            "wid": "a2-58",
+            "a2": "b2"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "a2-58"
+        }]
+
+    ];
+
+    execute(inparams, callback);
+}
+
+
+exports.testnested3 = testnested3 = function testnested3(params, callback) {
+    testclearstorage();
+
+    var inparams = [{
+            "executethis": "addwidmaster",
+            "wid": "a2-56",
+            "a2": "b2"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "a2-56"
+        },
+        [{
+            "executethis": "addwidmaster",
+            "wid": "a2-57",
+            "a2": "b2"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "a2-57"
+        }],
+        [
+            [{
+                "executethis": "addwidmaster",
+                "wid": "a2-58",
+                "a2": "b2"
+            }, {
+                "executethis": "getwidmaster",
+                "wid": "a2-58"
+            }]
+        ]
+
+    ];
+
+    execute(inparams, callback);
+}
+
+exports.testnested4 = testnested4 = function testnested4(params, callback) {
+    testclearstorage();
+
+    var inparams = [{
+            "executethis": "addwidmaster",
+            "wid": "a2-56",
+            "a2": "b2"
+        },{
+            "executethis": "getwidmaster",
+            "wid": "a2-56",
+            "a2": "b2"
+        }];
+
+    execute(inparams, callback);
+}
+
+exports.testnested5 = testnested5 = function testnested5(params, callback) {
+    testclearstorage();
+
+    var inparams = {
+            "executethis": "addwidmaster",
+            "wid": "a2-56",
+            "a2": "b2"
+        };
+
+    execute(inparams, callback);
+}
+
+
+exports.testnested2 = testnested2 = function testnested2(params, callback) {
+    testclearstorage();
+
+    var inparams = [
+        [{
+            "executethis": "addwidmaster",
+            "wid": "a2-56",
+            "a2-56": "b2-56"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "a2-56"
+        }],
+        [
+            [{
+                "executethis": "addwidmaster",
+                "wid": "a2-57",
+                "a2-57": "b2-57"
+            }, {
+                "executethis": "getwidmaster",
+                "wid": "a2-57"
+            }],
+            [{
+                "executethis": "addwidmaster",
+                "wid": "a2-58",
+                "a2-58": "b2-58"
+            }, {
+                "executethis": "getwidmaster",
+                "wid": "a2-58"
+            }]
+        ]
+    ];
+
+    execute(inparams, callback);
+}
+
+
+exports.testmultiplenested = testmultiplenested = function testmultiplenested(params, callback) {
+    testclearstorage();
+
+    var inparams = [
+        [{
+            "fn": "addwidmaster",
+            "wid": "a2-56",
+            "a2": "b2"
+        }, {
+            "fn": "getwidmaster",
+            "wid": "a2-56"
+        }],
+        [
+            [{
+                "fn": "addwidmaster",
+                "wid": "a2-57",
+                "a2": "b2"
+            }, {
+                "fn": "getwidmaster",
+                "wid": "a2-57"
+            }],
+            [{
+                "fn": "addwidmaster",
+                "wid": "a2-58",
+                "a2": "b2"
+            }, {
+                "fn": "getwidmaster",
+                "wid": "a2-58"
+            }],
+            [
+                [{
+                        "fn": "addwid4params"
+                    },
+                    [
+                        "a",
+                        "b",
+                        "c",
+                        "d"
+                    ]
+                ]
+            ]
+        ]
+    ];
+
+    executethismultiple(inparams, callback);
+}
+
+exports.t121212 = t121212 = function t121212(params, callback) {
+    testclearstorage();
+
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
+            [
+                "func_b",
+                "func_b", {
+                    "c": "01",
+                    "d": "11",
+                    "e": "21"
+                }, {
+                    "c": "02",
+                    "d": "12",
+                    "g": "42"
+                }
+            ]
+        ],
+        [{
+                "fn": "addwid4params"
+            },
+            [
+                "a", "b", "c", "d"
+            ]
+
+        ],
+        [{
+                "fn": "addwid4params"
+            },
+            [
+                "12", "23", "34", "45"
+            ]
+
+        ]
+
+    ];
+
+    executethismultiple(todolist, callback);
+}
+
+exports.test121212 = test121212 = function test121212(params, callback) {
+    testclearstorage();
+
+
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
+            [
+                "func_b",
+                "func_b", {
+                    "c": "0",
+                    "d": "1",
+                    "e": "2"
+                }, {
+                    "c": "0",
+                    "d": "1",
+                    "g": "4"
+                }
+            ]
+        ]
+    ];
+
+    executethismultiple(todolist, callback);
+
+    // todolist = 
+    //     [
+    //         [
+    //             {"fn": "test_and_verify"},
+    //             [
+    //                 "func_b", 
+    //                 "func_b",
+    //                 {
+    //                     "c": "0", 
+    //                     "d":"1", 
+    //                     "e":"2"
+    //                 }, 
+    //                 {
+    //                     "c": "0", 
+    //                     "d":"1", 
+    //                     "g":"4"
+    //                 }
+    //             ]
+    //         ],
+    //         [
+    //             {"fn": "test_and_verify"},
+    //             [
+    //                 "func_a", 
+    //                 "func_a",
+    //                 {
+    //                     "c": "0", 
+    //                     "d":"1", 
+    //                     "e":"2"
+    //                 }, 
+    //                 {
+    //                     "c": "0", 
+    //                     "d":"1", 
+    //                     "f":"3"
+    //                 }
+    //             ]
+    //         ]
+    //     ];
+
+    // todolist = 
+    //     [
+    //         [
+    //             {"fn": "func_b2"},
+    //             [
+    //                 "test", 
+    //                 {"a": "b"}, 
+    //                 {"c": "d"}
+    //             ]
+    //         ]
+    //     ];
+
+
+    // todolist =  [
+    //                 [
+    //                     {"fn": "test_and_verify"},
+
+    //                     [
+    //                         "offlineupdatewid",
+    //                         "offlineupdatewid",
+
+    //                         [    
+    //                             [
+    //                                 {"metadata.method": "sounddto"},
+    //                                 {"wid": "sounddto"},
+    //                                 {"note": "string"}
+    //                             ]
+
+    //                             ,
+
+    //                             [
+    //                                 {"wid": "sounddto"},
+    //                                 {"metadata": [{
+    //                                     "method": "sounddto",
+    //                                     "date": "2014-01-30T19:08:41.604Z"
+    //                                             }]},
+    //                                 {"data": [{
+    //                                     "note": "string"
+    //                                         }]
+    //                                 }
+    //                             ]
+    //                         ] 
+
+    //                     ]
+
+    //                 ]
+    //             ]
+
+
+
+
+
+    // todolist =  [
+    //                 [
+    //                     {"fn": "test_and_verify"},
+
+    //                     [
+    //                         "offlineupdatewid",
+    //                         "offlineupdatewid",
+
+    //                         [    
+    //                             {"parameters": {
+    //                                 "metadata.method": "sounddto",
+    //                                 "wid": "sounddto",
+    //                                 "note": "string"
+    //                                 }
+    //                             }
+    //                             ,
+
+    //                             {"assert": 
+    //                                 {
+    //                                 "wid": "sounddto",
+    //                                 "metadata": {
+    //                                     "method": "sounddto",
+    //                                     "date": "2014-01-30T19:08:41.604Z"
+    //                                             },
+    //                                 "data": {
+    //                                     "note": "string"
+    //                                         }
+    //                                 }
+    //                             }
+    //                         ] 
+
+    //                     ]
+
+    //                 ]
+    //             ]
+
+    // todolist = 
+    //     [
+    //         [
+    //             {"fn": "func_b2"},
+    //             [
+    //                 "test", 
+    //                 "test", 
+    //                 {
+    //                     "c":"0", 
+    //                     "d":"1", 
+    //                     "e":"2"
+    //                 }, 
+    //                 {
+    //                     "c":"0", 
+    //                     "d":"1", 
+    //                     "g":"4"
+    //                 }
+    //             ]
+    //         ]
+    //     ];
+
+    // executethismultiple(todolist, callback, commandobject);
+}
+
+function func_b2(p1, p2, p3, p4, callback) {
+    data = {};
+    delete p3['e'];
+    data = jsonConcat(p3, p4);
     data[p1] = 'hello';
 
     var err;
     callback({}, data);
 }
-
-
-function b2c(params, callback) {
-    executeone([[{"fn":"func_b22"},["test", {
-        "a": "b"
-    }, {
-        "c": "d"
-    }]]],undefined,callback);
-}
-
-
 
 function func_b22(params, callback) {
     func_b2("test", {
@@ -2252,4 +2821,93 @@ function func_b22(params, callback) {
     }, {
         "c": "d"
     }, callback);
+}
+
+// data.push(
+
+//         [
+//             {"fn": "test_and_verify"},
+//                 {
+//                 "name": "offlineupdatewid",
+//                 "fnname": "offlineupdatewid",
+//                 "parameters": {
+//                     "metadata.method": "sounddto",
+//                     "wid": "sounddto",
+//                     "note": "string"
+//                     },
+//                 "assert": {
+//                     "wid": "sounddto",
+//                     "metadata": {
+//                     "method": "sounddto",
+//                     "date": "2014-01-30T19:08:41.604Z"
+//                     },
+//                 "data": {
+//                     "note": "string"
+//                     }
+//                 }
+
+//             }
+//         ]
+
+// );
+
+
+
+// data.push(
+//     [
+//         {
+//             "fn": "test_and_verify"
+//         },
+//         {
+//             "name": "offlineupdatewid",
+//             "fnname": "offlineupdatewid",
+//             "parameters": {
+//                 "wid": "rel_sound_to_song",
+//                 "primarywid": "songdto",
+//                 "secondarywid": "sounddto",
+//                 "relationshiptype": "attributes",
+//                 "metadata.method": "defaultdto"
+//             },
+//             "assert": {
+//                 "wid": "rel_sound_to_song",
+//                 "metadata": {
+//                     "method": "defaultdto",
+//                     "date": "2014-01-30T19:08:41.631Z"
+//                 },
+//                 "data": {
+//                     "primarywid": "songdto",
+//                     "secondarywid": "sounddto",
+//                     "relationshiptype": "attributes"
+//                 }
+//             }
+//         }
+//     ]
+// );
+
+// exec_mut(data, function (err, res) {
+//     callback(err, res)
+// });
+
+
+
+exports.exec_mul_test = function exec_mul_test(data) {
+    for (d in data) {
+        // test_and_verify(data[d]);
+
+        // exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
+
+        var a = data[d][1]['name'];
+        var b = data[d][1]['fnname'];
+        var c = [data[d][1]['parameters']];
+
+        var d = [data[d][1]['assert']];
+
+        console.log('a: ' + a);
+        console.log('b: ' + b);
+        console.log('c: ' + JSON.stringify(c));
+        console.log('d: ' + JSON.stringify(d));
+
+        test_and_verify(a, b, c, d);
+
+    }
 }

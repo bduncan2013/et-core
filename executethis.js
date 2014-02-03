@@ -14,16 +14,6 @@
 
     var execute, executethis, etexecute;
 
-    //     in execute() if not array then proceed normal
-    //  if array then for then step through the top level of that array
-    // for each item in the array create an execute object for multiple
-    // after creating the array call multiple 
-    //     just before before calling execute one
-    // check to see if the object looks like this [{fn: ...if it does then proceed to execute one
-    // else step through item in eacttodo, for each call execute()
-
-    // then we would still need some more logic in mutiple
-    // if ((incomingparams instanceof Array)) {
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
 
 
@@ -33,39 +23,16 @@
 
 
         if ((incomingparams instanceof Array)) {
-
             proxyprinttodiv("execute - array params received ", incomingparams, 99);
 
-            function populateArray(argsArray, incomingparams) {
-                for (var i = 0; i < incomingparams.length; i++) {
-                    if (incomingparams[i] instanceof Array) {
-                        populateArray(argsArray, incomingparams[i]);
-                    } else {
-                        var item = [];
-                        item.push({
-                            "fn": "execute"
-                        });
-                        item.push(incomingparams[i]);
-                        argsArray.push(item);
-                    }
-                }
-            }
 
-            var argsArray = [];
-            populateArray(argsArray, incomingparams);
-
-            executethismultiple(argsArray, callback);
+            executethismultiple(incomingparams, callback);
 
 
         } else {
-
-
-            //incomingparams = toLowerKeys(incomingparams);
-
             proxyprinttodiv("execute - inboundparms", incomingparams, 11);
             proxyprinttodiv("execute - callback fn ", String(callback), 11);
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
-
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
@@ -90,7 +57,6 @@
                 dothisprocessor(preResults, 'midexecute', function (err, midResults) {
 
                     midError = err;
-                    //if (midResults instanceof Array) {midResults=midResults[0]};
                     console.log(' after midexecute >> ' + nonCircularStringify(midResults));
 
                     if (!midResults)
@@ -107,18 +73,12 @@
                     dothisprocessor(midResults, 'postexecute', function (err, postResults) {
 
                         console.log(' after postexecute >> ' + nonCircularStringify(postResults));
-                        //if (preResults instanceof Array) {postResults=postResults[0]};
                         if (!postResults)
                             postResults = {};
 
                         overallError = extend(true, preError, midError, err);
 
                         if (Object.prototype.toString.call(postResults) !== '[object Array]') {
-                            // if (postResults.length > 0) {
-                            //     postResults = postResults[0];
-                            // } else {
-                            //     postResults = {};
-                            // }
                             var tempArray = [];
                             tempArray.push(postResults);
                             postResults = tempArray;
@@ -132,419 +92,191 @@
 
     };
 
-    // exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(todolist, callback) {
+    // > 
+    // > executeone
+    // > if (!parm[‘fn’]) {parm[‘fn’]=“execute”}
+    // > …
+    // > window[fn].apply(window, fnparams);
+    exports.executeone = executeone = function executeone(params, callback) {
+        // execute one processes siglelevel arrays because they have to be either  
+        // [{fn:fn},[a:b]] or like this [{execuethis:a, b:c}]
+        var fn;
+        var fnparams = [];
+        var output = [];
 
-    //     proxyprinttodiv("executethismultiple - outside iteration - todolist ", todolist, 99);
-    //     var output = [];
+        var fncallbck = function (err, resp) {
+            output.push(resp);
+            callback(err, output[0]);
+        };
 
-    //     todolist=[[{"fn":"mirror"}, {"a":"b"}],[{"fn":"mirror"}, {"c":"d"}]];
-    //     async.eachSeries(todolist, function (eachtodo, cbMap) {
-    //         proxyprinttodiv("executethismultiple - iteration - eachtodo ", eachtodo, 99);
-    //         var fn = eachtodo[0]['fn'];
-    //         var parms = eachtodo[1];
-    //         // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
-    //         window[fn](parms, function (err, resp) {    
-    //         // window[fn](parms, function (err, resp) {
-    //             output.push(resp);
-    //             cbMap(null);
-    //         });
-    //     }, function (err, resp) {
-    //         // if any of the saves produced an error, err would equal that error
-    //         proxyprinttodiv("executethismultiple - output ", output, 99);
-    //         callback(err, output);
-    //     });
-    // }
+        proxyprinttodiv("executeone - params >> params ", params, 99);
+        if (params[0] && params[0].fn) {
+            proxyprinttodiv("executeone - params >> fn ", params, 99);
+            fn = params[0]['fn'];
+            fnparams = params[1];
+        } else {
+            fn = 'execute';
+            fnparams.push(params[0]);
+        }
+        fnparams.push(fncallbck);
 
-    exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(todolist, callback, commandobject) {
+        window[fn].apply(window, fnparams);
+    }
 
+
+    exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(inparams, callback, inCmd) {
+
+        // > execute()
+        // > if array then multiple()
+        // > else normal
+        // > 
+        // > multiple
+        // > split into series, parallel, waterfall
+        // > if eachtodo = array 
+        // >   {for (eachsplit in eachtodo) {
+        // >       executemultiple(eachtodo[eachsplit])
+        // >       }
+        // > else (if not array) {executeone()}
+
+
+        var commandobject = {};
         var defaultCommandObject = {};
         defaultCommandObject['executefilter'] = 'addwid';
         defaultCommandObject['executelimit'] = 15;
         defaultCommandObject['executemethod'] = 'execute';
         defaultCommandObject['executeorder'] = 'series';
 
-        if (commandobject) {
-            defaultCommandObject = arguments[2];
-        }
-
-        commandobject = defaultCommandObject;
 
 
-        if (false) {
-            var output = [];
-            async.eachSeries(todolist, function (eachtodo, cbMap) {
-                proxyprinttodiv("executethismultiple - iteration - eachtodo ", eachtodo, 99);
-                var fn = eachtodo[0]['fn'];
-                var parms = eachtodo[1];
 
-                if (parms instanceof Array) {
 
-                    executethismultiple(parms, function (err, resp) {
-                        // output.push(resp);
-                        cbMap(null);
-                    });
-
-                } else {
-
-                    // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
-                    window[fn](parms, function (err, resp) {
-                        // window[fn](parms, function (err, resp) {
-                        output.push(resp);
-                        cbMap(null);
-                    });
-
-                }
-            }, function (err, resp) {
-                // if any of the saves produced an error, err would equal that error
-                proxyprinttodiv("executethismultiple - output ", output, 99);
-                callback(err, output);
-            });
+        if (inCmd) {
+            commandobject = inCmd;
         } else {
-
-            proxyprinttodiv("executethismultiple - outside iteration - todolist ", todolist, 99);
-
-            function filterParams(item, callback) {
-                callback(item == item);
-            }
-
-            async.filter(todolist, filterParams, function (filteredParams) {
-
-                //filter 1st n request only
-                if (filteredParams && (filteredParams.length > commandobject.executelimit)) {
-                    filteredParams = filteredParams.splice(15);
-                }
-
-                var output = [];
-                switch (commandobject.executeorder) {
-
-
-                case 'series':
-                    async.mapSeries(filteredParams, function (eachtodo, cbMap) {
-                        executeone(eachtodo, function (err, res) {
-                            // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
-                            output.push(res);
-                            cbMap(null);
-                        });
-                    }, function (err, resp) {
-                        // if any of the saves produced an error, err would equal that error
-                        proxyprinttodiv("executethismultiple - output ", output, 99);
-                        callback(err, output);
-                    });
-                    break;
-
-                case 'waterfall':
-
-                    function createFnArray(filteredParams, output) {
-
-
-                        var fnArray = [];
-                        var output = [];
-                        for (var i = 0; i < filteredParams.length; i++) {
-                            var params = filteredParams[i];
-                            proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 99);
-                            var func = getFunction(params);
-                            fnArray.push(func);
-                        }
-
-                        function getFunction(params) {
-                            return function (cb1) {
-                                executeone(params, function (err, res) {
-                                    // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
-                                    output.push(res);
-                                    cb1(null);
-                                });
-                            };
-                        }
-                        return fnArray;
-                    };
-                    async.waterfall(createFnArray(filteredParams), function (err, resp) {
-                        callback(err, resp);
-                    });
-
-                    // var fnparmsArray = [];
-                    // var fnArray = [];
-                    // proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 99);
-                    // for (var i = 0; i < filteredParams.length; i++) {
-                    //     var params = filteredParams[i];
-                    //     var fn = params[0]['fn'];
-                    //     var fnparms = params[1];
-                    //     fnparmsArray.push(fnparms);
-                    //     fnArray.push(fn);
-                    // }
-
-                    // async.waterfall(
-                    //     for (var i = 0; i < fnArray.length; i++) {
-                    //         async.apply(window[fnArray[i]], fnparmsArray[i]),
-                    //     }
-                    // , function (err, resp) {
-                    //     callback(err, resp);
-                    // });
-
-
-                    break;
-
-                case 'parallel':
-
-                    async.map(filteredParams, function (eachtodo, cbMap) {
-                        proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 99);
-                        executeone(eachtodo, function (err, res) {
-                            output.push(res);
-                            cbMap(null);
-                        });
-                    }, function (err, resp) {
-                        // if any of the saves produced an error, err would equal that error
-                        proxyprinttodiv("executethismultiple - parallel -- output ", output, 99);
-                        callback(err, output);
-                    });
-                    break;
-                }
-            });
-        }
-    }
-
-    exports.mirror = window.mirror = mirror = function mirror(params, callback) {
-        params["x"] = "y";
-        proxyprinttodiv("mirror - mirroor ", 'on the wall', 99);
-        callback({}, params)
-    }
-
-
-    exports.mirrortest = window.mirrortest = mirrortest = function mirrortest(params, callback) {
-        execute([{
-                "executethis": "mirror",
-                "c": "d"
-            }, {
-                "executethis": "mirror",
-                "a": "b"
-            }], undefined,
-            function (err, res) {
-                callback(err, res);
-            }
-        );
-    }
-
-    exports.mirrorbreaktest = window.mirrorbreaktest = mirrorbreaktest = function mirrorbreaktest(params, callback) {
-        execute([
-                [{
-                    "executethis": "mirror",
-                    "c": "d"
-                }, {
-                    "executethis": "mirror",
-                    "a": "b"
-                }],
-                [{
-                    "executethis": "mirror",
-                    "c": "d"
-                }, {
-                    "executethis": "mirror",
-                    "a": "b"
-                }]
-            ], undefined,
-            function (err, res) {
-                callback(err, res);
-            }
-        );
-    }
-
-
-    exports.mut1 = mut1 = function mut1(params, callback) {
-        testclearstorage();
-
-        var data = [];
-        data.push(
-            [{
-                    "fn": "func_b2"
-                },
-                [
-                    "test", {
-                        "a": "b"
-                    }, {
-                        "c": "d"
-                    }
-                ]
-            ]
-        );
-
-        executeone(data[0], function (err, res) {
-            proxyprinttodiv("mut1 - mut1 -- res ", res, 99);
-            callback(err, res)
-        });
-    }
-
-
-    exports.mut2 = mut2 = function mut2(params, callback) {
-        testclearstorage();
-
-        var data = [];
-        data.push(
-            [{
-                    "fn": "func_b2"
-                },
-                [
-                    "test", {
-                        "a": "b"
-                    }, {
-                        "c": "d"
-                    }
-                ]
-            ]
-        );
-        data.push(
-            [{
-                    "fn": "func_b2"
-                },
-                [
-                    "test", {
-                        "a": "b"
-                    }, {
-                        "c": "d"
-                    }
-                ]
-            ]
-        );
-
-        executethismultiple(data, function (err, res) {
-            proxyprinttodiv("mut2 - mut2 -- res ", res, 99);
-            callback(err, res)
-        });
-    }
-
-    exports.mut3 = mut3 = function mut3(params, callback) {
-        testclearstorage();
-
-        var data = [];
-        data.push(
-            [{
-                    "fn": "updatewid"
-                },
-                [{
-                    "wid": "test1",
-                    "c1": "d1"
-                }]
-            ]
-        );
-        data.push(
-            [{
-                    "fn": "getwid"
-                },
-                [{
-                    "wid": "test1"
-                }]
-            ]
-        );
-        data.push(
-            [{
-                    "fn": "getwid"
-                },
-                [{
-                    "wid": "test1"
-                }]
-            ]
-        );
-
-        executethismultiple(data, function (err, res) {
-            proxyprinttodiv("mut3 - mut3 -- res ", res, 99);
-            callback(err, res)
-        });
-    }
-
-    exports.executeone = executeone = function executeone(params, callback) {
-        var output = [];
-        var fn = params[0]['fn'];
-        var fnparams = params[1];
-
-        if(params[1] instanceof Array){
-            fnparams = params[1];
-        }else{
-            var arr = [];
-            arr.push(params[1]);
-            fnparams = arr;
+            commandobject = defaultCommandObject;
         }
 
-        var fncallbck = function (err, resp) {
-            // window[fn](parms, function (err, resp) {
-            output.push(resp);
-            proxyprinttodiv("executeone - output ", output, 99);
-            // cbMap(null);
-            callback(err, output);
-        };
-        fnparams.push(fncallbck);
-        // window[fn]([{"executethis":"updatewid","wid":"1"},{"executethis":"updatewid","wid":"2"}], function (err, resp) {
-        window[fn].apply(window, fnparams);
+        proxyprinttodiv("executethismultiple - outside iteration - inparams ", inparams, 99);
+
+        function filterParams(item, callback) {
+            callback(item == item);
+        }
+        async.filter(inparams, filterParams, function (filteredParams) {
+
+
+
+            //filter 1st n request only
+
+            if (filteredParams && (filteredParams.length > commandobject.executelimit)) {
+                filteredParams = filteredParams.splice(15);
+            }
+
+            var output = [];
+            switch (commandobject.executeorder) {
+
+            case 'series':
+                async.mapSeries(filteredParams, function (eachtodo, cbMap) {
+                        proxyprinttodiv("executethismultiple - eachtodo ", eachtodo, 99);
+
+                        // if the inside of the array is not an array then it sends either  [{fn:fn},[a:b]] or like this [{execuethis:a, b:c}] to execugeone
+
+                        if ((!(eachtodo instanceof Array && eachtodo[0] && eachtodo[0].fn && eachtodo[1] instanceof Array && eachtodo.length === 2)) && (!(typeof eachtodo === "object" && eachtodo['executethis']))) {
+                            // proxyprinttodiv("series - eachtodo", eachtodo, 99);
+                            executethismultiple(eachtodo, cbMap);
+                        } else if (eachtodo instanceof Array && eachtodo[0] && eachtodo[0].fn && eachtodo[1] instanceof Array && eachtodo.length === 2) {
+                            executeone(eachtodo, function (err, res) {
+                                // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
+                                output.push(res);
+                                cbMap(null);
+                            });
+                        } else {
+                            proxyprinttodiv("series - eachtodo", eachtodo, 99);
+                            var eachtodoArr = [];
+                            eachtodoArr.push(eachtodo);
+
+                            executeone(eachtodoArr, function (err, res) {
+                                // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
+                                output.push(res);
+                                cbMap(null);
+                            });
+                        }
+                    },
+                    function (err, resp) {
+                        // if any of the saves produced an error, err would equal that error
+                        // proxyprinttodiv("executethismultiple - output ", output, 99);
+                        callback(err, output);
+                    });
+                break;
+
+            case 'waterfall':
+
+                function createFnArray(filteredParams, output) {
+
+
+                    var fnArray = [];
+                    var output = [];
+                    for (var i = 0; i < filteredParams.length; i++) {
+                        var params = filteredParams[i];
+                        proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 99);
+                        var func = getFunction(params);
+                        fnArray.push(func);
+                    }
+
+                    function getFunction(params) {
+                        return function (cb1) {
+                            executeone(params, function (err, res) {
+                                // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
+                                output.push(res);
+                                cb1(null);
+                            });
+                        };
+                    }
+                    return fnArray;
+                };
+                async.waterfall(createFnArray(filteredParams), function (err, resp) {
+                    callback(err, resp);
+                });
+
+                // var fnparmsArray = [];
+                // var fnArray = [];
+                // proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 99);
+                // for (var i = 0; i < filteredParams.length; i++) {
+                //     var params = filteredParams[i];
+                //     var fn = params[0]['fn'];
+                //     var fnparms = params[1];
+                //     fnparmsArray.push(fnparms);
+                //     fnArray.push(fn);
+                // }
+
+                // async.waterfall(
+                //     for (var i = 0; i < fnArray.length; i++) {
+                //         async.apply(window[fnArray[i]], fnparmsArray[i]),
+                //     }
+                // , function (err, resp) {
+                //     callback(err, resp);
+                // });
+
+
+                break;
+
+            case 'parallel':
+
+                async.map(filteredParams, function (eachtodo, cbMap) {
+                    proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 99);
+                    executeone(eachtodo, function (err, res) {
+                        output.push(res);
+                        cbMap(null);
+                    });
+                }, function (err, resp) {
+                    // if any of the saves produced an error, err would equal that error
+                    proxyprinttodiv("executethismultiple - parallel -- output ", output, 99);
+                    callback(err, output);
+                });
+                break;
+            }
+        });
+
     }
-
-
-    //}
-
-
-    /// executethis is a function router that will return result synchronously
-    /// 1st argument -- input parameters, 2nd parameter -- callback function
-    /// second parameter must be a function, if not sent in will be defaulted to 'execute'
-    /// if the function to be called has only one input object then this fn will wait for results (act asynch)
-    // exports.executethis = window.executethis = executethis = function executethis(inboundparms, targetfunction) {
-
-    //     proxyprinttodiv('ERROR ExecuteThis was called ***********************************', inboundparms, 17);
-    //     if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
-    //         return {
-    //             'test1': 'Reached test1 code.. executethis function'
-    //         };
-    //     } else {
-    //         //console.log(' >>>> executethis function from executethis before calling execute with parameters >>> ' + nonCircularStringify(inboundparms));
-    //         if (!targetfunction || !targetfunction instanceof Function || typeof (targetfunction) === 'string') {
-    //             targetfunction = execute;
-    //         }
-
-    //         // var params = {};
-    //         var params = toLowerKeys(inboundparms);
-    //         var argCount = 0;
-
-    //         // cloning inbound params
-    //         // extend(true, params, tempParams);
-
-    //         proxyprinttodiv('Function executethis params', params, 11);
-    //         proxyprinttodiv('Function executethis fn', targetfunction.name, 11);
-    //         proxyprinttodiv('Function executethis length', targetfunction.length, 11);
-    //         console.log('targetfunction length => ' + targetfunction.length);
-    //         if (targetfunction.length !== undefined) {
-    //             argCount = targetfunction.length;
-    //         }
-
-    //         if (argCount == 1) {
-    //             return targetfunction (params); // if targetfn has only one parameter then fn is synchronous
-    //         } else if (argCount > 1) {
-    //             var retResult = undefined,
-    //                 funcDone = false,
-    //                 funcCalled = false,
-    //                 count = 0;
-
-    //             var cbfunction = function (results, results2) {
-    //                 funcDone = true;
-    //                 if (results2) {
-    //                     retResult = results2;
-    //                 } else {
-    //                     retResult = results;
-    //                 }
-    //             };
-
-    //             while (!funcDone) {
-    //                 if (!funcCalled) {
-    //                     funcCalled = true;
-    //                     targetfunction (params, cbfunction);
-    //                 }
-    //                 count++;
-    //                 if (count > 100) {
-    //                     funcDone = true;
-    //                 }
-    //             }
-
-    //             if (retResult === undefined) {
-    //                 retResult = {};
-    //             }
-    //             // if (retResult["etstatus"]=="empty") {retResult={}}
-    //             return retResult;
-    //         }
-    //     }
-    // };
 
     function dothisprocessor(params, target, callback) {
         var whatToDoList,
@@ -762,102 +494,6 @@
         return list;
     }
 
-    // function executelist(howToDoList, whatToDoList, callback) {
-    //     var h,
-    //         w,
-    //         cb,
-    //         whatToDo,
-    //         whatToDoFn,
-    //         howToDo,
-    //         executeobject,
-    //         targetfn,
-    //         foundfn,
-    //         synchflag,
-    //         howToDoParams,
-    //         whatToDoParams,
-    //         params;
-
-    //     var err = undefined;
-    //     var outputResultsArr = [];
-
-    //     // iterate over our how to do list
-    //     proxyprinttodiv("executelist - howToDoList ", howToDoList, 11);
-    //     proxyprinttodiv("executelist - whatToDoList ", whatToDoList, 11);
-
-    //     for (h in howToDoList) { // go through each item in how list
-    //         proxyprinttodiv("dothis - h ", h, 11);
-    //         howToDo = howToDoList[h]['dothis']; // get specific howToDo from list
-    //         howToDoParams = howToDoList[h]['params']; // get params that were stored
-    //         if ((howToDoParams === undefined) || (howToDoParams === "")) {
-    //             howToDoParams = {};
-    //         }
-    //         proxyprinttodiv("executelist Hparams ", howToDoParams, 11);
-    //         proxyprinttodiv("executelist howToDo ", howToDo, 11);
-
-    //         for (w in whatToDoList) { // step through whatlist
-    //             whatToDo = whatToDoList[w]['dothis']; // get specific whattodo
-    //             whatToDoFn = whatToDoList[w]['dofn'];
-    //             whatToDoParams = whatToDoList[w]['params'];
-    //             if ((whatToDoParams === undefined) || (whatToDoParams === "")) {
-    //                 whatToDoParams = {};
-    //             }
-    //             // if((params !== undefined) && (whatToDoList !== undefined)) {
-    //             //     params = jsonConcat(params, whatToDoList[w]['params']); // concatenate with other pararms
-    //             // } 
-    //             // else if(whatToDoList[w]['params'] !== undefined) { // if we cannot concat the params see if there are some params in the what to do list to load
-    //             //     params = whatToDoList[w]['params'];
-    //             // } 
-    //             proxyprinttodiv("executelist Wparams ", whatToDoParams, 11);
-    //             proxyprinttodiv("executelist whatToDo ", whatToDoFn, 11);
-    //             proxyprinttodiv("executelist whatToDoFn ", whatToDoFn, 11);
-    //             executeobject = getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn); // get status of that fn
-    //             proxyprinttodiv("executelist executeobject ", executeobject, 11);
-    //             if (executeobject) {
-    //                 break;
-    //             } // if fnparams sent back (fn found) then end
-    //         } // for w
-    //         if (executeobject) {
-    //             break;
-    //         }
-    //     } // for h
-
-    //     if (!executeobject.skipExecuteObjCheck && (typeof executeobject === 'object' && Object.keys(executeobject).length != 0)) { // need to check to see if execute is an object first (running object.keys on non object will blow it up)
-    //         proxyprinttodiv("executelist executeobject ", executeobject, 11);
-    //         targetfn = executeobject.targetfn;
-    //         whatToDo = executeobject.whatToDo;
-    //         params = executeobject.params;
-    //         synchflag = executeobject.synchflag;
-
-    //         // if (synchflag) { // if callback then call synch
-    //         //     callback(err, executethis(params, targetfn));
-    //         // } else { // else call asynch
-    //         //     targetfn(params, callback)
-    //         // }
-
-    //         targetfn(params, function (err, res) {
-    //             outputResultsArr.push(res);
-    //             console.log("The outputResultsArr contains:" + JSON.stringify(outputResultsArr));
-    //             callback(err, outputResultsArr);
-    //         });
-
-
-    //     } else if (executeobject.skipExecuteObjCheck) { // if case "executegetwid" returned data directly to executeobject
-    //         delete executeobject['skipExecuteObjCheck'];
-    //         callback(err, executeobject);
-    //     } else { // if no execute
-    //         callback(err, {
-    //             "error": "no executethis provided"
-    //         }); // if nothing to execute return parameters
-    //     }
-    // } //fn   
-    // executelist code:
-    // step through howtodolist/whattodolist (inline) recursively 
-    // set flags for what level is being done (how or what)
-    // once something execute the allow execute flag for that level turns off until change of executeorder detected
-    // getexecuteobject always returns something…so something can always be executed
-    // we sometimes execute executeerror fn to get errors
-    // for executegetwid, set up the data, we execute it normal (we may need to add some code)
-
     function executelist(howToDoList, whatToDoList, callback) {
         proxyprinttodiv("executelist - howToDoList ", howToDoList, 17);
         proxyprinttodiv("executelist - whatToDoList ", whatToDoList, 17);
@@ -1071,105 +707,6 @@
     }
 
 
-    // function getexecuteobject(params, howToDo, whatToDo, whatToDoFn) {
-    //     var targetfn = undefined;
-    //     var tempobject;
-    //     var synchflag;
-    //     var fncheck = false;
-
-    //     proxyprinttodiv("getexecuteobject", whatToDo, 11);
-    //     if ((howToDo) && (whatToDo)) {
-
-    //         switch (howToDo) {
-
-    //         case "dothis":
-    //             if (whatToDoFn !== window[whatToDo]) {
-    //                 targetfn = window[whatToDo];
-    //             } else {
-    //                 targetfn = whatToDoFn;
-    //             }
-
-    //             if ((targetfn === undefined) || (targetfn === "")) {
-    //                 // we want to return undefined here so we try the next case
-    //                 targetfn = undefined;
-    //                 break;
-    //             }
-    //             break;
-
-    //         case "executeparam":
-    //             if (params === undefined) {
-    //                 targetfn = undefined;
-    //                 break;
-    //             }
-
-    //             targetfn = params[whatToDo];
-
-    //             if (!targetfn instanceof Function) {
-    //                 targetfn = window[targetfn];
-    //             } else if (typeof targetfn === 'string') {
-    //                 targetfn = window[targetfn];
-    //             }
-
-    //             break;
-
-    //         case "executegetwid":
-    //             execute({executethis:'getwid',wid: whatToDo}, function (err, result) {
-    //                 tempobject = result;
-    //                 if (tempobject !== undefined && tempobject['js']) {
-    //                     targetfn = tempobject['js'];
-    //                 } else {
-    //                     tempobject.skipExecuteObjCheck = true;
-    //                     return tempobject;
-    //                 }
-    //             });
-    //             break;
-
-    //         case "server":
-    //             targetfn = window["server"];
-    //             params['executethis'] = whatToDo;
-    //             fncheck = true;
-    //             break;
-
-    //         case "executeerror":
-    //             targetfn = window["executeerror"];
-    //             break;
-    //         }
-
-    //         if (targetfn !== undefined) {
-    //             synchflag = (targetfn.length == 1);
-    //         }
-
-
-    //         if (fncheck) {
-    //             // check to see if it is a string fucntion
-    //             // check to see if it is a 
-    //             if (!targetfn instanceof Function) {
-    //                 if (targetfn.indexOf('function') != -1) {
-    //                     if (window[targetfn]) {
-    //                         targetfn = window[targetfn]
-    //                     } else {
-    //                         targetfn = executeerror;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         if (targetfn) {
-    //             proxyprinttodiv("executelist targetfunction ", String(targetfn), 11);
-    //             return {
-    //                 targetfn: targetfn,
-    //                 whatToDo: whatToDo,
-    //                 params: params,
-    //                 synchflag: synchflag
-    //             }
-    //         } else {
-    //             return undefined
-    //         }
-    //     } else { // if no exeucte this
-    //         return undefined
-    //     }
-    // } // fn
-
-
 
 
 
@@ -1299,369 +836,6 @@
     // call bootprocess() for the first time after all dependencies have been loaded
     bootprocess();
 
-    // takes in an array of inbound parameters(for different requests)
-    // 
-    // exports.executearray = window.executearray = executearray = function executearray(paramsArr, callback) {
-    //     console.log('>>>> paramsArr beginning >>>> ' + JSON.stringify(paramsArr));
-    //     var resultlist = [];
-    //     async.mapSeries(paramsArr, function (inboundparms, cbMap) {
-    //         // each iteration 
-    //         // var inboundparms = {};
-    //         // extend(true, inboundparms, received_params); // clone received params
-    //         if ((inboundparms !== undefined) && (inboundparms["executethis"] === "test1")) {
-    //             cbMap(null, {
-    //                 'test1': 'Reached test1 code.. executearray function'
-    //             });
-    //         } else {
-    //             execute(inboundparms, function (err, retResults) {
-    //                 resultlist.push(retResults);
-    //                 // console.log('>>>> inboundparms >>>> ' + JSON.stringify(inboundparms));
-    //                 // console.log('>>>> retResults interim  >>>> ' + JSON.stringify(retResults));
-    //                 cbMap(null);
-    //             });
-    //         }
-    //     }, function (err, res) {
-    //         // end of all the execution that was meant to be
-    //         console.log('>>>> retResults final  >>>> ' + JSON.stringify(resultlist));
-    //         callback(err, resultlist);
-    //     });
-    // };
-
-    // create executethismultiple
-    // based on executeArray create excutethismultiple(array, execute, executeFilter, executeOrder, executeLimit, callback)
-
-    // execute: execute or angularexeucte
-    // executeFilter, only execute in the array if execuetthis=
-    // executeOrder: series parallel waterfall
-    // executeLimit: default 10
-
-    // Case of executeOrder
-    // async.parallelLimit([
-    // async.seriesLimit([
-    // async.waterfall([
 
 
-    // create fn executemultiple that calls executethismultiple
-    // fish out parameters the call executethismultiple
-    // takes in an array of inbound parameters(for different requests)
-    // 
-    // exports.executemultiple = window.executemultiple = executemultiple = function executemultiple(parameters, callback) {
-    //     var paramsarray = [];
-
-    //     if (!parameters instanceof Array) {
-    //         paramsarray = parameters["parameters"];
-    //     } else { // if array
-    //         paramsarray = parameters;
-    //     }
-
-    //     executethismultiple(paramsarray, parameters.command.executemethod, parameters.command.executefilter,
-    //         parameters.command.executeorder, parameters.command.executelimit, callback);
-    // }
-
-
-    function test121212(todolist, commandobject, callback) {
-
-        var defaultCommandObject = {};
-        defaultCommandObject['executefilter'] = 'addwid';
-        defaultCommandObject['executelimit'] = 15;
-        defaultCommandObject['executemethod'] = 'execute';
-        defaultCommandObject['executeorder'] = 'series';
-
-        if (!commandobject) {
-            commandobject = defaultCommandObject;
-        }
-
-        todolist = [
-            [{
-                    "fn": "func_b22"
-                },
-                ["test", {
-                    "a": "b"
-                }, {
-                    "c": "d"
-                }]
-            ]
-        ];
-
-        executethismultiple(todolist, commandobject, callback);
-
-
-    }
 })(typeof window == "undefined" ? global : window);
-
-
-
-//          for (h in howToDoList) { // go through each item in how list
-//            proxyprinttodiv("dothis - h ", h, 11);
-//            howToDo = howToDoList[h]['dothis']; // get specific howToDo from list
-//            howToDoParams = howToDoList[h]['params']; // get params that were stored
-//            if ((howToDoParams === undefined) || (howToDoParams === "")) {
-//                howToDoParams = {};
-//            }
-//            proxyprinttodiv("executelist Hparams ", howToDoParams, 11);
-//            proxyprinttodiv("executelist howToDo ", howToDo, 11);
-
-//            async.mapSeries(whatToDoList, function (cbMap) {
-//                // for (w in whatToDoList) { // step through whatlist
-//                if (executeobject) {
-//                    cbMap(null);
-//                } else {
-//                    async.series([
-//                        function part1(cb) {
-//                            // whatToDo = whatToDoList[w]['dothis'];
-//                            whatToDo = whatToDoList[w][howToDo]; // get specific whattodo
-//                            whatToDoFn = whatToDoList[w]['dofn'];
-//                            whatToDoParams = whatToDoList[w]['params'];
-//                            if ((whatToDoParams === undefined) || (whatToDoParams === "")) {
-//                                whatToDoParams = {};
-//                            }
-//                            // if((params !== undefined) && (whatToDoList !== undefined)) {
-//                            //     params = jsonConcat(params, whatToDoList[w]['params']); // concatenate with other pararms
-//                            // } 
-//                            // else if(whatToDoList[w]['params'] !== undefined) { // if we cannot concat the params see if there are some params in the what to do list to load
-//                            //     params = whatToDoList[w]['params'];
-//                            // } 
-//                            proxyprinttodiv("executelist Wparams ", whatToDoParams, 11);
-//                            proxyprinttodiv("executelist whatToDo ", whatToDoFn, 11);
-//                            proxyprinttodiv("executelist whatToDoFn ", whatToDoFn, 11);
-//                            cb(null, "part1");
-//                        },
-//                        function part2(cb) {
-//                            // TODO :: SAURABH :: create a list here in executeobject for multiple .. ??
-//                            executeobject = getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn); // get status of that fn
-//                            cb(null, "part2");
-//                        },
-//                        function part3(cb) {
-//                            proxyprinttodiv("executelist executeobject ", executeobject, 11);
-//                            // if (executeobject) {
-//                            //     break;
-//                            // } // if fnparams sent back (fn found) then end
-//                            cb(null, "part3");
-//                        }
-//                    ], function (err, resp) {
-//                        cbMap(null);
-//                    });
-//                }
-//                // } // for w
-//            }, function (err, res) {
-//                console.log(' completed whatToDoList iteration in sync fashion.');
-//            });
-//            if (executeobject) {
-//                break;
-//            }
-//        } // for h
-
-//     var outputResultsArr = [];
-
-//     var howToDoParams;
-//     var howToDo;
-//     var h;
-//     var whatToDoParams;
-//     var whatToDo;
-//     var w;
-//     var whatToDoFn;
-//     var howexecuteorder;
-//     var whatexecuteorder;
-//     var howtryorder;
-//     var whattryorder;
-//     howexecuteorder = 179; // to force howallowexecute to true in check below
-//     // step through howtodolist and whattodolist, check each combination to see if it should be done, do it, go to next
-
-//     (function recursivestep(processhowtodolevel, currentwhat, currenthow, whatallowexecute, howallowexecute) {
-//         debugfn("executelist", "recursivestep", "execute", "rec1", debugcolor, debugindent, debugvars([1, 2, 3]));
-
-//         if (processhowtodolevel) { // flag to if "How" level should be done
-//             proxyprinttodiv("executelist processhowtodolevel ", processhowtodolevel, 17);
-//             proxyprinttodiv("executelist currenthow ", currenthow, 17);
-//             proxyprinttodiv("executelist currentwhat ", currentwhat, 17);
-//             proxyprinttodiv("executelist howallowexecute ", howallowexecute, 17);
-//             proxyprinttodiv("executelist whatallowexecute ", whatallowexecute, 17);
-//             h = howToDoList[currenthow]; // h is copy if this iterations howtodolist
-//             if (howexecuteorder !== h.executeorder) {
-//                 // if orders are different, then we are in new iteration of do, reset flat to allow how execute
-//                 howallowexecute = true;
-//             }
-//             proxyprinttodiv("executelist h ", h, 17);
-//             howexecuteorder = h.executeorder; // load up current how order/try
-//             howtryorder = h.tryorder;
-//             proxyprinttodiv("executelist howtryorder ", howtryorder, 17);
-//             howToDo = h['dothis']; // get specific howToDo from list
-//             proxyprinttodiv("executelist howToDo ", howToDo, 17);
-//             howToDoParams = h['params']; // get params that were stored
-//             if ((howToDoParams === undefined) || (howToDoParams === "")) { // if not parms in config make sure obejct ok
-//                 howToDoParams = {};
-//             }
-//             whatexecuteorder = 179; // reset what's before start -- force whatallowexecute to true below
-//             currentwhat = 0;
-//             whatallowexecute = howallowexecute; // adopt allow execute from parent how 
-//         }
-//         // "What" level  
-
-//         proxyprinttodiv("executelist whatexecuteorder ", whatexecuteorder, 17);
-//         proxyprinttodiv("executelist whattryorder ", whattryorder, 17);
-//         w = whatToDoList[currentwhat];
-//         if (whatexecuteorder !== w.executeorder) {
-//             // executeorder changed, reset whatallowexecute, other allow it to remain
-//             whatallowexecute = true;
-//         }
-//         whatexecuteorder = w.executeorder;
-//         whattryorder = w.tryorder;
-//         proxyprinttodiv("execute - w", w, 17);
-//         if (w[howToDo]) {
-//             whatToDo = w[howToDo]; // try to get specific config for whatToDo ie getwid.server
-//         } else {
-//             whatToDo = w['dothis']; // default
-//         }
-//         whatToDoFn = w['dofn'];
-//         whatToDoParams = w['params'];
-//         proxyprinttodiv("executelist w ", w, 17);
-
-//         if ((whatToDoParams === undefined) || (whatToDoParams === "")) {
-//             whatToDoParams = {};
-//         }
-//         proxyprinttodiv("execute - h", h, 17);
-//         proxyprinttodiv("execute - whatToDo", whatToDo, 17);
-
-//         if ((howallowexecute) && (whatallowexecute)) { //if both allowed to execute
-//             getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn, function (err, executeobject) {
-//                 // always will get something back, even if errorfn...so always execute and store resutls
-//                 proxyprinttodiv("executelist executeobject ", executeobject, 11);
-//                 executeobject.targetfn(executeobject.params, function (err, res) {
-//                     outputResultsArr.push(res);
-//                     // if res = then maybe do another execute???? getexecute case
-//                     proxyprinttodiv("execute - I currenthow", currenthow, 17);
-//                     proxyprinttodiv("execute - I currentwhat", currentwhat, 17);
-//                     proxyprinttodiv("execute - I howallowexecute", howallowexecute, 17);
-//                     proxyprinttodiv("execute - I whatexecuteorder", whatallowexecute, 17);
-//                     // if we executed something, set allows to false, a new executeorder will reset it back to true
-//                     currentwhat++;
-//                     if (whatToDoList[currentwhat]) { // if still whattodolist then not done, 
-//                         recursivestep(false, currentwhat, currenthow, false, howallowexecute);
-//                     } else {
-//                         currenthow++;
-//                         if (howToDoList[currenthow]) {
-//                             recursivestep(true, currentwhat, currenthow, false, false);
-//                         } else {
-//                             // done
-//                         }
-//                     } // else whattodolist        
-//                 }); //targetfn
-//             }); // get executeobject
-//         } // if allowexecute
-//         else { // if allow flags did to allows us to execute then keep allow flags to original val
-//             proxyprinttodiv("execute - III currenthow", currenthow, 17);
-//             proxyprinttodiv("execute - III currentwhat", currentwhat, 17);
-//             proxyprinttodiv("execute - III howallowexecute", howallowexecute, 17);
-//             proxyprinttodiv("execute - III whatexecuteorder", whatallowexecute, 17);
-//             currentwhat++;
-//             if (whatToDoList[currentwhat]) {
-//                 recursivestep(false, currentwhat, currenthow, whatallowexecute, howallowexecute); // could be true/false
-//             } else {
-//                 currenthow++;
-//                 if (howToDoList[currenthow]) {
-//                     recursivestep(true, currentwhat, currenthow, whatallowexecute, howallowexecute); // could be true/false
-//                 } else {
-//                     // done
-//                 }
-//             } // else whattodolist        
-//         } // else if not allowexecute
-
-//     })(true, 0, 0, true, true); //recurse end
-
-// }
-
-//
-
-// exports.execute2 = window.execute2 = execute2 = function execute2(received_params, callback) {
-
-//     if (received_params instanceof Array) {
-//         received_params['command.executemethod'] = 'execute';
-//         received_params['command.excutefilter'] = 'addwid';
-//         received_params['command.executeorder'] = 'series';
-//         received_params['command.executelimit'] = 15;
-//         executethismultiple(received_params, callback);
-//     }
-
-//     var incomingparams = {}, result;
-//     extend(true, incomingparams, received_params); // clone received params
-
-//     incomingparams = toLowerKeys(incomingparams);
-//     // proxyprinttodiv("execute - inboundparms", incomingparams, 11);
-//     // proxyprinttodiv("execute - callback fn ", String(callback), 11);
-//     console.log(' *** execute2 starting  ' + JSON.stringify(incomingparams));
-
-
-//     if ((incomingparams !== undefined) && (incomingparams['etbypass'])) {
-//         // proxyprinttodiv("execute - etbypass incomingparams", incomingparams, 11);
-
-//         // var x = undefined;
-
-//         // if (incomingparams["executethis"]) {
-//         //     if (incomingparams["executethis"] instanceof Function) {
-//         //         x = incomingparams["executethis"];
-//         //     } else {
-//         //         x = window[incomingparams["executethis"]];
-//         //     }
-//         //     result = executethis(incomingparams, x);
-//         // } else {
-//         //     result = incomingparams;
-//         // }
-//         callback(err, result);
-//     } else {
-//         incomingparams['midexecute'] = ['executethis'];
-//         delete incomingparams['executethis'];
-//         // before execuetthis
-//         // pre
-//         // before execute
-//         // mid
-//         // after execute
-//         // post
-//         // after executethis
-//         async.waterfall([
-
-//             function eventexecutethis(cb) {
-//                 cb(null);
-//             },
-//             function eventpre(cb) {
-//                 console.log('starting preexecute ' + nonCircularStringify(incomingparams));
-//                 dothisprocessor(incomingparams, 'preexecute', function (err, preResults) {
-//                     console.log(' after preexecute >> ' + nonCircularStringify(preResults));
-//                     cb(null, preResults);
-//                 });
-//             },
-//             function eventbeforeexecute(preResults, cb) {
-//                 cb(null, preResults);
-//             },
-//             function mid(preResults, cb) {
-//                 console.log('starting midexecute ' + nonCircularStringify(incomingparams));
-//                 if (!preResults) {
-//                     if (preResults !== false && (!preResults))
-//                         preResults = {};
-//                 } // 
-//                 dothisprocessor(preResults, 'midexecute', function (err, midResults) {
-//                     console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-//                     cb(null, midResults);
-//                 });
-//             },
-//             function eventafterexecute(midResults, cb) {
-//                 cb(null, midResults);
-//             },
-//             function eventpost(midResults, cb) {
-//                 if (midResults !== false && (!midResults)) {
-//                     midResults = {};
-//                 }
-//                 dothisprocessor(midResults, 'postexecute', function (err, postResults) {
-//                     console.log(' after postexecute >> ' + nonCircularStringify(postResults));
-//                     cb(null, postResults);
-//                 });
-//             },
-//             function eventafterexecutethis(postResults, cb) {
-//                 cb(null, postResults);
-//             },
-//         ], function (err, result) {
-//             console.log(' after doing execute2 >> ' + nonCircularStringify(result));
-//             callback(err, result);
-//         });
-
-//     }
-// }

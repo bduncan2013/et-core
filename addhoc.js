@@ -82,18 +82,18 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
     //debugsubcat="add"
     //debugname="getwidmaster"
     var executeList = [ 
-        {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"},
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","metadata.booksdto.type":"onetomany","metadata.adddto.type":"onetoone","defaultauthordtoactions":"inherit"},
         {"executethis":"updatewid","metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"},  
-        {"executethis":"updatewid","metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"},
-        {"executethis":"updatewid","metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"},
-        {"executethis":"updatewid","metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, 
-        {"executethis":"updatewid","metadata.method":"nodedataarray","wid":"nodedataarray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"},    
-        {"executethis":"updatewid","metadata.method":"leftarray","wid":"leftarray","class":"string","portColor":"string", "portId":"string"}, 
-        {"executethis":"updatewid","metadata.method":"toparray","wid":"toparray","class":"string","portColor":"string", "portId":"string"},
-        {"executethis":"updatewid","metadata.method":"bottomarray","wid":"bottomarray","portColor":"string", "portId":"string"},  
-        {"executethis":"updatewid","metadata.method":"rightarray","wid":"rightarray","portColor":"string", "portId":"string"},    
-        {"executethis":"updatewid","metadata.method":"linkdataarray","wid":"linkdataarray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"},           
-        {"executethis":"updatewid","metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"},   
+        {"executethis":"updatewid","metadata.method":"adddto","wid":"adddto","metadata.addfield.type":"onetomany","metadata.gojsobject.type":"onetoone","metadata.linkrules.type":"onetomany","metadata.actiondto.type":"onetomany","defaultadddtoactions":"inherit"},
+        // {"executethis":"updatewid","metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"},
+        // {"executethis":"updatewid","metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","metadata.nodeDataArray.type":"onetomany","metadata.linkDataArray.type":"onetomany"}, 
+        // {"executethis":"updatewid","metadata.method":"nodedataarray","wid":"nodedataarray", "key":"string", "loc":"string", "metadata.leftArray.type":"onetomany", "metadata.topArray.type":"onetomany", "metadata.bottomArray.type":"onetomany", "metadata.rightArray.type":"onetomany"},    
+        // {"executethis":"updatewid","metadata.method":"leftarray","wid":"leftarray","class":"string","portColor":"string", "portId":"string"}, 
+        // {"executethis":"updatewid","metadata.method":"toparray","wid":"toparray","class":"string","portColor":"string", "portId":"string"},
+        // {"executethis":"updatewid","metadata.method":"bottomarray","wid":"bottomarray","portColor":"string", "portId":"string"},  
+        // {"executethis":"updatewid","metadata.method":"rightarray","wid":"rightarray","portColor":"string", "portId":"string"},    
+        // {"executethis":"updatewid","metadata.method":"linkdataarray","wid":"linkdataarray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"},           
+        // {"executethis":"updatewid","metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"},   
         {"executethis":"updatewid","metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultmasteractions":"inherit"}
     ];
 
@@ -101,28 +101,30 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
         console.log(' >>> final response after create dtos executeList >>> ' + JSON.stringify(res));
         // create relationships
         executeList = [     
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"},    
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"},    
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"},
-        {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"},
+        {"linktype": "onetoone", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"},    
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"},    
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"},
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}
        ];
         execute(executeList, function (err, res) {
 
             var executeList = [
+
             //{"executethis":"addwidmaster","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"},
-            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"},
-            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
-            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
-            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
-            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
+            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"},
+            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
+            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
+            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
+            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
+
                 // {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
                 // {"executethis":"updatewid","metadata.method":"booksdto","wid":"222","title":"The X Factor","pages":"300"},
                 // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"}
@@ -132,28 +134,31 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
             //debugname="getwidmongo"
             //debugcat="add";
             //debugsubcat="sub"
+    // debugname="getwidmongo"
+    // debuglevel=10;
+    // debugcolor=1;
+    // debugindent=1;
             debugcolor=1
             execute(executeList, function (err, res) {
+                proxyprinttodiv("results from add=", res, 99);   
                 console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
                 //debugname="aggressivedto";
                 //debuglevel=10;
                 //aggressivedto("authordto", "", 10, function (err, res) {
                 //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
-                getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
+                //getWidMongo("authordto", "", "", "", "", 10, function (err, res) {
+                //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
                     callback({}, res);
                     })
                 });
-            });
+            //});
         });
-    }   
+    }     
 
 
 exports.startwidviewer = startwidviewer = function startwidviewer(params, callback){
 //exports.addmoreactions = addmoreactions = function addmoreactions(params, callback) {
-    debugname=""
-    debuglevel=10;
-    debugcolor=1;
-    debugindent=1;
+
     var executeList = [ 
         {            
             "executethis":"addwidmaster",
@@ -341,14 +346,19 @@ exports.startwidviewer = startwidviewer = function startwidviewer(params, callba
     execute(executeList, function (err, res) {
 // <<<<<<< HEAD
         //getwidmaster({"wid":"startwid"}, function (err, res) {
-        getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
+    // debugname="getwidmongo`"
+    // debuglevel=10;
+    // debugcolor=1;
+    // debugindent=1;
+        //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
 // =======
 //         // debugname = "special";
-//         getwidmaster({"wid":"startwid"}, function (err, res) {
+            execute({"executethis":"getwidmaster","wid":"startwid"}, function (err, res) {
+                proxyprinttodiv("startwid=", res, 99);   
 //         //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
 // >>>>>>> d8e2d1ce40d1613714ea393927fde749d82c9269
 
-            callback({}, res);
+                callback({}, res);
             });
         });
 }
@@ -541,7 +551,18 @@ exports.createdefaultactions = createdefaultactions = function createdefaultacti
 			"adddto.actiondto.1.convertmethod": "json",
 			"adddto.actiondto.1.addthis.preexecute": "",
 			"adddto.actiondto.1.addthis.executethis": "open_as_wid",
-			"adddto.actiondto.1.addthis.postexecute": "getwidmaster"
+			"adddto.actiondto.1.addthis.postexecute": "getwidmaster",
+			
+			"adddto.actiondto.2.widname": "startwid",
+			"adddto.actiondto.2.displayname": "Generate Children",
+			"adddto.actiondto.2.actiondescription": "string",
+			"adddto.actiondto.2.category": "Button",
+			"adddto.actiondto.2.subcategory": "PropList",
+			"adddto.actiondto.2.dtotype": "",
+			"adddto.actiondto.2.convertmethod": "wid",
+			"adddto.actiondto.2.addthis.preexecute": "getselectedwid",
+			"adddto.actiondto.2.addthis.executethis": "generatechildren",
+			"adddto.actiondto.2.addthis.postexecute": "populatelist"
 		}
 	];
 	execute(executeList, function (err, res) {
@@ -551,6 +572,23 @@ exports.createdefaultactions = createdefaultactions = function createdefaultacti
     //callback(params)
 }
 
+exports.getselectedwid = getselectedwid = function getselectedwid(inputWidgetObject, callback) {
+	return {"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"};
+}
+
+exports.generatechildren = generatechildren = function generatechildren(inputWidgetObject, callback) {
+	var querylist = [{
+        "executethis": "querywid",
+        "rawmongoquery": {
+            "$or": [{
+				"primarywid": inputWidgetObject["wid"]
+            }]
+        }
+    }];
+	execute(querylist, function (err, res) {
+		callback(res);
+    });
+}
 
 exports.createotherdefaults = createotherdefaults = function createotherdefaults(params, callback) {
     // default actions added at adddto
