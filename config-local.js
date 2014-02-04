@@ -361,10 +361,6 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
         var convertedobject=convertfromdriformat(resultobject)
         proxyprinttodiv('Function getwid in : convertedobject', convertedobject, 1);
 
-
-        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-
-
         if (inputWidgetObject['command.convertmethod']==='toobject') {
             debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
                 0: inbound_parameters,

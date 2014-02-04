@@ -2160,14 +2160,23 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     testclearstorage();
 
     debuglevel = 75;
+
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // To call updatewid data (offlineupdatewid)
-    // debugname = "updatewid";
+    debugname = "updatewid";
     
     // To call querywid data
-    debugname = "querywid";
+    // debugname = "querywid";
     
     // To call offlinegetwid data
     // debugname = "offlinegetwid";
+     
+    // To call getwidmaster data
+    // debugname = "getwidmaster";
+     
+    // To call getwidmongo data
+    // debugname = "getwidmongo";
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     debugcat = "";
     debugsubcat = "code";
@@ -2234,17 +2243,17 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         // }],
 
         function (err, res) {
-
-
             // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
-             
+            // 
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // These will create the code on the screen from the logged data
-            console.log('--**result**----**result**----**result**----**result**----**result**----**result**--')
              
-            // debugfn("update code generator END",        "updatewid",        "add",      "code",     debugcolor, debugindent, {}, 9);
-            debugfn("querywid code generator END",      "querywid",         "query",    "code",     debugcolor, debugindent, {}, 9);
-            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",      "code",     debugcolor, debugindent, {}, 9);
-
+            debugfn("update code generator END",        "updatewid",        "add",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
+            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("getwidmongo code generator END",       "getwidmongo",     "get",   "code", debugcolor, debugindent, {}, 9);
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             debugname = "";
             debugcat = "";
             debugsubcat = "";
@@ -2727,31 +2736,74 @@ function func_b22(params, callback) {
     }, callback);
 }
 
-
-
-
 exports.exec_mul_test = function exec_mul_test(data) {
     for (d in data) {
         // test_and_verify(data[d]);
-
         // exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
-
         var a = data[d][1]['name'];
         var b = data[d][1]['fnname'];
         var c = [data[d][1]['parameters']];
-
         var d = [data[d][1]['assert']];
-
         console.log('a: ' + a);
         console.log('b: ' + b);
         console.log('c: ' + JSON.stringify(c));
         console.log('d: ' + JSON.stringify(d));
-
         test_and_verify(a, b, c, d);
-
     }
 }
 
+exports.newt = newt = function newt(params, callback) {
+    var todolist = 
+        [
+            [
+                {
+                    "fn": "test_and_verify"
+                },
+                [
+                    "updatewid",
+                    "updatewid",
+                    {
+                        "0": {
+                            "metadata.method": "sounddto",
+                            "wid": "sounddto",
+                            "note": "string"
+                        }
+                    },
+                    {
+                        "data": {
+                            "note": "string"
+                        },
+                        "wid": "sounddto",
+                        "metadata": {
+                            "method": "sounddto",
+                            "date": "2014-02-04T15:54:34.378Z"
+                        }
+                    },
+                    {
+                        "initialwid": {
+                            "wid": "initialwid",
+                            "initialwid": "for key hello from bootprocess"
+                        },
+                        "sounddto": {
+                            "data": {
+                                "note": "string"
+                            },
+                            "wid": "sounddto",
+                            "metadata": {
+                                "method": "sounddto",
+                                "date": "2014-02-04T15:54:34.378Z"
+                            }
+                        }
+                    },
+                    {"command": "null"}
+                ]
+            ]
+        ]
+    // var db = {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-04T16:18:51.732Z"}}};
+    // addToLocalStorage("DRIKEY", db);   
+    executethismultiple(todolist, callback);
+
+}
     // todolist = 
     //     [
     //         [

@@ -1073,8 +1073,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             etcreatecode(indebugindent, displaycolor, indebugname);
             break;
         case 6:
-            outobject[3]=getFromLocalStorage("DRI");
-            outobject[4]=getFromLocalStorage("DRIKEY");
+            outobject[3]=getFromLocalStorage("DRIKEY");
+            // outobject[4]=getFromLocalStorage("DRIKEY");
             etlogresults(indebugname, outobject)
             break;
         case 7:
@@ -1127,27 +1127,28 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 99);
             //proxyprinttodiv('arrived temparray', temparray, 99);
             debuglog[outobject[2]].push(temparray);
-            //debuglog.push(temparray);
+            // debuglog.push(temparray);
             proxyprinttodiv('arrived debuglog end', debuglog, 44);
         }
 
         function create_string() {
-                console.log('debuglog.length: ++++++++++++++++++++++++++++++++++++++++' + debuglog.length);
             var i = 0;
+            $('#divprint').append('####################  debug log     #########################\n');
+            // $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
+            $('#divprint').append('####################  debug output  #########################\n');
+            
             for (eachtest in debuglog) {
                 i++;
-                testresults=debuglog[eachtest];
+                testresults = debuglog[eachtest];
                 var test_to_print = "";
-                var data = {};
 
                 var name        = testresults[0][0]['command']['executemethod'];
-                var parameters  = JSON.stringify(testresults[0][1]['0'], "-", 4);
+                // var parameters  = JSON.stringify(testresults[0][1]['0'], "-", 4);
+                var parameters  = JSON.stringify(testresults[0][1], "-", 4);
                 var assert      = JSON.stringify(testresults[0][2], "-", 4);
-
-                // var database    = JSON.stringify(testresults[0][3], "-", 4);
                 var database    = JSON.stringify(testresults[0][3]);
 
-                test_to_print = '[\n    [\n' +
+                test_to_print = '[\n    [\n'   +
                                 '        {"fn": "test_and_verify"},\n        [\n' +         
                                 '           "' + name          + '",\n'   +
                                 '           "' + name          + '",\n'   +
@@ -1156,24 +1157,10 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                                 '            ' + database      + '\n        ]\n'  +
                                 '    ]\n],\n';
 
-
-                // test_to_print = '[\n' +
-                //                 '    {"fn": "test_and_verify"},\n'                      +
-                //                 '    {"name": "'                        + name          + '",\n'   +
-                //                 '     "fnname": "'                      + name          + '",\n'   +
-                //                 '     "parameters": '                   + parameters    + ',\n'   +
-                //                 '     "assert": '                       + assert        + '}\n'    +
-                //                 '],\n';
-
-                if (eachtest == debuglog.length -1) {
-                    alert('eachtest: ' + eachtest);
-                }
                 $('#divprint').append(test_to_print);
             }
+            $('#divprint').append('####################  debug output end ######################');
         }
-
-                            // '    "asstert": outobject[2]\n' +
-                // var jsonPretty = '+++++++++++++++++\n' + JSON.stringify(testresults, "-", 4);
 
         function etcreatecode(indebugindent, displaycolor, indebugname) {
             proxyprinttodiv('debugfn end debuglog', debuglog, 99);
@@ -2018,6 +2005,9 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
     testclearstorage();
+    if (database != {}) {
+        addToLocalStorage("DRIKEY", database);   
+    }
     window[fnname](
         parameters
     ,
@@ -2026,6 +2016,5 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         callback(err, res);
     });
 }
-
 
 })();

@@ -477,6 +477,8 @@
     exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
         var inbound_parameters = {};
         extend(true, inbound_parameters, parameters);
+        var executionid = new Date();
+
         var ret = undefined;
         var resultObj = {};
         var inherit;
@@ -606,13 +608,27 @@
                     ret = resultObj;
 
                     debugfn("getwidmaster step3", "getwidmaster", "get", "step3", debugcolor, debugindent, debugvars([1]));
+
+
+                        debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                            0: inbound_parameters,
+                            1: ret,
+                            2: executionid
+                        }, 6);
+
+
                     cb(null, 'three');
                 }
             ],
             function (err, results) {
+                console.log('inbound_parameters::::::::::::::::::::   ' + JSON.stringify(inbound_parameters));
+                console.log('results:::::::::::::::::::::::::::::::   ' + results);
+                // debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                //     0: inbound_parameters,
+                //     1: results
+                // }, 6);
 
                 callback(err, ret);
-
             });
 
     };
