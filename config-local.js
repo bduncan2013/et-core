@@ -432,18 +432,22 @@ exports.convertfromdriformat = window.convertfromdriformat = convertfromdriforma
 }
 
 exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
-    var originalarguments=arguments;
-    var executionid = new Date();
+    // var originalarguments=arguments;
+    // var executionid = new Date();
+    var originalarguments = {};
+    extend(true, originalarguments, inputObject);
 
     // convert to dri format before saving
     offlineaddtomongo(converttodriformat(inputObject), function (err, results) {
         proxyprinttodiv('Function updatewid in : x', results, 10);
-        debugfn("updatewid code generator", "updatewid", "", "code", 2, 1, {
+
+        debugfn("updatewid code generator", "offlineupdatewid", "", "code", 2, 1, {
                 0: originalarguments,
-                1: results,
-                2: executionid
+                1: results
+                // 2: executionid
             }, 6);
         callback({}, results);
+
     });
 };
 

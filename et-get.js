@@ -475,9 +475,11 @@
     }
 
     exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
+        // for debug data
         var inbound_parameters = {};
         extend(true, inbound_parameters, parameters);
         var executionid = new Date();
+        // for debug data
 
         var ret = undefined;
         var resultObj = {};
@@ -1298,6 +1300,9 @@
 
 exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod, accesstoken, dtotype, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
     //proxyprinttodiv('Function getwidmongo hit I', null, 10);
+    // var inbound_parameters = {};
+    // extend(true, inbound_parameters, parameters);
+    
     // local vars
     var moreDTOParameters;
     var targetwid = "";

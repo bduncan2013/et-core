@@ -17,6 +17,8 @@
     exports.querywid = querywid = function querywid(parameters, callback) { // can change to call back
         var inbound_parameters = {};
         extend(true, inbound_parameters, parameters);
+
+        
         delete parameters['executethis']; //** added 11/2
 
         // var x = window['mongoquery'];

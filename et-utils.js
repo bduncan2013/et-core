@@ -1134,7 +1134,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         function create_string() {
             var i = 0;
             $('#divprint').append('####################  debug log     #########################\n');
-            // $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
+            $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
             $('#divprint').append('####################  debug output  #########################\n');
             
             for (eachtest in debuglog) {
@@ -1144,9 +1144,12 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
                 var name        = testresults[0][0]['command']['executemethod'];
                 // var parameters  = JSON.stringify(testresults[0][1]['0'], "-", 4);
+                console.log('testresults[0][1]: ' + JSON.stringify(testresults[0][1]));
                 var parameters  = JSON.stringify(testresults[0][1], "-", 4);
+                console.log('parameters: ' + parameters);
                 var assert      = JSON.stringify(testresults[0][2], "-", 4);
                 var database    = JSON.stringify(testresults[0][3]);
+                var command     = '{"command": "null"}';
 
                 test_to_print = '[\n    [\n'   +
                                 '        {"fn": "test_and_verify"},\n        [\n' +         
@@ -1154,7 +1157,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                                 '           "' + name          + '",\n'   +
                                 '            ' + parameters    + ',\n'    +
                                 '            ' + assert        + ',\n'    +
-                                '            ' + database      + '\n        ]\n'  +
+                                '            ' + database      + ',\n'    +
+                                '            ' + command       + '\n        ]\n'  +
                                 '    ]\n],\n';
 
                 $('#divprint').append(test_to_print);
@@ -2006,7 +2010,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
     testclearstorage();
     if (database != {}) {
-        addToLocalStorage("DRIKEY", database);   
+        addToLocalStorage("DRIKEY", database); 
+        var this_string = "[";
+        for (var d in database) {
+            this_string += JSON.stringify(database[d]) + ',';
+        }
+        this_string = this_string.substring(0, this_string.length-1) + ']';
+        addToLocalStorage("DRI", JSON.parse(this_string)); 
     }
     window[fnname](
         parameters

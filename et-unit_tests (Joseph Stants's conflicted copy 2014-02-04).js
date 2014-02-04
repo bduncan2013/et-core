@@ -2163,7 +2163,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // To call updatewid data (offlineupdatewid)
-    // debugname = "offlineupdatewid";
+    debugname = "offlineupdatewid";
     
     // To call querywid data
     // debugname = "querywid";
@@ -2172,7 +2172,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     // debugname = "offlinegetwid";
      
     // To call getwidmaster data
-    debugname = "getwidmaster";
+    // debugname = "getwidmaster";
      
     // To call getwidmongo data
     // debugname = "getwidmongo";
@@ -2248,10 +2248,10 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // These will create the code on the screen from the logged data
              
-            // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
+            debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
             // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
-            debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("getwidmongo code generator END",   "getwidmongo",      "get",   "code", debugcolor, debugindent, {}, 9);
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             debugname = "";
@@ -2801,118 +2801,44 @@ exports.newt = newt = function newt(params, callback) {
     //     ]
     var todolist =     
         [
-    [
-        {
-            "fn": "test_and_verify"
-        },
-        [
-            "offlineupdatewid",
-            "offlineupdatewid",
-            {
-                "metadata.method": "sounddto",
-                "note": "string",
-                "wid": "sounddto"
-            },
-            {
-                "data": {
-                    "note": "string"
-                },
-                "metadata": {
-                    "date": "2014-02-04T18:20:44.503Z",
-                    "method": "sounddto"
-                },
-                "wid": "sounddto"
-            },
-            {
-                "initialwid": {
-                    "initialwid": "for key hello from bootprocess",
-                    "wid": "initialwid"
-                },
-                "sounddto": {
-                    "data": {
-                        "note": "string"
-                    },
-                    "metadata": {
-                        "date": "2014-02-04T18:20:44.503Z",
-                        "method": "sounddto"
-                    },
-                    "wid": "sounddto"
-                }
-            },
-            {
-                "command": "null"
-            }
-        ]
-    ]
-]
-
-    // var db = {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-04T16:18:51.732Z"}}};
-    // addToLocalStorage("DRIKEY", db);   
-    executethismultiple(todolist, callback);
-
-}
-
-exports.newt2 = newt2 = function newt2(params, callback) {
-    var todolist = 
-        [
             [
                 {
                     "fn": "test_and_verify"
                 },
                 [
-                    "getwidmaster",
-                    "getwidmaster",
+                    "offlineupdatewid",
+                    "offlineupdatewid",
                     {
-                        "wid": "songdto",
-                        "command.convertmethod": "dto",
-                        "command.dtotype": "songdto"
+                        "0": {
+                            "metadata.method": "sounddto",
+                            "note": "string",
+                            "wid": "sounddto"
+                        }
                     },
                     {
-                        "title": "string",
-                        "metadata.sounddto.type": "onetomany",
-                        "sounddto.note": "string",
-                        "sounddto.wid": "sounddto",
-                        "sounddto.metadata.method": "sounddto"
+                        "data": {
+                            "note": "string"
+                        },
+                        "metadata": {
+                            "date": "2014-02-04T17:30:37.450Z",
+                            "method": "sounddto"
+                        },
+                        "wid": "sounddto"
                     },
                     {
                         "initialwid": {
-                            "wid": "initialwid",
-                            "initialwid": "for key hello from bootprocess"
+                            "initialwid": "for key hello from bootprocess",
+                            "wid": "initialwid"
                         },
                         "sounddto": {
                             "data": {
                                 "note": "string"
                             },
-                            "wid": "sounddto",
                             "metadata": {
-                                "method": "sounddto",
-                                "date": "2014-02-04T18:31:01.199Z"
-                            }
-                        },
-                        "songdto": {
-                            "data": {
-                                "title": "string"
+                                "date": "2014-02-04T17:30:37.450Z",
+                                "method": "sounddto"
                             },
-                            "wid": "songdto",
-                            "metadata": {
-                                "method": "songdto",
-                                "sounddto": {
-                                    "type": "onetomany"
-                                },
-                                "date": "2014-02-04T18:31:01.313Z"
-                            }
-                        },
-                        "rel_sound_to_song": {
-                            "data": {
-                                "primarywid": "songdto",
-                                "secondarywid": "sounddto",
-                                "relationshiptype": "attributes"
-                            },
-                            "wid": "rel_sound_to_song",
-                            "metadata": {
-                                "method": "defaultdto",
-                                "date": "2014-02-04T18:31:01.389Z"
-                            }
+                            "wid": "sounddto"
                         }
                     },
                     {
@@ -2921,11 +2847,12 @@ exports.newt2 = newt2 = function newt2(params, callback) {
                 ]
             ]
         ]
+
+    // var db = {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-04T16:18:51.732Z"}}};
+    // addToLocalStorage("DRIKEY", db);   
     executethismultiple(todolist, callback);
+
 }
-
-
-
     // todolist = 
     //     [
     //         [
