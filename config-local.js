@@ -99,7 +99,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
         setappinstallparm();
         testclearstorage();
         if (exports.environment === 'local') {
-            clearLocalStorage();
+            // clearLocalStorage();
             addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
             addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}})
         }

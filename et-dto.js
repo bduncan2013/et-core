@@ -334,7 +334,7 @@ exports.etauthtest1 = etauthtest1 = function etauthtest1(params, callback) {
 
     async.series([
             function (cb) {
-                createuserold("authuser1", "abcd1234abcd1234abcd1234abcd1234", "1", "staff", "staff", "getwidmaster", "db", "1", function (err, res) {
+                createuserold("authuser1", "abcd1234abcd1234abcd1234abcd1234", "1", "staff", "staff", "getwidmaster", "data", "1", function (err, res) {
                     cb(null, "");
                 });
             },

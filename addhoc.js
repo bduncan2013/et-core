@@ -38,44 +38,15 @@ exports.system_actions = system_actions = function system_actions(params, callba
     //clearLocalStorage();
     createdtos(params, function (err, results) {
         startwidviewer(params, function (err, results) {
-            callback(err, results);
+            createsampledata(params, function (err, results) {
+                createdefaultactions(params, function (err, results) {
+                    callback(err, results);
+                    });
+                });
             });
         });
-}
+    }
 
-// exports.startwidviewer = startwidviewer = function startwidviewer(params, callback){
-//     /*
-// 	//startwid=
-//     testclearstorage();
-//     createdtos(params, callback);
-//     createsampledata(params, callback);
-//     //createdefaultactions(params, callback);
-//     //createotherdefaults();
-//     addmoreactions(params, callback);
-// 	*/
-// 	testclearstorage();
-//     execute([{
-// 		"executethis": "createdtos"
-//     }, {
-//      	"executethis": "createsampledata"
-//     }, {
-//       "executethis":"getwidmaster", "wid": "startwid"
-// 	// }, {
-// 	// 	"executethis": "addmoreactions"
-// 	}],
-// 	function (err, res) {
-// 		console.log('createdtos, createsampledata, addmoreactions');
-//         callback({}, res[4])   
-// 	});
-
-// 	// var executeList = [
-// 	// 	{"executethis":"getwidmaster", "wid": "startwid", "command.dtotype": "actiondto"}
-// 	// ];
-//  //    execute(executeList, function (err, res) {
-//  //        console.log(' >>> getwidmaster - startwid response >>> ' + JSON.stringify(res));
-//  //    });
- 
-// }
 exports.createdtos = createdtos = function createdtos(params, callback) {
     // create dtos  
     //debuglevel=75;
@@ -85,15 +56,15 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
         {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","metadata.booksdto.type":"onetomany","metadata.adddto.type":"onetoone","defaultauthordtoactions":"inherit"},
         {"executethis":"updatewid","metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"},  
         {"executethis":"updatewid","metadata.method":"adddto","wid":"adddto","metadata.addfield.type":"onetomany","metadata.gojsobject.type":"onetoone","metadata.linkrules.type":"onetomany","metadata.actiondto.type":"onetomany","defaultadddtoactions":"inherit"},
-        // {"executethis":"updatewid","metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"},
-        // {"executethis":"updatewid","metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","metadata.nodeDataArray.type":"onetomany","metadata.linkDataArray.type":"onetomany"}, 
-        // {"executethis":"updatewid","metadata.method":"nodedataarray","wid":"nodedataarray", "key":"string", "loc":"string", "metadata.leftArray.type":"onetomany", "metadata.topArray.type":"onetomany", "metadata.bottomArray.type":"onetomany", "metadata.rightArray.type":"onetomany"},    
-        // {"executethis":"updatewid","metadata.method":"leftarray","wid":"leftarray","class":"string","portColor":"string", "portId":"string"}, 
-        // {"executethis":"updatewid","metadata.method":"toparray","wid":"toparray","class":"string","portColor":"string", "portId":"string"},
-        // {"executethis":"updatewid","metadata.method":"bottomarray","wid":"bottomarray","portColor":"string", "portId":"string"},  
-        // {"executethis":"updatewid","metadata.method":"rightarray","wid":"rightarray","portColor":"string", "portId":"string"},    
-        // {"executethis":"updatewid","metadata.method":"linkdataarray","wid":"linkdataarray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"},           
-        // {"executethis":"updatewid","metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"},   
+        {"executethis":"updatewid","metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string"},
+        {"executethis":"updatewid","metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","metadata.nodeDataArray.type":"onetomany","metadata.linkDataArray.type":"onetomany"}, 
+        {"executethis":"updatewid","metadata.method":"nodedataarray","wid":"nodedataarray", "key":"string", "loc":"string", "metadata.leftArray.type":"onetomany", "metadata.topArray.type":"onetomany", "metadata.bottomArray.type":"onetomany", "metadata.rightArray.type":"onetomany"},    
+        {"executethis":"updatewid","metadata.method":"leftarray","wid":"leftarray","class":"string","portColor":"string", "portId":"string"}, 
+        {"executethis":"updatewid","metadata.method":"toparray","wid":"toparray","class":"string","portColor":"string", "portId":"string"},
+        {"executethis":"updatewid","metadata.method":"bottomarray","wid":"bottomarray","portColor":"string", "portId":"string"},  
+        {"executethis":"updatewid","metadata.method":"rightarray","wid":"rightarray","portColor":"string", "portId":"string"},    
+        {"executethis":"updatewid","metadata.method":"linkdataarray","wid":"linkdataarray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"},           
+        {"executethis":"updatewid","metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"},   
         {"executethis":"updatewid","metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultmasteractions":"inherit"}
     ];
 
@@ -103,55 +74,34 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
         executeList = [     
         {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"},
         {"linktype": "onetoone", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"},
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"},    
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"},    
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"},
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"},
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"},
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"},
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"},    
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"},    
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"},
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"},
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"},
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"},
         {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"},
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"},
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"},
-        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"},
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"},
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}
        ];
-        execute(executeList, function (err, res) {
 
-            var executeList = [
-
-            //{"executethis":"addwidmaster","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
-
-                // {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
-                // {"executethis":"updatewid","metadata.method":"booksdto","wid":"222","title":"The X Factor","pages":"300"},
-                // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"}
-
-            ];
-            //debuglevel=10;
-            //debugname="getwidmongo"
-            //debugcat="add";
-            //debugsubcat="sub"
     // debugname="getwidmongo"
     // debuglevel=10;
     // debugcolor=1;
     // debugindent=1;
             debugcolor=1
-            execute(executeList, function (err, res) {
-                proxyprinttodiv("results from add=", res, 99);   
-                console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
-                //debugname="aggressivedto";
-                //debuglevel=10;
-                //aggressivedto("authordto", "", 10, function (err, res) {
-                //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
-                //getWidMongo("authordto", "", "", "", "", 10, function (err, res) {
-                //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
-                    callback({}, res);
-                    })
-                });
-            //});
+        execute(executeList, function (err, res) {
+            proxyprinttodiv("results from add=", res, 99);   
+            console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
+            //debugname="aggressivedto";
+            //debuglevel=10;
+            //aggressivedto("authordto", "", 10, function (err, res) {
+            //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
+            //getWidMongo("authordto", "", "", "", "", 10, function (err, res) {
+            //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
+            callback({}, res);
+            })
         });
     }     
 
@@ -167,194 +117,215 @@ exports.startwidviewer = startwidviewer = function startwidviewer(params, callba
             "name":"start wid",
             "age":"00",
             "booksdto.title":"none",
-            "booksdto.pages":"00"
-            ,
-        // },
-        // {
-        //     "executethis":"addwidmaster",
-        //     "wid":"startwid",
+            "booksdto.pages":"00",
             "adddto.actiondto.widname":"startwid",
             "adddto.actiondto.displayname":"Process Blur",
             "adddto.actiondto.actiondescription":"string",
             "adddto.actiondto.category":"blur",
             "adddto.actiondto.subcategory":"name",
-            //"adddto.actiondto.dtotype":"",
-            //"adddto.actiondto.convertmethod":"wid",
             "adddto.actiondto.addthis.prexecute":"",
             "adddto.actiondto.addthis.executethis":"fieldrequired",
             "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        }
+        ,{            
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.displayname":"Open As Json",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"string",
+            "adddto.actiondto.subcategory":"string",
+            "adddto.actiondto.convertmethod":"json",
+            "adddto.actiondto.addthis.prexecute":"",
+            "adddto.actiondto.addthis.executethis":"open_as_wid",
+            "adddto.actiondto.addthis.postexecute":"getwidmaster"
         },
-        // {
-        //     "executethis":"addwidmaster",
-        //     "wid":"startwid",
-        //     "adddto.actiondto.widname":"startwid",
-        //     "adddto.actiondto.displayname":"Open As Json",
-        //     "adddto.actiondto.actiondescription":"string",
-        //     "adddto.actiondto.category":"string",
-        //     "adddto.actiondto.subcategory":"string",
-        //     "adddto.actiondto.dtotype":"",
-        //     "adddto.actiondto.convertmethod":"json",
-        //     "adddto.actiondto.addthis.prexecute":"",
-        //     "adddto.actiondto.addthis.executethis":"open_as_wid",
-        //     "adddto.actiondto.addthis.postexecute":"getwidmaster"
-        // }
-
-        //     "adddto.actiondto.2.displayname":"Open As Wid",
-        //     "adddto.actiondto.2.widname":"startwid",
-        //     "adddto.actiondto.2.actiondescription":"string",
-        //     "adddto.actiondto.2.category":"string",
-        //     "adddto.actiondto.2.subcategory":"string",
-        //     "adddto.actiondto.2.dtotype":"",
-        //     "adddto.actiondto.2.convertmethod":"wid",
-        //     "adddto.actiondto.2.addthis.prexecute":"",
-        //     "adddto.actiondto.2.addthis.executethis":"open_as_wid",
-        //     "adddto.actiondto.2.addthis.postexecute":"getwidmaster",
-
-        //     "adddto.actiondto.3.displayname":"Process Blur",
-        //     "adddto.actiondto.3.widname":"startwid",
-        //     "adddto.actiondto.3.actiondescription":"string",
-        //     "adddto.actiondto.3.category":"blur",
-        //     "adddto.actiondto.3.subcategory":"age",
-        //     "adddto.actiondto.3.dtotype":"",
-        //     "adddto.actiondto.3.convertmethod":"wid",
-        //     "adddto.actiondto.3.addthis.prexecute":"setdtoforwid",
-        //     "adddto.actiondto.3.addthis.executethis":"fieldrequired",
-        //     "adddto.actiondto.3.addthis.postexecute":"getwidmaster",
-
-        //     "adddto.actiondto.4.displayname":"Process Blur",
-        //     "adddto.actiondto.4.widname":"startwid",
-        //     "adddto.actiondto.4.actiondescription":"string",
-        //     "adddto.actiondto.4.category":"blur",
-        //     "adddto.actiondto.4.subcategory":"booksdto",
-        //     "adddto.actiondto.4.dtotype":"",
-        //     "adddto.actiondto.4.convertmethod":"wid",
-        //     "adddto.actiondto.4.addthis.prexecute":"setdtoforwid",
-        //     "adddto.actiondto.4.addthis.executethis":"fieldrequired",
-        //     "adddto.actiondto.4.addthis.postexecute":"getwidmaster",
-
-        //     "adddto.actiondto.5.displayname":"Process Blur",
-        //     "adddto.actiondto.5.widname":"startwid",
-        //     "adddto.actiondto.5.actiondescription":"string",
-        //     "adddto.actiondto.5.category":"blur",
-        //     "adddto.actiondto.5.subcategory":"adddto",
-        //     "adddto.actiondto.5.dtotype":"",
-        //     "adddto.actiondto.5.convertmethod":"wid",
-        //     "adddto.actiondto.5.addthis.prexecute":"setdtoforwid",
-        //     "adddto.actiondto.5.addthis.executethis":"fieldrequired",
-        //     "adddto.actiondto.5.addthis.postexecute":"getwidmaster",
-
-        //     "adddto.actiondto.6.displayname":"New",
-        //     "adddto.actiondto.6.widname":"startwid",
-        //     "adddto.actiondto.6.actiondescription":"string",
-        //     "adddto.actiondto.6.category":"Button",
-        //     "adddto.actiondto.6.subcategory":"Canvas",
-        //     "adddto.actiondto.6.dtotype":"",
-        //     "adddto.actiondto.6.convertmethod":"wid",
-        //     "adddto.actiondto.6.addthis.prexecute":"customfn104",
-        //     "adddto.actiondto.6.addthis.executethis":"populatepropertybox",
-        //     "adddto.actiondto.6.addthis.postexecute":"getwidmaster",
-
-        //     "adddto.actiondto.7.displayname":"Load",
-        //     "adddto.actiondto.7.widname":"startwid",
-        //     "adddto.actiondto.7.actiondescription":"string",
-        //     "adddto.actiondto.7.category":"Button",
-        //     "adddto.actiondto.7.subcategory":"Canvas",
-        //     "adddto.actiondto.7.dtotype":"",
-        //     "adddto.actiondto.7.convertmethod":"wid",
-        //     "adddto.actiondto.7.addthis.prexecute":"getwidcopy",
-        //     "adddto.actiondto.7.addthis.executethis":"displayall",
-        //     "adddto.actiondto.7.addthis.postexecute":"getwidmaster",
-
-        //     "adddto.actiondto.8.displayname":"Add Row",
-        //     "adddto.actiondto.8.widname":"startwid",
-        //     "adddto.actiondto.8.actiondescription":"string",
-        //     "adddto.actiondto.8.category":"Button",
-        //     "adddto.actiondto.8.subcategory":"Canvas",
-        //     "adddto.actiondto.8.dtotype":"",
-        //     "adddto.actiondto.8.convertmethod":"wid",
-        //     "adddto.actiondto.8.addthis.prexecute":"",
-        //     "adddto.actiondto.8.addrow":"displayall",
-        //     "adddto.actiondto.8.addthis.postexecute":"",
-
-        //     "adddto.actiondto.9.displayname":"Save",
-        //     "adddto.actiondto.9.widname":"startwid",
-        //     "adddto.actiondto.9.actiondescription":"string",
-        //     "adddto.actiondto.9.category":"Button",
-        //     "adddto.actiondto.9.subcategory":"Canvas",
-        //     "adddto.actiondto.9.dtotype":"",
-        //     "adddto.actiondto.9.convertmethod":"wid",
-        //     "adddto.actiondto.9.addthis.prexecute":"",
-        //     "adddto.actiondto.9.addthis.executethis":"savepropertybox",
-        //     "adddto.actiondto.9.addthis.postexecute":"updatewid",
-
-        //     "adddto.actiondto.10.displayname":"Compile",
-        //     "adddto.actiondto.10.widname":"startwid",
-        //     "adddto.actiondto.10.actiondescription":"string",
-        //     "adddto.actiondto.10.category":"Button",
-        //     "adddto.actiondto.10.subcategory":"Canvas",
-        //     "adddto.actiondto.10.dtotype":"",
-        //     "adddto.actiondto.10.convertmethod":"",
-        //     "adddto.actiondto.10.addthis.prexecute":"",
-        //     "adddto.actiondto.10.addthis.executethis":"",
-        //     "adddto.actiondto.10.addthis.postexecute":"",
-
-        //     "adddto.actiondto.11.displayname":"Children",
-        //     "adddto.actiondto.11.widname":"startwid",
-        //     "adddto.actiondto.11.actiondescription":"string",
-        //     "adddto.actiondto.11.category":"Button",
-        //     "adddto.actiondto.11.subcategory":"PropList",
-        //     "adddto.actiondto.11.dtotype":"",
-        //     "adddto.actiondto.11.convertmethod":"wid",
-        //     "adddto.actiondto.11.addthis.prexecute":"getlistinfo",
-        //     "adddto.actiondto.11.addthis.executethis":"getlistobject",
-        //     "adddto.actiondto.11.addthis.postexecute":"updatewid",
-
-        //     "adddto.actiondto.12.displayname":"Test Message Box",
-        //     "adddto.actiondto.12.widname":"startwid",
-        //     "adddto.actiondto.12.actiondescription":"string",
-        //     "adddto.actiondto.12.category":"Button",
-        //     "adddto.actiondto.12.subcategory":"PropList",
-        //     "adddto.actiondto.12.dtotype":"",
-        //     "adddto.actiondto.12.convertmethod":"wid",
-        //     "adddto.actiondto.12.addthis.prexecute":"customfn101",
-        //     "adddto.actiondto.12.addthis.executethis":"populatemessage",
-        //     "adddto.actiondto.12.addthis.postexecute":"",
-
-        //     "adddto.actiondto.13.displayname":"Genrate Propertybox",
-        //     "adddto.actiondto.13.widname":"startwid",
-        //     "adddto.actiondto.13.actiondescription":"string",
-        //     "adddto.actiondto.13.category":"Button",
-        //     "adddto.actiondto.13.subcategory":"PropList",
-        //     "adddto.actiondto.13.dtotype":"",
-        //     "adddto.actiondto.13.convertmethod":"wid",
-        //     "adddto.actiondto.13.addthis.prexecute":"customfn102",
-        //     "adddto.actiondto.13.addthis.executethis":"populatepropertybox",
-        //     "adddto.actiondto.13.addthis.postexecute":"",
-
-        //     "adddto.actiondto.14.displayname":"Generate Widlist",
-        //     "adddto.actiondto.14.widname":"startwid",
-        //     "adddto.actiondto.14.actiondescription":"string",
-        //     "adddto.actiondto.14.category":"Button",
-        //     "adddto.actiondto.14.subcategory":"PropList",
-        //     "adddto.actiondto.14.dtotype":"",
-        //     "adddto.actiondto.14.convertmethod":"wid",
-        //     "adddto.actiondto.14.addthis.prexecute":"customfn103",
-        //     "adddto.actiondto.14.addthis.executethis":"populatelist",
-        //     "adddto.actiondto.14.addthis.postexecute":""
-        // }
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Genrate Propertybox",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"PropList",
+            "adddto.actiondto.addthis.prexecute":"customfn102",
+            "adddto.actiondto.addthis.executethis":"populatepropertybox",
+            "adddto.actiondto.addthis.postexecute":""
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Generate Widlist",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"PropList",
+            "adddto.actiondto.addthis.prexecute":"customfn103",
+            "adddto.actiondto.addthis.executethis":"populatelist",
+            "adddto.actiondto.addthis.postexecute":""
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Open As Wid",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"string",
+            "adddto.actiondto.subcategory":"string",
+            "adddto.actiondto.addthis.prexecute":"",
+            "adddto.actiondto.addthis.executethis":"open_as_wid",
+            "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Process Blur",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"blur",
+            "adddto.actiondto.subcategory":"age",
+            "adddto.actiondto.addthis.prexecute":"setdtoforwid",
+            "adddto.actiondto.addthis.executethis":"fieldrequired",
+            "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Process Blur",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"blur",
+            "adddto.actiondto.subcategory":"booksdto",
+            "adddto.actiondto.addthis.prexecute":"setdtoforwid",
+            "adddto.actiondto.addthis.executethis":"fieldrequired",
+            "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Process Blur",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"blur",
+            "adddto.actiondto.subcategory":"adddto",
+            "adddto.actiondto.addthis.prexecute":"setdtoforwid",
+            "adddto.actiondto.addthis.executethis":"fieldrequired",
+            "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"New",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"Canvas",
+            "adddto.actiondto.addthis.prexecute":"customfn104",
+            "adddto.actiondto.addthis.executethis":"populatepropertybox",
+            "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Load",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"Canvas",
+            "adddto.actiondto.addthis.prexecute":"getwidcopy",
+            "adddto.actiondto.addthis.executethis":"displayall",
+            "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Add Row",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"Canvas",
+            "adddto.actiondto.addthis.prexecute":"",
+            "adddto.actiondto.addrow":"displayall",
+            "adddto.actiondto.addthis.postexecute":""
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Save",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"Canvas",
+            "adddto.actiondto.addthis.prexecute":"",
+            "adddto.actiondto.addthis.executethis":"savepropertybox",
+            "adddto.actiondto.addthis.postexecute":"updatewid"
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Compile",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"Canvas",
+            "adddto.actiondto.addthis.prexecute":"",
+            "adddto.actiondto.addthis.executethis":"",
+            "adddto.actiondto.addthis.postexecute":""
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Children",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"PropList",
+            "adddto.actiondto.addthis.prexecute":"getlistinfo",
+            "adddto.actiondto.addthis.executethis":"getlistobject",
+            "adddto.actiondto.addthis.postexecute":"updatewid"
+        },
+        {
+            "executethis":"addwidmaster",
+            "wid":"startwid",
+            "metadata.method":"authordto",
+            "adddto.actiondto.displayname":"Test Message Box",
+            "adddto.actiondto.widname":"startwid",
+            "adddto.actiondto.actiondescription":"string",
+            "adddto.actiondto.category":"Button",
+            "adddto.actiondto.subcategory":"PropList",
+            "adddto.actiondto.addthis.prexecute":"customfn101",
+            "adddto.actiondto.addthis.executethis":"populatemessage",
+            "adddto.actiondto.addthis.postexecute":""
+        }
     ];
+	
     execute(executeList, function (err, res) {
 // <<<<<<< HEAD
-        //getwidmaster({"wid":"startwid"}, function (err, res) {
+        // getwidmaster({"wid":"startwid"}, function (err, res) {
     // debugname="getwidmongo`"
     // debuglevel=10;
     // debugcolor=1;
     // debugindent=1;
-        //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
+    //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
 // =======
 //         // debugname = "special";
             execute({"executethis":"getwidmaster","wid":"startwid"}, function (err, res) {
-                proxyprinttodiv("startwid=", res, 99);   
+                alert(res);
+				proxyprinttodiv("startwid=", res, 99);   
+				
 //         //getwidmaster({"wid":"authordto", "command.convertmethod" : "dto", "command.dtotype": "authordto"}, function (err, res) {
 // >>>>>>> d8e2d1ce40d1613714ea393927fde749d82c9269
 
@@ -364,123 +335,13 @@ exports.startwidviewer = startwidviewer = function startwidviewer(params, callba
 }
 
 
-exports.testexecutefunctions = testexecutefunctions = function testexecutefunctions(params, callback){
-    testclearstorage();
-    createdtos(params, callback);
-    createsampledata(params, callback);
-    
-    /* executethis -- start */
-    executeobject = {"exeuctethis":"addwidmaster","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"};
-    resultobject = executethis(executeobject, addwidmaster);
-    proxyprinttodiv("end", resultobject, 99);   
-    /* executethis -- end */
-    
-    /* execute -- start */
-    execute(executeobject, function (results){
-    });
-    /* execute -- end */
-    
-    /* execute -- start */
-    execute(executeobject, function (err,results){
-    });
-    /* execute -- end */
-    
-    params={'test':'PASS'};
-    callback(params);
-}
-
-
-/*
-exports.createdtos = createdtos = function createdtos(params, callback) {
-    // create dtos	
-    executetest("addwidmaster",{"metadata.method":"adddto","wid":"adddto","addfield":"onetomany","gojsobject":"onetoone","linkrules":"onetomany","actiondto":"onetomany","defaultadddtoactions":"inherit"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"authordto","wid":"authordto","name":"string","age":"string","booksdto":"onetomany","adddto":"onetoone","defaultauthordtoactions":"inherit"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"}, "", "");  
-    executetest("addwidmaster",{"metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string","defaultfieldvalue":"inherit"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","nodeDataArray":"onetomany","linkDataArray":"onetomany"}, "", ""); 
-    executetest("addwidmaster",{"metadata.method":"nodeDataArray","wid":"nodeDataArray", "key":"string", "loc":"string", "leftArray":"onetomany", "topArray":"onetomany", "bottomArray":"onetomany", "rightArray":"onetomany"}, "", "");    
-    executetest("addwidmaster",{"metadata.method":"leftArray","wid":"leftArray","class":"string","portColor":"string", "portId":"string"}, "", ""); 
-    executetest("addwidmaster",{"metadata.method":"topArray","wid":"topArray","class":"string","portColor":"string", "portId":"string"}, "", "");   
-    executetest("addwidmaster",{"metadata.method":"bottomArray","wid":"bottomArray","portColor":"string", "portId":"string"}, "", "");  
-    executetest("addwidmaster",{"metadata.method":"rightArray","wid":"rightArray","portColor":"string", "portId":"string"}, "", "");    
-    executetest("addwidmaster",{"metadata.method":"linkDataArray","wid":"linkDataArray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"}, "", "");           
-    executetest("addwidmaster",{"metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"}, "", "");   
-    executetest("addwidmaster",{"metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string", "defaultmasteractions":"inherit"}, "", "");
-
-    // create relationships
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");    
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");    
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes","metadata.method":"relationshipdto"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules"}, "", "");
-
-    params={'test':'PASS'};
-    callback(params);
-}
-*/
-
-
-exports.zzz= zzz = function zzz(params, callback) {
-
-var executeList = [
-            // {"executethis":"updatewid","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"},
-            // {"executethis":"updatewid","metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"},
-            // {"executethis":"updatewid","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
-            // {"executethis":"updatewid","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
-            // {"executethis":"updatewid","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
-            // {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
-                {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
-                {"executethis":"updatewid","metadata.method":"booksdto","wid":"222","title":"The X Factor","pages":"300"},
-                {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"}
-
-            ];
-            //debuglevel=10;
-            //debugname="getwidmongo"
-            //debugcat="add";
-            //debugsubcat="sub"
-            debugcolor=1
-            execute(executeList, function (err, res) {
-                console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
-                debuglevel=10;
-                debugname="aggressivedto";
-                aggressivedto("authordto", "", 10, function (err, res) {
-                //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
-                //getwidmaster({"wid":"elizabeth_heart"}, function (err, res) {
-                    callback({}, res);
-                })
-        })
-    }
-
-
-/*
-exports.createsampledata = createsampledata = function createsampledata(params, callback) {
-    executetest("addwidmaster",{"metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"}, "", "");
-    executetest("addwidmaster",{"metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}, "", "");
-
-    params={'test':'PASS'};
-    callback(params)
-}
-*/
-
 exports.createsampledata = createsampledata = function createsampledata(params, callback) {
 	var executeList = [
-		//{"executethis":"updatewid","metadata.method":"authordto","wid":"startwid","name":"start wid","age":"00","booksdto.title":"none","booksdto.pages":"00"},
-		{"executethis":"updatewid","metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"},
-		{"executethis":"updatewid","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
-		{"executethis":"updatewid","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
-		{"executethis":"updatewid","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
-		{"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"joe_jamison","name":"Joe Jamison","age":"32","booksdto.title":"Hello World!","booksdto.pages":"40"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
+            {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
 	];
 	execute(executeList, function (err, res) {
         console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
@@ -490,116 +351,308 @@ exports.createsampledata = createsampledata = function createsampledata(params, 
 
 }
 
-/*
-exports.createdefaultactions = createdefaultactions = function createdefaultactions(params, callback) {
-    executetest("addwidmaster",
-{
-    "wid": "defaultmasteractions",
-    "metadata.method": "actiondto",
-
-    "adddto.actiondto.0.widname": "startwid",
-    "adddto.actiondto.0.displayname": "1 Process Blur",
-    "adddto.actiondto.0.actiondescription": "string",
-    "adddto.actiondto.0.category": "blur",
-    "adddto.actiondto.0.subcategory": "name",
-    "adddto.actiondto.0.dtotype": "",
-    "adddto.actiondto.0.convertmethod": "wid",
-    "adddto.actiondto.0.addthis.preexecute": "",
-    "adddto.actiondto.0.addthis.executethis": "fieldrequired",
-    "adddto.actiondto.0.addthis.postexecute": "getwidmaster",
-
-    "adddto.actiondto.1.widname": "startwid",
-    "adddto.actiondto.1.displayname": "2 Open As Json",
-    "adddto.actiondto.1.actiondescription": "string",
-    "adddto.actiondto.1.category": "string",
-    "adddto.actiondto.1.subcategory": "string",
-    "adddto.actiondto.1.dtotype": "",
-    "adddto.actiondto.1.convertmethod": "json",
-    "adddto.actiondto.1.addthis.preexecute": "",
-    "adddto.actiondto.1.addthis.executethis": "open_as_wid",
-    "adddto.actiondto.1.addthis.postexecute": "getwidmaster"
-});
-    params={'test':'PASS'};
-    callback(params)
-}
-*/
 
 exports.createdefaultactions = createdefaultactions = function createdefaultactions(params, callback) {
     var executeList = [
-		{
-			"executethis":"updatewid",
+		// {
+
+  //   // defaultadddtoactions
+  //   // default actions added at adddto
+  //           "executethis":"addwidmaster",
+  //           "wid":"defaultadddtoactions",
+  //           "metadata.method":"adddto",
+  //           "command.dtotype":"actiondto",
+  //           "displayname":"5Open As Wid",
+  //           "actiondescription":"desc5", 
+  //           "category":"button",
+  //           "subcategory":"o1",
+  //           "addthis.preexecute":"setdtoforwid",
+  //           "addthis.executethis":"getwidmaster",
+  //           "addthis.postexecute":"getwidmaster"
+  //   },
+ 
+  //    // defaultauthordtoactions
+  //   // default actions added at authordto level
+  //   {       "executethis":"addwidmaster",
+  //           "wid":"defaultauthordtoactions",
+  //           "metadata.method":"authordto",
+  //           "command.dtotype":"actiondto",
+  //           "displayname":"6Open As Wid",
+  //           "actiondescription":"desc6", 
+  //           "category":"button",
+  //           "subcategory":"o1",
+  //           "addthis.preexecute":"setdtoforwid",
+  //           "addthis.executethis":"getwidmaster",
+  //           "addthis.postexecute":"getwidmaster"
+  //   },
+
+    // defaultmasteractions
+    {
+			"executethis":"addwidmaster",
 			"wid": "defaultmasteractions",
 			"metadata.method": "actiondto",
 
-			"adddto.actiondto.0.widname": "startwid",
-			"adddto.actiondto.0.displayname": "1 Process Blur",
-			"adddto.actiondto.0.actiondescription": "string",
-			"adddto.actiondto.0.category": "blur",
-			"adddto.actiondto.0.subcategory": "name",
-			"adddto.actiondto.0.dtotype": "",
-			"adddto.actiondto.0.convertmethod": "wid",
-			"adddto.actiondto.0.addthis.preexecute": "",
-			"adddto.actiondto.0.addthis.executethis": "fieldrequired",
-			"adddto.actiondto.0.addthis.postexecute": "getwidmaster",
+			"widname": "startwid",
+			"displayname": "1 Process Blur 111- defaultmasteraction",
+			"actiondescription": "string",
+			"category": "blur",
+			"subcategory": "name",
+			"addthis.preexecute": "",
+			"addthis.executethis": "fieldrequired",
+			"addthis.postexecute": "getwidmaster",
 
-			"adddto.actiondto.1.widname": "startwid",
-			"adddto.actiondto.1.displayname": "2 Open As Json",
-			"adddto.actiondto.1.actiondescription": "string",
-			"adddto.actiondto.1.category": "string",
-			"adddto.actiondto.1.subcategory": "string",
-			"adddto.actiondto.1.dtotype": "",
-			"adddto.actiondto.1.convertmethod": "json",
-			"adddto.actiondto.1.addthis.preexecute": "",
-			"adddto.actiondto.1.addthis.executethis": "open_as_wid",
-			"adddto.actiondto.1.addthis.postexecute": "getwidmaster",
+			"widname": "startwid",
+			"displayname": "2 Open As Json 222- defaultmasteractions",
+			"actiondescription": "string",
+			"category": "string",
+			"subcategory": "string",
+			"addthis.preexecute": "",
+			"addthis.executethis": "open_as_wid",
+			"addthis.postexecute": "getwidmaster",
 			
-			"adddto.actiondto.2.widname": "startwid",
-			"adddto.actiondto.2.displayname": "Generate Children",
-			"adddto.actiondto.2.actiondescription": "string",
-			"adddto.actiondto.2.category": "Button",
-			"adddto.actiondto.2.subcategory": "PropList",
-			"adddto.actiondto.2.dtotype": "",
-			"adddto.actiondto.2.convertmethod": "wid",
-			"adddto.actiondto.2.addthis.preexecute": "getselectedwid",
-			"adddto.actiondto.2.addthis.executethis": "generatechildren",
-			"adddto.actiondto.2.addthis.postexecute": "populatelist"
-		}
+			"widname": "startwid",
+			"displayname": "Generate Children 333- defaultmasteractions",
+			"actiondescription": "string",
+			"category": "Button",
+			"subcategory": "PropList",
+			"addthis.preexecute": "getselectedwid",
+			"addthis.executethis": "generatechildren",
+			"addthis.postexecute": "populatelist"
+		},
+        {"executethis":"getwidmaster","wid":"defaultadddtoactions"},
+        {"executethis":"getwidmaster","wid":"defaultauthordtoactions"},
+        {"executethis":"getwidmaster","wid":"defaultmasteractions"}
 	];
 	execute(executeList, function (err, res) {
+        proxyprinttodiv("defaultadddtoactions", res[3], 99);   
+        proxyprinttodiv("defaultauthordtoactions", res[4], 99); 
+        proxyprinttodiv("defaultmasteractions", res[5], 99); 
         console.log(' >>> final response of executeList >>> ' + JSON.stringify(res));
+
     });
     params={'test':'PASS'};
     //callback(params)
 }
 
+// resutls from default master actions 2/2 
+            // "wid": "defaultmasteractions",
+            // "metadata.method": "actiondto",
+
+            // "adddto.actiondto.0.widname": "startwid",
+            // "adddto.actiondto.0.displayname": "1 Process Blur 111",
+            // "adddto.actiondto.0.actiondescription": "string",
+            // "adddto.actiondto.0.category": "blur",
+            // "adddto.actiondto.0.subcategory": "name",
+            // "adddto.actiondto.0.preexecute": "",
+            // "adddto.actiondto.0.executethis": "fieldrequired",
+            // "adddto.actiondto.0.postexecute": "getwidmaster",
+
+            // "adddto.actiondto.1.widname": "startwid",
+            // "adddto.actiondto.1.displayname": "2 Open As Json 222",
+            // "adddto.actiondto.1.actiondescription": "string",
+            // "adddto.actiondto.1.category": "string",
+            // "adddto.actiondto.1.subcategory": "string",
+            // "adddto.actiondto.1.preexecute": "",
+            // "adddto.actiondto.1.executethis": "open_as_wid",
+            // "adddto.actiondto.1.postexecute": "getwidmaster",
+
+            // "adddto.actiondto.2.widname": "startwid",
+            // "adddto.actiondto.2.displayname": "Generate Children 333",
+            // "adddto.actiondto.2.actiondescription": "string",
+            // "adddto.actiondto.2.category": "Button",
+            // "adddto.actiondto.2.subcategory": "PropList",
+            // "adddto.actiondto.2.preexecute": "getselectedwid",
+            // "adddto.actiondto.2.executethis": "generatechildren",
+            // "adddto.actiondto.2.postexecute": "populatelist"
+
+            // "wid": "defaultauthordtoactions",
+            // "metadata.method": "authordto",
+            // "adddto.actiondto.0.widname": "startwid",
+            // "adddto.actiondto.0.displayname": "1 Process Blur 111",
+            // "adddto.actiondto.0.actiondescription": "string",
+            // "adddto.actiondto.0.category": "blur",
+            // "adddto.actiondto.0.subcategory": "name",
+            // "adddto.actiondto.0.preexecute": "",
+            // "adddto.actiondto.0.executethis": "fieldrequired",
+            // "adddto.actiondto.0.postexecute": "getwidmaster",
+            // "adddto.actiondto.1.widname": "startwid",
+            // "adddto.actiondto.1.displayname": "2 Open As Json 222",
+            // "adddto.actiondto.1.actiondescription": "string",
+            // "adddto.actiondto.1.category": "string",
+            // "adddto.actiondto.1.subcategory": "string",
+            // "adddto.actiondto.1.preexecute": "",
+            // "adddto.actiondto.1.executethis": "open_as_wid",
+            // "adddto.actiondto.1.postexecute": "getwidmaster",
+            // "adddto.actiondto.2.widname": "startwid",
+            // "adddto.actiondto.2.displayname": "Generate Children 333",
+            // "adddto.actiondto.2.actiondescription": "string",
+            // "adddto.actiondto.2.category": "Button",
+            // "adddto.actiondto.2.subcategory": "PropList",
+            // "adddto.actiondto.2.preexecute": "getselectedwid",
+            // "adddto.actiondto.2.executethis": "generatechildren",
+            // "adddto.actiondto.2.postexecute": "populatelist"
+            // "adddto.wid": "61",
+            // "adddto.metadata.method": "adddto",
+            // "adddto.gojsobject.nodedataarray.metadata.rightArray.type.displayname": "6Open As Wid",
+            // "adddto.gojsobject.nodedataarray.metadata.rightArray.type.actiondescription": "desc6",
+            // "adddto.gojsobject.nodedataarray.metadata.rightArray.type.category": "button",
+            // "adddto.gojsobject.nodedataarray.metadata.rightArray.type.subcategory": "o1",
+            // "adddto.gojsobject.wid": "62",
+            // "adddto.gojsobject.metadata.method": "gojsobject",
+            // "adddto.gojsobject.nodedataarray.metadata.rightArray.type.preexecute": "setdtoforwid",
+            // "adddto.gojsobject.nodedataarray.metadata.rightArray.type.executethis": "getwidmaster",
+            // "adddto.gojsobject.nodedataarray.metadata.rightArray.type.postexecute": "getwidmaster",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.displayname": "5Open As Wid",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.actiondescription": "desc5",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.category": "button",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.subcategory": "o1",
+            // "gojsobject.wid": "59",
+            // "gojsobject.metadata.method": "gojsobject",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.preexecute": "setdtoforwid",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.executethis": "getwidmaster",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.postexecute": "getwidmaster",
+
+            // "wid": "defaultadddtoactions",
+            // "metadata.method": "adddto",
+            // "adddto.actiondto.0.widname": "startwid",
+            // "adddto.actiondto.0.displayname": "1 Process Blur 111",
+            // "adddto.actiondto.0.actiondescription": "string",
+            // "adddto.actiondto.0.category": "blur",
+            // "adddto.actiondto.0.subcategory": "name",
+            // "adddto.actiondto.0.preexecute": "",
+            // "adddto.actiondto.0.executethis": "fieldrequired",
+            // "adddto.actiondto.0.postexecute": "getwidmaster",
+            // "adddto.actiondto.1.widname": "startwid",
+            // "adddto.actiondto.1.displayname": "2 Open As Json 222",
+            // "adddto.actiondto.1.actiondescription": "string",
+            // "adddto.actiondto.1.category": "string",
+            // "adddto.actiondto.1.subcategory": "string",
+            // "adddto.actiondto.1.preexecute": "",
+            // "adddto.actiondto.1.executethis": "open_as_wid",
+            // "adddto.actiondto.1.postexecute": "getwidmaster",
+            // "adddto.actiondto.2.widname": "startwid",
+            // "adddto.actiondto.2.displayname": "Generate Children 333",
+            // "adddto.actiondto.2.actiondescription": "string",
+            // "adddto.actiondto.2.category": "Button",
+            // "adddto.actiondto.2.subcategory": "PropList",
+            // "adddto.actiondto.2.preexecute": "getselectedwid",
+            // "adddto.actiondto.2.executethis": "generatechildren",
+            // "adddto.actiondto.2.postexecute": "populatelist"
+            // "gojsobject.nodedataarray.metadata.rightArray.type.displayname": "5Open As Wid",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.actiondescription": "desc5",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.category": "button",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.subcategory": "o1",
+            // "gojsobject.wid": "59",
+            // "gojsobject.metadata.method": "gojsobject",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.preexecute": "setdtoforwid",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.executethis": "getwidmaster",
+            // "gojsobject.nodedataarray.metadata.rightArray.type.postexecute": "getwidmaster",
+
+
+
 exports.getselectedwid = getselectedwid = function getselectedwid(inputWidgetObject, callback) {
-	return {"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"};
+    return {"metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"};
 }
 
 exports.generatechildren = generatechildren = function generatechildren(inputWidgetObject, callback) {
-	var querylist = [{
+    var querylist = [{
         "executethis": "querywid",
         "rawmongoquery": {
             "$or": [{
-				"primarywid": inputWidgetObject["wid"]
+                "primarywid": inputWidgetObject["wid"]
             }]
         }
     }];
-	execute(querylist, function (err, res) {
-		callback(res);
+    execute(querylist, function (err, res) {
+        callback(res);
     });
 }
 
-exports.createotherdefaults = createotherdefaults = function createotherdefaults(params, callback) {
-    // default actions added at adddto
-    executetest("addwidmaster",{"wid":"defaultadddtoactions","metadata.method":"adddto","command.dtotype":"actiondto","displayname":"5Open As Wid","actiondescription":"desc5", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
-    // default actions added at authordto level
-    executetest("addwidmaster",{"wid":"defaultauthordtoactions","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"6Open As Wid","actiondescription":"desc6", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"},"","");
-    // default field valeus at addfield level
-    executetest("addwidmaster",{"wid":"defaultfieldvalue","metadata.method":"addfield","fieldname":"name","display":"true","editable":"true","onreadactions":"none","oneditactions":"pop_up_alert"}, "", "");
-    params={'test':'PASS'};
-    callback(params)
-    }
+/*
+function getindex(parameterobject, dtoname, indexstring) {
+
+    var match = null
+
+    for (eachelement in parameterobject) {
+        if (eachelement===dtoname) {
+            match = eachelement;
+            }
+        if (parameterobject[eachelement] instanceof Object) {
+            match = getindex(parameterobject[eachelement], dtoname, indexstring);
+            }
+        if (match) {break}
+        }
+
+    if (match) {
+        if (!indexstring) {indexstring=match} else {indexstring=indexstring+'.'+match}
+        }
+
+    return indexstring;
+} 
+*/
+
+function getindex(parameterobject, dtoname, indexstring) {
+    var match;
+    for (eachelement in parameterobject) {
+        if (parameterobject[eachelement]===dtoname) {
+            match = eachelement;
+            proxyprinttodiv('Function getindex FOUND', parameterobject[eachelement],99);   
+            break;         
+        }
+	       proxyprinttodiv('Function getindex ', parameterobject[eachelement], 99);  
+		if (parameterobject[eachelement] instanceof Object) {
+            if (getindex(parameterobject[eachelement], dtoname, indexstring)) {
+                match=match+'.'+eachelement;
+                }
+            }
+        }
+    proxyprinttodiv('Function match ', match, 99);  
+    return match;
+
+} 
+
+/****************************************
+getindex(parmobject:object, dtoname:string) returns index string
+i.e. {a:{b:{c:d},e:f}, g:h}
+****************************************
+****************************************
+dtoname: a returns a
+dtoname: b returns a.b
+dtoname: c returns a.b.c
+dtoname: e returns a.e
+dtoname: g returns g
+*/
+exports.getindextest = getindextest = function getindextest(params, callback) {
+	console.log("<< getindextest >>");
+	var parameterobject = {"a":{"b":{"c":"d"},"e":"f"},"g":"h"};
+	console.log("Function getindextest parameterobject -- " + JSON.stringify(parameterobject));
+	
+	var indexstring = "";
+
+	var dtoname = "e";
+	console.log("Function getindextest dtoname -- " + dtoname);
+	var result = getindex(parameterobject, dtoname, indexstring);
+	console.log("Function getindextest result  -- " + result);
+}
+
+
+function setbyindex(object, index, objecttobeadded, operation) {
+	
+}
+
+/****************************************
+check type of what you are updating, if array then push else extend
+****************************************
+****************************************
+object= {a:{b:{c:d},e:f}, g:h}
+index= 	a.b.c
+objecttobeadded= {t:y, p:u}
+operation=	add/update
+will make object be {a:{b:{c:{t:y, p:u}},e:f}, g:h}
+*/
+exports.setbyindextest = setbyindextest = function setbyindextest(params, callback) {
+	
+}
 
 /*
 exports.addmoreactions = addmoreactions = function addmoreactions(params, callback) {
@@ -661,7 +714,7 @@ exports.addmoreactions = addmoreactions = function addmoreactions(params, callba
 "adddto.actiondto.4.addthis.executethis":"fieldrequired",
 "adddto.actiondto.4.addthis.postexecute":"getwidmaster",
 
-"adddto.actiondto.5.displayname":"Process Blur",
+"adddto.actiondto.displayname":"Process Blur",
 "adddto.actiondto.5.widname":"startwid",
 "adddto.actiondto.5.actiondescription":"string",
 "adddto.actiondto.5.category":"blur",
