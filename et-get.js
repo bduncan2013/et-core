@@ -1,6 +1,8 @@
 (function (window) {
 
     exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         authcall(inputWidgetObject, function (err, ret) {
             if (err || !ret) {
@@ -17,6 +19,12 @@
 
                 getfrommongo(inputWidgetObject, function (err, resultobject) {
                     // convert the object from dri standard before returnning it
+                    
+                    // debugfn("getwid code generator", "getwid", "get", "code", 2, 1, {
+                    //     0: inbound_parameters,
+                    //     1: convertfromdriformat(addobject)
+                    // }, 6); 
+                    
                     callback({}, convertfromdriformat(resultobject));
                 });
               
@@ -25,6 +33,8 @@
     }
 
 exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
     parameters=ConvertFromDOTdri(parameters); // convert to object
 
@@ -48,21 +58,44 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
             getclean(res, parameters.command, function (err, res) {
                 if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);
+                    
+                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: res
+                    }, 6);
+
                     callback(err, res);
                 }
                 else { // the detault is to return dot notation...so old code does not break
                     res = ConvertToDOTdri(res);
+                                        
+                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: res
+                    }, 6);
+
                     callback(err, res);  
                 }
             });
         } else {
             if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);
+                                        
+                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: res
+                    }, 6);
+                    
                     callback(err, res);
                 }
                 else { // the detault is to return dot notation...so old code does not break
                     res = ConvertToDOTdri(res);
-
+                                        
+                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: res
+                    }, 6);
+                    
                     callback(err, res);  
                 }  
         }
@@ -70,6 +103,9 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
 }
 
 exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     var dtotype;
     var dtoobject = {};
 
@@ -97,12 +133,24 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
         
         execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"DTO","command.execute":"ConvertFromDOTdri"}, function (err, res) {
             if (!res) {dtoobject=obj} else {dtoobject=res[0]}
+
+            debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
+                0: inbound_parameters,
+                1: dtoobject
+            }, 6);
+
             callback({}, dtoobject);
             });
         
     }   
     else {
         proxyprinttodiv('In __getdtoobject__ calling back no dtotype: ', dtotype, 99);
+
+        debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: dtoobject
+        }, 6);
+
         callback({}, dtoobject);
         }
 }
@@ -110,6 +158,9 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
 
 //exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod, accesstoken, dtotype, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
 exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     //proxyprinttodiv('Function getwidmongo hit I', null, 10);
     // local vars
     var moreDTOParameters;
@@ -365,6 +416,12 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
     ],
     function (err, results) {
         proxyprinttodiv('Function getwidmongo dtoGlobalParameters', dtoGlobalParameters, 10);
+
+        debugfn("getWidMongo code generator", "getWidMongo", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: dtoGlobalParameters
+        }, 6);
+
         callback(err, dtoGlobalParameters);
     });
 
@@ -372,6 +429,9 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
 }
 
 exports.getclean = getclean = function getclean(resultObj, command, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     var bigdto={};
     var dtoobject={};
     var outobj={};
@@ -501,6 +561,12 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             proxyprinttodiv('<<< Get_Clean before call back afterdeepfilter resultObj >>>', resultObj, 99);
             // proxyprinttodiv('<<< Get_Clean before call back command >>>', command, 99);
             // proxyprinttodiv('<<< Get_Clean before call back dtoobject >>>', dtoobject, 99);
+             
+            debugfn("getclean code generator", "getclean", "get", "code", 2, 1, {
+                0: inbound_parameters,
+                1: resultObj
+            }, 6); 
+            
             callback(err, resultObj);
         }
     ); // end series
@@ -508,6 +574,9 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
 
 function getindex(parameterobject, dtoname, indexstring) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     var match;
     var potentialmap;
     for (eachelement in parameterobject) {
@@ -529,6 +598,12 @@ function getindex(parameterobject, dtoname, indexstring) {
             }
         }
     proxyprinttodiv('Function indexstring ', indexstring, 23);  
+
+    debugfn("getindex code generator", "getindex", "get", "code", 2, 1, {
+        0: inbound_parameters,
+        1: indexstring
+    }, 6); 
+    
     return indexstring;
 
 } 

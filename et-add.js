@@ -3,23 +3,38 @@
 // current code calls addmasterproxy whcih continues to current code addmaster...we need to try addmaster2
 
 function AddMasterProxy(dtoList, parameterList, widName, dtotype, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     AddMaster(dtoList, parameterList, widName, dtotype, callback) 
     //AddMaster2(dtoList, parameterList, widName, dtotype, callback) 
 }
 
  // this new AddMaster is temporary it is a converter to new method to avoid huge changes in code
- function AddMaster2(dtoList, parameterList, widName, dtotype, callback) {
+function AddMaster2(dtoList, parameterList, widName, dtotype, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
      var parentwid=""
      var relationshiptype=""
      var inputdto=converttodriformat(listToObject(dtoList));
      var inputObject= converttodriformat(listToObject(parameterList));
      addwidobject(inputObject, inputdto, command, function (err, addobject) {
+
+                debugfn("AddMaster2 code generator", "AddMaster2", "add", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: convertfromdriformat(addobject)
+                }, 6);
+
                  callback(null, convertfromdriformat(addobject));
                  });
  }
 
 
 function addwidobject(inputObject, inputdto, command, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     var executeList = [];
 
     var parObject = {};
@@ -92,17 +107,35 @@ function addwidobject(inputObject, inputdto, command, callback) {
             console.log("Child Object needs to be added ---> "+JSON.stringify(childWidObj));
         };
     };
+
+    debugfn("addwidobject code generator", "addwidobject", "add", "code", 2, 1, {
+        0: inbound_parameters,
+        1: executeList
+    }, 6);
+
     return executeList;
 }
 
 function merge_options(obj1,obj2){
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
      var obj3 = {};
      for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
      for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+
+    debugfn("merge_options code generator", "merge_options", "add", "code", 2, 1, {
+        0: inbound_parameters,
+        1: obj3
+    }, 6);
+
      return obj3;
  }
 
 function addwidmaster_new(object, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     var command = parameters.command;
     delete object.command;
     cleanadd (object, dtoobject, command, function (err, res) {
@@ -111,6 +144,9 @@ function addwidmaster_new(object, callback) {
 }
 
 function cleanadd(object, objectdto, command, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     getdtoobject(object, command, function (err, res) {
         var dtoToGet = resultObj.metadata.method;
         execute({"executethis":"getwidmaster", 
@@ -129,6 +165,12 @@ function cleanadd(object, objectdto, command, callback) {
         index = getindex(bigdto, dtoname); 
         setbyindex(object, index, object);
         resultObj = deepfilter(object, objectdto, command);
+
+        debugfn("cleanadd code generator", "cleanadd", "add", "code", 2, 1, {
+            0: inbound_parameters,
+            1: cleanadd
+        }, 6);
+
         })
     })
 }
@@ -137,6 +179,9 @@ function cleanadd(object, objectdto, command, callback) {
 // addrecord is a temporary call convert to old format
 // it also check if relationship should be added
 exports.addrecord = addrecord = function addrecord (object, dtoobject, parentwid, relationship, command, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     var executeobject={};
     var widid = inputrecord("wid");
     var widdto = inputrecord["metadata"]["method"];
@@ -148,10 +193,21 @@ exports.addrecord = addrecord = function addrecord (object, dtoobject, parentwid
             var ChildWid = addobject["wid"]; 
             //addwid(object, dtoobject, command, callback)
             AddMongoRelationship(ParentWid, ChildWid, relationshiptype, function (err, adddedrelationship) {
+        
+                debugfn("addrecord code generator", "addrecord", "add", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: addobject
+                }, 6);
+
                 callback(null, addobject)
                 });
             }
         else {
+                debugfn("addrecord code generator", "addrecord", "add", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: addobject
+                }, 6);
+
             callback(null, addobject)
             }
 
@@ -172,6 +228,9 @@ function addwid(object, dtoobject, command, callback) {
 
 
     exports.addwidmaster = addwidmaster = function addwidmaster(inputObject, callback) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         var OutParameters = ConvertToDOTdri(inputObject);
         var Wid;
         var ret = undefined;
@@ -226,6 +285,12 @@ function addwid(object, dtoobject, command, callback) {
 
                     proxyprinttodiv('Function addwidmaster() AddedObject >>>  : I ', AddedObject, 15);
                     debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                
+                    debugfn("addwidmaster code generator", "addwidmaster", "add", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: ret
+                    }, 6);
+
                     callback(err, ret);
             });
 
@@ -233,6 +298,9 @@ function addwid(object, dtoobject, command, callback) {
 
 
     function addcleanparameters(resultObj, dtotype, accesstoken, cleanmethod, convertmethod, callback) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         proxyprinttodiv('Function addcleanparameteres() resultObj I ', resultObj, 80);
         proxyprinttodiv('Function addcleanparameteres()  dtotype I', dtotype, 80);
         proxyprinttodiv('Function addcleanparameteres()  accesstoken I', accesstoken);
@@ -413,6 +481,11 @@ function addwid(object, dtoobject, command, callback) {
 
         ], function (err, res) {
 
+                debugfn("addcleanparameters code generator", "addcleanparameters", "add", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: ret
+                }, 6);
+
                 callback(err, ret);
         });
 
@@ -420,6 +493,9 @@ function addwid(object, dtoobject, command, callback) {
     }
 
     function AddMongoRelationship(ParentWid, ChildWid, attr, callback) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         var AddedObject;
         var widset;
         var relationshipdto;
@@ -540,6 +616,11 @@ function addwid(object, dtoobject, command, callback) {
                 console.log(JSON.stringify('done all in AddMongoRelationship, Result is  ' + JSON.stringify(results)));
                 ret = AddedObject;
 
+                debugfn("AddMongoRelationship code generator", "AddMongoRelationship", "add", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: ret
+                }, 6);
+
                 // if (!isSynchronous) {
                     callback(err, ret);
                 // }
@@ -550,6 +631,8 @@ function addwid(object, dtoobject, command, callback) {
 
 
     function AddWidParameters(parameterObject, callback) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         // obj sets up the match and nomatch arrays
         var obj = MatchPrefix(parameterObject, "command");
@@ -728,6 +811,11 @@ function addwid(object, dtoobject, command, callback) {
 
                 proxyprinttodiv('Function AddWidParameters() Wid : I ', Wid, 15);
                 debugfn("AddWidParameters", " final response after steps ", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                
+                debugfn("AddWidParameters code generator", "AddWidParameters", "add", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: ret
+                }, 6);
 
                     callback(err, ret);
             });
@@ -735,6 +823,8 @@ function addwid(object, dtoobject, command, callback) {
     }
 
     function AddMaster(dtoList, parameterList, widName, dtotype, callback) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var originalarguments=arguments;
         var executionid = new Date();
@@ -1195,11 +1285,12 @@ function addwid(object, dtoobject, command, callback) {
                 if (err) {
                     throw err;
                 }
-                debugfn("addmaster code generator", "addmaster", "add", "code", 2, 1, {
-                    0: originalarguments,
-                    1: ret,
-                    2: executionid
-                }, 4);
+
+                debugfn("AddMaster code generator", "AddMaster", "add", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: ret
+                }, 6);
+
                 callback(err, ret);
             });
 
@@ -1209,6 +1300,9 @@ function addwid(object, dtoobject, command, callback) {
 
 
     exports.updatewid = updatewid = function updatewid(inputObject, callback) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         authcall(inputObject, function (err, ret) {
             if (err || !ret) {
                 callback(err, {
@@ -1219,6 +1313,12 @@ function addwid(object, dtoobject, command, callback) {
                 var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
 
                 offlineaddtomongo(converttodriformat(inputWidgetObject), function (err, results) {
+
+                    debugfn("updatewid code generator", "updatewid", "add", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: results
+                    }, 6);
+
                     callback({}, results);
                 });
             }
@@ -1226,6 +1326,8 @@ function addwid(object, dtoobject, command, callback) {
     }
 
     function MongoAddEditPrepare(Indto, InList, widid, widdto, callback) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var InListObj = {};
         var rawobject = {};
@@ -1385,7 +1487,12 @@ function addwid(object, dtoobject, command, callback) {
 
             function (err, results) {
                 ret = InListObj;
-                
+
+                    debugfn("MongoAddEditPrepare code generator", "MongoAddEditPrepare", "add", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: results
+                    }, 6);
+                    
                     callback(err, ret);
             });
 
