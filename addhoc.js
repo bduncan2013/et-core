@@ -34,6 +34,8 @@ customfn103 = function customfn103(inputWidgetObject, callback) {
 return result ={"dtotype":"palettedto","wid":'startwid',"tableid":"palate"};
 }
 
+
+
 exports.system_actions = system_actions = function system_actions(params, callback){
     //clearLocalStorage();
     createdtos(params, function (err, results) {

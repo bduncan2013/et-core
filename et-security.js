@@ -22,7 +22,7 @@
             function part1(cb) {
                 var query1 = {
                     "mongorawquery": {
-                        "data.accesstoken": accesstoken
+                        "data.securitydto.accesstoken": accesstoken
                     },
                     "mongorelationshiptype": 'attributes',
                     "mongorelationshipmethod": 'last',
