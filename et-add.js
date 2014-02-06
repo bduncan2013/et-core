@@ -1,287 +1,213 @@
 (function (window) {
-    // var configuration = config.configuration;
 
-    // This tears apart an object with properties that are objects.
-    // It opens up all the nested objects to create a flat list of properties
-    // of an object. Then AddWidParameters is called, which in turn calls
-    // AddMaster to get the wid placed into the db or local storage. Note that 
-    // nothing calls this except the test. This is the highest level of the adding
-    // process for DOT notation.
-    // exports.addwidmaster = addwidmaster = function addwidmaster(inputObject, callback) {
-    //     var OutParameters = ConvertToDOTdri(inputObject);
-    //     //OutParameters = tolowerparameters(OutParameters, OutParameters['command.convertmethod']);
-    //     var Wid = AddWidParameters(OutParameters);
-    //     if (callback instanceof Function) {
-    //         callback({
-    //             Wid: Wid
-    //         });
-    //     } else {
-    //         return {
-    //             Wid: Wid
-    //         };
-    //     }
-    // };
+function addwidmaster_new(parameters, callback) {
+//getdtoobject (object, dtotype)
+//addclean (object, dtoobject, command, callback) 
+//addmaster (object, dtoobject, command, callback)
+}
+
+function cleanadd(object, objectdto, command, callback) {
+//getdtoobject(object, dtotype)
+//     dtotype = 
+//     index = getindex(dtoobject, dtotype) returns index string
+//     setbyindex(object, index, inheritobject, "add")
+//call deepfilter(obj, dtoobj, command object)
+}
 
 
+// addrecord is a temporary call convert to old format
+// it also check if relationship should be added
+exports.addrecord = addrecord = function addrecord (object, dtoobject, parentwid, relationship, callback) {
+    var executeobject={};
+    var widid = inputrecord("wid");
+    var widdto = inputrecord["metadata"]["method"];
+    var InList = objectToList(ConvertToDOTdri(inputrecord));
+    var Indto = objectToList(ConvertToDOTdri(inputdto));
+    // next line should be call to addwid
+    MongoAddEditPrepare(Indto, InList, widid, widdto,  function (err, addobject) {
+        if (relationshiptype) {
+            var ChildWid = addobject["wid"]; 
+            AddMongoRelationship(ParentWid, ChildWid, relationshiptype, function (err, adddedrelationship) {
+                callback(null, addobject)
+                });
+            }
+        else {
+            callback(null, addobject)
+            }
 
-    // function addcleanparameters(resultObj, dtotype, accesstoken, cleanmethod, convertmethod, callback) {
-    //     var outputparameters = {};
-    //     var dtoloc = 0;
-    //     var proposedLeft = "";
-    //     var proposedRight = "";
-    //     var dtoobject = {};
-    //     var inputParametersObject = {};
-    //     var childdto = dtotype;
-    //     var preAmble = "";
-    //     var item = "";
-    //     var moreParameters = {};
-    //     var executeobject = {};
-    //     var eafield = "";
-    //     var otherdtoobject = {};
-    //     var resultlist = [];
-    //     var ret = undefined;
-    //     var err;
+        })
+}
 
-    //     function debugvars() {
-    //         var debugvars = {
-    //             "outputparameters": outputparameters,
-    //             "dtoloc": dtoloc,
-    //             "inputParametersObject": inputParametersObject,
-    //             "childdto": childdto,
-    //             "preAmble": preAmble,
-    //             "item": item,
-    //             "moreParameters": moreParameters,
-    //             "executeobject": executeobject,
-    //             "eafield": eafield,
-    //             "otherdtoobject": otherdtoobject,
-    //             "resultlist": resultlist,
-    //             "dtoobject": dtoobject,
-    //             "cleanmethod": cleanmethod,
-    //             "proposedLeft": proposedLeft,
-    //             "proposedRight": proposedRight
-    //         }
-
-    //         return debugvars;
-    //     }
-    //     debuglevel = 80;
-
-    //     function step1(cb) {
-
-    //         proxyprinttodiv('Function addcleanparameteres() resultObj I ', resultObj, 80);
-    //         proxyprinttodiv('Function addcleanparameteres()  dtotype I', dtotype, 80);
-    //         proxyprinttodiv('Function addcleanparameteres()  accesstoken I', accesstoken);
-    //         proxyprinttodiv('Function addcleanparameteres()  convertmethod I', convertmethod, 80);
-
-    //         // first try to get dtoobject from method
-    //         inputParametersObject = resultObj;
-
-    //         if ((inputParametersObject['metadata.method'])) { // && (dtotype=="")) {
-
-    //             function step1n1(cb1) {
-    //                 childdto = inputParametersObject['metadata.method'];
-    //                 // dtoobject=getwidmaster({'wid':metadata,
-    //                 //                      'command.convertmethod':'dto',
-    //                 //                      'command.dtotype':metadata});
-    //                 executeobject = {};
-    //                 //executeobject["executethis"]=getwidmaster;
-    //                 executeobject["wid"] = childdto;
-    //                 executeobject["command.convertmethod"] = "dto";
-    //                 executeobject["command.dtotype"] = childdto;
-    //                 //dtoobject=executethis(executeobject,execute);
-    //                 getwidmaster = window["getwidmaster"];
-    //                 cb1("");
-    //             }
-
-    //             function step1n2(cb1) {
-    //                 executeobject['executethis'] = 'getwidmaster';
-    //                 execute(executeobject, function (err, res) {
-    //                     dtoobject = res;
-    //                     proxyprinttodiv('Function addcleanparameteres()  result dtoobject ', dtoobject, 80);
-    //                     //dtoobject=executethis({'executethis':'getwidmaster', 'wid':metadata,
-    //                     //                      'command.convertmethod':'dto',
-    //                     //                      'command.dtotype':metadata}); // not sure if this ever worked
-    //                     cb1("");
-    //                 });
-    //             }
-
-    //             async.series({
-    //                     one: step1n1,
-    //                     check1: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1n1", "desc", true, "from parent1", 15, debugvars());
-    //                         cbcheck("")
-    //                     }, //LM
-    //                     two: step1n2,
-    //                     check2: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1n2", "desc", true, "from parent1", 15, debugvars());
-    //                         cbcheck("")
-    //                     }, //LM
-
-    //                 },
-    //                 function (err, results) {
-    //                     console.log(JSON.stringify('done all in getcleanparameters step1, Result is  ' + JSON.stringify(results)));
-    //                     // cb1("");
-    //                     cb("");
-    //                     // return; 
-    //                 });
-    //         }
-
-    //         // next get dtoobject from dtotype -- aggressive
-    //         childdto = dtotype;
-    //         if (dtotype !== "") {
-    //             function step1n3(cb1) {
-
-    //                 proxyprinttodiv('Function addcleanparameteres()  dtotype check ', dtotype);
-    //                 aggressivedto = window['aggressivedto'];
-    //                     aggressivedto(dtotype, "", 10, function (err, res) {
-    //                         otherdtoobject = res;
-    //                         proxyprinttodiv('Function addcleanparameteres()  otherdtoobject ', otherdtoobject);
-    //                         proxyprinttodiv('Function addcleanparameteres()  countKeys(otherdtoobject) ', countKeys(otherdtoobject));
-    //                         proxyprinttodiv('Function addcleanparameteres()  countKeys(dtoobject) ', countKeys(dtoobject));
-    //                         cb1("");
-    //                     });
-    //             }
-
-    //             function step1n4(cb1) {
-    //                 // if dtotype object is bigger than method dtoobject then swtich who is childdto
-    //                 if (countKeys(otherdtoobject) > countKeys(dtoobject)) {
-    //                     dtoobject = otherdtoobject;
-    //                     childdto = inputParametersObject['metadata.method'];
-    //                 }
-    //                 cb1("");
-    //             }
-
-    //             function step1n5(cb1) {
-    //                 // if dtotype object is bigger than method dtoobject then swtich who is childdto
-    //                 if (countKeys(otherdtoobject) > countKeys(dtoobject)) {
-    //                     dtoobject = otherdtoobject;
-    //                     childdto = inputParametersObject['metadata.method'];
-    //                 }
-    //                 cb1("");
-    //             }
-
-    //             async.series({
-    //                     one: step1n3,
-    //                     check1: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1n3", "desc", true, "from parent1", 15, debugvars());
-    //                         cbcheck("")
-    //                     }, //LM
-    //                     two: step1n4,
-    //                     check2: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1n4", "desc", true, "from parent1", 15, debugvars());
-    //                         cbcheck("")
-    //                     }, //LM
-    //                     three: step1n5,
-    //                     check3: function (cbcheck) {
-    //                         debugfn("addcleanparameters after step1", "step1n5", true, "from parent1", 15, debugvars());
-    //                         cbcheck("")
-    //                     } //LM
-    //                 },
-
-    //                 function (err, results) {
-    //                     console.log(JSON.stringify('done all in getcleanparameters step1, Result is  ' + JSON.stringify(results)));
-    //                     // cb1("");
-    //                     cb("");
-    //                     // return; 
-    //                 });
-    //         }
-
-    //         proxyprinttodiv('Function addcleanparameteres()  childdto ', childdto, 80);
-    //         proxyprinttodiv('Function addcleanparameteres()  dtotype : II ', dtotype, 80);
-
-    //         // if dtotype was blank then just adopt it from method
-    //         if (dtotype == "") {
-    //             dtotype = resultObj["metadata.method"]
-    //         };
-
-    //         // if dtotype <> method then we need to add to parameters
-    //         if (resultObj["metadata.method"] != dtotype) {
-    //             proxyprinttodiv('Function addcleanparameteres()  resultObj', resultObj, 80);
-    //             proxyprinttodiv('Function addcleanparameteres()  dtoobject inside ', dtoobject, 80);
-
-    //             preamble = "";
-
-    //             for (item in dtoobject) {
-
-    //                 dtoloc = item.lastIndexOf(".");
-    //                 if (dtoloc != -1) {
-    //                     preamble = item.substring(0, dtoloc);
-    //                     proposedLeft = item.substring(dtoloc + 1, item.length);
-    //                 } else {
-    //                     proposedLeft = item;
-    //                 }
-
-    //                 if ((proposedLeft == dtotype) && // +++++
-    //                     ((dtoobject[item] == 'onetomany') ||
-    //                         (dtoobject[item] == 'onetoone'))) {
-    //                     preAmble = item;
-    //                     break;
-    //                 }
-    //             }
-    //             proxyprinttodiv('Function addcleanparameteres()  preAmble ', preAmble, 80);
-
-    //             for (item in resultObj) { // now step through each record that could be changed
-    //                 proposedLeft = item;
-    //                 proposedRight = resultObj[item];
-    //                 // taken out 11-5
-    //                 //if ((item!='wid') && (item!='metadata.method')) {
-    //                 proxyprinttodiv('Function addcleanparameteres()  item', item, 81);
-    //                 proposedLeft = ""; // work on left first...check if add or remvove
-    //                 if ((cleanmethod == "add") && (preAmble != "")) {
-    //                     if (((item != 'wid') && (item != 'metadata.method')) || (childdto != dtotype)) {
-    //                         proposedLeft = preAmble + "." + item
-    //                     } else {
-    //                         proposedLeft = item
-    //                     }
-    //                 }
+function addwid(object, dtoobject callback) {
+// addwid (object, dtoobject, callback)
+// step through dtoobject
+//     inheritobject = [getwidmaster, convertmethod=nowid]
+//     remove items from object based on inherit 
+// if wid then
+//     getwid (wid), remove wid, mm
+//     add to object missing parameters 
+// updatewid
+}
 
 
-    //                 proxyprinttodiv('Function addcleanparameteres()  proposedLeft', proposedLeft, 81);
-    //                 proxyprinttodiv('Function addcleanparameteres()  proposedRight', proposedRight, 81);
-    //                 if (proposedLeft != "") {
-    //                     outputparameters[proposedLeft] = proposedRight
-    //                 }
-    //                 proxyprinttodiv('Function addcleanparameteres()  outputparameters', outputparameters, 81);
-    //             }
-    //             // 11-5 **
-    //             //
-    //             if ((preAmble != "") && (childdto != dtotype)) {
-    //                 outputparameters["metadata.method"] = dtotype;
-    //                 outputparameters["wid"] = "";
-    //             }
-    //         } else {
-    //             outputparameters = resultObj;
-    //         }
+ // this new AddMaster is temporary it is a converter to new method to avoid huge changes in code
+ function AddMaster3(dtoList, parameterList, widName, dtotype, callback) {
+     var parentwid=""
+     var relationshiptype=""
+     var inputdto=converttoDRIstd(listToObject(dtoList));
+     var inputObject= converttoDRIstd(listToObject(parameterList));
+     addwidobject(inputObject, inputdto, parentwid, relationshiptype, function (err, addobject) {
+                 callback(null, convertfromDRIstd(addobject));
+                 });
+ }
+ // parentwid and relationshiptype are optional and are needed for subcall addrecord -- 
+ //it is a flag if a relationship record should be added as a record is added
+ function addwidobject (inputObject, inputdto, parentwid, relationshiptype, callbackcallback) {
+    //fish out  onetoone and onetomany parameters
+     var db="data";
+    var parObject = {};
+    console.log(" Input  "+JSON.stringify(inputObject));
 
-    //         proxyprinttodiv('Function addcleanparameteres() resultObj end end end', resultObj, 80);
-    //         proxyprinttodiv('Function addcleanparameteres()  dtotype end end end', dtotype, 80);
-    //         proxyprinttodiv('Function addcleanparameteres()  convertmethod end end end', convertmethod, 80);
-    //         proxyprinttodiv('Function addcleanparameteres()  outputparameters end end end ', outputparameters, 80);
-    //         proxyprinttodiv('Function addcleanparameteres()  dtoobject end end end ', dtoobject, 80);
+    extend(true, parObject, inputObject);
+    console.log("   "+JSON.stringify(parObject));
 
-    //         cb("");
-    //     }
+    if(parObject.hasOwnProperty("onetomany")){
+            for(var k in parObject["onetomany"])
+            {
+                var item = parObject["onetomany"][k]
+                delete parObject[db][item];             
+            }
+            delete parObject["onetomany"];
+    }
+    if(parObject.hasOwnProperty("onetooone")){
+            for(var l in parObject["onetooone"])
+            {
+                var item = parObject["onetooone"][l]
+                delete parObject[db][item];             
+            }
+            delete parObject["onetooone"];
+    }
+    console.log("After cleaning  parObject "+JSON.stringify(parObject));
 
-    //     async.series({
-    //             one: step1,
-    //             // check1: function (cbcheck){debugfn("addcleanparameters after step1", "desc", true, "from parent1", 15, debugvars());cbcheck("")}
-    //             check1: function (cbcheck) {
-    //                 debugfn("addcleanparameters after step1", "desc", true, "from parent1", 15, debugvars());
-    //                 cbcheck("")
-    //             } //LM
+    console.log("Parent object added: "+JSON.stringify(parObject));
+    console.log("Added object : "+parObject["wid"]);
 
-    //         },
-    //         function (err, results) {
-    //             console.log(JSON.stringify('done all in addcleanparameters, Result is  ' + JSON.stringify(results)));
+    //Create a widget based on the leftoverparams in parObject
+    //get newly created/stored widgetobjectId   
+        var widgetobjectId = parObject["wid"];
+    if(inputObject.hasOwnProperty("onetomany")){
+        for(var c in inputObject["onetomany"])
+        {
+            var child = inputObject["onetomany"][c];
+                   console.log("   child "+JSON.stringify(child));
+            var childObjects = inputObject[db][child];
+                   console.log("   childObjects "+JSON.stringify(childObjects));
+            for(var cr in childObjects)
+            {
+                   var childObject = childObjects[cr];
+                   console.log("   childObject "+JSON.stringify(childObject));
+                var childWidgetId = addobject(childObject);
+                console.log("   make a relationshipobject with childWidgetId "+childWidgetId + ": and widgetobjectId " +widgetobjectId);
+                //make a relationshipobject with childWidgetId and widgetobjectId
+            }
+        }
+    }
+    
+    if(inputObject.hasOwnProperty("onetooone")){
+        for(var d in inputObject["onetooone"])
+        {
+            var child = inputObject["onetooone"][d];
+            var childObjects = inputObject[db][child];
+            for(var cr in childObjects)
+            {
+             var childObject = childObjects[cr];
+            var childWidgetId = addobject(childObject);
+            console.log("   make a relationshipobject with childWidgetId "+childWidgetId + ": and widgetobjectId " +widgetobjectId);
+            //make a relationshipobject with childWidgetId and widgetobjectId
+            }
+        }       
+    }
+    return parObject["wid"];
+    //return newly created/stored widgetobjectId    
+ }
 
-    //             ret = {
-    //                 parms: outputparameters,
-    //                 dto: dtoobject
-    //             };
+function addwidobjectNew(inputObject) {
+    var executeList = [];
 
-    //                 callback(err, ret);
-    //         });
+    var parObject = {};
+    console.log(" Input  "+JSON.stringify(inputObject));
 
-    // }
+    //var convObj = converttodriformat(inputObject);
+    //extend(true, parObject, convObj);
+    extend(true, parObject, inputObject);
+    var onetomanyList = [];
+    var onetooneList = [];
+    if(parObject.hasOwnProperty("metadata")){
+            var metaVal = parObject["metadata"];
+            if(typeof metaVal === "object")
+            {
+                Object.keys(metaVal).forEach(function (metaKey) {
+                    var val = parObject["metadata"][metaKey];
+                    if (metaKey === "method") {
+
+                    } else if (metaKey === "data") {
+                        delete parObject["metadata"]["data"];
+                    } else {
+                        var tObj = parObject["metadata"][metaKey];
+                        if (tObj["type"] && (tObj["type"] === "onetomany" || tObj["type"] === "onetoone")) {
+                            if (tObj["type"] === "onetomany") {
+                                onetomanyList.push(metaKey);
+                            } else if (tObj["type"] === "onetoone") {
+                                onetooneList.push(metaKey);
+                            } else{
+
+                            }
+                            delete parObject["metadata"][metaKey];
+                            if (parObject["data"] && parObject["data"][metaKey]) {
+                                delete parObject["data"][metaKey];
+                            };
+                        }
+                    };        
+                });                 
+            }
+    }
+    console.log("   parentObject needs to be added -->  "+JSON.stringify(parObject));
+    var execObj = {};
+    //Formatting parObject for execute
+    Object.keys(parObject).forEach(function (parKey) {
+        var parVal = parObject[parKey];
+        if (parKey === "wid") {
+            execObj["executethis"] = "updatewidobject";
+            execObj["wid"] = parVal;
+        } else if (parKey === "metadata") {
+            if (parObject["metadata"]["method"]) {
+                execObj["metadata.method"] = parObject["metadata"]["method"];
+            }
+        } else if (parKey === "data") {
+            if (typeof parVal === "object") {
+                execObj = merge_options(execObj,parVal);
+            } else{
+                //
+            };
+        } else{
+            //
+        };
+    });                
+    executeList.push(execObj);
+    //Looping through ChildObjects
+    for (var i = 0; i < onetomanyList.length; i++) {
+        var childWidKey = onetomanyList[i];
+        var childWidObj = {};
+        if (inputObject["data"] && inputObject["data"][childWidKey]) {
+            childWidObj[childWidKey] = inputObject["data"][childWidKey];
+            executeList.push(childWidObj);            
+            console.log("Child Object needs to be added ---> "+JSON.stringify(childWidObj));
+        };
+    };
+    return executeList;
+}
+
+
 
     function addcleanparameters(resultObj, dtotype, accesstoken, cleanmethod, convertmethod, callback) {
         proxyprinttodiv('Function addcleanparameteres() resultObj I ', resultObj, 80);
@@ -1316,180 +1242,6 @@
     } // end addMaster
 
 
-    // function MongoAddEditPrepare(Indto, InList, widid, widdto, callback) {
-
-    //     var InListObj = {};
-    //     var rawobject = {};
-    //     var rawlist = [];
-    //     var item;
-    //     var ret = undefined;
-    //     var executeobject;
-    //     var addresult;
-    //     var listtodo;
-    //     var potentialwid;
-    
-    //     var err;
-
-    //     async.series([
-
-    //             function step1(cb) {
-    //                 InListObj = listToObject(InList);
-    //                 proxyprinttodiv('Function MongoAddEditPrepare, Indto : ', Indto, 90);
-    //                 proxyprinttodiv('Function MongoAddEditPrepare, InList : ', InList, 90);
-    //                 proxyprinttodiv('Function MongoAddEditPrepare, widid : ', widid, 90);
-    //                 proxyprinttodiv('Function MongoAddEditPrepare, widdto : ', widdto, 90);
-
-    //                 if ((InListObj["wid"] === undefined) || (InListObj["wid"] == "")) {
-    //                     if ((widid !== undefined) || (widid != "")) {
-    //                         InListObj["wid"] = widid
-    //                     };
-    //                 }
-    //                 if ((InListObj["wid"] === undefined) || (InListObj["wid"] == "") || (InListObj["wid"] == "add")) {
-    //                     InListObj["wid"] = getnewwid();
-    //                     proxyprinttodiv('Function MongoAddEditPrepare inlistwid : ', InListObj["wid"], 15);
-    //                     cb("");
-    //                 } else {
-    //                     async.series([ // ELSE
-    //                             function step1n1(cb1) {
-    //                                 executeobject = {};
-    //                                 executeobject["executethis"] = "getwid";
-    //                                 executeobject["wid"] = InListObj["wid"];
-    //                                 execute(executeobject, function (err, res) {
-    //                                     rawobject = res;
-    //                                     cb1("");
-    //                                 });
-    //                             },
-    //                             function step1n2(cb1) {
-    //                                 if (((rawobject["metadata.method"] !== undefined) || (rawobject["metadata.method"] != "")) &&
-    //                                     ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == ""))) {
-    //                                     InListObj["metadata.method"] = rawobject["metadata.method"];
-    //                                 }
-    //                                 InListObj = jsonConcat(InListObj, rawobject); // this will be the new contents concat with old stuff in wid
-
-    //                                 rawobject = {}; // if the dto had inherit then we only want to save what in herit does not have
-
-    //                                 async.series([ // asynch step1n2
-
-    //                                         function step1n2n1(cb3) {
-    //                                             listtodo = [];
-    //                                             for (item in Indto) {
-    //                                                 listtodo.push(item);
-    //                                             }
-    //                                             cb3("");
-    //                                         },
-
-    //                                         function step1n2n2(cb3) {
-    //                                             var newObject;
-
-    //                                             async.mapSeries(listtodo, function (item, cbMap) {
-    //                                                     async.series([ // asych inside map
-    //                                                             function step1n2n2n1(cb2) {
-    //                                                                 if (item.value == 'inherit') {
-    //                                                                     executeobject = {};
-    //                                                                     executeobject["executethis"] = "getwid"; // probably should be getwidmaster -- changed from only getwid
-    //                                                                     executeobject["wid"] = item.key;
-    //                                                                     execute(executeobject, function (err, res) {
-    //                                                                         // rawobject = res;
-    //                                                                         newObject = res;
-    //                                                                         cb2("");
-    //                                                                     });
-    //                                                                 } else {
-    //                                                                     cb2("");
-    //                                                                 }
-    //                                                             },
-    //                                                             function step1n2n2n2(cb2) {
-    //                                                                 rawobject = jsonConcat(rawobject, newObject);
-    //                                                                 cb2("");
-    //                                                             }
-    //                                                         ], // asych inside map
-    //                                                         function (err, res) {
-    //                                                             if (err) {
-    //                                                                 throw err;
-    //                                                             }
-    //                                                             cbMap("");
-    //                                                             // cbMap("");
-    //                                                         }); // asych inside map
-    //                                                 }, // map series
-    //                                                 function (err, res) {
-    //                                                     if (err) {
-    //                                                         throw err;
-    //                                                     }
-    //                                                     cb3("")
-    //                                                 }
-    //                                             ) // end of map series
-    //                                         }
-    //                                     ], // asynch step1n2
-    //                                     function (err, res) {
-    //                                         if (err) {
-    //                                             throw err;
-    //                                         }
-    //                                         cb1("");
-    //                                     }); // end of asynch step1n2
-    //                             },
-    //                             function step1n3(cb1) {
-    //                                 for (item in rawobject) { // for all data in inherit, delete it from being added
-    //                                     if (InListObj[item] == rawobject[item]) {
-    //                                         delete InListObj[item];
-    //                                     }
-    //                                 }
-    //                                 cb1(null);
-    //                             }
-    //                         ], // else block series end call
-    //                         function (err, res) {
-    //                             if (err) {
-    //                                 throw err;
-    //                             }
-    //                             cb("");
-    //                         }
-    //                     );
-    //                 }
-    //                 // end of asynch ELSE  
-    //             }, // step1
-
-    //             function step2(cb) {
-    //                 if ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == "")) {
-    //                     if ((widdto !== undefined) || (widdto != "")) {
-    //                         InListObj["metadata.method"] = widdto;
-    //                     }
-    //                 }
-    //                 if ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == "")) {
-    //                     InListObj["metadata.method"] = 'defaultdto';
-    //                 }
-
-    //                 InListObj["wid"] = InListObj["wid"].toLowerCase();
-
-    //                 proxyprinttodiv('Function MongoAddEditPrepare, to update InListObj : ', InListObj, 90);
-
-    //                 var newInListObj = extend(true, newInListObj, InListObj);
-    //                 // var newInListObj = extend( true, newInListObj, InListObj )
-    //                 updatewid(newInListObj, function (result) {
-    //                     addresult = result;
-    //                     proxyprinttodiv('Function MongoAddEditPrepare, addresult new : ', addresult, 90);
-    //                     cb(null);
-    //                 });
-
-    //                 // InListObj["executethis"] = "updatewid";
-
-    //                 // execute(InListObj, function (err, ret) {
-    //                 //     addresult = ret;
-    //                 //     proxyprinttodiv('Function MongoAddEditPrepare, addresult : ', addresult, 90);
-    //                 //     cb(null);
-    //                 // });
-    //             } // step2
-
-    //         ], // end step1, step2
-
-    //         function (err, results) {
-    //             ret = InListObj;
-    //             proxyprinttodiv('Function MongoAddEditPrepare,ret I : ', ret, 90);
-
-    //                 proxyprinttodiv('Function MongoAddEditPrepare,InListObj : ', InListObj, 90);
-    //                 if (callback instanceof Function) {
-    //                     callback(err, ret);
-    //                 }
-    //         });
-
-    // };
 
     exports.updatewid = updatewid = function updatewid(inputObject, callback) {
         authcall(inputObject, function (err, ret) {
@@ -1500,46 +1252,6 @@
             } else {
 
                 var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
-
-                // delete inputWidgetObject['executethis'];
-                // proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 10);
-                // // for conversion:
-                // var saveobject = {};
-
-                // if (inputWidgetObject['wid']) {
-                //     saveobject['wid'] = inputWidgetObject['wid'];
-                // } else {
-                //     saveobject['wid'] = "";
-                // }
-
-                // delete inputWidgetObject['wid'];
-
-                // saveobject['metadata'] = {};
-                // if (inputWidgetObject['metadata.method']) {
-                //     saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
-                // } else {
-                //     saveobject['metadata']['method'] = "";
-                // }
-                // //saveobject['metadata']['date'] = new Date();
-                // //proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 75);
-
-
-
-                // // saveobject['metadata'] = inputWidgetObject['metadata'] ; 
-                // delete inputWidgetObject['metadata.method'];
-                // if (inputWidgetObject) {
-                //     saveobject['data'] = inputWidgetObject;
-                // } else {
-                //     saveobject['data'] = "";
-                // }
-
-                // addtomongo(saveobject, function (err, results) {
-                //     proxyprinttodiv('Function updatewid in : x', results, 10);
-                //     callback(err, results);
-                //     // debugfn("updatewid code generator", "updatewid", "add", "code", debugcolor, debugindent, {inputObject, results}, 4);
-                //     //debugfn("updatewid code generator", "updatewid", "add", "code", debugcolor, debugindent, results, 4);
-
-                // });
 
                 offlineaddtomongo(converttodriformat(inputWidgetObject), function (err, results) {
                     callback({}, results);
