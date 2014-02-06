@@ -431,8 +431,9 @@ exports.createdefaultactions = createdefaultactions = function createdefaultacti
         proxyprinttodiv("defaultmasteractions", res[5], 99); 
         console.log(' >>> final response of executeList >>> ' + JSON.stringify(res));
 
+        callback(err, res);
     });
-    params={'test':'PASS'};
+    // params={'test':'PASS'};
     //callback(params)
 }
 
@@ -566,7 +567,7 @@ exports.generatechildren = generatechildren = function generatechildren(inputWid
         }
     }];
     execute(querylist, function (err, res) {
-        callback(res);
+        callback(err, res);
     });
 }
 
