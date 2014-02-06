@@ -1,42 +1,38 @@
 (function (window) {
 
-    exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
-        var inbound_parameters = {};
-        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+// *** GetWid ***
+// Purpose: Converts data to and from dri standards
+exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
+    var inbound_parameters = {};
 
-        authcall(inputWidgetObject, function (err, ret) {
-            if (err || !ret) {
-                callback(err, {
-                    "etstatus": "unauthroized"
-                });
-            } 
-            else {
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-                delete inputWidgetObject['executethis']; // ** added by Saurabh 10/9
+    authcall(inputWidgetObject, function (err, ret) {
+        if (err || !ret) {
+            callback(err, {
+                "etstatus": "unauthroized"
+            });
+        } 
+        else {
+            delete inputWidgetObject['executethis']; // ** added by Saurabh 10/9
 
-                proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
-                // var outobjectarr = [];
+            proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
 
-                getfrommongo(inputWidgetObject, function (err, resultobject) {
-                    // convert the object from dri standard before returnning it
-                    
-                    // debugfn("getwid code generator", "getwid", "get", "code", 2, 1, {
-                    //     0: inbound_parameters,
-                    //     1: convertfromdriformat(addobject)
-                    // }, 6); 
-                    
-                    callback({}, convertfromdriformat(resultobject));
-                });
-              
-            }
-        });
-    }
+            getfrommongo(inputWidgetObject, function (err, resultobject) {
+                // convert the object from dri standard before returnning it
+                callback({}, convertfromdriformat(resultobject));
+            });
+        }
+    });
+}
 
+// *** GetWidMaster ***
+// Purpose: splits wid and command parameters
 exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-    parameters=ConvertFromDOTdri(parameters); // convert to object
+    parameters = ConvertFromDOTdri(parameters); // convert to object
 
     // lower case check
     if (!parameters.command) {parameters.command={}}
@@ -46,7 +42,6 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
     getWidMongo(parameters.wid, parameters.command, "", 10, function (err, res) {
         proxyprinttodiv('In __getwidmaster__ with res: ', res, 17);
         
-        //proxyprinttodiv('In __getwidmaster__ with res[metadata.method]: ', res['metadata']['method'], 17);
         if ((res) && (Object.keys(res).length !== 0) && (res['wid'] !== res['metadata']['method']) && (parameters.convertmethod!=="dto") && (parameters.command.inheritflag !== "false")) {
             proxyprinttodiv('<<< calling getclean >>>', res, 17);
             getclean(res, parameters.command, function (err, res) {
@@ -75,27 +70,29 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
             if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);
                                         
-                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
-                        0: inbound_parameters,
-                        1: res
-                    }, 6);
-                    
-                    callback(err, res);
-                }
-                else { // the detault is to return dot notation...so old code does not break
-                    res = ConvertToDOTdri(res);
-                                        
-                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
-                        0: inbound_parameters,
-                        1: res
-                    }, 6);
-                    
-                    callback(err, res);  
-                }  
+                debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: res
+                }, 6);
+                
+                callback(err, res);
+            }
+            else { // the detault is to return dot notation...so old code does not break
+                res = ConvertToDOTdri(res);
+                                    
+                debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: res
+                }, 6);
+                
+                callback(err, res);  
+            }  
         }
-    });
+    }); // end get wid mongo
 }
 
+// *** GetDTOObject ***
+// Purpose: Pulls the schema for objects
 exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
@@ -103,28 +100,12 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
     var dtotype;
     var dtoobject = {};
 
-    proxyprinttodiv('In __getdtoobject__ with obj: ', obj, 17);
-    proxyprinttodiv('In __getdtoobject__ with command: ', command, 17);
-
     if (command && command.dtotype) {
-        proxyprinttodiv('In __getdtoobject__ setting command.dtotype: ', command.dtotype, 17);
         dtotype = command.dtotype;
     } else {
-        proxyprinttodiv('In __getdtoobject__ setting obj.metadata.method: ', obj.metadata.method, 17);
         dtotype = obj.metadata.method;
     }
     if (dtotype && dtotype !== obj.wid) {
-        proxyprinttodiv('In __getdtoobject__ calling getwid with: ', dtotype, 17);
-        proxyprinttodiv('In __getdtoobject__ calling getwid with wid: ', obj.wid, 17);
-        // offlinegetfrommongo(obj, function (err, res) {
-        //     if (!res) {
-        //         dtoobject=obj;
-        //     } else {
-        //         dtoobject=res[0];
-        //     }
-        //     callback({}, dtoobject);
-        // });
-        
         execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"DTO","command.execute":"ConvertFromDOTdri"}, function (err, res) {
             if (!res) {dtoobject=obj} else {dtoobject=res[0]}
 
@@ -134,28 +115,25 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
             }, 6);
 
             callback({}, dtoobject);
-            });
-        
+        }); // end execute
     }   
-    else {
-        proxyprinttodiv('In __getdtoobject__ calling back no dtotype: ', dtotype, 17);
-
+    else { // if there is no dtoType or obj.wid then call back with a blank dtoObject
         debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
             0: inbound_parameters,
             1: dtoobject
         }, 6);
 
         callback({}, dtoobject);
-        }
+    } // end else
 }
 
-
-//exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod, accesstoken, dtotype, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
-exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
+// *** GetWidMongo ***
+// Purpose: Builds a base object built up from relationships
+// Notes: returns a made up dto base on maximum number of relationships, etc
+exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, preamble, level, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-    // proxyprinttodiv('Function getwidmongo hit I', null, 10);
     // local vars
     var moreDTOParameters;
     var targetwid = "";
@@ -205,7 +183,6 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
     }
 
     async.series([
-
         function step1(cb) {
             proxyprinttodiv('Function getwidmongo step 1 hit with widInput:', widInput, 10);
             proxyprinttodiv('Function getwidmongo step 1 hit with command:', command, 10);
@@ -243,10 +220,9 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                     cb(null);
                 }
             }); // end execute                      
-        },
+        }, // end step1
 
         function step2(cb) {
-            //proxyprinttodiv('Function getwidmongo step 2 hit', null, 10);
             if (targetwid != "") {
                 async.series([ // asynch step1n2
                         function step2n1(cb1) {
@@ -262,34 +238,22 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             executeobject["dtotype"] = "";
                             executeobject["executethis"] = 'querywid';
                             execute(executeobject, function (err, res) {
-                                // we get data that looks like this:
-                                // [{wid1: {metadata.method: booksdto, a:b}},
-                                // {wid2: {metadata.method: booksdto, a:c}},
-                                // {wid3: {metadata.method: adddto, d:e}},
-                                // {wid4: {metadata.method: booksdto, a:f}},
-                                // {wid5: {metadata.method: booksdto, a:g}},
-                                // {wid6: {metadata.method: adddto, d:j}},
-                                // {wid7: {metadata.method: othersdto, k:m}}]
-                            proxyprinttodiv('Function getwidmongo executeobject', executeobject,10);
-                            proxyprinttodiv('Function getwidmongo query res', res,10);
-                            moreDTOParameters = res;
-                            //debugfn("getwidmongo step2n2", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
-                            cb1(null, 'step2n1');
+                                cb1(null, 'step2n1');
+                                // TODO: figure out the return here
                             });
-                        }
+                        } // end step1n2
                     ],
                     function (err, res) {
                         if (err) {
                             throw err;
                         }
-                        //debugfn("getwidmongo if", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     });
-            } else {
-                //debugfn("getwidmongo if ii", "getwidmongo", "get", "sub", debugcolor, debugindent, debugvars([1]));
+            } // end if
+            else {
                 cb(null, 'two');
             }
-        },
+        }, // end step2
         function step3(cb) {
             if ((parameterobject["metadata"]) && (parameterobject["metadata"]["method"]) && (command) && (command.convertmethod === "dto")) {
                 
@@ -501,19 +465,20 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                                     "command.convertmethod":"nowid",
                                     "command.inheritflag":"false"
                                     }, function (err, res) {
-                            if (res.length>0) {
+                            if ((res.length > 0) && (Object.keys(res[0]).length > 0)) {
                                 inheritobject = res[0];
+                                proxyprinttodiv('<<< Get_Clean step3 inheritobject >>>', inheritobject, 99);
                                 dtoname = inheritobject['metadata']['method'];
                                 
                                 proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 17);
                                 
-                                if (dtoname === bigdto['metadata']['method']){
+                                if (dtoname === bigdto['metadata']['method']) {
                                     proxyprinttodiv('<<< Get_Clean step3 extend resultObj before >>>', resultObj, 99);
                                     extend(true, resultObj, inheritobject);
                                     proxyprinttodiv('<<< Get_Clean step3 extend resultObj after >>>', resultObj, 99);
                                 } else {
-                                    // index = getindex(bigdto, dtoname); // changed by joe
-                                    index = getindex(resultObj, dtoname); // changed by joe
+                                    // index = getindex(bigdto, dtoname); // changed by joe, the sturcture on bigdto is too diffrent to resolve a relevant path to insert data
+                                    index = getindex(resultObj, dtoname); 
                                     if(!index) {
                                         extend(true, resultObj, inheritobject);
                                     } 
@@ -521,6 +486,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                                         proxyprinttodiv('<<< Get_Clean step3 index >>', index, 99);
                                         setbyindex(resultObj, index, inheritobject);
                                     }
+                                    // TODO: move this somewhere usefull
                                     // ======= deep filter test ======
                                     // var firstObj = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
                                     // var secondObj = {"name":"string","age":"string","a":"string","b":"string","metdata":{"booksdto":{"type":"onetomany"}},"wid":"authordto","metadata":{"method":"authordto","inherit":"defaultauthordtoactions"},"booksdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"booksdto","metadata":{"method":"booksdto","inherit":"defaultbooksdtoactions"}}}
@@ -530,7 +496,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                         
                                 }
                                 cbMap(null);
-                            }
+                            } // end if
                             else { // if no result
                                 cbMap(null);
                                 }
@@ -541,14 +507,12 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                     } // if listdto length
                 else {
                     cb(null);
-                    }
-
-                } // end if bigdto
+                }
+            } // end if bigdto
             else { // if no bigdto
                 cb(null);
-                }
-
-        } // step 3
+            }
+        } // end step 3
         ], // series list
 
 
