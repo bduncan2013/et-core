@@ -37,10 +37,13 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
         proxyprinttodiv('In __getwidmaster__ with res: ', res, 99);
         
         //proxyprinttodiv('In __getwidmaster__ with res[metadata.method]: ', res['metadata']['method'], 99);
-        if ((res && (Object.keys(res).length !== 0) && 
+        if (
+            (res) && 
+            (Object.keys(res).length !== 0)   && 
             (res['wid'] !== res['metadata']['method']) &&
-            (parameters.convertmethod!=="dto") && parameters.command.inheritflag !== false
-            )) {
+            (parameters.convertmethod!=="dto") && 
+            (parameters.command.inheritflag !== "false")
+            ) {
             proxyprinttodiv('<<< calling getclean >>>', res, 99);
             getclean(res, parameters.command, function (err, res) {
                 if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
@@ -53,7 +56,7 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
                 }
             });
         } else {
-            if (parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
+            if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);
                     callback(err, res);
                 }
@@ -387,26 +390,26 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             if (resultObj.wid !== resultObj.metadata.method) {
                 proxyprinttodiv('In __getclean__ step2 with before getWidMongo: ', resultObj, 99);
                 
-                getWidMongo(resultObj.metadata.method, command, "", 10, function (err, res) {
-                    proxyprinttodiv('In __getclean__ step2 with res: ', res, 99);
-                    // bigdto = res[0]; res is a object not an array
-                    bigdto = res;
-                    cb(null)
-                });
+                // getWidMongo(resultObj.metadata.method, command, "", 10, function (err, res) {
+                //     proxyprinttodiv('In __getclean__ step2 with res: ', res, 99);
+                //     // bigdto = res[0]; res is a object not an array
+                //     bigdto = res;
+                //     cb(null)
+                // });
 
                 // Joe - atempting to add call to getwidmaster
 
-                // var dtoToGet = resultObj.metadata.method;
-                // execute({"executethis":"getwidmaster", 
-                //                 "wid": dtoToGet, 
-                //                 //"command.execute":"ConvertFromDOTdri",
-                //                 "command.convertmethod":"dto",
-                //                 //"command.inheritflag":"false"
-                //                 }, function (err, res) {
-                //                     bigdto = res[0]; 
-                //                     // bigdto = res;
-                //                     cb(null);
-                // });
+                var dtoToGet = resultObj.metadata.method;
+                execute({"executethis":"getwidmaster", 
+                                "wid": dtoToGet, 
+                                "command.execute":"ConvertFromDOTdri",
+                                "command.convertmethod":"dto",
+                                //"command.inheritflag":"false"
+                                }, function (err, res) {
+                                    bigdto = res[0]; 
+                                    // bigdto = res;
+                                    cb(null);
+                });
             } else {
                 cb(null);
             }
@@ -415,67 +418,81 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             var listToDo=[];
             var inheritobject;
 
-            for (eachkey in dtoobject.command.inherit) {
-                listToDo.push(eachkey)
-            }
+            proxyprinttodiv('<<< Get_Clean bigdto', bigdto, 99);
+            if (bigdto && bigdto.command && bigdto.command.inherit) {
 
-            delete dtoobject.command;
+                for (eachkey in bigdto.command.inherit) {
+                    listToDo.push(eachkey)
+                }
 
-            // proxyprinttodiv('<<< Get_CLean before call to execute command >>>', command, 99);
-            // proxyprinttodiv('<<< Get_CLean before call to execute listToDo >>>', listToDo, 99);
+                proxyprinttodiv('<<< Get_Clean listToDo', listToDo, 99);
+                delete dtoobject.command;
 
-            if (listToDo.length > 0 && command && command.inheritflag === "true") {
-                async.mapSeries(listToDo, function (eachresult, cbMap) {
-                    proxyprinttodiv('<<< Get_Clean execute firing !!!! >>>', eachresult, 99);
-                    execute({"executethis":"getwidmaster", 
-                                "wid":eachresult, 
-                                "command.execute":"ConvertFromDOTdri",
-                                "command.convertmethod":"nowid",
-                                "command.inheritflag":"false"
-                                }, function (err, res) {
-                        if (res) {
-                            inheritobject = res[0];
-                            dtoname = inheritobject['metadata']['method'];
-                            proxyprinttodiv('<<< Get_Clean after call to execute dtoname >>>', dtoname, 99);
-                            proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 99);
-                            
-                            if (dtoname === bigdto['metadata']['method']){
-                                extend(true, resultObj, inheritobject);
-                            } else {
-                                // index = getindex(bigdto, dtoname); // changed by joe
-                                index = getindex(resultObj, dtoname); // changed by joe
+                // proxyprinttodiv('<<< Get_CLean before call to execute command >>>', command, 99);
+                // proxyprinttodiv('<<< Get_CLean before call to execute listToDo >>>', listToDo, 99);
 
-                                proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', bigdto, 99);
-                                proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', resultObj, 99);
-                                proxyprinttodiv('<<< Get_Clean after call to execute inheritobject >>>', inheritobject, 99);
-                                proxyprinttodiv('<<< Get_Clean after call to execute index >>>', index, 99);
-                                setbyindex(resultObj, index, inheritobject);
+                if (listToDo.length > 0 && command && command.inheritflag === "true") {
+                    async.mapSeries(listToDo, function (eachresult, cbMap) {
+                        proxyprinttodiv('<<< Get_Clean execute firing !!!! >>>', eachresult, 99);
+                        execute({"executethis":"getwidmaster", 
+                                    "wid":eachresult, 
+                                    "command.execute":"ConvertFromDOTdri",
+                                    "command.convertmethod":"nowid",
+                                    "command.inheritflag":"false"
+                                    }, function (err, res) {
+                            if (res.length>0) {
+                                inheritobject = res[0];
+                                dtoname = inheritobject['metadata']['method'];
+                                proxyprinttodiv('<<< Get_Clean after call to execute dtoname >>>', dtoname, 99);
+                                proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 99);
                                 
-                                proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', resultObj, 99);
+                                if (dtoname === bigdto['metadata']['method']){
+                                    extend(true, resultObj, inheritobject);
+                                } else {
+                                    // index = getindex(bigdto, dtoname); // changed by joe
+                                    index = getindex(resultObj, dtoname); // changed by joe
 
-                                // ======= deep filter test ======
-                                // var firstObj = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
-                                // var secondObj = {"name":"string","age":"string","a":"string","b":"string","metdata":{"booksdto":{"type":"onetomany"}},"wid":"authordto","metadata":{"method":"authordto","inherit":"defaultauthordtoactions"},"booksdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"booksdto","metadata":{"method":"booksdto","inherit":"defaultbooksdtoactions"}}}
-                                // var resultObj = recurseModObj(firstObj, secondObj);
-                                // ======= resultObj ======
-                                // {"name":"Elizabeth Heart","age":"50","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
-                    
+                                    proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', bigdto, 99);
+                                    proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', resultObj, 99);
+                                    proxyprinttodiv('<<< Get_Clean after call to execute inheritobject >>>', inheritobject, 99);
+                                    proxyprinttodiv('<<< Get_Clean after call to execute index >>>', index, 99);
+                                    setbyindex(resultObj, index, inheritobject);
+                                    
+                                    proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', resultObj, 99);
+
+                                    // ======= deep filter test ======
+                                    // var firstObj = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
+                                    // var secondObj = {"name":"string","age":"string","a":"string","b":"string","metdata":{"booksdto":{"type":"onetomany"}},"wid":"authordto","metadata":{"method":"authordto","inherit":"defaultauthordtoactions"},"booksdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"booksdto","metadata":{"method":"booksdto","inherit":"defaultbooksdtoactions"}}}
+                                    // var resultObj = recurseModObj(firstObj, secondObj);
+                                    // ======= resultObj ======
+                                    // {"name":"Elizabeth Heart","age":"50","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
+                        
+                                }
+                                cbMap(null);
                             }
-                            cbMap(null);
-                        }
-                        else { // if no result
-                            cbMap(null);
-                            }
-                        }); // end execute
-                    }, function(err, res) {
-                        cb(null); 
-                }); //end mapseries
-            }
-            cb(null);
+                            else { // if no result
+                                cbMap(null);
+                                }
+                            }); // end execute
+                        }, function(err, res) {
+                            cb(null); 
+                        }); //end mapseries
+                    } // if listdto length
+                else {
+                    cb(null);
+                    }
+
+                } // end if bigdto
+            else { // if no bigdto
+                cb(null);
+                }
+
         } // step 3
         ], // series list
+
+
         function (err, res) {
-            resultObj = deepfilter(resultObj, command, dtoobject);
+            resultObj = deepfilter(resultObj, dtoobject, command);
             // proxyprinttodiv('<<< Get_Clean before call back resultObj >>>', resultObj, 99);
             // proxyprinttodiv('<<< Get_Clean before call back command >>>', command, 99);
             // proxyprinttodiv('<<< Get_Clean before call back dtoobject >>>', dtoobject, 99);
@@ -580,7 +597,7 @@ exports.setbyindextest = setbyindextest = function setbyindextest(params, callba
 }
 
 
-exports.deepfilter = deepfilter = function deepfilter(inputObj, cmdObj, dtoObjOpt) {
+exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command) {
     var modifiedObj = {};
     extend(true, modifiedObj, inputObj);    
     if (dtoObjOpt) {

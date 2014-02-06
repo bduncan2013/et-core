@@ -1,137 +1,25 @@
 (function (window) {
 
-function addwidmaster_new(parameters, callback) {
-//getdtoobject (object, dtotype)
-//addclean (object, dtoobject, command, callback) 
-//addmaster (object, dtoobject, command, callback)
+// current code calls addmasterproxy whcih continues to current code addmaster...we need to try addmaster2
+
+function AddMasterProxy(dtoList, parameterList, widName, dtotype, callback) {
+    AddMaster(dtoList, parameterList, widName, dtotype, callback) 
+    //AddMaster2(dtoList, parameterList, widName, dtotype, callback) 
 }
-
-function cleanadd(object, objectdto, command, callback) {
-//getdtoobject(object, dtotype)
-//     dtotype = 
-//     index = getindex(dtoobject, dtotype) returns index string
-//     setbyindex(object, index, inheritobject, "add")
-//call deepfilter(obj, dtoobj, command object)
-}
-
-
-// addrecord is a temporary call convert to old format
-// it also check if relationship should be added
-exports.addrecord = addrecord = function addrecord (object, dtoobject, parentwid, relationship, callback) {
-    var executeobject={};
-    var widid = inputrecord("wid");
-    var widdto = inputrecord["metadata"]["method"];
-    var InList = objectToList(ConvertToDOTdri(inputrecord));
-    var Indto = objectToList(ConvertToDOTdri(inputdto));
-    // next line should be call to addwid
-    MongoAddEditPrepare(Indto, InList, widid, widdto,  function (err, addobject) {
-        if (relationshiptype) {
-            var ChildWid = addobject["wid"]; 
-            AddMongoRelationship(ParentWid, ChildWid, relationshiptype, function (err, adddedrelationship) {
-                callback(null, addobject)
-                });
-            }
-        else {
-            callback(null, addobject)
-            }
-
-        })
-}
-
-function addwid(object, dtoobject callback) {
-// addwid (object, dtoobject, callback)
-// step through dtoobject
-//     inheritobject = [getwidmaster, convertmethod=nowid]
-//     remove items from object based on inherit 
-// if wid then
-//     getwid (wid), remove wid, mm
-//     add to object missing parameters 
-// updatewid
-}
-
 
  // this new AddMaster is temporary it is a converter to new method to avoid huge changes in code
- function AddMaster3(dtoList, parameterList, widName, dtotype, callback) {
+ function AddMaster2(dtoList, parameterList, widName, dtotype, callback) {
      var parentwid=""
      var relationshiptype=""
-     var inputdto=converttoDRIstd(listToObject(dtoList));
-     var inputObject= converttoDRIstd(listToObject(parameterList));
-     addwidobject(inputObject, inputdto, parentwid, relationshiptype, function (err, addobject) {
-                 callback(null, convertfromDRIstd(addobject));
+     var inputdto=converttodriformat(listToObject(dtoList));
+     var inputObject= converttodriformat(listToObject(parameterList));
+     addwidobject(inputObject, inputdto, command, function (err, addobject) {
+                 callback(null, convertfromdriformat(addobject));
                  });
  }
- // parentwid and relationshiptype are optional and are needed for subcall addrecord -- 
- //it is a flag if a relationship record should be added as a record is added
- function addwidobject (inputObject, inputdto, parentwid, relationshiptype, callbackcallback) {
-    //fish out  onetoone and onetomany parameters
-     var db="data";
-    var parObject = {};
-    console.log(" Input  "+JSON.stringify(inputObject));
 
-    extend(true, parObject, inputObject);
-    console.log("   "+JSON.stringify(parObject));
 
-    if(parObject.hasOwnProperty("onetomany")){
-            for(var k in parObject["onetomany"])
-            {
-                var item = parObject["onetomany"][k]
-                delete parObject[db][item];             
-            }
-            delete parObject["onetomany"];
-    }
-    if(parObject.hasOwnProperty("onetooone")){
-            for(var l in parObject["onetooone"])
-            {
-                var item = parObject["onetooone"][l]
-                delete parObject[db][item];             
-            }
-            delete parObject["onetooone"];
-    }
-    console.log("After cleaning  parObject "+JSON.stringify(parObject));
-
-    console.log("Parent object added: "+JSON.stringify(parObject));
-    console.log("Added object : "+parObject["wid"]);
-
-    //Create a widget based on the leftoverparams in parObject
-    //get newly created/stored widgetobjectId   
-        var widgetobjectId = parObject["wid"];
-    if(inputObject.hasOwnProperty("onetomany")){
-        for(var c in inputObject["onetomany"])
-        {
-            var child = inputObject["onetomany"][c];
-                   console.log("   child "+JSON.stringify(child));
-            var childObjects = inputObject[db][child];
-                   console.log("   childObjects "+JSON.stringify(childObjects));
-            for(var cr in childObjects)
-            {
-                   var childObject = childObjects[cr];
-                   console.log("   childObject "+JSON.stringify(childObject));
-                var childWidgetId = addobject(childObject);
-                console.log("   make a relationshipobject with childWidgetId "+childWidgetId + ": and widgetobjectId " +widgetobjectId);
-                //make a relationshipobject with childWidgetId and widgetobjectId
-            }
-        }
-    }
-    
-    if(inputObject.hasOwnProperty("onetooone")){
-        for(var d in inputObject["onetooone"])
-        {
-            var child = inputObject["onetooone"][d];
-            var childObjects = inputObject[db][child];
-            for(var cr in childObjects)
-            {
-             var childObject = childObjects[cr];
-            var childWidgetId = addobject(childObject);
-            console.log("   make a relationshipobject with childWidgetId "+childWidgetId + ": and widgetobjectId " +widgetobjectId);
-            //make a relationshipobject with childWidgetId and widgetobjectId
-            }
-        }       
-    }
-    return parObject["wid"];
-    //return newly created/stored widgetobjectId    
- }
-
-function addwidobjectNew(inputObject) {
+function addwidobject(inputObject, inputdto, command, callback) {
     var executeList = [];
 
     var parObject = {};
@@ -207,6 +95,141 @@ function addwidobjectNew(inputObject) {
     return executeList;
 }
 
+function merge_options(obj1,obj2){
+     var obj3 = {};
+     for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+     for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+     return obj3;
+ }
+
+function addwidmaster_new(object, callback) {
+    var command = parameters.command;
+    delete object.command;
+    cleanadd (object, dtoobject, command, function (err, res) {
+        addwidobject(object, dtoobject, command, callback)
+        })
+}
+
+function cleanadd(object, objectdto, command, callback) {
+    getdtoobject(object, command, function (err, res) {
+        var dtoToGet = resultObj.metadata.method;
+        execute({"executethis":"getwidmaster", 
+            "wid": dtoToGet, 
+            "command.execute":"ConvertFromDOTdri",
+            "command.convertmethod":"dto",
+            }, function (err, res) {
+            bigdto = res[0]; 
+
+        if (command.dtotype) {
+            dtoname=command.dtotype
+            } 
+        else {
+            if (objectdto.wid) {dtoname=objectdto.wid} else {dtoname=object.wid}
+            }
+        index = getindex(bigdto, dtoname); 
+        setbyindex(object, index, object);
+        resultObj = deepfilter(object, objectdto, command);
+        })
+    })
+}
+
+
+// addrecord is a temporary call convert to old format
+// it also check if relationship should be added
+exports.addrecord = addrecord = function addrecord (object, dtoobject, parentwid, relationship, command, callback) {
+    var executeobject={};
+    var widid = inputrecord("wid");
+    var widdto = inputrecord["metadata"]["method"];
+    var InList = objectToList(ConvertToDOTdri(inputrecord));
+    var Indto = objectToList(ConvertToDOTdri(inputdto));
+    //addwid(object, dtoobject, command, callback) 
+    MongoAddEditPrepare(Indto, InList, widid, widdto,  function (err, addobject) {
+        if (relationshiptype) {
+            var ChildWid = addobject["wid"]; 
+            //addwid(object, dtoobject, command, callback)
+            AddMongoRelationship(ParentWid, ChildWid, relationshiptype, function (err, adddedrelationship) {
+                callback(null, addobject)
+                });
+            }
+        else {
+            callback(null, addobject)
+            }
+
+        })
+}
+
+function addwid(object, dtoobject, command, callback) {
+// addwid (object, dtoobject, callback)
+// step through dtoobject
+//     inheritobject = [getwidmaster, convertmethod=nowid]
+//     remove items from object based on inherit 
+// if wid then
+//     getwid (wid), remove wid, mm
+//     add to object missing parameters 
+// updatewid
+}
+
+
+
+    exports.addwidmaster = addwidmaster = function addwidmaster(inputObject, callback) {
+        var OutParameters = ConvertToDOTdri(inputObject);
+        var Wid;
+        var ret = undefined;
+        var err;
+        var AddedObject = {};
+
+
+        proxyprinttodiv('Function addwidmaster()  inputObject ', inputObject);
+        // proxyprinttodiv('Function addwidmaster()  OutParameters : I ', OutParameters);
+        // proxyprinttodiv('Function addwidmaster() Wid : I ', Wid);
+
+        // proxyprinttodiv('Function addwidmaster()  dtotype : dtotype ', dtotype);
+        // proxyprinttodiv('Function addwidmaster ** before ', inputParametersObject, 15);
+        // proxyprinttodiv('Function addwidmaster() convertmethod ', convertmethod, 15);
+        // proxyprinttodiv('Function addwidmaster()  dtotype : dtotype ', dtotype, 15);
+
+        function debugvars(varlist) {
+            var allvars = {
+                1: {
+                    "OutParameters": OutParameters,
+                    "Wid": Wid,
+                    "ret": ret,
+                    "err": err
+                },
+                2: {
+                    "OutParameters": OutParameters,
+                    "Wid": Wid,
+                    "ret": ret,
+                    "err": err
+                }
+            };
+            var resultObj = {};
+            var vargroup;
+
+            if (!varlist) {
+                for (var eachgroup in allvars) {
+                    varlist.push(eachgroup);
+                }
+            }
+
+            for (var eachgroup in varlist) {
+                vargroup = varlist[eachgroup];
+                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+            }
+            return resultObj;
+        }
+
+        proxyprinttodiv('Function addwidmaster() inputObject : I ', inputObject, 15);
+
+            AddWidParameters(OutParameters, function (err, ret) {
+                AddedObject = ret;
+
+                    proxyprinttodiv('Function addwidmaster() AddedObject >>>  : I ', AddedObject, 15);
+                    debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
+                    callback(err, ret);
+            });
+
+    };
 
 
     function addcleanparameters(resultObj, dtotype, accesstoken, cleanmethod, convertmethod, callback) {
@@ -524,65 +547,7 @@ function addwidobjectNew(inputObject) {
 
     }
 
-    exports.addwidmaster = addwidmaster = function addwidmaster(inputObject, callback) {
-        var OutParameters = ConvertToDOTdri(inputObject);
-        var Wid;
-        var ret = undefined;
-        var err;
-        var AddedObject = {};
 
-
-        proxyprinttodiv('Function addwidmaster()  inputObject ', inputObject);
-        // proxyprinttodiv('Function addwidmaster()  OutParameters : I ', OutParameters);
-        // proxyprinttodiv('Function addwidmaster() Wid : I ', Wid);
-
-        // proxyprinttodiv('Function addwidmaster()  dtotype : dtotype ', dtotype);
-        // proxyprinttodiv('Function addwidmaster ** before ', inputParametersObject, 15);
-        // proxyprinttodiv('Function addwidmaster() convertmethod ', convertmethod, 15);
-        // proxyprinttodiv('Function addwidmaster()  dtotype : dtotype ', dtotype, 15);
-
-        function debugvars(varlist) {
-            var allvars = {
-                1: {
-                    "OutParameters": OutParameters,
-                    "Wid": Wid,
-                    "ret": ret,
-                    "err": err
-                },
-                2: {
-                    "OutParameters": OutParameters,
-                    "Wid": Wid,
-                    "ret": ret,
-                    "err": err
-                }
-            };
-            var resultObj = {};
-            var vargroup;
-
-            if (!varlist) {
-                for (var eachgroup in allvars) {
-                    varlist.push(eachgroup);
-                }
-            }
-
-            for (var eachgroup in varlist) {
-                vargroup = varlist[eachgroup];
-                resultObj = jsonConcat(resultObj, allvars[vargroup]);
-            }
-            return resultObj;
-        }
-
-        proxyprinttodiv('Function addwidmaster() inputObject : I ', inputObject, 15);
-
-            AddWidParameters(OutParameters, function (err, ret) {
-                AddedObject = ret;
-
-                    proxyprinttodiv('Function addwidmaster() AddedObject >>>  : I ', AddedObject, 15);
-                    debugfn("addwidmaster", "is NOT Synchronous", "add", "sub", debugcolor, debugindent, debugvars([1]));
-                    callback(err, ret);
-            });
-
-    };
 
     function AddWidParameters(parameterObject, callback) {
 
@@ -748,7 +713,7 @@ function addwidobjectNew(inputObject) {
                         inputParametersObject["wid"] = "";
                     }
 
-                        AddMaster(dtoList, inputList, inputParametersObject["wid"], metadata, function (err, res) {
+                        AddMasterProxy(dtoList, inputList, inputParametersObject["wid"], metadata, function (err, res) {
                             Wid = res;
                             debugfn("AddWidParameters", "step3", "add", "sub", debugcolor, debugindent, debugvars([1]));
                             cb("");
