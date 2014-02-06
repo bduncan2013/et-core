@@ -36,7 +36,7 @@
         var mQueryString = "";
 
         // Fish out params
-        proxyprinttodiv('querywid parameters I', parameters, 99);
+        proxyprinttodiv('querywid parameters I', parameters, 28);
         var p = fishOut(parameters);
         console.log('object that came back from fishOut => ' + JSON.stringify(p));
         proxyprinttodiv('querywid parameters', parameters, 28);
