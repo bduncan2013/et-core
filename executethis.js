@@ -107,7 +107,8 @@
 
         var fncallbck = function (err, resp) {
             output.push(resp);
-            callback(err, output);
+
+            callback(err, output); //callback(err, output[0]);
         };
 
         if (params[0] && params[0].fn) {

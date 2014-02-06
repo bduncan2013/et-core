@@ -157,15 +157,15 @@ function test4(params) {
 
 	<div class='row'>
 		<div class='col-md-1 col-lg-1'>
-	    	<input id='radio_short' type = 'radio' Name='output_type' value = 'short' checked = 'true'>&nbspMin<br>
-	    	<input id='radio_long'  type = 'radio' Name='output_type' value = 'long'>&nbspMax
+	    	<input id='radio_short' type = 'radio' Name='output_type' value = 'short'>&nbspMin<br>
+	    	<input id='radio_long'  type = 'radio' Name='output_type' value = 'long' checked = 'true'>&nbspMax
 		</div>
 	    <div class="col-md-11 col-lg-11">
 	        <span class="label label-default well_hider">Function Output</span>
-	            <div class="well" style='display: none;'>
+	            <div class="well" style='display: block;'>
 	            	<pre id="Function_Output">
-	            		<div id='short_output'>area 1</div>
-	            		<div id='long_output' style='display:none'>area 2</div>
+	            		<div id='short_output'>--------</div>
+	            		<div id='long_output' style='display:none'>--------</div>
 
 	            	</pre>
 	            </div>
@@ -476,8 +476,8 @@ function show_function_output3 (err, result_array) {
 	var index = 0;
 	var target = "";
 	var tmp_html_short = "";
-	var output_short = "<div id='short_output' style='display:block'>{";
-	var output_long = "<div id='long_output' style='display:none'>";
+	var output_short = "<div id='short_output' style='display:none'>{";
+	var output_long = "<div id='long_output' style='display:block'>";
 
 
 	output_long += return_long(result_array);

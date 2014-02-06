@@ -2160,32 +2160,22 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     testclearstorage();
 
     debuglevel = 75;
-    debugname = "";
 
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    // Functions of --- config-local
-    // debugname = "offlineupdatewid";
+    // To call updatewid data (offlineupdatewid)
+    debugname = "offlineupdatewid";
     
-    // debugname = "offlinegetwid";
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    // Functions of --- add
-    
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    // Functions of --- query
+    // To call querywid data
     // debugname = "querywid";
+    
+    // To call offlinegetwid data
+    // debugname = "offlinegetwid";
      
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    // Functions of --- get
-    // debugname = "getwid";
-    
-    // debugname = "aggressivedto";
-    
-    // debugname = "getcleanparameters";
-
+    // To call getwidmaster data
     // debugname = "getwidmaster";
      
+    // To call getwidmongo data
     // debugname = "getwidmongo";
-    // debugname = "getcleanparameters";
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     debugcat = "";
@@ -2255,30 +2245,14 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         function (err, res) {
             // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
             // 
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // These will create the code on the screen from the logged data
-            
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            // Functions of --- config-local
              
-            // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
-            debugfn("offlinegetwid code generator END", "",    "",   "code", debugcolor, debugindent, {}, 9);
-             
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            // Functions of --- add
-
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            // Functions of --- query
-
+            debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
-            
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            // Functions of --- get
-            
+            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
-            
+            // debugfn("getwidmongo code generator END",   "getwidmongo",      "get",   "code", debugcolor, debugindent, {}, 9);
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             debugname = "";
             debugcat = "";
@@ -2694,6 +2668,73 @@ exports.testmultiplenested = testmultiplenested = function testmultiplenested(pa
 //     executethismultiple(todolist, callback);
 // }
 
+exports.test121212 = test121212 = function test121212(params, callback) {
+    testclearstorage();
+
+
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
+            [
+                "func_b",
+                "func_b", {
+                    "c": "0",
+                    "d": "1",
+                    "e": "2"
+                },
+                [{
+                    "c": "0",
+                    "d": "1",
+                    "g": "4"
+                }]
+            ]
+        ]
+    ];
+    // test_and_verify(todolist[1][0], todolist[1][1], todolist[1][2], todolist[1][3], callback);
+    executethismultiple(todolist, callback);
+
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
+            [
+                "func_b",
+                "func_b", {
+                    "c": "0",
+                    "d": "1",
+                    "e": "2"
+                }, {
+                    "c": "0",
+                    "d": "1",
+                    "g": "4"
+                }
+            ]
+        ]
+    ];
+
+    // test_and_verify(todolist[1][0], todolist[1][1], todolist[1][2], todolist[1][3], callback);
+    executethismultiple(todolist, callback);
+
+}
+
+function func_b2(p1, p2, p3, p4, callback) {
+    data = {};
+    delete p3['e'];
+    data = jsonConcat(p3, p4);
+    data[p1] = 'hello';
+
+    var err;
+    callback({}, data);
+}
+
+function func_b22(params, callback) {
+    func_b2("test", {
+        "a": "b"
+    }, {
+        "c": "d"
+    }, callback);
+}
 
 exports.exec_mul_test = function exec_mul_test(data) {
     for (d in data) {
@@ -2760,118 +2801,44 @@ exports.newt = newt = function newt(params, callback) {
     //     ]
     var todolist =     
         [
-    [
-        {
-            "fn": "test_and_verify"
-        },
-        [
-            "offlineupdatewid",
-            "offlineupdatewid",
-            {
-                "metadata.method": "sounddto",
-                "note": "string",
-                "wid": "sounddto"
-            },
-            {
-                "data": {
-                    "note": "string"
-                },
-                "metadata": {
-                    "date": "2014-02-04T18:20:44.503Z",
-                    "method": "sounddto"
-                },
-                "wid": "sounddto"
-            },
-            {
-                "initialwid": {
-                    "initialwid": "for key hello from bootprocess",
-                    "wid": "initialwid"
-                },
-                "sounddto": {
-                    "data": {
-                        "note": "string"
-                    },
-                    "metadata": {
-                        "date": "2014-02-04T18:20:44.503Z",
-                        "method": "sounddto"
-                    },
-                    "wid": "sounddto"
-                }
-            },
-            {
-                "command": "null"
-            }
-        ]
-    ]
-]
-
-    // var db = {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-04T16:18:51.732Z"}}};
-    // addToLocalStorage("DRIKEY", db);   
-    executethismultiple(todolist, callback);
-
-}
-
-exports.newt2 = newt2 = function newt2(params, callback) {
-    var todolist = 
-        [
             [
                 {
                     "fn": "test_and_verify"
                 },
                 [
-                    "getwidmaster",
-                    "getwidmaster",
+                    "offlineupdatewid",
+                    "offlineupdatewid",
                     {
-                        "wid": "songdto",
-                        "command.convertmethod": "dto",
-                        "command.dtotype": "songdto"
+                        "0": {
+                            "metadata.method": "sounddto",
+                            "note": "string",
+                            "wid": "sounddto"
+                        }
                     },
                     {
-                        "title": "string",
-                        "metadata.sounddto.type": "onetomany",
-                        "sounddto.note": "string",
-                        "sounddto.wid": "sounddto",
-                        "sounddto.metadata.method": "sounddto"
+                        "data": {
+                            "note": "string"
+                        },
+                        "metadata": {
+                            "date": "2014-02-04T17:30:37.450Z",
+                            "method": "sounddto"
+                        },
+                        "wid": "sounddto"
                     },
                     {
                         "initialwid": {
-                            "wid": "initialwid",
-                            "initialwid": "for key hello from bootprocess"
+                            "initialwid": "for key hello from bootprocess",
+                            "wid": "initialwid"
                         },
                         "sounddto": {
                             "data": {
                                 "note": "string"
                             },
-                            "wid": "sounddto",
                             "metadata": {
-                                "method": "sounddto",
-                                "date": "2014-02-04T18:31:01.199Z"
-                            }
-                        },
-                        "songdto": {
-                            "data": {
-                                "title": "string"
+                                "date": "2014-02-04T17:30:37.450Z",
+                                "method": "sounddto"
                             },
-                            "wid": "songdto",
-                            "metadata": {
-                                "method": "songdto",
-                                "sounddto": {
-                                    "type": "onetomany"
-                                },
-                                "date": "2014-02-04T18:31:01.313Z"
-                            }
-                        },
-                        "rel_sound_to_song": {
-                            "data": {
-                                "primarywid": "songdto",
-                                "secondarywid": "sounddto",
-                                "relationshiptype": "attributes"
-                            },
-                            "wid": "rel_sound_to_song",
-                            "metadata": {
-                                "method": "defaultdto",
-                                "date": "2014-02-04T18:31:01.389Z"
-                            }
+                            "wid": "sounddto"
                         }
                     },
                     {
@@ -2880,247 +2847,222 @@ exports.newt2 = newt2 = function newt2(params, callback) {
                 ]
             ]
         ]
+
+    // var db = {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-04T16:18:51.732Z"}}};
+    // addToLocalStorage("DRIKEY", db);   
     executethismultiple(todolist, callback);
+
 }
+    // todolist = 
+    //     [
+    //         [
+    //             {"fn": "test_and_verify"},
+    //             [
+    //                 "func_b", 
+    //                 "func_b",
+    //                 {
+    //                     "c": "0", 
+    //                     "d":"1", 
+    //                     "e":"2"
+    //                 }, 
+    //                 {
+    //                     "c": "0", 
+    //                     "d":"1", 
+    //                     "g":"4"
+    //                 }
+    //             ]
+    //         ],
+    //         [
+    //             {"fn": "test_and_verify"},
+    //             [
+    //                 "func_a", 
+    //                 "func_a",
+    //                 {
+    //                     "c": "0", 
+    //                     "d":"1", 
+    //                     "e":"2"
+    //                 }, 
+    //                 {
+    //                     "c": "0", 
+    //                     "d":"1", 
+    //                     "f":"3"
+    //                 }
+    //             ]
+    //         ]
+    //     ];
 
-exports.newt3 = newt3 = function newt3(params, callback) {
-    var todolist = [];
-    executethismultiple(todolist, callback);
-}
-
-exports.newt4 = newt4 = function newt4(params, callback) {
-    var todolist = 
-        [
-            [
-                {"fn": "test_and_verify"},
-                [
-                   "getcleanparameters",
-                   "getcleanparameters",
-                    [
-            {
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "1",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "3",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "5",
-                "sounddto.2.metadata.method": "sounddto"
-            },
-            "",
-            "",
-            "remove",
-            ""
-        ],
-                    {
-            "parms": {
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "1",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "3",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "5",
-                "sounddto.2.metadata.method": "sounddto"
-            },
-            "dto": {
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.note": "string",
-                "sounddto.wid": "sounddto",
-                "sounddto.metadata.method": "sounddto"
-            }
-        },
-                    {"1":{"data":{"note":"A flat"},"wid":"1","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.175Z"}},"2":{"data":{"primarywid":"song1","secondarywid":"1","relationshiptype":"attributes","linktype":"onetomany"},"wid":"2","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.248Z"}},"3":{"data":{"note":"B sharp"},"wid":"3","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.273Z"}},"4":{"data":{"primarywid":"song1","secondarywid":"3","relationshiptype":"attributes","linktype":"onetomany"},"wid":"4","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.348Z"}},"5":{"data":{"note":"C flat"},"wid":"5","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.366Z"}},"6":{"data":{"primarywid":"song1","secondarywid":"5","relationshiptype":"attributes","linktype":"onetomany"},"wid":"6","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.437Z"}},"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T18:43:42.711Z"}},"songdto":{"data":{"title":"string"},"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"onetomany"},"date":"2014-02-05T18:43:42.827Z"}},"rel_sound_to_song":{"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T18:43:42.888Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"songdto","date":"2014-02-05T18:43:43.088Z"}}},
-                    {"command": "null"}
-                ]
-            ]
-        ]
-    executethismultiple(todolist, callback);
-}
+    // todolist = 
+    //     [
+    //         [
+    //             {"fn": "func_b2"},
+    //             [
+    //                 "test", 
+    //                 {"a": "b"}, 
+    //                 {"c": "d"}
+    //             ]
+    //         ]
+    //     ];
 
 
+    // todolist =  [
+    //                 [
+    //                     {"fn": "test_and_verify"},
 
+    //                     [
+    //                         "offlineupdatewid",
+    //                         "offlineupdatewid",
 
-exports.newt5 = newt5 = function newt5(params, callback) {
+    //                         [    
+    //                             [
+    //                                 {"metadata.method": "sounddto"},
+    //                                 {"wid": "sounddto"},
+    //                                 {"note": "string"}
+    //                             ]
 
-    var todolist = 
+    //                             ,
 
-[
-    [
-        {"fn": "test_and_verify"},
-        [
-           "offlineupdatewid",
-           "offlineupdatewid",
-            [
-    {
-        "metadata.method": "songdto",
-        "wid": "song1",
-        "title": "Highway to Hell"
-    }
-],
-            {
-    "data": {
-        "title": "Highway to Hell"
-    },
-    "wid": "song1",
-    "metadata": {
-        "method": "songdto",
-        "date": "2014-02-05T21:11:19.461Z"
-    }
-},
-            {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T21:11:18.876Z"}},"songdto":{"data":{"title":"string"},"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"onetomany"},"date":"2014-02-05T21:11:19.040Z"}},"rel_sound_to_song":{"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T21:11:19.141Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"songdto","date":"2014-02-05T21:11:19.461Z"}}},
-            {"command": "null"}
-        ]
-    ]
-]
-    executethismultiple(todolist, callback);
-}
+    //                             [
+    //                                 {"wid": "sounddto"},
+    //                                 {"metadata": [{
+    //                                     "method": "sounddto",
+    //                                     "date": "2014-01-30T19:08:41.604Z"
+    //                                             }]},
+    //                                 {"data": [{
+    //                                     "note": "string"
+    //                                         }]
+    //                                 }
+    //                             ]
+    //                         ] 
 
+    //                     ]
 
-// test1212 calls fnb
-// fn b accepts one object and produces one array result
-
-exports.test121212 = test121212 = function test121212(params, callback) {
-    testclearstorage();
-    var todolist = [
-        [{
-                "fn": "test_and_verify"
-            },
-            [
-                "func_b",
-                "func_b", 
-                {
-                    "c": "0",
-                    "d": "1",
-                    "e": "2"
-                },[
-                {
-                    "c": "0",
-                    "d": "1",
-                    "g": "4"
-                }],
-                {},
-                {"command": "null"}
-            ]
-        ]
-    ];
-    executethismultiple(todolist, callback);
-}
+    //                 ]
+    //             ]
 
 
 
-// test141414
-
-function test141414 (params, callback) {
-    // Calling func_b2 with single
-    testclearstorage();
-    var todolist = 
-    [
-        [{
-                "fn": "test_and_verify"
-            },
-            [
-                "func_b2",
-                "func_b2", 
-                [
-                    "test", 
-                    {"a": "b", "x":"y"}, 
-                    {"a": "b", "e":"z"}, 
-                    {"c": "d", "more":"m"}
-                ] 
-                ,
-                    {
-                     "test":"hello","a":"b","c":"d","more":"m"
-                    }
-                ,
-                {},
-                {"command": "null"}
-            ]
-        ]
-    ];
-    executethismultiple(todolist, callback);
-}
-
-// func_b2 and func_b22 accepts 4 objects and produces one object result
-
-// test151515
-// func_b3 and func_b33 accepts 4 arrays and produces one object result
-
-function test151515 (params, callback) {
-    testclearstorage();
-    var todolist = [
-        [{
-                "fn": "test_and_verify"
-            },
-            [
-                "func_b3",
-                "func_b3", 
-
-                [
-                    {"c": "0","d": "1","e": "2"},
-                    "two",
-                    ["a", {"b":"c"}],
-                    "four"
-                ],
-
-                {
-                    "a":{"c": "0","d": "1","e": "2"},
-                    "b":"two",
-                    "c":["a", {"b":"c"}],
-                    "d":"four"
-                },
-                {},
-                {"command": "null"}
-            ]
-        ]
-    ];
-    executethismultiple(todolist, callback);    
-
-    
-}
-
-function func_b2(p1, p2, p3, p4, callback) {
-    data = {};
-    delete p3['e'];
-    data = jsonConcat(p3, p4);
-    data[p1] = 'hello';
-    var err;
-    callback({}, data);
-}
 
 
-function func_b22(params, callback) {
-    func_b2(    "test", 
-                {"r": "t", "x":"y"}, 
-                {"a": "b", "e":"z"}, 
-                {"c": "d", "more":"m"}, 
-                callback);
-}
+    // todolist =  [
+    //                 [
+    //                     {"fn": "test_and_verify"},
 
-function func_b3(p1, p2, p3, p4, callback) {
-    data = {};
-    data["a"]=p1;
-    data["b"]=p2;  
-    data["c"]=p3; 
-    data["d"]=p4;
+    //                     [
+    //                         "offlineupdatewid",
+    //                         "offlineupdatewid",
 
-    callback({}, data);
-}
+    //                         [    
+    //                             {"parameters": {
+    //                                 "metadata.method": "sounddto",
+    //                                 "wid": "sounddto",
+    //                                 "note": "string"
+    //                                 }
+    //                             }
+    //                             ,
 
-function func_b33(params, callback) {
-    func_b2(    "test", 
-                [{"a": "b", "x":"y"}], 
-                {"a": "b"}, 
-                [{"c": "d", "e":"z"}], 
-                callback);
-}
+    //                             {"assert": 
+    //                                 {
+    //                                 "wid": "sounddto",
+    //                                 "metadata": {
+    //                                     "method": "sounddto",
+    //                                     "date": "2014-01-30T19:08:41.604Z"
+    //                                             },
+    //                                 "data": {
+    //                                     "note": "string"
+    //                                         }
+    //                                 }
+    //                             }
+    //                         ] 
+
+    //                     ]
+
+    //                 ]
+    //             ]
+
+    // todolist = 
+    //     [
+    //         [
+    //             {"fn": "func_b2"},
+    //             [
+    //                 "test", 
+    //                 "test", 
+    //                 {
+    //                     "c":"0", 
+    //                     "d":"1", 
+    //                     "e":"2"
+    //                 }, 
+    //                 {
+    //                     "c":"0", 
+    //                     "d":"1", 
+    //                     "g":"4"
+    //                 }
+    //             ]
+    //         ]
+    //     ];
+
+    // executethismultiple(todolist, callback, commandobject);
+
+    // data.push(
+
+//         [
+//             {"fn": "test_and_verify"},
+//                 {
+//                 "name": "offlineupdatewid",
+//                 "fnname": "offlineupdatewid",
+//                 "parameters": {
+//                     "metadata.method": "sounddto",
+//                     "wid": "sounddto",
+//                     "note": "string"
+//                     },
+//                 "assert": {
+//                     "wid": "sounddto",
+//                     "metadata": {
+//                     "method": "sounddto",
+//                     "date": "2014-01-30T19:08:41.604Z"
+//                     },
+//                 "data": {
+//                     "note": "string"
+//                     }
+//                 }
+
+//             }
+//         ]
+
+// );
+
+
+
+// data.push(
+//     [
+//         {
+//             "fn": "test_and_verify"
+//         },
+//         {
+//             "name": "offlineupdatewid",
+//             "fnname": "offlineupdatewid",
+//             "parameters": {
+//                 "wid": "rel_sound_to_song",
+//                 "primarywid": "songdto",
+//                 "secondarywid": "sounddto",
+//                 "relationshiptype": "attributes",
+//                 "metadata.method": "defaultdto"
+//             },
+//             "assert": {
+//                 "wid": "rel_sound_to_song",
+//                 "metadata": {
+//                     "method": "defaultdto",
+//                     "date": "2014-01-30T19:08:41.631Z"
+//                 },
+//                 "data": {
+//                     "primarywid": "songdto",
+//                     "secondarywid": "sounddto",
+//                     "relationshiptype": "attributes"
+//                 }
+//             }
+//         }
+//     ]
+// );
+
+// exec_mut(data, function (err, res) {
+//     callback(err, res)
+// });

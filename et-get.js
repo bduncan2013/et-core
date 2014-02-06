@@ -694,6 +694,233 @@ exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(pa
                                     "d":"date",
                                     "q":{"w":{"e":"string"}},
                                     "g":"boolean"
+                                
+                                proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', resultObj, 99);
+
+                                // ======= deep filter test ======
+                                // var firstObj = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
+                                // var secondObj = {"name":"string","age":"string","a":"string","b":"string","metdata":{"booksdto":{"type":"onetomany"}},"wid":"authordto","metadata":{"method":"authordto","inherit":"defaultauthordtoactions"},"booksdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"booksdto","metadata":{"method":"booksdto","inherit":"defaultbooksdtoactions"}}}
+                                // var resultObj = recurseModObj(firstObj, secondObj);
+                                // ======= resultObj ======
+                                // {"name":"Elizabeth Heart","age":"50","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
+                    
+                            }
+                            cbMap(null);
+                        }
+                        else { // if no result
+                            cbMap(null);
+                            }
+                        }); // end execute
+                    }, function(err, res) {
+                        cb(null); 
+                }); //end mapseries
+            }
+            cb(null);
+        } // step 3
+        ], // series list
+        function (err, res) {
+            resultObj = deepfilter(resultObj, command, dtoobject);
+            // proxyprinttodiv('<<< Get_Clean before call back resultObj >>>', resultObj, 99);
+            // proxyprinttodiv('<<< Get_Clean before call back command >>>', command, 99);
+            // proxyprinttodiv('<<< Get_Clean before call back dtoobject >>>', dtoobject, 99);
+            callback(err, resultObj);
+        }
+    ); // end series
+}
+
+
+function getindex(parameterobject, dtoname, indexstring) {
+    var match;
+    var potentialmap;
+    for (eachelement in parameterobject) {
+        proxyprinttodiv('Function getindex eachelement', eachelement,23);  
+        if (eachelement===dtoname) {
+            if (indexstring) {indexstring=indexstring+'.'+eachelement} else {indexstring=eachelement}
+              proxyprinttodiv('Function indexstring FOUND', indexstring, 23);  
+            break;         
+        }
+
+        if (parameterobject[eachelement] instanceof Object) {
+            if (indexstring) {potentialmap=indexstring+'.'+eachelement} else {potentialmap=eachelement}
+            match = getindex(parameterobject[eachelement], dtoname, potentialmap)
+            if (potentialmap!==match) {
+                indexstring=match;
+                proxyprinttodiv('Function match inside', match, 23);  
+                break;
+                }
+            }
+        }
+    proxyprinttodiv('Function indexstring ', indexstring, 23);  
+    return indexstring;
+
+} 
+
+/****************************************
+getindex(parmobject:object, dtoname:string) returns index string
+i.e. {a:{b:{c:d},e:f}, g:h}
+****************************************
+****************************************
+dtoname: a returns a
+dtoname: b returns a.b
+dtoname: c returns a.b.c
+dtoname: e returns a.e
+dtoname: g returns g
+*/
+exports.getindextest = getindextest = function getindextest(params, callback) {
+    console.log("<< getindextest >>");
+    var parameterobject = {"a":{"b":{"c":"d"},"e":"f"},"g":"h"};
+    console.log("Function getindextest parameterobject -- " + JSON.stringify(parameterobject));
+    
+    var indexstring = "";
+
+    var dtoname = "b";
+    console.log("Function getindextest dtoname -- " + dtoname);
+    var result = getindex(parameterobject, dtoname, indexstring);
+    console.log("Function getindextest result  -- " + result);
+}
+
+
+function setbyindex(obj, str, val, operation) {
+    var keys, key;
+    //make sure str is a string with length
+    if (!str || !str.length || Object.prototype.toString.call(str) !== "[object String]") {
+        return false;
+    }
+    if (obj !== Object(obj)) {
+        //if it's not an object, make it one
+        obj = {};
+    }
+    keys = str.split(".");
+    while (keys.length > 1) {
+        key = keys.shift();
+        if (obj !== Object(obj)) {
+            //if it's not an object, make it one
+            obj = {};
+        }
+        if (!(key in obj)) {
+            //if obj doesn't contain the key, add it and set it to an empty object
+            obj[key] = {};
+        }
+        obj = obj[key];
+    }
+    return obj[keys[0]] = val;
+};
+
+
+/****************************************
+check type of what you are updating, if array then push else extend
+****************************************
+****************************************
+object= {a:{b:{c:d},e:f}, g:h}
+index=  a.b.c
+objecttobeadded= {t:y, p:u}
+operation=  add/update
+will make object be {a:{b:{c:{t:y, p:u}},e:f}, g:h}
+*/
+exports.setbyindextest = setbyindextest = function setbyindextest(params, callback) {
+    var obj = {"a":{"b":{"c":"d"},"e":"f"},"g":"h"};
+    setbyindex(obj, "a.b.c", "hello");
+    proxyprinttodiv('Function obj ', obj, 99);  
+}
+
+
+exports.deepfilter = deepfilter = function deepfilter(inputObj, cmdObj, dtoObjOpt) {
+    var modifiedObj = {};
+    extend(true, modifiedObj, inputObj);    
+    if (dtoObjOpt) {
+        return recurseModObj(modifiedObj, dtoObjOpt);
+    } else {
+        dtoObjOpt = execute({"executethis":"getwidmaster", "wid": inputObj["metadata"]["method"]});
+        return recurseModObj(modifiedObj, dtoObjOpt);
+    };   
+
+}
+
+function recurseModObj(inputObject,dtoObject){
+    var modifiedObj = {};
+    Object.keys(inputObject).forEach(function (inpKey) {
+
+        // added by Roger
+        if (inpKey.indexOf("addthis.") !== -1) {// if you found "addthis." then remove from inputObject
+                inputObject[inpKey.replace("addthis.", "")]=inputObject[inpKey]; // then and readd without addthis
+                delete inputObject[inpKey]; // delete the old one
+                }
+
+        var inpVal = inputObject[inpKey];
+        if (dtoObject.hasOwnProperty(inpKey)) {
+            var dataType = dtoObject[inpKey];
+            if(typeof inpVal === "string" && typeof dataType === "string")
+            {
+                switch(dataType)
+                {
+                    case "boolean":
+                                var convB = null;
+                                if (inpVal == "true") {
+                                    convB = true;
+                                } else if (inpVal == "false") {
+                                    convB = false;
+                                };
+                                modifiedObj[inpKey] = convB;
+                        break;
+                    case "string":
+                                modifiedObj[inpKey] = String(inpVal);
+                        break;
+                    case "number":
+                                modifiedObj[inpKey] = parseInt(inpVal);                            
+                        break;
+                    case "date":
+                                var arrD = inpVal.split("/");
+                                var m = arrD[0];
+                                m = (m<10 ? '0'+m : m);
+                                var d = arrD[1];
+                                d = (d<10 ? '0'+d : d);
+                                var y = arrD[2];
+                                modifiedObj[inpKey] = new Date(y,m-1,d);                                                        
+                        break;
+                    default:
+                        //Nothing to be done
+                       break;
+                }
+            }else if(typeof inpVal === "object" && typeof dataType === "object")
+            {
+                //Ignoring metadata property in input.
+                if (inpKey != "metadata") {
+                    var modObj = recurseModObj(inpVal,dataType);
+                    modifiedObj[inpKey] = modObj;
+                }else{
+                    modifiedObj[inpKey] = inpVal;                    
+                }
+            }else
+            {
+                //Doesn't match with dto -- Nullifying the param
+                modifiedObj[inpKey] = null;
+            }
+        } else{
+            delete modifiedObj[inpKey];
+        };
+    });
+    return modifiedObj;        
+}
+
+exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
+    testclearstorage();
+     // config = setconfig1();
+    var recModObj = recurseModObj({
+                                    "metadata":{"method":"wid2"},
+                                    "a":"b",
+                                    "c":"30",
+                                    "e":"f",
+                                    "d":"6/23/1912",
+                                    "q":{"w":{"e":"t"}},
+                                    "g":"true"
+                                },
+                                {
+                                    "metadata":{"method":"wid2"},
+                                    "a":"string",
+                                    "c":"number",
+                                    "d":"date",
+                                    "q":{"w":{"e":"string"}},
+                                    "g":"boolean"
                                 });
     proxyprinttodiv('recurseModObj inputObject', {
                                     "metadata":{"method":"wid2"},

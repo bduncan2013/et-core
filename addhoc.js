@@ -34,6 +34,8 @@ customfn103 = function customfn103(inputWidgetObject, callback) {
 return result ={"dtotype":"palettedto","wid":'startwid',"tableid":"palate"};
 }
 
+
+
 exports.system_actions = system_actions = function system_actions(params, callback){
     //clearLocalStorage();
     createdtos(params, function (err, results) {
@@ -594,23 +596,21 @@ function getindex(parameterobject, dtoname, indexstring) {
 function getindex(parameterobject, dtoname, indexstring) {
     var match;
     for (eachelement in parameterobject) {
-        if (eachelement===dtoname) {
+        if (parameterobject[eachelement]===dtoname) {
             match = eachelement;
+            proxyprinttodiv('Function getindex FOUND', parameterobject[eachelement],99);   
+            break;         
         }
-        
-        if(!indexstring){
-            indexstring=eachelement;
-        }else{
-            indexstring=indexstring+'.'+eachelement;
+	       proxyprinttodiv('Function getindex ', parameterobject[eachelement], 99);  
+		if (parameterobject[eachelement] instanceof Object) {
+            if (getindex(parameterobject[eachelement], dtoname, indexstring)) {
+                match=match+'.'+eachelement;
+                }
+            }
         }
+    proxyprinttodiv('Function match ', match, 99);  
+    return match;
 
-        if (match) {
-            return indexstring;
-        } else if (!match && parameterobject[eachelement] instanceof Object) {
-            var next = getindex(parameterobject[eachelement], dtoname, indexstring);
-            if(next) return next;
-        }
-    }
 } 
 
 /****************************************
