@@ -15,6 +15,8 @@
     //Starting of querywid function...formerly MongoDataQuery
     //exports.querywid = querywid = function (parameters,target,callback) {
     exports.querywid = querywid = function querywid(parameters, callback) { // can change to call back
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         delete parameters['executethis']; //** added 11/2
 
@@ -107,6 +109,7 @@
                 vargroup = varlist[eachgroup];
                 resultObj = jsonConcat(resultObj, allvars[vargroup]);
             }
+
             return resultObj;
         }
 
@@ -413,6 +416,11 @@
 
                     // ToDot -- should remove "data"
                     // -- V1 --
+                     
+                    debugfn("querywid code generator", "querywid", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: output
+                    }, 6);
 
                     callback(err, output);
 
@@ -494,7 +502,11 @@
     //     it looks for parmnamein/out in {} ... based on what it finds produces a result
     //     execpetions...if parmaneout="wid" then x will be "wid"
     //     if parmnamein = "" then entire envrionendb (entire record will be sent)
+
 function copylist(inlist, parmnamein, parmnameout, environmentdb) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         var widvalue;
         var item;
         var i;
@@ -533,11 +545,20 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
             }
             proxyprinttodiv('querywid copylist obj ', obj, 28);
+
+            debugfn("copylist code generator", "copylist", "get", "code", 2, 1, {
+                0: inbound_parameters,
+                1: obj
+            }, 6);
+
             return obj;
         }
     }
 
     function formatlist(inlist, parmnamein, parmnameout, environmentdb) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         var output = [];
         var widvalue;
         var item;
@@ -587,6 +608,12 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
             }
             proxyprinttodiv('querywid formatlist output ', output, 28);
+
+            debugfn("formatlist code generator", "formatlist", "get", "code", 2, 1, {
+                0: inbound_parameters,
+                1: output
+            }, 6);
+
             return output
         }
     }
@@ -594,6 +621,9 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
     // takes inlist, looks for wid, then goes to main database to get a get clean complete converted copy of that wid
     // also looks in extra paramters, append information found about that wid to results also
     function formatListFinal(inlist, environmentdb, convertmethod, extraparameters) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         var output = [];
         var keycollection = "DRIKEY";
         var keydatabase={};
@@ -635,6 +665,11 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                 output.push(record);  
                 }
 
+            debugfn("formatListFinal code generator", "formatListFinal", "get", "code", 2, 1, {
+                0: inbound_parameters,
+                1: output
+            }, 6);
+
             return output
         }
     }
@@ -643,11 +678,20 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
     //out STRING: {preamble.key: value}
 
     function BuildSimpleQuery(key, value, preamble) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         var result;
         //buildsimplequery, text in and out
         preamble = preamble + ".";
 
         result = "{\"" + key + "\":\"" + value + "\"}";
+
+        debugfn("formatListFinal code generator", "formatListFinal", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: result
+        }, 6);
+
         return result;
     }
 
@@ -658,6 +702,9 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
     // will create a string query based on outerquerytype
 
     function BuildSingleQuery(parameters, outerquerytype, preamble) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         if(!(parameters instanceof Array)){
             var arr = [];
             arr.push(parameters);
@@ -729,6 +776,12 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
             returnString += "";
         }
         proxyprinttodiv('querywid buildsinglequery end', returnString, 28);
+
+        debugfn("BuildSingleQuery code generator", "BuildSingleQuery", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: returnString
+        }, 6);
+
         return returnString;
     }
 
@@ -736,6 +789,9 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
     // will create a string query based on outerquerytype
 
     function BuildMultipleQuery(listofparameters, outerquerytype, innerquerytype, preamble) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         //buildmultiplequery (listofparameters, outerquerytype, innerquerytype, preamble)
         //list of parameters must be list: [{}, [], [], {}]
         proxyprinttodiv('querywid buildmultiplequery listofparameters', listofparameters, 28);
@@ -786,6 +842,12 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
             returnString += "]}";
         }
         proxyprinttodiv('querywid buildmultiplequery end', returnString, 28);
+
+        debugfn("BuildMultipleQuery code generator", "BuildMultipleQuery", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: returnString
+        }, 6);
+
         return returnString;
     }
 
@@ -826,6 +888,8 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
     // }
 
     function queryafterrelationship(parameters, set2) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var set1 = [];
         var set3 = [];
@@ -838,11 +902,21 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         set3.push(set2);
         proxyprinttodiv('querywid queryafterrelationship set3', set3, 28);
 
-        return BuildMultipleQuery(set3, 'and', 'or', null);
+        var result = BuildMultipleQuery(set3, 'and', 'or', null);
+
+        debugfn("queryafterrelationship code generator", "queryafterrelationship", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: result
+        }, 6);
+
+        return result;
     }
     // Starting of relationShipQuery function
 
     function relationShipQuery(inputParameters, input, environmentdb) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
         proxyprinttodiv('Function relationShipQuery() Constant input : ', parameters);
         var output = {};
         // TODO: added this quick to clone, needs to use extend
@@ -910,6 +984,11 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
             queryset.push(q2);
         }
         querystring = BuildMultipleQuery(queryset, "and", "or", null)
+
+        debugfn("relationShipQuery code generator", "relationShipQuery", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: querystring
+        }, 6);
 
         return querystring
     }
@@ -994,7 +1073,10 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
 
 
+
     function aggregationQuery(parameters) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var mongoAggregation = ""; // String
         var query;
@@ -1027,6 +1109,12 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         // An array is the variable that gets set to the aggregation call.
         var pipelineQuery = [originalQuery, mongoAggregation];
         proxyprinttodiv('pipelineQuery : ', pipelineQuery);
+
+        debugfn("aggregationQuery code generator", "aggregationQuery", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: pipelineQuery
+        }, 6);
+
         return pipelineQuery;
     }
 
@@ -1038,6 +1126,8 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
     // is a result of implenting DRI type functions in stages to apply to mongo.
 
     function addonQuery(parameters) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var returnValues = {};
 
@@ -1250,12 +1340,17 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
             returnValues = mycursor;
         }
         proxyprinttodiv('Function Add On Query() output : ', returnValues);
+
+
+
         return returnValues;
     } //End of addOnQuery function
 
 
 
     function fishOut(parameters) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         // These are the categories of possible data sent in
 
@@ -1465,6 +1560,12 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         p[4] = xtrParams;
         p[5] = relafterParams;
         p[6] = commandParams;
+
+        debugfn("fishOut code generator", "fishOut", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: p
+        }, 6);
+
         return p;
     }
 
