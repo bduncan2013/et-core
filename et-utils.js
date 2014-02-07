@@ -1128,16 +1128,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
 
         function create_string() {
-            alert('creating string');
-            alert('logging' + JSON.stringify(outobject, "-", 4));
-
-            var i = 0;
             // $('#divprint').append('####################  debug log     #########################\n');
             // $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
             $('#divprint').append('####################  debug output  #########################\n');
             
             for (eachtest in debuglog) {
-                i++;
                 testresults = debuglog[eachtest];
                 var test_to_print = "";
 
@@ -2011,7 +2006,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
 			// Reload the assertion and delete the config
 			c_assert = extend(true, {}, assert);
-			delete c_assert["configuration"];
+			delete c_assert[0]["configuration"];
 
 			// Call test_and_verify with c_ verion -- actual config changed
 			test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
@@ -2023,17 +2018,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 			});
 		});
 	}
-
-	// exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
-	// 	testclearstorage();
-	// 	window[fnname]([
-	// 		parameters
-	// 	],
-	// 	function (err, res) {
-	// 		res = logverify(testname, res[0][0], assert);
-	// 		callback(err, res);
-	// 	});
-	// }
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
         testclearstorage();
@@ -2052,15 +2036,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                     callback(err, res);
                 });
             window[fnname].apply(window, parameters);
-        }else{
+        } else {
             window[fnname](
                 parameters,
                 function (err, res) {
                     res = logverify(testname, res, assert);
                     callback(err, res);
                 });
-            
         }
     }
-
 })();
