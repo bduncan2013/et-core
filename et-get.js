@@ -106,7 +106,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
         dtotype = obj.metadata.method;
     }
     if (dtotype && dtotype !== obj.wid) {
-        execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"DTO","command.execute":"ConvertFromDOTdri"}, function (err, res) {
+        execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"dto","command.execute":"ConvertFromDOTdri"}, function (err, res) {
             if (!res) {dtoobject=obj} else {dtoobject=res[0]}
 
             debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
@@ -135,7 +135,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
     // local vars
-    var moreDTOParameters;
+    var moreDTOParameters=[];
     var targetwid = "";
     var nexttargetwid = "";
     var nextpreamble = "";
@@ -211,7 +211,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                 if (Object.keys(res).length != 0) {
                     parameterobject = res;
                     proxyprinttodiv('Function getwidmongo getwid res', res,10);
-                    moreDTOParameters=parameterobject;
+                    //moreDTOParameters=parameterobject;  &&& taken out roger 2/7
                     cb(null); // add
                 }
                 else { // if no object
@@ -238,6 +238,10 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             executeobject["dtotype"] = "";
                             executeobject["executethis"] = 'querywid';
                             execute(executeobject, function (err, res) {
+                            
+                            if (Object.keys(res).length != 0) {
+                                moreDTOParameters = res;
+                            }
                                 cb1(null, 'step2n1');
                                 // TODO: figure out the return here
                             });
@@ -326,9 +330,9 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
 
                                     // added
                                     if (params.command) {
-                                        proxyprinttodiv("--- What i'm looking at parameterobject step1", parameterobject, 99);
+                                        proxyprinttodiv("--- What i'm looking at parameterobject step1", parameterobject, 17);
                                         extend(true, parameterobject.command, params.command);
-                                        proxyprinttodiv("--- What i'm looking at parameterobject step2", parameterobject, 99);
+                                        proxyprinttodiv("--- What i'm looking at parameterobject step2", parameterobject, 17);
                                         delete params.command
                                     }
 
@@ -373,7 +377,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
         function step4(cb) {
             // legacy var
             dtoGlobalParameters = parameterobject;
-            proxyprinttodiv("--- What i'm looking at parameterobject step3", parameterobject, 99);
+            proxyprinttodiv("--- What i'm looking at parameterobject step3", parameterobject, 17);
 
             debugfn("getwidmongo end step4", "getwidmongo", "get", "end", debugcolor, debugindent, debugvars([1]));
             cb(null, 'four');
@@ -438,7 +442,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             }
         },
         function step3(cb) { // process inherit
-            proxyprinttodiv('<<< Get_Clean step3 resultObj >>', resultObj, 99);
+            proxyprinttodiv('<<< Get_Clean step3 resultObj >>', resultObj, 17);
             var listToDo=[];
             var inheritobject;
 
@@ -467,15 +471,15 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                                     }, function (err, res) {
                             if ((res.length > 0) && (Object.keys(res[0]).length > 0)) {
                                 inheritobject = res[0];
-                                proxyprinttodiv('<<< Get_Clean step3 inheritobject >>>', inheritobject, 99);
+                                proxyprinttodiv('<<< Get_Clean step3 inheritobject >>>', inheritobject, 17);
                                 dtoname = inheritobject['metadata']['method'];
                                 
                                 proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 17);
                                 
                                 if (dtoname === bigdto['metadata']['method']) {
-                                    proxyprinttodiv('<<< Get_Clean step3 extend resultObj before >>>', resultObj, 99);
+                                    proxyprinttodiv('<<< Get_Clean step3 extend resultObj before >>>', resultObj, 17);
                                     extend(true, resultObj, inheritobject);
-                                    proxyprinttodiv('<<< Get_Clean step3 extend resultObj after >>>', resultObj, 99);
+                                    proxyprinttodiv('<<< Get_Clean step3 extend resultObj after >>>', resultObj, 17);
                                 } else {
                                     // index = getindex(bigdto, dtoname); // changed by joe, the sturcture on bigdto is too diffrent to resolve a relevant path to insert data
                                     index = getindex(resultObj, dtoname); 
@@ -483,7 +487,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                                         extend(true, resultObj, inheritobject);
                                     } 
                                     else {
-                                        proxyprinttodiv('<<< Get_Clean step3 index >>', index, 99);
+                                        proxyprinttodiv('<<< Get_Clean step3 index >>', index, 17);
                                         setbyindex(resultObj, index, inheritobject);
                                     }
                                     // TODO: move this somewhere usefull
@@ -517,7 +521,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
 
         function (err, res) {
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj,99);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj,17);
             proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 17);
             proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', dtoobject, 17);
             resultObj = deepfilter(resultObj, dtoobject, command);

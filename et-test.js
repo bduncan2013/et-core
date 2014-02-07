@@ -127,20 +127,24 @@ exports.get2= get2 = function get2 (parameters, callback) {
         execute(executeList, function (err, res) {
             proxyprinttodiv('__--__', res, 99);
             
-            var object={"metadata.method":"bookdto","wid":"222","title":"The X Factor","pages":"300"};
-            var dtoobject={"metadata.method":"bookdto","wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string"};
-            var parentwid="elizabeth_heart"
-            var relationship="onetomany"
-            var command={};
+            var object = {"metadata":{"method":"bookdto"},"wid":"222","title":"The X Factor","pages":"300"};
+            var dtoobject = {"metadata":{"method":"bookdto"},"wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string"};
+            var parentwid = "elizabeth_heart";
+            var relationshiptype = "onetomany";
+            var command = {};
 
-            addrecord (object, dtoobject, parentwid, relationship, command, callback);
+            addrecord(object, dtoobject, parentwid, relationshiptype, command, function (err, res) {
+                alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
+            });
 
-            })
+            cleanadd(object, dtoobject, command, function (err, res) {
+                alert("add0 cleanadd! -- got res -->" + JSON.stringify(res));
+            });
+        });
 
     }
 
   exports.add1= add1 = function add1 (parameters, callback) {
-    testclearstorage();
     testclearstorage();
     var inputObject = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart",
                     "metadata":{"method":"authordto"},
@@ -151,7 +155,9 @@ exports.get2= get2 = function get2 (parameters, callback) {
                     "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto","metadata":{"method":"bookdto"}}}
     var command = {};
 
-    addwidobject(inputObject, inputdto, command, callback);
+            addrecord(object, dtoobject, parentwid, relationship, command, function (err, res) {
+                alert("add0 fired! -- got res -->" + JSON.stringify(res));
+            });
 
 }
 

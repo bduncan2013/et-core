@@ -15,19 +15,20 @@ function AddMaster2(dtoList, parameterList, widName, dtotype, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-     var parentwid=""
-     var relationshiptype=""
-     var inputdto=converttodriformat(listToObject(dtoList));
-     var inputObject= converttodriformat(listToObject(parameterList));
-     addwidobject(inputObject, inputdto, command, function (err, addobject) {
+    var parentwid = "";
+    var relationshiptype = "";
+    var inputdto = converttodriformat(listToObject(dtoList));
+    var inputObject = converttodriformat(listToObject(parameterList));
+    
+    addwidobject(inputObject, inputdto, command, function (err, addobject) {
 
-                debugfn("AddMaster2 code generator", "AddMaster2", "add", "code", 2, 1, {
-                    0: inbound_parameters,
-                    1: convertfromdriformat(addobject)
-                }, 6);
+        debugfn("AddMaster2 code generator", "AddMaster2", "add", "code", 2, 1, {
+            0: inbound_parameters,
+            1: convertfromdriformat(addobject)
+        }, 6);
 
-                 callback(null, convertfromdriformat(addobject));
-                 });
+        callback(null, convertfromdriformat(addobject));
+    });
  }
 
 
@@ -140,78 +141,81 @@ function addwidmaster_new(object, callback) {
     delete object.command;
     cleanadd (object, dtoobject, command, function (err, res) {
         addwidobject(object, dtoobject, command, callback)
-        })
+    });
 }
 
-function cleanadd(object, objectdto, command, callback) {
+exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
     getdtoobject(object, command, function (err, res) {
         var dtoToGet = resultObj.metadata.method;
+        
         execute({"executethis":"getwidmaster", 
             "wid": dtoToGet, 
             "command.execute":"ConvertFromDOTdri",
             "command.convertmethod":"dto",
             }, function (err, res) {
-            bigdto = res[0]; 
+                bigdto = res[0]; 
 
-        if (command.dtotype) {
-            dtoname=command.dtotype
-            } 
-        else {
-            if (objectdto.wid) {dtoname=objectdto.wid} else {dtoname=object.wid}
-            }
-        index = getindex(bigdto, dtoname); 
-        setbyindex(object, index, object);
-        resultObj = deepfilter(object, objectdto, command);
+                if (command.dtotype) {
+                    dtoname=command.dtotype
+                } 
+                else {
+                    if (objectdto.wid) {dtoname=objectdto.wid} else {dtoname=object.wid}
+                }
 
-        debugfn("cleanadd code generator", "cleanadd", "add", "code", 2, 1, {
-            0: inbound_parameters,
-            1: cleanadd
-        }, 6);
+                index = getindex(bigdto, dtoname); 
+                setbyindex(object, index, object);
+                resultObj = deepfilter(object, objectdto, command);
 
-        })
-    })
+                debugfn("cleanadd code generator", "cleanadd", "add", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: cleanadd
+                }, 6);
+        });
+    });
 }
 
 
 // addrecord is a temporary call convert to old format
 // it also check if relationship should be added
-exports.addrecord = addrecord = function addrecord (object, dtoobject, parentwid, relationship, command, callback) {
+// 
+exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, parentwid, relationshiptype, command, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-    var executeobject={};
-    var widid = inputrecord("wid");
+    var executeobject = {};
+    var widid = inputrecord["wid"];
     var widdto = inputrecord["metadata"]["method"];
     var InList = objectToList(ConvertToDOTdri(inputrecord));
-    var Indto = objectToList(ConvertToDOTdri(inputdto));
-    //addwid(object, dtoobject, command, callback) 
+    var Indto = objectToList(ConvertToDOTdri(dtoobject));
+
     MongoAddEditPrepare(Indto, InList, widid, widdto,  function (err, addobject) {
+
         if (relationshiptype) {
-            var ChildWid = addobject["wid"]; 
-            //addwid(object, dtoobject, command, callback)
-            AddMongoRelationship(ParentWid, ChildWid, relationshiptype, function (err, adddedrelationship) {
+            var childwid = addobject["wid"]; 
+            
+            AddMongoRelationship(parentwid, childwid, relationshiptype, function (err, adddedrelationship) {
         
                 debugfn("addrecord code generator", "addrecord", "add", "code", 2, 1, {
                     0: inbound_parameters,
                     1: addobject
                 }, 6);
 
-                callback(null, addobject)
-                });
-            }
+                callback(null, addobject);
+            });
+        }
         else {
                 debugfn("addrecord code generator", "addrecord", "add", "code", 2, 1, {
                     0: inbound_parameters,
                     1: addobject
                 }, 6);
 
-            callback(null, addobject)
-            }
+            callback(null, addobject);
+        }
 
-        })
+    });
 }
 
 function addwid(object, dtoobject, command, callback) {
