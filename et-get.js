@@ -107,6 +107,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
     }
     if (dtotype && dtotype !== obj.wid) {
         execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"dto","command.execute":"ConvertFromDOTdri"}, function (err, res) {
+
             if (!res) {dtoobject=obj} else {dtoobject=res[0]}
 
             debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
@@ -238,6 +239,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             executeobject["dtotype"] = "";
                             executeobject["executethis"] = 'querywid';
                             execute(executeobject, function (err, res) {
+
                                 if (Object.keys(res).length != 0) {moreDTOParameters=res}
                                 cb1(null, 'step2n1');
                                 // TODO: figure out the return here

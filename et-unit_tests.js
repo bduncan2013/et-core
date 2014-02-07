@@ -2122,12 +2122,14 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
 exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
-    //debugcat = 'get';
     testclearstorage();
-    debuglevel = 0;
-    debugname = "getwidmongo";
+            // alert('here');
+
+    debuglevel = 75;
+    debugname = "";
     debugcat = "";
-    debugsubcat = "";
+    debugsubcat = "code";
+
     execute([{
             "executethis": "addwidmaster",
             "wid": "colordto",
@@ -2146,6 +2148,14 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "wid": "color1"
         }],
         function (err, res) {
+            alert('string');
+            console.log('*******************************************************************');
+            debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("update code generator END",         "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
+
+            debugname = "";
+            debugcat = "";
+            debugsubcat = "";
             proxyprinttodiv('Function ag2 result ', res, 99);
             res = logverify("ettestag2_result", res[3][0], {
                 "hue": "red",
@@ -2262,7 +2272,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
              
             // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
-            debugfn("offlinegetwid code generator END", "",    "",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("offlinegetwid code generator END", "",    "",   "code", debugcolor, debugindent, {}, 9);
              
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- add
@@ -3058,14 +3068,13 @@ function test141414 (params, callback) {
 
 function test151515 (params, callback) {
     testclearstorage();
-    var todolist = [
-        [{
-                "fn": "test_and_verify"
-            },
+    var todolist = 
+    [
+        [
+            {"fn": "test_and_verify"},
             [
                 "func_b3",
                 "func_b3", 
-
                 [
                     {"c": "0","d": "1","e": "2"},
                     "two",
@@ -3084,9 +3093,117 @@ function test151515 (params, callback) {
             ]
         ]
     ];
-    executethismultiple(todolist, callback);    
+    executethismultiple(todolist, callback);       
+}
+function test161616 (params, callback) {
+    testclearstorage();
+    var todolist = 
+[
+    [
+        {
+            "fn": "test_and_verify"
+        },
+        [
+            "offlineupdatewid",
+            "offlineupdatewid",
+            [
+                {
+                    "wid": "wid1",
+                    "a": "b"
+                }
+            ],
+            {
+                "data": {
+                    "a": "b"
+                },
+                "wid": "wid1",
+                "metadata": {
+                    "date": "2014-02-06T19:29:52.958Z"
+                }
+            },
+            {
+                "initialwid": {
+                    "wid": "initialwid",
+                    "initialwid": "for key hello from bootprocess"
+                },
+                "wid1": {
+                    "data": {
+                        "a": "b"
+                    },
+                    "wid": "wid1",
+                    "metadata": {
+                        "date": "2014-02-06T19:29:52.958Z"
+                    }
+                }
+            },
+            {
+                "command": "null"
+            }
+        ]
+    ]
+];
+    executethismultiple(todolist, callback);      
+}
 
-    
+exports.sample1 = sample1 = function sample1 (params, callback) {
+    debugsubcat = "code";
+    offlineupdatewid( {"wid":"wid1", "a":"b"}, callback );
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+}
+
+exports.sample2 = sample2 = function sample2 (params, callback) {
+    debugsubcat = "code";
+    merge_options( {"wid":"wid1", "a":"b"}, {"wid":"wid2", "y":"z"} );
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+}
+
+// getclean(resultObj, command, callback)
+
+exports.sample3 = sample3 = function sample3 (params, callback) {
+    debugsubcat = "code";
+    getclean( {"wid":"wid1", "a":"b", "metadata":{"method": "DOT"}}, "DOT" );
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+}
+
+function test171717 (params, callback) {
+    testclearstorage();
+    var todolist = 
+[
+    [
+        {"fn": "test_and_verify"},
+        [
+           "MongoAddEditPrepare",
+           "MongoAddEditPrepare",
+            [
+    [],
+    [
+        {
+            "key": "metadata.method",
+            "value": "colordto"
+        },
+        {
+            "key": "wid",
+            "value": "colordto"
+        },
+        {
+            "key": "hue",
+            "value": "string"
+        }
+    ],
+    "colordto",
+    "colordto"
+],
+            {
+    "metadata.method": "colordto",
+    "wid": "colordto",
+    "hue": "string"
+},
+            {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"colordto":{"data":{"hue":"string"},"wid":"colordto","metadata":{"method":"colordto","date":"2014-02-06T21:59:08.567Z"}}},
+            {"command": "null"}
+        ]
+    ]
+];
+    executethismultiple(todolist, callback);      
 }
 
 function func_b2(p1, p2, p3, p4, callback) {
@@ -3124,3 +3241,5 @@ function func_b33(params, callback) {
                 [{"c": "d", "e":"z"}], 
                 callback);
 }
+
+

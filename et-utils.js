@@ -88,10 +88,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 };
 (function (window) {
 
-
-
-
-
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
         if (obj && obj instanceof Object) {
@@ -1086,7 +1082,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
 
         function etlogresults(indebugname, outobject) {
-
+            // alert('logging' + JSON.stringify(outobject, "-", 4));
             proxyprinttodiv('arrived debuglog', debuglog, 44);
 
             if (!outobject) {
@@ -1132,34 +1128,66 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
 
         function create_string() {
+            alert('creating string');
+            alert('logging' + JSON.stringify(outobject, "-", 4));
+
             var i = 0;
-            $('#divprint').append('####################  debug log     #########################\n');
-            $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
+            // $('#divprint').append('####################  debug log     #########################\n');
+            // $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
             $('#divprint').append('####################  debug output  #########################\n');
 
             for (eachtest in debuglog) {
                 i++;
                 testresults = debuglog[eachtest];
                 var test_to_print = "";
+    var name = testresults[0][0]['command']['executemethod'];
+                
+                // var parameters  = JSON.stringify(testresults['0'][1]['0'], "-", 4);
+                // console.log('testresults[0][1]: ' + JSON.stringify(testresults[0][1]));
+                // console.log('parameters: ' + parameters);
+                
+                // Pull out the parameters
+                var raw_parameters  = testresults[0][1];
+                var parameters = [];
 
-                var name = testresults[0][0]['command']['executemethod'];
-                // var parameters  = JSON.stringify(testresults[0][1]['0'], "-", 4);
-                console.log('testresults[0][1]: ' + JSON.stringify(testresults[0][1]));
-                var parameters = JSON.stringify(testresults[0][1], "-", 4);
-                console.log('parameters: ' + parameters);
-                var assert = JSON.stringify(testresults[0][2], "-", 4);
-                var database = JSON.stringify(testresults[0][3]);
-                var command = '{"command": "null"}';
+                // Look in parameters to see if it is an 'array' inside
+                // the object...if you don't see a zero, just add the data to
+                // the array...if you do see a zero, iterate throught the object and
+                // just add the values of the hash to the array...the array does not
+                // need to know about the nubmers 0,1,2, etc...just the data
+                if (!raw_parameters.hasOwnProperty("0")) {
+                    console.log('object');
+                    parameters.push(raw_parameters);
+                    parameters = JSON.stringify(parameters, "-", 4);
+                } else {
+                    console.log('array');
+                    for (var j in raw_parameters) {
+                        parameters.push(raw_parameters[j]);
+                    }
+                    parameters = JSON.stringify(parameters, "-", 4);
+                }
 
-                test_to_print = '[\n    [\n' +
-                    '        {"fn": "test_and_verify"},\n        [\n' +
-                    '           "' + name + '",\n' +
-                    '           "' + name + '",\n' +
-                    '            ' + parameters + ',\n' +
-                    '            ' + assert + ',\n' +
-                    '            ' + database + ',\n' +
-                    '            ' + command + '\n        ]\n' +
-                    '    ]\n],\n';
+                // var raw_parameters = [];
+                // for (var i in testresults[0][1]) {
+                //     raw_parameters.push(testresults[0][i]);
+                // }
+                // var parameters = JSON.stringify(raw_parameters, "-", 4);
+
+
+
+                var assert      = JSON.stringify(testresults[0][2], "-", 4);
+                var database    = JSON.stringify(testresults[0][3]);
+                var command     = '{"command": "null"}';
+
+                test_to_print = '[\n    [\n'   +
+                                '        {"fn": "test_and_verify"},\n        [\n' +         
+                                '           "' + name          + '",\n'   +
+                                '           "' + name          + '",\n'   +
+                                '            ' + parameters    + ',\n'    +
+                                '            ' + assert        + ',\n'    +
+                                '            ' + database      + ',\n'    +
+                                '            ' + command       + '\n        ]\n'  +
+                                '    ]\n],\n';
 
                 $('#divprint').append(test_to_print);
             }
@@ -2018,7 +2046,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             this_string = this_string.substring(0, this_string.length - 1) + ']';
             addToLocalStorage("DRI", JSON.parse(this_string));
         }
-
         if(parameters instanceof Array){
             parameters.push(function (err, res) {
                     res = logverify(testname, res, assert);
