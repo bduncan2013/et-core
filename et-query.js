@@ -311,7 +311,7 @@
                             //proxyprinttodiv('querywid output before format list mongowid', queParams, 28);
                             output = formatlist(output, "wid", "wid", environmentdb);
                             proxyprinttodiv('querywid output before mongowid', output, 28);
-                            if (output = [{}]) {
+                            if (output === JSON.stringify([{}])) {
                                 output = []
                             };
 
@@ -502,7 +502,6 @@
     //     it looks for parmnamein/out in {} ... based on what it finds produces a result
     //     execpetions...if parmaneout="wid" then x will be "wid"
     //     if parmnamein = "" then entire envrionendb (entire record will be sent)
-
 function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         var inbound_parameters = {};
         inbound_parameters = JSON.parse(JSON.stringify(arguments));
@@ -572,12 +571,12 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
             proxyprinttodiv('querywid formatlist inlist ', inlist, 28);
 
 
-            proxyprinttodiv('querywid formatlist parmnameout ', parmnameout, 28);
-            proxyprinttodiv('querywid formatlist parmnamein ', parmnamein, 28);
             for (i in inlist) { // changed by roger &&&
                 item = inlist[i];
 
                 item = ConvertFromDOTdri(item);
+
+
                 proxyprinttodiv('querywid formatlist item ', item, 28);
 
                 if (parmnameout!=="wid") {
@@ -589,11 +588,16 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
                 proxyprinttodiv('querywid formatlist widvalue ', widvalue, 28);
                 obj = {};
-                if (parmnamein) {
-                     obj[widvalue] = item[environmentdb][parmnamein];
+                if (parmnamein==="wid") {
+                     obj[widvalue] = item[parmnamein];
                     }
-                else{
-                    obj[widvalue] = item[environmentdb];
+                else {
+                    if (parmnamein) {
+                        obj[widvalue] = item[environmentdb][parmnamein];
+                        }
+                    else{
+                        obj[widvalue] = item[environmentdb];
+                        }
                     }
                
                 proxyprinttodiv('querywid formatlist obj[widvalue] ', obj[widvalue], 28);

@@ -16,50 +16,65 @@
 
         var results1;
         var results2;
+        var userWid;
+        var userDto;
 
         async.series([
 
             function part1(cb) {
-                var query1 = {
+                var query1 = [{
+                    "executethis": "querywid",
                     "mongorawquery": {
-                        "data.securitydto.accesstoken": accesstoken
+                        "data.accesstoken": accesstoken
                     },
-                    "mongorelationshiptype": 'attributes',
-                    "mongorelationshipmethod": 'last',
-                    "mongowidmethod": 'dtotype',
                     "mongorelationshipdirection": "backward",
-                    "convertmethod": "convertmethod",
-                    "mongowidmethod": "systemdto"
-                };
+                    "mongorelationshipmethod": "all",
+                    "mongorelationshiptype": "attributes"
+                }];
 
-                querywid(query1, function (err, res) {
-                    results1 = res;
+                execute(query1, function (err, res) {
+                    results1 = res[0][0][0];
                     cb(null);
                 });
             },
 
             function part2(cb) {
-                var query2 = {
+
+                var query2 = [{
+                    "executethis":"querywid",
                     "mongorawquery": {
-                        "wid": results1
+                        // "wid": results1['wid']
+                        "wid": Object.keys(results1)[0]
                     },
                     "mongorelationshiptype": 'attributes',
-                    "mongorelationshipmethod": 'last',
-                    "mongowidmethod": 'dtotype',
-                    "mongorelationshipdirection": "backward",
-                    "convertmethod": "convertmethod",
-                    "mongowidmethod": "systemdto"
-                }
+                    "mongorelationshipdirection": "backward"
+                }]
 
-                querywid(query2, function (err, res) {
-                    userDto = res;
+                execute(query2, function (err, res) {
+                    userWid = res[0][0][0];
+                    userWid = Object.keys(userWid)[0];
+                    cb(null);
+                });
+            },
+
+
+
+            function part21(cb) {
+                var query21 = [{
+                    "executethis":"getwidmaster",
+                    "wid": userWid
+                     // "wid": "rogeruser"
+                }]
+
+                execute(query21, function (err, res) {
+                    userDto = res[0][0][0];
                     cb(null);
                 });
             },
 
             function part3(cb) {
                 proxyprinttodiv('Function querywid() out with  userDto : ', JSON.stringify(userDto));
-                if (!userDto.logged_id) {
+                if (!userDto['systemdto.securitydto.logged_id']) {
                     // if not logged in,
                     securityCheckOutput = false;
                 } else {
@@ -104,6 +119,7 @@
                     // find all permissions where my groups are given permission
                     var myPermissionsdtoArr = getPermissionsList(myAccountGroupdtoArr, accountGroupdtoArr, actionGroupdtoArr, dbGroupdtoArr);
 
+                    proxyprinttodiv('Function security  --  >>>>>>  >>>>>  for  securitycheck response for myPermissionsdtoArr-- ', myPermissionsdtoArr, 34);
                     // see if there is a permission record for that combination
                     if (myPermissionsdtoArr.length > 0) {
                         securityCheckOutput = true;
@@ -225,17 +241,18 @@
         var environment;
         var status = false;
         // console.log(">>>>> env >>> "+ JSON.stringify(inboundparams['etenvironment']));
-        if (!inboundparams['etenvironment']) {
+        if (!(inboundparams['command'] && inboundparams['command']['environment'])) {
             environment = {};
             environment['ac'] = '111111111';
             environment['account'] = '222222222'; //set account to account of ac if no account
             environment['db'] = 'data';
             environment['action'] = 'getwid';
         } else {
-            environment = extend(true, environment, inboundparams['etenvironment']);
+            environment = extend(true, environment, inboundparams['command']['environment']);
         }
 
-        delete inboundparams['etenvironment'];
+        if( inboundparams['command'] && inboundparams['command']['environment'])
+            delete inboundparams['command']['environment'];
 
         var accesstoken = environment['ac'];
         var account = environment['account']; //set account to account of ac if no account
@@ -253,9 +270,4 @@
 
 
 
-    exports.sec1 = sec1 = function sec1() {
-        securitycheck("abcd1234abcd1234abcd1234abcd1234", "staff", "getwidmaster", "db", function(err,res){
-            alert(res);
-        });
-    }
 })(typeof window == "undefined" ? global : window);

@@ -107,6 +107,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
     }
     if (dtotype && dtotype !== obj.wid) {
         execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"dto","command.execute":"ConvertFromDOTdri"}, function (err, res) {
+
             if (!res) {dtoobject=obj} else {dtoobject=res[0]}
 
             debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {

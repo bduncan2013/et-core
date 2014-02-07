@@ -88,10 +88,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 };
 (function (window) {
 
-
-
-
-
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
         if (obj && obj instanceof Object) {
@@ -1073,7 +1069,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             etcreatecode(indebugindent, displaycolor, indebugname);
             break;
         case 6:
-            outobject[3]=getFromLocalStorage("DRIKEY");
+            outobject[3] = getFromLocalStorage("DRIKEY");
             // outobject[4]=getFromLocalStorage("DRIKEY");
             etlogresults(indebugname, outobject)
             break;
@@ -1086,7 +1082,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
 
         function etlogresults(indebugname, outobject) {
-
+            // alert('logging' + JSON.stringify(outobject, "-", 4));
             proxyprinttodiv('arrived debuglog', debuglog, 44);
 
             if (!outobject) {
@@ -1132,21 +1128,53 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
 
         function create_string() {
+            alert('creating string');
+            alert('logging' + JSON.stringify(outobject, "-", 4));
+
             var i = 0;
-            $('#divprint').append('####################  debug log     #########################\n');
-            $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
+            // $('#divprint').append('####################  debug log     #########################\n');
+            // $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
             $('#divprint').append('####################  debug output  #########################\n');
-            
+
             for (eachtest in debuglog) {
                 i++;
                 testresults = debuglog[eachtest];
                 var test_to_print = "";
+    var name = testresults[0][0]['command']['executemethod'];
+                
+                // var parameters  = JSON.stringify(testresults['0'][1]['0'], "-", 4);
+                // console.log('testresults[0][1]: ' + JSON.stringify(testresults[0][1]));
+                // console.log('parameters: ' + parameters);
+                
+                // Pull out the parameters
+                var raw_parameters  = testresults[0][1];
+                var parameters = [];
 
-                var name        = testresults[0][0]['command']['executemethod'];
-                // var parameters  = JSON.stringify(testresults[0][1]['0'], "-", 4);
-                console.log('testresults[0][1]: ' + JSON.stringify(testresults[0][1]));
-                var parameters  = JSON.stringify(testresults[0][1], "-", 4);
-                console.log('parameters: ' + parameters);
+                // Look in parameters to see if it is an 'array' inside
+                // the object...if you don't see a zero, just add the data to
+                // the array...if you do see a zero, iterate throught the object and
+                // just add the values of the hash to the array...the array does not
+                // need to know about the nubmers 0,1,2, etc...just the data
+                if (!raw_parameters.hasOwnProperty("0")) {
+                    console.log('object');
+                    parameters.push(raw_parameters);
+                    parameters = JSON.stringify(parameters, "-", 4);
+                } else {
+                    console.log('array');
+                    for (var j in raw_parameters) {
+                        parameters.push(raw_parameters[j]);
+                    }
+                    parameters = JSON.stringify(parameters, "-", 4);
+                }
+
+                // var raw_parameters = [];
+                // for (var i in testresults[0][1]) {
+                //     raw_parameters.push(testresults[0][i]);
+                // }
+                // var parameters = JSON.stringify(raw_parameters, "-", 4);
+
+
+
                 var assert      = JSON.stringify(testresults[0][2], "-", 4);
                 var database    = JSON.stringify(testresults[0][3]);
                 var command     = '{"command": "null"}';
@@ -1184,7 +1212,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                     // proxyprinttodiv('   debugfn subtest[0]', subtest[0], 99);
                     // proxyprinttodiv('   debugfn subtest[1]', subtest[1], 99);
                     // proxyprinttodiv('   debugfn subtest[2]', subtest[2], 99);
-                    }
+                }
                 if (testresults[3]) {}
                 if (testresults[4]) {}
                 // }
@@ -1250,71 +1278,71 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     }
 
 
-        //    function etlogresults(indebugname, outobject) {
+    //    function etlogresults(indebugname, outobject) {
 
-        //     proxyprinttodiv('arrived debuglog', debuglog, 44);
+    //     proxyprinttodiv('arrived debuglog', debuglog, 44);
 
-        //     if (!outobject) {
-        //         outobject = {}
-        //     }
-        //     if (outobject[0] === undefined) {
-        //         outobject[0] = {}
-        //     }
-        //     if (outobject[1] === undefined) {
-        //         outobject[1] = {}
-        //     }
-        //     if (outobject[2] === undefined) {
-        //         outobject[2] = new Date();
-        //     }
+    //     if (!outobject) {
+    //         outobject = {}
+    //     }
+    //     if (outobject[0] === undefined) {
+    //         outobject[0] = {}
+    //     }
+    //     if (outobject[1] === undefined) {
+    //         outobject[1] = {}
+    //     }
+    //     if (outobject[2] === undefined) {
+    //         outobject[2] = new Date();
+    //     }
 
-        //     proxyprinttodiv('debugfn indebugname', indebugname, 44);
-        //     proxyprinttodiv('debugfn etlogresults', outobject, 44);
-        //     outobject[2] = indebugname + outobject[2].getTime();
-            
-        //     var temparray=[];
-        //     var tempvar = {};
-        //     var temp_string = "";
+    //     proxyprinttodiv('debugfn indebugname', indebugname, 44);
+    //     proxyprinttodiv('debugfn etlogresults', outobject, 44);
+    //     outobject[2] = indebugname + outobject[2].getTime();
 
-        //     // tempvar["command"]={};
-        //     // tempvar["command"]["executemethod"]=indebugname;
-        //     // temp_string = '[{"fn": "test_and_verify","name":' + indebugname +',"fnname":' + indebugname +',"parameters":' + outobject[0] + ',"asstert":' + outobject[1] + ',"database": "db_data"}]';
-        //     tempvar = {
-        //                 "fn": "test_and_verify",
-        //                 "name": indebugname,
-        //                 "fnname": indebugname,
-        //                 "parameters": outobject[0],
-        //                 "asstert": outobject[1],
-        //                 "database": "db_data"
-        //             };
+    //     var temparray=[];
+    //     var tempvar = {};
+    //     var temp_string = "";
 
-        //     tempvar["fn"]=indebugname;
-        //     // temparray.push(tempvar);
-        //     // temparray.push(outobject[0]);
-        //     // temparray.push(outobject[1]);
+    //     // tempvar["command"]={};
+    //     // tempvar["command"]["executemethod"]=indebugname;
+    //     // temp_string = '[{"fn": "test_and_verify","name":' + indebugname +',"fnname":' + indebugname +',"parameters":' + outobject[0] + ',"asstert":' + outobject[1] + ',"database": "db_data"}]';
+    //     tempvar = {
+    //                 "fn": "test_and_verify",
+    //                 "name": indebugname,
+    //                 "fnname": indebugname,
+    //                 "parameters": outobject[0],
+    //                 "asstert": outobject[1],
+    //                 "database": "db_data"
+    //             };
 
-        //     if (!debuglog[outobject[2]]) {
-        //         debuglog[outobject[2]]=[]
-        //         }
+    //     tempvar["fn"]=indebugname;
+    //     // temparray.push(tempvar);
+    //     // temparray.push(outobject[0]);
+    //     // temparray.push(outobject[1]);
 
-        //     // debuglog[outobject[2]].push(temparray);
-        //     debuglog[outobject[2]].push(tempvar);
+    //     if (!debuglog[outobject[2]]) {
+    //         debuglog[outobject[2]]=[]
+    //         }
+
+    //     // debuglog[outobject[2]].push(temparray);
+    //     debuglog[outobject[2]].push(tempvar);
 
 
 
-        //     // tempvar["fn"]=indebugname;
-        //     // temparray.push(tempvar);
-        //     // temparray.push(outobject[0]);
-        //     // temparray.push(outobject[1]);
+    //     // tempvar["fn"]=indebugname;
+    //     // temparray.push(tempvar);
+    //     // temparray.push(outobject[0]);
+    //     // temparray.push(outobject[1]);
 
-        //     // if (!debuglog[outobject[2]]) {
-        //     //     debuglog[outobject[2]]=[]
-        //     //     }
-        //     // //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 99);
-        //     // //proxyprinttodiv('arrived temparray', temparray, 99);
-        //     // debuglog[outobject[2]].push(temparray);
-        //     // //debuglog.push(temparray);
-        //     // proxyprinttodiv('arrived debuglog end', debuglog, 44);
-        // } 
+    //     // if (!debuglog[outobject[2]]) {
+    //     //     debuglog[outobject[2]]=[]
+    //     //     }
+    //     // //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 99);
+    //     // //proxyprinttodiv('arrived temparray', temparray, 99);
+    //     // debuglog[outobject[2]].push(temparray);
+    //     // //debuglog.push(temparray);
+    //     // proxyprinttodiv('arrived debuglog end', debuglog, 44);
+    // } 
 
     var deepDiffMapper = function () {
         return {
@@ -1956,75 +1984,83 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         window.sift = sift;
     }
 
-	exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify (testname, parameters, assert, database, command, callback) {
-		var err;
-		var results=[];
-		var temp_config = {};
-		var c_assert = {};
-		var c_parameters = {};
+    exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify(testname, parameters, assert, database, command, callback) {
+        var err;
+        var results = [];
+        var temp_config = {};
+        var c_assert = {};
+        var c_parameters = {};
 
-		// Take a snapshot of the default config
-		extend(true, temp_config, config);
-		// Make copies of the original parameters and assert
-		extend(true, c_parameters, parameters);
-		extend(true, c_assert, assert);
+        // Take a snapshot of the default config
+        extend(true, temp_config, config);
+        // Make copies of the original parameters and assert
+        extend(true, c_parameters, parameters);
+        extend(true, c_assert, assert);
 
-		// Call test_and_verify with the config parameters in the parameters
-		test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
-			// Add res to return data
-			results.push(res);
-			
-			// Add the config parameters to the default config
-			extend(true, config.configuration, parameters["configuration"]);
+        // Call test_and_verify with the config parameters in the parameters
+        test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
+            // Add res to return data
+            results.push(res);
 
-			// Reload c_parameters and delete the config
-			c_parameters = extend(true, {}, parameters);
-			delete c_parameters["configuration"];
+            // Add the config parameters to the default config
+            extend(true, config.configuration, parameters["configuration"]);
 
-			// Reload the assertion and delete the config
-			c_assert = extend(true, {}, assert);
-			delete c_assert["configuration"];
+            // Reload c_parameters and delete the config
+            c_parameters = extend(true, {}, parameters);
+            delete c_parameters["configuration"];
 
-			// Call test_and_verify with c_ verion -- actual config changed
-			test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
-				// Add res to return data
-				results.push(res_2);
-				// Set the config back to normal
-				config = extend(true, {}, temp_config);
-				callback (err, results);
-			});
-		});
-	}
+            // Reload the assertion and delete the config
+            c_assert = extend(true, {}, assert);
+            delete c_assert["configuration"];
 
-	// exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
-	// 	testclearstorage();
-	// 	window[fnname]([
-	// 		parameters
-	// 	],
-	// 	function (err, res) {
-	// 		res = logverify(testname, res[0][0], assert);
-	// 		callback(err, res);
-	// 	});
-	// }
+            // Call test_and_verify with c_ verion -- actual config changed
+            test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
+                // Add res to return data
+                results.push(res_2);
+                // Set the config back to normal
+                config = extend(true, {}, temp_config);
+                callback(err, results);
+            });
+        });
+    }
+
+    // exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
+    //  testclearstorage();
+    //  window[fnname]([
+    //      parameters
+    //  ],
+    //  function (err, res) {
+    //      res = logverify(testname, res[0][0], assert);
+    //      callback(err, res);
+    //  });
+    // }
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
-    testclearstorage();
-    if (database != {}) {
-        addToLocalStorage("DRIKEY", database); 
-        var this_string = "[";
-        for (var d in database) {
-            this_string += JSON.stringify(database[d]) + ',';
+        testclearstorage();
+        if (database && JSON.stringify(database) !== "{}") {
+            addToLocalStorage("DRIKEY", database);
+            var this_string = "[";
+            for (var d in database) {
+                this_string += JSON.stringify(database[d]) + ',';
+            }
+            this_string = this_string.substring(0, this_string.length - 1) + ']';
+            addToLocalStorage("DRI", JSON.parse(this_string));
         }
-        this_string = this_string.substring(0, this_string.length-1) + ']';
-        addToLocalStorage("DRI", JSON.parse(this_string)); 
+        if(parameters instanceof Array){
+            parameters.push(function (err, res) {
+                    res = logverify(testname, res, assert);
+                    callback(err, res);
+                });
+            window[fnname].apply(window, parameters);
+        }else{
+            window[fnname](
+                parameters,
+                function (err, res) {
+                    res = logverify(testname, res, assert);
+                    callback(err, res);
+                });
+            
+        }
     }
-    window[fnname](
-        parameters
-    ,
-    function (err, res) {
-        res = logverify(testname, res, assert);
-        callback(err, res);
-    });
-}
 
 })();

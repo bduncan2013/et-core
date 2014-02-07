@@ -117,7 +117,7 @@ function addwidobject(inputObject, inputdto, command, callback) {
     return executeList;
 }
 
-function merge_options(obj1,obj2){
+exports.merge_options = merge_options = function merge_options(obj1,obj2){
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -1329,7 +1329,7 @@ function addwid(object, dtoobject, command, callback) {
         });
     }
 
-    function MongoAddEditPrepare(Indto, InList, widid, widdto, callback) {
+    exports.MongoAddEditPrepare = MongoAddEditPrepare = function MongoAddEditPrepare(Indto, InList, widid, widdto, callback) {
         var inbound_parameters = {};
         inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -1494,7 +1494,7 @@ function addwid(object, dtoobject, command, callback) {
 
                     debugfn("MongoAddEditPrepare code generator", "MongoAddEditPrepare", "add", "code", 2, 1, {
                         0: inbound_parameters,
-                        1: results
+                        1: ret
                     }, 6);
                     
                     callback(err, ret);
