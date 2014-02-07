@@ -24,15 +24,17 @@
 
         if ((incomingparams instanceof Array)) {
             proxyprinttodiv("execute - array params received ", incomingparams, 17);
-
-
             executethismultiple(incomingparams, callback);
-
-
         } else {
             proxyprinttodiv("execute - inboundparms", incomingparams, 11);
             proxyprinttodiv("execute - callback fn ", String(callback), 11);
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
+
+            // fix incoming param
+            if ((!incomingparams['executethis']) && (Object.keys(incomingparamerters).length === 1)) {
+                incomingparams['executethis'] = incomingparameters;
+            }
+
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
@@ -84,7 +86,21 @@
                             postResults = tempArray;
                         }
 
-                        callback(overallError, postResults);
+                        // if does exist then 
+                        // executeobject = command.execute
+                        // delete command.execute
+                        // executeobject.command=command
+                        // extend(true, executeobject, post results)
+                        // execute(executeobject,
+
+                        if ((!incomingparams.command) || (!incomingparams.command.execute)) {
+                            callback(overallError, postResults);
+                        } else {
+                            var executeobject = incomingparams.command.execute;
+                            delete incomingparams.command.execute;
+                            extend(true, executeobject, postResults);
+                            execute(executeobject, callback);
+                        }
                     });
                 });
             });

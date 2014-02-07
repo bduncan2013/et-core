@@ -286,6 +286,7 @@
                             if (validParams(mQueryString)) {
                                 mongoquery(mQueryString, function (err, res) {
                                     output = res;
+                                    proxyprinttodiv('querywid output after rawmongoquery', output, 28);
                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                     console.log(' *** get primary wids *** ' + JSON.stringify(output));
                                     debugfn("move queParams to output", "querywid", "query", "mid", debugcolor, debugindent, debugvars([4]));
@@ -306,9 +307,10 @@
                         if (validParams(queParams) && queParams && queParams['mongowid'] !== undefined) {
                             console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
                             //proxyprinttodiv('querywid output before format list mongowid', queParams, 28);
+                            proxyprinttodiv('querywid output before formatlist mongowid', output, 28);
                             output = formatlist(output, "wid", "wid", environmentdb);
                             proxyprinttodiv('querywid output before mongowid', output, 28);
-                            if (output = [{}]) {
+                            if (output === JSON.stringify([{}])) {
                                 output = []
                             };
 
@@ -330,6 +332,7 @@
 
                         if (validParams(relParams) && validParams(output)) {
                             if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
+                                 proxyprinttodiv('querywid output before formatlist undefined mongowid', output, 28);
                                 output = formatlist(output, "wid", "wid", environmentdb)
                             };
                             debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
@@ -548,15 +551,18 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         if (inlist === undefined || inlist.length === 0) {
             return [];
         } else {
-            proxyprinttodiv('querywid formatlist inlist ', inlist, 28);
+            proxyprinttodiv('>> querywid formatlist inlist ', inlist, 28);
+            proxyprinttodiv('>> querywid formatlist parmnamein ', parmnamein, 28);
+            proxyprinttodiv('>> querywid formatlist parmnameout ', parmnameout, 28);
+           proxyprinttodiv('>> querywid formatlist environmentdb ', environmentdb, 28);
 
 
-            proxyprinttodiv('querywid formatlist parmnameout ', parmnameout, 28);
-            proxyprinttodiv('querywid formatlist parmnamein ', parmnamein, 28);
             for (i in inlist) { // changed by roger &&&
                 item = inlist[i];
 
                 item = ConvertFromDOTdri(item);
+
+
                 proxyprinttodiv('querywid formatlist item ', item, 28);
 
                 if (parmnameout!=="wid") {
@@ -568,11 +574,16 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
                 proxyprinttodiv('querywid formatlist widvalue ', widvalue, 28);
                 obj = {};
-                if (parmnamein) {
-                     obj[widvalue] = item[environmentdb][parmnamein];
+                if (parmnamein==="wid") {
+                     obj[widvalue] = item[parmnamein];
                     }
-                else{
-                    obj[widvalue] = item[environmentdb];
+                else {
+                    if (parmnamein) {
+                        obj[widvalue] = item[environmentdb][parmnamein];
+                        }
+                    else{
+                        obj[widvalue] = item[environmentdb];
+                        }
                     }
                
                 proxyprinttodiv('querywid formatlist obj[widvalue] ', obj[widvalue], 28);

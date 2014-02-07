@@ -1,118 +1,141 @@
 (function (window) {
 
-    exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
+// *** GetWid ***
+// Purpose: Converts data to and from dri standards
+exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
+    var inbound_parameters = {};
 
-        authcall(inputWidgetObject, function (err, ret) {
-            if (err || !ret) {
-                callback(err, {
-                    "etstatus": "unauthroized"
-                });
-            } else {
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-                delete inputWidgetObject['executethis']; // ** added by Saurabh 10/9
+    authcall(inputWidgetObject, function (err, ret) {
+        if (err || !ret) {
+            callback(err, {
+                "etstatus": "unauthroized"
+            });
+        } 
+        else {
+            delete inputWidgetObject['executethis']; // ** added by Saurabh 10/9
 
-                proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
-                // var outobjectarr = [];
+            proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
 
+            getfrommongo(inputWidgetObject, function (err, resultobject) {
+                // convert the object from dri standard before returnning it
+                callback({}, convertfromdriformat(resultobject));
+            });
+        }
+    });
+}
 
-                getfrommongo(inputWidgetObject, function (err, resultobject) {
-                    // convert the object from dri standard before returnning it
-                    callback({}, convertfromdriformat(resultobject));
-                });
-                
-            }
-        });
-    }
-
+// *** GetWidMaster ***
+// Purpose: splits wid and command parameters
 exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-    parameters=ConvertFromDOTdri(parameters); // convert to object
+    parameters = ConvertFromDOTdri(parameters); // convert to object
 
     // lower case check
     if (!parameters.command) {parameters.command={}}
     if (!parameters.command.inheritflag) {parameters.command.inheritflag="true"}
 
-    proxyprinttodiv('In __getwidmaster__ with parameters: ', parameters, 99);
+    proxyprinttodiv('In __getwidmaster__ with parameters: ', parameters, 17);
     getWidMongo(parameters.wid, parameters.command, "", 10, function (err, res) {
-        proxyprinttodiv('In __getwidmaster__ with res: ', res, 99);
+        proxyprinttodiv('In __getwidmaster__ with res: ', res, 17);
         
-        //proxyprinttodiv('In __getwidmaster__ with res[metadata.method]: ', res['metadata']['method'], 99);
-        if (
-            (res) && 
-            (Object.keys(res).length !== 0)   && 
-            (res['wid'] !== res['metadata']['method']) &&
-            (parameters.convertmethod!=="dto") && 
-            (parameters.command.inheritflag !== "false")
-            ) {
-            proxyprinttodiv('<<< calling getclean >>>', res, 99);
+        if ((res) && (Object.keys(res).length !== 0) && (res['wid'] !== res['metadata']['method']) && (parameters.convertmethod!=="dto") && (parameters.command.inheritflag !== "false")) {
+            proxyprinttodiv('<<< calling getclean >>>', res, 17);
             getclean(res, parameters.command, function (err, res) {
                 if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);
+                    
+                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: res
+                    }, 6);
+
                     callback(err, res);
                 }
                 else { // the detault is to return dot notation...so old code does not break
                     res = ConvertToDOTdri(res);
+                                        
+                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: res
+                    }, 6);
+
                     callback(err, res);  
                 }
             });
         } else {
             if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);
-                    callback(err, res);
-                }
-                else { // the detault is to return dot notation...so old code does not break
-                    res = ConvertToDOTdri(res);
-
-                    callback(err, res);  
-                }  
+                                        
+                debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: res
+                }, 6);
+                
+                callback(err, res);
+            }
+            else { // the detault is to return dot notation...so old code does not break
+                res = ConvertToDOTdri(res);
+                                    
+                debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                    0: inbound_parameters,
+                    1: res
+                }, 6);
+                
+                callback(err, res);  
+            }  
         }
-    });
+    }); // end get wid mongo
 }
 
+// *** GetDTOObject ***
+// Purpose: Pulls the schema for objects
 exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     var dtotype;
     var dtoobject = {};
 
-    proxyprinttodiv('In __getdtoobject__ with obj: ', obj, 99);
-    proxyprinttodiv('In __getdtoobject__ with command: ', command, 99);
-
     if (command && command.dtotype) {
-        proxyprinttodiv('In __getdtoobject__ setting command.dtotype: ', command.dtotype, 99);
         dtotype = command.dtotype;
     } else {
-        proxyprinttodiv('In __getdtoobject__ setting obj.metadata.method: ', obj.metadata.method, 99);
         dtotype = obj.metadata.method;
     }
     if (dtotype && dtotype !== obj.wid) {
-        proxyprinttodiv('In __getdtoobject__ calling getwid with: ', dtotype, 99);
-        proxyprinttodiv('In __getdtoobject__ calling getwid with wid: ', obj.wid, 99);
-        // offlinegetfrommongo(obj, function (err, res) {
-        //     if (!res) {
-        //         dtoobject=obj;
-        //     } else {
-        //         dtoobject=res[0];
-        //     }
-        //     callback({}, dtoobject);
-        // });
-        
-        execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"DTO","command.execute":"ConvertFromDOTdri"}, function (err, res) {
+        execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"dto","command.execute":"ConvertFromDOTdri"}, function (err, res) {
             if (!res) {dtoobject=obj} else {dtoobject=res[0]}
+
+            debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
+                0: inbound_parameters,
+                1: dtoobject
+            }, 6);
+
             callback({}, dtoobject);
-            });
-        
+        }); // end execute
     }   
-    else {
-        proxyprinttodiv('In __getdtoobject__ calling back no dtotype: ', dtotype, 99);
+    else { // if there is no dtoType or obj.wid then call back with a blank dtoObject
+        debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: dtoobject
+        }, 6);
+
         callback({}, dtoobject);
-        }
+    } // end else
 }
 
+// *** GetWidMongo ***
+// Purpose: Builds a base object built up from relationships
+// Notes: returns a made up dto base on maximum number of relationships, etc
+exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, preamble, level, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-//exports.getWidMongo = getWidMongo = function getWidMongo(widInput, convertmethod, accesstoken, dtotype, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
-exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, preamble, level, callback) { // returns a made up dto base on maximum number of relationships, etc
-    //proxyprinttodiv('Function getwidmongo hit I', null, 10);
     // local vars
-    var moreDTOParameters;
+    var moreDTOParameters=[];
     var targetwid = "";
     var nexttargetwid = "";
     var nextpreamble = "";
@@ -145,6 +168,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
         };
         var resultObj = {};
         var vargroup;
+
         if (!varlist) {
             for (var eachgroup in allvars) {
                 varlist.push(eachgroup);
@@ -159,7 +183,6 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
     }
 
     async.series([
-
         function step1(cb) {
             proxyprinttodiv('Function getwidmongo step 1 hit with widInput:', widInput, 10);
             proxyprinttodiv('Function getwidmongo step 1 hit with command:', command, 10);
@@ -188,7 +211,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                 if (Object.keys(res).length != 0) {
                     parameterobject = res;
                     proxyprinttodiv('Function getwidmongo getwid res', res,10);
-                    moreDTOParameters=parameterobject;
+                    //moreDTOParameters=parameterobject;  &&& taken out roger 2/7
                     cb(null); // add
                 }
                 else { // if no object
@@ -197,10 +220,9 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                     cb(null);
                 }
             }); // end execute                      
-        },
+        }, // end step1
 
         function step2(cb) {
-            //proxyprinttodiv('Function getwidmongo step 2 hit', null, 10);
             if (targetwid != "") {
                 async.series([ // asynch step1n2
                         function step2n1(cb1) {
@@ -216,45 +238,36 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             executeobject["dtotype"] = "";
                             executeobject["executethis"] = 'querywid';
                             execute(executeobject, function (err, res) {
-                                // we get data that looks like this:
-                                // [{wid1: {metadata.method: booksdto, a:b}},
-                                // {wid2: {metadata.method: booksdto, a:c}},
-                                // {wid3: {metadata.method: adddto, d:e}},
-                                // {wid4: {metadata.method: booksdto, a:f}},
-                                // {wid5: {metadata.method: booksdto, a:g}},
-                                // {wid6: {metadata.method: adddto, d:j}},
-                                // {wid7: {metadata.method: othersdto, k:m}}]
-                                proxyprinttodiv('Function getwidmongo executeobject', executeobject,10);
-                                proxyprinttodiv('Function getwidmongo query res', res,10);
-                                moreDTOParameters = res;
-                                //debugfn("getwidmongo step2n2", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
+                                if (Object.keys(res).length != 0) {moreDTOParameters=res}
                                 cb1(null, 'step2n1');
+                                // TODO: figure out the return here
                             });
-                        }
+                        } // end step1n2
                     ],
                     function (err, res) {
                         if (err) {
                             throw err;
                         }
-                        //debugfn("getwidmongo if", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'two');
                     });
-            } else {
-                //debugfn("getwidmongo if ii", "getwidmongo", "get", "sub", debugcolor, debugindent, debugvars([1]));
+            } // end if
+            else {
                 cb(null, 'two');
             }
-        },
+        }, // end step2
         function step3(cb) {
-            proxyprinttodiv('Function getwidmongo parameterobject...', parameterobject, 99);
-            if ((parameterobject["metadata"]) && 
-                    (parameterobject["metadata"]["method"]) && 
-                    (command) && 
-                    (command.convertmethod==="DTO"))  {
-                parameterobject.command={};
-                parameterobject.command.inherit={};
-                parameterobject.command.inherit[parameterobject["metadata"]["inherit"]]=parameterobject["metadata"]["inherit"];
+            if ((parameterobject["metadata"]) && (parameterobject["metadata"]["method"]) && (command) && (command.convertmethod === "dto")) {
+                
+                if (!parameterobject.command) {
+                    parameterobject.command = {};
                 }
-            proxyprinttodiv('Function getwidmongo parameterobject.command...', parameterobject.command, 99);
+
+                if (!parameterobject.command.inherit) {
+                    parameterobject.command.inherit = {};
+                }
+
+                parameterobject.command.inherit[parameterobject["metadata"]["inherit"]] = parameterobject["metadata"]["inherit"];
+            }
 
             if (moreDTOParameters && moreDTOParameters.length>0) {
                 var listToDo = [];
@@ -262,13 +275,16 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                 var rightparameters = {};  
                 var left; 
                 var key;
+
                 proxyprinttodiv('Function getwidmongo moreDTOParameters', moreDTOParameters,10);
+
                 for (eachresult in moreDTOParameters) { // list, for each item in list
                     for (key in moreDTOParameters[eachresult]) { // list is {wid : {}} --key = wid
                         rightparameters = moreDTOParameters[eachresult][key];
-                        }
-                    left = rightparameters['metadata']['method']
-                    dtolist[left]=rightparameters['metadata']['method'];
+                    }
+
+                    left = rightparameters['metadata']['method'];
+                    dtolist[left] = rightparameters['metadata']['method'];
                     // create dto
                     listToDo.push(eachresult);
                 }
@@ -311,14 +327,14 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
 
                                     // added
                                     if (params.command) {
-                                        proxyprinttodiv('Function getwidmongo params.command', params.command, 99);
+                                        proxyprinttodiv("--- What i'm looking at parameterobject step1", parameterobject, 99);
                                         extend(true, parameterobject.command, params.command);
-                                        proxyprinttodiv('Function getwidmongo parameterobject.command', parameterobject.command, 99);
+                                        proxyprinttodiv("--- What i'm looking at parameterobject step2", parameterobject, 99);
                                         delete params.command
-                                        }
+                                    }
 
                                     proxyprinttodiv('Function getwidmongo rightparameters before ', rightparameters, 10);
-                                    if ((rightparameters["data"]["linktype"] === "onetomany") && (command.convertmethod!=="DTO"))  {
+                                    if ((rightparameters["data"]["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {
                                       
                                         if (Object.prototype.toString.call(parameterobject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
                                             parameterobject[rightparameters["metadata"]["method"]]=[]; 
@@ -356,8 +372,9 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                 }
             },
         function step4(cb) {
-            
-            dtoGlobalParameters = parameterobject
+            // legacy var
+            dtoGlobalParameters = parameterobject;
+            proxyprinttodiv("--- What i'm looking at parameterobject step3", parameterobject, 99);
 
             debugfn("getwidmongo end step4", "getwidmongo", "get", "end", debugcolor, debugindent, debugvars([1]));
             cb(null, 'four');
@@ -365,33 +382,40 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
     ],
     function (err, results) {
         proxyprinttodiv('Function getwidmongo dtoGlobalParameters', dtoGlobalParameters, 10);
+
+        debugfn("getWidMongo code generator", "getWidMongo", "get", "code", 2, 1, {
+            0: inbound_parameters,
+            1: dtoGlobalParameters
+        }, 6);
+
         callback(err, dtoGlobalParameters);
     });
-
-
 }
 
 exports.getclean = getclean = function getclean(resultObj, command, callback) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
     var bigdto={};
     var dtoobject={};
     var outobj={};
     var err = {};
+
     async.series([
         function step1(cb) { // getdto
             getdtoobject(resultObj, command, function (err, res) {
-                proxyprinttodiv('In __getclean__ step1 with res: ', res, 99);
+                proxyprinttodiv('In __getclean__ step1 with res: ', res, 17);
                 dtoobject = res;
-                proxyprinttodiv('In __getclean__ step1 with dtoobject: ', dtoobject, 99);
+                proxyprinttodiv('In __getclean__ step1 with dtoobject: ', dtoobject, 17);
                 cb(null);
             });
         },
         function step2(cb) { // getaggressivedto
-            proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 99);
+            proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 17);
             if (resultObj.wid !== resultObj.metadata.method) {
-                proxyprinttodiv('In __getclean__ step2 with before getWidMongo: ', resultObj, 99);
+                proxyprinttodiv('In __getclean__ step2 with before getWidMongo: ', resultObj, 17);
                 
                 // getWidMongo(resultObj.metadata.method, command, "", 10, function (err, res) {
-                //     proxyprinttodiv('In __getclean__ step2 with res: ', res, 99);
+                //     proxyprinttodiv('In __getclean__ step2 with res: ', res, 17);
                 //     // bigdto = res[0]; res is a object not an array
                 //     bigdto = res;
                 //     cb(null)
@@ -401,87 +425,112 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
                 var dtoToGet = resultObj.metadata.method;
                 execute({"executethis":"getwidmaster", 
-                                "wid": dtoToGet, 
-                                "command.execute":"ConvertFromDOTdri",
-                                "command.convertmethod":"dto",
-                                //"command.inheritflag":"false"
-                                }, function (err, res) {
-                                    bigdto = res[0]; 
-                                    // bigdto = res;
-                                    cb(null);
+                    "wid": dtoToGet, 
+                    "command.execute":"ConvertFromDOTdri",
+                    "command.convertmethod":"dto"
+                    //"command.inheritflag":"false"
+                    }, function (err, res) {
+                        bigdto = res[0]; 
+                        // bigdto = res;
+                        cb(null);
                 });
             } else {
                 cb(null);
             }
         },
         function step3(cb) { // process inherit
+            proxyprinttodiv('<<< Get_Clean step3 resultObj >>', resultObj, 99);
             var listToDo=[];
             var inheritobject;
 
-            for (eachkey in dtoobject.command.inherit) {
-                listToDo.push(eachkey)
-            }
+            if (bigdto && bigdto.command && bigdto.command.inherit) {
+            //if (dtoobject && dtoobject.command && dtoobject.command.inherit) {
 
-            delete dtoobject.command;
+                for (eachkey in bigdto.command.inherit) {
+                // for (eachkey in dtoobject.command.inherit) {
+                    listToDo.push(eachkey)
+                }
 
-            // proxyprinttodiv('<<< Get_CLean before call to execute command >>>', command, 99);
-            // proxyprinttodiv('<<< Get_CLean before call to execute listToDo >>>', listToDo, 99);
+                proxyprinttodiv('<<< Get_Clean listToDo', listToDo, 17);
+                delete dtoobject.command;
 
-            if (listToDo.length > 0 && command && command.inheritflag === "true") {
-                async.mapSeries(listToDo, function (eachresult, cbMap) {
-                    proxyprinttodiv('<<< Get_Clean execute firing !!!! >>>', eachresult, 99);
-                    execute({"executethis":"getwidmaster", 
-                                "wid":eachresult, 
-                                "command.execute":"ConvertFromDOTdri",
-                                "command.convertmethod":"nowid",
-                                "command.inheritflag":"false"
-                                }, function (err, res) {
-                        if (res) {
-                            inheritobject = res[0];
-                            dtoname = inheritobject['metadata']['method'];
-                            proxyprinttodiv('<<< Get_Clean after call to execute dtoname >>>', dtoname, 99);
-                            proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 99);
-                            
-                            if (dtoname === bigdto['metadata']['method']){
-                                extend(true, resultObj, inheritobject);
-                            } else {
-                                // index = getindex(bigdto, dtoname); // changed by joe
-                                index = getindex(resultObj, dtoname); // changed by joe
+                proxyprinttodiv('<<< Get_CLean before call to execute command >>>', command, 17);
+                proxyprinttodiv('<<< Get_CLean before call to execute listToDo >>>', listToDo, 17);
 
-                                proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', bigdto, 99);
-                                proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', resultObj, 99);
-                                proxyprinttodiv('<<< Get_Clean after call to execute inheritobject >>>', inheritobject, 99);
-                                proxyprinttodiv('<<< Get_Clean after call to execute index >>>', index, 99);
-                                setbyindex(resultObj, index, inheritobject);
+                if (listToDo.length > 0 && command && command.inheritflag === "true") {
+                    async.mapSeries(listToDo, function (eachresult, cbMap) {
+                        proxyprinttodiv('<<< Get_Clean execute firing !!!! >>>', eachresult, 17);
+                        execute({"executethis":"getwidmaster", 
+                                    "wid":eachresult, 
+                                    "command.execute":"ConvertFromDOTdri",
+                                    "command.convertmethod":"nowid",
+                                    "command.inheritflag":"false"
+                                    }, function (err, res) {
+                            if ((res.length > 0) && (Object.keys(res[0]).length > 0)) {
+                                inheritobject = res[0];
+                                proxyprinttodiv('<<< Get_Clean step3 inheritobject >>>', inheritobject, 99);
+                                dtoname = inheritobject['metadata']['method'];
                                 
-                                proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', resultObj, 99);
-
-                                // ======= deep filter test ======
-                                // var firstObj = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
-                                // var secondObj = {"name":"string","age":"string","a":"string","b":"string","metdata":{"booksdto":{"type":"onetomany"}},"wid":"authordto","metadata":{"method":"authordto","inherit":"defaultauthordtoactions"},"booksdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"booksdto","metadata":{"method":"booksdto","inherit":"defaultbooksdtoactions"}}}
-                                // var resultObj = recurseModObj(firstObj, secondObj);
-                                // ======= resultObj ======
-                                // {"name":"Elizabeth Heart","age":"50","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
-                    
-                            }
-                            cbMap(null);
-                        }
-                        else { // if no result
-                            cbMap(null);
-                            }
-                        }); // end execute
-                    }, function(err, res) {
-                        cb(null); 
-                }); //end mapseries
+                                proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 17);
+                                
+                                if (dtoname === bigdto['metadata']['method']) {
+                                    proxyprinttodiv('<<< Get_Clean step3 extend resultObj before >>>', resultObj, 99);
+                                    extend(true, resultObj, inheritobject);
+                                    proxyprinttodiv('<<< Get_Clean step3 extend resultObj after >>>', resultObj, 99);
+                                } else {
+                                    // index = getindex(bigdto, dtoname); // changed by joe, the sturcture on bigdto is too diffrent to resolve a relevant path to insert data
+                                    index = getindex(resultObj, dtoname); 
+                                    if(!index) {
+                                        extend(true, resultObj, inheritobject);
+                                    } 
+                                    else {
+                                        proxyprinttodiv('<<< Get_Clean step3 index >>', index, 99);
+                                        setbyindex(resultObj, index, inheritobject);
+                                    }
+                                    // TODO: move this somewhere usefull
+                                    // ======= deep filter test ======
+                                    // var firstObj = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
+                                    // var secondObj = {"name":"string","age":"string","a":"string","b":"string","metdata":{"booksdto":{"type":"onetomany"}},"wid":"authordto","metadata":{"method":"authordto","inherit":"defaultauthordtoactions"},"booksdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"booksdto","metadata":{"method":"booksdto","inherit":"defaultbooksdtoactions"}}}
+                                    // var resultObj = recurseModObj(firstObj, secondObj);
+                                    // ======= resultObj ======
+                                    // {"name":"Elizabeth Heart","age":"50","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
+                        
+                                }
+                                cbMap(null);
+                            } // end if
+                            else { // if no result
+                                cbMap(null);
+                                }
+                            }); // end execute
+                        }, function(err, res) {
+                            cb(null); 
+                        }); //end mapseries
+                    } // if listdto length
+                else {
+                    cb(null);
+                }
+            } // end if bigdto
+            else { // if no bigdto
+                cb(null);
             }
-            cb(null);
-        } // step 3
+        } // end step 3
         ], // series list
+
+
         function (err, res) {
-            resultObj = deepfilter(resultObj, command, dtoobject);
-            // proxyprinttodiv('<<< Get_Clean before call back resultObj >>>', resultObj, 99);
-            // proxyprinttodiv('<<< Get_Clean before call back command >>>', command, 99);
-            // proxyprinttodiv('<<< Get_Clean before call back dtoobject >>>', dtoobject, 99);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj,99);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 17);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', dtoobject, 17);
+            resultObj = deepfilter(resultObj, dtoobject, command);
+            proxyprinttodiv('<<< Get_Clean before call back afterdeepfilter resultObj >>>', resultObj, 17);
+            // proxyprinttodiv('<<< Get_Clean before call back command >>>', command, 17);
+            // proxyprinttodiv('<<< Get_Clean before call back dtoobject >>>', dtoobject, 17);
+             
+            debugfn("getclean code generator", "getclean", "get", "code", 2, 1, {
+                0: inbound_parameters,
+                1: resultObj
+            }, 6); 
+            
             callback(err, resultObj);
         }
     ); // end series
@@ -489,6 +538,9 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
 
 function getindex(parameterobject, dtoname, indexstring) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     var match;
     var potentialmap;
     for (eachelement in parameterobject) {
@@ -510,6 +562,12 @@ function getindex(parameterobject, dtoname, indexstring) {
             }
         }
     proxyprinttodiv('Function indexstring ', indexstring, 23);  
+
+    debugfn("getindex code generator", "getindex", "get", "code", 2, 1, {
+        0: inbound_parameters,
+        1: indexstring
+    }, 6); 
+    
     return indexstring;
 
 } 
@@ -562,7 +620,8 @@ function setbyindex(obj, str, val, operation) {
         }
         obj = obj[key];
     }
-    return obj[keys[0]] = val;
+    // return obj[keys[0]] = val;
+    return extend(true, obj[keys[0]], val); // we want to add data not overwrite data
 };
 
 
@@ -579,11 +638,11 @@ will make object be {a:{b:{c:{t:y, p:u}},e:f}, g:h}
 exports.setbyindextest = setbyindextest = function setbyindextest(params, callback) {
     var obj = {"a":{"b":{"c":"d"},"e":"f"},"g":"h"};
     setbyindex(obj, "a.b.c", "hello");
-    proxyprinttodiv('Function obj ', obj, 99);  
+    proxyprinttodiv('Function obj ', obj, 17);  
 }
 
 
-exports.deepfilter = deepfilter = function deepfilter(inputObj, cmdObj, dtoObjOpt) {
+exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command) {
     var modifiedObj = {};
     extend(true, modifiedObj, inputObj);    
     if (dtoObjOpt) {
@@ -661,45 +720,292 @@ function recurseModObj(inputObject,dtoObject){
     return modifiedObj;        
 }
 
-exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
-    testclearstorage();
-     // config = setconfig1();
-    var recModObj = recurseModObj({
-                                    "metadata":{"method":"wid2"},
-                                    "a":"b",
-                                    "c":"30",
-                                    "e":"f",
-                                    "d":"6/23/1912",
-                                    "q":{"w":{"e":"t"}},
-                                    "g":"true"
-                                },
-                                {
-                                    "metadata":{"method":"wid2"},
-                                    "a":"string",
-                                    "c":"number",
-                                    "d":"date",
-                                    "q":{"w":{"e":"string"}},
-                                    "g":"boolean"
-                                });
-    proxyprinttodiv('recurseModObj inputObject', {
-                                    "metadata":{"method":"wid2"},
-                                    "a":"b",
-                                    "c":"30",
-                                    "e":"f",
-                                    "d":"6/23/1912",
-                                    "q":{"w":{"e":"t"}},
-                                    "g":"true"
-                                }, 99);    
-    proxyprinttodiv('recurseModObj inputDTO', {
-                                    "metadata":{"method":"wid2"},
-                                    "a":"string",
-                                    "c":"number",
-                                    "d":"date",
-                                    "q":{"w":{"e":"string"}},
-                                    "g":"boolean"
-                                }, 99);    
-    proxyprinttodiv('recurseModObj ModifiedObject', recModObj, 99);    
- }
+// exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
+//     testclearstorage();
+//      // config = setconfig1();
+//     var recModObj = recurseModObj({
+//                                     "metadata":{"method":"wid2"},
+//                                     "a":"b",
+//                                     "c":"30",
+//                                     "e":"f",
+//                                     "d":"6/23/1912",
+//                                     "q":{"w":{"e":"t"}},
+//                                     "g":"true"
+//                                 },
+//                                 {
+//                                     "metadata":{"method":"wid2"},
+//                                     "a":"string",
+//                                     "c":"number",
+//                                     "d":"date",
+//                                     "q":{"w":{"e":"string"}},
+//                                     "g":"boolean"
+                                
+//                                 // proxyprinttodiv('<<< Get_Clean after call to execute resultObj >>>', resultObj, 17);
+
+//                                 // ======= deep filter test ======
+//                                 // var firstObj = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
+//                                 // var secondObj = {"name":"string","age":"string","a":"string","b":"string","metdata":{"booksdto":{"type":"onetomany"}},"wid":"authordto","metadata":{"method":"authordto","inherit":"defaultauthordtoactions"},"booksdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"booksdto","metadata":{"method":"booksdto","inherit":"defaultbooksdtoactions"}}}
+//                                 // var resultObj = recurseModObj(firstObj, secondObj);
+//                                 // ======= resultObj ======
+//                                 // {"name":"Elizabeth Heart","age":"50","metadata":{"method":"authordto"},"booksdto":{"title":"The X Factor","pages":"300","metadata":{"method":"booksdto"}},"a":"adefault","b":"BDEFAULT"}
+                    
+//                             }
+//                             cbMap(null);
+//                         }
+//                         else { // if no result
+//                             cbMap(null);
+//                             }
+//                         }); // end execute
+//                     }, function(err, res) {
+//                         cb(null); 
+//                 }); //end mapseries
+//             }
+//             cb(null);
+//         } // step 3
+//         ], // series list
+//         function (err, res) {
+//             resultObj = deepfilter(resultObj, command, dtoobject);
+//             // proxyprinttodiv('<<< Get_Clean before call back resultObj >>>', resultObj, 17);
+//             // proxyprinttodiv('<<< Get_Clean before call back command >>>', command, 17);
+//             // proxyprinttodiv('<<< Get_Clean before call back dtoobject >>>', dtoobject, 17);
+//             callback(err, resultObj);
+//         }
+//     ); // end series
+// }
+
+
+// function getindex(parameterobject, dtoname, indexstring) {
+//     var match;
+//     var potentialmap;
+//     for (eachelement in parameterobject) {
+//         proxyprinttodiv('Function getindex eachelement', eachelement,23);  
+//         if (eachelement===dtoname) {
+//             if (indexstring) {indexstring=indexstring+'.'+eachelement} else {indexstring=eachelement}
+//               proxyprinttodiv('Function indexstring FOUND', indexstring, 23);  
+//             break;         
+//         }
+
+//         if (parameterobject[eachelement] instanceof Object) {
+//             if (indexstring) {potentialmap=indexstring+'.'+eachelement} else {potentialmap=eachelement}
+//             match = getindex(parameterobject[eachelement], dtoname, potentialmap)
+//             if (potentialmap!==match) {
+//                 indexstring=match;
+//                 proxyprinttodiv('Function match inside', match, 23);  
+//                 break;
+//                 }
+//             }
+//         }
+//     proxyprinttodiv('Function indexstring ', indexstring, 23);  
+//     return indexstring;
+
+// } 
+
+// /****************************************
+// getindex(parmobject:object, dtoname:string) returns index string
+// i.e. {a:{b:{c:d},e:f}, g:h}
+// ****************************************
+// ****************************************
+// dtoname: a returns a
+// dtoname: b returns a.b
+// dtoname: c returns a.b.c
+// dtoname: e returns a.e
+// dtoname: g returns g
+// */
+// exports.getindextest = getindextest = function getindextest(params, callback) {
+//     console.log("<< getindextest >>");
+//     var parameterobject = {"a":{"b":{"c":"d"},"e":"f"},"g":"h"};
+//     console.log("Function getindextest parameterobject -- " + JSON.stringify(parameterobject));
+    
+//     var indexstring = "";
+
+//     var dtoname = "b";
+//     console.log("Function getindextest dtoname -- " + dtoname);
+//     var result = getindex(parameterobject, dtoname, indexstring);
+//     console.log("Function getindextest result  -- " + result);
+// }
+
+
+// function setbyindex(obj, str, val, operation) {
+//     var keys, key;
+//     //make sure str is a string with length
+//     if (!str || !str.length || Object.prototype.toString.call(str) !== "[object String]") {
+//         return false;
+//     }
+//     if (obj !== Object(obj)) {
+//         //if it's not an object, make it one
+//         obj = {};
+//     }
+//     keys = str.split(".");
+//     while (keys.length > 1) {
+//         key = keys.shift();
+//         if (obj !== Object(obj)) {
+//             //if it's not an object, make it one
+//             obj = {};
+//         }
+//         if (!(key in obj)) {
+//             //if obj doesn't contain the key, add it and set it to an empty object
+//             obj[key] = {};
+//         }
+//         obj = obj[key];
+//     }
+//     return obj[keys[0]] = val;
+// };
+
+
+// /****************************************
+// check type of what you are updating, if array then push else extend
+// ****************************************
+// ****************************************
+// object= {a:{b:{c:d},e:f}, g:h}
+// index=  a.b.c
+// objecttobeadded= {t:y, p:u}
+// operation=  add/update
+// will make object be {a:{b:{c:{t:y, p:u}},e:f}, g:h}
+// */
+// exports.setbyindextest = setbyindextest = function setbyindextest(params, callback) {
+//     var obj = {"a":{"b":{"c":"d"},"e":"f"},"g":"h"};
+//     setbyindex(obj, "a.b.c", "hello");
+//     proxyprinttodiv('Function obj ', obj, 17);  
+// }
+
+
+// // exports.deepfilter = deepfilter = function deepfilter(inputObj, cmdObj, dtoObjOpt) {
+// //     proxyprinttodiv('<<< deepfilter hit >>>', "", 17);
+// //     var modifiedObj = {};
+
+// //     extend(true, modifiedObj, inputObj);
+
+// //     if (dtoObjOpt) {
+// //         proxyprinttodiv('<<< deepfilter hit >>>', modifiedObj, 17);
+// //         proxyprinttodiv('<<< deepfilter hit >>>', dtoObjOpt, 17);
+// //         return recurseModObj(modifiedObj, dtoObjOpt);
+// //     } else {
+// //         dtoObjOpt = execute({"executethis":"getwidmaster", "wid": inputObj["metadata"]["method"]});
+// //         return recurseModObj(modifiedObj, dtoObjOpt);
+// //     };   
+// // }
+
+// exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObj) {
+//     proxyprinttodiv('<<< deepfilter hit >>>', "", 17);
+//     var modifiedObj = {};
+
+//     extend(true, modifiedObj, inputObj);
+
+//     if (dtoObj) {
+//         proxyprinttodiv('<<< deepfilter hit >>>', modifiedObj, 17);
+//         proxyprinttodiv('<<< deepfilter hit >>>', dtoObj, 17);
+//         return recurseModObj(modifiedObj, dtoObj);
+//     } else {
+//         dtoObjOpt = execute({"executethis":"getwidmaster", "wid": inputObj["metadata"]["method"]});
+//         return recurseModObj(modifiedObj, dtoObj);
+//     };   
+// }
+
+// function recurseModObj(inputObject,dtoObject){
+//     var modifiedObj = {};
+//     Object.keys(inputObject).forEach(function (inpKey) {
+
+//         // added by Roger
+//         if (inpKey.indexOf("addthis.") !== -1) {// if you found "addthis." then remove from inputObject
+//                 inputObject[inpKey.replace("addthis.", "")]=inputObject[inpKey]; // then and readd without addthis
+//                 delete inputObject[inpKey]; // delete the old one
+//                 }
+
+//         var inpVal = inputObject[inpKey];
+//         if (dtoObject.hasOwnProperty(inpKey)) {
+//             var dataType = dtoObject[inpKey];
+//             if(typeof inpVal === "string" && typeof dataType === "string")
+//             {
+//                 switch(dataType)
+//                 {
+//                     case "boolean":
+//                                 var convB = null;
+//                                 if (inpVal == "true") {
+//                                     convB = true;
+//                                 } else if (inpVal == "false") {
+//                                     convB = false;
+//                                 };
+//                                 modifiedObj[inpKey] = convB;
+//                         break;
+//                     case "string":
+//                                 modifiedObj[inpKey] = String(inpVal);
+//                         break;
+//                     case "number":
+//                                 modifiedObj[inpKey] = parseInt(inpVal);                            
+//                         break;
+//                     case "date":
+//                                 var arrD = inpVal.split("/");
+//                                 var m = arrD[0];
+//                                 m = (m<10 ? '0'+m : m);
+//                                 var d = arrD[1];
+//                                 d = (d<10 ? '0'+d : d);
+//                                 var y = arrD[2];
+//                                 modifiedObj[inpKey] = new Date(y,m-1,d);                                                        
+//                         break;
+//                     default:
+//                         //Nothing to be done
+//                        break;
+//                 }
+//             }else if(typeof inpVal === "object" && typeof dataType === "object")
+//             {
+//                 //Ignoring metadata property in input.
+//                 if (inpKey != "metadata") {
+//                     var modObj = recurseModObj(inpVal,dataType);
+//                     modifiedObj[inpKey] = modObj;
+//                 }else{
+//                     modifiedObj[inpKey] = inpVal;                    
+//                 }
+//             }else
+//             {
+//                 //Doesn't match with dto -- Nullifying the param
+//                 modifiedObj[inpKey] = null;
+//             }
+//         } else{
+//             delete modifiedObj[inpKey];
+//         };
+//     });
+//     return modifiedObj;        
+// }
+
+// exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
+//     testclearstorage();
+//      // config = setconfig1();
+//     var recModObj = recurseModObj({
+//                                     "metadata":{"method":"wid2"},
+//                                     "a":"b",
+//                                     "c":"30",
+//                                     "e":"f",
+//                                     "d":"6/23/1912",
+//                                     "q":{"w":{"e":"t"}},
+//                                     "g":"true"
+//                                 },
+//                                 {
+//                                     "metadata":{"method":"wid2"},
+//                                     "a":"string",
+//                                     "c":"number",
+//                                     "d":"date",
+//                                     "q":{"w":{"e":"string"}},
+//                                     "g":"boolean"
+//                                 });
+//     proxyprinttodiv('recurseModObj inputObject', {
+//                                     "metadata":{"method":"wid2"},
+//                                     "a":"b",
+//                                     "c":"30",
+//                                     "e":"f",
+//                                     "d":"6/23/1912",
+//                                     "q":{"w":{"e":"t"}},
+//                                     "g":"true"
+//                                 }, 17);    
+//     proxyprinttodiv('recurseModObj inputDTO', {
+//                                     "metadata":{"method":"wid2"},
+//                                     "a":"string",
+//                                     "c":"number",
+//                                     "d":"date",
+//                                     "q":{"w":{"e":"string"}},
+//                                     "g":"boolean"
+//                                 }, 17);    
+//     proxyprinttodiv('recurseModObj ModifiedObject', recModObj, 17);    
+//  }
 
 
 

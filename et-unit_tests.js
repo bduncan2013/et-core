@@ -2047,11 +2047,11 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
         }],
         function (err, res) {
             proxyprinttodiv('Function ag1 result ', res, 99);
-            res = logverify("ettestag1_result", res[1][0], {
+            res = logverify("ettestag1_result", res[1][0], [{
                 "note": "string",
                 "wid": "sounddto",
                 "metadata.method": "sounddto"
-            });
+            }]);
             callback(err, res);
         });
 }
