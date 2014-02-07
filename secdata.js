@@ -458,9 +458,9 @@
             }],
             function (err, res) {
                 proxyprinttodiv('Function createuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 99);
-                addsecurity(userwid, "true", ac, loginlevel, function (err, res1) {
+                addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
                     proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 99);
-                    addcategory(userwid, "categorytype", "categoryname", function (err, res2) {
+                    addcategory(userwid, true, "categoryname", function (err, res2) {
                         proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 99);
 
                         execute({
@@ -634,11 +634,12 @@
 
     exports.sec1 = sec1 = function sec1(params, callback) {
         securitycheck("rogerac", "executethis", "createcoupon", "data", function (err, res) {
-            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response for cody -- ', res, 99);
-            securitycheck("codyac", "executethis", "createcoupon", "data", function (err, res) {
-                proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response for roger -- ', res, 99);
+            debuglevel = 34;
+            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response for -- ', res, 34);
+            // securitycheck("codyac", "executethis", "createcoupon", "data", function (err, res) {
+                // proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response for roger -- ', res, 99);
                 callback(err, res);
-            });
+            // });
         });
     }
 

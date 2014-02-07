@@ -25,7 +25,7 @@
                 var query1 = [{
                     "executethis": "querywid",
                     "mongorawquery": {
-                        "data.accesstoken": ac
+                        "data.accesstoken": accesstoken
                     },
                     "mongorelationshipdirection": "backward",
                     "mongorelationshipmethod": "all",
@@ -33,7 +33,7 @@
                 }];
 
                 execute(query1, function (err, res) {
-                    results1 = res;
+                    results1 = res[0][0][0];
                     cb(null);
                 });
             },
@@ -43,14 +43,16 @@
                 var query2 = [{
                     "executethis":"querywid",
                     "mongorawquery": {
-                        "wid": results1['wid']
+                        // "wid": results1['wid']
+                        "wid": Object.keys(results1)[0]
                     },
                     "mongorelationshiptype": 'attributes',
                     "mongorelationshipdirection": "backward"
                 }]
 
                 execute(query2, function (err, res) {
-                    userWid = res[0][0];
+                    userWid = res[0][0][0];
+                    userWid = Object.keys(userWid)[0];
                     cb(null);
                 });
             },
@@ -61,17 +63,18 @@
                 var query21 = [{
                     "executethis":"getwidmaster",
                     "wid": userWid
+                     // "wid": "rogeruser"
                 }]
 
-                execute(query2, function (err, res) {
-                    userDto = res;
+                execute(query21, function (err, res) {
+                    userDto = res[0][0][0];
                     cb(null);
                 });
             },
 
             function part3(cb) {
                 proxyprinttodiv('Function querywid() out with  userDto : ', JSON.stringify(userDto));
-                if (!userDto.logged_id) {
+                if (!userDto['systemdto.securitydto.logged_id']) {
                     // if not logged in,
                     securityCheckOutput = false;
                 } else {
@@ -116,6 +119,7 @@
                     // find all permissions where my groups are given permission
                     var myPermissionsdtoArr = getPermissionsList(myAccountGroupdtoArr, accountGroupdtoArr, actionGroupdtoArr, dbGroupdtoArr);
 
+                    proxyprinttodiv('Function security  --  >>>>>>  >>>>>  for  securitycheck response for myPermissionsdtoArr-- ', myPermissionsdtoArr, 34);
                     // see if there is a permission record for that combination
                     if (myPermissionsdtoArr.length > 0) {
                         securityCheckOutput = true;
@@ -266,9 +270,4 @@
 
 
 
-    exports.sec1 = sec1 = function sec1() {
-        securitycheck("abcd1234abcd1234abcd1234abcd1234", "staff", "getwidmaster", "db", function (err, res) {
-            alert(res);
-        });
-    }
 })(typeof window == "undefined" ? global : window);
