@@ -1128,16 +1128,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
 
         function create_string() {
-            alert('creating string');
-            alert('logging' + JSON.stringify(outobject, "-", 4));
-
-            var i = 0;
             // $('#divprint').append('####################  debug log     #########################\n');
             // $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
             $('#divprint').append('####################  debug output  #########################\n');
 
             for (eachtest in debuglog) {
-                i++;
                 testresults = debuglog[eachtest];
                 var test_to_print = "";
     var name = testresults[0][0]['command']['executemethod'];
@@ -1984,56 +1979,45 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         window.sift = sift;
     }
 
-    exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify(testname, parameters, assert, database, command, callback) {
-        var err;
-        var results = [];
-        var temp_config = {};
-        var c_assert = {};
-        var c_parameters = {};
+	exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify (testname, parameters, assert, database, command, callback) {
+		var err;
+		var results=[];
+		var temp_config = {};
+		var c_assert = {};
+		var c_parameters = {};
 
-        // Take a snapshot of the default config
-        extend(true, temp_config, config);
-        // Make copies of the original parameters and assert
-        extend(true, c_parameters, parameters);
-        extend(true, c_assert, assert);
+		// Take a snapshot of the default config
+		extend(true, temp_config, config);
+		// Make copies of the original parameters and assert
+		extend(true, c_parameters, parameters);
+		extend(true, c_assert, assert);
 
-        // Call test_and_verify with the config parameters in the parameters
-        test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
-            // Add res to return data
-            results.push(res);
+		// Call test_and_verify with the config parameters in the parameters
+		test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
+			// Add res to return data
+			results.push(res);
+			
+			// Add the config parameters to the default config
+			extend(true, config.configuration, parameters["configuration"]);
 
-            // Add the config parameters to the default config
-            extend(true, config.configuration, parameters["configuration"]);
+			// Reload c_parameters and delete the config
+			c_parameters = extend(true, {}, parameters);
+			delete c_parameters["configuration"];
 
-            // Reload c_parameters and delete the config
-            c_parameters = extend(true, {}, parameters);
-            delete c_parameters["configuration"];
+			// Reload the assertion and delete the config
+			c_assert = extend(true, {}, assert);
+			delete c_assert[0]["configuration"];
 
-            // Reload the assertion and delete the config
-            c_assert = extend(true, {}, assert);
-            delete c_assert["configuration"];
-
-            // Call test_and_verify with c_ verion -- actual config changed
-            test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
-                // Add res to return data
-                results.push(res_2);
-                // Set the config back to normal
-                config = extend(true, {}, temp_config);
-                callback(err, results);
-            });
-        });
-    }
-
-    // exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, callback) {
-    //  testclearstorage();
-    //  window[fnname]([
-    //      parameters
-    //  ],
-    //  function (err, res) {
-    //      res = logverify(testname, res[0][0], assert);
-    //      callback(err, res);
-    //  });
-    // }
+			// Call test_and_verify with c_ verion -- actual config changed
+			test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
+				// Add res to return data
+				results.push(res_2);
+				// Set the config back to normal
+				config = extend(true, {}, temp_config);
+				callback (err, results);
+			});
+		});
+	}
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
         testclearstorage();
@@ -2052,15 +2036,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                     callback(err, res);
                 });
             window[fnname].apply(window, parameters);
-        }else{
+        } else {
             window[fnname](
                 parameters,
                 function (err, res) {
                     res = logverify(testname, res, assert);
                     callback(err, res);
                 });
-            
         }
     }
-
 })();

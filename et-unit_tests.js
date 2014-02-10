@@ -3,202 +3,283 @@ function etunittesttester(parm, callback) {
         "fn": "ettest1"
     }, {
         "test": "short desc of test",
-        "type": "hourly"
+        "type": "hourly", // hourly, daily, build...for now, all hourly
+        "category": "executethis", // 5 or 6 total execute,add,get,query
+        "subcategory":"dothis" // pre,mid,post...like, try order, do order
     }, {
         "fn": "ettestt2"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":"mid"
+
     }, {
         "fn": "ettestt3"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettestt3a"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":"execute"
     }, {
         "fn": "ettestt4"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettestt4a"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettestt5"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettestt6"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
-        "fn": "ettestast1"
+        "fn": "ettestast1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettestast2"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettestast3"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettestast3a"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettest4"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettest4a"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettest5"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
         "fn": "ettest6"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"execute",
+        "subcategory":""
     }, {
-        "fn": "ettestag1"
+        "fn": "ettestag1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"add get",
+        "subcategory":"getwidmaster"
     }, {
         "fn": "ettestag2"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"add get",
+        "subcategory":"getwidmaster"
     }, {
         "fn": "ettestag3"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"add get",
+        "subcategory":"getwidmaster"
     }, {
-        "fn": "ettestct1"
+        "fn": "ettestct1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remapping_functions"
     }, {
         "fn": "ettestct2"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remapping_functions"
     }, {
         "fn": "ettestct3"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remapping_functions"
     }, {
         "fn": "ettestct3a"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remapping_functions"
     }, {
         "fn": "ettestct4"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remapping_functions"
     }, {
         "fn": "ettestct4a"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remapping_functions"
     }, {
         "fn": "ettestct5"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remapping_functions"
     }, {
         "fn": "ettestct6"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remapping_functions"
     }, {
         "fn": "ettestct7"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"config_params"
     }, {
         "fn": "ettestct8"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"config_params"
     }, {
         "fn": "ettestct9"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remap_doesnotexist_to_params"
     }, {
         "fn": "ettestct10"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remap_doesnotexist_to_params"
     }, {
         "fn": "ettestct11"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remap_doesnotexist_to_params"
     }, {
         "fn": "ettestct13"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":"remap_doesnotexist_to_params"
     }, {
         "fn": "ettestct14"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":""
     }, {
         "fn": "ettestct15"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":""
     }, {
         "fn": "ettestct16"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":""
     }, {
         "fn": "ettestct17"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":""
     }, {
         "fn": "ettestct18"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":""
     }, {
         "fn": "ettestct19"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":""
     }, {
         "fn": "ettestct20"
     }, {
         "test": "short desc of test",
-        "type": ""
+        "type": "hourly",
+        "category":"configuration",
+        "subcategory":""
     }];
 }
 // List of tests:
@@ -295,18 +376,20 @@ function etunittesttester(parm, callback) {
 
 
 exports.ettestat = ettestat = function ettestat(params, callback) {
-    var result = {};
+    var result = [];
     var err;
 
-    ettesttt(result, function (err, result) {
-        ettestastt(result, function (err, result) {
-            ettestctt(result, function (err, result) {
+    ettesttt(result, function (err, r1) {
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r1: \n' + JSON.stringify(r1));
+    result.push(r1);
 
-                // ettestagtt(result, function () {
-                //  var err;
-                //  callback(err, result);  
-                // });
-                var err;
+        ettestastt(result, function (err, r2) {
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r2: \n' + JSON.stringify(r2));
+        result.push(r2);
+
+            ettestctt(result, function (err, r3) {
+                console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r3: \n' + JSON.stringify(r3));
+                result.push(r3);
                 callback(err, result);
             });
         });
@@ -350,6 +433,8 @@ exports.ettesttt = ettesttt = function ettesttt(params, callback) {
             "executethis": "ettestt6"
         }],
         function (err, res) {
+            console.log('^^^^^^^^^^^^^^^ res  ^^^^^^:  ' + JSON.stringify(res));
+            console.log('^^^^^^^^^^^^^^^ done ^^^^^^');
             callback(err, res);
         }
     );
@@ -390,6 +475,9 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             "executethis": "ettestct1"
         }, {
             "executethis": "ettestct2"
+
+
+            
         }, {
             "executethis": "ettestct3"
         }, {
@@ -404,23 +492,30 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             "executethis": "ettestct6"
         }, {
             "executethis": "ettestct7"
-            // ct8 will break the ctt test run
-            // // },{ 
-            // // "executethis": "ettestct8"
-        }, {
-            "executethis": "ettestct9"
-        }, {
-            "executethis": "ettestct10"
-        }, {
-            "executethis": "ettestct11"
-        }, {
-            "executethis": "ettestct13"
-        }, {
-            "executethis": "ettestct14"
-        }, {
-            "executethis": "ettestct15"
-        }, {
-            "executethis": "ettestct16"
+
+
+        //     // ct8 will break the ctt test run
+        //     // // },{ 
+        //     // // "executethis": "ettestct8"
+             
+
+                }, {
+                    "executethis": "ettestct9"
+                }, {
+                    "executethis": "ettestct10"
+                }, {
+                    "executethis": "ettestct11"
+                }, {
+                    "executethis": "ettestct13"
+                }, {
+                    "executethis": "ettestct14"
+                }, {
+                    "executethis": "ettestct15"
+
+
+
+                // }, {
+                //     "executethis": "ettestct16"
             // These still need the configs to be converted to be passed in as parameters.
             // },{ 
             // "executethis": "ettestct18"
@@ -430,6 +525,7 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             // "executethis": "ettestct20"
         }],
         function (err, res) {
+            console.log('special*** \n' + JSON.stringify(res, "-", 4));
             callback(err, res);
         }
     );
@@ -464,11 +560,11 @@ exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
             "e": "2"
         }],
         function (err, res) {
-            res = logverify("ettestt3_result", res[0][0], {
+            res = logverify("ettestt1_result", res[0][0], [{
                 "c": "0",
                 "d": "1",
                 "g": "4"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -522,11 +618,11 @@ exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt3_result", res[0][0], {
+            res = logverify("ettestt2_result", res[0][0], [{
                 "f": "3",
                 "g": "4",
                 "h": "5"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -543,11 +639,11 @@ exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
             "preexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt3_result", res[0][0], {
+            res = logverify("ettestt3_result", res[0][0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -564,11 +660,11 @@ exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
             "postexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt3a_result", res[0][0], {
+            res = logverify("ettestt3a_result", res[0][0], [{
                 "c": "0",
                 "g": "4",
                 "f": "3"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -585,11 +681,11 @@ exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt4_result", res[0][0], {
+            res = logverify("ettestt4_result", res[0][0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -606,11 +702,11 @@ exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
             "preexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt4a_result", res[0][0], {
+            res = logverify("ettestt4a_result", res[0][0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -627,11 +723,11 @@ exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
             "postexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt5_result", res[0][0], {
+            res = logverify("ettestt5_result", res[0][0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -649,11 +745,11 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt6_result", res[0][0], {
+            res = logverify("ettestt6_result", res[0][0], [{
                 "d": "1",
                 "h": "5",
                 "g": "4"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -672,11 +768,11 @@ exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
             "e": "2"
         }],
         function (err, res) {
-            res = logverify("ettestast1_result", res[0][0], {
+            res = logverify("ettestast1_result", res[0][0], [{
                 "d": "1",
                 "c": "0",
                 "g": "4"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -693,11 +789,11 @@ exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast2_result", res[0][0], {
+            res = logverify("ettestast2_result", res[0][0], [{
                 "f": "3",
                 "g": "4",
                 "h": "5"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -712,11 +808,11 @@ exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
             "preexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast3_result", res[0][0], {
+            res = logverify("ettestast3_result", res[0][0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -731,11 +827,11 @@ exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
             "postexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast3a_result", res[0][0], {
+            res = logverify("ettestast3a_result", res[0][0], [{
                 "c": "0",
                 "g": "4",
                 "f": "3"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -750,11 +846,11 @@ exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast4_result", res[0][0], {
+            res = logverify("ettestast4_result", res[0][0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -769,11 +865,11 @@ exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
             "preexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast4a_result", res[0][0], {
+            res = logverify("ettestast4a_result", res[0][0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -789,11 +885,11 @@ exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
             "postexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast5_result", res[0][0], {
+            res = logverify("ettestast5_result", res[0][0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -809,11 +905,11 @@ exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast6_result", res[0][0], {
+            res = logverify("ettestast6_result", res[0][0], [{
                 "d": "1",
                 "h": "5",
                 "g": "4"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -848,7 +944,8 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push( {
         "d": "1",
         "c": "0",
         "g": "4",
@@ -872,8 +969,10 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    })
+    // var res = master_test_and_verify (testname,          parameters, assert, database, command, callback) {
+
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -908,7 +1007,8 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "f": "3",
         "g": "4",
         "h": "5",
@@ -932,12 +1032,12 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
-// Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all.
+// Call redir_b. Also call pre with redir_a remapped to func_a, and no post call at all.
 exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
     var parameters = {
         "executethis": "redir_b",
@@ -966,7 +1066,8 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "c": "0",
         "f": "3",
         "g": "4",
@@ -990,8 +1091,8 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    })
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1025,7 +1126,8 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "c": "0",
         "g": "4",
         "f": "3",
@@ -1049,8 +1151,8 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1084,7 +1186,8 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "d": "1",
         "g": "4",
         "h": "5",
@@ -1108,8 +1211,8 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    })
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1143,7 +1246,8 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "d": "1",
         "g": "4",
         "h": "5",
@@ -1167,8 +1271,8 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    })
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1203,7 +1307,8 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "c": "0",
         "f": "3",
         "g": "4",
@@ -1227,8 +1332,8 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    })
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1264,7 +1369,8 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "g": "4",
         "d": "1",
         "h": "5",
@@ -1288,8 +1394,8 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    })
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1318,14 +1424,15 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "ct7": "did some alerting",
         "configuration": {},
         "d": "1",
         "c": "0",
         "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1366,13 +1473,14 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "d": "1",
         "c": "0",
         "g": "4"
-    }
+    });
 
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1388,13 +1496,14 @@ exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
         "e": "2"
     }
     // since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
-    var assert = {
+    var assert = [];
+    assert.push( {
         "does_not_exist": "func_b",
         "d": "1",
         "c": "0",
         "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1405,10 +1514,11 @@ exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
         "executethis": "does_not_exist",
         "does_not_exist": "function () { return {data: 'Keg of Beer'}; }"
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "data": "Keg of Beer"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1426,13 +1536,14 @@ exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
         "e": "2"
     }
     // since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
-    var assert = {
+    var assert = [];
+    assert.push({
         "does_not_exist": "func_a",
         "f": "3",
         "c": "0",
         "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1453,14 +1564,15 @@ exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
         "e": "2"
     }
     // since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
-    var assert = {
+    var assert = [];
+    assert.push({
         "does_not_exist_1": "func_a",
         "does_not_exist_2": "func_c",
         "f": "3",
         "h": "5",
         "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1492,13 +1604,14 @@ exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "c": "0",
         "d": "1",
         "ettestct12": "did some alerting",
         "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1541,11 +1654,12 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
         }
 
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "fire_c": "fire_c is now fired",
         "cer2": "booberry"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1617,7 +1731,8 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
         }
     };
 
-    var assert = {
+    var assert = [];
+    assert.push({
         "g": "4",
         "cer2": "booberry",
         "cer1": "alphabits",
@@ -1625,8 +1740,8 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
         "cer3": "chex",
         "h": "5",
         "configuration": {}
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1671,7 +1786,8 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
             }]
         }
     }
-    assert = {
+    assert = [];
+    assert.push({
         "g": "4",
         "cer1": "booberry",
         "f": "3",
@@ -1704,8 +1820,8 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
             }]
         }
 
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1756,7 +1872,8 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
         }
     }
 
-    var assert = {
+    var assert = [];
+    assert.push({
         "c": "0",
         "d": "1",
         "g": "4",
@@ -1786,8 +1903,8 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
                 "params": {}
             }]
         }
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1811,13 +1928,14 @@ exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "exdef": "param after dothis and executeparam was grabbed",
         "d": "1",
         "c": "0",
         "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1843,13 +1961,14 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
             }]
         }
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "exdef": "param after dothis and executeparam was grabbed",
         "f": "3",
         "c": "0",
         "g": "4"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1893,7 +2012,8 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
         "bravo": "1",
         "charlie": "1"
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "configuration": {},
         "f": "3",
         "g": "4",
@@ -1901,8 +2021,8 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
         "alpha": "1",
         "bravo": "1",
         "charlie": "1"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1916,15 +2036,16 @@ exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
         "preexecute": "func_a",
         "postexecute": "func_c"
     }
-    var assert = {
+    var assert = [];
+    assert.push({
         "charlie": "4",
         "g": "4",
         "alpha": "4",
         "f": "3",
         "bravo": "4",
         "h": "5"
-    }
-    master_test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+    });
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -2148,20 +2269,17 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "wid": "color1"
         }],
         function (err, res) {
-            alert('string');
-            console.log('*******************************************************************');
             debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("update code generator END",         "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
 
             debugname = "";
             debugcat = "";
             debugsubcat = "";
             proxyprinttodiv('Function ag2 result ', res, 99);
-            res = logverify("ettestag2_result", res[3][0], {
+            res = logverify("ettestag2_result", res[3][0], [{
                 "hue": "red",
                 "wid": "color1",
                 "metadata.method": "defaultdto"
-            });
+            }]);
             callback(err, res);
         });
 }
@@ -2272,7 +2390,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
              
             // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("offlinegetwid code generator END", "",    "",   "code", debugcolor, debugindent, {}, 9);
+            debugfn("offlinegetwid code generator END", "",    "",   "code", debugcolor, debugindent, {}, 9);
              
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- add
@@ -2295,8 +2413,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             debugsubcat = "";
 
             proxyprinttodiv('Function ag3 result ', res[4], 99);
-            alert(JSON.stringify(res));
-            res = logverify("ettestag3_result", res[4][0], {
+            res = logverify("ettestag3_result", res[4][0], [{
                 "title": "Highway to Hell",
                 "wid": "song1",
                 "metadata.method": "songdto",
@@ -2309,7 +2426,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
                 "sounddto.2.note": "C flat",
                 "sounddto.2.wid": "5",
                 "sounddto.2.metadata.method": "sounddto"
-            });
+            }]);
             callback(err, res);
         });
 }
