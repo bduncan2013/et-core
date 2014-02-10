@@ -98,6 +98,8 @@ function test4(params) {
 			<br><br>
 			<label>Function: </label>
 			<input id='function_to_run' size='20' value=''>
+			<input id='reload_page' class='btn btn-danger' type='button' value='Reload Page'/>
+			
 <!--
 			<label>Server call ? </label><input type='checkbox' id='server_caller'>
 -->		
@@ -127,17 +129,6 @@ function test4(params) {
 		</div> <!-- end of col-md-12 -->
 	</div> <!-- end row -->
 	<br>
-
-
-	<!--
-		<span class='test_example'>
-			<b>Function Parameters :</b></br>
-		</span>
-
-		<span class='test_content' style='display: none;'></br>
-			<textarea rows="5" cols="100" id="function_parameters">{"executethis":"querywid", "mongowid":["abcWid","qrsWid"],"mongorelationshiptype":"attributes", "mongorelationshipdirection":"forward","mongorelationshipmethod":"all","mongowidmethod":"orange"}</textarea>
-		</span>
--->
 		 <div class='row'>   
 		    <div class="col-md-12">
 		        <span class="label label-default well_hider">Function Parameters :</span>
@@ -146,8 +137,6 @@ function test4(params) {
 		            </div>
 			</div> <!-- end of col-md-12 -->
 		</div> <!-- end row -->
-
-
 	</div>
 	<br>
 	<input class='btn btn-mini btn-info' type="button" value="Execute This" onclick="javascript:testexecutethis()"/>
@@ -188,27 +177,7 @@ function test4(params) {
 		</div> <!-- end of col-md-9 -->
 	</div> <!-- end row --> 
 	<br>
-<!-- 
-    <div class='row'>   
-	    <div class="col-md-12">
-	        <span class="label label-default well_hider">Local Storage Wids</span>
-	            <div class="well" style='display: none;'>
-	            	<pre id="divwidsdisplay_from_local_storage">---------</pre>
-	            </div>
-		</div> 
-	</div> 
-	<br>
 
-	 <div class='row'>   
-	    <div class="col-md-12">
-	        <span class="label label-default well_hider">locatStore memory object's JSON property</span>
-	            <div class="well" style='display: none;'>
-	            	<pre id="divwidsdisplay_from_memory">---------</pre>
-	            </div>
-		</div> 
-	</div> 
-	<br>
--->
 	<div class='row'>
 		<div class="col-md-12">
 	        <span class="label label-default well_hider">DivPrint Output</span>
@@ -220,20 +189,6 @@ function test4(params) {
 
 </div> <!-- end container -->
 <script>
-// http://www.2ality.com/2013/06/basic-javascript.html 
-// <input type="button" value="Raw Mongo Query" onclick="javascript:testrawmongoquery();" />
-//<input type="button" value="testDataQuery" onclick="javascript:testQueryWid ();" />
-// <input type="button" value="MongoDataQuery" onclick="javascript:testMongoQuery();" />
-// This is for the funcitonality of the testing screen itself
-// $('#mybutton').click(function () {
-//   if ($('#divwidsdisplay').css('display') == 'block'){
-//     $('#divwidsdisplay').hide('slow');
-//   }
-//   else{
-//   	displayAllWids();
-//     $('#divwidsdisplay').show('slow');
-//   }
-// });
 
 // This is for the funcitonality of the testing screen itself
 $('.well_hider').click(function () {
@@ -269,6 +224,7 @@ $('#debugon').change(function () {
 $(document).ready(function () {
 	Debug = 'false';
 	bootprocess();
+	$('#function_to_run').focus();
 	// $('dest_print').prop("checked", true);
 });
 
@@ -312,37 +268,8 @@ function execute_stuff(isTest, isServer) {
 	        ]
 	    };
 	}
-	// execute(my_execute_object, show_function_output);
+	// ******** This actually executes the function and show the output ********
 	execute(my_execute_object, show_function_output3);
-
-	//var result = executethis(my_execute_object);
-/*	var result_count = Object.keys(result).length;
-
-	// var y = verifysummary("test_results");
-	var y = 0; // verifysummary_local(result);
-	if (result_count > 0 && isTest) y = verifysummary_local(result);
-	// if (result.hasOwnProperty('executethis') && result_count == 1) {
-	// 	alert ('Something when wrong with the test...all your function returned was ' + JSON.stringify(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScriptresult));
-	// } else 
-	if (y['resultwid'] == "PASS" || y['resultwid'] == "FAIL" && isTest) { 
-		showPassFail(y) 
-	};
-
-	// var x = getfromlocal({"wid":"test_results"});
-	// console.log('x=' + JSON.stringify(x));
-	if (result_count > 0) {
-		$('#Function_Output').text(JSON.stringify(result));
-	} else {
-		$('#Function_Output').text("empty");
-	}
-	// $('#resultDiv').text(JSON.stringify(x));
-
-	if (exports.environment == 'local') displayAllWids();
-	// if ((typeof localStore) !== "undefined") {
-		displaylocalStore();
-	// } else {
-	// 	document.getElementById("divwidsdisplay_from_memory").innerHTML = "<label style='color: red; font-size: 135%;'>localStore is undefined</label>";
-	// }*/
 }
 
 $('#execute_test').click(function () {
@@ -381,30 +308,6 @@ $('#output_to_input').click(function () {
 		$('#function_parameters').val(temp);
 });
 
-// function show_function_output (err, x) {
-// 	$('#Function_Output').text(JSON.stringify(x));
-// 	var result = x;
-// 	var result_count = Object.keys(result[0]).length;
-
-// 	// var y = verifysummary("test_results");
-// 	var y = verifysummary_local(result[0]);
-// 	if (result.hasOwnProperty('executethis') && result_count == 1) {
-// 		alert ('Something when wrong with the test...all your function returned was ' + JSON.stringify(result));
-// 	} else if ( (y['resultwid'] == "PASS" || y['resultwid'] == "FAIL") && result_count != 0 ) { 
-// 		showPassFail(y) 
-// 	};
-
-// 	$('#Function_Output').text(JSON.stringify(result));
-
-// 	if (exports.environment == 'local') displayAllWids();
-// 	if ((typeof localStore) !== "undefined") {
-// 		displaylocalStore();
-// 	} else {
-// 		document.getElementById("divwidsdisplay_from_memory").innerHTML = "<label style='color: red; font-size: 135%;'>localStore is undefined</label>";
-// 	}
-// }
-
-
 function return_long (result_array) {
 	// You don't know the outcome of the test yet.
 	var ultimate_pass_fail = "UNKNOWN";
@@ -438,11 +341,25 @@ function return_short (result_array) {
 	var output_short = "";
 	var name = ""; 	
 	var status = "";
-
+	var res1 = {}; // result from individual tests
+	var res2 = {}; // result from tt type tests
+	res1 = result_array[0];
+	if (result_array[0][0] instanceof Object) {
+		res2 = result_array[0][0];
+	} else {
+		res2 = {"no":"data"};
+	}
 	if (result_array.length == 1) {
-   		name = result_array[0]["test_name"];
-   		status = result_array[0][name];
+		if (res2.hasOwnProperty('test_name')) {
+	   		name = res2["test_name"];
+	   		status = res2[name];
+	   	} else if (res1.hasOwnProperty('test_name')) {
+	   		name = res1["test_name"];
+	   		status = res1[name];
+		}
+
     	output_short += "\"" + name + "\":\"" + status + "\",";
+    	// console.log('\noutput_short:' + output_short);
 	} else {
 		for (var x in result_array) {	
 			if (result_array[x] instanceof Array) {
@@ -469,9 +386,8 @@ function get_indexes_of(needle, haystack ) {
 	return indexes;
 }
 
-
 function show_function_output3 (err, result_array) {
-
+	// console.log("+++\n" + JSON.stringify(result_array, "-", 4));
 	$('#Function_Output').empty();
 	var index = 0;
 	var target = "";
@@ -491,11 +407,6 @@ function show_function_output3 (err, result_array) {
 	
 	$('#Function_Output').append(output_short);
 	$('#Function_Output').append(output_long);
-}
-
-function return_short_2(result_array) {
-
-
 }
 
 function show_function_output2 (err, result_array) {
@@ -631,20 +542,6 @@ function testgetwidmaster() {
 
 	widParameters["executethis"] = "getwidmaster";
 	var getwidresult = execute(widParameters, show_function_output);
-
-	// document.getElementById("divprint").innerHTML = "";
-	// //var convertMethod = 'wid';
-	// //var widParameters = {"wid":"wid1", "dtotype":"widdto", "inherit":"inherit", "convertMethod":"wid", "accessToken":"AccessToken"};
-	// var widParameters = JSON.parse(document.getElementById("function_parameters").value);
-
-	// 	widParameters["executethis"] = "getwidmaster";
-	// x = window['execute']
-	// var getwidresult = executethis(widParameters, x);
-	// //var getwidresult = executethis(widParameters);
-	// updateMemory();
-	// Display_Output(getwidresult);
-
-	//printToDiv('Function testgetwidmaster getwidresult: ',  getwidresult, 'true');
 }
 
 function testaddwidmaster() {
@@ -659,52 +556,7 @@ function testaddwidmaster() {
 	
 	widParameters["executethis"] = "addwidmaster";
 	var getwidresult = execute(widParameters, show_function_output);
-
-	// document.getElementById("divprint").innerHTML = "";
-	// //var widParameters = input;
-	// var widParameters = JSON.parse(document.getElementById("function_parameters").value);
-	
-	// 	widParameters["executethis"] = "addwidmaster";
-
-	// x = window['execute']
-	// var getwidresult = executethis(widParameters, x);
-
-	// //var getwidresult = executethis(widParameters);
-	// updateMemory();
-	// Display_Output(getwidresult);
-	//displayAllWids();
-	//if(widParameters["seq"]){
-	//	widMasterKey = widParameters["seq"];
-	//}	
-	// if(widParameters["seq"]){
-	// 	delete widParameters["seq"];
-	// }
-	// if(widParameters["command.action"]){
-	// 	delete widParameters["command.action"];
-	// }
 }
-//***************************************************************
-// function testrawmongoquery() {
-// 	document.getElementById("divprint").innerHTML = "";
-
-// 	var widParameters = JSON.parse(document.getElementById("function_parameters").value);
-	
-// 		widParameters["executethis"] = "addwidmaster";
-
-// 	var getwidresult = executethis(widParameters);
-// 	updateMemory();
-// 	Display_Output(getwidresult);
-
-//       	execute(JSON.parse($("#function_parameters").val()),function (data) {
-//         doAfterTesting(data);
-//     }); 
-// }
-
-// function doAfterTesting(response){
-//   alert('>>> from client code >>> '+JSON.stringify(response));
-//   $('div#resultDiv').html('<p>'+ JSON.stringify(response) +'</p>');
-// }
-//****************************************************************
 
 function testexecutethis() {
 		try {
@@ -837,6 +689,9 @@ $("input[name='data_type']").change(function() {
 	$("#local_data").show('fast');
 });
 
+$('#reload_page').click(function() {
+    location.reload();
+});
 
 
 function isNumeric(elem, helperMsg){
