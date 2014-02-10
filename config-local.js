@@ -406,7 +406,8 @@ exports.convertfromdriformat = window.convertfromdriformat = convertfromdriforma
         } else {
             outobject['metadata'] = "";
         }
-        outobject = ConvertToDOTdri(outobject);
+        //commented by Roger
+        //outobject = ConvertToDOTdri(outobject);
     }
 
     // if ((widobject) && (Object.keys(widobject).length > 0)) {
