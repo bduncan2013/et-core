@@ -475,6 +475,9 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
             "executethis": "ettestct1"
         }, {
             "executethis": "ettestct2"
+
+
+            
         }, {
             "executethis": "ettestct3"
         }, {
@@ -482,30 +485,37 @@ exports.ettestctt = ettestctt = function ettestctt(params, callback) {
         }, {
             "executethis": "ettestct4"
         }, {
-        //     "executethis": "ettestct4a"
-        // }, {
-        //     "executethis": "ettestct5"
-        // }, {
-        //     "executethis": "ettestct6"
-        // // }, {
-        // //     "executethis": "ettestct7"
+            "executethis": "ettestct4a"
+        }, {
+            "executethis": "ettestct5"
+        }, {
+            "executethis": "ettestct6"
+        }, {
+            "executethis": "ettestct7"
+
+
         //     // ct8 will break the ctt test run
         //     // // },{ 
         //     // // "executethis": "ettestct8"
-        // }, {
-        //     "executethis": "ettestct9"
-        // }, {
-        //     "executethis": "ettestct10"
-        // }, {
-        //     "executethis": "ettestct11"
-        // }, {
-        //     "executethis": "ettestct13"
-        // }, {
-        //     "executethis": "ettestct14"
-        // }, {
-        //     "executethis": "ettestct15"
-        // }, {
-        //     "executethis": "ettestct16"
+             
+
+                }, {
+                    "executethis": "ettestct9"
+                }, {
+                    "executethis": "ettestct10"
+                }, {
+                    "executethis": "ettestct11"
+                }, {
+                    "executethis": "ettestct13"
+                }, {
+                    "executethis": "ettestct14"
+                }, {
+                    "executethis": "ettestct15"
+
+
+
+                // }, {
+                //     "executethis": "ettestct16"
             // These still need the configs to be converted to be passed in as parameters.
             // },{ 
             // "executethis": "ettestct18"
@@ -1421,7 +1431,7 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
         "d": "1",
         "c": "0",
         "g": "4"
-    };
+    });
     var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
@@ -1648,7 +1658,7 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
     assert.push({
         "fire_c": "fire_c is now fired",
         "cer2": "booberry"
-    };
+    });
     var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
