@@ -310,6 +310,11 @@ $('#output_to_input').click(function () {
 
 function return_long (result_array) {
 	// You don't know the outcome of the test yet.
+	if (result_array.length == 0) {
+		showPassFail("UNKNOWN");	
+		return "\"no\":\"data\",";
+	}
+
 	var ultimate_pass_fail = "UNKNOWN";
 	var did_fail_flag = false;
 	var did_pass_flag = false;
@@ -337,6 +342,8 @@ function return_long (result_array) {
 function return_short (result_array) {
 	// console.log("result_array: " + JSON.stringify(result_array));
 	// console.log("result_array.length: " + result_array.length);
+
+	if (result_array.length == 0) return "\"no\":\"data\",";
 
 	var output_short = "";
 	var name = ""; 	
