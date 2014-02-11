@@ -28,6 +28,10 @@
             //     alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
             // });
 
+            addrecord(object, dtoobject, parentwid, relationshiptype, command, function (err, res) {
+                alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
+            });
+
             cleanadd(object, dtoobject, command, function (err, res) {
                 alert("add0 cleanadd! -- got res -->" + JSON.stringify(res));
             });
@@ -105,6 +109,7 @@ exports.get4 = get4 = function get4(parameters, callback) {
 	insertbydtotype(inputObject, inputdto, insertobj, command);
 }
 
+<<<<<<< HEAD
 exports.get4 = get4 = function get22(parameters, callback) { //add clean test
     testclearstorage();
     var inputObject = {
@@ -128,6 +133,8 @@ exports.get4 = get4 = function get22(parameters, callback) { //add clean test
     insertbydtotype(inputObject, inputdto, insertobj, command);
 }
 
+=======
+>>>>>>> 1e62e6a0f395a65ff5b533862fdff553055ed322
 /*
 	do not specify command.dto...should put it at root/author level
 */
@@ -372,6 +379,7 @@ exports.get2= get2 = function get2 (parameters, callback) {
     });
 }
 
+<<<<<<< HEAD
 exports.get11= get11 = function get11 (parameters, callback) {
     // Setup test
     testclearstorage();
@@ -412,6 +420,8 @@ exports.get11= get11 = function get11 (parameters, callback) {
     });
 }
 
+=======
+>>>>>>> 1e62e6a0f395a65ff5b533862fdff553055ed322
 
 
 

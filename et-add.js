@@ -207,6 +207,7 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
             }, function (err, res) {
                 bigdto = res[0]; 
 
+
                 resultObj = insertbydtotype(object, bigdto, {}, command); // this fn in et-get
                 resultObj = deepfilter(resultObj, dtoobject, command);
                 callback({}, resultObj);
