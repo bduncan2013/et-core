@@ -1,3 +1,258 @@
+        // Address dto
+        // {"executethis":"updatewid","metadata.method":"addressdto","wid":"addressdto", "companyname":"string", "street":"string", "city":"string","state":"string","zip":"string", "metadata.inherit":"defaultaddressproperties"},
+        // {"executethis":"updatewid","metadata.method":"addressdto","wid":"defaultaddressproperties", "companyname":"No Name Company"},
+        // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel222","primarywid":"elizabeth_heart","secondarywid":"elizabeth_heart_address", "relationshiptype":"attributes" },
+        // {"executethis":"updatewid","metadata.method":"addressdto","wid":"elizabeth_heart_address", "street":"1234 First street", "city":"Something City","state":"ZZ","zip":"12345"},
+        // {"executethis":"getwidmaster","wid":"elizabeth_heart_address"}
+
+    exports.add0 = add0 = function add0 (parameters, callback) {
+
+        var executeList = [
+             {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metdata.bookdto.type":"onetomany"},
+             {"executethis":"updatewid","metadata.method":"bookdto","wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string"}, 
+             {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"bookdto", "relationshiptype":"attributes"},
+             {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"}
+             //{"executethis":"updatewid","metadata.method":"bookdto","wid":"222","title":"The X Factor","pages":"300"},
+             //{"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"},
+            ]
+        execute(executeList, function (err, res) {
+            proxyprinttodiv('__--__', res, 99);
+            
+            var object = {"metadata":{"method":"bookdto"},"wid":"222","title":"The X Factor","pages":"300"};
+            var dtoobject = {"metadata":{"method":"bookdto"},"wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string"};
+            var parentwid = "elizabeth_heart";
+            var relationshiptype = "onetomany";
+            var command = {};
+
+            // addrecord(object, dtoobject, parentwid, relationshiptype, command, function (err, res) {
+            //     alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
+            // });
+
+            cleanadd(object, dtoobject, command, function (err, res) {
+                alert("add0 cleanadd! -- got res -->" + JSON.stringify(res));
+            });
+        });
+
+    }
+
+exports.add1 = add1 = function add1(parameters, callback) {
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                            },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}}
+
+// {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+// "metadata.method":"authordto","metadata.bookdto.type":"onetomany","metadata.inherit":"defaultauthordtoactions",
+// "command.inherit.defaultbookdtoactions":"defaultbookdtoactions",
+// "command.inherit.defaultauthordtoactions":"defaultauthordtoactions",
+// "command.deepdtolist.bookdto":"onetomany","command.dtolist.bookdto":"bookdto",
+// "bookdto.title":"string","bookdto.pages":"string","bookdto.c":"string","bookdto.d":"string","bookdto.wid":"bookdto",
+// "bookdto.metadata.method":"bookdto","bookdto.metadata.inherit":"defaultbookdtoactions",
+// "bookdto.command.inherit.defaultbookdtoactions":"defaultbookdtoactions"}
+
+    var command = {};
+
+    /*
+		parent - authordto
+		child - bookdto
+	*/
+    /*
+		addwidobject --
+			add all that are not childrent -- parent
+			process children
+	*/
+    addwidobject(inputObject, inputdto, command, function (err, res) {
+        proxyprinttodiv("add1 fired! -- got res --> ", res, 99);
+    });
+}
+
+/*
+	this should insert {a:b} at the bookdto level
+*/
+exports.get4 = get4 = function get4(parameters, callback) {
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                            },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}};
+    var insertobj= {"a":"b"};
+	var command = {"dtotype":"bookdto"};
+	insertbydtotype(inputObject, inputdto, insertobj, command);
+}
+
+exports.get4 = get4 = function get22(parameters, callback) { //add clean test
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                            },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}};
+    var insertobj= {"a":"b"};
+    var command = {"dtotype":"bookdto"};
+    insertbydtotype(inputObject, inputdto, insertobj, command);
+}
+
+/*
+	do not specify command.dto...should put it at root/author level
+*/
+exports.get5 = get5 = function get5(parameters, callback) {
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                            },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}};
+    var insertobj= {"a":"b"};
+	var command = {};
+	insertbydtotype(inputObject, inputdto, insertobj, command);
+}
+
+/*
+	specify command.dtotype = x should wrap result in {x: {.....}}
+*/
+exports.get6 = get6 = function get6(parameters, callback) {
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                            },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}};
+    var insertobj= {"a":"b"};
+	var command = {"dtotype":"x"};
+	insertbydtotype(inputObject, inputdto, insertobj, command);
+}
+
+/*
+	specify command.dtotype.x.y.z should wrap result in {x:{y:z{......}}}
+*/
+exports.get7 = get7 = function get7(parameters, callback) {
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                            },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}};
+    var insertobj= {"a":"b"};
+	var command = {"dtotype":{"x":{"y":"z"}}};
+	insertbydtotype(inputObject, inputdto, insertobj, command);
+}
+
+/*
+	get8 - to get the dtoname
+*/
+exports.get8 = get8 = function get8(parameters, callback) {
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                            },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}};
+    var insertobj= {"metadata.method":"bookdto"};
+	var command = {"dtotype":"bookdto"};
+	insertbydtotype(inputObject, inputdto, insertobj, command);
+}
+
+
+exports.add2= add2 = function add2 (parameters, callback) {
+    debuglevel=10;
+            var executeList = [
+            {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metdata.bookdto.type":"onetomany"},
+            {"executethis":"updatewid","metadata.method":"bookdto","wid":"bookdto","title":"string","pages":"string"}, 
+            {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"bookdto", "relationshiptype":"attributes"},
+            // {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
+            // {"executethis":"updatewid","metadata.method":"bookdto","wid":"222","title":"The X Factor","pages":"300"},
+            // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"},
+            {"executethis":"addwidmaster","bookdto.title":"string","bookdto.pages":"string", "metadata.method":"authordto","wid":"authordto","name":"string","age":"string","metadata.bookdto.type":"onetomany"},
+            {"executethis":"getwidmaster","wid":"elizabeth_heart"}
+            ]
+
+             execute(executeList, function (err, res) {
+                 proxyprinttodiv('__--__', res[7], 99);
+               callback(err, res);
+                 });
+ }
+
+
 
 
 
@@ -46,9 +301,9 @@
 
  exports.get3= get3 = function get3 (parameters, callback) {
     testclearstorage();
-    // debuglevel=10;
+    debuglevel=38;
     var executeList = [
-        {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metdata.bookdto.type":"onetomany","metadata.inherit":"defaultauthordtoactions"},
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metadata.bookdto.type":"onetomany","metadata.inherit":"defaultauthordtoactions"},
         {"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthordtoactions","a":"adefault","b":"BDEFAULT"},
         {"executethis":"updatewid","metadata.method":"bookdto","wid":"defaultbookdtoactions","c":"cdefault","d":"dDEFAULT"},
         {"executethis":"updatewid","metadata.method":"bookdto","wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string", "metadata.inherit":"defaultbookdtoactions"}, 
@@ -56,8 +311,20 @@
         {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
         {"executethis":"updatewid","metadata.method":"bookdto","wid":"222","title":"The X Factor","pages":"300"},
         {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"},
-        {"executethis":"getwidmaster","wid":"elizabeth_heart"}
+        {"executethis":"getwidmaster","wid":"authordto","command.convertmethod":"dto","command.execute":"ConvertFromDOTdri"}
     ]
+
+// result is :
+//{"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+//"metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+//"command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions","defaultauthordtoactions":"defaultauthordtoactions"},
+//          "deepdtolist":{"bookdto":"onetomany","authordto":"authordto"},
+//          "dtolist":{"bookdto":"bookdto"}},
+//"bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+//          "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+//          "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},
+//                  "deepdtolist":{"bookdto":"bookdto"},
+//                   "dtolist":{}}}}
 
     execute(executeList, function (err, res) {
         proxyprinttodiv('__--__', res[8], 99);
@@ -103,82 +370,47 @@ exports.get2= get2 = function get2 (parameters, callback) {
         proxyprinttodiv('__--__', res[11], 99);
         callback(err, res);
     });
-
 }
 
-
-        // Address dto
-        // {"executethis":"updatewid","metadata.method":"addressdto","wid":"addressdto", "companyname":"string", "street":"string", "city":"string","state":"string","zip":"string", "metadata.inherit":"defaultaddressproperties"},
-        // {"executethis":"updatewid","metadata.method":"addressdto","wid":"defaultaddressproperties", "companyname":"No Name Company"},
-        // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel222","primarywid":"elizabeth_heart","secondarywid":"elizabeth_heart_address", "relationshiptype":"attributes" },
-        // {"executethis":"updatewid","metadata.method":"addressdto","wid":"elizabeth_heart_address", "street":"1234 First street", "city":"Something City","state":"ZZ","zip":"12345"},
-        // {"executethis":"getwidmaster","wid":"elizabeth_heart_address"}
-
-    exports.add0 = add0 = function add0 (parameters, callback) {
-
-        var executeList = [
-             {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metdata.bookdto.type":"onetomany"},
-             {"executethis":"updatewid","metadata.method":"bookdto","wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string"}, 
-             {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"bookdto", "relationshiptype":"attributes"},
-             {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"}
-             //{"executethis":"updatewid","metadata.method":"bookdto","wid":"222","title":"The X Factor","pages":"300"},
-             //{"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"},
-            ]
-        execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res, 99);
-            
-            var object = {"metadata":{"method":"bookdto"},"wid":"222","title":"The X Factor","pages":"300"};
-            var dtoobject = {"metadata":{"method":"bookdto"},"wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string"};
-            var parentwid = "elizabeth_heart";
-            var relationshiptype = "onetomany";
-            var command = {};
-
-            addrecord(object, dtoobject, parentwid, relationshiptype, command, function (err, res) {
-                alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
-            });
-
-            cleanadd(object, dtoobject, command, function (err, res) {
-                alert("add0 cleanadd! -- got res -->" + JSON.stringify(res));
-            });
-        });
-
-    }
-
-  exports.add1= add1 = function add1 (parameters, callback) {
+exports.get11= get11 = function get11 (parameters, callback) {
+    // Setup test
     testclearstorage();
-    var inputObject = {"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart",
-                    "metadata":{"method":"authordto"},
-                    "bookdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"bookdto"}}};
-    var inputdto = {"name":"string","age":"string","a":"string","b":"string",
-                    "metdata":{"bookdto":{"type":"onetomany"}},
-                    "wid":"authordto","metadata":{"method":"authordto"},
-                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto","metadata":{"method":"bookdto"}}}
-    var command = {};
+    // debuglevel = 10;
 
-            addrecord(object, dtoobject, parentwid, relationship, command, function (err, res) {
-                alert("add0 fired! -- got res -->" + JSON.stringify(res));
-            });
+    var executeList = [
+        // Trying to do three levels here Authors --> Books --> Pages
+        // author dto
+        {"executethis":"addwidmaster","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metdata.bookdto.type":"onetomany","metadata.inherit":"x"},
+        {"executethis":"addwidmaster","metadata.method":"","wid":"x","a":"adefault","b":"BDEFAULT", "bookdto.orphan_data":"Hey this works"},
+        //{"executethis":"addwidmaster","metadata.method":"","wid":"defaultauthordtoactions","a":"adefault","b":"BDEFAULT", "bookdto.orphan_data":"Hey this works"},
+        
+        // book dto
+        {"executethis":"addwidmaster","metadata.method":"bookdto","wid":"bookdto","title":"string","titleb":"string","pages":"string", "c":"string", "d":"string", "orphan_data":"string", "metdata.pagedto.type":"onetomany", "metadata.inherit":"defaultbookdtoactions"}, 
+        {"executethis":"addwidmaster","metadata.method":"bookdto","wid":"defaultbookdtoactions","c":"cdefault","d":"dDEFAULT"},
 
+        // page dto
+        {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"pagedto","content":"string","number":"string", "metadata.inherit":"defaultpagecontent"},
+        {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"defaultpagecontent","content":"This page is blank","number":"0"},
+        
+        // relationships
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"bookdto", "relationshiptype":"attributes"},
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"relpagetobook","primarywid":"bookdto","secondarywid":"pagedto", "relationshiptype":"attributes"},
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"XFactorBook", "relationshiptype":"attributes"},
+
+        // records
+        {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
+        {"executethis":"addwidmaster","metadata.method":"bookdto","wid":"XFactorBook","title":"The X Factor","pages":"300"},
+        
+        // get
+        {"executethis":"getwidmaster","wid":"elizabeth_heart"}
+    ];
+
+    // alert(JSON.stringify(executeList));    
+    execute(executeList, function (err, res) {
+        proxyprinttodiv('__--__', res[11], 99);
+        callback(err, res);
+    });
 }
-
-exports.add2= add2 = function add2 (parameters, callback) {
-    debuglevel=10;
-            var executeList = [
-            {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metdata.bookdto.type":"onetomany"},
-            {"executethis":"updatewid","metadata.method":"bookdto","wid":"bookdto","title":"string","pages":"string"}, 
-            {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"bookdto", "relationshiptype":"attributes"},
-            // {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
-            // {"executethis":"updatewid","metadata.method":"bookdto","wid":"222","title":"The X Factor","pages":"300"},
-            // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"},
-            {"executethis":"addwidmaster","bookdto.title":"string","bookdto.pages":"string", "metadata.method":"authordto","wid":"authordto","name":"string","age":"string","metadata.bookdto.type":"onetomany"},
-            {"executethis":"getwidmaster","wid":"elizabeth_heart"}
-            ]
-
-             execute(executeList, function (err, res) {
-                 proxyprinttodiv('__--__', res[7], 99);
-               callback(err, res);
-                 });
- }
 
 
 

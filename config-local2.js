@@ -90,19 +90,19 @@ exports.bootprocess = bootprocess = function bootprocess() {
             }
             //testAddWids();
             //displayAllWids();
-        }   
+        }
     });
     proxyprinttodiv('Function END bootprocess config', config, 1);
 
 
     function etappinstall(err, result) { // exeucte only the first time app is installed -- once per lifetime
         setappinstallparm();
-        // testclearstorage();
-        // if (exports.environment === 'local') {
-        //     clearLocalStorage();
-        //     addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-        //     addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}})
-        // }
+        testclearstorage();
+        if (exports.environment === 'local') {
+            clearLocalStorage();
+            addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
+            addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}})
+        }
     }
 
     function etappstarted() {} // execute only once per day when app is started
@@ -138,7 +138,7 @@ function setdefaultparm() {
     exports.environment = environment;
     test_results = {}; // can take out
     debuglog = {};
-    exports.debuglog = debuglog = debuglog;
+    exports.debuglog = debuglog;
 
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
@@ -278,7 +278,7 @@ function config123() {
 //function addtomongo(inputWidgetObject) {
 exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
     var collection="DRI";
-    var keycollection = "DRIKEY"
+    var keycollection = "DRIKEY";
     var err={};
     var widobject = {};
     var database = {};
@@ -323,7 +323,7 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
 exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
 
     var collection = "DRI";
-    var keycollection = "DRIKEY"
+    var keycollection = "DRIKEY";
     var err={};
     var output = {};
     var keydatabase = {};
@@ -358,7 +358,7 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
         // convert the object from dri standard before returnning it
         proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject, 1);
 
-        var convertedobject=convertfromdriformat(resultobject)
+        var convertedobject=convertfromdriformat(resultobject);
         proxyprinttodiv('Function getwid in : convertedobject', convertedobject, 1);
 
         if (inputWidgetObject['command.convertmethod']==='toobject') {
@@ -380,7 +380,7 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
 
 exports.convertfromdriformat = window.convertfromdriformat = convertfromdriformat =  function convertfromdriformat(widobject, command) {
     var outobject = {};
-    var db="data"
+    var db="data";
     if (command && command.db) {db = command.db}
 
     //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
@@ -406,8 +406,7 @@ exports.convertfromdriformat = window.convertfromdriformat = convertfromdriforma
         } else {
             outobject['metadata'] = "";
         }
-        //commented by Roger
-        //outobject = ConvertToDOTdri(outobject);
+        outobject = ConvertToDOTdri(outobject);
     }
 
     // if ((widobject) && (Object.keys(widobject).length > 0)) {
@@ -430,7 +429,7 @@ exports.convertfromdriformat = window.convertfromdriformat = convertfromdriforma
     //     }
     // }
     return outobject;   
-}
+};
 
 exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
     // var originalarguments=arguments;
@@ -457,7 +456,7 @@ exports.converttodriformat = window.converttodriformat = converttodriformat = fu
     delete inputWidgetObject['executethis'];
     proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
     var saveobject = {};
-    var db = "data"
+    var db = "data";
     var wid;
     var metadata;
     var date;
@@ -467,11 +466,11 @@ exports.converttodriformat = window.converttodriformat = converttodriformat = fu
     
     inputWidgetObject = ConvertFromDOTdri(inputWidgetObject);
     if (inputWidgetObject['wid']) {
-        wid = inputWidgetObject['wid']
+        wid = inputWidgetObject['wid'];
         delete inputWidgetObject['wid']
         }
     if (inputWidgetObject['metadata']) {
-        metadata = inputWidgetObject['metadata']
+        metadata = inputWidgetObject['metadata'];
         delete inputWidgetObject['metadata']
         }
 
@@ -525,7 +524,7 @@ exports.converttodriformat = window.converttodriformat = converttodriformat = fu
 
     proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
     return saveobject;
-}
+};
 
 
 
@@ -687,13 +686,13 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 
     keydatabase=getFromLocalStorage(keycollection);
     for (eachrecord in outlist) {
-        eachwid=keydatabase[outlist[eachrecord]["wid"]]
+        eachwid=keydatabase[outlist[eachrecord]["wid"]];
         resultlist.push(eachwid);
         }
 
     proxyprinttodiv('Function outlist', outlist, 30);
     callback(null, resultlist);
-}
+};
 
 // function getwidcopy() {
 //     // step through local storage looking for

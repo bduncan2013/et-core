@@ -53,10 +53,10 @@ exports.system_actions = system_actions = function system_actions(params, callba
                         {"executethis":"getwidmaster","wid":"elizabeth_heart"}
                     ];
 
-                    // execute(executeList, function (err, res) {
-                    //     proxyprinttodiv('__-system-actions-__', res, 99);
-                    //     callback(err, res);
-                    // });
+                    execute(executeList, function (err, res) {
+                        proxyprinttodiv('__-system-actions-__get wid elizabeth_heart', res, 99);
+                        callback(err, res);
+                    });
                     callback(err, results);
                 });
             });
@@ -72,16 +72,18 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
     var executeList = [ 
         {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","metadata.booksdto.type":"onetomany","metadata.adddto.type":"onetoone", "metadata.inherit":"defaultmasteractions"},
         {"executethis":"updatewid","metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"},  
-        {"executethis":"updatewid","metadata.method":"adddto","wid":"adddto","metadata.addfield.type":"onetomany","metadata.gojsobject.type":"onetoone","metadata.linkrules.type":"onetomany","metadata.actiondto.type":"onetomany"},
-        {"executethis":"updatewid","metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string"},
-        {"executethis":"updatewid","metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","metadata.nodeDataArray.type":"onetomany","metadata.linkDataArray.type":"onetomany"}, 
-        {"executethis":"updatewid","metadata.method":"nodedataarray","wid":"nodedataarray", "key":"string", "loc":"string", "metadata.leftArray.type":"onetomany", "metadata.topArray.type":"onetomany", "metadata.bottomArray.type":"onetomany", "metadata.rightArray.type":"onetomany"},    
-        {"executethis":"updatewid","metadata.method":"leftarray","wid":"leftarray","class":"string","portColor":"string", "portId":"string"}, 
-        {"executethis":"updatewid","metadata.method":"toparray","wid":"toparray","class":"string","portColor":"string", "portId":"string"},
-        {"executethis":"updatewid","metadata.method":"bottomarray","wid":"bottomarray","portColor":"string", "portId":"string"},  
-        {"executethis":"updatewid","metadata.method":"rightarray","wid":"rightarray","portColor":"string", "portId":"string"},    
-        {"executethis":"updatewid","metadata.method":"linkdataarray","wid":"linkdataarray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"},           
-        {"executethis":"updatewid","metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"},   
+        {"executethis":"updatewid","metadata.method":"adddto","wid":"adddto","metadata.actiondto.type":"onetomany"},
+
+        //{"executethis":"updatewid","metadata.method":"adddto","wid":"adddto","metadata.addfield.type":"onetomany","metadata.gojsobject.type":"onetoone","metadata.linkrules.type":"onetomany","metadata.actiondto.type":"onetomany"},
+        // {"executethis":"updatewid","metadata.method":"addfield","wid":"addfield","fieldname":"string","editable":"string","display":"string","oneditactions":"string"},
+        // {"executethis":"updatewid","metadata.method":"gojsobject","wid":"gojsobject","class":"string","linkFromPortIdProperty":"string","linkToPortIdProperty":"string","metadata.nodeDataArray.type":"onetomany","metadata.linkDataArray.type":"onetomany"}, 
+        // {"executethis":"updatewid","metadata.method":"nodedataarray","wid":"nodedataarray", "key":"string", "loc":"string", "metadata.leftArray.type":"onetomany", "metadata.topArray.type":"onetomany", "metadata.bottomArray.type":"onetomany", "metadata.rightArray.type":"onetomany"},    
+        // {"executethis":"updatewid","metadata.method":"leftarray","wid":"leftarray","class":"string","portColor":"string", "portId":"string"}, 
+        // {"executethis":"updatewid","metadata.method":"toparray","wid":"toparray","class":"string","portColor":"string", "portId":"string"},
+        // {"executethis":"updatewid","metadata.method":"bottomarray","wid":"bottomarray","portColor":"string", "portId":"string"},  
+        // {"executethis":"updatewid","metadata.method":"rightarray","wid":"rightarray","portColor":"string", "portId":"string"},    
+        // {"executethis":"updatewid","metadata.method":"linkdataarray","wid":"linkdataarray","from":"string", "to":"string", "fromPort":"string", "toPort":"string"},           
+        // {"executethis":"updatewid","metadata.method":"linkrules","wid":"linkrules","linkclass":"string","min":"string","max":"string"},   
         {"executethis":"updatewid","metadata.method":"actiondto","wid":"actiondto","displayname":"string", "actiondescription":"string", "category":"string", "subcategory":"string", "addthis.preexecute":"string", "addthis.executethis":"string", "addthis.postexecute":"string"}
     ];
 
@@ -91,16 +93,17 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
         executeList = [     
         {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"booksdto", "relationshiptype":"attributes"},
         {"linktype": "onetoone", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"reladddtotoauthor","primarywid":"authordto","secondarywid":"adddto","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"},    
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"},    
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"},
-        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"}
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel1","primarywid":"gojsobject","secondarywid":"nodedataarray","relationshiptype":"attributes"},    
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel2","primarywid":"gojsobject","secondarywid":"linkdataarray","relationshiptype":"attributes"},    
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel3","primarywid":"nodedataarray","secondarywid":"leftarray","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel4","primarywid":"nodedataarray","secondarywid":"toparray","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel5","primarywid":"nodedataarray","secondarywid":"bottomarray","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"gojsrel6","primarywid":"nodedataarray","secondarywid":"rightarray","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_addfield_adddto","primarywid":"adddto","secondarywid":"addfield","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_gojsobject_adddto","primarywid":"adddto","secondarywid":"gojsobject","relationshiptype":"attributes"},
+        // {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_linkrules_adddto","primarywid":"adddto","secondarywid":"linkrules","relationshiptype":"attributes"},
+        {"linktype": "onetomany", "executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel_actiondto_adddto","primarywid":"adddto","secondarywid":"actiondto","relationshiptype":"attributes"}
+
        ];
 
     // debugname="getwidmongo"
@@ -116,7 +119,8 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
             //aggressivedto("authordto", "", 10, function (err, res) {
             //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
             //getWidMongo("authordto", "", "", "", "", 10, function (err, res) {
-            getwidmaster({"wid":"authordto"}, function (err, res) {
+            //debugname="getwidmongo"
+            getwidmaster({"wid":"authordto", "command.convertmethod":"dto"}, function (err, res) {
                 proxyprinttodiv("results from get=", res, 99);   
             callback({}, res);
             })
@@ -127,7 +131,7 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
 
 exports.startwidviewer = startwidviewer = function startwidviewer(params, callback){
 //exports.addmoreactions = addmoreactions = function addmoreactions(params, callback) {
-
+  proxyprinttodiv("arrived to startwidviewer", "", 99);   
     var executeList = [ 
         {            
             "executethis":"addwidmaster",
@@ -145,86 +149,90 @@ exports.startwidviewer = startwidviewer = function startwidviewer(params, callba
             "adddto.actiondto.addthis.prexecute":"",
             "adddto.actiondto.addthis.executethis":"fieldrequired",
             "adddto.actiondto.addthis.postexecute":"getwidmaster"
-        },
-        {            
-            "executethis":"addwidmaster",
-            "wid":"startwid",
-            "metadata.method":"authordto",
-            "adddto.actiondto.widname":"startwid",
-            "adddto.actiondto.displayname":"Open As Json",
-            "adddto.actiondto.actiondescription":"string",
-            "adddto.actiondto.category":"string",
-            "adddto.actiondto.subcategory":"string",
-            "adddto.actiondto.convertmethod":"json",
-            "adddto.actiondto.addthis.prexecute":"",
-            "adddto.actiondto.addthis.executethis":"open_as_wid",
-            "adddto.actiondto.addthis.postexecute":"getwidmaster"
-        },
-        {
-            "executethis":"addwidmaster",
-            "wid":"startwid",
-            "metadata.method":"authordto",
-            "adddto.actiondto.displayname":"Genrate Propertybox",
-            "adddto.actiondto.widname":"startwid",
-            "adddto.actiondto.actiondescription":"string",
-            "adddto.actiondto.category":"Button",
-            "adddto.actiondto.subcategory":"PropList",
-            "adddto.actiondto.addthis.prexecute":"customfn102",
-            "adddto.actiondto.addthis.executethis":"populatepropertybox",
-            "adddto.actiondto.addthis.postexecute":""
-        },
-        {
-            "executethis":"addwidmaster",
-            "wid":"startwid",
-            "metadata.method":"authordto",
-            "adddto.actiondto.displayname":"Generate Widlist",
-            "adddto.actiondto.widname":"startwid",
-            "adddto.actiondto.actiondescription":"string",
-            "adddto.actiondto.category":"Button",
-            "adddto.actiondto.subcategory":"PropList",
-            "adddto.actiondto.addthis.prexecute":"customfn103",
-            "adddto.actiondto.addthis.executethis":"populatelist",
-            "adddto.actiondto.addthis.postexecute":""
-        },
-        {
-            "executethis":"addwidmaster",
-            "wid":"startwid",
-            "metadata.method":"authordto",
-            "adddto.actiondto.displayname":"Open As Wid",
-            "adddto.actiondto.widname":"startwid",
-            "adddto.actiondto.actiondescription":"string",
-            "adddto.actiondto.category":"string",
-            "adddto.actiondto.subcategory":"string",
-            "adddto.actiondto.addthis.prexecute":"",
-            "adddto.actiondto.addthis.executethis":"open_as_wid",
-            "adddto.actiondto.addthis.postexecute":"getwidmaster"
-        },
-        {
-            "executethis":"addwidmaster",
-            "wid":"startwid",
-            "metadata.method":"authordto",
-            "adddto.actiondto.displayname":"Process Blur",
-            "adddto.actiondto.widname":"startwid",
-            "adddto.actiondto.actiondescription":"string",
-            "adddto.actiondto.category":"blur",
-            "adddto.actiondto.subcategory":"age",
-            "adddto.actiondto.addthis.prexecute":"setdtoforwid",
-            "adddto.actiondto.addthis.executethis":"fieldrequired",
-            "adddto.actiondto.addthis.postexecute":"getwidmaster"
-        },
-        {
-            "executethis":"addwidmaster",
-            "wid":"startwid",
-            "metadata.method":"authordto",
-            "adddto.actiondto.displayname":"Process Blur",
-            "adddto.actiondto.widname":"startwid",
-            "adddto.actiondto.actiondescription":"string",
-            "adddto.actiondto.category":"blur",
-            "adddto.actiondto.subcategory":"booksdto",
-            "adddto.actiondto.addthis.prexecute":"setdtoforwid",
-            "adddto.actiondto.addthis.executethis":"fieldrequired",
-            "adddto.actiondto.addthis.postexecute":"getwidmaster"
         }
+        //,
+        // {            
+        //     "executethis":"addwidmaster",
+        //     "wid":"startwid",
+        //     "metadata.method":"authordto",
+        //     "adddto.actiondto.widname":"startwid",
+        //     "adddto.actiondto.displayname":"Open As Json",
+        //     "adddto.actiondto.actiondescription":"string",
+        //     "adddto.actiondto.category":"string",
+        //     "adddto.actiondto.subcategory":"string",
+        //     "adddto.actiondto.convertmethod":"json",
+        //     "adddto.actiondto.addthis.prexecute":"",
+        //     "adddto.actiondto.addthis.executethis":"open_as_wid",
+        //     "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        // },
+        // {
+        //     "executethis":"addwidmaster",
+        //     "wid":"startwid",
+        //     "metadata.method":"authordto",
+        //     "adddto.actiondto.displayname":"Genrate Propertybox",
+        //     "adddto.actiondto.widname":"startwid",
+        //     "adddto.actiondto.actiondescription":"string",
+        //     "adddto.actiondto.category":"Button",
+        //     "adddto.actiondto.subcategory":"PropList",
+        //     "adddto.actiondto.addthis.prexecute":"customfn102",
+        //     "adddto.actiondto.addthis.executethis":"populatepropertybox",
+        //     "adddto.actiondto.addthis.postexecute":""
+        // },
+        // {
+        //     "executethis":"addwidmaster",
+        //     "wid":"startwid",
+        //     "metadata.method":"authordto",
+        //     "adddto.actiondto.displayname":"Generate Widlist",
+        //     "adddto.actiondto.widname":"startwid",
+        //     "adddto.actiondto.actiondescription":"string",
+        //     "adddto.actiondto.category":"Button",
+        //     "adddto.actiondto.subcategory":"PropList",
+        //     "adddto.actiondto.addthis.prexecute":"customfn103",
+        //     "adddto.actiondto.addthis.executethis":"populatelist",
+        //     "adddto.actiondto.addthis.postexecute":""
+        // },
+        // {
+        //     "executethis":"addwidmaster",
+        //     "wid":"startwid",
+        //     "metadata.method":"authordto",
+        //     "adddto.actiondto.displayname":"Open As Wid",
+        //     "adddto.actiondto.widname":"startwid",
+        //     "adddto.actiondto.actiondescription":"string",
+        //     "adddto.actiondto.category":"string",
+        //     "adddto.actiondto.subcategory":"string",
+        //     "adddto.actiondto.addthis.prexecute":"",
+        //     "adddto.actiondto.addthis.executethis":"open_as_wid",
+        //     "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        // },
+        // {
+        //     "executethis":"addwidmaster",
+        //     "wid":"startwid",
+        //     "metadata.method":"authordto",
+        //     "adddto.actiondto.displayname":"Process Blur",
+        //     "adddto.actiondto.widname":"startwid",
+        //     "adddto.actiondto.actiondescription":"string",
+        //     "adddto.actiondto.category":"blur",
+        //     "adddto.actiondto.subcategory":"age",
+        //     "adddto.actiondto.addthis.prexecute":"setdtoforwid",
+        //     "adddto.actiondto.addthis.executethis":"fieldrequired",
+        //     "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        // },
+        // {
+        //     "executethis":"addwidmaster",
+        //     "wid":"startwid",
+        //     "metadata.method":"authordto",
+        //     "adddto.actiondto.displayname":"Process Blur",
+        //     "adddto.actiondto.widname":"startwid",
+        //     "adddto.actiondto.actiondescription":"string",
+        //     "adddto.actiondto.category":"blur",
+        //     "adddto.actiondto.subcategory":"booksdto",
+        //     "adddto.actiondto.addthis.prexecute":"setdtoforwid",
+        //     "adddto.actiondto.addthis.executethis":"fieldrequired",
+        //     "adddto.actiondto.addthis.postexecute":"getwidmaster"
+        // }
+
+
+
         // {
         //     "executethis":"addwidmaster",
         //     "wid":"startwid",
@@ -331,7 +339,13 @@ exports.startwidviewer = startwidviewer = function startwidviewer(params, callba
         // }
     ];
 	
+    proxyprinttodiv("startwid=BEFORE", executeList, 99); 
     execute(executeList, function (err, res) {
+        proxyprinttodiv("startwid=AFTER", "", 99); 
+    
+    
+        //debugname="getwidmongo"
+        //debuglevel=38;
         execute({"executethis":"getwidmaster","wid":"startwid"}, function (err, res) {
 			proxyprinttodiv("startwid=", res, 99);   
             callback({}, res);
@@ -346,10 +360,11 @@ exports.createsampledata = createsampledata = function createsampledata(params, 
         {"executethis":"addwidmaster","metadata.method":"authordto","wid":"sarah_jones","name":"Sarah Jones","age":"40","booksdto.title":"The Sands of Time","booksdto.pages":"378"},
         {"executethis":"addwidmaster","metadata.method":"authordto","wid":"mike_williams","name":"Mike Williams","age":"36","booksdto.title":"Attack on the Mainframe","booksdto.pages":"600"},
         {"executethis":"addwidmaster","metadata.method":"authordto","wid":"jerry_stone","name":"Jerry Stone","age":"41","booksdto.title":"Carpentry 101","booksdto.pages":"120"},
-        {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"}
+        {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50","booksdto.title":"The X Factor","booksdto.pages":"300"},
+        {"executethis":"getwidmaster","wid":"elizabeth_heart"}
 	];
 
-	execute({"executethis":"getwidmaster","wid":"elizabeth_heart"}, function (err, res) {
+	execute(executeList, function (err, res) {
         proxyprinttodiv("createsampledata=", res, 99)
         callback({}, res);
     });
@@ -390,29 +405,35 @@ exports.createdefaultactions = createdefaultactions = function createdefaultacti
     //     "addthis.postexecute":"getwidmaster"
     // },
     // defaultmasteractions
+  //   {
+		// "executethis":"addwidmaster",
+		// "wid": "defaultmasteractions",
+		// "metadata.method": "actiondto",
+		// "widname": "startwid",
+		// "displayname": "1 Process Blur 111- defaultmasteraction",
+		// "actiondescription": "string",
+		// "category": "blur",
+		// "subcategory": "name",
+		// "addthis.preexecute": "",
+		// "addthis.executethis": "fieldrequired",
+		// "addthis.postexecute": "getwidmaster",
+  //   },{
+  //       "executethis":"addwidmaster",
+  //       "wid": "defaultmasteractions",
+  //       "metadata.method": "actiondto",
+		// "widname": "startwid",
+		// "displayname": "2 Open As Json 222- defaultmasteractions",
+		// "actiondescription": "string",
+		// "category": "string",
+		// "subcategory": "string",
+		// "addthis.preexecute": "",
+		// "addthis.executethis": "open_as_wid",
+		// "addthis.postexecute": "getwidmaster",
+  //   },
     {
-		"executethis":"addwidmaster",
-		"wid": "defaultmasteractions",
-		"metadata.method": "actiondto",
-
-		"widname": "startwid",
-		"displayname": "1 Process Blur 111- defaultmasteraction",
-		"actiondescription": "string",
-		"category": "blur",
-		"subcategory": "name",
-		"addthis.preexecute": "",
-		"addthis.executethis": "fieldrequired",
-		"addthis.postexecute": "getwidmaster",
-
-		"widname": "startwid",
-		"displayname": "2 Open As Json 222- defaultmasteractions",
-		"actiondescription": "string",
-		"category": "string",
-		"subcategory": "string",
-		"addthis.preexecute": "",
-		"addthis.executethis": "open_as_wid",
-		"addthis.postexecute": "getwidmaster",
-		
+        "executethis":"addwidmaster",
+        "wid": "defaultmasteractions",
+        "metadata.method": "actiondto",		
 		"widname": "startwid",
 		"displayname": "Generate Children 333- defaultmasteractions",
 		"actiondescription": "string",
@@ -422,21 +443,21 @@ exports.createdefaultactions = createdefaultactions = function createdefaultacti
 		"addthis.executethis": "generatechildren",
 		"addthis.postexecute": "populatelist"
 	},
-        {"executethis":"getwidmaster","wid":"defaultadddtoactions"},
-        {"executethis":"getwidmaster","wid":"defaultauthordtoactions"},
-        {"executethis":"getwidmaster","wid":"defaultmasteractions"},
-        //{"executethis":"getwidmaster","wid":"startwid"}
+        //{"executethis":"getwidmaster","wid":"defaultadddtoactions"},
+        //{"executethis":"getwidmaster","wid":"defaultauthordtoactions"},
+        //{"executethis":"getwidmaster","wid":"defaultmasteractions"},
+        {"executethis":"getwidmaster","wid":"startwid"}
 	];
 	execute(executeList, function (err, res) {
-
-        proxyprinttodiv("defaultadddtoactions", res, 99);   
-        proxyprinttodiv("defaultadddtoactions", res[3], 99);   
-        proxyprinttodiv("defaultauthordtoactions", res[4], 99); 
-        proxyprinttodiv("defaultmasteractions", res[5], 99); 
+        proxyprinttodiv("add defaults res", res, 99);  
+        // proxyprinttodiv("defaultadddtoactions", res, 99);   
+        proxyprinttodiv("add defaults startwid", res[1], 99);   
+        // proxyprinttodiv("defaultauthordtoactions", res[4], 99); 
+        // proxyprinttodiv("defaultmasteractions", res[5], 99); 
         //proxyprinttodiv("startwid", res[6], 99); 
         console.log(' >>> final response of executeList >>> ' + JSON.stringify(res));
         params = {'test':'PASS'};
-        callback({}, params);
+        callback({}, res);
     });
 
         // params={'test':'PASS'};

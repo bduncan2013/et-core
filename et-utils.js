@@ -37,6 +37,206 @@ exports.localStore = localStore = function () {
 localStore.clear();
 
 
+exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
+    proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 99);
+    proxyprinttodiv("insertbydtotype input bigdto :- ", bigdto, 99);
+    proxyprinttodiv("insertbydtotype input insertobj :- ", insertobj, 99);
+    proxyprinttodiv("insertbydtotype input command.dtotype :- ", command.dtotype, 99);
+    
+    var dtoname;
+    var dtonameobj;
+    var dtoindex;
+    if (bigdto.metadata && bigdto["metadata"]["method"]) {
+        dtoname = bigdto["metadata"]["method"];
+        }
+    if (insertobj.metadata && insertobj["metadata"]["method"]) {
+        dtoname = insertobj["metadata"]["method"];
+        }
+    if (command.dtotype) {
+        dtoname = command.dtotype;
+       }
+    proxyprinttodiv("insertbydtotype dtoname :- ", dtoname, 99);
+    if (dtoname) {
+        dtoindex = getindex(bigdto, dtoname, null); 
+        proxyprinttodiv("insertbydtotype dtoindex:- ", dtoindex, 99);
+        if(!insertobj.metadata){ insertobj.metadata={};}
+        delete insertobj.wid;
+        insertobj["metadata"]["method"]=dtoname;
+        proxyprinttodiv("insertbydtotype setbyindex  insertobj:- ", insertobj, 99);
+        proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- I", inputobj, 99);
+        if (dtoindex===null) { // create outside wrapper
+            dtoname=inputobj["metadata"]["method"];
+            insertobj[dtoname]={};
+            extend(true, insertobj[dtoname], inputobj)
+            inputobj=insertobj;
+            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- II", inputobj, 99);
+            inputobj=ConvertFromDOTdri(inputobj);
+            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- HI", "HI", 99);
+            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- III", inputobj, 99);
+            }
+        else {
+            setbyindex(inputobj, dtoindex, insertobj);
+            proxyprinttodiv("insertbydtotype setbyindex  inputobj:- ", inputobj, 99);
+            inputobj=ConvertFromDOTdri(inputobj);
+            }
+       }
+    proxyprinttodiv("insertbydtotype result :- ", inputobj, 99);
+    return inputobj;
+}
+
+
+function getindex(parameterobject, dtoname, indexstring) {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
+    var match;
+    var potentialmap;
+    if (parameterobject["metadata"] && parameterobject["metadata"]["method"] && parameterobject["metadata"]["method"]===dtoname) {return ""}
+
+    else
+    {
+    for (eachelement in parameterobject) {
+        proxyprinttodiv('Function getindex eachelement', eachelement,23);  
+        if (eachelement===dtoname) {
+            if (indexstring) {indexstring=indexstring+'.'+eachelement} else {indexstring=eachelement}
+              proxyprinttodiv('Function indexstring FOUND', indexstring, 23);  
+            break;         
+        }
+
+        if (parameterobject[eachelement] instanceof Object) {
+            if (indexstring) {potentialmap=indexstring+'.'+eachelement} else {potentialmap=eachelement}
+            match = getindex(parameterobject[eachelement], dtoname, potentialmap)
+            if (potentialmap!==match) {
+                indexstring=match;
+                proxyprinttodiv('Function match inside', match, 23);  
+                break;
+                }
+            }
+        }
+    }
+    proxyprinttodiv('Function indexstring ', indexstring, 23);  
+
+    debugfn("getindex code generator", "getindex", "get", "code", 2, 1, {
+        0: inbound_parameters,
+        1: indexstring
+    }, 6); 
+    
+    return indexstring;
+
+} 
+
+function setbyindex(obj, str, val) {
+    var keys, key;
+    //make sure str is a string with length
+    if (str==="") {extend(true, obj, val)}
+
+    else
+    {
+    if (!str || !str.length || Object.prototype.toString.call(str) !== "[object String]") {
+        return false;
+    }
+    if (obj !== Object(obj)) {
+        //if it's not an object, make it one
+        obj = {};
+    }
+    keys = str.split(".");
+    while (keys.length > 1) {
+        key = keys.shift();
+        if (obj !== Object(obj)) {
+            //if it's not an object, make it one
+            obj = {};
+        }
+        if (!(key in obj)) {
+            //if obj doesn't contain the key, add it and set it to an empty object
+            obj[key] = {};
+        }
+        obj = obj[key];
+    }
+    // return obj[keys[0]] = val;
+    return extend(true, obj[keys[0]], val); // we want to add data not overwrite data
+    }
+};
+
+
+
+exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command) {
+    var modifiedObj = {};
+    extend(true, modifiedObj, inputObj);    
+    if (dtoObjOpt) {
+        return recurseModObj(modifiedObj, dtoObjOpt);
+    } else {
+        dtoObjOpt = execute({"executethis":"getwidmaster", "wid": inputObj["metadata"]["method"]});
+        return recurseModObj(modifiedObj, dtoObjOpt);
+    };   
+
+}
+
+function recurseModObj(inputObject,dtoObject){
+    var modifiedObj = {};
+    Object.keys(inputObject).forEach(function (inpKey) {
+
+        // added by Roger
+        if (inpKey.indexOf("addthis.") !== -1) {// if you found "addthis." then remove from inputObject
+                inputObject[inpKey.replace("addthis.", "")]=inputObject[inpKey]; // then and readd without addthis
+                delete inputObject[inpKey]; // delete the old one
+                }
+
+        var inpVal = inputObject[inpKey];
+        if (dtoObject.hasOwnProperty(inpKey)) {
+            var dataType = dtoObject[inpKey];
+            if(typeof inpVal === "string" && typeof dataType === "string")
+            {
+                switch(dataType)
+                {
+                    case "boolean":
+                                var convB = null;
+                                if (inpVal == "true") {
+                                    convB = true;
+                                } else if (inpVal == "false") {
+                                    convB = false;
+                                };
+                                modifiedObj[inpKey] = convB;
+                        break;
+                    case "string":
+                                modifiedObj[inpKey] = String(inpVal);
+                        break;
+                    case "number":
+                                modifiedObj[inpKey] = parseInt(inpVal);                            
+                        break;
+                    case "date":
+                                var arrD = inpVal.split("/");
+                                var m = arrD[0];
+                                m = (m<38 ? '0'+m : m);
+                                var d = arrD[1];
+                                d = (d<38 ? '0'+d : d);
+                                var y = arrD[2];
+                                modifiedObj[inpKey] = new Date(y,m-1,d);                                                        
+                        break;
+                    default:
+                        //Nothing to be done
+                       break;
+                }
+            }else if(typeof inpVal === "object" && typeof dataType === "object")
+            {
+                //Ignoring metadata property in input.
+                if (inpKey != "metadata") {
+                    var modObj = recurseModObj(inpVal,dataType);
+                    modifiedObj[inpKey] = modObj;
+                }else{
+                    modifiedObj[inpKey] = inpVal;                    
+                }
+            }else
+            {
+                //Doesn't match with dto -- Nullifying the param
+                modifiedObj[inpKey] = null;
+            }
+        } else{
+            delete modifiedObj[inpKey];
+        };
+    });
+    return modifiedObj;        
+}
+
 exports.validParams = validParams = function validParams(obj) {
     var keyLength = getObjectSize(obj);
     var status = false;

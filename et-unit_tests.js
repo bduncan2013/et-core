@@ -3243,3 +3243,23 @@ function func_b33(params, callback) {
 }
 
 
+
+exports.err1 = err1 = function err1 (params, callback) {
+    debugsubcat = "code";
+    execute({"executethis":"getwidmaster","wid":"1","command":{"parameters":{"test1":"1"},"status":"fail"}}, function(err, result){
+        proxyprinttodiv('Function err1 result ', result, 99);
+        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    });
+}
+
+exports.wrapped1 = wrapped1 = function wrapped1 (params, callback) {
+    debugsubcat = "code";
+    execute([{"executethis":"addwidmaster","wid":"1","a":"b"}, {"executethis":"getwidmaster","wid":"1","command":{"executeresult":"outer"}}], function(err, result){
+        proxyprinttodiv('Function wrapped1 result ', result, 99)
+        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+
+    });
+}
+
+
+
