@@ -28,10 +28,6 @@
             //     alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
             // });
 
-            addrecord(object, dtoobject, parentwid, relationshiptype, command, function (err, res) {
-                alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
-            });
-
             cleanadd(object, dtoobject, command, function (err, res) {
                 alert("add0 cleanadd! -- got res -->" + JSON.stringify(res));
             });
