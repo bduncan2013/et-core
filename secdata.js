@@ -1,180 +1,5 @@
 (function (window) {
 
-    exports.datasum = datasum = function datasum(params, callback) {
-        // create dtos  
-        var executeList = [
-
-            {
-                //create userdto
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "wid": "userdto",
-                "widname": "wid",
-                "fname": "string",
-                "lname": "string",
-                "email": "string",
-                "email2": "string",
-                "address": "string",
-                "address2": "string",
-                "city": "string",
-                "state": "string",
-                "zip": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                //create testdto
-                "executethis": "addwidmaster",
-                "metadata.method": "testdto",
-                "wid": "testdto",
-                "a": "string",
-                "b": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                //create systemdto
-                "executethis": "addwidmaster",
-                "metadata.method": "systemdto",
-                "wid": "systemdto",
-                "creator": "accounttype",
-                "expiration": "datetime",
-                "offlinerule": "string",
-                "onlinerule": "string",
-                "metadata.securitydto.type": "onetoone",
-                "metadata.balancedto.type": "onetoone",
-                "metadata.categorydto.type": "onetoone",
-                "metadata.groupdto.type": "onetoone",
-                "metadata.permissiondto.type": "onetoone"
-            }, {
-                // create groupdto
-                "executethis": "addwidmaster",
-                "metadata.method": "groupdto",
-                "wid": "groupdto",
-                "grouptype": "string",
-                "groupname": "grouptype"
-            }, {
-                // create securitydto
-                // securitydto holds accesstoken, status
-                "executethis": "addwidmaster",
-                "metadata.method": "securitydto",
-                "wid": "securitydto",
-                "accesstoken": "string",
-                "status": "integer"
-            }, {
-                // create permissiondto
-                "executethis": "addwidmaster",
-                "metadata.method": "permissiondto",
-                "wid": "permissiondto",
-                "granteegroup": "grouptype",
-                "actiongroup": "grouptype",
-                "targetgroup": "grouptype",
-                "dbgroup": "dbtype",
-                "levelgroup": "leveltype"
-            }, {
-                //create categorydto
-                "executethis": "addwidmaster",
-                "metadata.method": "categorydto",
-                "wid": "categorydto",
-                "categorytype": "string",
-                "categoryname": "categorytype"
-            }, {
-                // create balancedto
-                "executethis": "addwidmaster",
-                "metadata.method": "balancedto",
-                "wid": "balancedto",
-                "widname": "wid",
-                "balance": "integer"
-            }, {
-                //create userdto
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "wid": "userdto",
-                "widname": "wid",
-                "fname": "string",
-                "lname": "string",
-                "email": "string",
-                "email2": "string",
-                "address": "string",
-                "address2": "string",
-                "city": "string",
-                "state": "string",
-                "zip": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                //create testdto
-                "executethis": "addwidmaster",
-                "metadata.method": "testdto",
-                "wid": "testdto",
-                "a": "string",
-                "b": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                //create systemdto
-                "executethis": "addwidmaster",
-                "metadata.method": "systemdto",
-                "wid": "systemdto",
-                "creator": "accounttype",
-                "expiration": "datetime",
-                "offlinerule": "string",
-                "onlinerule": "string",
-                "metadata.securitydto.type": "onetoone",
-                "metadata.balancedto.type": "onetoone",
-                "metadata.categorydto.type": "onetoone",
-                "metadata.groupdto.type": "onetoone",
-                "metadata.permissiondto.type": "onetoone"
-            }, {
-                // create groupdto
-                "executethis": "addwidmaster",
-                "metadata.method": "groupdto",
-                "wid": "groupdto",
-                "grouptype": "string",
-                "groupname": "grouptype"
-            }, {
-                // create securitydto
-                // securitydto holds accesstoken, status
-                "executethis": "addwidmaster",
-                "metadata.method": "securitydto",
-                "wid": "securitydto",
-                "accesstoken": "string",
-                "status": "integer"
-            }, {
-                // create permissiondto
-                "executethis": "addwidmaster",
-                "metadata.method": "permissiondto",
-                "wid": "permissiondto",
-                "granteegroup": "grouptype",
-                "actiongroup": "grouptype",
-                "targetgroup": "grouptype",
-                "dbgroup": "dbtype",
-                "levelgroup": "leveltype"
-            }, {
-                //create categorydto
-                "executethis": "addwidmaster",
-                "metadata.method": "categorydto",
-                "wid": "categorydto",
-                "categorytype": "string",
-                "categoryname": "categorytype"
-            }, {
-                // create balancedto
-                "executethis": "addwidmaster",
-                "metadata.method": "balancedto",
-                "wid": "balancedto",
-                "widname": "wid",
-                "balance": "integer"
-            }
-        ];
-
-
-        execute(executeList, function (err, res) {
-            proxyprinttodiv('Function datasum relationships -- added all this -- ', res, 99);
-            execute({
-                "executethis": "getwidmaster",
-                "wid": "userdto"
-            }, function (err, res1) {
-                proxyprinttodiv('Function datasum  -- userdto -- ', res1, 99);
-                callback(err, res);
-            });
-        });
-    }
-
-
     // this test shall result in an unauthorized access error
     // we create testdata stuff1 and provide access to it to only staff group memners
     // however we try to access it (using getwidmaster) using admin group user
@@ -270,7 +95,7 @@
                 "wid": "userdto"
             }, function (err, res1) {
                 proxyprinttodiv('Function datasum  -- userdto -- ', res1, 99);
-                callback(err, res);
+                callback(err, res1);
             });
         });
     }
@@ -355,7 +180,7 @@
                 "wid": "rogeruser"
             }, function (err, res1) {
                 proxyprinttodiv('Function datasum2  -- rogeruser -- ', res1, 99);
-                callback(err, res);
+                callback(err, res1);
             });
         });
     }

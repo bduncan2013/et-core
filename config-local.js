@@ -97,12 +97,12 @@ exports.bootprocess = bootprocess = function bootprocess() {
 
     function etappinstall(err, result) { // exeucte only the first time app is installed -- once per lifetime
         setappinstallparm();
-        // testclearstorage();
-        // if (exports.environment === 'local') {
-        //     clearLocalStorage();
-        //     addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-        //     addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}})
-        // }
+        testclearstorage();
+        if (exports.environment === 'local') {
+            clearLocalStorage();
+            addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
+            addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}})
+        }
     }
 
     function etappstarted() {} // execute only once per day when app is started
