@@ -18,14 +18,21 @@
 
 
         var result, preError, midError, overallError;
-        // var incomingparams = {};
-        // extend(true, incomingparams, received_params); // clone received params
-
 
         if ((incomingparams instanceof Array)) {
             proxyprinttodiv("execute - array params received ", incomingparams, 17);
             executethismultiple(incomingparams, callback);
         } else {
+
+            // if command.execute.parameters exist the insert those parameters into execution stream.  
+            // Remove command.execute.parameters
+            if (incomingparams.command && incomingparams.command.execute && incomingparams.command.execute.parameters) {
+                for (var key in incomingparams.command.execute.parameters) {
+                    incomingparams[key] = incomingparams.command.execute.parameters[key];
+                }
+                delete incomingparams.command.execute.parameters;
+            }
+
             proxyprinttodiv("execute - inboundparms", incomingparams, 11);
             proxyprinttodiv("execute - callback fn ", String(callback), 11);
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
@@ -41,9 +48,6 @@
             console.log('starting preexecute ' + nonCircularStringify(incomingparams));
             dothisprocessor(incomingparams, 'preexecute', function (err, preResults) {
                 preError = err;
-                //if (preResults instanceof Array) {preResults=preResults[0]};
-                console.log(' after preexecute >> ' + nonCircularStringify(preResults));
-                console.log('starting midexecute ' + nonCircularStringify(incomingparams));
 
                 if (!preResults)
                     preResults = {};
@@ -75,31 +79,39 @@
                     dothisprocessor(midResults, 'postexecute', function (err, postResults) {
 
                         console.log(' after postexecute >> ' + nonCircularStringify(postResults));
-                        if (!postResults)
-                            postResults = {};
 
-                        overallError = extend(true, preError, midError, err);
-
-                        if (Object.prototype.toString.call(postResults) !== '[object Array]') {
-                            var tempArray = [];
-                            tempArray.push(postResults);
-                            postResults = tempArray;
-                        }
-
-                        // if does exist then 
-                        // executeobject = command.execute
-                        // delete command.execute
-                        // executeobject.command=command
-                        // extend(true, executeobject, post results)
-                        // execute(executeobject,
-
-                        if ((!incomingparams.command) || (!incomingparams.command.execute)) {
-                            callback(overallError, postResults);
+                        // handle command.execute.status = fail
+                        // if command.execute.status = fail && !parameter[htmlwid] then calculatehtmlwid()
+                        if ((incomingparams.command) && (incomingparams.command.execute) && (incomingparams.command.execute.status) && (incomingparams.command.execute.status === 'fail') && (!incomingparams.htmlwid)) {
+                            calculatehtmlwid(callback);
                         } else {
-                            var executeobject = incomingparams.command.execute;
-                            delete incomingparams.command.execute;
-                            extend(true, executeobject, postResults);
-                            execute(executeobject, callback);
+                            if (!postResults)
+                                postResults = {};
+
+                            overallError = extend(true, preError, midError, err);
+
+                            if (Object.prototype.toString.call(postResults) !== '[object Array]') {
+                                var tempArray = [];
+                                tempArray.push(postResults);
+                                postResults = tempArray;
+                            }
+
+
+                            // handle command.executeresult if present in incoming params 
+                            if ((incomingparams.command) && (incomingparams.command.execute) && (incomingparams.command.execute.result)) {
+                                var resultWrapperObj = {};
+                                resultWrapperObj[incomingparams.command.execute.result] = postResults;
+                                postResults = resultWrapperObj;
+                                delete incomingparams.command.executeresult;
+                            }
+                            if ((!incomingparams.command) || (!incomingparams.command.execute)) {
+                                callback(overallError, postResults);
+                            } else {
+                                var executeobject = incomingparams.command.execute;
+                                delete incomingparams.command.execute;
+                                extend(true, executeobject, postResults);
+                                execute(executeobject, callback);
+                            }
                         }
                     });
                 });
@@ -107,6 +119,12 @@
         }
 
     };
+
+    function calculatehtmlwid(callback) {
+        callback({
+            "htmlwid": "login"
+        });
+    }
 
     // > 
     // > executeone

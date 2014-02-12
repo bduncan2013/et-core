@@ -1,180 +1,5 @@
 (function (window) {
 
-    exports.datasum = datasum = function datasum(params, callback) {
-        // create dtos  
-        var executeList = [
-
-            {
-                //create userdto
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "wid": "userdto",
-                "widname": "wid",
-                "fname": "string",
-                "lname": "string",
-                "email": "string",
-                "email2": "string",
-                "address": "string",
-                "address2": "string",
-                "city": "string",
-                "state": "string",
-                "zip": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                //create testdto
-                "executethis": "addwidmaster",
-                "metadata.method": "testdto",
-                "wid": "testdto",
-                "a": "string",
-                "b": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                //create systemdto
-                "executethis": "addwidmaster",
-                "metadata.method": "systemdto",
-                "wid": "systemdto",
-                "creator": "accounttype",
-                "expiration": "datetime",
-                "offlinerule": "string",
-                "onlinerule": "string",
-                "metadata.securitydto.type": "onetoone",
-                "metadata.balancedto.type": "onetoone",
-                "metadata.categorydto.type": "onetoone",
-                "metadata.groupdto.type": "onetoone",
-                "metadata.permissiondto.type": "onetoone"
-            }, {
-                // create groupdto
-                "executethis": "addwidmaster",
-                "metadata.method": "groupdto",
-                "wid": "groupdto",
-                "grouptype": "string",
-                "groupname": "grouptype"
-            }, {
-                // create securitydto
-                // securitydto holds accesstoken, status
-                "executethis": "addwidmaster",
-                "metadata.method": "securitydto",
-                "wid": "securitydto",
-                "accesstoken": "string",
-                "status": "integer"
-            }, {
-                // create permissiondto
-                "executethis": "addwidmaster",
-                "metadata.method": "permissiondto",
-                "wid": "permissiondto",
-                "granteegroup": "grouptype",
-                "actiongroup": "grouptype",
-                "targetgroup": "grouptype",
-                "dbgroup": "dbtype",
-                "levelgroup": "leveltype"
-            }, {
-                //create categorydto
-                "executethis": "addwidmaster",
-                "metadata.method": "categorydto",
-                "wid": "categorydto",
-                "categorytype": "string",
-                "categoryname": "categorytype"
-            }, {
-                // create balancedto
-                "executethis": "addwidmaster",
-                "metadata.method": "balancedto",
-                "wid": "balancedto",
-                "widname": "wid",
-                "balance": "integer"
-            }, {
-                //create userdto
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "wid": "userdto",
-                "widname": "wid",
-                "fname": "string",
-                "lname": "string",
-                "email": "string",
-                "email2": "string",
-                "address": "string",
-                "address2": "string",
-                "city": "string",
-                "state": "string",
-                "zip": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                //create testdto
-                "executethis": "addwidmaster",
-                "metadata.method": "testdto",
-                "wid": "testdto",
-                "a": "string",
-                "b": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                //create systemdto
-                "executethis": "addwidmaster",
-                "metadata.method": "systemdto",
-                "wid": "systemdto",
-                "creator": "accounttype",
-                "expiration": "datetime",
-                "offlinerule": "string",
-                "onlinerule": "string",
-                "metadata.securitydto.type": "onetoone",
-                "metadata.balancedto.type": "onetoone",
-                "metadata.categorydto.type": "onetoone",
-                "metadata.groupdto.type": "onetoone",
-                "metadata.permissiondto.type": "onetoone"
-            }, {
-                // create groupdto
-                "executethis": "addwidmaster",
-                "metadata.method": "groupdto",
-                "wid": "groupdto",
-                "grouptype": "string",
-                "groupname": "grouptype"
-            }, {
-                // create securitydto
-                // securitydto holds accesstoken, status
-                "executethis": "addwidmaster",
-                "metadata.method": "securitydto",
-                "wid": "securitydto",
-                "accesstoken": "string",
-                "status": "integer"
-            }, {
-                // create permissiondto
-                "executethis": "addwidmaster",
-                "metadata.method": "permissiondto",
-                "wid": "permissiondto",
-                "granteegroup": "grouptype",
-                "actiongroup": "grouptype",
-                "targetgroup": "grouptype",
-                "dbgroup": "dbtype",
-                "levelgroup": "leveltype"
-            }, {
-                //create categorydto
-                "executethis": "addwidmaster",
-                "metadata.method": "categorydto",
-                "wid": "categorydto",
-                "categorytype": "string",
-                "categoryname": "categorytype"
-            }, {
-                // create balancedto
-                "executethis": "addwidmaster",
-                "metadata.method": "balancedto",
-                "wid": "balancedto",
-                "widname": "wid",
-                "balance": "integer"
-            }
-        ];
-
-
-        execute(executeList, function (err, res) {
-            proxyprinttodiv('Function datasum relationships -- added all this -- ', res, 99);
-            execute({
-                "executethis": "getwidmaster",
-                "wid": "userdto"
-            }, function (err, res1) {
-                proxyprinttodiv('Function datasum  -- userdto -- ', res1, 99);
-                callback(err, res);
-            });
-        });
-    }
-
-
     // this test shall result in an unauthorized access error
     // we create testdata stuff1 and provide access to it to only staff group memners
     // however we try to access it (using getwidmaster) using admin group user
@@ -270,7 +95,7 @@
                 "wid": "userdto"
             }, function (err, res1) {
                 proxyprinttodiv('Function datasum  -- userdto -- ', res1, 99);
-                callback(err, res);
+                callback(err, res1);
             });
         });
     }
@@ -355,7 +180,7 @@
                 "wid": "rogeruser"
             }, function (err, res1) {
                 proxyprinttodiv('Function datasum2  -- rogeruser -- ', res1, 99);
-                callback(err, res);
+                callback(err, res1);
             });
         });
     }
@@ -376,7 +201,6 @@
 
         // clearLocalStorage();
 
-
         async.series([
                 function (cb1) {
                     createuser("rogeruser", "rogerac", 99, function (err, res) {
@@ -392,16 +216,19 @@
                     addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50, cb1);
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser", "driemployeegroup", cb1);
+                    addgrouptowid("driemployeegroup", "codyuser", cb1);
+                },
+                function (cb1) {
+                    addgrouptowid("driemployeegroup", "rogeruser", cb1);
                 },
                 function (cb1) {
                     addpermission("rogeruser", "driemployeegroup", "executethis", "createcoupon", "data", 50, cb1);
                 },
                 function (cb1) {
-                    addgrouptowid("anything", "createcoupon", cb1);
+                    addgrouptowid("createcoupon", "rogeruser", cb1);
                 },
                 function (cb1) {
-                    testsecurity("codyac", "executethis", "createcoupon", "data", true, cb1);
+                    testsecurity("rogerac", "executethis", "createcoupon", "data", true, cb1);
                 },
                 function (cb1) {
                     testsecurity("codyac", "executethis", "createcoupon", "data", true, cb1);
@@ -429,9 +256,7 @@
 
                     callback(err, res);
                 });
-
             });
-
     }
 
 
@@ -498,7 +323,7 @@
                 callback(err, res)
             });
     }
-
+    // addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50, cb1);
     exports.addpermission = addpermission = function addpermission(userwid, granteegroup, targetgroup, actiongroup, dbgroup, levelgroup, callback) {
         execute([{
                 // add permissions as per given information 
@@ -633,12 +458,15 @@
     }
 
     exports.sec1 = sec1 = function sec1(params, callback) {
+        debuglevel = 34;
+        debugname = "";
+        debugcat = "";
+        debugsubcat = "code";
         securitycheck("rogerac", "executethis", "createcoupon", "data", function (err, res) {
-            debuglevel = 34;
             proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response for -- ', res, 34);
             // securitycheck("codyac", "executethis", "createcoupon", "data", function (err, res) {
-                // proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response for roger -- ', res, 99);
-                callback(err, res);
+            // proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response for roger -- ', res, 99);
+            callback(err, res);
             // });
         });
     }
@@ -833,5 +661,273 @@
             callback(err, res);
         });
     }
+
+
+
+    // createuser(userwid, ac, securitylevel )
+    // createwid(wid, owneruserwid, securitylevel)
+    // addgrouptowid(wid, groupwid)
+    // addpermission(userwid, usergroup, actiongroup, targertgroup, databasegroup, level)
+    // testsecurity(ac, action, target, database, expectation)
+
+    exports.test1000 = test1000 = function test1000(parm, callback) {
+
+        // create users
+        // creates wids
+        // we put users and put wids into groups
+        // we create actiongroups, targetroups, 
+        // we put groups insdie of groups
+        // we add permissions
+        // we test
+        async.series([
+                function (cb1) {
+                    createuser("rogeruser", "rogerac", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    createuser("codyuser", "codyac", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    testsecurity("codyac", "executethis", "createcoupon", "data", true, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addgrouptowid("codyuser", "driemployeegroup", function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addpermission("rogeruser", "driemployeegroup", "executethis", "createcoupon", "data", 50, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    testsecurity("codyac", "executethis", "createcoupon", "data", true, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addgrouptowid("anything", "createcoupon", function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    testsecurity("codyac", "executethis", "createcoupon", "data", true, function (err, res) {
+                        cb1(null);
+                    });
+                }
+            ],
+            function (err, res) {
+                console.log('created testdata for test1000 --  ' + JSON.stringify(res));
+                callback(err, res);
+            });
+
+    }
+
+    // createuser("codyuser", "codyac", 99);
+    // addgrouptowid("anything", "createcoupon");
+    // addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
+    // testsecurity("codyac", "executethis", "createcoupon", "data", true);
+
+    // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 99 so this should work.
+    exports.test1001 = test1001 = function test1001(params, callback) {
+
+
+        async.series([
+                function (cb1) {
+                    createuser("codyuser", "codyac", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    createuser("rogeruser", "rogerac", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    testsecurity("codyac", "executethis", "createcoupon", "data", true, function (err, res) {
+                        cb1(null);
+                    });
+                }
+            ],
+            function (err, res) {
+                console.log('created testdata for test1001 --  ' + JSON.stringify(res));
+                callback(err, res);
+            });
+    }
+
+    // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 0 so this should fail.
+    exports.test1002 = test1002 = function test1002(params, callback) {
+
+
+        async.series([
+                function (cb1) {
+                    createuser("codyuser", "codyac", 0, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    createuser("rogeruser", "rogerac", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    testsecurity("codyac", "executethis", "createcoupon", "data", false, function (err, res) {
+                        cb1(null);
+                    });
+                }
+            ],
+            function (err, res) {
+                console.log('created testdata for test1002 --  ' + JSON.stringify(res));
+                callback(err, res);
+            });
+    }
+
+    // cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should be able to create a datawid.
+    exports.test1003 = test1003 = function test1003(params, callback) {
+
+        async.series([
+                function (cb1) {
+                    createuser("codyuser", "codyac", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    createuser("rogeruser", "rogerac", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addgrouptowid("codyuser", "driemployeesgroup", function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addpermission("rogeruser", "driemployeesgroup", "executethis", "createdatawid", "data", 50, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    testsecurity("codyac", "executethis", "createdatawid", "data", true, function (err, res) {
+                        cb1(null);
+                    });
+                }
+            ],
+            function (err, res) {
+                console.log('created testdata for test1003 --  ' + JSON.stringify(res));
+                callback(err, res);
+            });
+
+    }
+
+    // drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
+    exports.test1004 = test1004 = function test1004(params, callback) {
+        createuser("codyuser", "codyac", 99, function (err, res) {
+            createuser("rogeruser", "rogerac", 99, function (err, res) {
+                createuser("billuser", "billac", 99, function (err, res) {
+                    addgrouptowid("codyuser", "driemployeesgroup", 99, function (err, res) {
+                        addgrouptowid("billuser", "drimanagersgroup", 99, function (err, res) {
+                            addgrouptowid("rogeruser", "drimanagersgroup", 99, function (err, res) {
+                                addgrouptowid("drimanagersgroup", "driemployeesgroup", 99, function (err, res) {
+                                    addpermission("codyuser", "drimanagersgroup", "executethis", "editcoupon", "data", 50, function (err, res) {
+                                        testsecurity("billac", "executethis", "createdatawid", "data", true, function (err, res) {
+                                            callback(err, res);
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    // cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should not be able to create a datawid as his security level is too low.
+    exports.test1005 = test1005 = function test1005(params, callback) {
+
+        createuser("codyuser", "codyac ", 0, function (err, res) {
+            createuser("rogeruser", "rogerac ", function (err, res) {
+                addgrouptowid("codyuser", "driemployeesgroup ", function (err, res) {
+                    addpermission("rogeruser", "driemployeesgroup", "executethis", "createdatawid", "data", 50, function (err, res) {
+                        testsecurity("codyac", "executethis", "createdatawid", "data", false, function (err, res) {
+                            callback(err, res);
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    // drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
+    exports.test1006 = test1006 = function test1006(params, callback) {
+
+        createuser("codyuser", "codyac", 99, function (err, res) {
+            createuser("rogeruser", "rogerac", 99, function (err, res) {
+                createuser("billuser", "billac", 99, function (err, res) {
+                    addgrouptowid("codyuser", "driemployeesgroup", function (err, res) {
+                        addgrouptowid("billuser", "drimanagersgroup", function (err, res) {
+                            addgrouptowid("rogeruser", "drimanagersgroup", function (err, res) {
+                                addpermission("codyuser", "drimanagersgroup ", "executethis", "editcoupon", "data", 50, function (err, res) {
+                                    testsecurity("billac", "executethis", "createdatawid", "data", true, function (err, res) {
+                                        callback(err, res);
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    // driemployees is made a member of usersofdri. roger gives driusers read permission on coupons. cody is made a member of driemployees. cody should be able to read coupons. 
+    /*
+ exports.test1007 = test1007 = function test1007(params, callback) {
+
+     createuser("codyuser", "codyac", 99);
+     createuser("rogeruser", "rogerac", 99);
+     addgrouptowid("codyuser", "driemployees");
+     addgrouptowid("driemployees", "driusers");
+
+     addpermission("rogeruser", "driusers", "executethis", "readcoupon", "data", 50);
+     testsecurity("codyac", "executethis", "createdatawid", "data", true);
+
+ }*/
+
+    // 
+    /*
+ exports.test1008 = test1008 = function test1008(params, callback) {
+
+     createuser("codyuser", "codyac", 99);
+     createuser("rogeruser", "rogerac", 99);
+     addgrouptowid("codyuser", "driemployees");
+     addgrouptowid("driemployees", "driusers");
+
+     addpermission("rogeruser", "driusers", "executethis", "readcoupon", "data", 50);
+     testsecurity("codyac", "executethis", "createdatawid", "data", true);
+
+ }*/
+
+
 
 })(typeof window == "undefined" ? global : window);

@@ -38,7 +38,8 @@
              {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"}
              //{"executethis":"updatewid","metadata.method":"bookdto","wid":"222","title":"The X Factor","pages":"300"},
              //{"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"},
-            ]
+        ]
+        
         execute(executeList, function (err, res) {
             proxyprinttodiv('__--__', res, 99);
             
@@ -620,6 +621,26 @@ exports.get11= get11 = function get11 (parameters, callback) {
 
         // page dto
         {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"pagedto","content":"string","number":"string", "metadata.inherit":"defaultpagecontent"},
+        {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"defaultpagecontent","content":"This page is blank","number":"0"},
+        
+        // relationships
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"bookdto", "relationshiptype":"attributes"},
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"relpagetobook","primarywid":"bookdto","secondarywid":"pagedto", "relationshiptype":"attributes"},
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"XFactorBook", "relationshiptype":"attributes"},
+
+        // records
+        {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
+        {"executethis":"addwidmaster","metadata.method":"bookdto","wid":"XFactorBook","title":"The X Factor","pages":"300"},
+        
+        // get
+        {"executethis":"getwidmaster","wid":"elizabeth_heart"}
+    ];
+
+    // alert(JSON.stringify(executeList));    
+    execute(executeList, function (err, res) {
+        proxyprinttodiv('__--__', res[11], 99);
+        callback(err, res);
+    });
         {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"defaultpagecontent","content":"This page is blank","number":"0"},
         
         // relationships
