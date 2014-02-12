@@ -340,9 +340,6 @@ function return_long (result_array) {
 }
 
 function return_short (result_array) {
-	console.log("result_array: " + JSON.stringify(result_array, '-', 4));
-	console.log("result_array.length: " + result_array.length);
-
 	if (result_array.length == 0) return "\"no\":\"data\",";
 
 	var output_short = "";
@@ -365,40 +362,11 @@ function return_short (result_array) {
 	} else {
 		res3 = {"no":"data"};
 	}
-
-	if (result_array.length == 1) { // Is this the end of the tree?
-
-		if (res2 instanceof Array) { //, iterate through using res2[0] and res2[1]
-			// alert('hey');
-			// 	if (res2[0].hasOwnProperty('test_name')) {
-			//    		name = res2[0]["test_name"];
-			//    		status = res2[0][name];
-   //  				output_short += "\"" + name + "\":\"" + status + "\",";
-			//    	} else if (res1.hasOwnProperty('test_name')) {
-			//    		name = res1["test_name"];
-			//    		status = res1[name];
-   //  				output_short += "\"" + name + "\":\"" + status + "\",";
-			// 	}
-
-			// 	if (res3.hasOwnProperty('test_name')) {
-			//    		name = res3["test_name"];
-			//    		status = res3[name];
-   //  				output_short += "\"" + name + "\":\"" + status + "\",";
-			//    	} 
-
-			// 	if (res[1].hasOwnProperty('test_name')) {
-			//    		name = res2[1]["test_name"];
-			//    		status = res2[1][name];
-   //  				output_short += "\"" + name + "\":\"" + status + "\",";
-			//    	} else if (res1.hasOwnProperty('test_name')) {
-			//    		name = res1["test_name"];
-			//    		status = res1[name];
-   //  				output_short += "\"" + name + "\":\"" + status + "\",";
-			// 	}
-
+	if (result_array.length == 1) { 
+		if (res2 instanceof Array) { 
+			// was code not needed here
 		} else 
-			{ //do the following
-				if (res2.hasOwnProperty('test_name')) {
+			{ if (res2.hasOwnProperty('test_name')) {
 			   		name = res2["test_name"];
 			   		status = res2[name];
     				output_short += "\"" + name + "\":\"" + status + "\",";
@@ -413,20 +381,13 @@ function return_short (result_array) {
     				output_short += "\"" + name + "\":\"" + status + "\",";
 				}
     		}
-    	
-
-
-    	// console.log('\noutput_short:' + output_short);
-	} else {
-		for (var x in result_array) {	
+	} else 
+		{ for (var x in result_array) {	
 			if (result_array[x] instanceof Array) {
-				console.log("result_array[x]: " + JSON.stringify(result_array[x], '-', 4));
-				// Recurse...we are not at the end of the tree
 				output_short += return_short(result_array[x]);
 				} else {
 				var tmp_array = [];
 				tmp_array.push(result_array[x]);
-				// 
 				output_short += return_short(tmp_array);
 			}
 		}
