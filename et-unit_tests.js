@@ -1,52 +1,3 @@
-exports.test1212 = test1212 = function test1212(params, callback) {
-    testclearstorage();
-    var todolist = 
-        [
-            [
-                {
-                    "fn": "ettestt1"
-                }, 
-                    [
-                    {
-                    "test": "short desc of test",
-                    "type": "hourly",           // hourly, daily, build...for now, all hourly
-                    "category": "executethis",  // 5 or 6 total execute,add,get,query
-                    "subcategory":"dothis"      // pre,mid,post...like, try order, do order
-                    }
-                ]
-            ]
-        ]
-    executethismultiple(todolist, callback);
-}
-
-
-exports.test121212 = test121212 = function test121212(params, callback) {
-    testclearstorage();
-    var todolist = [
-        [{
-                "fn": "test_and_verify"
-            },
-            [
-                "func_b",
-                "func_b", 
-                {
-                    "c": "0",
-                    "d": "1",
-                    "e": "2"
-                },[
-                {
-                    "c": "0",
-                    "d": "1",
-                    "g": "4"
-                }],
-                {},
-                {"command": "null"}
-            ]
-        ]
-    ];
-    executethismultiple(todolist, callback);
-}
-
 function etunittesttester(params, callback) {
     var unittestdb = 
         [
@@ -488,15 +439,15 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     var err;
 
     ettesttt(result, function (err, r1) {
-    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r1: \n' + JSON.stringify(r1));
+    // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r1: \n' + JSON.stringify(r1));
     result.push(r1);
 
         ettestastt(result, function (err, r2) {
-        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r2: \n' + JSON.stringify(r2));
+        // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r2: \n' + JSON.stringify(r2));
         result.push(r2);
 
             ettestctt(result, function (err, r3) {
-                console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r3: \n' + JSON.stringify(r3));
+                // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r3: \n' + JSON.stringify(r3));
                 result.push(r3);
                 callback(err, result);
             });
@@ -504,15 +455,13 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     });
 }
 
-// exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
-//     var result = {};
-//     var err;
-//     ettestagtt(result, function (err, result) {
-//         ettestctt(result, function (err, result) {
-//             callback(err, result);
-//         });
-//     });
-// }
+exports.ettestatc = ettestatc = function ettestatc(params, callback) {
+    var result = {};
+    var err;
+        ettestagtt(result, function (err, result) {
+            callback(err, result);
+        });
+}
 
 
 

@@ -340,8 +340,8 @@ function return_long (result_array) {
 }
 
 function return_short (result_array) {
-	// console.log("result_array: " + JSON.stringify(result_array));
-	// console.log("result_array.length: " + result_array.length);
+	console.log("result_array: " + JSON.stringify(result_array, '-', 4));
+	console.log("result_array.length: " + result_array.length);
 
 	if (result_array.length == 0) return "\"no\":\"data\",";
 
@@ -350,30 +350,83 @@ function return_short (result_array) {
 	var status = "";
 	var res1 = {}; // result from individual tests
 	var res2 = {}; // result from tt type tests
+	var res3 = {}; // result from second config test
 	res1 = result_array[0];
 	if (result_array[0][0] instanceof Object) {
 		res2 = result_array[0][0];
+		console.log("res2: " + JSON.stringify(res2, '-', 4));
 	} else {
 		res2 = {"no":"data"};
 	}
-	if (result_array.length == 1) {
-		if (res2.hasOwnProperty('test_name')) {
-	   		name = res2["test_name"];
-	   		status = res2[name];
-	   	} else if (res1.hasOwnProperty('test_name')) {
-	   		name = res1["test_name"];
-	   		status = res1[name];
-		}
 
-    	output_short += "\"" + name + "\":\"" + status + "\",";
+	if (result_array[0][1] instanceof Object) {
+		res3 = result_array[0][1];
+		console.log("res3: " + JSON.stringify(res3, '-', 4));
+	} else {
+		res3 = {"no":"data"};
+	}
+
+	if (result_array.length == 1) { // Is this the end of the tree?
+
+		if (res2 instanceof Array) { //, iterate through using res2[0] and res2[1]
+			// alert('hey');
+			// 	if (res2[0].hasOwnProperty('test_name')) {
+			//    		name = res2[0]["test_name"];
+			//    		status = res2[0][name];
+   //  				output_short += "\"" + name + "\":\"" + status + "\",";
+			//    	} else if (res1.hasOwnProperty('test_name')) {
+			//    		name = res1["test_name"];
+			//    		status = res1[name];
+   //  				output_short += "\"" + name + "\":\"" + status + "\",";
+			// 	}
+
+			// 	if (res3.hasOwnProperty('test_name')) {
+			//    		name = res3["test_name"];
+			//    		status = res3[name];
+   //  				output_short += "\"" + name + "\":\"" + status + "\",";
+			//    	} 
+
+			// 	if (res[1].hasOwnProperty('test_name')) {
+			//    		name = res2[1]["test_name"];
+			//    		status = res2[1][name];
+   //  				output_short += "\"" + name + "\":\"" + status + "\",";
+			//    	} else if (res1.hasOwnProperty('test_name')) {
+			//    		name = res1["test_name"];
+			//    		status = res1[name];
+   //  				output_short += "\"" + name + "\":\"" + status + "\",";
+			// 	}
+
+		} else 
+			{ //do the following
+				if (res2.hasOwnProperty('test_name')) {
+			   		name = res2["test_name"];
+			   		status = res2[name];
+    				output_short += "\"" + name + "\":\"" + status + "\",";
+    					if (res3.hasOwnProperty('test_name')) {
+					   		name = res3["test_name"];
+					   		status = res3[name];
+		    				output_short += "\"" + name + "\":\"" + status + "\",";
+			 		  	} 
+			   	} else if (res1.hasOwnProperty('test_name')) {
+			   		name = res1["test_name"];
+			   		status = res1[name];
+    				output_short += "\"" + name + "\":\"" + status + "\",";
+				}
+    		}
+    	
+
+
     	// console.log('\noutput_short:' + output_short);
 	} else {
 		for (var x in result_array) {	
 			if (result_array[x] instanceof Array) {
+				console.log("result_array[x]: " + JSON.stringify(result_array[x], '-', 4));
+				// Recurse...we are not at the end of the tree
 				output_short += return_short(result_array[x]);
 				} else {
 				var tmp_array = [];
 				tmp_array.push(result_array[x]);
+				// 
 				output_short += return_short(tmp_array);
 			}
 		}
