@@ -423,16 +423,10 @@
                     }, 6);
 
                     callback(err, output);
-
-
-
                 });
-
         }
-
         //};
     }
-
 
     //
     //    // Aggregation Section **********

@@ -4,6 +4,30 @@
         // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel222","primarywid":"elizabeth_heart","secondarywid":"elizabeth_heart_address", "relationshiptype":"attributes" },
         // {"executethis":"updatewid","metadata.method":"addressdto","wid":"elizabeth_heart_address", "street":"1234 First street", "city":"Something City","state":"ZZ","zip":"12345"},
         // {"executethis":"getwidmaster","wid":"elizabeth_heart_address"}
+    exports.add01 = add01 = function add01 (parameters, callback) {
+
+        var executeList = [
+                {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metdata.bookdto.type":"onetomany"},
+                {"executethis":"updatewid","metadata.method":"bookdto","wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string"}, 
+                {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"bookdto", "relationshiptype":"attributes"},
+                {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"}
+            ]
+
+        execute(executeList, function (err, res) {
+            proxyprinttodiv('__--__', res, 99);
+            
+            var object = {"metadata":{"method":"bookdto"},"wid":"222","title":"The X Factor","pages":"300"};
+            var dtoobject = {"metadata":{"method":"bookdto"},"wid":"bookdto","title":"string","pages":"string", "c":"string", "d":"string"};
+            var parentwid = "elizabeth_heart";
+            var relationshiptype = "onetomany";
+            var command = {};
+
+            addwidobject(object, dtoobject, command, function (err, res) {
+                alert(JSON.stringify(res));
+            });
+        });
+
+    }
 
     exports.add0 = add0 = function add0 (parameters, callback) {
 
@@ -24,9 +48,9 @@
             var relationshiptype = "onetomany";
             var command = {};
 
-            addrecord(object, dtoobject, parentwid, relationshiptype, command, function (err, res) {
-                alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
-            });
+            // addrecord(object, dtoobject, parentwid, relationshiptype, command, function (err, res) {
+            //     alert("add0 addrecord! -- got res -->" + JSON.stringify(res));
+            // });
 
             cleanadd(object, dtoobject, command, function (err, res) {
                 alert("add0 cleanadd! -- got res -->" + JSON.stringify(res));
@@ -103,6 +127,29 @@ exports.get4 = get4 = function get4(parameters, callback) {
     var insertobj= {"a":"b"};
 	var command = {"dtotype":"bookdto"};
 	insertbydtotype(inputObject, inputdto, insertobj, command);
+}
+
+exports.get4 = get4 = function get22(parameters, callback) { //add clean test
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
+                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
+                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                            },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}};
+    var insertobj= {"a":"b"};
+    var command = {"dtotype":"bookdto"};
+    insertbydtotype(inputObject, inputdto, insertobj, command);
 }
 
 /*
@@ -209,6 +256,212 @@ exports.get8 = get8 = function get8(parameters, callback) {
 	insertbydtotype(inputObject, inputdto, insertobj, command);
 }
 
+
+/*
+	addwid with out inherit ... should add inputobject
+*/
+exports.addwidtest = addwidtest = function addwidtest(parameters, callback) {
+    testclearstorage();
+    var executeList = [
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
+    ];
+    execute(executeList, function (err, res) {
+        proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+
+        var inputobject = {
+            "name": "Elizabeth Heart",
+            "age": "50",
+            "wid": "elizabeth_heart",
+            "metadata": { "method": "authordto"}
+        };
+        var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"string",
+                        "metadata":{"method":"string","bookdto":{"type":"onetomany"},"inherit":"defaultauthor"},
+                        "command":{"inherit":{"defaultauthor":"defaultauthor"},"deepdtolist":{"bookdto":"onetomany"},"dtolist":{"bookdto":"bookdto"}}};
+        var command = {};
+
+    	addwid(inputobject, inputdto, command, function (err, res) {
+    		proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+        });
+		callback(err, res);
+    });
+}
+
+/*
+	addwid without inherit .. should add the input record
+*/
+exports.addwidtest2 = addwidtest2 = function addwidtest2(parameters, callback) {
+    testclearstorage();
+    var executeList = [
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
+    ];
+    execute(executeList, function (err, res) {
+        proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+
+        var inputobject = {
+            "name": "Elizabeth Heart",
+            "age": "50",
+            "wid": "elizabeth_heart",
+            "metadata": { "method": "authordto"}
+        };
+        var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"string",
+                        "metadata":{"method":"string","bookdto":{"type":"onetomany"}}};
+        var command = {};
+
+    	addwid(inputobject, inputdto, command, function (err, res) {
+    		proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+        });
+		callback(err, res);
+    });
+}
+
+/*
+	addwid - with record alreayd exists ... should update name, leave all else the same
+*/
+exports.addwidtest3 = addwidtest3 = function addwidtest3(parameters, callback) {
+    testclearstorage();
+    var executeList = [
+        //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"roger"}
+    ];
+    execute(executeList, function (err, res) {
+        proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+
+        var inputobject = {
+            "name": "Elizabeth Heart",
+            "age": "50",
+            "wid": "elizabeth_heart",
+            "metadata": { "method": "authordto"}
+        };
+        var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"string",
+                        "metadata":{"method":"string","bookdto":{"type":"onetomany"}}};
+        var command = {};
+
+    	addwid(inputobject, inputdto, command, function (err, res) {
+    		proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+        });
+		callback(err, res);
+    });
+}
+
+/*
+    addwid with inherit that DOES matter ... should return name of roger
+*/
+exports.addwidtest4 = addwidtest4 = function addwidtest4(parameters, callback) {
+    testclearstorage();
+    var executeList = [
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
+    ];
+    execute(executeList, function (err, res) {
+        proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+
+        var inputobject = {
+            //"name": "Elizabeth Heart",
+            "age": "50",
+            "wid": "elizabeth_heart",
+            "metadata": { "method": "authordto"}
+        };
+        var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"string",
+                        "metadata":{"method":"string","bookdto":{"type":"onetomany"},"inherit":"defaultauthor"},
+                        "command":{"inherit":{"defaultauthor":"defaultauthor"},"deepdtolist":{"bookdto":"onetomany"},"dtolist":{"bookdto":"bookdto"}}};
+        var command = {};
+
+        addwid(inputobject, inputdto, command, function (err, res) {
+            proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+        });
+        callback(err, res);
+    });
+}
+
+/*
+    addwid - with record .. but dto fliters age
+*/
+exports.addwidtest5 = addwidtest5 = function addwidtest5(parameters, callback) {
+    testclearstorage();
+    var executeList = [
+        //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"rogershoulddisappera", "a":"shouldsurvie"}
+    ];
+    execute(executeList, function (err, res) {
+        proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+
+        var inputobject = {
+            "name": "Elizabeth Heart",
+            "age": "50",
+            "wid": "elizabeth_heart",
+            "metadata": { "method": "authordto"}
+        };
+        var inputdto = {"name":"string","a":"string","b":"string","wid":"string",
+                        "metadata":{"method":"string","bookdto":{"type":"onetomany"}}};
+        var command = {};
+
+        addwid(inputobject, inputdto, command, function (err, res) {
+            proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+        });
+        callback(err, res);
+    });
+}
+
+
+/*
+    addwid with inherit that DOES matter ... deep should return name of roger + more
+*/
+exports.addwidtest6 = addwidtest6 = function addwidtest6(parameters, callback) {
+    testclearstorage();
+    var executeList = [
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":{"test":"roger"}}
+    ];
+    execute(executeList, function (err, res) {
+        proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+
+        var inputobject = {
+			"name":{"test":"roger"},
+            "age": "50",
+            "wid": "elizabeth_heart",
+            "metadata": { "method": "authordto"}
+        };
+        var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"string",
+                        "metadata":{"method":"string","bookdto":{"type":"onetomany"},"inherit":"defaultauthor"},
+                        "command":{"inherit":{"defaultauthor":"defaultauthor"},"deepdtolist":{"bookdto":"onetomany"},"dtolist":{"bookdto":"bookdto"}}};
+        var command = {};
+
+        addwid(inputobject, inputdto, command, function (err, res) {
+            proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+        });
+        callback(err, res);
+    });
+}
+
+
+/*
+    addwid without inherit  ... should add inputobject -- test of deep filter string, number, boolean, date -- did it convert it?
+*/
+exports.addwidtest7 = addwidtest7 = function addwidtest7(parameters, callback) {
+    testclearstorage();
+    var executeList = [
+        {"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
+    ];
+    execute(executeList, function (err, res) {
+        proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+
+        var inputobject = {
+            "name":{"test":"roger"},
+            "age": "50",
+            "wid": "elizabeth_heart",
+            "a": "1/15/2014",
+            "b": "false",
+            "metadata": { "method": "authordto"}
+        };
+        var inputdto = {"name":"string","age":"number","a":"date","b":"boolean","wid":"string",
+                        "metadata":{"method":"string","bookdto":{"type":"onetomany"},"inherit":"defaultauthor"},
+                        "command":{"inherit":{"defaultauthor":"defaultauthor"},"deepdtolist":{"bookdto":"onetomany"},"dtolist":{"bookdto":"bookdto"}}};
+        var command = {};
+
+        addwid(inputobject, inputdto, command, function (err, res) {
+            proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+        });
+        callback(err, res);
+    });
+}
 
 exports.add2= add2 = function add2 (parameters, callback) {
     debuglevel=10;
@@ -347,7 +600,46 @@ exports.get2= get2 = function get2 (parameters, callback) {
         proxyprinttodiv('__--__', res[11], 99);
         callback(err, res);
     });
+}
 
+exports.get11= get11 = function get11 (parameters, callback) {
+    // Setup test
+    testclearstorage();
+    // debuglevel = 10;
+
+    var executeList = [
+        // Trying to do three levels here Authors --> Books --> Pages
+        // author dto
+        {"executethis":"addwidmaster","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","a":"string","b":"string","metdata.bookdto.type":"onetomany","metadata.inherit":"x"},
+        {"executethis":"addwidmaster","metadata.method":"","wid":"x","a":"adefault","b":"BDEFAULT", "bookdto.orphan_data":"Hey this works"},
+        //{"executethis":"addwidmaster","metadata.method":"","wid":"defaultauthordtoactions","a":"adefault","b":"BDEFAULT", "bookdto.orphan_data":"Hey this works"},
+        
+        // book dto
+        {"executethis":"addwidmaster","metadata.method":"bookdto","wid":"bookdto","title":"string","titleb":"string","pages":"string", "c":"string", "d":"string", "orphan_data":"string", "metdata.pagedto.type":"onetomany", "metadata.inherit":"defaultbookdtoactions"}, 
+        {"executethis":"addwidmaster","metadata.method":"bookdto","wid":"defaultbookdtoactions","c":"cdefault","d":"dDEFAULT"},
+
+        // page dto
+        {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"pagedto","content":"string","number":"string", "metadata.inherit":"defaultpagecontent"},
+        {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"defaultpagecontent","content":"This page is blank","number":"0"},
+        
+        // relationships
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"relbooktoauthor","primarywid":"authordto","secondarywid":"bookdto", "relationshiptype":"attributes"},
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"relpagetobook","primarywid":"bookdto","secondarywid":"pagedto", "relationshiptype":"attributes"},
+        {"executethis":"addwidmaster","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"XFactorBook", "relationshiptype":"attributes"},
+
+        // records
+        {"executethis":"addwidmaster","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
+        {"executethis":"addwidmaster","metadata.method":"bookdto","wid":"XFactorBook","title":"The X Factor","pages":"300"},
+        
+        // get
+        {"executethis":"getwidmaster","wid":"elizabeth_heart"}
+    ];
+
+    // alert(JSON.stringify(executeList));    
+    execute(executeList, function (err, res) {
+        proxyprinttodiv('__--__', res[11], 99);
+        callback(err, res);
+    });
 }
 
 

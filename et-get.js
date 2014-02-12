@@ -435,9 +435,10 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
 exports.getclean = getclean = function getclean(resultObj, command, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
-    var bigdto={};
-    var dtoobject={};
-    var outobj={};
+
+    var bigdto = {};
+    var dtoobject = {};
+    var outobj = {};
     var err = {};
     var dtoname;
     var index;
@@ -502,41 +503,38 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                                 delete inheritobject['wid'];
 
 
-                                // insertbydtotype(resultObj, bigdto, inheritobject, command)
+                                insertbydtotype(resultObj, bigdto, inheritobject, command)
 
 
 
 
-                                proxyprinttodiv('<<< Get_Clean step3 inheritobject >>>', inheritobject, 38);
-                                if (inheritobject['metadata'] && inheritobject['metadata']['method']) {
-                                    dtoname = inheritobject['metadata']['method'];
-                                    }
+                                // proxyprinttodiv('<<< Get_Clean step3 inheritobject >>>', inheritobject, 38);
+                                // if (inheritobject['metadata'] && inheritobject['metadata']['method']) {
+                                //     dtoname = inheritobject['metadata']['method'];
+                                //     }
                                 
-                                proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 38);
+                                // proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 38);
                                 
-                                if (dtoname === bigdto['metadata']['method']) {
-                                    proxyprinttodiv('<<< Get_Clean step3 extend resultObj before >>>', resultObj, 38);
-                                    extend(true, resultObj, inheritobject);
-                                    proxyprinttodiv('<<< Get_Clean step3 extend resultObj after >>>', resultObj, 38);
-                                } else {
-                                    // index = getindex(bigdto, dtoname); // changed by joe, the sturcture on bigdto is too diffrent to resolve a relevant path to insert data
-                                    index = getindex(resultObj, dtoname); 
-                                    if(!index) {
-                                        extend(true, resultObj, inheritobject);
-                                    } 
-                                    else {
-                                        proxyprinttodiv('<<< Get_Clean step3 index >>', index, 38);
-                                        setbyindex(resultObj, index, inheritobject);
-                                    }
- 
-
-
-                                }
+                                // if (dtoname === bigdto['metadata']['method']) {
+                                //     proxyprinttodiv('<<< Get_Clean step3 extend resultObj before >>>', resultObj, 38);
+                                //     extend(true, resultObj, inheritobject);
+                                //     proxyprinttodiv('<<< Get_Clean step3 extend resultObj after >>>', resultObj, 38);
+                                // } else {
+                                //     // index = getindex(bigdto, dtoname); // changed by joe, the sturcture on bigdto is too diffrent to resolve a relevant path to insert data
+                                //     index = getindex(resultObj, dtoname); 
+                                //     if(!index) {
+                                //         extend(true, resultObj, inheritobject);
+                                //     } 
+                                //     else {
+                                //         proxyprinttodiv('<<< Get_Clean step3 index >>', index, 38);
+                                //         setbyindex(resultObj, index, inheritobject);
+                                //     }
+                                //}
                                 cbMap(null);
                             } // end if
                             else { // if no result
                                 cbMap(null);
-                                }
+                            }
                             }); // end execute
                         }, function(err, res) {
                             cb(null); 
@@ -594,7 +592,7 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
     if (dtoname) {
 		dtoindex = getindex(bigdto, dtoname, null); 
 		proxyprinttodiv("insertbydtotype dtoindex:- ", dtoindex, 99);
-        if(!insertobj.metadata){ insertobj.metadata={}}
+        if(!insertobj.metadata){ insertobj.metadata={};}
         delete insertobj.wid;
         insertobj["metadata"]["method"]=dtoname;
         proxyprinttodiv("insertbydtotype setbyindex  insertobj:- ", insertobj, 99);
