@@ -2,17 +2,17 @@ function etunittesttester(params, callback) {
     var unittestdb = 
         [
             {
-                "fn": "ettestt1"
+                "fn": "ettest1"
             }, {
                 "test": "short desc of test",
-                "type": "minute",           // hourly, daily, build...for now, all hourly
+                "type": "quasi",           // hourly, daily, build...for now, all hourly
                 "category": "executethis",  // 5 or 6 total execute,add,get,query
                 "subcategory":"dothis"      // pre,mid,post...like, try order, do order
             }, {
                 "fn": "ettestt2"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "quasi",
                 "category":"execute",
                 "subcategory":"mid"
 
@@ -20,238 +20,238 @@ function etunittesttester(params, callback) {
                 "fn": "ettestt3"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestt3a"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":"execute"
             }, {
                 "fn": "ettestt4"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestt4a"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestt5"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestt6"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestast1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestast2"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestast3"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestast3a"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
-                "fn": "ettestast4"
+                "fn": "ettest4"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
-                "fn": "ettestast4a"
+                "fn": "ettest4a"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
-                "fn": "ettestast5"
+                "fn": "ettest5"
             }, {
                 "test": "short desc of test",
-                "type": "minute",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
-                "fn": "ettestast6"
+                "fn": "ettest6"
             }, {
                 "test": "short desc of test",
-                "type": "second",
+                "type": "hourly",
                 "category":"execute",
                 "subcategory":""
             }, {
                 "fn": "ettestag1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             }, {
                 "test": "short desc of test",
-                "type": "second",
+                "type": "hourly",
                 "category":"add get",
                 "subcategory":"getwidmaster"
             }, {
                 "fn": "ettestag2"
             }, {
                 "test": "short desc of test",
-                "type": "second",
+                "type": "hourly",
                 "category":"add get",
                 "subcategory":"getwidmaster"
             }, {
                 "fn": "ettestag3"
             }, {
                 "test": "short desc of test",
-                "type": "second",
+                "type": "hourly",
                 "category":"add get",
                 "subcategory":"getwidmaster"
             }, {
                 "fn": "ettestct1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remapping_functions"
             }, {
                 "fn": "ettestct2"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remapping_functions"
             }, {
                 "fn": "ettestct3"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remapping_functions"
             }, {
                 "fn": "ettestct3a"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remapping_functions"
             }, {
                 "fn": "ettestct4"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remapping_functions"
             }, {
                 "fn": "ettestct4a"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remapping_functions"
             }, {
                 "fn": "ettestct5"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remapping_functions"
             }, {
                 "fn": "ettestct6"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remapping_functions"
             }, {
                 "fn": "ettestct7"
             }, {
                 "test": "short desc of test",
-                "type": "daily",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"config_params"
             }, {
                 "fn": "ettestct8"
             }, {
                 "test": "short desc of test",
-                "type": "daily",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"config_params"
             }, {
                 "fn": "ettestct9"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remap_doesnotexist_to_params"
             }, {
                 "fn": "ettestct10"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remap_doesnotexist_to_params"
             }, {
                 "fn": "ettestct11"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remap_doesnotexist_to_params"
             }, {
                 "fn": "ettestct13"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":"remap_doesnotexist_to_params"
             }, {
                 "fn": "ettestct14"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":""
             }, {
                 "fn": "ettestct15"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":""
             }, {
                 "fn": "ettestct16"
             }, {
                 "test": "short desc of test",
-                "type": "quasi",
+                "type": "hourly",
                 "category":"configuration",
                 "subcategory":""
             }, {
@@ -285,62 +285,32 @@ function etunittesttester(params, callback) {
             }
         ];
 
-    var err;
+    // alert (params);    
     var subset = [];
+    var count = unittestdb.length();
+
 
     // iterate through unittestdb
-    for (var i = 0; i < unittestdb.length; i += 2) {
-        // check to see if params matches type in unittestdb
+    for (var i = 0; i < count; i += 2) {
         if (unittestdb[i +1]['type'] === params['type']) {
-            // push the fn name on the array_of_tests_to_run
-            var p = [];
-            p.push(unittestdb[i+1]);
-            subset.push( [unittestdb[i], p ]);
+            subset.push(unittestdb[i])
         }
+        executethismultiple(subset, callback);
     }
 
-        // This version works -- do not delete please :)
-        // var subset = 
-        //     [
-        //         [
-        //             {
-        //                 "fn": "ettestt1"
-        //             }, 
-        //             [
-        //                 {
-        //                 "any data":"at all"     
-        //                 }
-        //             ]
-        //         ]
-        //     ]
+    // check to see if params matches type in unittestdb
+    // if it matches, push the fn name on the array_of_tests_to_run
+     
+    // iterate through the array_of_tests_to_run
+    // push result on the result
+    // callback result
 
-        console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
-        
-        executethismultiple(subset, function (err, result) { 
-            callback (err, result); 
-        });
+
+
+
+    callback({}, subset);
+    
 }
-
-exports.mc1 = mc1 = function mc1 (params, callback) {
-        
-        var subset = [];
-        subset =  
-            [
-                [
-                    {
-                        "fn": "ettestt1"
-                    },
-                    {}
-                ]
-            ]; 
-        console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
-        
-        executethismultiple(subset, function (err, result) { 
-            callback (err, result); 
-        });
-}
-
-
 // List of tests:
 // 
 // The tt tests will test the various combinations of calling pre, mid, and post by passing parameters
@@ -439,15 +409,15 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     var err;
 
     ettesttt(result, function (err, r1) {
-    // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r1: \n' + JSON.stringify(r1));
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r1: \n' + JSON.stringify(r1));
     result.push(r1);
 
         ettestastt(result, function (err, r2) {
-        // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r2: \n' + JSON.stringify(r2));
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r2: \n' + JSON.stringify(r2));
         result.push(r2);
 
             ettestctt(result, function (err, r3) {
-                // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r3: \n' + JSON.stringify(r3));
+                console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r3: \n' + JSON.stringify(r3));
                 result.push(r3);
                 callback(err, result);
             });
@@ -455,46 +425,28 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     });
 }
 
-exports.ettestatc = ettestatc = function ettestatc(params, callback) {
-    var result = {};
-    var err;
-        ettestagtt(result, function (err, result) {
-            callback(err, result);
-        });
-}
+// exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
+//     var result = {};
+//     var err;
+//     ettestagtt(result, function (err, result) {
+//         ettestctt(result, function (err, result) {
+//             callback(err, result);
+//         });
+//     });
+// }
 
 
 
 exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
     var result;
     var err;
-    var target = {'type': 'minute'};
-
-    result = etunittesttester(target, function (err, result) {
-        callback (err, result);
-    });
-}
-
-exports.ettestat3 = ettestat3 = function ettestat3(params, callback) {
-    var result;
-    var err;
-    var target = {'type': 'second'};
-
-    result = etunittesttester(target, function (err, result) {
-        callback (err, result);
-    });
-}
-
-exports.ettestat4 = ettestat4 = function ettestat4(params, callback) {
-    var result;
-    var err;
     var target = {'type': 'quasi'};
 
     result = etunittesttester(target, function (err, result) {
-        callback (err, result);
     });
-}
 
+    alert (result);
+}
 
         // console.log('[][][][][][][][][][][][][][][][][][][][][][][][]\n' + JSON.stringify(result, '-', 4));      
 // -------------------------------------------------------------------------------------------------------
@@ -1058,7 +1010,7 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
     })
     // var res = master_test_and_verify (testname,          parameters, assert, database, command, callback) {
 
-    var res = master_test_and_verify("ettestct1", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1119,7 +1071,7 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
             }]
         }
     });
-    var res = master_test_and_verify("ettestct2", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1178,7 +1130,7 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct3", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1238,7 +1190,7 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
             }]
         }
     });
-    var res = master_test_and_verify("ettestct3a", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1298,7 +1250,7 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct4", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1358,7 +1310,7 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct4a", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1419,7 +1371,7 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct4a", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1481,7 +1433,7 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct6", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1518,7 +1470,7 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
         "c": "0",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct7", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1566,7 +1518,7 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
         "g": "4"
     });
 
-    var res = master_test_and_verify("ettestct8", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1589,7 +1541,7 @@ exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
         "c": "0",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct9", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1604,7 +1556,7 @@ exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
     assert.push({
         "data": "Keg of Beer"
     });
-    var res = master_test_and_verify("ettestct9a", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1629,7 +1581,7 @@ exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
         "c": "0",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct10", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1658,7 +1610,7 @@ exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
         "h": "5",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct11", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1697,7 +1649,7 @@ exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
         "ettestct12": "did some alerting",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct12", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1745,7 +1697,7 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
         "fire_c": "fire_c is now fired",
         "cer2": "booberry"
     });
-    var res = master_test_and_verify("ettestct13", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1827,7 +1779,7 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
         "h": "5",
         "configuration": {}
     });
-    var res = master_test_and_verify("ettestct14", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1907,7 +1859,7 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
         }
 
     });
-    var res = master_test_and_verify("ettestct15", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -1990,7 +1942,7 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
             }]
         }
     });
-    var res = master_test_and_verify("ettestct16", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -2021,7 +1973,7 @@ exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
         "c": "0",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct17", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -2054,7 +2006,7 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
         "c": "0",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct18", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -2108,7 +2060,7 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
         "bravo": "1",
         "charlie": "1"
     });
-    var res = master_test_and_verify("ettestct19", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -2131,7 +2083,7 @@ exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
         "bravo": "4",
         "h": "5"
     });
-    var res = master_test_and_verify("ettestct20", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify(this.targetfn.name, parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
     });
 }
@@ -2185,8 +2137,12 @@ exports.func_b = func_b = function func_b(parameters, callback) {
     console.log('from func_b');
     delete parameters["e"];
     parameters["g"] = "4";
+    // alert('b');
+
     var err;
-    callback(err, parameters);
+    var outputArr = [];
+    outputArr.push(parameters);
+    callback(err, outputArr);
 }
 
 exports.func_c = func_c = function func_c(parameters, callback) {
@@ -3440,25 +3396,5 @@ function func_b33(params, callback) {
                 [{"c": "d", "e":"z"}], 
                 callback);
 }
-
-
-
-exports.err1 = err1 = function err1 (params, callback) {
-    debugsubcat = "code";
-    execute({"executethis":"getwidmaster","wid":"1","command":{"parameters":{"test1":"1"},"status":"fail"}}, function(err, result){
-        proxyprinttodiv('Function err1 result ', result, 99);
-        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
-    });
-}
-
-exports.wrapped1 = wrapped1 = function wrapped1 (params, callback) {
-    debugsubcat = "code";
-    execute([{"executethis":"addwidmaster","wid":"1","a":"b"}, {"executethis":"getwidmaster","wid":"1","command":{"executeresult":"outer"}}], function(err, result){
-        proxyprinttodiv('Function wrapped1 result ', result, 99)
-        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
-
-    });
-}
-
 
 
