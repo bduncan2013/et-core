@@ -771,11 +771,15 @@
             break;
 
         case "executeparam":
-            if (params === undefined) {
+            if (params[whatToDo] === undefined) {
                 targetfn = undefined;
                 break;
             }
-            targetfn = params[whatToDo];
+            // targetfn = params[whatToDo];
+            targetfn = 'execute';
+            params['executethis'] = params[whatToDo];
+
+            
 
             // if (!targetfn instanceof Function) {
             //     targetfn = window[targetfn];

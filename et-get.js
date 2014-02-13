@@ -504,32 +504,6 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
                                 insertbydtotype(resultObj, bigdto, inheritobject, command)
 
-                                insertbydtotype(resultObj, bigdto, inheritobject, command)
-
-
-
-                                // proxyprinttodiv('<<< Get_Clean step3 inheritobject >>>', inheritobject, 38);
-                                // if (inheritobject['metadata'] && inheritobject['metadata']['method']) {
-                                //     dtoname = inheritobject['metadata']['method'];
-                                //     }
-                                
-                                // proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 38);
-                                
-                                // if (dtoname === bigdto['metadata']['method']) {
-                                //     proxyprinttodiv('<<< Get_Clean step3 extend resultObj before >>>', resultObj, 38);
-                                //     extend(true, resultObj, inheritobject);
-                                //     proxyprinttodiv('<<< Get_Clean step3 extend resultObj after >>>', resultObj, 38);
-                                // } else {
-                                //     // index = getindex(bigdto, dtoname); // changed by joe, the sturcture on bigdto is too diffrent to resolve a relevant path to insert data
-                                //     index = getindex(resultObj, dtoname); 
-                                //     if(!index) {
-                                //         extend(true, resultObj, inheritobject);
-                                //     } 
-                                //     else {
-                                //         proxyprinttodiv('<<< Get_Clean step3 index >>', index, 38);
-                                //         setbyindex(resultObj, index, inheritobject);
-                                //     }
-                                //}
                                 cbMap(null);
                             } // end if
                             else { // if no result
@@ -570,8 +544,6 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
     ); // end series
 }
 
-        if(!insertobj.metadata){ insertobj.metadata={};}
 
 
 })(typeof window === "undefined" ? global : window);//
-

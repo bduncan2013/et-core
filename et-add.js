@@ -120,7 +120,7 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
 // addrecord is a temporary call convert to old format
 // it also check if relationship should be added
 // 
-exports.addrecord_old = addrecord_old = function addrecord_old(inputrecord, dtoobject, parentwid, relationshiptype, command, callback) {
+exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, parentwid, relationshiptype, command, callback) {
     proxyprinttodiv("addrecord input inputrecord :- ", inputrecord, 99);
 	proxyprinttodiv("addrecord input dtoobject :- ", dtoobject, 99);
 	proxyprinttodiv("addrecord input parentwid :- ", parentwid, 99);
@@ -161,71 +161,35 @@ exports.addrecord_old = addrecord_old = function addrecord_old(inputrecord, dtoo
     });
 }
 
-exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, parentwid, relationshiptype, command, callback) {
+exports.newaddrecord = newaddrecord = function newaddrecord(inputrecord, dtoobject, parentwid, relationshiptype, command, callback) {
     proxyprinttodiv("addrecord input parentwid :- ", parentwid, 99);
     proxyprinttodiv("addrecord input relationshiptype :- ", relationshiptype, 99);
     
     addwid(inputrecord, dtoobject, command, function (err, addobject) {
+
         if (relationshiptype) {
             // create record for relationship add...similar 
             // make sure not to add duplicate
             // create inputrecord and dtoobject
-			var childobj;
-			if(addobject["wid"]){
-				childobj = addobject["wid"];
-			}
-			
-			dtoobject = {
-				'primarywid': 'string',
-				'secondarywid': 'string',
-				'relationshiptype': 'string',
-				'metadata':	{ 'method': 'string'},
-				'linktype': 'string'
-			};
-		  
-			inputrecord={};
-			inputrecord["primarywid"]=parentwid.toLowerCase();
-			inputrecord["secondarywid"]=childwid.toLowerCase();
-			inputrecord["relationshiptype"]="attributes";
-			inputrecord["metadata"]={};
-			inputrecord["metadata"]["method"]="relationshipdto";
-			inputrecord["linktype"]=attr.toLowerCase();
-
-			executeobject["mongorawquery"] = {
-				"$and": [{
-					"data.primarywid": parentwid,
-					"data.secondarywid": childwid
-				}]
-			};
-			execute(executeobject, function (err, widset) {
-				if (widset.length > 0) {
-                    inputrecord['wid']= widset[0][0] ;
-				}
-						
-				if(relationshiptype=="onetoone"){
-					addwid(inputrecord, dtoobject, command, function (err, adddedrelationship) {
-						callback(null, addobject);
-					});
-				}
-			});
-	
-
-        } else {
+            addwid(inputrecord, dtoobject, command, function (err, adddedrelationship) {
+                callback(null, addobject);
+            });
+        }
+        else {
             callback(null, addobject);
         }
+
     });
 }
 
-exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
+function addwidmaster_new(object, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-    //var command = parameters.command;
+    var command = parameters.command;
     delete object.command;
     cleanadd (object, dtoobject, command, function (err, res) {
-        addwidobject(object, dtoobject, command, function (err, res) {
-            callback(err, res);
-        });
+        addwidobject(object, dtoobject, command, callback)
     });
 }
 
@@ -255,71 +219,189 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
     });
 }
 
-exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
-    proxyprinttodiv("addwid input object", object, 99);
-    proxyprinttodiv("addwid input dtoobject", dtoobject, 99);
-    proxyprinttodiv("addwid input command", command, 99);
-    
-    function addwid3 () {
-        proxyprinttodiv("addwid input dtoobject before", dtoobject, 99);
-        proxyprinttodiv("before deepfilter,, object-- ", object, 99);
-        object = deepfilter(object, dtoobject, command);
-        object["executethis"]="updatewid";
-        proxyprinttodiv("after deepfilter,, object-- ", object, 99);
-        execute(object, function (err, res) {
-            callback(err, res)
-        });
-    }
+function addwid(object, dtoobject, command, callback) {
+// step through dtoobject.metadata.inherit -- note these will be all at single level
+//     inheritobject = [getwidmaster, convertmethod=nowid]
+//     remove items from object based on inherit 
+// if wid then
+//     getwid (wid), remove wid, mm
+//     add to object missing parameters 
+// call updatewid
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-    function addwid2 () { // if not wid then assign new wid
-        proxyprinttodiv("addwid addwid2 object[wid]", object, 99);
-        if (!object["wid"]) {
-            object["wid"]=getnewwid();
-        } else { // if wid then read wid, and extend
-            object["wid"]=object["wid"].toLowerCase();
-            execute({"executethis":"getwid","wid":object["wid"]}, function (err, res) {
-                if (Object.keys(res[0]).length !== 0) {
-                    proxyprinttodiv("before before extend,, res-- ", res[0], 99);
-                    proxyprinttodiv("before before extend,, object-- ", object, 99);
-                    object = extend(true, res[0], object)
-                    proxyprinttodiv(" after extend,, object-- ", object, 99);
-                    addwid3();
-                } else {
-                    addwid3();
-                }
-            })
-        }
-    }
+        var InListObj = {};
+        var rawobject = {};
+        var rawlist = [];
+        var ret = undefined;
+        var executeobject;
+        var addresult;
+        var listtodo;
+        var potentialwid;
+        var err;
 
-    // start of addwid
-    var inheritwid;
-    var eachprop;
-    if (dtoobject.metadata && dtoobject.metadata.inherit) {
-        inheritwid = dtoobject.metadata.inherit;
-    }
-    
-    if (inheritwid) { // do not save if in inherit
-        execute({"executethis":"getwidmaster","wid":inheritwid, 
-            "command.execute":"ConvertFromDOTdri","command.inheritflag":"false", 
-            "command.convertmethod":"nowid"}, function (err, res) {
-            proxyprinttodiv("getwidmaster wid : " + inheritwid  + " -- res -- " ,  res, 99);
-            if (Object.keys(res).length !== 0) {
-                for (eachprop in res) {
-                    if (object[eachprop]===res[eachprop]) {delete object[eachprop]}
+        async.series([
+
+                function step1(cb) {
+                    InListObj = listToObject(InList);
+                    proxyprinttodiv('Function MongoAddEditPrepare, Indto : ', Indto, 90);
+                    proxyprinttodiv('Function MongoAddEditPrepare, InList : ', InList, 90);
+                    proxyprinttodiv('Function MongoAddEditPrepare, widid : ', widid, 90);
+                    proxyprinttodiv('Function MongoAddEditPrepare, widdto : ', widdto, 90);
+
+                    if ((InListObj["wid"] === undefined) || (InListObj["wid"] == "")) {
+                        if ((widid !== undefined) || (widid != "")) {
+                            InListObj["wid"] = widid;
+                        }
                     }
-            } else { // if no inherit then nothing to do
-            }
-            proxyprinttodiv("object after deleting the properties--" ,  object, 99);
-            addwid2();
-        });
-    } else { // if no inheritwid
-        addwid2();
+                    if ((InListObj["wid"] === undefined) || (InListObj["wid"] == "") || (InListObj["wid"] == "add")) {
+                        InListObj["wid"] = getnewwid();
+                        proxyprinttodiv('Function MongoAddEditPrepare inlistwid : ', InListObj["wid"], 15);
+                        cb("");
+                    } else {
+                        async.series([ // ELSE
+                                function step1n1(cb1) {
+                                    executeobject = {};
+                                    executeobject["executethis"] = "getwid";
+                                    executeobject["wid"] = InListObj["wid"];
+                                    execute(executeobject, function (err, res) {
+                                        rawobject = res[0];
+                                        cb1("");
+                                    });
+                                },
+                                function step1n2(cb1) {
+                                    if (((rawobject["metadata.method"] !== undefined) || (rawobject["metadata.method"] != "")) &&
+                                        ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == ""))) {
+                                        InListObj["metadata.method"] = rawobject["metadata.method"];
+                                    }
+                                    InListObj = jsonConcat(InListObj, rawobject); // this will be the new contents concat with old stuff in wid
+
+                                    rawobject = {}; // if the dto had inherit then we only want to save what in herit does not have
+
+                                    async.series([ // asynch step1n2
+
+                                            function step1n2n1(cb3) {
+                                                listtodo = [];
+                                                for (var item in Indto) {
+                                                    listtodo.push(item);
+                                                }
+                                                cb3("");
+                                            },
+
+                                            function step1n2n2(cb3) {
+                                                var newObject;
+
+                                                async.mapSeries(listtodo, function (item, cbMap) {
+                                                        async.series([ // asych inside map
+                                                                function step1n2n2n1(cb2) {
+                                                                    if (item.value == 'inherit') {
+                                                                        executeobject = {};
+                                                                        executeobject["executethis"] = "getwid"; // probably should be getwidmaster -- changed from only getwid
+                                                                        executeobject["wid"] = item.key;
+                                                                        execute(executeobject, function (err, res) {
+                                                                            // rawobject = res;
+                                                                            newObject = res[0];
+                                                                            cb2("");
+                                                                        });
+                                                                    } else {
+                                                                        cb2("");
+                                                                    }
+                                                                },
+                                                                function step1n2n2n2(cb2) {
+                                                                    rawobject = jsonConcat(rawobject, newObject);
+                                                                    cb2("");
+                                                                }
+                                                            ], // asych inside map
+
+                                                            function (err, res) {
+                                                                if (err) {
+                                                                    throw err;
+                                                                }
+                                                            }); // asych inside map
+                                                        cbMap(null);
+                                                    }, // map series
+
+                                                    function (err, res) {
+                                                        if (err) {
+                                                            throw err;
+                                                        }
+                                                    }
+
+                                                ); // end of map series
+                                                cb3(null, "step1n2n2");
+                                            }
+                                        ], // asynch step1n2
+
+                                        function (err, res) {
+                                            if (err) {
+                                                throw err;
+                                            }
+                                            cb1("");
+                                        }); // end of asynch step1n2
+                                    // cb1("");
+                                },
+                                function step1n3(cb1) {
+                                    for (var item in rawobject) { // for all data in inherit, delete it from being added
+                                        if (InListObj[item] == rawobject[item]) {
+                                            delete InListObj[item];
+                                        }
+                                    }
+                                    cb1(null);
+                                }
+                            ], // else block series end call
+
+                            function (err, res) {
+                                if (err) {
+                                    throw err;
+                                }
+                                cb("");
+                            }
+                        );
+                    }
+                    // end of asynch ELSE  
+                }, // step1
+
+                function step2(cb) {
+                    if ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == "")) {
+                        if ((widdto !== undefined) || (widdto != "")) {
+                            InListObj["metadata.method"] = widdto;
+                        }
+                    }
+                    if ((InListObj["metadata.method"] === undefined) || (InListObj["metadata.method"] == "")) {
+                        InListObj["metadata.method"] = 'defaultdto';
+                    }
+
+                    InListObj["wid"] = InListObj["wid"].toLowerCase();
+
+                    proxyprinttodiv('Function MongoAddEditPrepare, to update InListObj : ', InListObj, 90);
+
+                    InListObj.executethis = 'updatewid';
+
+                    execute(InListObj, function (err, ret) {
+                        addresult = ret[0];
+                        proxyprinttodiv('Function MongoAddEditPrepare, addresult new : ', addresult, 90);
+                        cb(null);
+                    });
+                } // step2
+
+            ], // end step1, step2
+
+            function (err, results) {
+                ret = InListObj;
+
+                    debugfn("MongoAddEditPrepare code generator", "MongoAddEditPrepare", "add", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: ret
+                    }, 6);
+                    
+                    callback(err, ret);
+            });
+
     }
-} // end of addwid
-    
 
 
-    exports.addwidmaster_old = addwidmaster_old = function addwidmaster_old(inputObject, callback) {
+
+    exports.addwidmaster = addwidmaster = function addwidmaster(inputObject, callback) {
         var inbound_parameters = {};
         inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -897,10 +979,10 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                 proxyprinttodiv('Function AddWidParameters() Wid : I ', Wid, 15);
                 debugfn("AddWidParameters", " final response after steps ", "add", "sub", debugcolor, debugindent, debugvars([1]));
                 
-                debugfn("AddWidParameters code generator", "AddWidParameters", "add", "code", 2, 1, {
-                    0: inbound_parameters,
-                    1: ret
-                }, 6);
+                // debugfn("AddWidParameters code generator", "AddWidParameters", "add", "code", 2, 1, {
+                //     0: inbound_parameters,
+                //     1: ret
+                // }, 6);
 
                     callback(err, ret);
             });
@@ -1584,4 +1666,4 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
     }
 
 
-})(typeof window === "undefined" ? global : window);//
+})(typeof window === "undefined" ? global : window);

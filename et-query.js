@@ -212,15 +212,17 @@
                                 mQueryString = BuildSingleQuery(widObject, "or", environmentdb);
                                 proxyprinttodiv('Function MongoDataQuery singlemongoquery : ', mQueryString, 28);
                                 //mQueryString = output.substring(0, output.length - 1);
-                                if (validParams(mQueryString)) {
+                                // if (validParams(mQueryString)) {
                                     mongoquery(mQueryString, function (err, res) {
                                         output = res;
                                         //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                         cb(null, "step01");
                                     });
-                                } else {
-                                    cb(null, "step01");
-                                }
+                                // } else {
+                                //     if(!output)
+                                //         output = {};
+                                //     cb(null, "step01");
+                                // }
                             })
                         } else if (queParams && queParams['mongomultiplequery']) {
                             output = "";
@@ -266,15 +268,17 @@
                                     mQueryString = BuildMultipleQuery(ListOfLists, "and", "or", environmentdb);
                                     proxyprinttodiv('querywid mQueryString init', mQueryString, 28);
 
-                                    if (validParams(mQueryString)) {
+                                    // if (validParams(mQueryString)) {
                                         mongoquery(mQueryString, function (err, res) {
                                             output = res;
                                             //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                             cb(null, 'step01');
                                         });
-                                    } else {
-                                        cb(null, "step01");
-                                    }
+                                    // } else {
+                                    //     if(!output)
+                                    //         output = {};
+                                    //     cb(null, "step01");
+                                    // }
 
                                 });
                             });
@@ -286,7 +290,7 @@
                             debugfn("querywid before mQueryString1", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
                             proxyprinttodiv('querywid mQueryString second', mQueryString, 28);
 
-                            if (validParams(mQueryString)) {
+                            // if (validParams(mQueryString)) {
                                 mongoquery(mQueryString, function (err, res) {
                                     output = res;
                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
@@ -295,11 +299,14 @@
                                     cb(null, "step01");
                                 });
 
-                            } else {
-                                cb(null, "step01");
-                            }
+                            // } else {
+                            //     if(!output)
+                            //     output = {};
+                            //     cb(null, "step01");
+                            // }
                         } else {
-                            console.log('righ here');
+                            if(!output)
+                                output = {};
                             cb(null, "step01");
                         }
                     },
@@ -323,6 +330,8 @@
 
                             cb(null, "step02");
                         } else {
+                            if(!output)
+                                output = {};
                             cb(null, "step02");
                         }
                     },
@@ -354,6 +363,8 @@
                                 cb(null, "step03");
                             }
                         } else {
+                            if(!output)
+                                output = {};
                             cb(null, "step03");
                         }
 
@@ -396,6 +407,7 @@
                                 cb(null, "step04");
                             }
                         } else {
+                            output = {};
                             cb(null, "step04");
                         }
 
