@@ -479,9 +479,14 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                         aggressivedto(dtotype, "", 10, function (err, res) {
                             otherdtoobject = res;
                             proxyprinttodiv('Function addcleanparameteres()  otherdtoobject ', otherdtoobject);
+
                             proxyprinttodiv('Function addcleanparameteres()  countKeys(otherdtoobject) ', countKeys(otherdtoobject));
                             proxyprinttodiv('Function addcleanparameteres()  countKeys(dtoobject) ', countKeys(dtoobject));
                             if (countKeys(otherdtoobject) > countKeys(dtoobject)) {
+
+                            // proxyprinttodiv('Function addcleanparameteres()  Object.keys(otherdtoobject).length ', Object.keys(otherdtoobject).length);
+                            // proxyprinttodiv('Function addcleanparameteres()  Object.keys(dtoobject) ', O.lengthbject.keys(dtoobject));
+                            //     if (Object.keys(otherdtoobject).length > Object.keys(dtoobject).length) {
                                 dtoobject = otherdtoobject;
                                 childdto = inputParametersObject['metadata.method'];
                             }
@@ -1298,7 +1303,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                                         cb(null);
                                     },
                                     function step4n6(cb) {
-                                        if (countKeys(ParametersToAdd) !== 0) {
+                                        if (Object.keys(ParametersToAdd).length !== 0) {
                                             async.series([
 
                                                     function step4n6n1(cb) {

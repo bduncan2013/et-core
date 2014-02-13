@@ -238,7 +238,7 @@ function recurseModObj(inputObject,dtoObject){
 }
 
 exports.validParams = validParams = function validParams(obj) {
-    var keyLength = getObjectSize(obj);
+    var keyLength = Object.keys(obj).length;
     var status = false;
     if (keyLength !== 0) {
         for (var k in obj) {
@@ -302,11 +302,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         } else {
             return obj;
         }
-    };
-
-    // Utility function to return json attr count
-    exports.jsonLength = jsonLength = function jsonLength(obj) {
-        return Object.keys(obj).length;
     };
 
     // Utility function to cleanup mentioned attr:val pairs from JSON passed in
@@ -869,38 +864,38 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     };
 
     // Counts the number of hashes in an object
-    exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
-        //function getObjectSize(parameters){
-        var size = 0,
-            key;
-        for (key in parameters) {
-            if (parameters.hasOwnProperty(key)) size++;
-        }
-        return size;
-    };
+    // exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
+    //     //function getObjectSize(parameters){
+    //     var size = 0,
+    //         key;
+    //     for (key in parameters) {
+    //         if (parameters.hasOwnProperty(key)) size++;
+    //     }
+    //     return size;
+    // };
 
     // Returns true if the parameter is lower case
-    exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
-        //function isParameterLower(parameters, str) {
-        getObjectSize(parameters);
-        var length;
-        if (parameters.length === undefined) {
-            length = getObjectSize(parameters);
-        } else {
-            length = parameters.length
-        }
-        for (key in parameters) { //rewritten
-            if (key.toLowerCase() == str) {
-                return true;
-            }
-        }
-    };
+    // exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
+    //     //function isParameterLower(parameters, str) {
+    //     getObjectSize(parameters);
+    //     var length;
+    //     if (parameters.length === undefined) {
+    //         length = getObjectSize(parameters);
+    //     } else {
+    //         length = parameters.length
+    //     }
+    //     for (key in parameters) { //rewritten
+    //         if (key.toLowerCase() == str) {
+    //             return true;
+    //         }
+    //     }
+    // };
 
     // Finds the first key in parameters that matches the string, or nothing if none is found   
     exports.firstOrDefault = firstOrDefault = function firstOrDefault(parameters, str) {
         var length;
         if (parameters.length === undefined) {
-            length = getObjectSize(parameters);
+            length = Object.keys(parameters).length;
         } else {
             length = parameters.length
         }
@@ -916,7 +911,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         //function remove(parameters, str){
         var length;
         if (parameters.length === undefined) {
-            length = getObjectSize(parameters);
+            length = Object.keys(parameters).length;
             for (key in parameters) { //rewritten
                 if (key.toLowerCase() == str) {
                     delete parameters[key];
@@ -1035,14 +1030,14 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     };
 
     // Returns the number of hashes in an object
-    exports.countKeys = countKeys = function countKeys(obj) {
-        var size = 0,
-            key;
-        for (key in obj) {
-            if (obj.hasOwnProperty(key)) size++;
-        }
-        return size;
-    };
+    // exports.countKeys = countKeys = function countKeys(obj) {
+    //     var size = 0,
+    //         key;
+    //     for (key in obj) {
+    //         if (obj.hasOwnProperty(key)) size++;
+    //     }
+    //     return size;
+    // };
 
     exports.isEmpty = isEmpty = function isEmpty(obj) {
         if (isSet(obj)) {

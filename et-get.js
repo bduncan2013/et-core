@@ -570,7 +570,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
     ); // end series
 }
 
-        if(!insertobj.metadata){ insertobj.metadata={};}
+        // if(!insertobj.metadata){ insertobj.metadata={};}
 
 
 })(typeof window === "undefined" ? global : window);//

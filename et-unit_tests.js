@@ -1,288 +1,46 @@
 function etunittesttester(params, callback) {
     var unittestdb = 
         [
-            {
-                "fn": "ettestt1"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",           // hourly, daily, build...for now, all hourly
-                "category": "executethis",  // 5 or 6 total execute,add,get,query
-                "subcategory":"dothis"      // pre,mid,post...like, try order, do order
-            }, {
-                "fn": "ettestt2"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":"mid"
-
-            }, {
-                "fn": "ettestt3"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestt3a"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":"execute"
-            }, {
-                "fn": "ettestt4"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestt4a"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestt5"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestt6"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestast1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestast2"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestast3"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestast3a"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestast4"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestast4a"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestast5"
-            }, {
-                "test": "short desc of test",
-                "type": "minute",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestast6"
-            }, {
-                "test": "short desc of test",
-                "type": "second",
-                "category":"execute",
-                "subcategory":""
-            }, {
-                "fn": "ettestag1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            }, {
-                "test": "short desc of test",
-                "type": "second",
-                "category":"add get",
-                "subcategory":"getwidmaster"
-            }, {
-                "fn": "ettestag2"
-            }, {
-                "test": "short desc of test",
-                "type": "second",
-                "category":"add get",
-                "subcategory":"getwidmaster"
-            }, {
-                "fn": "ettestag3"
-            }, {
-                "test": "short desc of test",
-                "type": "second",
-                "category":"add get",
-                "subcategory":"getwidmaster"
-            }, {
-                "fn": "ettestct1"  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remapping_functions"
-            }, {
-                "fn": "ettestct2"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remapping_functions"
-            }, {
-                "fn": "ettestct3"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remapping_functions"
-            }, {
-                "fn": "ettestct3a"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remapping_functions"
-            }, {
-                "fn": "ettestct4"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remapping_functions"
-            }, {
-                "fn": "ettestct4a"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remapping_functions"
-            }, {
-                "fn": "ettestct5"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remapping_functions"
-            }, {
-                "fn": "ettestct6"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remapping_functions"
-            }, {
-                "fn": "ettestct7"
-            }, {
-                "test": "short desc of test",
-                "type": "daily",
-                "category":"configuration",
-                "subcategory":"config_params"
-            }, {
-                "fn": "ettestct8"
-            }, {
-                "test": "short desc of test",
-                "type": "daily",
-                "category":"configuration",
-                "subcategory":"config_params"
-            }, {
-                "fn": "ettestct9"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remap_doesnotexist_to_params"
-            }, {
-                "fn": "ettestct10"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remap_doesnotexist_to_params"
-            }, {
-                "fn": "ettestct11"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remap_doesnotexist_to_params"
-            }, {
-                "fn": "ettestct13"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":"remap_doesnotexist_to_params"
-            }, {
-                "fn": "ettestct14"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":""
-            }, {
-                "fn": "ettestct15"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":""
-            }, {
-                "fn": "ettestct16"
-            }, {
-                "test": "short desc of test",
-                "type": "quasi",
-                "category":"configuration",
-                "subcategory":""
-            }, {
-                "fn": "ettestct17"
-            }, {
-                "test": "short desc of test",
-                "type": "hourly",
-                "category":"configuration",
-                "subcategory":""
-            }, {
-                "fn": "ettestct18"
-            }, {
-                "test": "short desc of test",
-                "type": "hourly",
-                "category":"configuration",
-                "subcategory":""
-            }, {
-                "fn": "ettestct19"
-            }, {
-                "test": "short desc of test",
-                "type": "hourly",
-                "category":"configuration",
-                "subcategory":""
-            }, {
-                "fn": "ettestct20"
-            }, {
-                "test": "short desc of test",
-                "type": "hourly",
-                "category":"configuration",
-                "subcategory":""
-            }
+            {"fn": "ettestt1"}, {"test": "Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters","type": "minute","category": "executethis","subcategory":"dothis"}, 
+            {"fn": "ettestt2"}, {"test": "Call func_b, but also tell preexecutetunittesttestere to call func_a and postexecute to call func_c.","type": "minute","category":"execute","subcategory":"mid"}, 
+            {"fn": "ettestt3"}, {"test": "Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b in midexecute and nothing in post execute.","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestt3a"}, {"test": "Call func_b with only post func_a -- same result as t3. This is to make sure that not calling pre is ok...this calls only mid and post.","type": "minute","category":"execute","subcategory":"execute"}, 
+            {"fn": "ettestt4"}, {"test": "Call mid with func_b and post with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed. ","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestt4a"}, {"test": "Call mid with func_b and pre with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed.","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestt5"}, {"test": "Call func_b with func_a for pre and post to ensure that calling the same function more than once is not a problem for the system.","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestt6"}, {"test": "Double check that calling func_b with func_c for pre and post to ensure that calling the same function more than once is not a problem for the system. Essentially showing that tt5 was not a fluke, but a repeatable concept.","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestast1"  }, {"test": "Call async_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters  ","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestast2"}, {"test": "Call async_func_b with pre calling func_a and post calling func_c...each simply deletes a prameter and add a parameter.","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestast3"}, {"test": "Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestast3a"}, {"test": "Call async_func_b with only post async_func_a -- same result as ast3","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestast4"}, {"test": "Call async_func_b with only post calling async_c  ","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestast4a"}, {"test": "Call async_func_b with only pre async_func_c -- same result as t4","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestast5"}, {"test": "Call async_func_b with async_func_a for pre and post","type": "minute","category":"execute","subcategory":""}, 
+            {"fn": "ettestast6"}, {"test": "Call async_func_b with async_func_c for pre and post","type": "second","category":"execute","subcategory":""}, 
+            {"fn": "ettestag1"  }, {"test": "Add a dto and get it with ","type": "second","category":"add get","subcategory":"getwidmaster"}, 
+            {"fn": "ettestag2"}, {"test": "Add 2 wids and get 1 wid","type": "second","category":"add get","subcategory":"getwidmaster"},
+            {"fn": "ettestag3"}, {"test": "Add wids 3 levels deep and get a wid related with them.","type": "second","category":"add get","subcategory":"getwidmaster"}, 
+            {"fn": "ettestct1"  }, {"test": "Call redir_b. The config should remap redir_b to call func_b with no pre or post execution.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}, 
+            {"fn": "ettestct2"}, {"test": "Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and also remap redir_c to func_c.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}, 
+            {"fn": "ettestct3"}, {"test": "Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}, 
+            {"fn": "ettestct3a"}, {"test": "Call redir_b with only post redir_a -- same result as ct3, but putting the only remap call in post instead of pre.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}, 
+            {"fn": "ettestct4"}, {"test": "Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any function in either pre or post.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}, 
+            {"fn": "ettestct4a"}, {"test": "Call redir_b with only pre redir_c -- same result as t4","type": "quasi","category":"configuration","subcategory":"remapping_functions"}, 
+            {"fn": "ettestct5"}, {"test": "Call redir_b with a remapping of redir_a to func_a for both pre and post.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}, 
+            {"fn": "ettestct6"}, {"test": "Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions can be used with the same effect.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}, 
+            {"fn": "ettestct7"}, {"test": "This will try pre with func a, but remapped with a configuration thatis passed into executethis...it still wants to hit func_b with mid","type": "daily","category":"configuration","subcategory":"config_params"}, 
+            {"fn": "ettestct8"}, {"test": "doest not run yet --- This test asserts that the tryorder in the config is successful and causes executethis to call dothis, not server, or the others. As of jan 28, it still fails to reorder them and calls the server instead. It breaks the code and will not simply call func_b locally.","type": "daily","category":"configuration","subcategory":"config_params"}, 
+            {"fn": "ettestct9"}, {"test": "This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....","type": "quasi","category":"configuration","subcategory":"remap_doesnotexist_to_params"}, 
+            {"fn": "ettestct10"}, {"test": "This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So far it does not work, and never has.","type": "quasi","category":"configuration","subcategory":"remap_doesnotexist_to_params"}, 
+            {"fn": "ettestct11"}, {"test": "This test is to call func_b, remap does_not_exist_1 to func_a, remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c. None of these ever work...","type": "quasi","category":"configuration","subcategory":"remap_doesnotexist_to_params"}, 
+            {"fn": "ettestct13"}, {"test": "This test is to test a config where a and b do not exist, but func_c does and c will execute. You should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in the results","type": "quasi","category":"configuration","subcategory":"remap_doesnotexist_to_params"}, 
+            {"fn": "ettestct14"}, {"test": "Here is the modified ct14 test This test is to test a config where a config with params is sent to pre, mid, and post. The results should have the a,b,c cereals, along with the regular params.","type": "quasi","category":"configuration","subcategory":""}, 
+            {"fn": "ettestct15"}, {"test": "This will send the alphabits param in the preexecute config, but will be overriding it in the args.. Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. ","type": "quasi","category":"configuration","subcategory":""}, 
+            {"fn": "ettestct16"}, {"test": "Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the config params in the assertion wid.","type": "quasi","category":"configuration","subcategory":""}, 
+            {"fn": "ettestct17"}, {"test": "To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.","type": "hourly","category":"configuration","subcategory":""}, 
+            {"fn": "ettestct18"}, {"test": "This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis","type": "hourly","category":"configuration","subcategory":""}, 
+            {"fn": "ettestct19"}, {"test": "This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, the args sent to executethis will always win...not any of the 3 places in the config that they are set.","type": "hourly","category":"configuration","subcategory":""}, 
+            {"fn": "ettestct20"}, {"test": "Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.","type": "hourly","category":"configuration","subcategory":""}
         ];
 
     var err;
@@ -299,47 +57,12 @@ function etunittesttester(params, callback) {
         }
     }
 
-        // This version works -- do not delete please :)
-        // var subset = 
-        //     [
-        //         [
-        //             {
-        //                 "fn": "ettestt1"
-        //             }, 
-        //             [
-        //                 {
-        //                 "any data":"at all"     
-        //                 }
-        //             ]
-        //         ]
-        //     ]
-
-        console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
+        // console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
         
         executethismultiple(subset, function (err, result) { 
             callback (err, result); 
         });
 }
-
-exports.mc1 = mc1 = function mc1 (params, callback) {
-        
-        var subset = [];
-        subset =  
-            [
-                [
-                    {
-                        "fn": "ettestt1"
-                    },
-                    {}
-                ]
-            ]; 
-        console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
-        
-        executethismultiple(subset, function (err, result) { 
-            callback (err, result); 
-        });
-}
-
 
 // List of tests:
 // 
@@ -439,31 +162,19 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     var err;
 
     ettesttt(result, function (err, r1) {
-    // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r1: \n' + JSON.stringify(r1));
-    result.push(r1);
-
+      result.push(r1);
         ettestastt(result, function (err, r2) {
-        // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r2: \n' + JSON.stringify(r2));
-        result.push(r2);
-
+           result.push(r2);
             ettestctt(result, function (err, r3) {
-                // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r3: \n' + JSON.stringify(r3));
                 result.push(r3);
-                callback(err, result);
+                // ettestagtt(result, function (err, r4) {
+                //     result.push(r4);
+                    callback(err, result);
+                // });
             });
         });
     });
 }
-
-exports.ettestatc = ettestatc = function ettestatc(params, callback) {
-    var result = {};
-    var err;
-        ettestagtt(result, function (err, result) {
-            callback(err, result);
-        });
-}
-
-
 
 exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
     var result;
@@ -495,8 +206,6 @@ exports.ettestat4 = ettestat4 = function ettestat4(params, callback) {
     });
 }
 
-
-        // console.log('[][][][][][][][][][][][][][][][][][][][][][][][]\n' + JSON.stringify(result, '-', 4));      
 // -------------------------------------------------------------------------------------------------------
 // This series of tests will send parameters to func_b.
 // There are variations of pre and post execute applied to 
@@ -505,135 +214,263 @@ exports.ettestat4 = ettestat4 = function ettestat4(params, callback) {
 // the executethis is being accessed.
 
 exports.ettesttt = ettesttt = function ettesttt(params, callback) {
-    execute([{
-            "executethis": "ettestt1"
-        }, {
-            "executethis": "ettestt2"
-        }, {
-            "executethis": "ettestt3"
-        }, {
-            "executethis": "ettestt3a"
-        }, {
-            "executethis": "ettestt4"
-        }, {
-            "executethis": "ettestt4a"
-        }, {
-            "executethis": "ettestt5"
-        }, {
-            "executethis": "ettestt6"
-        }],
-        function (err, res) {
-            console.log('^^^^^^^^^^^^^^^ res  ^^^^^^:  ' + JSON.stringify(res));
-            console.log('^^^^^^^^^^^^^^^ done ^^^^^^');
-            callback(err, res);
-        }
-    );
+    // execute([{
+    //         "executethis": "ettestt1"
+    //     }, {
+    //         "executethis": "ettestt2"
+    //     }, {
+    //         "executethis": "ettestt3"
+    //     }, {
+    //         "executethis": "ettestt3a"
+    //     }, {
+    //         "executethis": "ettestt4"
+    //     }, {
+    //         "executethis": "ettestt4a"
+    //     }, {
+    //         "executethis": "ettestt5"
+    //     }, {
+    //         "executethis": "ettestt6"
+    //     }],
+    //     function (err, res) {
+    //         callback(err, res);
+    //     }
+    // );
+    // }) 
+    
+    var result = [];
+    var err;
+
+    ettestt1(result, function (err, r1) {
+        result.push(r1);
+        ettestt2(result, function (err, r2) {
+            result.push(r2);
+            ettestt3(result, function (err, r3) {
+                result.push(r3);
+                ettestt3a(result, function (err, r3a) {
+                    result.push(r3a);
+                    ettestt4(result, function (err, r4) {
+                        result.push(r4);
+                        ettestt4a(result, function (err, r4a) {
+                            result.push(r4a);
+                            ettestt5(result, function (err, r5) {
+                                result.push(r5);
+                                ettestt6(result, function (err, r6) {
+                                    result.push(r6);
+                                    callback(err, result);
+                                 });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 }
 
 // This series is identical to tt, except that the functions called 
 // by executethis are async, and therefore use callbacks to return data
 // to the calling function.
 exports.ettestastt = ettestastt = function ettestastt(params, callback) {
-    execute([{
-            "executethis": "ettestast1"
-        }, {
-            "executethis": "ettestast2"
-        }, {
-            "executethis": "ettestast3"
-        }, {
-            "executethis": "ettestast3a"
-        }, {
-            "executethis": "ettestast4"
-        }, {
-            "executethis": "ettestast4a"
-        }, {
-            "executethis": "ettestast5"
-        }, {
-            "executethis": "ettestast6"
-        }],
-        function (err, res) {
-            callback(err, res);
-        }
-    );
+    // execute([{
+    //         "executethis": "ettestast1"
+    //     }, {
+    //         "executethis": "ettestast2"
+    //     }, {
+    //         "executethis": "ettestast3"
+    //     }, {
+    //         "executethis": "ettestast3a"
+    //     }, {
+    //         "executethis": "ettestast4"
+    //     }, {
+    //         "executethis": "ettestast4a"
+    //     }, {
+    //         "executethis": "ettestast5"
+    //     }, {
+    //         "executethis": "ettestast6"
+    //     }],
+    //     function (err, res) {
+    //         callback(err, res);
+    //     }
+    // );
+
+    var result = [];
+    var err;
+
+    ettestast1(result, function (err, r1) {
+        result.push(r1);
+        ettestast2(result, function (err, r2) {
+            result.push(r2);
+            ettestast3(result, function (err, r3) {
+                result.push(r3);
+                ettestast3a(result, function (err, r3a) {
+                    result.push(r3a);
+                    ettestast4(result, function (err, r4) {
+                        result.push(r4);
+                        ettestast4a(result, function (err, r4a) {
+                            result.push(r4a);
+                            ettestast5(result, function (err, r5) {
+                                result.push(r5);
+                                ettestast6(result, function (err, r6) {
+                                    result.push(r6);
+                                    callback(err, result);
+                                 });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 }
 
 // This series uses the sync functions of a,b, and c with changes to the
 // configuration parameters. This allows for calling func_b by calling
 // redir_b instead of func_b, redir_a instead of func_a, and so on.
 exports.ettestctt = ettestctt = function ettestctt(params, callback) {
-    execute([{
-            "executethis": "ettestct1"
-        }, {
-            "executethis": "ettestct2"
+    // execute([{
+    //         "executethis": "ettestct1"
+    //     }, {
+    //         "executethis": "ettestct2"
+    //     }, {
+    //         "executethis": "ettestct3"
+    //     }, {
+    //         "executethis": "ettestct3a"
+    //     }, {
+    //         "executethis": "ettestct4"
+    //     }, {
+    //         "executethis": "ettestct4a"
+    //     }, {
+    //         "executethis": "ettestct5"
+    //     }, {
+    //         "executethis": "ettestct6"
+    //     }, {
+    //         "executethis": "ettestct7"
 
+    //     //     // ct8 will break the ctt test run
+    //     //     // // },{ 
+    //     //     // // "executethis": "ettestct8"
 
-            
-        }, {
-            "executethis": "ettestct3"
-        }, {
-            "executethis": "ettestct3a"
-        }, {
-            "executethis": "ettestct4"
-        }, {
-            "executethis": "ettestct4a"
-        }, {
-            "executethis": "ettestct5"
-        }, {
-            "executethis": "ettestct6"
-        }, {
-            "executethis": "ettestct7"
+    //     }, {
+    //         "executethis": "ettestct9"
+    //     }, {
+    //         "executethis": "ettestct10"
+    //     }, {
+    //         "executethis": "ettestct11"
+    //     }, {
+    //         "executethis": "ettestct13"
+    //     }, {
+    //         "executethis": "ettestct14"
+    //     }, {
+    //         "executethis": "ettestct15"
+    //     }, {
+    //         "executethis": "ettestct16"
+    //     },{ 
+    //         "executethis": "ettestct18"
+    //     },{
+    //         "executethis": "ettestct19"
+    //     },{ 
+    //         "executethis": "ettestct20"
+    //     }],
+    //     function (err, res) {
+    //         console.log('special*** \n' + JSON.stringify(res, "-", 4));
+    //         callback(err, res);
+    //     }
+    // );
 
+    var result = [];
+    var err;
 
-        //     // ct8 will break the ctt test run
-        //     // // },{ 
-        //     // // "executethis": "ettestct8"
-             
-
-                }, {
-                    "executethis": "ettestct9"
-                }, {
-                    "executethis": "ettestct10"
-                }, {
-                    "executethis": "ettestct11"
-                }, {
-                    "executethis": "ettestct13"
-                }, {
-                    "executethis": "ettestct14"
-                }, {
-                    "executethis": "ettestct15"
-
-
-
-                // }, {
-                //     "executethis": "ettestct16"
-            // These still need the configs to be converted to be passed in as parameters.
-            // },{ 
-            // "executethis": "ettestct18"
-            // },{
-            // "executethis": "ettestct19"
-            // },{ 
-            // "executethis": "ettestct20"
-        }],
-        function (err, res) {
-            console.log('special*** \n' + JSON.stringify(res, "-", 4));
-            callback(err, res);
-        }
-    );
+    ettestct1(result, function (err, r1) {
+        result.push(r1);
+        ettestct2(result, function (err, r2) {
+            result.push(r2);
+            ettestct3(result, function (err, r3) {
+                result.push(r3);
+                ettestct3a(result, function (err, r3a) {
+                    result.push(r3a);
+                    ettestct4(result, function (err, r4) {
+                        result.push(r4);
+                        ettestct4a(result, function (err, r4a) {
+                            result.push(r4a);
+                            ettestct5(result, function (err, r5) {
+                                result.push(r5);
+                                ettestct6(result, function (err, r6) {
+                                    result.push(r6);
+                                    ettestct7(result, function (err, r7) {
+                                        result.push(r7);
+                                        ettestct9(result, function (err, r9) {
+                                            result.push(r9);
+                                            ettestct10(result, function (err, r10) {
+                                                result.push(r10);
+                                                ettestct11(result, function (err, r11) {
+                                                    result.push(r11);
+                                                    ettestct13(result, function (err, r13) {
+                                                        result.push(r13);
+                                                        ettestct14(result, function (err, r14) {
+                                                            result.push(r14);
+                                                            ettestct15(result, function (err, r15) {
+                                                                result.push(r15);
+                                                                ettestct16(result, function (err, r16) {
+                                                                    result.push(r16);
+                                                                    ettestct17(result, function (err, r17) {
+                                                                        result.push(r17);
+                                                                        ettestct18(result, function (err, r18) {
+                                                                            result.push(r18);
+                                                                            ettestct19(result, function (err, r19) {
+                                                                                result.push(r19);
+                                                                                ettestct20(result, function (err, r20) {
+                                                                                    result.push(r20);
+                                                                                    callback(err, result);
+                                                                                });
+                                                                            });
+                                                                        });
+                                                                    });
+                                                                });
+                                                            });
+                                                        });
+                                                    });
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 }
+
 
 // These are the add/get tests to stress out the dto/dot notation system
 exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
-    execute([{
-            "executethis": "ettestag1"
-        }, {
-            "executethis": "ettestag2"
-        }, {
-            "executethis": "ettestag3"
-        }],
-        function (err, res) {
-            callback(err, res);
-        }
-    );
+    // execute([{
+    //         "executethis": "ettestag1"
+    //     }, {
+    //         "executethis": "ettestag2"
+    //     }, {
+    //         "executethis": "ettestag3"
+    //     }],
+    //     function (err, res) {
+    //         callback(err, res);
+    //     }
+    // );
+
+    var result = [];
+    var err;
+
+    ettestag1(result, function (err, r1) {
+        result.push(r1);
+        ettestag2(result, function (err, r2) {
+            result.push(r2);
+            ettestag3(result, function (err, r3) {
+                result.push(r3);
+                callback(err, result);
+            });
+        });
+    });
 }
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -2019,7 +1856,17 @@ exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
         "exdef": "param after dothis and executeparam was grabbed",
         "d": "1",
         "c": "0",
-        "g": "4"
+        "g": "4",
+         "configuration": {
+            "midexecute": [{
+                "dothis": "dothis",
+                "tryorder": "1",
+                "executeorder": "1",
+                "params": {
+                    "exdef": "param after dothis and executeparam was grabbed"
+                }
+            }]
+        }
     });
     var res = master_test_and_verify("ettestct17", parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
@@ -2052,7 +1899,17 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
         "exdef": "param after dothis and executeparam was grabbed",
         "f": "3",
         "c": "0",
-        "g": "4"
+        "g": "4",
+        "configuration": {
+            "midexecute": [{
+                "dothis": "dothis",
+                "tryorder": "1",
+                "executeorder": "1",
+                "params": {
+                    "exdef": "param after dothis and executeparam was grabbed"
+                }
+            }]
+        }
     });
     var res = master_test_and_verify("ettestct18", parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
@@ -2063,7 +1920,7 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
 // the args sent to executethis will always win...not any of the 3 places in the config that they are set.
 exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
     testclearstorage();
-    config = setconfig8();
+    // config = setconfig8();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "func_a",
@@ -2106,7 +1963,33 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
         "h": "5",
         "alpha": "1",
         "bravo": "1",
-        "charlie": "1"
+        "charlie": "1",
+        "configuration": {
+            "preexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "alpha": "3"
+                }
+            }],
+            "midexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "bravo": "3"
+                }
+            }],
+            "postexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "charlie": "3"
+                }
+            }]
+        }
     });
     var res = master_test_and_verify("ettestct19", parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
@@ -2116,11 +1999,37 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 // all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
 exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
     testclearstorage();
-    config = setconfig8();
+    // config = setconfig8();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "func_a",
-        "postexecute": "func_c"
+        "postexecute": "func_c",        
+        "configuration": {
+            "preexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "alpha": "3"
+                }
+            }],
+            "midexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "bravo": "3"
+                }
+            }],
+            "postexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "charlie": "3"
+                }
+            }]
+        }
     }
     var assert = [];
     assert.push({
@@ -2129,7 +2038,33 @@ exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
         "alpha": "4",
         "f": "3",
         "bravo": "4",
-        "h": "5"
+        "h": "5",
+        "configuration": {
+            "preexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "alpha": "3"
+                }
+            }],
+            "midexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "bravo": "3"
+                }
+            }],
+            "postexecute": [{
+                "dothis": "dothis",
+                "tryorder": 0,
+                "executeorder": 0,
+                "params": {
+                    "charlie": "3"
+                }
+            }]
+        }
     });
     var res = master_test_and_verify("ettestct20", parameters, assert, {}, {"command":"null"},function (err, res) {
         callback(err, res)
@@ -2527,10 +2462,6 @@ exports.sleep = sleep = function sleep(milliseconds) {
     }
 }
 
-// Here are the different configs used in the tests
-
-
-
 // exports.func_async = func_async = function func_async(parameters, callback) {
 //     delete parameters["d"];
 //     console.log('from func_async');
@@ -2600,36 +2531,6 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
             callback(err, res);
         });
 }
-
-
-// exports.uw = uw = function uw(params, callback) {
-
-//     // build database ??
-
-//     // Here are the ins and outs, but without a db, the test wont work
-
-//     var parameters = {
-//         "executemethod": "updatewid",
-//         "metadata.method": "sounddto",
-//         "wid": "sounddto",
-//         "note": "string"
-//     }
-
-//     var assert = {
-//             "wid": "sounddto",
-//             "metadata": {
-//                 "method": "sounddto",
-//                 "date": "2014-01-30T14:15:21.572Z"
-//             },
-//             "data": {
-//                 "note": "string"
-//             }
-
-//     // test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
-//         callback(err, res)
-//     });
-
-// }
 
 exports.mut = mut = function mut(params, callback) {
     testclearstorage();

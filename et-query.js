@@ -463,7 +463,7 @@
     // function queryafterrelationship(parameters, output) {
     //     mQueryString = '{"$and": [';
 
-    //     if (isParameterLower(parameters, "mongowidmethod")) {
+    //     if (parameters.hasOwnProperty("mongowidmethod")) {
     //         var dtotype = parameters["mongowidmethod"];
     //         remove(parameters, "mongowidmethod");
 
@@ -932,25 +932,25 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
             return "";
         }
         // Pull out the correct vars
-        if (isParameterLower(parameters, "mongorelationshipdirection")) {
+        if (parameters.hasOwnProperty("mongorelationshipdirection")) {
             var direction = parameters["mongorelationshipdirection"];
             remove(parameters, "mongorelationshipdirection");
         }
-        if (isParameterLower(parameters, "mongorelationshiptype")) {
+        if (parameters.hasOwnProperty("mongorelationshiptype")) {
             var type = parameters["mongorelationshiptype"];
             remove(parameters, "mongorelationshiptype");
         }
         // LM: TODO, take this out...belongs (and is, i think in add-ons)
-        if (isParameterLower(parameters, "mongorelationshipmethod")) {
+        if (parameters.hasOwnProperty("mongorelationshipmethod")) {
             var method = parameters["mongorelationshipmethod"];
             remove(parameters, "mongorelationshipmethod");
         }
 
-        if (isParameterLower(parameters, "mongowidmethod")) {
+        if (parameters.hasOwnProperty("mongowidmethod")) {
             var dtotype = parameters["mongowidmethod"];
             remove(parameters, "mongowidmethod");
         }
-        if (isParameterLower(parameters, "query")) {
+        if (parameters.hasOwnProperty("query")) {
             var query = parameters["query"];
             remove(parameters, "query");
         }
@@ -1080,11 +1080,11 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         var query;
 
         // Fish out the parameters
-        if (isParameterLower(parameters, "mongoaggregation")) {
+        if (parameters.hasOwnProperty("mongoaggregation")) {
             mongoAggregation = parameters["mongoaggregation"];
             remove(parameters, "mongoaggregation");
         }
-        if (isParameterLower(parameters, "mongoaggquery")) {
+        if (parameters.hasOwnProperty("mongoaggquery")) {
             mongoaggquery = parameters["mongoaggquery"];
             remove(parameters, "mongoaggquery");
         }
@@ -1141,34 +1141,34 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         var mongoSize = ""; // String
         var mongoRelationshipMethod = "all"
 
-        if (isParameterLower(parameters, "mongosetlimit")) {
+        if (parameters.hasOwnProperty("mongosetlimit")) {
             mongoSetLimit = parameters["mongosetlimit"];
         }
-        if (isParameterLower(parameters, "mongosetskip")) {
+        if (parameters.hasOwnProperty("mongosetskip")) {
             mongoSetSkip = parameters["mongosetskip"];
         }
-        if (isParameterLower(parameters, "mongosetsortby")) {
+        if (parameters.hasOwnProperty("mongosetsortby")) {
             mongoSetSortBy = parameters["mongosetsortby"];
         }
-        if (isParameterLower(parameters, "mongosetsortorder")) {
+        if (parameters.hasOwnProperty("mongosetsortorder")) {
             mongoSetSortOrder = parameters["mongosetsortorder"];
         }
-        if (isParameterLower(parameters, "mongosetmax")) {
+        if (parameters.hasOwnProperty("mongosetmax")) {
             mongoSetMax = parameters["mongosetmax"];
         }
-        if (isParameterLower(parameters, "mongosethint")) {
+        if (parameters.hasOwnProperty("mongosethint")) {
             mongoSetHint = parameters["mongosethint"];
         }
-        if (isParameterLower(parameters, "mongoreturncount")) {
+        if (parameters.hasOwnProperty("mongoreturncount")) {
             mongoReturnCount = parameters["mongoreturncount"];
         }
-        if (isParameterLower(parameters, "mongoexplain")) {
+        if (parameters.hasOwnProperty("mongoexplain")) {
             mongoExplain = parameters["mongoexplain"];
         }
-        if (isParameterLower(parameters, "mongosize")) {
+        if (parameters.hasOwnProperty("mongosize")) {
             mongoSize = parameters["mongosize"];
         }
-        if (isParameterLower(parameters, "mongorelationshipmethod")) {
+        if (parameters.hasOwnProperty("mongorelationshipmethod")) {
             mongoRelationshipMethod = parameters["mongorelationshipmethod"];
         }
 
@@ -1184,13 +1184,13 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         var defaultSize = (mongoSize == "") ? false : true;
 
         var defaultFieldsInclude = "";
-        if (isParameterLower(parameters, "mongosetfieldsinclude")) {
+        if (parameters.hasOwnProperty("mongosetfieldsinclude")) {
             defaultFieldsInclude = parameters["mongosetfieldsinclude"];
             // LM: This does not make sense
             // defaultFieldsInclude = getFromMongo({'wid':mongoSetFieldsInclude});
         }
         var defaultFieldsExclude = "";
-        if (isParameterLower(parameters, "mongosetfieldsexclude")) {
+        if (parameters.hasOwnProperty("mongosetfieldsexclude")) {
             defaultFieldsExclude = parameters["mongosetfieldsexclude"];
             // LM: This does not make sense
             // defaultFieldsExclude = getFromMongo({'wid':mongoSetFieldsExclude});
@@ -1200,7 +1200,7 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         // the method is taken care of following so??..I think it was left by accident 
         //
         // var mongoRelationshipMethod="";
-        // if (isParameterLower(parameters, "mongorelationshipmethod")) {
+        // if (parameters.hasOwnProperty("mongorelationshipmethod")) {
         //  var mongoSetFieldsExclude = parameters["mongorelationshipmethod"];
         // }
         // Dealing with method is setting the defaults accordingly
@@ -1350,6 +1350,8 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         var inbound_parameters = {};
         inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
+        inbound_parameters = tolowerparameters(inbound_parameters, {});
+
         // These are the categories of possible data sent in
 
         // For query building from wids
@@ -1367,183 +1369,182 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         var commandParams = {};
 
         var db = ""; // String
-        if (isParameterLower(parameters, "command.db")) {
+        if (parameters.hasOwnProperty("command.db")) {
             db = parameters["command.db"];
             commandParams["command.db"] = db;
             remove(parameters, "command.db");
         }
         var convertmethod = ""; // String
-        if (isParameterLower(parameters, "command.convertmethod")) {
+        if (parameters.hasOwnProperty("command.convertmethod")) {
             convertmethod = parameters["command.convertmethod"];
             commandParams["command.convertmethod"] = convertmethod;
             remove(parameters, "command.convertmethod");
         }
 
         var mongowid = ""; // String
-        if (isParameterLower(parameters, "mongowid")) {
+        if (parameters.hasOwnProperty("mongowid")) {
             mongowid = parameters["mongowid"];
             queParams['mongowid'] = mongowid;
             remove(parameters, "mongowid");
         }
 
         var mongowidmethod = ""; // String
-        if (isParameterLower(parameters, "mongowidmethod")) {
+        if (parameters.hasOwnProperty("mongowidmethod")) {
             mongowidmethod = parameters["mongowidmethod"];
             relafterParams['mongowidmethod'] = mongowidmethod;
             remove(parameters, "mongowidmethod");
         }
 
         var mongorawquery = ""; // String
-        if (isParameterLower(parameters, "mongorawquery")) {
+        if (parameters.hasOwnProperty("mongorawquery")) {
             mongorawquery = parameters["mongorawquery"];
             queParams['mongorawquery'] = mongorawquery;
             remove(parameters, "mongorawquery");
         }
         var mongoquerywid = ""; // String
-        if (isParameterLower(parameters, "mongoquerywid")) {
+        if (parameters.hasOwnProperty("mongoquerywid")) {
             mongoquerywid = parameters["mongoquerywid"];
             queParams['mongoquerywid'] = mongoquerywid;
             remove(parameters, "mongoquerywid");
         }
         var singlemongoquery = ""; // String I don't think we need this one
-        if (isParameterLower(parameters, "mongosinglequery")) {
+        if (parameters.hasOwnProperty("mongosinglequery")) {
             singlemongoquery = parameters["mongosinglequery"];
             queParams["mongosinglequery"] = singlemongoquery;
             remove(parameters, "mongosinglequery");
         }
         var multiplemongoquery = ""; // String 
-        if (isParameterLower(parameters, "mongomultiplequery")) {
+        if (parameters.hasOwnProperty("mongomultiplequery")) {
             multiplemongoquery = parameters["mongomultiplequery"];
             queParams["mongomultiplequery"] = multiplemongoquery;
             remove(parameters, "mongomultiplequery");
         }
         var mongorelationshipdirection = ""; // String
-        if (isParameterLower(parameters, "mongorelationshipdirection")) {
+        if (parameters.hasOwnProperty("mongorelationshipdirection")) {
             mongorelationshipdirection = parameters["mongorelationshipdirection"];
             relParams['mongorelationshipdirection'] = mongorelationshipdirection;
             remove(parameters, "mongorelationshipdirection");
         }
         var mongorelationshiptype = ""; // String
-        if (isParameterLower(parameters, "mongorelationshiptype")) {
+        if (parameters.hasOwnProperty("mongorelationshiptype")) {
             mongorelationshiptype = parameters["mongorelationshiptype"];
             remove(parameters, "mongorelationshiptype");
             relParams['mongorelationshiptype'] = mongorelationshiptype;
         }
         var mongorelationshipmethod = ""; // String
-        if (isParameterLower(parameters, "mongorelationshipmethod")) {
+        if (parameters.hasOwnProperty("mongorelationshipmethod")) {
             mongorelationshipmethod = parameters["mongorelationshipmethod"];
             remove(parameters, "mongorelationshipmethod");
             relParams['mongorelationshipmethod'] = mongorelationshipmethod;
         }
         var mongorelationshiprawquery = ""; // String
-        if (isParameterLower(parameters, "mongorelationshiprawquery")) {
+        if (parameters.hasOwnProperty("mongorelationshiprawquery")) {
             mongorelationshiprawquery = parameters["mongorelationshiprawquery"];
             remove(parameters, "mongorelationshiprawquery");
             relParams['mongorelationshiprawquery'] = mongorelationshiprawquery;
         }
         var mongorelationshipquery = ""; // String
-        if (isParameterLower(parameters, "mongorelationshipquery")) {
+        if (parameters.hasOwnProperty("mongorelationshipquery")) {
             mongorelationshipquery = parameters["mongorelationshipquery"];
             remove(parameters, "mongorelationshipquery");
             relParams['mongorelationshipquery'] = mongorelationshipquery;
         }
         var mongoToken = ""; // String
-        if (isParameterLower(parameters, "mongoToken")) {
+        if (parameters.hasOwnProperty("mongoToken")) {
             mongoToken = parameters["mongoToken"];
             remove(parameters, "mongoToken");
             // -------------------------------------TODO: assign this to Params group
         }
         var mongosetfieldsinclude = ""; // String
-        if (isParameterLower(parameters, "mongosetfieldsinclude")) {
+        if (parameters.hasOwnProperty("mongosetfieldsinclude")) {
             mongosetfieldsinclude = parameters["mongosetfieldsinclude"];
             remove(parameters, "mongosetfieldsinclude");
             addParams['mongosetfieldsinclude'] = mongosetfieldsinclude;
         }
         var mongosetfieldsexclude = ""; // String
-        if (isParameterLower(parameters, "mongosetfieldsexclude")) {
+        if (parameters.hasOwnProperty("mongosetfieldsexclude")) {
             mongosetfieldsexclude = parameters["mongosetfieldsexclude"];
             remove(parameters, "mongosetfieldsexclude");
             addParams['mongosetfieldsexclude'] = mongosetfieldsexclude;
         }
         var mongosetlimit = ""; // String
-        if (isParameterLower(parameters, "mongosetlimit")) {
+        if (parameters.hasOwnProperty("mongosetlimit")) {
             mongosetlimit = parameters["mongosetlimit"];
             remove(parameters, "mongosetlimit");
             addParams['mongosetlimit'] = mongosetlimit;
         }
         var mongosetskip = ""; // String
-        if (isParameterLower(parameters, "mongosetskip")) {
+        if (parameters.hasOwnProperty("mongosetskip")) {
             mongosetskip = parameters["mongosetskip"];
             remove(parameters, "mongosetskip");
             addParams['mongosetskip'] = mongosetskip;
         }
         var mongosethint = ""; // String
-        if (isParameterLower(parameters, "mongosethint")) {
+        if (parameters.hasOwnProperty("mongosethint")) {
             mongosethint = parameters["mongosethint"];
             remove(parameters, "mongosethint");
             addParams['mongosethint'] = mongosethint;
         }
         var mongoSetMax = ""; // String
-        if (isParameterLower(parameters, "mongosetmax")) {
+        if (parameters.hasOwnProperty("mongosetmax")) {
             mongosetmax = parameters["mongosetmax"];
             remove(parameters, "mongosetmax");
             addParams['mongosetmax'] = mongosetmax;
         }
         var mongosetsortby = ""; // String
-        if (isParameterLower(parameters, "mongosetsortby")) {
+        if (parameters.hasOwnProperty("mongosetsortby")) {
             mongosetsortby = parameters["mongosetsortby"];
             remove(parameters, "mongosetsortby");
             addParams['mongosetsortby'] = mongosetsortby;
         }
         var mongoreturncount = ""; // String
-        if (isParameterLower(parameters, "mongoreturncount")) {
+        if (parameters.hasOwnProperty("mongoreturncount")) {
             mongoreturncount = parameters["mongoreturncount"];
             remove(parameters, "mongoreturncount");
             addParams['mongoreturncount'] = mongoreturncount;
         }
         var mongoexplain = ""; // String
-        if (isParameterLower(parameters, "mongoexplain")) {
+        if (parameters.hasOwnProperty("mongoexplain")) {
             mongoexplain = parameters["mongoexplain"];
             remove(parameters, "mongoexplain");
             addParams['mongoexplain'] = mongoexplain;
         }
         var mongosize = ""; // String
-        if (isParameterLower(parameters, "mongosize")) {
+        if (parameters.hasOwnProperty("mongosize")) {
             mongosize = parameters["mongosize"];
             remove(parameters, "mongosize");
             addParams['mongosize'] = mongosize;
         }
         var mongosetsortorder = ""; // String
-        if (isParameterLower(parameters, "mongosetsortorder")) {
+        if (parameters.hasOwnProperty("mongosetsortorder")) {
             mongosetsortorder = parameters["mongosetsortorder"];
             remove(parameters, "mongosetsortorder");
             addParams['mongosetsortorder'] = mongosetsortorder;
         }
         var mongoaggregation = ""; // String
-        if (isParameterLower(parameters, "mongoaggregation")) {
+        if (parameters.hasOwnProperty("mongoaggregation")) {
             mongoaggregation = parameters["mongoaggregation"];
             remove(parameters, "mongoaggregation");
             aggParams['mongoaggregation'] = mongoaggregation;
         }
         var mongodtotype = ""; // String
-        if (isParameterLower(parameters, "mongodtotype")) {
+        if (parameters.hasOwnProperty("mongodtotype")) {
             mongodtotype = parameters["mongodtotype"];
             remove(parameters, "mongodtotype");
             relParams['mongodtotype'] = mongodtotype;
         }
         var mongorelquery = ""; // String
-        if (isParameterLower(parameters, "mongorelquery")) {
+        if (parameters.hasOwnProperty("mongorelquery")) {
             mongorelquery = parameters["mongorelquery"];
             remove(parameters, "mongorelquery");
             relParams['mongorelquery'] = mongorelquery;
         }
         var mongoaggquery = ""; // String
-        if (isParameterLower(parameters, "mongoaggquery")) {
+        if (parameters.hasOwnProperty("mongoaggquery")) {
             mongoaggquery = parameters["mongoaggquery"];
             remove(parameters, "mongoaggquery");
             aggParams['mongoaggquery'] = mongoaggquery;
         }
-
         // Gather the left over params  
         for (i in parameters) {
             xtrParams[i] = parameters[i];
@@ -1619,12 +1620,12 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
     //  /*---  region Fishing Out Parameter Keywords ---*/
     //  // Fish out the keywords from the parameterdto's Set to GME
-    //  if (isParameterLower(parameters, "mongodtotype")) {
+    //  if (parameters.hasOwnProperty("mongodtotype")) {
     //      var first = firstOrDefault(parameters, "mongodtotype");
     //      mongodtotype = first.ParameterValue;
     //      remove(parameters, "mongodtotype");
     //  }
-    //  if (isParameterLower(parameters, "mongoaggregation")) {
+    //  if (parameters.hasOwnProperty("mongoaggregation")) {
     //      var first = firstOrDefault(parameters, "mongoaggregation");
     //      mongoAggregation = first.ParameterValue;
     //      remove(parameters, "mongoaggregation");
@@ -1640,13 +1641,13 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
     //      return output;
     //  }*/
 
-    //  if (isParameterLower(parameters, "relationshiprawmongoquery")) {
+    //  if (parameters.hasOwnProperty("relationshiprawmongoquery")) {
     //      if(parameters.hasOwnProperty("relationshiprawmongoquery")){
     //          output = parameters.relationshiprawmongoquery;          
     //      }
     //  }
 
-    //  if (isParameterLower(parameters, "relationshipsinglemongoquery")) {
+    //  if (parameters.hasOwnProperty("relationshipsinglemongoquery")) {
     //      if(parameters.hasOwnProperty("relationshipsinglemongoquery")){
     //          var wid = parameters.relationshipsinglemongoquery;
     //          var widObject = getFromMongo({'wid':wid});
@@ -1655,7 +1656,7 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
     //      }
     //  }   
 
-    //  if (isParameterLower(parameters, "relationshipmultiplemongoquery")) {
+    //  if (parameters.hasOwnProperty("relationshipmultiplemongoquery")) {
     //      if(parameters.hasOwnProperty("relationshipmultiplemongoquery")){
     //          var wid = parameters.relationshipmultiplemongoquery;
     //          var widObject = getFromMongo({'wid':wid});
