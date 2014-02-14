@@ -353,13 +353,14 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
     var inbound_parameters = {};
     extend(true, inbound_parameters, inputWidgetObject);
     var convertedobject={};
-    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
+    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 11);
     offlinegetfrommongo(inputWidgetObject, function (err, resultobject) {
         // convert the object from dri standard before returnning it
-        proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject, 1);
+        proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject, 11);
 
         var convertedobject=convertfromdriformat(resultobject)
-        proxyprinttodiv('Function getwid in : convertedobject', convertedobject, 1);
+        proxyprinttodiv('Function getwid in : convertedobject', convertedobject, 11);
+        proxyprinttodiv('Function getwid in : resultobject', resultobject, 11);
 
         if (inputWidgetObject['command.convertmethod']==='toobject') {
             debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {

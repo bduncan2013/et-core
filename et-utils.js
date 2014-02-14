@@ -38,10 +38,10 @@ localStore.clear();
 
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
-    proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 99);
-    proxyprinttodiv("insertbydtotype input bigdto :- ", bigdto, 99);
-    proxyprinttodiv("insertbydtotype input insertobj :- ", insertobj, 99);
-    proxyprinttodiv("insertbydtotype input command.dtotype :- ", command.dtotype, 99);
+    proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 38);
+    proxyprinttodiv("insertbydtotype input bigdto :- ", bigdto, 38);
+    proxyprinttodiv("insertbydtotype input insertobj :- ", insertobj, 38);
+    proxyprinttodiv("insertbydtotype input command :- ", command, 38);
     
     var dtoname;
     var dtonameobj;
@@ -52,35 +52,35 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
     if (insertobj.metadata && insertobj["metadata"]["method"]) {
         dtoname = insertobj["metadata"]["method"];
         }
-    if (command.dtotype) {
+    if (command && command.dtotype) {
         dtoname = command.dtotype;
        }
-    proxyprinttodiv("insertbydtotype dtoname :- ", dtoname, 99);
+    proxyprinttodiv("insertbydtotype dtoname :- ", dtoname, 38);
     if (dtoname) {
         dtoindex = getindex(bigdto, dtoname, null); 
-        proxyprinttodiv("insertbydtotype dtoindex:- ", dtoindex, 99);
+        proxyprinttodiv("insertbydtotype dtoindex:- ", dtoindex, 38);
         if(!insertobj.metadata){ insertobj.metadata={};}
         delete insertobj.wid;
         insertobj["metadata"]["method"]=dtoname;
-        proxyprinttodiv("insertbydtotype setbyindex  insertobj:- ", insertobj, 99);
-        proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- I", inputobj, 99);
+        proxyprinttodiv("insertbydtotype setbyindex  insertobj:- ", insertobj, 38);
+        proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- I", inputobj, 38);
         if (dtoindex===null) { // create outside wrapper
             dtoname=inputobj["metadata"]["method"];
             insertobj[dtoname]={};
             extend(true, insertobj[dtoname], inputobj)
             inputobj=insertobj;
-            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- II", inputobj, 99);
+            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- II", inputobj, 38);
             inputobj=ConvertFromDOTdri(inputobj);
-            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- HI", "HI", 99);
-            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- III", inputobj, 99);
+            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- HI", "HI", 38);
+            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- III", inputobj, 38);
             }
         else {
             setbyindex(inputobj, dtoindex, insertobj);
-            proxyprinttodiv("insertbydtotype setbyindex  inputobj:- ", inputobj, 99);
+            proxyprinttodiv("insertbydtotype setbyindex  inputobj:- ", inputobj, 38);
             inputobj=ConvertFromDOTdri(inputobj);
             }
        }
-    proxyprinttodiv("insertbydtotype result :- ", inputobj, 99);
+    proxyprinttodiv("insertbydtotype result :- ", inputobj, 38);
     return inputobj;
 }
 
@@ -165,8 +165,8 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
     if (dtoObjOpt) {
         return recurseModObj(modifiedObj, dtoObjOpt);
     } else {
-        dtoObjOpt = execute({"executethis":"getwidmaster", "wid": inputObj["metadata"]["method"]});
-        return recurseModObj(modifiedObj, dtoObjOpt);
+        //dtoObjOpt = execute({"executethis":"getwidmaster", "wid": inputObj["metadata"]["method"]});
+        return inputObj;
     };   
 
 }
@@ -238,7 +238,8 @@ function recurseModObj(inputObject,dtoObject){
 }
 
 exports.validParams = validParams = function validParams(obj) {
-    var keyLength = Object.keys(obj).length;
+    // var keyLength = Object.keys(obj).length;
+    var keyLength = countKeys(obj);
     var status = false;
     if (keyLength !== 0) {
         for (var k in obj) {
@@ -264,7 +265,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 // logic to get things from Local storage
 exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     var output = {};
-    proxyprinttodiv('getfromlocal', inputWidgetObject, 99);
+    proxyprinttodiv('getfromlocal', inputWidgetObject, 38);
     if (inputWidgetObject["wid"]) {
         inputWidgetObject = toLowerKeys(inputWidgetObject);
         var widKey = inputWidgetObject["wid"].toLowerCase();
@@ -273,7 +274,7 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
             output = {};
         }
     }
-    proxyprinttodiv('getfromlocal output', output, 99);
+    proxyprinttodiv('getfromlocal output', output, 38);
     //var x = localStore.get(inputWidgetObject);
     //if (!x) {x={}};
     return output
@@ -708,8 +709,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     // recurse until there is only 1 chain so you get chain:value returned. This is called only 
     // from ConvertFrom DOT, so you can see it part of the process of deconstructing the dot.notaion string.
     exports.createObjects = createObjects = function createObjects(parent, chainArray, value) {
-        //proxyprinttodiv('createobject parent',  parent,99);
-        //proxyprinttodiv('createobject chainArray',  chainArray,99);
+        //proxyprinttodiv('createobject parent',  parent,38);
+        //proxyprinttodiv('createobject chainArray',  chainArray,38);
         if (chainArray.length == 1) {
             parent[chainArray[0]] = value;
             return parent;
@@ -1030,14 +1031,14 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     };
 
     // Returns the number of hashes in an object
-    // exports.countKeys = countKeys = function countKeys(obj) {
-    //     var size = 0,
-    //         key;
-    //     for (key in obj) {
-    //         if (obj.hasOwnProperty(key)) size++;
-    //     }
-    //     return size;
-    // };
+    exports.countKeys = countKeys = function countKeys(obj) {
+        var size = 0,
+            key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
 
     exports.isEmpty = isEmpty = function isEmpty(obj) {
         if (isSet(obj)) {
@@ -1315,8 +1316,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             if (!debuglog[outobject[2]]) {
                 debuglog[outobject[2]] = []
             }
-            //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 99);
-            //proxyprinttodiv('arrived temparray', temparray, 99);
+            //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 38);
+            //proxyprinttodiv('arrived temparray', temparray, 38);
             debuglog[outobject[2]].push(temparray);
             // debuglog.push(temparray);
             proxyprinttodiv('arrived debuglog end', debuglog, 44);
@@ -1385,7 +1386,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
 
         function etcreatecode(indebugindent, displaycolor, indebugname) {
-            proxyprinttodiv('debugfn end debuglog', debuglog, 99);
+            proxyprinttodiv('debugfn end debuglog', debuglog, 38);
             var resultlog = [];
             var eachtest;
             var eachsubtest;
@@ -1394,14 +1395,14 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
             for (eachtest in debuglog) {
                 testresults = debuglog[eachtest];
-                //proxyprinttodiv('debugfn testresults', testresults, 99);
+                //proxyprinttodiv('debugfn testresults', testresults, 38);
                 for (eachsubtest in testresults) {
                     subtest = testresults[eachsubtest];
                     resultlog.push(subtest);
-                    // proxyprinttodiv('debugfn subtest', subtest, 99);
-                    // proxyprinttodiv('   debugfn subtest[0]', subtest[0], 99);
-                    // proxyprinttodiv('   debugfn subtest[1]', subtest[1], 99);
-                    // proxyprinttodiv('   debugfn subtest[2]', subtest[2], 99);
+                    // proxyprinttodiv('debugfn subtest', subtest, 38);
+                    // proxyprinttodiv('   debugfn subtest[0]', subtest[0], 38);
+                    // proxyprinttodiv('   debugfn subtest[1]', subtest[1], 38);
+                    // proxyprinttodiv('   debugfn subtest[2]', subtest[2], 38);
                 }
                 if (testresults[3]) {}
                 if (testresults[4]) {}
@@ -1442,10 +1443,10 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             if (exports.environment === "local") {
                 $('#divprint').append(temp_HTML);
             }
-            //proxyprinttodiv('logverify - temp_HTML', temp_HTML, 99);
+            //proxyprinttodiv('logverify - temp_HTML', temp_HTML, 38);
         }
 
-        // print:   proxyprinttodiv('logverify - parmwid1', parmwid1, 99);
+        // print:   proxyprinttodiv('logverify - parmwid1', parmwid1, 38);
 
         // google: storetogoogle
         // file: outobject["testtest":"testtest"]
@@ -1527,8 +1528,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     //     // if (!debuglog[outobject[2]]) {
     //     //     debuglog[outobject[2]]=[]
     //     //     }
-    //     // //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 99);
-    //     // //proxyprinttodiv('arrived temparray', temparray, 99);
+    //     // //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 38);
+    //     // //proxyprinttodiv('arrived temparray', temparray, 38);
     //     // debuglog[outobject[2]].push(temparray);
     //     // //debuglog.push(temparray);
     //     // proxyprinttodiv('arrived debuglog end', debuglog, 44);

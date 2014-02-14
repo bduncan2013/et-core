@@ -41,7 +41,7 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
     proxyprinttodiv('In __getwidmaster__ with parameters: ', parameters, 38);
     getWidMongo(parameters.wid, parameters.command, "", 20, function (err, res) { // recurse up to 20 levels
         proxyprinttodiv('In __getwidmaster__ with res: ', res, 38);
-        
+        if ((res) && (res.command) && (Object.keys(res.command).length === 0)) {delete res.command}      
         if ((res) && (Object.keys(res).length !== 0) && (res['metadata']) && 
             (res['wid'] !== res['metadata']['method']) && (parameters.convertmethod!=="dto") && 
             (parameters.command.inheritflag !== "false")) {
@@ -96,22 +96,51 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
 // *** GetDTOObject ***
 // Purpose: Pulls the schema for objects
 exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callback) {
+    proxyprinttodiv("getdtoobject input obj: ", obj, 38);
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
     var dtotype;
     var dtoobject = {};
 
+    // extend(true, dtoobject, obj);
+
+    //dtoobject["metadata"]["method"] = "string";
+    if (!obj["metadata"]) {obj["metadata"]={}}
+    if (!obj["metadata"]["method"]) {obj["metadata"]["method"]="defaultdto"}
+
+    function recurseobj(inobj) {
+        var dtoobj={};
+        for (eachparm in inobj) {
+            proxyprinttodiv("getdtoobject eachparm", eachparm, 39);
+            proxyprinttodiv("getdtoobject inobj", inobj[eachparm], 39);
+            if (isObject(inobj[eachparm])) {
+                dtoobj[eachparm]=recurseobj(inobj[eachparm])
+                }
+            else {
+                dtoobj[eachparm]="string"
+                }
+            }
+        return dtoobj
+        }
+
+    dtoobject = recurseobj(obj);
+    proxyprinttodiv("getdtoobject input dtoobject: ", dtoobject, 38);
+    // dtoobject["metadata.method"] = "string";
+    // if (!obj["metadata.method"]) {obj["metadata.method"] = "defaultdto"}
+    
     if (command && command.dtotype) {
         dtotype = command.dtotype;
     } else {
         dtotype = obj.metadata.method;
+        //dtotype = obj['metadata.method'];
     }
-    if (dtotype && dtotype !== obj.wid) {
+    if ((dtotype!=="defaultdto") && (dtotype !== obj.wid)) {
         execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"dto","command.execute":"ConvertFromDOTdri"}, function (err, res) {
+            proxyprinttodiv("getdtoobject input res[0] ", res, 38);
+            if (res && (Object.keys(res[0]).length !== 0)) {dtoobject=res[0]}
 
-            if (!res) {dtoobject=obj} else {dtoobject=res[0]}
-
+            proxyprinttodiv("getdtoobject input dtoobject +++++++ ", dtoobject, 38);
             debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
                 0: inbound_parameters,
                 1: dtoobject
@@ -380,11 +409,13 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
             },
         function step4(cb) {
 
-            if (!parameterobject.command.dtolist) { // create dtolist
-                parameterobject.command.dtolist = dtolist;
-                };
+            //if (!parameterobject.command.dtolist) { // create dtolist
 
             if ((parameterobject["metadata"]) && (command) && (command.convertmethod === "dto")) {
+
+                if ((!parameterobject.command.dtolist) && (Object.keys(dtolist).length > 0)){ // create dtolist
+                    parameterobject.command.dtolist = dtolist;
+                    };
 
                 for (eachmetadata in parameterobject["metadata"]) {
                     proxyprinttodiv('Function getwidmongo eachmetadata', eachmetadata,38);
@@ -415,6 +446,10 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             }
                         }  
                     } // for
+
+                    parameterobject["wid"]="string";
+                    parameterobject["metadata"]["method"]="string";
+                    
                 } // if dto
 
             proxyprinttodiv("--- What i'm looking at parameterobject step3", parameterobject, 38);
@@ -506,32 +541,6 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
                                 insertbydtotype(resultObj, bigdto, inheritobject, command)
 
-                                insertbydtotype(resultObj, bigdto, inheritobject, command)
-
-
-
-                                // proxyprinttodiv('<<< Get_Clean step3 inheritobject >>>', inheritobject, 38);
-                                // if (inheritobject['metadata'] && inheritobject['metadata']['method']) {
-                                //     dtoname = inheritobject['metadata']['method'];
-                                //     }
-                                
-                                // proxyprinttodiv('<<< Get_Clean after call to execute bigdto[metadata][method] >>>', bigdto['metadata']['method'], 38);
-                                
-                                // if (dtoname === bigdto['metadata']['method']) {
-                                //     proxyprinttodiv('<<< Get_Clean step3 extend resultObj before >>>', resultObj, 38);
-                                //     extend(true, resultObj, inheritobject);
-                                //     proxyprinttodiv('<<< Get_Clean step3 extend resultObj after >>>', resultObj, 38);
-                                // } else {
-                                //     // index = getindex(bigdto, dtoname); // changed by joe, the sturcture on bigdto is too diffrent to resolve a relevant path to insert data
-                                //     index = getindex(resultObj, dtoname); 
-                                //     if(!index) {
-                                //         extend(true, resultObj, inheritobject);
-                                //     } 
-                                //     else {
-                                //         proxyprinttodiv('<<< Get_Clean step3 index >>', index, 38);
-                                //         setbyindex(resultObj, index, inheritobject);
-                                //     }
-                                //}
                                 cbMap(null);
                             } // end if
                             else { // if no result

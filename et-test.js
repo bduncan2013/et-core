@@ -69,36 +69,45 @@ exports.add1 = add1 = function add1(parameters, callback) {
         "metadata": { "method": "authordto"},
         "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
     };
-    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
-                    "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"bookdto",
-                                "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
-                                "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
-                            },
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"string",
+                        "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"string",
+                        "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                        "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                    },
                     "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
                     "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
                             "deepdtolist":{"bookdto":"onetomany"},
                             "dtolist":{"bookdto":"bookdto"}}}
 
-// {"name":"string","age":"string","a":"string","b":"string","wid":"authordto",
-// "metadata.method":"authordto","metadata.bookdto.type":"onetomany","metadata.inherit":"defaultauthordtoactions",
-// "command.inherit.defaultbookdtoactions":"defaultbookdtoactions",
-// "command.inherit.defaultauthordtoactions":"defaultauthordtoactions",
-// "command.deepdtolist.bookdto":"onetomany","command.dtolist.bookdto":"bookdto",
-// "bookdto.title":"string","bookdto.pages":"string","bookdto.c":"string","bookdto.d":"string","bookdto.wid":"bookdto",
-// "bookdto.metadata.method":"bookdto","bookdto.metadata.inherit":"defaultbookdtoactions",
-// "bookdto.command.inherit.defaultbookdtoactions":"defaultbookdtoactions"}
+    var command = {};
+
+    addwidobject(inputObject, inputdto, command, function (err, res) {
+        proxyprinttodiv("add1 fired! -- got res --> ", res, 99);
+    });
+}
+
+exports.add11 = add11 = function add11(parameters, callback) {
+    testclearstorage();
+    var inputObject = {
+        "name": "Elizabeth Heart",
+        "age": "50",
+        "wid": "elizabeth_heart",
+        "metadata": { "method": "authordto"},
+        "bookdto": { "title": "The X Factor", "pages": "300", "wid": "222", "metadata": { "method": "bookdto"} }
+    };
+
+    var inputdto = {"name":"string","age":"string","a":"string","b":"string","wid":"string",
+                        "bookdto":{"title":"string","pages":"string","c":"string","d":"string","wid":"string",
+                        "metadata":{"method":"bookdto","inherit":"defaultbookdtoactions"},
+                        "command":{"inherit":{"defaultbookdtoactions":"defaultbookdtoactions"},"deepdtolist":{},"dtolist":{}}
+                    },
+                    "metadata":{"method":"authordto","bookdto":{"type":"onetomany"},"inherit":"defaultauthordtoactions"},
+                    "command":{"inherit":{"defaultauthordtoactions":"defaultauthordtoactions","defaultbookdtoactions":"defaultbookdtoactions"},
+                            "deepdtolist":{"bookdto":"onetomany"},
+                            "dtolist":{"bookdto":"bookdto"}}}
 
     var command = {};
 
-    /*
-		parent - authordto
-		child - bookdto
-	*/
-    /*
-		addwidobject --
-			add all that are not childrent -- parent
-			process children
-	*/
     addwidobject(inputObject, inputdto, command, function (err, res) {
         proxyprinttodiv("add1 fired! -- got res --> ", res, 99);
     });
@@ -662,9 +671,6 @@ exports.get11= get11 = function get11 (parameters, callback) {
     //     callback(err, res);
     // });
 }
-
-
-
 
 /* Adding data for the survey */
 exports.surveydata = surveydata = function surveydata(params, callback) {

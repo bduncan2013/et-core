@@ -34,14 +34,18 @@ function etunittesttester(params, callback) {
             [{"fn": "ettestct7"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  "test": "This will try pre with func a, but remapped with a configuration thatis passed into executethis...it still wants to hit func_b with mid"}]], 
             [{"fn": "ettestct8"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  "test": "doest not run yet --- This test asserts that the tryorder in the config is successful and causes executethis to call dothis, not server, or the others. As of jan 28, it still fails to reorder them and calls the server instead. It breaks the code and will not simply call func_b locally."}]], 
             [{"fn": "ettestct9"},   [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work...."}]], 
+   
             [{"fn": "ettestct10"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So far it does not work, and never has."}]], 
             [{"fn": "ettestct11"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call func_b, remap does_not_exist_1 to func_a, remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c. None of these ever work..."}]], 
             [{"fn": "ettestct13"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to test a config where a and b do not exist, but func_c does and c will execute. You should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in the results"}]], 
+    
             [{"fn": "ettestct14"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  "test": "Here is the modified ct14 test This test is to test a config where a config with params is sent to pre, mid, and post. The results should have the a,b,c cereals, along with the regular params."}]], 
             [{"fn": "ettestct15"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_conflict","test": "This will send the alphabits param in the preexecute config, but will be overriding it in the args.. Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. "}]], 
             [{"fn": "ettestct16"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  "test": "Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the config params in the assertion wid."}]], 
             [{"fn": "ettestct17"},  [{"type": "hourly", "category":"configuration", "subcategory":"does_not_exist", "test": "To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b."}]], 
-            [{"fn": "ettestct18"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_params",  "test": "This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis"}, 
+         
+            [{"fn": "ettestct18"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_params",  "test": "This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis"}]], 
+    
             [{"fn": "ettestct19"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict","test": "This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, the args sent to executethis will always win...not any of the 3 places in the config that they are set."}]], 
             [{"fn": "ettestct20"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict","test": "Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to."}]]
         ]
@@ -2313,8 +2317,8 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     testclearstorage();
 
-    debuglevel = 75;
-    debugname = "";
+    debuglevel = 98;
+    //debugname = "";
 
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // Functions of --- config-local
@@ -2342,8 +2346,8 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     // debugname = "getcleanparameters";
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    debugcat = "";
-    debugsubcat = "code";
+    //debugcat = "";
+    //debugsubcat = "code";
 
 
     execute([{
@@ -2360,17 +2364,40 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         }, {
             "executethis": "addwidmaster",
             "wid": "rel_sound_to_song",
+            "metadata.method":"relationshipdto",
             "primarywid": "songdto",
             "secondarywid": "sounddto",
+            "primarymethod": "songdto",
+            "secondarymethod": "sounddto",
+            "linktype":"onetomany",
             "relationshiptype": "attributes"
+        }, {
+        //     "executethis": "addwidmaster",
+        //     "wid": "song1",
+        //     "metadata.method": "songdto",
+        //     "title": "Highway to Hell",
+        //     "sounddto.0.note": "A flat",
+        //     "sounddto.1.note": "B sharp",
+        //     "sounddto.2.note": "C flat"
+        // }, {
+                        
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
         }, {
             "executethis": "addwidmaster",
             "wid": "song1",
             "metadata.method": "songdto",
             "title": "Highway to Hell",
-            "sounddto.0.note": "A flat",
-            "sounddto.1.note": "B sharp",
-            "sounddto.2.note": "C flat"
+            "sounddto.note": "C flat"
         }, {
             "executethis": "getwidmaster",
             "wid": "song1"
@@ -2434,12 +2461,12 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
             
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            debugname = "";
-            debugcat = "";
-            debugsubcat = "";
+            //debugname = "";
+            //debugcat = "";
+            //debugsubcat = "";
 
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
-            res = logverify("ettestag3_result", res[4][0], [{
+            proxyprinttodiv('Function ag3 result ', res[6][0], 99);
+            res = logverify("ettestag3_result", res[6][0], [{
                 "title": "Highway to Hell",
                 "wid": "song1",
                 "metadata.method": "songdto",
@@ -2453,7 +2480,12 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
                 "sounddto.2.wid": "5",
                 "sounddto.2.metadata.method": "sounddto"
             }]);
-            callback(err, res);
+            debuglevel=38;
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
         });
 }
 
