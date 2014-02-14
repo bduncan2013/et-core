@@ -480,12 +480,20 @@
     }
 
 
-
-
     // createuser("codyuser", "codyac", 99);
     // addgrouptowid("anything", "createcoupon");
     // addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
     // testsecurity("codyac", "executethis", "createcoupon", "data", true);
+
+    
+    exports.testsecurity = testsecurity = function testsecurity(ac, targetgroup, actiongroup, dbgroup, assertion, callback) {
+        securitycheck(ac, targetgroup, actiongroup, dbgroup, function (err, res) {
+            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 99);
+            callback(err, res)
+        });
+    }
+
+
 
     exports.addgrouptowid = addgrouptowid = function addgrouptowid(wid, groupname, callback) {
 

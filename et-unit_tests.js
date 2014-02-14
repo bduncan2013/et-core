@@ -2369,8 +2369,8 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     testclearstorage();
 
-    debuglevel = 75;
-    debugname = "";
+    debuglevel = 98;
+    //debugname = "";
 
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // Functions of --- config-local
@@ -2398,8 +2398,8 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     // debugname = "getcleanparameters";
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    debugcat = "";
-    debugsubcat = "code";
+    //debugcat = "";
+    //debugsubcat = "code";
 
 
     execute([{
@@ -2416,17 +2416,40 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         }, {
             "executethis": "addwidmaster",
             "wid": "rel_sound_to_song",
+            "metadata.method":"relationshipdto",
             "primarywid": "songdto",
             "secondarywid": "sounddto",
+            "primarymethod": "songdto",
+            "secondarymethod": "sounddto",
+            "linktype":"onetomany",
             "relationshiptype": "attributes"
+        }, {
+        //     "executethis": "addwidmaster",
+        //     "wid": "song1",
+        //     "metadata.method": "songdto",
+        //     "title": "Highway to Hell",
+        //     "sounddto.0.note": "A flat",
+        //     "sounddto.1.note": "B sharp",
+        //     "sounddto.2.note": "C flat"
+        // }, {
+                        
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
         }, {
             "executethis": "addwidmaster",
             "wid": "song1",
             "metadata.method": "songdto",
             "title": "Highway to Hell",
-            "sounddto.0.note": "A flat",
-            "sounddto.1.note": "B sharp",
-            "sounddto.2.note": "C flat"
+            "sounddto.note": "C flat"
         }, {
             "executethis": "getwidmaster",
             "wid": "song1"
@@ -2490,12 +2513,12 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
             
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            debugname = "";
-            debugcat = "";
-            debugsubcat = "";
+            //debugname = "";
+            //debugcat = "";
+            //debugsubcat = "";
 
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
-            res = logverify("ettestag3_result", res[4][0], [{
+            proxyprinttodiv('Function ag3 result ', res[6][0], 99);
+            res = logverify("ettestag3_result", res[6][0], [{
                 "title": "Highway to Hell",
                 "wid": "song1",
                 "metadata.method": "songdto",
@@ -2509,7 +2532,12 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
                 "sounddto.2.wid": "5",
                 "sounddto.2.metadata.method": "sounddto"
             }]);
-            callback(err, res);
+            debuglevel=38;
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
         });
 }
 

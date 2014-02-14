@@ -180,16 +180,6 @@
         var status = false;
         async.series([
                 function (cb1) {
-                    datasum1("", function (err, res) {
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
-                    datasum2("", function (err, res) {
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
                     createuser("codyuser1", "codyac1", 99, function (err, res) {
                         cb1(null);
                     });
@@ -266,12 +256,12 @@
         async.series([
                 function (cb1) {
                     createuser("codyuser3", "codyac3", 99, function (err, res) {
-                        cb1(null);
+                        cb1(err);
                     });
                 },
                 function (cb1) {
                     createuser("rogeruser3", "rogerac3", 99, function (err, res) {
-                        cb1(null);
+                        cb1(err);
                     });
                 },
                 function (cb1) {
@@ -890,6 +880,264 @@
                 }
                 callback(err, res);
             });
+    }
+
+
+     exports.tss3 = tss3 = function tss3(params, callback) {
+        debuglevel = 34;
+        debugname = "";
+        debugcat = "";
+        debugsubcat = "code";
+        var status = false;
+
+
+        async.series([
+            function (cb1) {
+                // create dtos  
+                var executeList = [{
+                    // create simple ttdto
+                    "executethis": "addwidmaster",
+                    "wid": "ttdto",
+                    "metadata.method": "ttdto",
+                    "type": "string"
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop # 1  -- ', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop # 2 -- ', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop # 3 -- ', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop #  4-- ', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop #  5-- ', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop #  -- 6', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop #  -- 7', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop #  -- 8', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop #  -- 9', res, 34);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create data for ttdto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }];
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv('Function tss3 loop #  -- 10', res, 34);
+                    cb1(null);
+                });
+            }
+        ], function (err, res) {
+            proxyprinttodiv('Function tss3 done a series of tasks using ttdto -- process.addListener(type, listener);', res, 34);
+            if (!res) {
+                res = [];
+            }
+            callback(err, res);
+        });
     }
 
 
