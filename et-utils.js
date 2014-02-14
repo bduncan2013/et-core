@@ -241,6 +241,7 @@ exports.validParams = validParams = function validParams(obj) {
     // var keyLength = Object.keys(obj).length;
     var keyLength = countKeys(obj);
     var status = false;
+    proxyprinttodiv('validParams', obj, 38);
     if (keyLength !== 0) {
         for (var k in obj) {
             if (obj[k]) {
@@ -265,7 +266,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 // logic to get things from Local storage
 exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     var output = {};
-    proxyprinttodiv('getfromlocal', inputWidgetObject, 38);
     if (inputWidgetObject["wid"]) {
         inputWidgetObject = toLowerKeys(inputWidgetObject);
         var widKey = inputWidgetObject["wid"].toLowerCase();
@@ -305,257 +305,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
     };
 
-    // Utility function to cleanup mentioned attr:val pairs from JSON passed in
-    exports.cleanupParameters = cleanupParameters = function cleanupParameters(inboundParameters, paramsToClean) {
-        var outBoundParameters;
-
-        extend(true, outBoundParameters, inboundParameters); // clone received params
-
-        for (var i = 0; i < paramsToClean.length; i++) {
-            if (outBoundParameters[paramsToClean[i]]) {
-                delete outBoundParameters[paramsToClean[i]];
-            }
-        }
-        return outBoundParameters;
-    };
-
-    // utility function to merge two JSON objects
-    exports.mergeParameters = mergeParameters = function mergeParameters(c1, c2) {
-        var mergedMap;
-
-        extend(true, mergedMap, c1); // clone received params
-
-        for (var attr in c2) {
-            mergedMap[attr] = c2[attr];
-        }
-
-        return mergedMap;
-    };
-
-    exports.getParamArray = getParamArray = function getParamArray(data) {
-        var returnArray = new Array();
-
-        for (var attr in data) {
-            returnArray.push({
-                "ParameterName": attr,
-                "ParameterValue": data[attr]
-            });
-        }
-
-        return returnArray;
-    };
-
-    exports.MatchDelete = MatchDelete = function MatchDelete(TargetList, TargetParameter) { // delete all parameters starting with targetparameter
-        var output = [];
-        //proxyprinttodiv('Function MatchDelete : TargetList ', TargetList);
-        //proxyprinttodiv('Function MatchDelete : TargetParameter ', TargetParameter);
-        for (var item in TargetList) {
-            //proxyprinttodiv('Function MatchDelete item', TargetList[item].key);
-            if ((TargetParameter + '.') !== (TargetList[item].key.substring(0, TargetParameter.length + 1))) {
-                output.push(TargetList[item]);
-            }
-        }
-        // only items that are not equal to the '.' survive
-        proxyprinttodiv('Function MatchDelete : output ', output);
-        return output;
-    };
-
-    exports.MatchPrefixDelete = MatchPrefixDelete = function MatchPrefixDelete(TargetList, TargetParameter) {
-        var targetobject = listToObject(TargetList);
-        var split = MatchPrefix(targetobject, TargetParameter);
-        var out1 = DeletePrefix(split.match, TargetParameter)
-        var out2 = split.nomatch;
-        return {
-            match: out1,
-            nomatch: out2
-        };
-    };
-
-    exports.DeletePrefix = DeletePrefix = function DeletePrefix(arr, kw) {
-        if (kw == "") {
-            return arr
-        } else {
-
-            var result = [];
-
-            //proxyprinttodiv('Function DeletePrefix arr : ',  arr);
-            //proxyprinttodiv('Function DeletePrefix kw : ',  kw);
-
-            if (arr.length > 0 && (kw.length > 0)) {
-                for (i = 0; i < arr.length; i++) {
-                    var obj = arr[i];
-                    var objvalue = obj["value"];
-                    var objkey = obj["key"];
-
-                    //proxyprinttodiv('Function DeletePrefix objvalue : ',  objvalue);
-                    //proxyprinttodiv('Function DeletePrefix objkey : ',  objkey);
-
-                    if (objkey != kw) {
-
-                        //proxyprinttodiv('Function DeletePrefix length.objkey : ',  objkey.length);
-                        //proxyprinttodiv('Function DeletePrefix length.kw : ',  kw.length);
-                        // seems to have big if kw = e and a.x=y then x=y
-
-                        if (objkey.length > kw.length) {
-                            partial = objkey.substring(0, kw.length + 1);
-
-                            //proxyprinttodiv('Function DeletePrefix partial : ',  partial);
-
-                            kwdot = kw + '.';
-
-                            //proxyprinttodiv('Function DeletePrefix kwdot : ',  kwdot);
-
-                            if (kwdot == partial) {
-                                afterdot = kw.length + 1;
-
-                                //proxyprinttodiv('Function DeletePrefix afterdot : ',  afterdot);
-
-                                beforekey = objkey;
-                                objkey = beforekey.substring(afterdot);
-
-                                //proxyprinttodiv('Function DeletePrefix objkey after substring : ',  objkey);
-                            }
-                        }
-                        //proxyprinttodiv('Function DeletePrefix obkey before push : ',  objkey);
-
-                        if (objkey.length > 0) {
-
-                            //proxyprinttodiv('Function DeletePrefix objkey push : ',  objkey);
-
-                            result.push({
-                                "key": objkey,
-                                "value": objvalue
-                            });
-
-                            //proxyprinttodiv('Function DeletePrefix objkey push : ',  objkey);
-                        }
-                    }
-                }
-            }
-            //proxyprinttodiv('Function DeletePrefix result : ',  result);
-            return result;
-        }
-    };
-
-    // Add all the parameters of b to a. This is the exact same function as
-    // jsonConcat around line 550-650. Since extend is not used yet, it would be 
-    // a good idea to just use jsonConcat as it is already in use elsewhere.
-    //    exports.extend = extend = function extend(a, b){
-    //        for(var key in b){
-    //            if(b.hasOwnProperty(key)){
-    //                a[key] = b[key];
-    //            }
-    //        }
-    //        return a;
-    //    };
-
-    // Splits a list of parameters. If the value of a parameter
-    // is not attr, it will be put into the ParentdtoList. As soon
-    // as the first parameter of 'onetomany' is found, the rest of 
-    // the list will be put into the childDTOlist.
-    exports.SplitKeywordSet = SplitKeywordSet = function SplitKeywordSet(list, attr) {
-        if (typeof (attr) == undefined) {
-            attr = 'onetomany';
-        }
-
-        var ParentdtoList = [];
-        var ChildrendtoList = [];
-        var attrFoundFlag = 0;
-
-        for (var i = 0; i < list.length; i++) {
-            item = list[i];
-            if ((attrFoundFlag == 0) && (item["value"] != attr)) {
-                ParentdtoList.push(item);
-            } else {
-                ChildrendtoList.push(item);
-                attrFoundFlag = 1;
-            }
-        }
-
-        var objChildParentdtoList = {
-            "parentlist": ParentdtoList,
-            "childrenlist": ChildrendtoList
-        };
-        return objChildParentdtoList;
-    };
-
-    // Sorts a list of arrays based on the length of the array
-    // The sort will be ascending (a,b as opposed to b,a) unless
-    // the function returns a value other than 1. To see more
-    // goto: http://www.javascriptkit.com/javatutors/arraysort2.shtml#.UkF_G4b2qSo
-    exports.Sortonetomanys = Sortonetomanys = function Sortonetomanys(list, attr) {
-        proxyprinttodiv('Function Sortonetomanys()  list : ', list);
-        proxyprinttodiv('Function Sortonetomanys()  attr : ', attr);
-        if (typeof (attr) == undefined) {
-            attr = 'onetomany'
-        }
-        output = list.sort(function (a, b) {
-            if (a.key.split('.').length < b.key.split('.').length) {
-                return -1;
-            } else if (a.key.split('.').length > b.key.split('.').length) {
-                return 1;
-            } else if (a.value == attr) {
-                return 1;
-            } else if (b.value == attr) {
-                return -1;
-            } else {
-                return 0;
-            }
-        });
-        proxyprinttodiv('Function Sortonetomanys()  output : ', output);
-        return output;
-    };
-
-    // Looks for the key word in the input and returns those fields that match the DTO in
-    // the match hash, and those that don't in the nomatch hash. This is used to filter out
-    // the parameters that the DTO is filtering for.
-    exports.MatchPrefix = MatchPrefix = function MatchPrefix(input, kw) {
-        var match = [];
-        var nomatch = [];
-
-        if (kw == "") {
-            match = objectToList(input);
-            return {
-                match: match,
-                nomatch: nomatch
-            }
-        } else {
-
-            //proxyprinttodiv('Function MatchPrefix, kw: ',  kw);
-            //proxyprinttodiv('Function MatchPrefix, input: ',  input);
-
-            for (key in input) {
-                partial = key.substring(0, kw.length + 1);
-
-                kwdot = kw + '.';
-                if ((kwdot == partial) || (kw == key))
-
-                // var arr = key.split('.');
-                //var arr = key.substring(0,key.lastIndexOf('.'));
-                //proxyprinttodiv('Function MatchPrefix arr: ',  arr);
-                // if ((arr === kw) || (key === kw))
-
-                {
-                    match.push({
-                        "key": key,
-                        "value": input[key]
-                    });
-                } else {
-                    nomatch.push({
-                        "key": key,
-                        "value": input[key]
-                    });
-                }
-            }
-            return {
-                match: match,
-                nomatch: nomatch
-            };
-        }
-    };
-
-    /* lib.js functions */
-
     var recurFunc = function (arr, val) {
 
         // stop condition
@@ -578,23 +327,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return result;
     }
 
-    exports.converttojson = converttojson = function converttojson(data) {
-        var output = {};
-
-        // Take data as an object with dot notation key
-        if (isObject(data) && !isArray(data)) {
-            for (var item in data) {
-                if (data.hasOwnProperty(item)) {
-                    var iArray = item.split(".");
-                    var value = data[item];
-                    // Copy all of the properties in the source objects over to the destination object, and return the destination object. 
-                    // It's in-order, so the last source will override properties of the same name in previous arguments.
-                    extend(true, output, recurFunc(iArray, value));
-                }
-            }
-        }
-        return output;
-    }
 
     // https://github.com/justmoon/node-extend
     var hasOwn = Object.prototype.hasOwnProperty;
@@ -687,22 +419,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return result;
     };
 
-    exports.ConvertFromDOTdriadd = ConvertFromDOTdriadd = function ConvertFromDOTdriadd(input) { //Expands to Real javascript object
-        var keys = Object.keys(input);
-        var result = {};
-        var temparray = [];
-
-        for (var i = 0, l = keys.length; i < l; i++) {
-            temparray = keys[i].split('.');
-            for (var j = 0, la = temparray.length; j < la; j++) {
-                if ((temparray[j] == "") || (temparray[j] == "add")) {
-                    temparray[j] = getnewwid()
-                }
-            }
-            createObjects(result, temparray, input[keys[i]]);
-        }
-        return result;
-    };
 
 
     // Creates an object with a hash parent:value. If the chain array is more that 1, 
@@ -742,170 +458,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return String(potentialwid);
     }
 
-    // Strips the numbers from hash keys. It returns 3 arrays: input list, index list, and original input list.
-    // Used by addWidParameters.
-    exports.RemoveIndex = RemoveIndex = function RemoveIndex(input) {
-        var result = [];
-
-        //input = { 'a<1>': 'x', 'b<3>': 'y', 'c': 'z', 'd.e': 't', 'f<4>': 'y' };
-
-        var list1 = [];
-        var list2 = [];
-        var list3 = [];
-
-        for (key in input) {
-            //case1
-            var s1 = key;
-            var re = /<(\d+)>/;
-            s1 = s1.replace(re, '');
-
-            //console.log(s1);
-
-            var o1 = {};
-            o1["key"] = s1;
-            o1["value"] = input[key];
-            list1.push(o1);
-
-            //case2
-            var s2 = key;
-            s2 = s2.match(re);
-            var o2 = {};
-            if (s2) {
-                o2["key"] = s1;
-                o2["value"] = s2[1];
-            } else {
-                o2["key"] = s1;
-                o2["value"] = '';
-            }
-            list2.push(o2);
-
-            //case3
-            var o3 = {};
-            o3["key"] = key;
-            o3["value"] = input[key];
-            list3.push(o3);
-        }
-
-
-        result.push(list1);
-        result.push(list2);
-        result.push(list3);
-
-        return result;
-    };
-
-    // Looks to move each item in the input into an object that
-    // has a match and nomatch hash to see what the DTO has 
-    // filtered out of the list as relevent fields.
-    exports.SplitObjectList = SplitObjectList = function SplitObjectList(input, dto) {
-        var match = [];
-        var nomatch = [];
-        for (i = 0; i < input.length; i++) {
-            var item = input[i];
-            var key = item["key"];
-            var found = false;
-            for (j = 0; j < dto.length; j++) {
-                var subitem = dto[j];
-                var subkey = subitem["key"];
-                if (key === subkey) {
-                    found = true;
-                }
-            }
-            if (found) {
-                match.push(item);
-            } else {
-                nomatch.push(item);
-            }
-        }
-        return {
-            match: match,
-            nomatch: nomatch
-        };
-    };
-
-    exports.SplitObject = SplitObject = function SplitObject(input, dto) { // added 10-5 not used for anything yet
-        var match = {};
-        var nomatch = {};
-        var item = "";
-        for (item in input) {
-            if (dto[item] == input[item]) {
-                match[item] = input[item];
-            } else {
-                nomatch[item] = input[item];
-            }
-        }
-        return {
-            match: match,
-            nomatch: nomatch
-        };
-    };
-
-    // Returns an object made from an array
-    exports.listToObject = listToObject = function listToObject(arrayOfObjects) {
-        var finalObject = {};
-        if (arrayOfObjects) {
-            for (var i = 0; i < arrayOfObjects.length; i++) {
-                var object = arrayOfObjects[i];
-                finalObject[object["key"]] = object["value"];
-            }
-        }
-        return finalObject;
-    };
-
-    // Returns an array made from an object
-    exports.objectToList = objectToList = function objectToList(object) {
-        var finalArray = [];
-        for (key in object) {
-            finalArray.push({
-                "key": key,
-                "value": object[key]
-            });
-        }
-        return finalArray;
-    };
-
-    // Counts the number of hashes in an object
-    // exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
-    //     //function getObjectSize(parameters){
-    //     var size = 0,
-    //         key;
-    //     for (key in parameters) {
-    //         if (parameters.hasOwnProperty(key)) size++;
-    //     }
-    //     return size;
-    // };
-
-    // Returns true if the parameter is lower case
-    // exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
-    //     //function isParameterLower(parameters, str) {
-    //     getObjectSize(parameters);
-    //     var length;
-    //     if (parameters.length === undefined) {
-    //         length = getObjectSize(parameters);
-    //     } else {
-    //         length = parameters.length
-    //     }
-    //     for (key in parameters) { //rewritten
-    //         if (key.toLowerCase() == str) {
-    //             return true;
-    //         }
-    //     }
-    // };
-
-    // Finds the first key in parameters that matches the string, or nothing if none is found   
-    exports.firstOrDefault = firstOrDefault = function firstOrDefault(parameters, str) {
-        var length;
-        if (parameters.length === undefined) {
-            length = Object.keys(parameters).length;
-        } else {
-            length = parameters.length
-        }
-        for (key in parameters) { //rewritten
-            if (key.toLowerCase() == str) {
-                return key;
-            }
-        }
-    };
 
     // Deletes a hash from an object    
     exports.remove = remove = function remove(parameters, str) {
@@ -1086,15 +638,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             return false;
         }
         return true;
-    };
-
-
-    exports.toObject = toObject = function toObject(arr) {
-        //function toObject(arr) {
-        var rv = {};
-        for (var i = 0; i < arr.length; ++i)
-            if (arr[i] !== undefined) rv[i] = arr[i];
-        return rv;
     };
 
     exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
@@ -1469,71 +1012,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     }
 
 
-    //    function etlogresults(indebugname, outobject) {
-
-    //     proxyprinttodiv('arrived debuglog', debuglog, 44);
-
-    //     if (!outobject) {
-    //         outobject = {}
-    //     }
-    //     if (outobject[0] === undefined) {
-    //         outobject[0] = {}
-    //     }
-    //     if (outobject[1] === undefined) {
-    //         outobject[1] = {}
-    //     }
-    //     if (outobject[2] === undefined) {
-    //         outobject[2] = new Date();
-    //     }
-
-    //     proxyprinttodiv('debugfn indebugname', indebugname, 44);
-    //     proxyprinttodiv('debugfn etlogresults', outobject, 44);
-    //     outobject[2] = indebugname + outobject[2].getTime();
-
-    //     var temparray=[];
-    //     var tempvar = {};
-    //     var temp_string = "";
-
-    //     // tempvar["command"]={};
-    //     // tempvar["command"]["executemethod"]=indebugname;
-    //     // temp_string = '[{"fn": "test_and_verify","name":' + indebugname +',"fnname":' + indebugname +',"parameters":' + outobject[0] + ',"asstert":' + outobject[1] + ',"database": "db_data"}]';
-    //     tempvar = {
-    //                 "fn": "test_and_verify",
-    //                 "name": indebugname,
-    //                 "fnname": indebugname,
-    //                 "parameters": outobject[0],
-    //                 "asstert": outobject[1],
-    //                 "database": "db_data"
-    //             };
-
-    //     tempvar["fn"]=indebugname;
-    //     // temparray.push(tempvar);
-    //     // temparray.push(outobject[0]);
-    //     // temparray.push(outobject[1]);
-
-    //     if (!debuglog[outobject[2]]) {
-    //         debuglog[outobject[2]]=[]
-    //         }
-
-    //     // debuglog[outobject[2]].push(temparray);
-    //     debuglog[outobject[2]].push(tempvar);
-
-
-
-    //     // tempvar["fn"]=indebugname;
-    //     // temparray.push(tempvar);
-    //     // temparray.push(outobject[0]);
-    //     // temparray.push(outobject[1]);
-
-    //     // if (!debuglog[outobject[2]]) {
-    //     //     debuglog[outobject[2]]=[]
-    //     //     }
-    //     // //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 38);
-    //     // //proxyprinttodiv('arrived temparray', temparray, 38);
-    //     // debuglog[outobject[2]].push(temparray);
-    //     // //debuglog.push(temparray);
-    //     // proxyprinttodiv('arrived debuglog end', debuglog, 44);
-    // } 
 
     var deepDiffMapper = function () {
         return {
@@ -2241,4 +1719,531 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 });
         }
     }
+
 })();
+
+    // Utility function to cleanup mentioned attr:val pairs from JSON passed in
+    // exports.cleanupParameters = cleanupParameters = function cleanupParameters(inboundParameters, paramsToClean) {
+    //     var outBoundParameters;
+
+    //     extend(true, outBoundParameters, inboundParameters); // clone received params
+
+    //     for (var i = 0; i < paramsToClean.length; i++) {
+    //         if (outBoundParameters[paramsToClean[i]]) {
+    //             delete outBoundParameters[paramsToClean[i]];
+    //         }
+    //     }
+    //     return outBoundParameters;
+    // };
+
+    // utility function to merge two JSON objects
+    // exports.mergeParameters = mergeParameters = function mergeParameters(c1, c2) {
+    //     var mergedMap;
+
+    //     extend(true, mergedMap, c1); // clone received params
+
+    //     for (var attr in c2) {
+    //         mergedMap[attr] = c2[attr];
+    //     }
+
+    //     return mergedMap;
+    // };
+
+    // exports.getParamArray = getParamArray = function getParamArray(data) {
+    //     var returnArray = new Array();
+
+    //     for (var attr in data) {
+    //         returnArray.push({
+    //             "ParameterName": attr,
+    //             "ParameterValue": data[attr]
+    //         });
+    //     }
+
+    //     return returnArray;
+    // };
+
+    // exports.MatchDelete = MatchDelete = function MatchDelete(TargetList, TargetParameter) { // delete all parameters starting with targetparameter
+    //     var output = [];
+    //     //proxyprinttodiv('Function MatchDelete : TargetList ', TargetList);
+    //     //proxyprinttodiv('Function MatchDelete : TargetParameter ', TargetParameter);
+    //     for (var item in TargetList) {
+    //         //proxyprinttodiv('Function MatchDelete item', TargetList[item].key);
+    //         if ((TargetParameter + '.') !== (TargetList[item].key.substring(0, TargetParameter.length + 1))) {
+    //             output.push(TargetList[item]);
+    //         }
+    //     }
+    //     // only items that are not equal to the '.' survive
+    //     proxyprinttodiv('Function MatchDelete : output ', output);
+    //     return output;
+    // };
+
+    // exports.MatchPrefixDelete = MatchPrefixDelete = function MatchPrefixDelete(TargetList, TargetParameter) {
+    //     var targetobject = listToObject(TargetList);
+    //     var split = MatchPrefix(targetobject, TargetParameter);
+    //     var out1 = DeletePrefix(split.match, TargetParameter)
+    //     var out2 = split.nomatch;
+    //     return {
+    //         match: out1,
+    //         nomatch: out2
+    //     };
+    // };
+
+    // exports.DeletePrefix = DeletePrefix = function DeletePrefix(arr, kw) {
+    //     if (kw == "") {
+    //         return arr
+    //     } else {
+
+    //         var result = [];
+
+    //         //proxyprinttodiv('Function DeletePrefix arr : ',  arr);
+    //         //proxyprinttodiv('Function DeletePrefix kw : ',  kw);
+
+    //         if (arr.length > 0 && (kw.length > 0)) {
+    //             for (i = 0; i < arr.length; i++) {
+    //                 var obj = arr[i];
+    //                 var objvalue = obj["value"];
+    //                 var objkey = obj["key"];
+
+    //                 //proxyprinttodiv('Function DeletePrefix objvalue : ',  objvalue);
+    //                 //proxyprinttodiv('Function DeletePrefix objkey : ',  objkey);
+
+    //                 if (objkey != kw) {
+
+    //                     //proxyprinttodiv('Function DeletePrefix length.objkey : ',  objkey.length);
+    //                     //proxyprinttodiv('Function DeletePrefix length.kw : ',  kw.length);
+    //                     // seems to have big if kw = e and a.x=y then x=y
+
+    //                     if (objkey.length > kw.length) {
+    //                         partial = objkey.substring(0, kw.length + 1);
+
+    //                         //proxyprinttodiv('Function DeletePrefix partial : ',  partial);
+
+    //                         kwdot = kw + '.';
+
+    //                         //proxyprinttodiv('Function DeletePrefix kwdot : ',  kwdot);
+
+    //                         if (kwdot == partial) {
+    //                             afterdot = kw.length + 1;
+
+    //                             //proxyprinttodiv('Function DeletePrefix afterdot : ',  afterdot);
+
+    //                             beforekey = objkey;
+    //                             objkey = beforekey.substring(afterdot);
+
+    //                             //proxyprinttodiv('Function DeletePrefix objkey after substring : ',  objkey);
+    //                         }
+    //                     }
+    //                     //proxyprinttodiv('Function DeletePrefix obkey before push : ',  objkey);
+
+    //                     if (objkey.length > 0) {
+
+    //                         //proxyprinttodiv('Function DeletePrefix objkey push : ',  objkey);
+
+    //                         result.push({
+    //                             "key": objkey,
+    //                             "value": objvalue
+    //                         });
+
+    //                         //proxyprinttodiv('Function DeletePrefix objkey push : ',  objkey);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //         //proxyprinttodiv('Function DeletePrefix result : ',  result);
+    //         return result;
+    //     }
+    // };
+
+    // Add all the parameters of b to a. This is the exact same function as
+    // jsonConcat around line 550-650. Since extend is not used yet, it would be 
+    // a good idea to just use jsonConcat as it is already in use elsewhere.
+    //    exports.extend = extend = function extend(a, b){
+    //        for(var key in b){
+    //            if(b.hasOwnProperty(key)){
+    //                a[key] = b[key];
+    //            }
+    //        }
+    //        return a;
+    //    };
+
+    // Splits a list of parameters. If the value of a parameter
+    // is not attr, it will be put into the ParentdtoList. As soon
+    // as the first parameter of 'onetomany' is found, the rest of 
+    // the list will be put into the childDTOlist.
+    // exports.SplitKeywordSet = SplitKeywordSet = function SplitKeywordSet(list, attr) {
+    //     if (typeof (attr) == undefined) {
+    //         attr = 'onetomany';
+    //     }
+
+    //     var ParentdtoList = [];
+    //     var ChildrendtoList = [];
+    //     var attrFoundFlag = 0;
+
+    //     for (var i = 0; i < list.length; i++) {
+    //         item = list[i];
+    //         if ((attrFoundFlag == 0) && (item["value"] != attr)) {
+    //             ParentdtoList.push(item);
+    //         } else {
+    //             ChildrendtoList.push(item);
+    //             attrFoundFlag = 1;
+    //         }
+    //     }
+
+    //     var objChildParentdtoList = {
+    //         "parentlist": ParentdtoList,
+    //         "childrenlist": ChildrendtoList
+    //     };
+    //     return objChildParentdtoList;
+    // };
+
+    // Sorts a list of arrays based on the length of the array
+    // The sort will be ascending (a,b as opposed to b,a) unless
+    // the function returns a value other than 1. To see more
+    // goto: http://www.javascriptkit.com/javatutors/arraysort2.shtml#.UkF_G4b2qSo
+    // exports.Sortonetomanys = Sortonetomanys = function Sortonetomanys(list, attr) {
+    //     proxyprinttodiv('Function Sortonetomanys()  list : ', list);
+    //     proxyprinttodiv('Function Sortonetomanys()  attr : ', attr);
+    //     if (typeof (attr) == undefined) {
+    //         attr = 'onetomany'
+    //     }
+    //     output = list.sort(function (a, b) {
+    //         if (a.key.split('.').length < b.key.split('.').length) {
+    //             return -1;
+    //         } else if (a.key.split('.').length > b.key.split('.').length) {
+    //             return 1;
+    //         } else if (a.value == attr) {
+    //             return 1;
+    //         } else if (b.value == attr) {
+    //             return -1;
+    //         } else {
+    //             return 0;
+    //         }
+    //     });
+    //     proxyprinttodiv('Function Sortonetomanys()  output : ', output);
+    //     return output;
+    // };
+
+    // Looks for the key word in the input and returns those fields that match the DTO in
+    // the match hash, and those that don't in the nomatch hash. This is used to filter out
+    // the parameters that the DTO is filtering for.
+    // exports.MatchPrefix = MatchPrefix = function MatchPrefix(input, kw) {
+    //     var match = [];
+    //     var nomatch = [];
+
+    //     if (kw == "") {
+    //         match = objectToList(input);
+    //         return {
+    //             match: match,
+    //             nomatch: nomatch
+    //         }
+    //     } else {
+
+    //         //proxyprinttodiv('Function MatchPrefix, kw: ',  kw);
+    //         //proxyprinttodiv('Function MatchPrefix, input: ',  input);
+
+    //         for (key in input) {
+    //             partial = key.substring(0, kw.length + 1);
+
+    //             kwdot = kw + '.';
+    //             if ((kwdot == partial) || (kw == key))
+
+    //             // var arr = key.split('.');
+    //             //var arr = key.substring(0,key.lastIndexOf('.'));
+    //             //proxyprinttodiv('Function MatchPrefix arr: ',  arr);
+    //             // if ((arr === kw) || (key === kw))
+
+    //             {
+    //                 match.push({
+    //                     "key": key,
+    //                     "value": input[key]
+    //                 });
+    //             } else {
+    //                 nomatch.push({
+    //                     "key": key,
+    //                     "value": input[key]
+    //                 });
+    //             }
+    //         }
+    //         return {
+    //             match: match,
+    //             nomatch: nomatch
+    //         };
+    //     }
+    // };
+
+    /* lib.js functions */
+
+
+    // exports.converttojson = converttojson = function converttojson(data) {
+    //     var output = {};
+
+    //     // Take data as an object with dot notation key
+    //     if (isObject(data) && !isArray(data)) {
+    //         for (var item in data) {
+    //             if (data.hasOwnProperty(item)) {
+    //                 var iArray = item.split(".");
+    //                 var value = data[item];
+    //                 // Copy all of the properties in the source objects over to the destination object, and return the destination object. 
+    //                 // It's in-order, so the last source will override properties of the same name in previous arguments.
+    //                 extend(true, output, recurFunc(iArray, value));
+    //             }
+    //         }
+    //     }
+    //     return output;
+    // }
+
+    // exports.ConvertFromDOTdriadd = ConvertFromDOTdriadd = function ConvertFromDOTdriadd(input) { //Expands to Real javascript object
+    //     var keys = Object.keys(input);
+    //     var result = {};
+    //     var temparray = [];
+
+    //     for (var i = 0, l = keys.length; i < l; i++) {
+    //         temparray = keys[i].split('.');
+    //         for (var j = 0, la = temparray.length; j < la; j++) {
+    //             if ((temparray[j] == "") || (temparray[j] == "add")) {
+    //                 temparray[j] = getnewwid()
+    //             }
+    //         }
+    //         createObjects(result, temparray, input[keys[i]]);
+    //     }
+    //     return result;
+    // };
+
+    // Strips the numbers from hash keys. It returns 3 arrays: input list, index list, and original input list.
+    // Used by addWidParameters.
+    // exports.RemoveIndex = RemoveIndex = function RemoveIndex(input) {
+    //     var result = [];
+
+    //     //input = { 'a<1>': 'x', 'b<3>': 'y', 'c': 'z', 'd.e': 't', 'f<4>': 'y' };
+
+    //     var list1 = [];
+    //     var list2 = [];
+    //     var list3 = [];
+
+    //     for (key in input) {
+    //         //case1
+    //         var s1 = key;
+    //         var re = /<(\d+)>/;
+    //         s1 = s1.replace(re, '');
+
+    //         //console.log(s1);
+
+    //         var o1 = {};
+    //         o1["key"] = s1;
+    //         o1["value"] = input[key];
+    //         list1.push(o1);
+
+    //         //case2
+    //         var s2 = key;
+    //         s2 = s2.match(re);
+    //         var o2 = {};
+    //         if (s2) {
+    //             o2["key"] = s1;
+    //             o2["value"] = s2[1];
+    //         } else {
+    //             o2["key"] = s1;
+    //             o2["value"] = '';
+    //         }
+    //         list2.push(o2);
+
+    //         //case3
+    //         var o3 = {};
+    //         o3["key"] = key;
+    //         o3["value"] = input[key];
+    //         list3.push(o3);
+    //     }
+
+
+    //     result.push(list1);
+    //     result.push(list2);
+    //     result.push(list3);
+
+    //     return result;
+    // };
+
+    // Looks to move each item in the input into an object that
+    // has a match and nomatch hash to see what the DTO has 
+    // filtered out of the list as relevent fields.
+    // exports.SplitObjectList = SplitObjectList = function SplitObjectList(input, dto) {
+    //     var match = [];
+    //     var nomatch = [];
+    //     for (i = 0; i < input.length; i++) {
+    //         var item = input[i];
+    //         var key = item["key"];
+    //         var found = false;
+    //         for (j = 0; j < dto.length; j++) {
+    //             var subitem = dto[j];
+    //             var subkey = subitem["key"];
+    //             if (key === subkey) {
+    //                 found = true;
+    //             }
+    //         }
+    //         if (found) {
+    //             match.push(item);
+    //         } else {
+    //             nomatch.push(item);
+    //         }
+    //     }
+    //     return {
+    //         match: match,
+    //         nomatch: nomatch
+    //     };
+    // };
+
+    // exports.SplitObject = SplitObject = function SplitObject(input, dto) { // added 10-5 not used for anything yet
+    //     var match = {};
+    //     var nomatch = {};
+    //     var item = "";
+    //     for (item in input) {
+    //         if (dto[item] == input[item]) {
+    //             match[item] = input[item];
+    //         } else {
+    //             nomatch[item] = input[item];
+    //         }
+    //     }
+    //     return {
+    //         match: match,
+    //         nomatch: nomatch
+    //     };
+    // };
+
+    // Returns an object made from an array
+    // exports.listToObject = listToObject = function listToObject(arrayOfObjects) {
+    //     var finalObject = {};
+    //     if (arrayOfObjects) {
+    //         for (var i = 0; i < arrayOfObjects.length; i++) {
+    //             var object = arrayOfObjects[i];
+    //             finalObject[object["key"]] = object["value"];
+    //         }
+    //     }
+    //     return finalObject;
+    // };
+
+    // Returns an array made from an object
+    // exports.objectToList = objectToList = function objectToList(object) {
+    //     var finalArray = [];
+    //     for (key in object) {
+    //         finalArray.push({
+    //             "key": key,
+    //             "value": object[key]
+    //         });
+    //     }
+    //     return finalArray;
+    // };
+
+    // Counts the number of hashes in an object
+    // exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
+    //     //function getObjectSize(parameters){
+    //     var size = 0,
+    //         key;
+    //     for (key in parameters) {
+    //         if (parameters.hasOwnProperty(key)) size++;
+    //     }
+    //     return size;
+    // };
+
+    // Returns true if the parameter is lower case
+    // exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
+    //     //function isParameterLower(parameters, str) {
+    //     getObjectSize(parameters);
+    //     var length;
+    //     if (parameters.length === undefined) {
+    //         length = getObjectSize(parameters);
+    //     } else {
+    //         length = parameters.length
+    //     }
+    //     for (key in parameters) { //rewritten
+    //         if (key.toLowerCase() == str) {
+    //             return true;
+    //         }
+    //     }
+    // };
+
+    // Finds the first key in parameters that matches the string, or nothing if none is found   
+    // exports.firstOrDefault = firstOrDefault = function firstOrDefault(parameters, str) {
+    //     var length;
+    //     if (parameters.length === undefined) {
+    //         length = Object.keys(parameters).length;
+    //     } else {
+    //         length = parameters.length
+    //     }
+    //     for (key in parameters) { //rewritten
+    //         if (key.toLowerCase() == str) {
+    //             return key;
+    //         }
+    //     }
+    // };
+
+    //    function etlogresults(indebugname, outobject) {
+
+    //     proxyprinttodiv('arrived debuglog', debuglog, 44);
+
+    //     if (!outobject) {
+    //         outobject = {}
+    //     }
+    //     if (outobject[0] === undefined) {
+    //         outobject[0] = {}
+    //     }
+    //     if (outobject[1] === undefined) {
+    //         outobject[1] = {}
+    //     }
+    //     if (outobject[2] === undefined) {
+    //         outobject[2] = new Date();
+    //     }
+
+    //     proxyprinttodiv('debugfn indebugname', indebugname, 44);
+    //     proxyprinttodiv('debugfn etlogresults', outobject, 44);
+    //     outobject[2] = indebugname + outobject[2].getTime();
+
+    //     var temparray=[];
+    //     var tempvar = {};
+    //     var temp_string = "";
+
+    //     // tempvar["command"]={};
+    //     // tempvar["command"]["executemethod"]=indebugname;
+    //     // temp_string = '[{"fn": "test_and_verify","name":' + indebugname +',"fnname":' + indebugname +',"parameters":' + outobject[0] + ',"asstert":' + outobject[1] + ',"database": "db_data"}]';
+    //     tempvar = {
+    //                 "fn": "test_and_verify",
+    //                 "name": indebugname,
+    //                 "fnname": indebugname,
+    //                 "parameters": outobject[0],
+    //                 "asstert": outobject[1],
+    //                 "database": "db_data"
+    //             };
+
+    //     tempvar["fn"]=indebugname;
+    //     // temparray.push(tempvar);
+    //     // temparray.push(outobject[0]);
+    //     // temparray.push(outobject[1]);
+
+    //     if (!debuglog[outobject[2]]) {
+    //         debuglog[outobject[2]]=[]
+    //         }
+
+    //     // debuglog[outobject[2]].push(temparray);
+    //     debuglog[outobject[2]].push(tempvar);
+
+
+
+    //     // tempvar["fn"]=indebugname;
+    //     // temparray.push(tempvar);
+    //     // temparray.push(outobject[0]);
+    //     // temparray.push(outobject[1]);
+
+    //     // if (!debuglog[outobject[2]]) {
+    //     //     debuglog[outobject[2]]=[]
+    //     //     }
+    //     // //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 38);
+    //     // //proxyprinttodiv('arrived temparray', temparray, 38);
+    //     // debuglog[outobject[2]].push(temparray);
+    //     // //debuglog.push(temparray);
+    //     // proxyprinttodiv('arrived debuglog end', debuglog, 44);
+    // } 
+
+    // exports.toObject = toObject = function toObject(arr) {
+    //     //function toObject(arr) {
+    //     var rv = {};
+    //     for (var i = 0; i < arr.length; ++i)
+    //         if (arr[i] !== undefined) rv[i] = arr[i];
+    //     return rv;
+    // };

@@ -1356,6 +1356,19 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         return returnValues;
     } //End of addOnQuery function
 
+// function fishOut2(parameters) {
+
+//         var p = [];
+//         p[0] = tolowerparmeters(parameters, {"singlemongoquery", "multiplemongoquery", })
+//         p[1] = tolowerparmeters(parameters, {relParams;
+//         p[2] = tolowerparmeters(parameters, {aggParams;
+//         p[3] = tolowerparmeters(parameters, {addParams;
+//         p[4] = tolowerparmeters(parameters, {xtrParams;
+//         p[5] = tolowerparmeters(parameters, {relafterParams;
+//         p[6] = tolowerparmeters(parameters, {commandParams;
+
+//         return p;
+//     }
 
 
     function fishOut(parameters) {
