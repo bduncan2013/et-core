@@ -1,65 +1,62 @@
 function etunittesttester(params, callback) {
     var unittestdb = 
         [
-            [{"fn": "ettestt1"}, [{"test": "Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters","type": "minute","category": "executethis","subcategory":"dothis"}]], 
-            [{"fn": "ettestt2"}, [{"test": "Call func_b, but also tell preexecutetunittesttestere to call func_a and postexecute to call func_c.","type": "minute","category":"execute","subcategory":"mid"}]], 
-            [{"fn": "ettestt3"}, [{"test": "Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b in midexecute and nothing in post execute.","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestt3a"}, [{"test": "Call func_b with only post func_a -- same result as t3. This is to make sure that not calling pre is ok...this calls only mid and post.","type": "minute","category":"execute","subcategory":"execute"}]], 
-            [{"fn": "ettestt4"}, [{"test": "Call mid with func_b and post with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed. ","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestt4a"}, [{"test": "Call mid with func_b and pre with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed.","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestt5"}, [{"test": "Call func_b with func_a for pre and post to ensure that calling the same function more than once is not a problem for the system.","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestt6"}, [{"test": "Double check that calling func_b with func_c for pre and post to ensure that calling the same function more than once is not a problem for the system. Essentially showing that tt5 was not a fluke, but a repeatable concept.","type": "minute","category":"execute","subcategory":""}]], 
+            [{"fn": "ettestt1"},    [{"type": "minute", "category":"executethis",   "subcategory":"dothis",         "test": "Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters"}]], 
+            [{"fn": "ettestt2"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call func_b, but also tell preexecutetunittesttestere to call func_a and postexecute to call func_c."}]], 
+            [{"fn": "ettestt3"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b in midexecute and nothing in post execute."}]], 
+            [{"fn": "ettestt3a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call func_b with only post func_a -- same result as t3. This is to make sure that not calling pre is ok...this calls only mid and post."}]], 
+            [{"fn": "ettestt4"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call mid with func_b and post with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed. "}]], 
+            [{"fn": "ettestt4a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call mid with func_b and pre with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed."}]], 
+            [{"fn": "ettestt5"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call func_b with func_a for pre and post to ensure that calling the same function more than once is not a problem for the system."}]], 
+            [{"fn": "ettestt6"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Double check that calling func_b with func_c for pre and post to ensure that calling the same function more than once is not a problem for the system. Essentially showing that tt5 was not a fluke, but a repeatable concept."}]], 
    
-            [{"fn": "ettestast1"}, [{"test": "Call async_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters  ","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestast2"}, [{"test": "Call async_func_b with pre calling func_a and post calling func_c...each simply deletes a prameter and add a parameter.","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestast3"}, [{"test": "Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestast3a"}, [{"test": "Call async_func_b with only post async_func_a -- same result as ast3","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestast4"}, [{"test": "Call async_func_b with only post calling async_c  ","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestast4a"}, [{"test": "Call async_func_b with only pre async_func_c -- same result as t4","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestast5"}, [{"test": "Call async_func_b with async_func_a for pre and post","type": "minute","category":"execute","subcategory":""}]], 
-            [{"fn": "ettestast6"}, [{"test": "Call async_func_b with async_func_c for pre and post","type": "second","category":"execute","subcategory":""}]], 
+            [{"fn": "ettestast1"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters  "}]], 
+            [{"fn": "ettestast2"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with pre calling func_a and post calling func_c...each simply deletes a prameter and add a parameter."}]], 
+            [{"fn": "ettestast3"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is."}]], 
+            [{"fn": "ettestast3a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with only post async_func_a -- same result as ast3"}]], 
+            [{"fn": "ettestast4"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with only post calling async_c  "}]], 
+            [{"fn": "ettestast4a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with only pre async_func_c -- same result as t4"}]], 
+            [{"fn": "ettestast5"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with async_func_a for pre and post"}]], 
+            [{"fn": "ettestast6"},  [{"type": "second", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with async_func_c for pre and post"}]], 
      
-            [{"fn": "ettestag1"  }, [{"test": "Add a dto and get it with ","type": "second","category":"add get","subcategory":"getwidmaster"}]], 
-            [{"fn": "ettestag2"}, [{"test": "Add 2 wids and get 1 wid","type": "second","category":"add get","subcategory":"getwidmaster"}]],
-            [{"fn": "ettestag3"}, [{"test": "Add wids 3 levels deep and get a wid related with them.","type": "second","category":"add get","subcategory":"getwidmaster"}]], 
+            [{"fn": "ettestag1"  }, [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   "test": "Add a dto and get it with "}]], 
+            [{"fn": "ettestag2"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   "test": "Add 2 wids and get 1 wid"}]],
+            [{"fn": "ettestag3"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   "test": "Add wids 3 levels deep and get a wid related with them."}]], 
      
-            [{"fn": "ettestct1"}, [{"test": "Call redir_b. The config should remap redir_b to call func_b with no pre or post execution.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}]], 
-            [{"fn": "ettestct2"}, [{"test": "Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and also remap redir_c to func_c.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}]], 
-            [{"fn": "ettestct3"}, [{"test": "Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}]], 
-            [{"fn": "ettestct3a"}, [{"test": "Call redir_b with only post redir_a -- same result as ct3, but putting the only remap call in post instead of pre.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}]], 
-            [{"fn": "ettestct4"}, [{"test": "Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any function in either pre or post.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}]], 
-            [{"fn": "ettestct4a"}, [{"test": "Call redir_b with only pre redir_c -- same result as t4","type": "quasi","category":"configuration","subcategory":"remapping_functions"}]], 
-            [{"fn": "ettestct5"}, [{"test": "Call redir_b with a remapping of redir_a to func_a for both pre and post.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}]], 
-            [{"fn": "ettestct6"}, [{"test": "Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions can be used with the same effect.","type": "quasi","category":"configuration","subcategory":"remapping_functions"}]], 
-            [{"fn": "ettestct7"}, [{"test": "This will try pre with func a, but remapped with a configuration thatis passed into executethis...it still wants to hit func_b with mid","type": "daily","category":"configuration","subcategory":"config_params"}]], 
-            [{"fn": "ettestct8"}, [{"test": "doest not run yet --- This test asserts that the tryorder in the config is successful and causes executethis to call dothis, not server, or the others. As of jan 28, it still fails to reorder them and calls the server instead. It breaks the code and will not simply call func_b locally.","type": "daily","category":"configuration","subcategory":"config_params"}]], 
-            [{"fn": "ettestct9"}, [{"test": "This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....","type": "quasi","category":"configuration","subcategory":"remap_doesnotexist_to_params"}]], 
-            [{"fn": "ettestct10"}, [{"test": "This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So far it does not work, and never has.","type": "quasi","category":"configuration","subcategory":"remap_doesnotexist_to_params"}]], 
-            [{"fn": "ettestct11"}, [{"test": "This test is to call func_b, remap does_not_exist_1 to func_a, remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c. None of these ever work...","type": "quasi","category":"configuration","subcategory":"remap_doesnotexist_to_params"}]], 
-            [{"fn": "ettestct13"}, [{"test": "This test is to test a config where a and b do not exist, but func_c does and c will execute. You should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in the results","type": "quasi","category":"configuration","subcategory":"remap_doesnotexist_to_params"}]], 
-            [{"fn": "ettestct14"}, [{"test": "Here is the modified ct14 test This test is to test a config where a config with params is sent to pre, mid, and post. The results should have the a,b,c cereals, along with the regular params.","type": "quasi","category":"configuration","subcategory":""}]], 
-            [{"fn": "ettestct15"}, [{"test": "This will send the alphabits param in the preexecute config, but will be overriding it in the args.. Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. ","type": "quasi","category":"configuration","subcategory":""}]], 
-            [{"fn": "ettestct16"}, [{"test": "Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the config params in the assertion wid.","type": "quasi","category":"configuration","subcategory":""}]], 
-            [{"fn": "ettestct17"}, [{"test": "To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.","type": "hourly","category":"configuration","subcategory":""}]], 
-            [{"fn": "ettestct18"}, [{"test": "This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis","type": "hourly","category":"configuration","subcategory":""}, 
-            [{"fn": "ettestct19"}, [{"test": "This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, the args sent to executethis will always win...not any of the 3 places in the config that they are set.","type": "hourly","category":"configuration","subcategory":""}]], 
-            [{"fn": "ettestct20"}, [{"test": "Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.","type": "hourly","category":"configuration","subcategory":""}]]
-        ];
+            [{"fn": "ettestct1"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b. The config should remap redir_b to call func_b with no pre or post execution."}]], 
+            [{"fn": "ettestct2"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and also remap redir_c to func_c."}]], 
+            [{"fn": "ettestct3"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all."}]], 
+            [{"fn": "ettestct3a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with only post redir_a -- same result as ct3, but putting the only remap call in post instead of pre."}]], 
+            [{"fn": "ettestct4"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any function in either pre or post."}]], 
+            [{"fn": "ettestct4a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with only pre redir_c -- same result as t4"}]], 
+            [{"fn": "ettestct5"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with a remapping of redir_a to func_a for both pre and post."}]], 
+            [{"fn": "ettestct6"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions can be used with the same effect."}]], 
+            [{"fn": "ettestct7"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  "test": "This will try pre with func a, but remapped with a configuration thatis passed into executethis...it still wants to hit func_b with mid"}]], 
+            [{"fn": "ettestct8"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  "test": "doest not run yet --- This test asserts that the tryorder in the config is successful and causes executethis to call dothis, not server, or the others. As of jan 28, it still fails to reorder them and calls the server instead. It breaks the code and will not simply call func_b locally."}]], 
+            [{"fn": "ettestct9"},   [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work...."}]], 
+            [{"fn": "ettestct10"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So far it does not work, and never has."}]], 
+            [{"fn": "ettestct11"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call func_b, remap does_not_exist_1 to func_a, remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c. None of these ever work..."}]], 
+            [{"fn": "ettestct13"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to test a config where a and b do not exist, but func_c does and c will execute. You should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in the results"}]], 
+            [{"fn": "ettestct14"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  "test": "Here is the modified ct14 test This test is to test a config where a config with params is sent to pre, mid, and post. The results should have the a,b,c cereals, along with the regular params."}]], 
+            [{"fn": "ettestct15"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_conflict","test": "This will send the alphabits param in the preexecute config, but will be overriding it in the args.. Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. "}]], 
+            [{"fn": "ettestct16"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  "test": "Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the config params in the assertion wid."}]], 
+            [{"fn": "ettestct17"},  [{"type": "hourly", "category":"configuration", "subcategory":"does_not_exist", "test": "To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b."}]], 
+            [{"fn": "ettestct18"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_params",  "test": "This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis"}, 
+            [{"fn": "ettestct19"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict","test": "This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, the args sent to executethis will always win...not any of the 3 places in the config that they are set."}]], 
+            [{"fn": "ettestct20"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict","test": "Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to."}]]
+        ]
 
     var err;
     var subset = [];
 
     // iterate through unittestdb
-    for (var i = 0; i < unittestdb.length; i += 2) {
+    for (var i = 0; i < unittestdb.length; i++) {
         // check to see if params matches type in unittestdb
-        if (unittestdb[i +1]['type'] === params['type']) {
+        if (unittestdb[i][1][0]['type'] === params['type']) {
             // push the fn name on the array_of_tests_to_run
-            var p = [];
-            p.push(unittestdb[i+1]);
-            subset.push( [unittestdb[i], p ]);
+            subset.push( unittestdb[i] );
         }
     }
-
         // console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
         
         executethismultiple(subset, function (err, result) { 
@@ -209,6 +206,15 @@ exports.ettestat4 = ettestat4 = function ettestat4(params, callback) {
     });
 }
 
+exports.ettestat5 = ettestat5 = function ettestat5(params, callback) {
+    var result;
+    var err;
+    var target = {'type': 'hourly'};
+
+    result = etunittesttester(target, function (err, result) {
+        callback (err, result);
+    });
+}
 // -------------------------------------------------------------------------------------------------------
 // This series of tests will send parameters to func_b.
 // There are variations of pre and post execute applied to 

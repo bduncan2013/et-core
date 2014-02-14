@@ -338,9 +338,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                     
 
                                     proxyprinttodiv('Function getwidmongo rightparameters before ', rightparameters, 38);
-                                    if ((rightparameters["data"]) && (rightparameters["data"]["linktype"]) && 
-                                        (rightparameters["data"]["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {
-                                      
+                                    // if ((rightparameters["data"]) && (rightparameters["data"]["linktype"]) && 
+                                    //     (rightparameters["data"]["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {
+                                    if ((rightparameters) && (rightparameters["linktype"]) && 
+                                        (rightparameters["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {
+
                                         if (Object.prototype.toString.call(parameterobject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
                                             parameterobject[rightparameters["metadata"]["method"]]=[]; 
                                         }
