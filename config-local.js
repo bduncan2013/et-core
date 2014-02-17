@@ -286,37 +286,43 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
     var record;
     var widName = inputWidgetObject['wid'];
     var found=false;
-    proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject,1);
-    proxyprinttodiv('Function addtomongo widName', widName,1);
-    database = getFromLocalStorage(collection);
-    proxyprinttodiv('Function addtomongo database', database,1);
+    if (widName) {
+        proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject,1);
+        proxyprinttodiv('Function addtomongo widName', widName,1);
+        database = getFromLocalStorage(collection);
+        proxyprinttodiv('Function addtomongo database', database,1);
 
-    for (record in database) {
-        proxyprinttodiv('Function addtomongo database[record]', database[record],1);
-        if (database[record]["wid"]==widName) {
-            database[record]=inputWidgetObject;
-            proxyprinttodiv('Function addtomongo found', database[record],1);
-            found=true;
-            break;
+        for (record in database) {
+            proxyprinttodiv('Function addtomongo database[record]', database[record],1);
+            if (database[record]["wid"]==widName) {
+                database[record]=inputWidgetObject;
+                proxyprinttodiv('Function addtomongo found', database[record],1);
+                found=true;
+                break;
+                }
             }
+
+        if (!found) {
+               database.push(inputWidgetObject);
+            }
+
+        keydatabase = getFromLocalStorage(keycollection);
+        keydatabase[widName]=inputWidgetObject;
+     
+        addToLocalStorage(collection, database);
+        addToLocalStorage(keycollection, keydatabase);
+        //******
+        widobject = inputWidgetObject;
+        addToLocalStorage(widMasterKey + widName, widobject);
+        //******
+        //widobject['wid'] = widName;
+        //return widobject;
+        callback(err, widobject);
+        }
+    else { // if no widName
+        callback({}, {}); // should have better error here
         }
 
-    if (!found) {
-           database.push(inputWidgetObject);
-        }
-
-    keydatabase = getFromLocalStorage(keycollection);
-    keydatabase[widName]=inputWidgetObject;
- 
-    addToLocalStorage(collection, database);
-    addToLocalStorage(keycollection, keydatabase);
-    //******
-    widobject = inputWidgetObject;
-    addToLocalStorage(widMasterKey + widName, widobject);
-    //******
-    //widobject['wid'] = widName;
-    //return widobject;
-    callback(err, widobject);
 };
 
 //function getfrommongo(inputWidgetObject) {

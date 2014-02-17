@@ -7,7 +7,48 @@
     // this test shall result in an unauthorized access error
     // we create testdata stuff1 and provide access to it to only staff group memners
     // however we try to access it (using getwidmaster) using admin group user
-    exports.datasum1 = datasum1 = function datasum1(params, callback) {
+
+    exports.createsystemdtos = createsystemdtos = function createsystemdtos(params, callback) {
+        debuglevel = 17
+        createsystemdtos1(params, function (err, res) {
+            createsystemdtos2(params, function (err, res) {
+
+                sectest1(params, function (err, res) {
+
+                    //createtestuser("rogeruser", "rogerac", 99, function (err, res) {
+
+                    execute([{
+                            "executethis": "getwidmaster",
+                            "wid": "userdto",
+                        }, {
+                            "executethis": "getwidmaster",
+                            "wid": "testdto",
+                        }, {
+                            "executethis": "getwidmaster",
+                            "wid": "systemdto",
+                        }, {
+                            "executethis": "getwidmaster",
+                            "wid": "securitydto",
+                        }, {
+                            "executethis": "getwidmaster",
+                            "wid": "permissiondto",
+                        }, {
+                            "executethis": "getwidmaster",
+                            "wid": "categorydto",
+                        }, {
+                            "executethis": "getwidmaster",
+                            "wid": "rogeruser",
+                        }],
+                        function (err, res) {
+                            proxyprinttodiv('Function records added', res, 99);
+                            callback(err, res);
+                        })
+                })
+            })
+        })
+    }
+
+    exports.createsystemdtos1 = createsystemdtos1 = function createsystemdtos1(params, callback) {
         // create dtos  
         var executeList = [
 
@@ -36,12 +77,21 @@
                 "b": "string",
                 "metadata.systemdto.type": "onetoone"
             }, {
+                // add groupnamedto as per given wid 
+                "executethis": "addwidmaster",
+                "wid": "groupnamedto",
+                "metadata.method": "groupnamedto",
+                "groupname": "string",
+                "metadata.systemdto.type": "onetoone"
+            }, {
                 //create systemdto
                 "executethis": "addwidmaster",
                 "metadata.method": "systemdto",
                 "wid": "systemdto",
-                "creator": "accounttype",
-                "expiration": "datetime",
+                "creator": "string",
+                "expiration": "string",
+                // "creator": "accounttype",
+                // "expiration": "datetime",
                 "offlinerule": "string",
                 "onlinerule": "string",
                 "metadata.securitydto.type": "onetoone",
@@ -55,7 +105,8 @@
                 "metadata.method": "groupdto",
                 "wid": "groupdto",
                 "grouptype": "string",
-                "groupname": "grouptype"
+                //"groupname": "grouptype",
+                "groupname": "string"
             }, {
                 // create securitydto
                 // securitydto holds accesstoken, status
@@ -63,38 +114,41 @@
                 "metadata.method": "securitydto",
                 "wid": "securitydto",
                 "accesstoken": "string",
-                "status": "integer"
+                //"status": "integer"
+                "status": "string"
             }, {
                 // create permissiondto
                 "executethis": "addwidmaster",
                 "metadata.method": "permissiondto",
                 "wid": "permissiondto",
-                "granteegroup": "grouptype",
-                "actiongroup": "grouptype",
-                "targetgroup": "grouptype",
-                "dbgroup": "dbtype",
-                "levelgroup": "leveltype"
+                // "granteegroup": "grouptype",
+                // "actiongroup": "grouptype",
+                // "targetgroup": "grouptype",
+                // "dbgroup": "dbtype",
+                // "levelgroup": "leveltype"
+                "granteegroup": "string",
+                "actiongroup": "string",
+                //"targetgroup": "string",
+                "dbgroup": "string",
+                "levelgroup": "string"
             }, {
                 //create categorydto
                 "executethis": "addwidmaster",
                 "metadata.method": "categorydto",
                 "wid": "categorydto",
                 "categorytype": "string",
-                "categoryname": "categorytype"
+                "categoryname": "string"
+                //"categoryname": "categorytype"
             }, {
                 // create balancedto
                 "executethis": "addwidmaster",
                 "metadata.method": "balancedto",
                 "wid": "balancedto",
-                "widname": "wid",
-                "balance": "integer"
-            }, {
-                // add groupnamedto as per given wid 
-                "executethis": "addwidmaster",
-                "wid": "groupnamedto",
-                "metadata.method": "groupnamedto",
-                "groupname": "string",
-                "metadata.systemdto.type": "onetoone"
+                "widname": "string",
+                "balance": "string"
+                //"widname": "wid",
+                //"balance": "integer"
+                // }, {
             }
         ];
 
@@ -106,7 +160,9 @@
         });
     }
 
-    exports.datasum2 = datasum2 = function datasum2(params, callback) {
+
+
+    exports.createsystemdtos2 = createsystemdtos2 = function createsystemdtos2(params, callback) {
 
         // create dtos  
         var executeList = [
@@ -114,68 +170,85 @@
             {
                 // create relationships permissiondto
                 "executethis": "addwidmaster",
-                "wid": "relsystemdto_userdto",
+                "wid": "rel_system_to_user",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
-                "primarywid": "userdto",
                 "linktype": "onetoone",
-                "secondarywid": "systemdto"
+                "primarywid": "userdto",
+                "primarymethod": "userdto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
             }, {
                 // create relationships testdto
+                "primarymethod": "userdto",
                 "executethis": "addwidmaster",
-                "wid": "relsystemdto_testdto",
+                "wid": "rel_system_to_test",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
-                "primarywid": "testdto",
                 "linktype": "onetoone",
-                "secondarywid": "systemdto"
+                "primarywid": "testdto",
+                "primarymethod": "testdto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
 
             }, {
                 // create relationships permissiondto
                 "executethis": "addwidmaster",
-                "wid": "rel_systemdto_groupdto",
+                "wid": "rel_system_to_group",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
-                "primarywid": "systemdto",
                 "linktype": "onetoone",
-                "secondarywid": "groupdto"
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "groupdto",
+                "secondarymethod": "groupdto"
             }, {
                 // create relationships categorydto
                 "executethis": "addwidmaster",
-                "wid": "rel_systemdto_categorydto",
+                "wid": "rel_system_to_category",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
-                "primarywid": "systemdto",
                 "linktype": "onetoone",
-                "secondarywid": "categorydto"
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "categorydto",
+                "secondarymethod": "categorydto"
             }, {
                 // create relationships securitydto
                 "executethis": "addwidmaster",
-                "wid": "relsystemdto_securitydto",
+                "wid": "rel_system_to_security",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
-                "primarywid": "systemdto",
                 "linktype": "onetoone",
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarymethod": "securitydto",
                 "secondarywid": "securitydto"
+
+
             }, {
                 // create relationships permissiondto
                 "executethis": "addwidmaster",
-                "wid": "relsystemdto_permissiondto",
+                "wid": "rel_system_to_permission",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
-                "primarywid": "systemdto",
                 "linktype": "onetoone",
-                "secondarywid": "permissiondto"
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "permissiondto",
+                "secondarymethod": "permissiondto"
 
             }, {
                 // create relationships statusdto
                 "executethis": "addwidmaster",
-                "wid": "relsystemdto_balancedto",
+                "wid": "rel_system_to_balance",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
-                "primarywid": "systemdto",
                 "linktype": "onetoone",
-                "secondarywid": "balancedto"
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "balancedto",
+                "secondarymethod": "balancedto"
             }
         ];
 
@@ -186,53 +259,103 @@
     }
 
 
-    exports.createuser = createuser = function createuser(userwid, ac, loginlevel, cb2) {
-        execute([{
-                // add user 
+
+    exports.createsystemdtos3 = createsystemdtos3 = function createsystemdtos3(params, callback) {
+        // create dtos  
+        var executeList = [
+
+            {
+                //create userdto
                 "executethis": "addwidmaster",
                 "metadata.method": "userdto",
-                "metadata.owner": "system",
-                "wid": userwid,
-                "fname": "john",
-                "lname": "doe",
-                "email": "jj@gmail.com",
-                "email2": "",
-                "address": "123 pleasant lane",
-                "address2": "apt 101",
-                "city": "Pleasantville",
-                "state": "Florida",
-                "zip": "26534",
-                "userid": "authorized",
-                "status": "integer"
-            }],
-            function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 99);
-                addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
-                    proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 99);
-                    addcategory(userwid, true, "categoryname", function (err, res2) {
-                        proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 99);
+                "wid": "userdto",
+                "widname": "wid",
+                "fname": "string",
+                "lname": "string",
+                "email": "string",
+                "email2": "string",
+                "address": "string",
+                "address2": "string",
+                "city": "string",
+                "state": "string",
+                "zip": "string",
+                "metadata.method": "testdto",
+                "metadata.systemdto.type": "onetoone",
+                "wid": "testdto",
+                "testdto.a": "string",
+                "testdto.b": "string",
+                // add systemdto structure
+                "metadata.method": "systemdto",
+                "metadata.systemdto.type": "onetoone",
+                "systemdto.wid": "systemdto",
+                "systemdto.creator": "accounttype",
+                "systemdto.expiration": "datetime",
+                "systemdto.offlinerule": "string",
+                "systemdto.onlinerule": "string",
+                // add securitydto structure
+                "systemdto.metadata.method": "securitydto",
+                "systemdto.metadata.securitydto.type": "onetoone",
+                "accesstoken": "string",
+                "status": "integer",
+                // add balancedto structure
+                "systemdto.metadata.method": "balancedto",
+                "systemdto.metadata.balancedto.type": "onetoone",
+                "systemdto.metadata.balancedto.widname": "wid",
+                "systemdto.metadata.balancedto.balance": "integer",
+                // add categorydto structure
+                "systemdto.metadata.method": "categorydto",
+                "systemdto.metadata.categorydto.type": "onetoone",
+                "systemdto.metadata.categorydto.categorytype": "string",
+                "systemdto.metadata.categorydto.categoryname": "categorytype",
 
-                        execute({
-                            "executethis": "getwidmaster",
-                            "wid": userwid
-                        }, function (err, res3) {
-                            proxyprinttodiv('Function createuser --  >>>>>> FINAL USER >>>>>    -- ' + userwid, res3, 99);
-                            cb2(err, res3);
-                        })
-                    });
-                });
-            });
+                // add groupdto structure
+                "systemdto.metadata.method": "groupdto",
+                "systemdto.metadata.groupdto.type": "onetoone",
+                "systemdto.metadata.groupdto.grouptype": "string",
+                "systemdto.metadata.groupdto.groupname": "grouptype",
+
+                // add permissiondto structure
+                "systemdto.metadata.method": "permissiondto",
+                "systemdto.metadata.permissiondto.type": "onetoone",
+                "systemdto.metadata.permissiondto.granteegroup": "grouptype",
+                "systemdto.metadata.permissiondto.actiongroup": "grouptype",
+                "systemdto.metadata.permissiondto.targetgroup": "grouptype",
+                "systemdto.metadata.permissiondto.dbgroup": "dbtype",
+                "systemdto.metadata.permissiondto.levelgroup": "leveltype"
+            }, {
+                // add groupnamedto as per given wid 
+                "executethis": "addwidmaster",
+                "wid": "groupnamedto",
+                "groupname": "string",
+                "metadata.method": "groupnamedto",
+                "metadata.systemdto.type": "onetoone"
+            }
+
+        ];
+
+
+        execute(executeList, function (err, res) {
+            proxyprinttodiv('Function systemdto schema creation -- added all this -- ', res, 99);
+            callback(err, res);
+
+        });
+
     }
 
 
+    exports.creategroup = creategroup = function creategroup(groupname) {
+        execute([{
+            "executethis": "addwidmaster",
+            "wid": "groupnamedto",
+            "groupname": groupname
+        }], function (err, res) {
+            proxyprinttodiv('Function datasum2 relationships -- added all this -- ', res, 99);
+            callback(err, res);
+        });
+    }
 
 
-    // createuser("codyuser", "codyac", 99);
-    // addgrouptowid("anything", "createcoupon");
-    // addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
-    // testsecurity("codyac", "executethis", "createcoupon", "data", true);
-
-    exports.addgrouptowid = addgrouptowid = function addgrouptowid(wid, groupname, callback) {
+    exports.addgrouptowid = addgrouptowid = function addgrouptowid(wid, widmethod, groupname, callback) {
 
         proxyprinttodiv('Function addgrouptowid done --starting ' + groupname + ' for wid ' + wid + " >>>> ", wid, 34);
 
@@ -242,17 +365,10 @@
                 "wid": "groupnamedto",
                 "groupname": groupname
             }, {
-                // add group as per given wid 
-                //     "executethis": "addwidmaster",
-                //     "metadata.method": "groupdto",
-                //     "systemdto.groupnamedto.groupname": groupname
-                // }, {
-                // add group as per given wid 
                 "executethis": "addwidmaster",
-                "metadata.method": "userdto", // **** note we shoudl get this from type of wid being added
                 "wid": wid,
+                "metadata.method": widmethod,
                 "systemdto.groupdto.groupname": groupname,
-                //"systemdto.groupdto.grouptype": wid
             }],
             function (err, res) {
                 proxyprinttodiv('Function addgrouptowid done --added group ' + groupname + ' for wid ' + wid + " >>>> ", wid, 34);
@@ -263,7 +379,7 @@
             });
     }
     // addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50, cb1);
-    exports.addpermission = addpermission = function addpermission(userwid, granteegroup, targetgroup, actiongroup, dbgroup, levelgroup, callback) {
+    exports.addpermission = addpermission = function addpermission(userwid, granteegroup, actiongroup, dbgroup, levelgroup, callback) {
         execute([{
                 // add permissions as per given information 
                 "executethis": "addwidmaster",
@@ -272,7 +388,6 @@
                 "metadata.method": "userdto",
                 "systemdto.permissiondto.granteegroup": granteegroup,
                 "systemdto.permissiondto.actiongroup": actiongroup,
-                "systemdto.permissiondto.targetgroup": targetgroup,
                 "systemdto.permissiondto.dbgroup": dbgroup,
                 "systemdto.permissiondto.levelgroup": levelgroup
             }],
@@ -283,12 +398,12 @@
             });
     }
 
-    exports.addcategory = addcategory = function addcategory(wid, categorytype, categoryname, callback) {
+    exports.addcategory = addcategory = function addcategory(wid, widmethod, categorytype, categoryname, callback) {
         execute([{
                 // add group as per given wid 
                 "executethis": "addwidmaster",
                 "wid": wid,
-                "metadata.method": "userdto",
+                "metadata.method": widmethod,
                 // category data
                 "systemdto.categorydto.categorytype": categorytype,
                 "systemdto.categorydto.categoryname": categoryname
@@ -301,22 +416,22 @@
     }
 
 
-    exports.addsecurity = addsecurity = function addsecurity(wid, logged_id, accesstoken, loginlevel, callback) {
+    exports.addsecurity = addsecurity = function addsecurity(wid, accesstoken, loginlevel, callback) {
         execute([{
                 // add group as per given wid 
                 "executethis": "addwidmaster",
                 "wid": wid,
                 // security data
                 "metadata.method": "userdto",
-                "systemdto.securitydto.logged_id": logged_id,
                 "systemdto.securitydto.accesstoken": accesstoken,
                 "systemdto.securitydto.level": loginlevel,
             }],
             function (err, res) {
-                // proxyprinttodiv('Function createuser done --  >>>>>> added security  >>>>>  for  -- ' + wid, res, 99);
+                proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + wid, res, 99);
                 // console.debug('added security for wid ' + wid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });
     }
+
 
 })(typeof window == "undefined" ? global : window);

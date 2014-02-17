@@ -163,7 +163,7 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
     var modifiedObj = {};
     extend(true, modifiedObj, inputObj);    
     if (dtoObjOpt) {
-        return recurseModObj(modifiedObj, dtoObjOpt);
+        return recurseModObj(modifiedObj, dtoObjOpt, command);
     } else {
         //dtoObjOpt = execute({"executethis":"getwidmaster", "wid": inputObj["metadata"]["method"]});
         return inputObj;
@@ -171,12 +171,13 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
 
 }
 
-function recurseModObj(inputObject,dtoObject){
+function recurseModObj(inputObject,dtoObject, command){
     var modifiedObj = {};
     Object.keys(inputObject).forEach(function (inpKey) {
 
         // added by Roger
-        if (inpKey.indexOf("addthis.") !== -1) {// if you found "addthis." then remove from inputObject
+        if ((inpKey.indexOf("addthis.") !== -1) && (!command.addthisflag)) {// if you found "addthis." then remove from inputObject
+        //if ((inpKey.indexOf("addthis.") !== -1)) {
                 inputObject[inpKey.replace("addthis.", "")]=inputObject[inpKey]; // then and readd without addthis
                 delete inputObject[inpKey]; // delete the old one
                 }
@@ -220,7 +221,7 @@ function recurseModObj(inputObject,dtoObject){
             {
                 //Ignoring metadata property in input.
                 if (inpKey != "metadata") {
-                    var modObj = recurseModObj(inpVal,dataType);
+                    var modObj = recurseModObj(inpVal,dataType,command);
                     modifiedObj[inpKey] = modObj;
                 }else{
                     modifiedObj[inpKey] = inpVal;                    
@@ -238,8 +239,7 @@ function recurseModObj(inputObject,dtoObject){
 }
 
 exports.validParams = validParams = function validParams(obj) {
-    // var keyLength = Object.keys(obj).length;
-    var keyLength = countKeys(obj);
+    var keyLength = getObjectSize(obj);
     var status = false;
     if (keyLength !== 0) {
         for (var k in obj) {
@@ -303,6 +303,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         } else {
             return obj;
         }
+    };
+
+    // Utility function to return json attr count
+    exports.jsonLength = jsonLength = function jsonLength(obj) {
+        return Object.keys(obj).length;
     };
 
     // Utility function to cleanup mentioned attr:val pairs from JSON passed in
@@ -865,38 +870,38 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     };
 
     // Counts the number of hashes in an object
-    // exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
-    //     //function getObjectSize(parameters){
-    //     var size = 0,
-    //         key;
-    //     for (key in parameters) {
-    //         if (parameters.hasOwnProperty(key)) size++;
-    //     }
-    //     return size;
-    // };
+    exports.getObjectSize = getObjectSize = function getObjectSize(parameters) {
+        //function getObjectSize(parameters){
+        var size = 0,
+            key;
+        for (key in parameters) {
+            if (parameters.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
 
     // Returns true if the parameter is lower case
-    // exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
-    //     //function isParameterLower(parameters, str) {
-    //     getObjectSize(parameters);
-    //     var length;
-    //     if (parameters.length === undefined) {
-    //         length = getObjectSize(parameters);
-    //     } else {
-    //         length = parameters.length
-    //     }
-    //     for (key in parameters) { //rewritten
-    //         if (key.toLowerCase() == str) {
-    //             return true;
-    //         }
-    //     }
-    // };
+    exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
+        //function isParameterLower(parameters, str) {
+        getObjectSize(parameters);
+        var length;
+        if (parameters.length === undefined) {
+            length = getObjectSize(parameters);
+        } else {
+            length = parameters.length
+        }
+        for (key in parameters) { //rewritten
+            if (key.toLowerCase() == str) {
+                return true;
+            }
+        }
+    };
 
     // Finds the first key in parameters that matches the string, or nothing if none is found   
     exports.firstOrDefault = firstOrDefault = function firstOrDefault(parameters, str) {
         var length;
         if (parameters.length === undefined) {
-            length = Object.keys(parameters).length;
+            length = getObjectSize(parameters);
         } else {
             length = parameters.length
         }
@@ -912,7 +917,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         //function remove(parameters, str){
         var length;
         if (parameters.length === undefined) {
-            length = Object.keys(parameters).length;
+            length = getObjectSize(parameters);
             for (key in parameters) { //rewritten
                 if (key.toLowerCase() == str) {
                     delete parameters[key];

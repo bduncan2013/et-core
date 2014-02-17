@@ -1,72 +1,370 @@
+// {"query":{"$eq":{"type":"minute"}}}
+exports.filter1 = filter1 = function filter1(params, callback) {
+    debuglevel = 37;
+    debugname = "";
+    debugcat = "";
+    debugsubcat = "code";
+    var status = false;
+
+    // create dtos  
+    var executeList = [{
+        "executethis": "addwidmaster",
+        "wid": "first",
+        "one":"1",
+        "type":"minute"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "second",
+        "two":"2",
+        "type":"hour"
+    }, {
+        "executethis": "addwidmaster",
+        "wid": "third",
+        "three":"3",
+        "type":"second"
+    }];
+    execute({"executethis":executeList,"command.query.$eq.type":"minute"}, function (err, res) {
+        proxyprinttodiv('Function filter1 added   -- ', res, 37);
+        callback(null);
+    });
+}
+
+
 function etunittesttester(params, callback) {
-    var unittestdb = 
-        [
-            [{"fn": "ettestt1"},    [{"type": "minute", "category":"executethis",   "subcategory":"dothis",         "test": "Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters"}]], 
-            [{"fn": "ettestt2"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call func_b, but also tell preexecutetunittesttestere to call func_a and postexecute to call func_c."}]], 
-            [{"fn": "ettestt3"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b in midexecute and nothing in post execute."}]], 
-            [{"fn": "ettestt3a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call func_b with only post func_a -- same result as t3. This is to make sure that not calling pre is ok...this calls only mid and post."}]], 
-            [{"fn": "ettestt4"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call mid with func_b and post with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed. "}]], 
-            [{"fn": "ettestt4a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call mid with func_b and pre with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed."}]], 
-            [{"fn": "ettestt5"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call func_b with func_a for pre and post to ensure that calling the same function more than once is not a problem for the system."}]], 
-            [{"fn": "ettestt6"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Double check that calling func_b with func_c for pre and post to ensure that calling the same function more than once is not a problem for the system. Essentially showing that tt5 was not a fluke, but a repeatable concept."}]], 
-   
-            [{"fn": "ettestast1"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters  "}]], 
-            [{"fn": "ettestast2"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with pre calling func_a and post calling func_c...each simply deletes a prameter and add a parameter."}]], 
-            [{"fn": "ettestast3"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is."}]], 
-            [{"fn": "ettestast3a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with only post async_func_a -- same result as ast3"}]], 
-            [{"fn": "ettestast4"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with only post calling async_c  "}]], 
-            [{"fn": "ettestast4a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with only pre async_func_c -- same result as t4"}]], 
-            [{"fn": "ettestast5"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with async_func_a for pre and post"}]], 
-            [{"fn": "ettestast6"},  [{"type": "second", "category":"execute",       "subcategory":"dothis",         "test": "Call async_func_b with async_func_c for pre and post"}]], 
-     
-            [{"fn": "ettestag1"  }, [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   "test": "Add a dto and get it with "}]], 
-            [{"fn": "ettestag2"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   "test": "Add 2 wids and get 1 wid"}]],
-            [{"fn": "ettestag3"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   "test": "Add wids 3 levels deep and get a wid related with them."}]], 
-     
-            [{"fn": "ettestct1"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b. The config should remap redir_b to call func_b with no pre or post execution."}]], 
-            [{"fn": "ettestct2"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and also remap redir_c to func_c."}]], 
-            [{"fn": "ettestct3"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all."}]], 
-            [{"fn": "ettestct3a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with only post redir_a -- same result as ct3, but putting the only remap call in post instead of pre."}]], 
-            [{"fn": "ettestct4"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any function in either pre or post."}]], 
-            [{"fn": "ettestct4a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with only pre redir_c -- same result as t4"}]], 
-            [{"fn": "ettestct5"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with a remapping of redir_a to func_a for both pre and post."}]], 
-            [{"fn": "ettestct6"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      "test": "Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions can be used with the same effect."}]], 
-            [{"fn": "ettestct7"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  "test": "This will try pre with func a, but remapped with a configuration thatis passed into executethis...it still wants to hit func_b with mid"}]], 
-            [{"fn": "ettestct8"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  "test": "doest not run yet --- This test asserts that the tryorder in the config is successful and causes executethis to call dothis, not server, or the others. As of jan 28, it still fails to reorder them and calls the server instead. It breaks the code and will not simply call func_b locally."}]], 
-            [{"fn": "ettestct9"},   [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work...."}]], 
-   
-            [{"fn": "ettestct10"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So far it does not work, and never has."}]], 
-            [{"fn": "ettestct11"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to call func_b, remap does_not_exist_1 to func_a, remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c. None of these ever work..."}]], 
-            [{"fn": "ettestct13"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", "test": "This test is to test a config where a and b do not exist, but func_c does and c will execute. You should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in the results"}]], 
-    
-            [{"fn": "ettestct14"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  "test": "Here is the modified ct14 test This test is to test a config where a config with params is sent to pre, mid, and post. The results should have the a,b,c cereals, along with the regular params."}]], 
-            [{"fn": "ettestct15"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_conflict","test": "This will send the alphabits param in the preexecute config, but will be overriding it in the args.. Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. "}]], 
-            [{"fn": "ettestct16"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  "test": "Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the config params in the assertion wid."}]], 
-            [{"fn": "ettestct17"},  [{"type": "hourly", "category":"configuration", "subcategory":"does_not_exist", "test": "To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b."}]], 
-         
-            [{"fn": "ettestct18"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_params",  "test": "This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis"}]], 
-    
-            [{"fn": "ettestct19"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict","test": "This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, the args sent to executethis will always win...not any of the 3 places in the config that they are set."}]], 
-            [{"fn": "ettestct20"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict","test": "Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to."}]]
-        ]
+    var unittestdb = [{
+        "fn": "ettestt1"
+    }, {
+        "test": "short desc of test",
+        "type": "minute", // hourly, daily, build...for now, all hourly
+        "category": "executethis", // 5 or 6 total execute,add,get,query
+        "subcategory": "dothis" // pre,mid,post...like, try order, do order
+    }, {
+        "fn": "ettestt2"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": "mid"
+
+    }, {
+        "fn": "ettestt3"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestt3a"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": "execute"
+    }, {
+        "fn": "ettestt4"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestt4a"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestt5"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestt6"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestast1" // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestast2"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestast3"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestast3a"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestast4"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestast4a"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestast5"
+    }, {
+        "test": "short desc of test",
+        "type": "minute",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestast6"
+    }, {
+        "test": "short desc of test",
+        "type": "second",
+        "category": "execute",
+        "subcategory": ""
+    }, {
+        "fn": "ettestag1" // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    }, {
+        "test": "short desc of test",
+        "type": "second",
+        "category": "add get",
+        "subcategory": "getwidmaster"
+    }, {
+        "fn": "ettestag2"
+    }, {
+        "test": "short desc of test",
+        "type": "second",
+        "category": "add get",
+        "subcategory": "getwidmaster"
+    }, {
+        "fn": "ettestag3"
+    }, {
+        "test": "short desc of test",
+        "type": "second",
+        "category": "add get",
+        "subcategory": "getwidmaster"
+    }, {
+        "fn": "ettestct1" // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remapping_functions"
+    }, {
+        "fn": "ettestct2"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remapping_functions"
+    }, {
+        "fn": "ettestct3"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remapping_functions"
+    }, {
+        "fn": "ettestct3a"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remapping_functions"
+    }, {
+        "fn": "ettestct4"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remapping_functions"
+    }, {
+        "fn": "ettestct4a"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remapping_functions"
+    }, {
+        "fn": "ettestct5"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remapping_functions"
+    }, {
+        "fn": "ettestct6"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remapping_functions"
+    }, {
+        "fn": "ettestct7"
+    }, {
+        "test": "short desc of test",
+        "type": "daily",
+        "category": "configuration",
+        "subcategory": "config_params"
+    }, {
+        "fn": "ettestct8"
+    }, {
+        "test": "short desc of test",
+        "type": "daily",
+        "category": "configuration",
+        "subcategory": "config_params"
+    }, {
+        "fn": "ettestct9"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remap_doesnotexist_to_params"
+    }, {
+        "fn": "ettestct10"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remap_doesnotexist_to_params"
+    }, {
+        "fn": "ettestct11"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remap_doesnotexist_to_params"
+    }, {
+        "fn": "ettestct13"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": "remap_doesnotexist_to_params"
+    }, {
+        "fn": "ettestct14"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": ""
+    }, {
+        "fn": "ettestct15"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": ""
+    }, {
+        "fn": "ettestct16"
+    }, {
+        "test": "short desc of test",
+        "type": "quasi",
+        "category": "configuration",
+        "subcategory": ""
+    }, {
+        "fn": "ettestct17"
+    }, {
+        "test": "short desc of test",
+        "type": "hourly",
+        "category": "configuration",
+        "subcategory": ""
+    }, {
+        "fn": "ettestct18"
+    }, {
+        "test": "short desc of test",
+        "type": "hourly",
+        "category": "configuration",
+        "subcategory": ""
+    }, {
+        "fn": "ettestct19"
+    }, {
+        "test": "short desc of test",
+        "type": "hourly",
+        "category": "configuration",
+        "subcategory": ""
+    }, {
+        "fn": "ettestct20"
+    }, {
+        "test": "short desc of test",
+        "type": "hourly",
+        "category": "configuration",
+        "subcategory": ""
+    }];
 
     var err;
     var subset = [];
 
     // iterate through unittestdb
-    for (var i = 0; i < unittestdb.length; i++) {
+    for (var i = 0; i < unittestdb.length; i += 2) {
         // check to see if params matches type in unittestdb
-        if (unittestdb[i][1][0]['type'] === params['type']) {
+        if (unittestdb[i + 1]['type'] === params['type']) {
             // push the fn name on the array_of_tests_to_run
-            subset.push( unittestdb[i] );
+            var p = [];
+            p.push(unittestdb[i + 1]);
+            subset.push([unittestdb[i], p]);
         }
     }
-        // console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
-        
-        executethismultiple(subset, function (err, result) { 
-            callback (err, result); 
-        });
+
+    // This version works -- do not delete please :)
+    // var subset = 
+    //     [
+    //         [
+    //             {
+    //                 "fn": "ettestt1"
+    //             }, 
+    //             [
+    //                 {
+    //                 "any data":"at all"     
+    //                 }
+    //             ]
+    //         ]
+    //     ]
+
+    console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
+
+    executethismultiple(subset, function (err, result) {
+        callback(err, result);
+    });
 }
+
+exports.mc1 = mc1 = function mc1(params, callback) {
+
+    var subset = [];
+    subset = [
+        [{
+            "fn": "ettestt1"
+        }, {}]
+    ];
+    console.log('-------------  subset: \n' + JSON.stringify(subset, '-', 4));
+
+    executethismultiple(subset, function (err, result) {
+        callback(err, result);
+    });
+}
+
 
 // List of tests:
 // 
@@ -166,59 +464,70 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     var err;
 
     ettesttt(result, function (err, r1) {
-      result.push(r1);
+        // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r1: \n' + JSON.stringify(r1));
+        result.push(r1);
+
         ettestastt(result, function (err, r2) {
-           result.push(r2);
+            // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r2: \n' + JSON.stringify(r2));
+            result.push(r2);
+
             ettestctt(result, function (err, r3) {
+                // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& r3: \n' + JSON.stringify(r3));
                 result.push(r3);
-                // ettestagtt(result, function (err, r4) {
-                //     result.push(r4);
-                    callback(err, result);
-                // });
+                callback(err, result);
             });
         });
     });
 }
 
+exports.ettestatc = ettestatc = function ettestatc(params, callback) {
+    var result = {};
+    var err;
+    ettestagtt(result, function (err, result) {
+        callback(err, result);
+    });
+}
+
+
+
 exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
     var result;
     var err;
-    var target = {'type': 'minute'};
+    var target = {
+        'type': 'minute'
+    };
 
     result = etunittesttester(target, function (err, result) {
-        callback (err, result);
+        callback(err, result);
     });
 }
 
 exports.ettestat3 = ettestat3 = function ettestat3(params, callback) {
     var result;
     var err;
-    var target = {'type': 'second'};
+    var target = {
+        'type': 'second'
+    };
 
     result = etunittesttester(target, function (err, result) {
-        callback (err, result);
+        callback(err, result);
     });
 }
 
 exports.ettestat4 = ettestat4 = function ettestat4(params, callback) {
     var result;
     var err;
-    var target = {'type': 'quasi'};
+    var target = {
+        'type': 'quasi'
+    };
 
     result = etunittesttester(target, function (err, result) {
-        callback (err, result);
+        callback(err, result);
     });
 }
 
-exports.ettestat5 = ettestat5 = function ettestat5(params, callback) {
-    var result;
-    var err;
-    var target = {'type': 'hourly'};
 
-    result = etunittesttester(target, function (err, result) {
-        callback (err, result);
-    });
-}
+// console.log('[][][][][][][][][][][][][][][][][][][][][][][][]\n' + JSON.stringify(result, '-', 4));      
 // -------------------------------------------------------------------------------------------------------
 // This series of tests will send parameters to func_b.
 // There are variations of pre and post execute applied to 
@@ -227,263 +536,135 @@ exports.ettestat5 = ettestat5 = function ettestat5(params, callback) {
 // the executethis is being accessed.
 
 exports.ettesttt = ettesttt = function ettesttt(params, callback) {
-    // execute([{
-    //         "executethis": "ettestt1"
-    //     }, {
-    //         "executethis": "ettestt2"
-    //     }, {
-    //         "executethis": "ettestt3"
-    //     }, {
-    //         "executethis": "ettestt3a"
-    //     }, {
-    //         "executethis": "ettestt4"
-    //     }, {
-    //         "executethis": "ettestt4a"
-    //     }, {
-    //         "executethis": "ettestt5"
-    //     }, {
-    //         "executethis": "ettestt6"
-    //     }],
-    //     function (err, res) {
-    //         callback(err, res);
-    //     }
-    // );
-    // }) 
-    
-    var result = [];
-    var err;
-
-    ettestt1(result, function (err, r1) {
-        result.push(r1);
-        ettestt2(result, function (err, r2) {
-            result.push(r2);
-            ettestt3(result, function (err, r3) {
-                result.push(r3);
-                ettestt3a(result, function (err, r3a) {
-                    result.push(r3a);
-                    ettestt4(result, function (err, r4) {
-                        result.push(r4);
-                        ettestt4a(result, function (err, r4a) {
-                            result.push(r4a);
-                            ettestt5(result, function (err, r5) {
-                                result.push(r5);
-                                ettestt6(result, function (err, r6) {
-                                    result.push(r6);
-                                    callback(err, result);
-                                 });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+    execute([{
+            "executethis": "ettestt1"
+        }, {
+            "executethis": "ettestt2"
+        }, {
+            "executethis": "ettestt3"
+        }, {
+            "executethis": "ettestt3a"
+        }, {
+            "executethis": "ettestt4"
+        }, {
+            "executethis": "ettestt4a"
+        }, {
+            "executethis": "ettestt5"
+        }, {
+            "executethis": "ettestt6"
+        }],
+        function (err, res) {
+            console.log('^^^^^^^^^^^^^^^ res  ^^^^^^:  ' + JSON.stringify(res));
+            console.log('^^^^^^^^^^^^^^^ done ^^^^^^');
+            callback(err, res);
+        }
+    );
 }
 
 // This series is identical to tt, except that the functions called 
 // by executethis are async, and therefore use callbacks to return data
 // to the calling function.
 exports.ettestastt = ettestastt = function ettestastt(params, callback) {
-    // execute([{
-    //         "executethis": "ettestast1"
-    //     }, {
-    //         "executethis": "ettestast2"
-    //     }, {
-    //         "executethis": "ettestast3"
-    //     }, {
-    //         "executethis": "ettestast3a"
-    //     }, {
-    //         "executethis": "ettestast4"
-    //     }, {
-    //         "executethis": "ettestast4a"
-    //     }, {
-    //         "executethis": "ettestast5"
-    //     }, {
-    //         "executethis": "ettestast6"
-    //     }],
-    //     function (err, res) {
-    //         callback(err, res);
-    //     }
-    // );
-
-    var result = [];
-    var err;
-
-    ettestast1(result, function (err, r1) {
-        result.push(r1);
-        ettestast2(result, function (err, r2) {
-            result.push(r2);
-            ettestast3(result, function (err, r3) {
-                result.push(r3);
-                ettestast3a(result, function (err, r3a) {
-                    result.push(r3a);
-                    ettestast4(result, function (err, r4) {
-                        result.push(r4);
-                        ettestast4a(result, function (err, r4a) {
-                            result.push(r4a);
-                            ettestast5(result, function (err, r5) {
-                                result.push(r5);
-                                ettestast6(result, function (err, r6) {
-                                    result.push(r6);
-                                    callback(err, result);
-                                 });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+    execute([{
+            "executethis": "ettestast1"
+        }, {
+            "executethis": "ettestast2"
+        }, {
+            "executethis": "ettestast3"
+        }, {
+            "executethis": "ettestast3a"
+        }, {
+            "executethis": "ettestast4"
+        }, {
+            "executethis": "ettestast4a"
+        }, {
+            "executethis": "ettestast5"
+        }, {
+            "executethis": "ettestast6"
+        }],
+        function (err, res) {
+            callback(err, res);
+        }
+    );
 }
 
 // This series uses the sync functions of a,b, and c with changes to the
 // configuration parameters. This allows for calling func_b by calling
 // redir_b instead of func_b, redir_a instead of func_a, and so on.
 exports.ettestctt = ettestctt = function ettestctt(params, callback) {
-    // execute([{
-    //         "executethis": "ettestct1"
-    //     }, {
-    //         "executethis": "ettestct2"
-    //     }, {
-    //         "executethis": "ettestct3"
-    //     }, {
-    //         "executethis": "ettestct3a"
-    //     }, {
-    //         "executethis": "ettestct4"
-    //     }, {
-    //         "executethis": "ettestct4a"
-    //     }, {
-    //         "executethis": "ettestct5"
-    //     }, {
-    //         "executethis": "ettestct6"
-    //     }, {
-    //         "executethis": "ettestct7"
+    execute([{
+            "executethis": "ettestct1"
+        }, {
+            "executethis": "ettestct2"
 
-    //     //     // ct8 will break the ctt test run
-    //     //     // // },{ 
-    //     //     // // "executethis": "ettestct8"
 
-    //     }, {
-    //         "executethis": "ettestct9"
-    //     }, {
-    //         "executethis": "ettestct10"
-    //     }, {
-    //         "executethis": "ettestct11"
-    //     }, {
-    //         "executethis": "ettestct13"
-    //     }, {
-    //         "executethis": "ettestct14"
-    //     }, {
-    //         "executethis": "ettestct15"
-    //     }, {
-    //         "executethis": "ettestct16"
-    //     },{ 
-    //         "executethis": "ettestct18"
-    //     },{
-    //         "executethis": "ettestct19"
-    //     },{ 
-    //         "executethis": "ettestct20"
-    //     }],
-    //     function (err, res) {
-    //         console.log('special*** \n' + JSON.stringify(res, "-", 4));
-    //         callback(err, res);
-    //     }
-    // );
 
-    var result = [];
-    var err;
+        }, {
+            "executethis": "ettestct3"
+        }, {
+            "executethis": "ettestct3a"
+        }, {
+            "executethis": "ettestct4"
+        }, {
+            "executethis": "ettestct4a"
+        }, {
+            "executethis": "ettestct5"
+        }, {
+            "executethis": "ettestct6"
+        }, {
+            "executethis": "ettestct7"
 
-    ettestct1(result, function (err, r1) {
-        result.push(r1);
-        ettestct2(result, function (err, r2) {
-            result.push(r2);
-            ettestct3(result, function (err, r3) {
-                result.push(r3);
-                ettestct3a(result, function (err, r3a) {
-                    result.push(r3a);
-                    ettestct4(result, function (err, r4) {
-                        result.push(r4);
-                        ettestct4a(result, function (err, r4a) {
-                            result.push(r4a);
-                            ettestct5(result, function (err, r5) {
-                                result.push(r5);
-                                ettestct6(result, function (err, r6) {
-                                    result.push(r6);
-                                    ettestct7(result, function (err, r7) {
-                                        result.push(r7);
-                                        ettestct9(result, function (err, r9) {
-                                            result.push(r9);
-                                            ettestct10(result, function (err, r10) {
-                                                result.push(r10);
-                                                ettestct11(result, function (err, r11) {
-                                                    result.push(r11);
-                                                    ettestct13(result, function (err, r13) {
-                                                        result.push(r13);
-                                                        ettestct14(result, function (err, r14) {
-                                                            result.push(r14);
-                                                            ettestct15(result, function (err, r15) {
-                                                                result.push(r15);
-                                                                ettestct16(result, function (err, r16) {
-                                                                    result.push(r16);
-                                                                    ettestct17(result, function (err, r17) {
-                                                                        result.push(r17);
-                                                                        ettestct18(result, function (err, r18) {
-                                                                            result.push(r18);
-                                                                            ettestct19(result, function (err, r19) {
-                                                                                result.push(r19);
-                                                                                ettestct20(result, function (err, r20) {
-                                                                                    result.push(r20);
-                                                                                    callback(err, result);
-                                                                                });
-                                                                            });
-                                                                        });
-                                                                    });
-                                                                });
-                                                            });
-                                                        });
-                                                    });
-                                                });
-                                            });
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+
+            //     // ct8 will break the ctt test run
+            //     // // },{ 
+            //     // // "executethis": "ettestct8"
+
+
+        }, {
+            "executethis": "ettestct9"
+        }, {
+            "executethis": "ettestct10"
+        }, {
+            "executethis": "ettestct11"
+        }, {
+            "executethis": "ettestct13"
+        }, {
+            "executethis": "ettestct14"
+        }, {
+            "executethis": "ettestct15"
+
+
+
+            // }, {
+            //     "executethis": "ettestct16"
+            // These still need the configs to be converted to be passed in as parameters.
+            // },{ 
+            // "executethis": "ettestct18"
+            // },{
+            // "executethis": "ettestct19"
+            // },{ 
+            // "executethis": "ettestct20"
+        }],
+        function (err, res) {
+            console.log('special*** \n' + JSON.stringify(res, "-", 4));
+            callback(err, res);
+        }
+    );
 }
-
 
 // These are the add/get tests to stress out the dto/dot notation system
 exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
-    // execute([{
-    //         "executethis": "ettestag1"
-    //     }, {
-    //         "executethis": "ettestag2"
-    //     }, {
-    //         "executethis": "ettestag3"
-    //     }],
-    //     function (err, res) {
-    //         callback(err, res);
-    //     }
-    // );
-
-    var result = [];
-    var err;
-
-    ettestag1(result, function (err, r1) {
-        result.push(r1);
-        ettestag2(result, function (err, r2) {
-            result.push(r2);
-            ettestag3(result, function (err, r3) {
-                result.push(r3);
-                callback(err, result);
-            });
-        });
-    });
+    execute([{
+            "executethis": "ettestag1"
+        }, {
+            "executethis": "ettestag2"
+        }, {
+            "executethis": "ettestag3"
+        }],
+        function (err, res) {
+            callback(err, res);
+        }
+    );
 }
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -881,7 +1062,7 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
         }
     }
     var assert = [];
-    assert.push( {
+    assert.push({
         "d": "1",
         "c": "0",
         "g": "4",
@@ -908,7 +1089,9 @@ exports.ettestct1 = ettestct1 = function ettestct1(params, callback) {
     })
     // var res = master_test_and_verify (testname,          parameters, assert, database, command, callback) {
 
-    var res = master_test_and_verify("ettestct1", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct1", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -969,7 +1152,9 @@ exports.ettestct2 = ettestct2 = function ettestct2(params, callback) {
             }]
         }
     });
-    var res = master_test_and_verify("ettestct2", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct2", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1028,7 +1213,9 @@ exports.ettestct3 = ettestct3 = function ettestct3(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct3", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct3", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1088,7 +1275,9 @@ exports.ettestct3a = ettestct3a = function ettestct3a(params, callback) {
             }]
         }
     });
-    var res = master_test_and_verify("ettestct3a", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct3a", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1148,7 +1337,9 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct4", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct4", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1208,7 +1399,9 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct4a", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct4a", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1269,7 +1462,9 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct4a", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct4a", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1331,7 +1526,9 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
             }]
         }
     })
-    var res = master_test_and_verify("ettestct6", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct6", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1368,7 +1565,9 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
         "c": "0",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct7", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct7", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1416,7 +1615,9 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
         "g": "4"
     });
 
-    var res = master_test_and_verify("ettestct8", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct8", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1433,13 +1634,15 @@ exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
     }
     // since we are overiding how functions are maped here, "does_not_exist_* are not deleted from the params
     var assert = [];
-    assert.push( {
+    assert.push({
         "does_not_exist": "func_b",
         "d": "1",
         "c": "0",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct9", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct9", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1454,7 +1657,9 @@ exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
     assert.push({
         "data": "Keg of Beer"
     });
-    var res = master_test_and_verify("ettestct9a", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct9a", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1479,7 +1684,9 @@ exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
         "c": "0",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct10", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct10", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1508,7 +1715,9 @@ exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
         "h": "5",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct11", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct11", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1547,7 +1756,9 @@ exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
         "ettestct12": "did some alerting",
         "g": "4"
     });
-    var res = master_test_and_verify("ettestct12", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct12", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1595,7 +1806,9 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
         "fire_c": "fire_c is now fired",
         "cer2": "booberry"
     });
-    var res = master_test_and_verify("ettestct13", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct13", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1677,7 +1890,9 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
         "h": "5",
         "configuration": {}
     });
-    var res = master_test_and_verify("ettestct14", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct14", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1757,7 +1972,9 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
         }
 
     });
-    var res = master_test_and_verify("ettestct15", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct15", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1840,7 +2057,9 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
             }]
         }
     });
-    var res = master_test_and_verify("ettestct16", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct16", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1869,19 +2088,11 @@ exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
         "exdef": "param after dothis and executeparam was grabbed",
         "d": "1",
         "c": "0",
-        "g": "4",
-         "configuration": {
-            "midexecute": [{
-                "dothis": "dothis",
-                "tryorder": "1",
-                "executeorder": "1",
-                "params": {
-                    "exdef": "param after dothis and executeparam was grabbed"
-                }
-            }]
-        }
+        "g": "4"
     });
-    var res = master_test_and_verify("ettestct17", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct17", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1912,19 +2123,11 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
         "exdef": "param after dothis and executeparam was grabbed",
         "f": "3",
         "c": "0",
-        "g": "4",
-        "configuration": {
-            "midexecute": [{
-                "dothis": "dothis",
-                "tryorder": "1",
-                "executeorder": "1",
-                "params": {
-                    "exdef": "param after dothis and executeparam was grabbed"
-                }
-            }]
-        }
+        "g": "4"
     });
-    var res = master_test_and_verify("ettestct18", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct18", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -1933,7 +2136,7 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
 // the args sent to executethis will always win...not any of the 3 places in the config that they are set.
 exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
     testclearstorage();
-    // config = setconfig8();
+    config = setconfig8();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "func_a",
@@ -1976,35 +2179,11 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
         "h": "5",
         "alpha": "1",
         "bravo": "1",
-        "charlie": "1",
-        "configuration": {
-            "preexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "alpha": "3"
-                }
-            }],
-            "midexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "bravo": "3"
-                }
-            }],
-            "postexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "charlie": "3"
-                }
-            }]
-        }
+        "charlie": "1"
     });
-    var res = master_test_and_verify("ettestct19", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct19", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -2012,37 +2191,11 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 // all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
 exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
     testclearstorage();
-    // config = setconfig8();
+    config = setconfig8();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "func_a",
-        "postexecute": "func_c",        
-        "configuration": {
-            "preexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "alpha": "3"
-                }
-            }],
-            "midexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "bravo": "3"
-                }
-            }],
-            "postexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "charlie": "3"
-                }
-            }]
-        }
+        "postexecute": "func_c"
     }
     var assert = [];
     assert.push({
@@ -2051,35 +2204,11 @@ exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
         "alpha": "4",
         "f": "3",
         "bravo": "4",
-        "h": "5",
-        "configuration": {
-            "preexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "alpha": "3"
-                }
-            }],
-            "midexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "bravo": "3"
-                }
-            }],
-            "postexecute": [{
-                "dothis": "dothis",
-                "tryorder": 0,
-                "executeorder": 0,
-                "params": {
-                    "charlie": "3"
-                }
-            }]
-        }
+        "h": "5"
     });
-    var res = master_test_and_verify("ettestct20", parameters, assert, {}, {"command":"null"},function (err, res) {
+    var res = master_test_and_verify("ettestct20", parameters, assert, {}, {
+        "command": "null"
+    }, function (err, res) {
         callback(err, res)
     });
 }
@@ -2274,7 +2403,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 // a wid with that dto, and get the results of getting that wid.
 exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
     testclearstorage();
-            // alert('here');
+    // alert('here');
 
     debuglevel = 75;
     debugname = "";
@@ -2299,7 +2428,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "wid": "color1"
         }],
         function (err, res) {
-            debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+            debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
 
             debugname = "";
             debugcat = "";
@@ -2320,171 +2449,155 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     debuglevel = 98;
     //debugname = "";
 
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //%%%%%%%%%%%%%%%%%%%%%
     // Functions of --- config-local
     // debugname = "offlineupdatewid";
-    
+
     // debugname = "offlinegetwid";
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //%%%%%%%%%%%%%%%%%%%%%
     // Functions of --- add
-    
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    //%%%%%%%%%%%%%%%%%%%%%
     // Functions of --- query
     // debugname = "querywid";
-     
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    //%%%%%%%%%%%%%%%%%%%%%
     // Functions of --- get
     // debugname = "getwid";
-    
+
     // debugname = "aggressivedto";
-    
+
     // debugname = "getcleanparameters";
 
     // debugname = "getwidmaster";
-     
+
     // debugname = "getwidmongo";
     // debugname = "getcleanparameters";
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //%%%%%%%%%%%%%%%%%%%%%
 
     //debugcat = "";
     //debugsubcat = "code";
 
+    debuglevel = 17;
+    execute([
+            //         "executethis": "addwidmaster",
+            //         "wid": "sounddto",
+            //         "metadata.method": "sounddto",
+            //         "note": "string"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "wid": "songdto",
+            //         "metadata.method": "songdto",
+            //         "title": "string",
+            //         "metadata.sounddto.type": "onetomany"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "wid": "rel_sound_to_song",
+            //         "metadata.method":"relationshipdto",
+            //         "primarywid": "songdto",
+            //         "secondarywid": "sounddto",
+            //         "primarymethod": "songdto",
+            //         "secondarymethod": "sounddto",
+            //         "linktype":"onetomany",
+            //         "relationshiptype": "attributes"
+            //     }, {
 
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "sounddto",
-            "metadata.method": "sounddto",
-            "note": "string"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "songdto",
-            "metadata.method": "songdto",
-            "title": "string",
-            "metadata.sounddto.type": "onetomany"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "rel_sound_to_song",
-            "metadata.method":"relationshipdto",
-            "primarywid": "songdto",
-            "secondarywid": "sounddto",
-            "primarymethod": "songdto",
-            "secondarymethod": "sounddto",
-            "linktype":"onetomany",
-            "relationshiptype": "attributes"
-        }, {
-        //     "executethis": "addwidmaster",
-        //     "wid": "song1",
-        //     "metadata.method": "songdto",
-        //     "title": "Highway to Hell",
-        //     "sounddto.0.note": "A flat",
-        //     "sounddto.1.note": "B sharp",
-        //     "sounddto.2.note": "C flat"
-        // }, {
-                        
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "songdto",
-            "title": "Highway to Hell",
-            "sounddto.note": "A flat"
-        }, {            
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "songdto",
-            "title": "Highway to Hell",
-            "sounddto.note": "B sharp"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "songdto",
-            "title": "Highway to Hell",
-            "sounddto.note": "C flat"
-        }, {
-            "executethis": "getwidmaster",
-            "wid": "song1"
-        }],
-        // execute([{
-        //  "executethis": "updatewid", 
-        //  "wid": "authordto",
-        //  "metadata.method": "authordto",
-        //  "Author": "string"
-        // },
-        // {    
-        //  "executethis": "updatewid", 
-        //  "wid": "bookdto",
-        //  "metadata.method": "bookdto",
-        //  "title": "string"
-        // },
-        // {    
-        //  "executethis": "updatewid", 
-        //  "wid": "rel_author_to_book",
-        //  "primarywid": "authordto",
-        //  "secondarywid": "bookdto",
-        //  "relationshiptype": "attributes"
-        // },
-        // {    
-        //  "executethis": "updatewid", 
-        //  "wid": "book1",
-        //  "metadata.method": "bookdto",
-        //  "title": "The book of testing",
-        //  "authordto.0.author": "Sammy Sample"
-        // },
-        // {
-        //  "executethis": "getwidmaster",
-        //  "wid": "book1"
-        // }],
+
+            {
+                "executethis": "addwidmaster",
+                "wid": "songdto",
+                "title": "string",
+                "metadata.method": "songdto",
+                "metadata.sounddto.type": "onetomany",
+                "sounddto.wid": "sounddto",
+                "sounddto.note": "string",
+                "sounddto.metadata.method": "sounddto"
+            }, {
+
+                "executethis": "addwidmaster",
+                "wid": "song1",
+                "metadata.method": "songdto",
+                "title": "Highway to Hell",
+                "sounddto.note": "A flat",
+            }, {
+                "executethis": "addwidmaster",
+                "wid": "song1",
+                "metadata.method": "songdto",
+                "title": "Highway to Hell",
+                "sounddto.note": "B sharp",
+            }, {
+                "executethis": "addwidmaster",
+                "wid": "song1",
+                "metadata.method": "songdto",
+                "title": "Highway to Hell",
+                "sounddto.note": "C flat"
+            }, {
+                "executethis": "getwidmaster",
+                "wid": "song1"
+            }
+        ],
+
 
         function (err, res) {
             // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
             // 
             // These will create the code on the screen from the logged data
-            
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+            //%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- config-local
-             
+
             // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
-            debugfn("offlinegetwid code generator END", "",    "",   "code", debugcolor, debugindent, {}, 9);
-             
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            debugfn("offlinegetwid code generator END", "", "", "code", debugcolor, debugindent, {}, 9);
+
+            //%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- add
 
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- query
 
             // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
-            
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+            //%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- get
-            
+
             // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
-            
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+            //%%%%%%%%%%%%%%%%%%%%%
             //debugname = "";
             //debugcat = "";
             //debugsubcat = "";
 
-            proxyprinttodiv('Function ag3 result ', res[6][0], 99);
-            res = logverify("ettestag3_result", res[6][0], [{
+            proxyprinttodiv('Function ag3 result ', res[4], 99);
+            res = logverify("ettestag3_result", res[4][0], [{
                 "title": "Highway to Hell",
                 "wid": "song1",
                 "metadata.method": "songdto",
                 "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "1",
+                "sounddto.0.wid": "2",
                 "sounddto.0.metadata.method": "sounddto",
                 "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "3",
+                "sounddto.1.wid": "4",
                 "sounddto.1.metadata.method": "sounddto",
                 "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "5",
+                "sounddto.2.wid": "6",
                 "sounddto.2.metadata.method": "sounddto"
             }]);
-            debuglevel=38;
-            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
-                callback(err, res); 
-                 
+
+            // [{"title":"Highway to Hell","wid":"song1","metadata.method":"songdto",
+            // "sounddto.0.note":"A flat","sounddto.0.wid":"2","sounddto.0.metadata.method":"sounddto",
+            // "sounddto.1.note":"B sharp","sounddto.1.wid":"4","sounddto.1.metadata.method":"sounddto",
+            // "sounddto.2.note":"C flat","sounddto.2.wid":"6","sounddto.2.metadata.method":"sounddto"}]
+            //debuglevel=28;
+            execute({
+                "executethis": "getwidmaster",
+                "wid": "song1"
+            }, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99);
+                callback(err, res);
+
             })
         });
 }
@@ -2502,6 +2615,10 @@ exports.sleep = sleep = function sleep(milliseconds) {
         }
     }
 }
+
+// Here are the different configs used in the tests
+
+
 
 // exports.func_async = func_async = function func_async(parameters, callback) {
 //     delete parameters["d"];
@@ -2572,6 +2689,36 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
             callback(err, res);
         });
 }
+
+
+// exports.uw = uw = function uw(params, callback) {
+
+//     // build database ??
+
+//     // Here are the ins and outs, but without a db, the test wont work
+
+//     var parameters = {
+//         "executemethod": "updatewid",
+//         "metadata.method": "sounddto",
+//         "wid": "sounddto",
+//         "note": "string"
+//     }
+
+//     var assert = {
+//             "wid": "sounddto",
+//             "metadata": {
+//                 "method": "sounddto",
+//                 "date": "2014-01-30T14:15:21.572Z"
+//             },
+//             "data": {
+//                 "note": "string"
+//             }
+
+//     // test_and_verify(this.targetfn.name, parameters, assert, function (err, res) {
+//         callback(err, res)
+//     });
+
+// }
 
 exports.mut = mut = function mut(params, callback) {
     testclearstorage();
@@ -2909,36 +3056,17 @@ exports.newt = newt = function newt(params, callback) {
     //             ]
     //         ]
     //     ]
-    var todolist =     
-        [
-    [
-        {
-            "fn": "test_and_verify"
-        },
-        [
-            "offlineupdatewid",
-            "offlineupdatewid",
-            {
-                "metadata.method": "sounddto",
-                "note": "string",
-                "wid": "sounddto"
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
             },
-            {
-                "data": {
-                    "note": "string"
-                },
-                "metadata": {
-                    "date": "2014-02-04T18:20:44.503Z",
-                    "method": "sounddto"
-                },
-                "wid": "sounddto"
-            },
-            {
-                "initialwid": {
-                    "initialwid": "for key hello from bootprocess",
-                    "wid": "initialwid"
-                },
-                "sounddto": {
+            [
+                "offlineupdatewid",
+                "offlineupdatewid", {
+                    "metadata.method": "sounddto",
+                    "note": "string",
+                    "wid": "sounddto"
+                }, {
                     "data": {
                         "note": "string"
                     },
@@ -2947,14 +3075,27 @@ exports.newt = newt = function newt(params, callback) {
                         "method": "sounddto"
                     },
                     "wid": "sounddto"
+                }, {
+                    "initialwid": {
+                        "initialwid": "for key hello from bootprocess",
+                        "wid": "initialwid"
+                    },
+                    "sounddto": {
+                        "data": {
+                            "note": "string"
+                        },
+                        "metadata": {
+                            "date": "2014-02-04T18:20:44.503Z",
+                            "method": "sounddto"
+                        },
+                        "wid": "sounddto"
+                    }
+                }, {
+                    "command": "null"
                 }
-            },
-            {
-                "command": "null"
-            }
+            ]
         ]
     ]
-]
 
     // var db = {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-04T16:18:51.732Z"}}};
     // addToLocalStorage("DRIKEY", db);   
@@ -2963,74 +3104,68 @@ exports.newt = newt = function newt(params, callback) {
 }
 
 exports.newt2 = newt2 = function newt2(params, callback) {
-    var todolist = 
-        [
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
             [
-                {
-                    "fn": "test_and_verify"
-                },
-                [
-                    "getwidmaster",
-                    "getwidmaster",
-                    {
-                        "wid": "songdto",
-                        "command.convertmethod": "dto",
-                        "command.dtotype": "songdto"
+                "getwidmaster",
+                "getwidmaster", {
+                    "wid": "songdto",
+                    "command.convertmethod": "dto",
+                    "command.dtotype": "songdto"
+                }, {
+                    "title": "string",
+                    "metadata.sounddto.type": "onetomany",
+                    "sounddto.note": "string",
+                    "sounddto.wid": "sounddto",
+                    "sounddto.metadata.method": "sounddto"
+                }, {
+                    "initialwid": {
+                        "wid": "initialwid",
+                        "initialwid": "for key hello from bootprocess"
                     },
-                    {
-                        "title": "string",
-                        "metadata.sounddto.type": "onetomany",
-                        "sounddto.note": "string",
-                        "sounddto.wid": "sounddto",
-                        "sounddto.metadata.method": "sounddto"
-                    },
-                    {
-                        "initialwid": {
-                            "wid": "initialwid",
-                            "initialwid": "for key hello from bootprocess"
+                    "sounddto": {
+                        "data": {
+                            "note": "string"
                         },
-                        "sounddto": {
-                            "data": {
-                                "note": "string"
-                            },
-                            "wid": "sounddto",
-                            "metadata": {
-                                "method": "sounddto",
-                                "date": "2014-02-04T18:31:01.199Z"
-                            }
-                        },
-                        "songdto": {
-                            "data": {
-                                "title": "string"
-                            },
-                            "wid": "songdto",
-                            "metadata": {
-                                "method": "songdto",
-                                "sounddto": {
-                                    "type": "onetomany"
-                                },
-                                "date": "2014-02-04T18:31:01.313Z"
-                            }
-                        },
-                        "rel_sound_to_song": {
-                            "data": {
-                                "primarywid": "songdto",
-                                "secondarywid": "sounddto",
-                                "relationshiptype": "attributes"
-                            },
-                            "wid": "rel_sound_to_song",
-                            "metadata": {
-                                "method": "defaultdto",
-                                "date": "2014-02-04T18:31:01.389Z"
-                            }
+                        "wid": "sounddto",
+                        "metadata": {
+                            "method": "sounddto",
+                            "date": "2014-02-04T18:31:01.199Z"
                         }
                     },
-                    {
-                        "command": "null"
+                    "songdto": {
+                        "data": {
+                            "title": "string"
+                        },
+                        "wid": "songdto",
+                        "metadata": {
+                            "method": "songdto",
+                            "sounddto": {
+                                "type": "onetomany"
+                            },
+                            "date": "2014-02-04T18:31:01.313Z"
+                        }
+                    },
+                    "rel_sound_to_song": {
+                        "data": {
+                            "primarywid": "songdto",
+                            "secondarywid": "sounddto",
+                            "relationshiptype": "attributes"
+                        },
+                        "wid": "rel_sound_to_song",
+                        "metadata": {
+                            "method": "defaultdto",
+                            "date": "2014-02-04T18:31:01.389Z"
+                        }
                     }
-                ]
+                }, {
+                    "command": "null"
+                }
             ]
         ]
+    ]
     executethismultiple(todolist, callback);
 }
 
@@ -3040,62 +3175,178 @@ exports.newt3 = newt3 = function newt3(params, callback) {
 }
 
 exports.newt4 = newt4 = function newt4(params, callback) {
-    var todolist = 
-        [
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
             [
-                {"fn": "test_and_verify"},
-                [
-                   "getcleanparameters",
-                   "getcleanparameters",
-                    [
-            {
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "1",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "3",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "5",
-                "sounddto.2.metadata.method": "sounddto"
-            },
-            "",
-            "",
-            "remove",
-            ""
-        ],
-                    {
-            "parms": {
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "1",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "3",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "5",
-                "sounddto.2.metadata.method": "sounddto"
-            },
-            "dto": {
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.note": "string",
-                "sounddto.wid": "sounddto",
-                "sounddto.metadata.method": "sounddto"
-            }
-        },
-                    {"1":{"data":{"note":"A flat"},"wid":"1","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.175Z"}},"2":{"data":{"primarywid":"song1","secondarywid":"1","relationshiptype":"attributes","linktype":"onetomany"},"wid":"2","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.248Z"}},"3":{"data":{"note":"B sharp"},"wid":"3","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.273Z"}},"4":{"data":{"primarywid":"song1","secondarywid":"3","relationshiptype":"attributes","linktype":"onetomany"},"wid":"4","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.348Z"}},"5":{"data":{"note":"C flat"},"wid":"5","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.366Z"}},"6":{"data":{"primarywid":"song1","secondarywid":"5","relationshiptype":"attributes","linktype":"onetomany"},"wid":"6","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.437Z"}},"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T18:43:42.711Z"}},"songdto":{"data":{"title":"string"},"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"onetomany"},"date":"2014-02-05T18:43:42.827Z"}},"rel_sound_to_song":{"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T18:43:42.888Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"songdto","date":"2014-02-05T18:43:43.088Z"}}},
-                    {"command": "null"}
-                ]
+                "getcleanparameters",
+                "getcleanparameters", [{
+                        "title": "Highway to Hell",
+                        "wid": "song1",
+                        "metadata.method": "songdto",
+                        "sounddto.0.note": "A flat",
+                        "sounddto.0.wid": "1",
+                        "sounddto.0.metadata.method": "sounddto",
+                        "sounddto.1.note": "B sharp",
+                        "sounddto.1.wid": "3",
+                        "sounddto.1.metadata.method": "sounddto",
+                        "sounddto.2.note": "C flat",
+                        "sounddto.2.wid": "5",
+                        "sounddto.2.metadata.method": "sounddto"
+                    },
+                    "",
+                    "",
+                    "remove",
+                    ""
+                ], {
+                    "parms": {
+                        "title": "Highway to Hell",
+                        "wid": "song1",
+                        "metadata.method": "songdto",
+                        "sounddto.0.note": "A flat",
+                        "sounddto.0.wid": "1",
+                        "sounddto.0.metadata.method": "sounddto",
+                        "sounddto.1.note": "B sharp",
+                        "sounddto.1.wid": "3",
+                        "sounddto.1.metadata.method": "sounddto",
+                        "sounddto.2.note": "C flat",
+                        "sounddto.2.wid": "5",
+                        "sounddto.2.metadata.method": "sounddto"
+                    },
+                    "dto": {
+                        "title": "Highway to Hell",
+                        "wid": "song1",
+                        "metadata.method": "songdto",
+                        "sounddto.note": "string",
+                        "sounddto.wid": "sounddto",
+                        "sounddto.metadata.method": "sounddto"
+                    }
+                }, {
+                    "1": {
+                        "data": {
+                            "note": "A flat"
+                        },
+                        "wid": "1",
+                        "metadata": {
+                            "method": "sounddto",
+                            "date": "2014-02-05T18:43:43.175Z"
+                        }
+                    },
+                    "2": {
+                        "data": {
+                            "primarywid": "song1",
+                            "secondarywid": "1",
+                            "relationshiptype": "attributes",
+                            "linktype": "onetomany"
+                        },
+                        "wid": "2",
+                        "metadata": {
+                            "method": "relationshipdto",
+                            "date": "2014-02-05T18:43:43.248Z"
+                        }
+                    },
+                    "3": {
+                        "data": {
+                            "note": "B sharp"
+                        },
+                        "wid": "3",
+                        "metadata": {
+                            "method": "sounddto",
+                            "date": "2014-02-05T18:43:43.273Z"
+                        }
+                    },
+                    "4": {
+                        "data": {
+                            "primarywid": "song1",
+                            "secondarywid": "3",
+                            "relationshiptype": "attributes",
+                            "linktype": "onetomany"
+                        },
+                        "wid": "4",
+                        "metadata": {
+                            "method": "relationshipdto",
+                            "date": "2014-02-05T18:43:43.348Z"
+                        }
+                    },
+                    "5": {
+                        "data": {
+                            "note": "C flat"
+                        },
+                        "wid": "5",
+                        "metadata": {
+                            "method": "sounddto",
+                            "date": "2014-02-05T18:43:43.366Z"
+                        }
+                    },
+                    "6": {
+                        "data": {
+                            "primarywid": "song1",
+                            "secondarywid": "5",
+                            "relationshiptype": "attributes",
+                            "linktype": "onetomany"
+                        },
+                        "wid": "6",
+                        "metadata": {
+                            "method": "relationshipdto",
+                            "date": "2014-02-05T18:43:43.437Z"
+                        }
+                    },
+                    "initialwid": {
+                        "wid": "initialwid",
+                        "initialwid": "for key hello from bootprocess"
+                    },
+                    "sounddto": {
+                        "data": {
+                            "note": "string"
+                        },
+                        "wid": "sounddto",
+                        "metadata": {
+                            "method": "sounddto",
+                            "date": "2014-02-05T18:43:42.711Z"
+                        }
+                    },
+                    "songdto": {
+                        "data": {
+                            "title": "string"
+                        },
+                        "wid": "songdto",
+                        "metadata": {
+                            "method": "songdto",
+                            "sounddto": {
+                                "type": "onetomany"
+                            },
+                            "date": "2014-02-05T18:43:42.827Z"
+                        }
+                    },
+                    "rel_sound_to_song": {
+                        "data": {
+                            "primarywid": "songdto",
+                            "secondarywid": "sounddto",
+                            "relationshiptype": "attributes"
+                        },
+                        "wid": "rel_sound_to_song",
+                        "metadata": {
+                            "method": "defaultdto",
+                            "date": "2014-02-05T18:43:42.888Z"
+                        }
+                    },
+                    "song1": {
+                        "data": {
+                            "title": "Highway to Hell"
+                        },
+                        "wid": "song1",
+                        "metadata": {
+                            "method": "songdto",
+                            "date": "2014-02-05T18:43:43.088Z"
+                        }
+                    }
+                }, {
+                    "command": "null"
+                }
             ]
         ]
+    ]
     executethismultiple(todolist, callback);
 }
 
@@ -3104,36 +3355,83 @@ exports.newt4 = newt4 = function newt4(params, callback) {
 
 exports.newt5 = newt5 = function newt5(params, callback) {
 
-    var todolist = 
+    var todolist =
 
-[
     [
-        {"fn": "test_and_verify"},
-        [
-           "offlineupdatewid",
-           "offlineupdatewid",
+        [{
+                "fn": "test_and_verify"
+            },
             [
-    {
-        "metadata.method": "songdto",
-        "wid": "song1",
-        "title": "Highway to Hell"
-    }
-],
-            {
-    "data": {
-        "title": "Highway to Hell"
-    },
-    "wid": "song1",
-    "metadata": {
-        "method": "songdto",
-        "date": "2014-02-05T21:11:19.461Z"
-    }
-},
-            {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T21:11:18.876Z"}},"songdto":{"data":{"title":"string"},"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"onetomany"},"date":"2014-02-05T21:11:19.040Z"}},"rel_sound_to_song":{"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T21:11:19.141Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"songdto","date":"2014-02-05T21:11:19.461Z"}}},
-            {"command": "null"}
+                "offlineupdatewid",
+                "offlineupdatewid", [{
+                    "metadata.method": "songdto",
+                    "wid": "song1",
+                    "title": "Highway to Hell"
+                }], {
+                    "data": {
+                        "title": "Highway to Hell"
+                    },
+                    "wid": "song1",
+                    "metadata": {
+                        "method": "songdto",
+                        "date": "2014-02-05T21:11:19.461Z"
+                    }
+                }, {
+                    "initialwid": {
+                        "wid": "initialwid",
+                        "initialwid": "for key hello from bootprocess"
+                    },
+                    "sounddto": {
+                        "data": {
+                            "note": "string"
+                        },
+                        "wid": "sounddto",
+                        "metadata": {
+                            "method": "sounddto",
+                            "date": "2014-02-05T21:11:18.876Z"
+                        }
+                    },
+                    "songdto": {
+                        "data": {
+                            "title": "string"
+                        },
+                        "wid": "songdto",
+                        "metadata": {
+                            "method": "songdto",
+                            "sounddto": {
+                                "type": "onetomany"
+                            },
+                            "date": "2014-02-05T21:11:19.040Z"
+                        }
+                    },
+                    "rel_sound_to_song": {
+                        "data": {
+                            "primarywid": "songdto",
+                            "secondarywid": "sounddto",
+                            "relationshiptype": "attributes"
+                        },
+                        "wid": "rel_sound_to_song",
+                        "metadata": {
+                            "method": "defaultdto",
+                            "date": "2014-02-05T21:11:19.141Z"
+                        }
+                    },
+                    "song1": {
+                        "data": {
+                            "title": "Highway to Hell"
+                        },
+                        "wid": "song1",
+                        "metadata": {
+                            "method": "songdto",
+                            "date": "2014-02-05T21:11:19.461Z"
+                        }
+                    }
+                }, {
+                    "command": "null"
+                }
+            ]
         ]
     ]
-]
     executethismultiple(todolist, callback);
 }
 
@@ -3149,19 +3447,18 @@ exports.test121212 = test121212 = function test121212(params, callback) {
             },
             [
                 "func_b",
-                "func_b", 
-                {
+                "func_b", {
                     "c": "0",
                     "d": "1",
                     "e": "2"
-                },[
-                {
+                },
+                [{
                     "c": "0",
                     "d": "1",
                     "g": "4"
-                }],
-                {},
-                {"command": "null"}
+                }], {}, {
+                    "command": "null"
+                }
             ]
         ]
     ];
@@ -3172,30 +3469,34 @@ exports.test121212 = test121212 = function test121212(params, callback) {
 
 // test141414
 
-function test141414 (params, callback) {
+function test141414(params, callback) {
     // Calling func_b2 with single
     testclearstorage();
-    var todolist = 
-    [
+    var todolist = [
         [{
                 "fn": "test_and_verify"
             },
             [
                 "func_b2",
-                "func_b2", 
-                [
-                    "test", 
-                    {"a": "b", "x":"y"}, 
-                    {"a": "b", "e":"z"}, 
-                    {"c": "d", "more":"m"}
-                ] 
-                ,
-                    {
-                     "test":"hello","a":"b","c":"d","more":"m"
+                "func_b2", [
+                    "test", {
+                        "a": "b",
+                        "x": "y"
+                    }, {
+                        "a": "b",
+                        "e": "z"
+                    }, {
+                        "c": "d",
+                        "more": "m"
                     }
-                ,
-                {},
-                {"command": "null"}
+                ], {
+                    "test": "hello",
+                    "a": "b",
+                    "c": "d",
+                    "more": "m"
+                }, {}, {
+                    "command": "null"
+                }
             ]
         ]
     ];
@@ -3207,53 +3508,70 @@ function test141414 (params, callback) {
 // test151515
 // func_b3 and func_b33 accepts 4 arrays and produces one object result
 
-function test151515 (params, callback) {
+function test151515(params, callback) {
     testclearstorage();
-    var todolist = 
-    [
-        [
-            {"fn": "test_and_verify"},
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
             [
                 "func_b3",
-                "func_b3", 
-                [
-                    {"c": "0","d": "1","e": "2"},
-                    "two",
-                    ["a", {"b":"c"}],
+                "func_b3", [{
+                        "c": "0",
+                        "d": "1",
+                        "e": "2"
+                    },
+                    "two", ["a", {
+                        "b": "c"
+                    }],
                     "four"
                 ],
 
                 {
-                    "a":{"c": "0","d": "1","e": "2"},
-                    "b":"two",
-                    "c":["a", {"b":"c"}],
-                    "d":"four"
-                },
-                {},
-                {"command": "null"}
+                    "a": {
+                        "c": "0",
+                        "d": "1",
+                        "e": "2"
+                    },
+                    "b": "two",
+                    "c": ["a", {
+                        "b": "c"
+                    }],
+                    "d": "four"
+                }, {}, {
+                    "command": "null"
+                }
             ]
         ]
     ];
-    executethismultiple(todolist, callback);       
+    executethismultiple(todolist, callback);
 }
-function test161616 (params, callback) {
+
+function test161616(params, callback) {
     testclearstorage();
-    var todolist = 
-        [
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
             [
-                {
-                    "fn": "test_and_verify"
-                },
-                [
-                    "offlineupdatewid",
-                    "offlineupdatewid",
-                    [
-                        {
-                            "wid": "wid1",
-                            "a": "b"
-                        }
-                    ],
-                    {
+                "offlineupdatewid",
+                "offlineupdatewid", [{
+                    "wid": "wid1",
+                    "a": "b"
+                }], {
+                    "data": {
+                        "a": "b"
+                    },
+                    "wid": "wid1",
+                    "metadata": {
+                        "date": "2014-02-06T19:29:52.958Z"
+                    }
+                }, {
+                    "initialwid": {
+                        "wid": "initialwid",
+                        "initialwid": "for key hello from bootprocess"
+                    },
+                    "wid1": {
                         "data": {
                             "a": "b"
                         },
@@ -3261,90 +3579,99 @@ function test161616 (params, callback) {
                         "metadata": {
                             "date": "2014-02-06T19:29:52.958Z"
                         }
-                    },
-                    {
-                        "initialwid": {
-                            "wid": "initialwid",
-                            "initialwid": "for key hello from bootprocess"
-                        },
-                        "wid1": {
-                            "data": {
-                                "a": "b"
-                            },
-                            "wid": "wid1",
-                            "metadata": {
-                                "date": "2014-02-06T19:29:52.958Z"
-                            }
-                        }
-                    },
-                    {
-                        "command": "null"
                     }
-                ]
+                }, {
+                    "command": "null"
+                }
             ]
-        ];
-    executethismultiple(todolist, callback);      
+        ]
+    ];
+    executethismultiple(todolist, callback);
 }
 
-exports.sample1 = sample1 = function sample1 (params, callback) {
+exports.sample1 = sample1 = function sample1(params, callback) {
     debugsubcat = "code";
-    offlineupdatewid( {"wid":"wid1", "a":"b"}, callback );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    offlineupdatewid({
+        "wid": "wid1",
+        "a": "b"
+    }, callback);
+    debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
 }
 
-exports.sample2 = sample2 = function sample2 (params, callback) {
+exports.sample2 = sample2 = function sample2(params, callback) {
     debugsubcat = "code";
-    merge_options( {"wid":"wid1", "a":"b"}, {"wid":"wid2", "y":"z"} );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    merge_options({
+        "wid": "wid1",
+        "a": "b"
+    }, {
+        "wid": "wid2",
+        "y": "z"
+    });
+    debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
 }
 
 // getclean(resultObj, command, callback)
 
-exports.sample3 = sample3 = function sample3 (params, callback) {
+exports.sample3 = sample3 = function sample3(params, callback) {
     debugsubcat = "code";
-    getclean( {"wid":"wid1", "a":"b", "metadata":{"method": "DOT"}}, "DOT" );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    getclean({
+        "wid": "wid1",
+        "a": "b",
+        "metadata": {
+            "method": "DOT"
+        }
+    }, "DOT");
+    debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
 }
 
-function test171717 (params, callback) {
+function test171717(params, callback) {
     testclearstorage();
-    var todolist = 
-        [
+    var todolist = [
+        [{
+                "fn": "test_and_verify"
+            },
             [
-                {"fn": "test_and_verify"},
-                [
-                   "MongoAddEditPrepare",
-                   "MongoAddEditPrepare",
-                    [
-            [],
-            [
-                {
-                    "key": "metadata.method",
-                    "value": "colordto"
-                },
-                {
-                    "key": "wid",
-                    "value": "colordto"
-                },
-                {
-                    "key": "hue",
-                    "value": "string"
+                "MongoAddEditPrepare",
+                "MongoAddEditPrepare", [
+                    [],
+                    [{
+                        "key": "metadata.method",
+                        "value": "colordto"
+                    }, {
+                        "key": "wid",
+                        "value": "colordto"
+                    }, {
+                        "key": "hue",
+                        "value": "string"
+                    }],
+                    "colordto",
+                    "colordto"
+                ], {
+                    "metadata.method": "colordto",
+                    "wid": "colordto",
+                    "hue": "string"
+                }, {
+                    "initialwid": {
+                        "wid": "initialwid",
+                        "initialwid": "for key hello from bootprocess"
+                    },
+                    "colordto": {
+                        "data": {
+                            "hue": "string"
+                        },
+                        "wid": "colordto",
+                        "metadata": {
+                            "method": "colordto",
+                            "date": "2014-02-06T21:59:08.567Z"
+                        }
+                    }
+                }, {
+                    "command": "null"
                 }
-            ],
-            "colordto",
-            "colordto"
-        ],
-                    {
-            "metadata.method": "colordto",
-            "wid": "colordto",
-            "hue": "string"
-        },
-            {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"colordto":{"data":{"hue":"string"},"wid":"colordto","metadata":{"method":"colordto","date":"2014-02-06T21:59:08.567Z"}}},
-            {"command": "null"}
+            ]
         ]
-    ]
-];
-    executethismultiple(todolist, callback);      
+    ];
+    executethismultiple(todolist, callback);
 }
 
 function func_b2(p1, p2, p3, p4, callback) {
@@ -3358,49 +3685,76 @@ function func_b2(p1, p2, p3, p4, callback) {
 
 
 function func_b22(params, callback) {
-    func_b2(    "test", 
-                {"r": "t", "x":"y"}, 
-                {"a": "b", "e":"z"}, 
-                {"c": "d", "more":"m"}, 
-                callback);
+    func_b2("test", {
+            "r": "t",
+            "x": "y"
+        }, {
+            "a": "b",
+            "e": "z"
+        }, {
+            "c": "d",
+            "more": "m"
+        },
+        callback);
 }
 
 function func_b3(p1, p2, p3, p4, callback) {
     data = {};
-    data["a"]=p1;
-    data["b"]=p2;  
-    data["c"]=p3; 
-    data["d"]=p4;
+    data["a"] = p1;
+    data["b"] = p2;
+    data["c"] = p3;
+    data["d"] = p4;
 
     callback({}, data);
 }
 
 function func_b33(params, callback) {
-    func_b2(    "test", 
-                [{"a": "b", "x":"y"}], 
-                {"a": "b"}, 
-                [{"c": "d", "e":"z"}], 
-                callback);
+    func_b2("test", [{
+            "a": "b",
+            "x": "y"
+        }], {
+            "a": "b"
+        }, [{
+            "c": "d",
+            "e": "z"
+        }],
+        callback);
 }
 
 
 
-exports.err1 = err1 = function err1 (params, callback) {
+exports.err1 = err1 = function err1(params, callback) {
     debugsubcat = "code";
-    execute({"executethis":"getwidmaster","wid":"1","command":{"parameters":{"test1":"1"},"status":"fail"}}, function(err, result){
+    execute({
+        "executethis": "getwidmaster",
+        "wid": "1",
+        "command": {
+            "parameters": {
+                "test1": "1"
+            },
+            "status": "fail"
+        }
+    }, function (err, result) {
         proxyprinttodiv('Function err1 result ', result, 99);
         // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
     });
 }
 
-exports.wrapped1 = wrapped1 = function wrapped1 (params, callback) {
+exports.wrapped1 = wrapped1 = function wrapped1(params, callback) {
     debugsubcat = "code";
-    execute([{"executethis":"addwidmaster","wid":"1","a":"b"}, {"executethis":"getwidmaster","wid":"1","command":{"executeresult":"outer"}}], function(err, result){
+    execute([{
+        "executethis": "addwidmaster",
+        "wid": "1",
+        "a": "b"
+    }, {
+        "executethis": "getwidmaster",
+        "wid": "1",
+        "command": {
+            "executeresult": "outer"
+        }
+    }], function (err, result) {
         proxyprinttodiv('Function wrapped1 result ', result, 99)
         // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
 
     });
 }
-
-
-

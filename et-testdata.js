@@ -1,98 +1,42 @@
+// create users
+// creates wids
+// we put users and put wids into groups
+// we create actiongroups, targetroups, 
+// we put groups insdie of groups
+// we add permissions
+// we test
+//
+// 
+//
+//
 (function (window) {
-
-
-    exports.sectest1 = sectest1 = function sectest1(parm, callback) {
-
-        // create users
-        // creates wids
-        // we put users and put wids into groups
-        // we create actiongroups, targetroups, 
-        // we put groups insdie of groups
-        // we add permissions
-        // we test
-
-
-        // clearLocalStorage();
-
-        async.series([
-                function (cb1) {
-                    createuser("rogeruser", "rogerac", 99, function (err, res) {
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
-                    createuser("codyuser", "codyac", 99, function (err, res) {
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
-                    addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50, cb1);
-                },
-                function (cb1) {
-                    addgrouptowid("driemployeegroup", "codyuser", cb1);
-                },
-                function (cb1) {
-                    addgrouptowid("driemployeegroup", "rogeruser", cb1);
-                },
-                function (cb1) {
-                    addpermission("rogeruser", "driemployeegroup", "executethis", "createcoupon", "data", 50, cb1);
-                },
-                function (cb1) {
-                    addgrouptowid("createcoupon", "rogeruser", cb1);
-                },
-                function (cb1) {
-                    testsecurity("rogerac", "executethis", "createcoupon", "data", true, cb1);
-                },
-                function (cb1) {
-                    testsecurity("codyac", "executethis", "createcoupon", "data", true, cb1);
-                },
-                function (cb1) {
-                    testsecurity("codyac", "executethis", "createcoupon", "data", true, cb1);
-                }
-            ],
-            function (err, res) {
-                console.debug('created testdata for sectest1 --  ' + JSON.stringify(res));
-                proxyprinttodiv('Function sectest1 --  >>>>>> response from user added sectest1 >>>>>   -- ', res, 99);
-
-                var queryList = [{
-                    "executethis": "querywid",
-                    "mongorawquery": {
-                        "data.accesstoken": "rogerac"
-                    },
-                    "mongorelationshipdirection": "backward",
-                    "mongorelationshipmethod": "all",
-                    "mongorelationshiptype": "attributes"
-                }];
-                execute(queryList, function (err, res) {
-                    proxyprinttodiv(' Function sectest1  >>>  NOT simple mongorawquery with relationship to get 3rd level object >>> mongorawquery >>> ', JSON.stringify(res), 99);
-                    console.debug(' Function sectest1  >>>  NOT simple mongorawquery  with relationship to get 3rd level object >>> mongorawquery >>> ' + JSON.stringify(res));
-
-                    callback(err, res);
-                });
-            });
-    }
-
-
-
-
-    exports.sec1 = sec1 = function sec1(params, callback) {
-        debuglevel = 34;
+     // {"query":{"$eq":{"type":"minute"}}}
+    exports.filter1 = filter1 = function filter1(params, callback) {
+        debuglevel = 37;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
-        securitycheck("rogerac", "executethis", "createcoupon", "data", function (err, res) {
-            // securitycheck("codyac", "executethis", "createcoupon", "data", function (err, res) {
-            // proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response for roger -- ', res, 99);
-            callback(err, res);
-            // });
+        var status = false;
+
+        // create dtos  
+        var executeList = [{
+            // create simple ttdto
+            "executethis": "addwidmaster",
+            "wid": "ttdto1",
+            "metadata.method": "ttdto1",
+            "type": "string"
+        }, {
+            // create simple ttdto
+            "executethis": "addwidmaster",
+            "wid": "ttdto2",
+            "metadata.method": "ttdto2",
+            "type": "string"
+        }];
+        execute(executeList, function (err, res) {
+            proxyprinttodiv('Function filter1 added  ttdto -- ', res, 37);
+            callback(null);
         });
     }
-
-    // createuser(userwid, ac, securitylevel )
-    // createwid(wid, owneruserwid, securitylevel)
-    // addgrouptowid(wid, groupwid)
-    // addpermission(userwid, usergroup, actiongroup, targertgroup, databasegroup, level)
-    // testsecurity(ac, action, target, database, expectation)
 
     exports.test1000 = test1000 = function test1000(parm, callback) {
 
@@ -110,12 +54,12 @@
         debugsubcat = "code";
         async.series([
                 function (cb1) {
-                    createuser("rogeruser0", "rogerac0", 99, function (err, res) {
+                    createtestuser("rogeruser0", "rogerac0", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    createuser("codyuser0", "codyac0", 99, function (err, res) {
+                    createtestuser("codyuser0", "codyac0", 99, function (err, res) {
                         cb1(null);
                     });
                 },
@@ -130,7 +74,7 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser0", "driemployeegroup0", function (err, res) {
+                    addgrouptowid("codyuser0","userdto", "driemployeegroup0", function (err, res) {
                         cb1(null);
 
                     });
@@ -146,7 +90,7 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("anything0", "createcoupon0", function (err, res) {
+                    addgrouptowid("anything0","userdto", "createcoupon0", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -166,10 +110,6 @@
 
     }
 
-    // createuser("codyuser", "codyac", 99);
-    // addgrouptowid("anything", "createcoupon");
-    // addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
-    // testsecurity("codyac", "executethis", "createcoupon", "data", true);
 
     // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 99 so this should work.
     exports.test1001 = test1001 = function test1001(params, callback) {
@@ -180,12 +120,12 @@
         var status = false;
         async.series([
                 function (cb1) {
-                    createuser("codyuser1", "codyac1", 99, function (err, res) {
+                    createtestuser("codyuser1", "codyac1", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    createuser("rogeruser1", "rogerac1", 99, function (err, res) {
+                    createtestuser("rogeruser1", "rogerac1", 99, function (err, res) {
                         cb1(null);
                     });
                 },
@@ -216,12 +156,12 @@
         var status = false;
         async.series([
                 function (cb1) {
-                    createuser("codyuser2", "codyac2", 0, function (err, res) {
+                    createtestuser("codyuser2", "codyac2", 0, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    createuser("rogeruser2", "rogerac2", 99, function (err, res) {
+                    createtestuser("rogeruser2", "rogerac2", 99, function (err, res) {
                         cb1(null);
                     });
                 },
@@ -255,17 +195,17 @@
         var status = false;
         async.series([
                 function (cb1) {
-                    createuser("codyuser3", "codyac3", 99, function (err, res) {
+                    createtestuser("codyuser3", "codyac3", 99, function (err, res) {
                         cb1(err);
                     });
                 },
                 function (cb1) {
-                    createuser("rogeruser3", "rogerac3", 99, function (err, res) {
+                    createtestuser("rogeruser3", "rogerac3", 99, function (err, res) {
                         cb1(err);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser3", "driemployeesgroup3", function (err, res) {
+                    addgrouptowid("codyuser3","userdto", "driemployeesgroup3", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -297,17 +237,17 @@
         var status = false;
         async.series([
                 function (cb1) {
-                    createuser("codyuser4", "codyac4", 99, function (err, res) {
+                    createtestuser("codyuser4", "codyac4", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    createuser("rogeruser4", "rogerac4", 99, function (err, res) {
+                    createtestuser("rogeruser4", "rogerac4", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    createuser("billuser4", "billac4", 99, function (err, res) {
+                    createtestuser("billuser4", "billac4", 99, function (err, res) {
                         cb1(null);
                     });
                 },
@@ -317,17 +257,17 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("billuser4", "drimanagersgroup4", function (err, res) {
+                    addgrouptowid("billuser4","userdto", "drimanagersgroup4", function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("rogeruser4", "drimanagersgroup4", function (err, res) {
+                    addgrouptowid("rogeruser4","userdto", "drimanagersgroup4", function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("drimanagersgroup4", "driemployeesgroup4", function (err, res) {
+                    addgrouptowid("drimanagersgroup4","groupnamedto", "driemployeesgroup4", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -359,17 +299,17 @@
         var status = false;
         async.series([
                 function (cb1) {
-                    createuser("codyuser5", "codyac5", 0, function (err, res) {
+                    createtestuser("codyuser5", "codyac5", 0, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    createuser("rogeruser5", "rogerac5", 99, function (err, res) {
+                    createtestuser("rogeruser5", "rogerac5", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser5", "driemployeesgroup5", function (err, res) {
+                    addgrouptowid("codyuser5","userdto", "driemployeesgroup5", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -401,35 +341,35 @@
         var status = false;
         async.series([
                 function (cb1) {
-                    createuser("codyuser6", "codyac6", 99, function (err, res) {
+                    createtestuser("codyuser6", "codyac6", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    createuser("rogeruser6", "rogerac6", 99, function (err, res) {
+                    createtestuser("rogeruser6", "rogerac6", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    createuser("billuser6", "billac6", 99, function (err, res) {
+                    createtestuser("billuser6", "billac6", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser6", "driemployeesgroup6", function (err, res) {
+                    addgrouptowid("codyuser6","userdto", "driemployeesgroup6", function (err, res) {
                         cb1(null);
                     });
                 },
-                // function (cb1) {
-                //     addgrouptowid("billuser6", "drimanagersgroup6", function (err, res) {
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) {
-                //     addgrouptowid("rogeruser6", "drimanagersgroup6", function (err, res) {
-                //         cb1(null);
-                //     });
-                // },
+                function (cb1) {
+                    addgrouptowid("billuser6","userdto", "drimanagersgroup6", function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addgrouptowid("rogeruser6","userdto", "drimanagersgroup6", function (err, res) {
+                        cb1(null);
+                    });
+                },
                 function (cb1) {
                     addpermission("codyuser6", "drimanagersgroup6", "executethis", "editcoupon6", "data", 50, function (err, res) {
                         cb1(null);
@@ -450,7 +390,6 @@
 
 
     // driemployees is made a member of usersofdri. roger gives driusers read permission on coupons. cody is made a member of driemployees. cody should be able to read coupons. 
-
     exports.test1007 = test1007 = function test1007(params, callback) {
         debuglevel = 34;
         debugname = "";
@@ -460,24 +399,24 @@
 
         async.series([
                 function (cb1) {
-                    createuser("codyuser7", "codyac7", 99, function (err, res) {
+                    createtestuser("codyuser7", "codyac7", 99, function (err, res) {
                         cb1(null);
                     });
                 },
 
                 function (cb1) {
-                    createuser("rogeruser7", "rogerac7", 99, function (err, res) {
+                    createtestuser("rogeruser7", "rogerac7", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser7", "driemployees7", function (err, res) {
+                    addgrouptowid("codyuser7","userdto", "driemployees7", function (err, res) {
                         cb1(null);
                     });
                 },
 
                 function (cb1) {
-                    addgrouptowid("driemployees7", "driusers7", function (err, res) {
+                    addgrouptowid("driemployees7","groupnamedto", "driusers7", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -503,8 +442,7 @@
 
     }
 
-    // 
-
+    //
     exports.test1008 = test1008 = function test1008(params, callback) {
         debuglevel = 34;
         debugname = "";
@@ -513,25 +451,25 @@
         var status = false;
         async.series([
                 function (cb1) {
-                    createuser("codyuser8", "codyac8", 99, function (err, res) {
+                    createtestuser("codyuser8", "codyac8", 99, function (err, res) {
                         cb1(null);
                     });
                 },
 
                 function (cb1) {
 
-                    createuser("rogeruser8", "rogerac8", 99, function (err, res) {
+                    createtestuser("rogeruser8", "rogerac8", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser8", "driemployees8", function (err, res) {
+                    addgrouptowid("codyuser8","userdto", "driemployees8", function (err, res) {
                         cb1(null);
                     });
                 },
 
                 function (cb1) {
-                    addgrouptowid("driemployees8", "driusers8", function (err, res) {
+                    addgrouptowid("driemployees8","groupnamedto", "driusers8", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -558,587 +496,301 @@
 
     }
 
-
-    exports.tss1 = tss1 = function tss1(params, callback) {
-        debuglevel = 34;
-        debugname = "";
-        debugcat = "";
-        debugsubcat = "code";
-        var status = false;
-
-
-        async.series([
-            function (cb1) {
-                // create dtos  
-                var executeList = [{
-                    // create simple ttdto
-                    "executethis": "addwidmaster",
-                    "wid": "ttdto",
-                    "metadata.method": "ttdto",
-                    "type": "string"
-                }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
-            if (!res) {
-                res = [];
-            }
-            callback(err, res);
+    // takes in needed details and does a security check on the basis of data received against the DB data received
+    // user is identified by the access token
+    // db says which DB to be used
+    // actiongroup says the type of wid the action is being tried upon
+    // targetaction is the action being executed on the wid
+    exports.testsecurity = testsecurity = function testsecurity(ac, targetgroup, actiongroup, dbgroup, assertion, callback) {
+        securitycheck(ac, targetgroup, actiongroup, dbgroup, function (err, res) {
+            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 99);
+            callback(err, res)
         });
     }
 
 
 
+    // creates test data for different tests to be run :: generates data and adds a new user 
+    exports.createtestuser = createtestuser = function createtestuser(userwid, ac, loginlevel, cb2) {
+        execute([{
+                // add user 
+                "executethis": "addwidmaster",
+                "metadata.method": "userdto",
+                // "metadata.owner": "system",
+                "wid": userwid,
+                "fname": "john",
+                "lname": "doe",
+                "email": "jj@gmail.com",
+                "email2": "",
+                "address": "123 pleasant lane",
+                "address2": "apt 101",
+                "city": "Pleasantville",
+                "state": "Florida",
+                "zip": "26534",
+                // security data
+                "systemdto.securitydto.logged_id": "true",
+                "systemdto.securitydto.accesstoken": ac,
+                "systemdto.securitydto.level": loginlevel,
+                // category data
+                "systemdto.categorydto.categorytype": "categorytype",
+                "systemdto.categorydto.categoryname": "categoryname",
 
-    exports.tss2 = tss2 = function tss2(params, callback) {
-        debuglevel = 34;
-        debugname = "";
-        debugcat = "";
-        debugsubcat = "code";
-        var status = false;
 
 
-        async.series([
-                function (cb1) {
-                    // create data for ttdto
-                    var executeList = [{
-                        // create simple ttdto
-                        "executethis": "addwidmaster",
-                        "wid": "ttdto",
-                        "metadata.method": "ttdto",
-                        "type": "string"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }, {
-                        "executethis": "addwidmaster",
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }];
-
-                    execute(executeList, function (err, res) {
-                        proxyprinttodiv('Function tss2 added  ttdto -- ', res, 99);
-                        cb1(null);
-                    });
-                }
-            ],
-
+                // "executethis": "addwidmaster",
+                // "wid": "songdto",
+                // "title": "string",
+                // "metadata.method": "songdto",
+                // "metadata.sounddto.type": "onetomany",
+                // "sounddto.wid": "sounddto",
+                // "sounddto.note": "string",
+                // "sounddto.metadata.method": "sounddto"
+            }],
             function (err, res) {
-                proxyprinttodiv('Function tss2 done a series of tasks using ttdto -- ', res, 99);
-                if (!res) {
-                    res = [];
-                }
-                callback(err, res);
+                proxyprinttodiv('Function createtestuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 99);
+                // addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
+                //     proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 99);
+                //     addcategory(userwid, true, "categoryname", function (err, res2) {
+                //         proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 99);
+
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": userwid
+                }, function (err, res3) {
+                    proxyprinttodiv('Function createtestuser --  >>>>>> FINAL USER >>>>>    -- ' + userwid, res3, 99);
+                    cb2(err, res3);
+                })
+                //     });
+                // });
             });
     }
 
+    // Simple create user, add user to group with permission to create a coupon, and then try to execute createcoupon. This should succeed.
+    exports.ctest1 = ctest1 = function ctest1(parm, callback) {
 
-     exports.tss3 = tss3 = function tss3(params, callback) {
-        debuglevel = 34;
-        debugname = "";
-        debugcat = "";
-        debugsubcat = "code";
-        var status = false;
-
-
-        async.series([
+        var executeList = [
             function (cb1) {
-                // create dtos  
-                var executeList = [{
-                    // create simple ttdto
-                    "executethis": "addwidmaster",
-                    "wid": "ttdto",
-                    "metadata.method": "ttdto",
-                    "type": "string"
-                }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop # 1  -- ', res, 34);
-                    cb1(null);
-                });
+                createtestuser("rogerboss", "bossac", "99", cb1);
             },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
 
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop # 2 -- ', res, 34);
-                    cb1(null);
-                });
+            function (cb1) {
+                createtestuser("codyuser", "codyac", "99", cb1)
             },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
 
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop # 3 -- ', res, 34);
-                    cb1(null);
-                });
+            function (cb1) { // add codyuser to the driemployeesgroup
+                addgrouptowid("codyuser", "userdto", "driemployeegrp", cb1);
             },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
 
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop #  4-- ', res, 34);
-                    cb1(null);
-                });
+            function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
+                addpermission("rogerboss", "driemployeegrp", "createdricoupon", "test", "50", cb1);
             },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
 
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop #  5-- ', res, 34);
-                    cb1(null);
-                });
-            },
             function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop #  -- 6', res, 34);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop #  -- 7', res, 34);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop #  -- 8', res, 34);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop #  -- 9', res, 34);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss3 loop #  -- 10', res, 34);
-                    cb1(null);
-                });
+                testsecurity("codyac", "executethis", "createdricoupon", "test", true, cb1);
             }
-        ], function (err, res) {
-            proxyprinttodiv('Function tss3 done a series of tasks using ttdto -- process.addListener(type, listener);', res, 34);
-            if (!res) {
-                res = [];
-            }
-            callback(err, res);
+        ];
+
+
+        async.series(executeList, function (err, res3) {
+            proxyprinttodiv('Function ctest1 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            cb2(err, res3);
         });
     }
 
+    // rogerboss gives the driusergrp permission to execute createcoupon. cody is added to the driusergrp. driusergrp is added to the driemployeegrp. This should succeed.
+    exports.ctest2 = ctest2 = function ctest2(parm, callback) {
 
+
+        var executeList = [
+            function (cb1) {
+                createtestuser("rogerboss", "bossac", "99", cb1);
+            },
+
+            function (cb1) {
+                createtestuser("codyuser", "codyac", "99", cb1)
+            },
+            function (cb1) {
+                creategroup(driusergrp, cb1);
+            },
+
+            function (cb1) { // add codyuser to the driusergrp
+                addgrouptowid("codyuser", "groupnamedto", "driusergrp", cb1);
+            },
+
+            function (cb1) { // add driusers to the driemployeesgrp
+                addgrouptowid("driusergrp", "groupnamedto", "driemployeegrp", cb1);
+            },
+
+            function (cb1) { // rogerboss allows anyone in driusergrp to executethis to cretecoupon
+                addpermission("rogerboss", "driusergrp", "createdricoupon", "test", "50", cb1);
+            },
+
+            function (cb1) {
+                testsecurity("codyac", "executethis", "createdricoupon", "test", true, cb1);
+            }
+
+        ];
+
+
+        async.series(executeList, function (err, res3) {
+            proxyprinttodiv('Function ctest2 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            cb2(err, res3);
+        });
+    }
+
+    // rogerboss gives the driemployeegrp permission to execute createcoupon. cody is added to the driusergrp. driusergrp is added to the driemployeegrp. This should succeed.
+    exports.ctest3 = ctest3 = function ctest3(parm, callback) {
+
+        var executeList = [
+            function (cb1) {
+                createtestuser("rogerboss", "bossac", "99", cb1);
+            },
+
+            function (cb1) {
+                createtestuser("codyuser", "codyac", "99", cb1)
+            },
+            function (cb1) {
+                creategroup(driusergrp, cb1)
+            },
+
+            function (cb1) { // add codyuser to the driusergrp
+                addgrouptowid("codyuser", "groupnamedto", "driusergrp", cb1);
+            },
+
+            function (cb1) { // add driusers to the driemployeesgrp
+                addgrouptowid("driusergrp", "groupnamedto", "driemployeegrp", cb1);
+            },
+
+            function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
+                addpermission("rogerboss", "driemployeegrp", "createdricoupon", "test", "50", cb1);
+            },
+
+            function (cb1) {
+                testsecurity("codyac", "executethis", "createdricoupon", "test", true, cb1);
+            }
+
+        ];
+
+        async.series(executeList, function (err, res3) {
+            proxyprinttodiv('Function ctest3 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            callback(err, res3);
+        });
+    }
+
+    //EspressoBay gives ebemployeesgrp permission to executethis to createcoupon. Cody is not part of the ebemployeesgrp so he should not be able to execute createcoupon.
+    exports.ctest4 = ctest4 = function ctest4(parm, callback) {
+        var executeList = [
+            function (cb1) {
+                createtestuser("espressobay", "espressoac", "99", cb1);
+            },
+
+            function (cb1) {
+                createtestuser("codyuser", "codyac", "99", cb1)
+            },
+            function (cb1) {
+                creategroup(ebemployeesgrp, cb1);
+            },
+
+            function (cb1) { // espressobay allows anyone in ebemployeesgroup to executethis to cretecoupon
+                addpermission("espressobay", "ebemployeesgrp", "create_espressobay_coupon", "test", "50", cb1);
+            },
+
+            function (cb1) {
+                testsecurity("codyac", "executethis", "create_espressobay_coupon", "test", false, cb1);
+            }
+
+        ];
+        async.series(executeList, function (err, res3) {
+            proxyprinttodiv('Function ctest4 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            callback(err, res3);
+        });
+    }
+
+    // Cody is added to driusers1 and Bill is added to driusers2. driusers1 & driusers2 are added to driemployeesgrp. roger gives driemployeesgrp permission to execute createcoupon.
+    exports.ctest5 = ctest5 = function ctest5(parm, callback) {
+
+
+        var executeList = [
+            function (cb1) {
+                createtestuser("rogerboss", "bossac", "99", cb1);
+            },
+
+            function (cb1) {
+                createtestuser("codyuser", "codyac", "99", cb1)
+            },
+
+            function (cb1) {
+                createtestuser("billuser", "billac", "99", cb1)
+            },
+
+            function (cb1) {
+                creategroup(driemployeegrp, cb1);
+            },
+
+            function (cb1) { // add codyuser to the driusergrp
+                addgrouptowid("codyuser", "groupnamedto", "driusergrp1", cb1);
+            },
+
+            function (cb1) { // add billuser to the driusergrp
+                addgrouptowid("billuser", "groupnamedto", "driusergrp2", cb1);
+            },
+
+            function (cb1) { // add driusers1 to the driemployeesgrp
+                addgrouptowid("driusergrp1", "groupnamedto", "driemployeegrp", cb1);
+            },
+
+            function (cb1) { // add driusers2 to the driemployeesgrp
+                addgrouptowid("driusergrp2", "groupnamedto", "driemployeegrp", cb1);
+            },
+
+            function (cb1) { // rogerboss allows anyone in driemployeegrp to executethis to cretecoupon
+                addpermission("rogerboss", "driemployeegrp", "createdricoupon", "test", "50", cb1);
+            },
+
+            function (cb1) {
+                testsecurity("codyac", "executethis", "createdricoupon", "test", true, cb1);
+            },
+
+            function (cb1) {
+                testsecurity("billac", "executethis", "createdricoupon", "test", true, cb1);
+            }
+
+        ];
+
+        async.series(executeList, function (err, res3) {
+            proxyprinttodiv('Function ctest5 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            callback(err, res3);
+        });
+    }
+
+    // Cody is added to driusergrp1. Roger gives driusergrp1 permission to execute createcoupon. Cody's loginlevel is only 49, which is less than 50. Cody can't proceed.
+    exports.ctest6 = ctest6 = function ctest6(parm, callback) {
+        var executeList = [
+            function (cb1) {
+                createtestuser("rogerboss", "rogerac", "99", cb1);
+            },
+
+            function (cb1) {
+                createtestuser("codyuser", "codyac", "49", cb1)
+            },
+
+            function (cb1) { // add codyuser to the driusergrp
+                addgrouptowid("codyuser", "userdto", "driusergrp1", cb1);
+            },
+
+            function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
+                addpermission("rogerboss", "driusergrp1", "createcoupon", "test", "50", cb1);
+            },
+
+            function (cb1) {
+                testsecurity("codyac", "executethis", "createcoupon", "test", false, cb1);
+            }
+        ];
+
+        async.series(executeList, function (err, res3) {
+            proxyprinttodiv('Function ctest6 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            callback(err, res3);
+        });
+
+    }
 })(typeof window == "undefined" ? global : window);

@@ -96,7 +96,7 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
 // *** GetDTOObject ***
 // Purpose: Pulls the schema for objects
 exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callback) {
-    proxyprinttodiv("getdtoobject input obj: ", obj, 38);
+    proxyprinttodiv("getdtoobject input obj: ", obj, 17);
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -109,38 +109,73 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
     if (!obj["metadata"]) {obj["metadata"]={}}
     if (!obj["metadata"]["method"]) {obj["metadata"]["method"]="defaultdto"}
 
-    function recurseobj(inobj) {
+
+    function recurseobj(params) {
+        var dtolist={}
         var dtoobj={};
+        var metadata={};
+        var tempobj={};
+        var inobj={};
+        extend(true, inobj, params)
+
         for (eachparm in inobj) {
-            proxyprinttodiv("getdtoobject eachparm", eachparm, 39);
-            proxyprinttodiv("getdtoobject inobj", inobj[eachparm], 39);
+            //proxyprinttodiv("getdtoobject dtolist I", dtolist, 99);
+            //proxyprinttodiv("getdtoobject eachparm", eachparm, 99);
+            //proxyprinttodiv("getdtoobject inobj", inobj[eachparm], 99);
+
+            if (eachparm==="metadata") {
+                metadata = inobj['metadata']
+                for (eachitem in metadata) {
+                    //proxyprinttodiv("getdtoobjecteachitem", eachitem, 99);
+                    //proxyprinttodiv("getdtoobject dtolist II", dtolist, 99);
+                    if ((eachitem!=="method") && (eachitem!=="inherit")) {
+                        tempobj={}
+                        tempobj[eachitem]=metadata[eachitem]['type']
+                        extend(true, dtolist, tempobj)
+                        //proxyprinttodiv("getdtoobject dtolist", dtolist, 99);
+                        }
+                    } // for metadata
+                } // if metadata
+
+
             if (isObject(inobj[eachparm])) {
                 dtoobj[eachparm]=recurseobj(inobj[eachparm])
                 }
-            else {
+            else { // if not object
                 dtoobj[eachparm]="string"
                 }
-            }
+            } // for eachparm
+     
+
+        if (Object.keys(dtolist).length !== 0) {
+            if (!inobj.command) {dtoobj.command={}}
+            dtoobj.command.dtolist = dtolist
+            } 
+
+            // inobj.command.deepdtolist = dto;
+            // inobj.command.inherit = dto;
         return dtoobj
-        }
+        } // end fn recurse
 
     dtoobject = recurseobj(obj);
-    proxyprinttodiv("getdtoobject input dtoobject: ", dtoobject, 38);
+
+    //dtoobject = recurseobj(obj);
+    proxyprinttodiv("getdtoobject input dtoobject: ", dtoobject, 17);
     // dtoobject["metadata.method"] = "string";
     // if (!obj["metadata.method"]) {obj["metadata.method"] = "defaultdto"}
     
     if (command && command.dtotype) {
         dtotype = command.dtotype;
     } else {
-        dtotype = obj.metadata.method;
-        //dtotype = obj['metadata.method'];
+        //dtotype = obj.metadata.method;
+        dtotype = obj['metadata']['method'];
     }
     if ((dtotype!=="defaultdto") && (dtotype !== obj.wid)) {
         execute({"executethis":"getwidmaster", "wid":dtotype, "command.convertmethod":"dto","command.execute":"ConvertFromDOTdri"}, function (err, res) {
-            proxyprinttodiv("getdtoobject input res[0] ", res, 38);
+            proxyprinttodiv("getdtoobject input res[0] ", res, 17);
             if (res && (Object.keys(res[0]).length !== 0)) {dtoobject=res[0]}
 
-            proxyprinttodiv("getdtoobject input dtoobject +++++++ ", dtoobject, 38);
+            proxyprinttodiv("getdtoobject input dtoobject +++++++ ", dtoobject, 17);
             debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
                 0: inbound_parameters,
                 1: dtoobject
@@ -178,6 +213,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
     var params,eachdto,dtogroup,iteration, proposedLeft;
     var dtolist = {};
     var eachmetadata;
+    var eachinherit;
 
     function debugvars(varlist) {
         var allvars = {
@@ -269,7 +305,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             executeobject["dtotype"] = "";
                             executeobject["executethis"] = 'querywid';
                             execute(executeobject, function (err, res) {
-                            
+                                proxyprinttodiv('Function getwidmongo query', res, 38);
                                 if (Object.keys(res).length != 0) {
                                     moreDTOParameters = res;
                                     }
@@ -293,7 +329,9 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
             if (!parameterobject.command) {parameterobject.command = {}};  
             if ((parameterobject["metadata"]) && (command) && (command.convertmethod === "dto")) {
                 if (!parameterobject.command.inherit) {parameterobject.command.inherit = {}};
+                //if (!parameterobject.command.inherit) {parameterobject.command.inherit = [];
                 if (!parameterobject.command.deepdtolist) {parameterobject.command.deepdtolist = {}};
+                if (!parameterobject.command.dtolist) {parameterobject.command.dtolist = {}};
                 }
             proxyprinttodiv('Function getwidmongo parameterobject reset', parameterobject,38);
 
@@ -311,8 +349,8 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                         rightparameters = moreDTOParameters[eachresult][key];
                     }
 
-                    left = rightparameters['metadata']['method'];
-                    dtolist[left] = rightparameters['metadata']['method'];
+                    //left = rightparameters['metadata']['method'];
+                    //dtolist[left] = rightparameters['metadata']['method'];
                     // create dto
                     listToDo.push(eachresult);
                 }
@@ -356,6 +394,14 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                     // added
                                     if (params.command && params.command.inherit) {
                                         extend(true, parameterobject.command.inherit, params.command.inherit)
+                                        // if (params.command.inherit instanceof Array) {
+                                        //     for (eachinherit in params.command.inherit) {
+                                        //         parameterobject.command.inherit.push(params.command.inherit[eachinherit])
+                                        //         }
+                                        //     }
+                                        // else { // this one shoiuld be impossible
+                                        //     parameterobject.command.inherit.push(params.command.inherit)
+                                        //     }
                                         }
                                     if (params.command && params.command.deepdtolist) {
                                         extend(true, parameterobject.command.deepdtolist, params.command.deepdtolist)
@@ -367,11 +413,10 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                     
 
                                     proxyprinttodiv('Function getwidmongo rightparameters before ', rightparameters, 38);
-                                    // if ((rightparameters["data"]) && (rightparameters["data"]["linktype"]) && 
-                                    //     (rightparameters["data"]["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {
+                                    //if ((rightparameters["data"]) && (rightparameters["data"]["linktype"]) && 
+                                    //    (rightparameters["data"]["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {
                                     if ((rightparameters) && (rightparameters["linktype"]) && 
-                                        (rightparameters["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {
-
+                                        (rightparameters["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {                                      
                                         if (Object.prototype.toString.call(parameterobject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
                                             parameterobject[rightparameters["metadata"]["method"]]=[]; 
                                         }
@@ -413,20 +458,33 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
 
             if ((parameterobject["metadata"]) && (command) && (command.convertmethod === "dto")) {
 
-                if ((!parameterobject.command.dtolist) && (Object.keys(dtolist).length > 0)){ // create dtolist
-                    parameterobject.command.dtolist = dtolist;
-                    };
+                // if ((!parameterobject.command.dtolist) && (Object.keys(dtolist).length > 0)){ // create dtolist
+                //     parameterobject.command.dtolist = dtolist;
+                //     };
 
                 for (eachmetadata in parameterobject["metadata"]) {
                     proxyprinttodiv('Function getwidmongo eachmetadata', eachmetadata,38);
                     if (eachmetadata==="inherit") {
-                        parameterobject.command.inherit[parameterobject["metadata"]["inherit"]] = parameterobject["metadata"]["inherit"];    
-                        } 
+                        extend(true, parameterobject.command.inherit, parameterobject["metadata"]["inherit"])
+                        //parameterobject.command.inherit[parameterobject["metadata"]["inherit"]] = parameterobject["metadata"]["inherit"];  
+                        // get inherit value from metadata.inherit and move it to command.inherit -- handle mult inherits
+                        // if (parameterobject["metadata"]["inherit"] instanceof Array) {
+                        //     for (eachinherit in parameterobject["metadata"]["inherit"]) {
+                        //         parameterobject.command.inherit.push(
+                        //             parameterobject["metadata"]["inherit"][eachinherit])
+                        //         }
+                        //     }
+                        // else { // if not array then just copy over
+                        //     parameterobject.command.inherit.push(
+                        //         parameterobject["metadata"]["inherit"])
+                        //     }
+                        }
                         // creates a list that looks like this:
                         // command.inherit: {a:a, b:b c:c}
                     else { // create deepdtolist, including current metadata
                         if (eachmetadata==="method") {
-                            parameterobject.command.deepdtolist[parameterobject.metadata.method]=parameterobject.metadata.method;
+                            //parameterobject.command.deepdtolist[parameterobject.metadata.method]=parameterobject.metadata.method;
+                            //parameterobject.command.dtolist[parameterobject.metadata.method]=parameterobject.metadata.method;
                             }
                         else {
                             if 
@@ -440,6 +498,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                 )
                                 {
                                     parameterobject.command.deepdtolist[eachmetadata] = parameterobject.metadata[eachmetadata]['type'];
+                                    parameterobject.command.dtolist[eachmetadata] = parameterobject.metadata[eachmetadata]['type'];
                                 // creates a list that looks like this:
                                 // command.inherit: {adto:onetomany bdto:onetomany cdto>: onetoone}
                                 }
@@ -449,6 +508,23 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
 
                     parameterobject["wid"]="string";
                     parameterobject["metadata"]["method"]="string";
+
+                    // system defaults
+                    if (isObject(parameterobject["metadata"]["inherit"])) {
+                        extend(true, parameterobject.command.inherit, parameterobject["metadata"]["inherit"])
+                        }
+                    else {
+                        executeobject={};
+                        executeobject[parameterobject.metadata.inherit]=parameterobject.metadata.inherit;
+                        extend(true, parameterobject.command.inherit, executeobject)
+                        }
+                    extend(true, parameterobject.command.inherit, {'defaultsystemactions':'defaultsystemactions'})
+                    //parameterobject.command.inherit.push('defaultsystemactions')
+                    //parameterobject.command.inherit=arrayUnique(parameterobject.command.inherit)
+
+                    parameterobject.command.dtolist['systemdto']='onetoone';
+                    parameterobject.command.deepdtolist['systemdto']='onetoone';
+
                     
                 } // if dto
 
@@ -530,7 +606,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                     async.mapSeries(listToDo, function (eachresult, cbMap) {
                         proxyprinttodiv('<<< Get_Clean execute firing !!!! >>>', eachresult, 38);
                         execute({"executethis":"getwidmaster", 
-                                    "wid":eachresult, 
+                                    "wid":key, 
                                     "command.execute":"ConvertFromDOTdri",
                                     //"command.convertmethod":"nowid",
                                     "command.inheritflag":"false"
@@ -581,7 +657,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
     ); // end series
 }
 
-        // if(!insertobj.metadata){ insertobj.metadata={};}
+
 
 
 })(typeof window === "undefined" ? global : window);//

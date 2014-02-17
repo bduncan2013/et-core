@@ -1,22 +1,89 @@
-// continue with security / permissions
-
-// remember security needs to be asynch…prob by doing an todolist or inline function
-
 (function (window) {
 
+    // authcall looks at incoming paramters and creates call to security check
+    //
+    // getuserbyac() gets user id by ac
+    // getgrouprecursive(wid) recurses finding group for wid
+    // recursepermissionlist(accountgroup, actiongroup, dbgroup, login) repeatedly calls getgrouprecursive
+    // getpermissionlist(account) gets permissionlist can calls recursepermissionlist repeated
+    // checkpermisstion(calculatepermissionlist, calculatedaccountpermissionlist)
+    //
+    // security check accepts 
+    //          accesstoken representing you 
+    //          account(group) you want to pretend to be
+    //          action(group) of what you want to do 
+    //          db(group) of what database you want to do this in
+    //
+    // 1) Convert AC to user wid (if no user then fail)
+    //    Calculate / create "complete permission request list"
+    //          get my group, now get my related groups, 
+    //          for action get all related actions, (eg executethis)
+    //          for db get all realted dbs
+    //          my current security level should be part of each row above
+    // 2) For sent account get permission list, 
+    //    Calculate "complete permission list"
+    //          for grantee get all realted groups
+    //          for action get all related actions, 
+    //          target get all related targets, 
+    //          db get all realted dbthis
+    //          get level
+    //  3) check for matching rows
+
+    // so basically security check:
+    // we get permission list for account (sent in)
+    // we step though each item on that list
+    // we call recursepermissionlist
+    // permission list row: account (grantee), action, db, login
+    // now we have a large list of all the permissions that account has given
+    //
+    // we take what was sent in 
+    // we convert ac to accout (our account)
+    // we call recursepermissionlist() with only the values sent in
+    // permission list row: account (who am I, action, db, login
+    //
+    // now we have two lists permission list and request list
+    // we check for exactly mathing rows
+
+    exports.authcall = authcall = function authcall(inboundparams, callback) {
+        proxyprinttodiv('Function fishoutAuthParams() in : ', 'before');
+        var environment;
+        var status = false;
+        // //console.debug">>>>> env >>> "+ JSON.stringify(inboundparams['etenvironment']));
+        if (!(inboundparams['command'] && inboundparams['command']['environment'])) {
+            environment = {};
+            environment['ac'] = '111111111';
+            environment['account'] = '222222222'; //set account to account of ac if no account
+            environment['db'] = 'data';
+            environment['action'] = 'getwid';
+        } else {
+            environment = extend(true, environment, inboundparams['command']['environment']);
+        }
+
+        if (inboundparams['command'] && inboundparams['command']['environment'])
+            delete inboundparams['command']['environment'];
+
+        var accesstoken = environment['ac'];
+        var account = environment['account']; //set account to account of ac if no account
+        var db = environment['db'];
+        var action = environment['action'];
+
+        if (accesstoken && accesstoken !== '111111111') {
+            // actual security check
+            securitycheck(accesstoken, account, action, db, callback);
+        } else {
+            // fake security check
+            callback(null, true);
+        }
+    }
 
 
     exports.securitycheck = securitycheck = function securitycheck(accesstoken, account, action, db, callback) {
 
         proxyprinttodiv('Function securityCheck() in : ', 'before', 34);
-
         proxyprinttodiv('Function security accesstoken-- ', accesstoken, 34);
         proxyprinttodiv('Function security account-- ', account, 34);
         proxyprinttodiv('Function security action-- ', action, 34);
         proxyprinttodiv('Function security db-- ', db, 34);
-
-
-
 
         // check if systemdto has status as logged in for the given access code, if yes proceed, else respond with unauthorized error
         var securityCheckOutput = false;
@@ -104,33 +171,7 @@
                         // if not logged in,
                         securityCheckOutput = false;
                     } else {
-                        // if logged in check the permissions and group required for the 'action', compare with the group and
-                        // permissions and group of the user
 
-                        // 7) create getGroupRecursive(wid) call 
-                        // 8) create getPermissionsList()
-                        // 9) create checksecurity() fn
-                        // 10) add command. to addwidmaster, getwidmaster, executethis, querywid to executethis. 
-                        // Should accept command.accesstoken, command.account, command.action, command.db
-
-
-                        // using getgroupRecurside
-                        // get account groups
-                        // get actions groups
-                        // get db groups
-
-                        // so AC to my account 
-                        // my groups = getgroupsrecurisve (my account)
-
-                        // find all permissions where my groups are given permission
-
-                        // account groups =  getgroupsrecurisve (account)
-                        // action groups =  getgroupsrecurisve (action)
-                        // db groups =  getgroupsrecurisve (db)
-                        // see if there is a permission record for that combination
-
-                        // so AC to my account 
-                        // my groups = getgroupsrecurisve (my accountwid)
 
                         var loginlevel = userDto['systemdto.securitydto.level'];
                         getGroupRecursive(userWid, loginlevel, function (err, res) {
@@ -328,259 +369,5 @@
         });
 
     }
-
-
-
-    // etenvironment
-    // [1/9/14, 3:44:40 PM] Roger Colburn: specifically in getwid, updatwid (maybe querywid) we will need to get etenvionemnt,
-    // remove it form parm stream
-    // [1/9/14, 3:45:00 PM] Roger Colburn: take ac, account, etc, call security for pass/fail
-    // [1/9/14, 3:45:01 PM] Roger Colburn: ok?
-    // [1/9/14, 3:45:44 PM] saurabh sharma: On 1/9/14, at 3:44 PM, Roger Colburn wrote:
-    // > get etenvionemnt, remove it form parm stream
-    // > take ac, account, etc, call security for pass/fail
-
-    //     [1/9/14, 3:50:46 PM] Roger Colburn: fishout etenvrionement, 
-    // if no etenvrionement then etenvionrmet =
-    // if no ac, then ac = 111111111
-    // if not acct, then acct is acct of ac
-    //  if no db, then 'data'
-    //  if no type, 'getwid' 'updated'
-
-    // ac to account call > if 111111111 then acct = 222222222
-
-    // security if 222222222 then pass for now
-    // [1/9/14, 3:51:29 PM] Roger Colburn: this way you can publish without breaking things
-
-    // so just fishout the environment, make a security call, if it passes, proceed with whatever is done ?
-    exports.authcall = authcall = function authcall(inboundparams, callback) {
-        proxyprinttodiv('Function fishoutAuthParams() in : ', 'before');
-        var environment;
-        var status = false;
-        // //console.debug">>>>> env >>> "+ JSON.stringify(inboundparams['etenvironment']));
-        if (!(inboundparams['command'] && inboundparams['command']['environment'])) {
-            environment = {};
-            environment['ac'] = '111111111';
-            environment['account'] = '222222222'; //set account to account of ac if no account
-            environment['db'] = 'data';
-            environment['action'] = 'getwid';
-        } else {
-            environment = extend(true, environment, inboundparams['command']['environment']);
-        }
-
-        if (inboundparams['command'] && inboundparams['command']['environment'])
-            delete inboundparams['command']['environment'];
-
-        var accesstoken = environment['ac'];
-        var account = environment['account']; //set account to account of ac if no account
-        var db = environment['db'];
-        var action = environment['action'];
-
-        if (accesstoken && accesstoken !== '111111111') {
-            // actual security check
-            securitycheck(accesstoken, account, action, db, callback);
-        } else {
-            // fake security check
-            callback(null, true);
-        }
-    }
-
-    exports.ttsa1 = ttsa1 = function (params, callback) {
-        datasum1(params, function (err, res) {
-
-            datasum2(params, function (err, res) {
-
-                callback(err, res);
-            });
-        });
-    };
-
-    exports.ttsa2 = ttsa2 = function (params, callback) {
-        sectest1(params, function (err, res) {
-
-
-            getGroupRecursive("rogeruser", 99, function (err, res) {
-                proxyprinttodiv('Function testGroups() in : res', res, 34);
-                callback(err, res);
-
-
-            });
-        });
-    };
-
-    exports.ttsa3 = ttsa3 = function (params, callback) {
-
-
-
-        getPermissionsList(["driemployeegroup0", "rogeruser0", "groupdto0", "19", "25"], ["createcoupon0"], ["executethis"], ["data"], 99, function (err, res) {
-            proxyprinttodiv('Function ttsa3() in : res', res, 34);
-            callback(err, res);
-
-        });
-    };
-
-
-    exports.ttsa4 = ttsa4 = function (params, callback) {
-        debuglevel = 34;
-        debugname = "";
-        debugcat = "";
-        debugsubcat = "code";
-        getGroupRecursive("rogeruser", 99, function (err, res) {
-            proxyprinttodiv('Function ttsa4() in : res', res, 34);
-            callback(err, res);
-
-        });
-    };
-
-
-    exports.ttsa6 = ttsa6 = function (params, callback) {
-        addgrouptowid("anything", "createcoupon", callback);
-    };
-
-
-
-
-
-    exports.createuser = createuser = function createuser(userwid, ac, loginlevel, cb2) {
-        execute([{
-                // add user 
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "metadata.owner": "system",
-                "wid": userwid,
-                "fname": "john",
-                "lname": "doe",
-                "email": "jj@gmail.com",
-                "email2": "",
-                "address": "123 pleasant lane",
-                "address2": "apt 101",
-                "city": "Pleasantville",
-                "state": "Florida",
-                "zip": "26534",
-                "userid": "authorized",
-                "status": "integer"
-            }],
-            function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 99);
-                addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
-                    proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 99);
-                    addcategory(userwid, true, "categoryname", function (err, res2) {
-                        proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 99);
-
-                        execute({
-                            "executethis": "getwidmaster",
-                            "wid": userwid
-                        }, function (err, res3) {
-                            proxyprinttodiv('Function createuser --  >>>>>> FINAL USER >>>>>    -- ' + userwid, res3, 99);
-                            cb2(err, res3);
-                        })
-                    });
-                });
-            });
-    }
-
-
-    // createuser("codyuser", "codyac", 99);
-    // addgrouptowid("anything", "createcoupon");
-    // addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50);
-    // testsecurity("codyac", "executethis", "createcoupon", "data", true);
-
-    
-    exports.testsecurity = testsecurity = function testsecurity(ac, targetgroup, actiongroup, dbgroup, assertion, callback) {
-        securitycheck(ac, targetgroup, actiongroup, dbgroup, function (err, res) {
-            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 99);
-            callback(err, res)
-        });
-    }
-
-
-
-    exports.addgrouptowid = addgrouptowid = function addgrouptowid(wid, groupname, callback) {
-
-        proxyprinttodiv('Function addgrouptowid done --starting ' + groupname + ' for wid ' + wid + " >>>> ", wid, 34);
-
-        execute([{
-                // add group as per given wid 
-                "executethis": "addwidmaster",
-                "wid": "groupnamedto",
-                "groupname": groupname
-            }, {
-                // add group as per given wid 
-                //     "executethis": "addwidmaster",
-                //     "metadata.method": "groupdto",
-                //     "systemdto.groupnamedto.groupname": groupname
-                // }, {
-                // add group as per given wid 
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto", // **** note we shoudl get this from type of wid being added
-                "wid": wid,
-                "systemdto.groupdto.groupname": groupname,
-                //"systemdto.groupdto.grouptype": wid
-            }],
-            function (err, res) {
-                proxyprinttodiv('Function addgrouptowid done --added group ' + groupname + ' for wid ' + wid + " >>>> ", wid, 34);
-
-                console.debug('added group ' + groupname + ' for wid ' + wid + " >>>> " + JSON.stringify(res));
-
-                callback(err, res)
-            });
-    }
-    // addpermission("rogeruser", "codyuser", "executethis", "createcoupon", "data", 50, cb1);
-    exports.addpermission = addpermission = function addpermission(userwid, granteegroup, targetgroup, actiongroup, dbgroup, levelgroup, callback) {
-        execute([{
-                // add permissions as per given information 
-                "executethis": "addwidmaster",
-                "wid": userwid,
-                // permissions data 
-                "metadata.method": "userdto",
-                "systemdto.permissiondto.granteegroup": granteegroup,
-                "systemdto.permissiondto.actiongroup": actiongroup,
-                "systemdto.permissiondto.targetgroup": targetgroup,
-                "systemdto.permissiondto.dbgroup": dbgroup,
-                "systemdto.permissiondto.levelgroup": levelgroup
-            }],
-            function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userwid, res, 99);
-                // console.debug('added permission data ' + granteegroup + ' for user ' + userwid + " >>>> " + JSON.stringify(res));
-                callback(err, res)
-            });
-    }
-
-    exports.addcategory = addcategory = function addcategory(wid, categorytype, categoryname, callback) {
-        execute([{
-                // add group as per given wid 
-                "executethis": "addwidmaster",
-                "wid": wid,
-                "metadata.method": "userdto",
-                // category data
-                "systemdto.categorydto.categorytype": categorytype,
-                "systemdto.categorydto.categoryname": categoryname
-            }],
-            function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added category >>>>>  for  -- ' + wid, res, 99);
-                // console.debug('added categoryname ' + categoryname + ' for wid ' + wid + " >>>> " + JSON.stringify(res));
-                callback(err, res)
-            });
-    }
-
-
-    exports.addsecurity = addsecurity = function addsecurity(wid, logged_id, accesstoken, loginlevel, callback) {
-        execute([{
-                // add group as per given wid 
-                "executethis": "addwidmaster",
-                "wid": wid,
-                // security data
-                "metadata.method": "userdto",
-                "systemdto.securitydto.logged_id": logged_id,
-                "systemdto.securitydto.accesstoken": accesstoken,
-                "systemdto.securitydto.level": loginlevel,
-            }],
-            function (err, res) {
-                // proxyprinttodiv('Function createuser done --  >>>>>> added security  >>>>>  for  -- ' + wid, res, 99);
-                // console.debug('added security for wid ' + wid + " >>>> " + JSON.stringify(res));
-                callback(err, res)
-            });
-    }
-
 
 })(typeof window == "undefined" ? global : window);
