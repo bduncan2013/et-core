@@ -3758,3 +3758,15 @@ exports.wrapped1 = wrapped1 = function wrapped1(params, callback) {
 
     });
 }
+
+exports.lwr = lwr = function lwr(params, callback) {
+    var params = {"alpha":"1", "beta":"2", "charlie":"3", "delta":"4"};
+    var filter = {"beta":"add","charlie":"add"};
+    var err;
+    var result = {};
+
+    result = tolowerparameters(params, filter, false);
+
+    callback(err, result);
+
+}
