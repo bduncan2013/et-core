@@ -2252,7 +2252,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         delete inputWidgetObject['executethis'];
         proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
         var saveobject = {};
-        var db = "data"
+        var db = "data";
         var wid;
         var metadata;
         var date;
@@ -2262,12 +2262,12 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
         inputWidgetObject = ConvertFromDOTdri(inputWidgetObject);
         if (inputWidgetObject['wid']) {
-            wid = inputWidgetObject['wid']
-            delete inputWidgetObject['wid']
+            wid = inputWidgetObject['wid'];
+            delete inputWidgetObject['wid'];
         }
         if (inputWidgetObject['metadata']) {
-            metadata = inputWidgetObject['metadata']
-            delete inputWidgetObject['metadata']
+            metadata = inputWidgetObject['metadata'];
+            delete inputWidgetObject['metadata'];
         }
 
 
@@ -2324,7 +2324,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     exports.convertfromdriformat = window.convertfromdriformat = convertfromdriformat =  function convertfromdriformat(widobject, command) {
         var outobject = {};
-        var db="data"
+        var db="data";
         if (command && command.db) {db = command.db}
 
         //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
