@@ -284,6 +284,7 @@
                 "wid": "testdto",
                 "testdto.a": "string",
                 "testdto.b": "string",
+                
                 // add systemdto structure
                 "metadata.method": "systemdto",
                 "metadata.systemdto.type": "onetoone",
@@ -292,16 +293,19 @@
                 "systemdto.expiration": "datetime",
                 "systemdto.offlinerule": "string",
                 "systemdto.onlinerule": "string",
+                
                 // add securitydto structure
                 "systemdto.metadata.method": "securitydto",
                 "systemdto.metadata.securitydto.type": "onetoone",
                 "accesstoken": "string",
                 "status": "integer",
+                
                 // add balancedto structure
                 "systemdto.metadata.method": "balancedto",
                 "systemdto.metadata.balancedto.type": "onetoone",
                 "systemdto.metadata.balancedto.widname": "wid",
                 "systemdto.metadata.balancedto.balance": "integer",
+                
                 // add categorydto structure
                 "systemdto.metadata.method": "categorydto",
                 "systemdto.metadata.categorydto.type": "onetoone",
