@@ -2341,7 +2341,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
     };
 
-    exports.converttodriformat = window.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
+    exports.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
         var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
         delete inputWidgetObject['executethis'];
         proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
@@ -2416,7 +2416,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return saveobject;
     };
 
-    exports.convertfromdriformat = window.convertfromdriformat = convertfromdriformat =  function convertfromdriformat(widobject, command) {
+    exports.convertfromdriformat = convertfromdriformat =  function convertfromdriformat(widobject, command) {
         var outobject = {};
         var db="data";
         if (command && command.db) {db = command.db}
