@@ -57,51 +57,55 @@ if (!test_results) {
 }
 
 exports.bootprocess = bootprocess = function bootprocess() {
-    if (Object.keys(config).length === 0) { setdefaultparm() }; 
-    etappinstall(); // take out later
+    if (Object.keys(config).length === 0) { setdefaultparm(); }
+
     proxyprinttodiv('Function bootprocess config', config, 1);
-    execute({
-        "executethis": "getwid",
-        "wid": "etenvironment"
-        }, function (err, result) {
-        //proxyprinttodiv('Function bootprocess result', result, 1);
-        // read etenvironment, if not there then must be ok to clear out initial stuff
 
-        // ***** temporary
-        result={};
-        //****
-        if (result instanceof Array) {result=result[0]}
-        if (Object.keys(result).length === 0) {
-            // then 'dirty' et environement
-            execute({
-                "executethis": "updatewid",
-                "wid": "etenvironment",
-                "something": "something"
-            }, etappinstall); //,
-            // function (err, result) {
+    // if DRIKEY does not exist in localStorage
+    // then assume this is first visit to app and run appinstall
+    if (!getFromLocalStorage('DRIKEY')) { etappinstall(); }
 
-            // })
-
-            if (true) {
-                etappstarted();
-            }
-            if (true) {
-                etappnewpage();
-            }
-            //testAddWids();
-            //displayAllWids();
-        }   
-    });
+//    execute({
+//        "executethis": "getwid",
+//        "wid": "etenvironment"
+//        }, function (err, result) {
+//        //proxyprinttodiv('Function bootprocess result', result, 1);
+//        // read etenvironment, if not there then must be ok to clear out initial stuff
+//
+//        // ***** temporary
+////        result={};
+//        //****
+//        if (result instanceof Array) {result=result[0]}
+//        if (Object.keys(result).length === 0) {
+//            // then 'dirty' et environement
+//            execute({
+//                "executethis": "updatewid",
+//                "wid": "etenvironment",
+//                "something": "something"
+//            }, etappinstall); //,
+//            // function (err, result) {
+//
+//            // })
+//
+//            if (true) {
+//                etappstarted();
+//            }
+//            if (true) {
+//                etappnewpage();
+//            }
+//            //testAddWids();
+//            //displayAllWids();
+//        }
+//    });
     proxyprinttodiv('Function END bootprocess config', config, 1);
 
 
-    function etappinstall(err, result) { // exeucte only the first time app is installed -- once per lifetime
+    function etappinstall() { // exeucte only the first time app is installed -- once per lifetime
         setappinstallparm();
-        testclearstorage();
         if (exports.environment === 'local') {
             clearLocalStorage();
             addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-            addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}})
+            addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
         }
     }
 
