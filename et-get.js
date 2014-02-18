@@ -542,7 +542,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
             0: inbound_parameters,
             1: parameterobject
         }, 6);
-        alert(JSON.stringify(results));
+//        alert(JSON.stringify(results));  // alert not defined on node.js
 
         if((results.indexOf('step1') > -1) && (results.indexOf('step2') > -1) && (results.indexOf('step3') > -1) && (results.indexOf('step4') > -1)) {
             callback(err, parameterobject);
