@@ -57,8 +57,8 @@ if (!test_results) {
 }
 
 exports.bootprocess = bootprocess = function bootprocess() {
-    if (Object.keys(config).length === 0) { setdefaultparm() }; 
-    etappinstall(); // take out later
+    if (Object.keys(config).length === 0) { setdefaultparm(); }
+//    etappinstall(); // take out later
     proxyprinttodiv('Function bootprocess config', config, 1);
     execute({
         "executethis": "getwid",
@@ -68,7 +68,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
         // read etenvironment, if not there then must be ok to clear out initial stuff
 
         // ***** temporary
-        result={};
+//        result={};
         //****
         if (result instanceof Array) {result=result[0]}
         if (Object.keys(result).length === 0) {
@@ -101,7 +101,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
         if (exports.environment === 'local') {
             clearLocalStorage();
             addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-            addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}})
+            addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
         }
     }
 
