@@ -214,7 +214,7 @@ if (typeof angular !== 'undefined') {
         urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
         executeService.executeThis(urlExecuteObj, $scope);
 
-        executeService.excuteThis(executeObj, $scope);
+        executeService.executeThis(executeObj, $scope);
 
 //        if (!parameters.executethis) { parameters.executethis = 'etProcessParameters'; }
 //
@@ -533,7 +533,7 @@ if (typeof angular !== 'undefined') {
                 queries;
 
             // Split into key/value pairs
-            if (queryString.startsWith('?')) { queryString = queryString.substring(1, queryString.length); }
+            if (queryString.substring(0,1) === '?') { queryString = queryString.substring(1, queryString.length); }
             queries = queryString.split("&");
 
             // Convert the array of strings into an object
