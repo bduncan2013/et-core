@@ -973,52 +973,123 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return output;
     };
 
-    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, filter) {
-        var outputparameters = {};
-        // Iterate throught the filter params, putting in the defaults of the filter params
-        for (eachparameter in rightparameters) {
-            // if the 'value' of a filter param is exists...do the following. btw the first arg has
-            // to be true if the second is true...i.e. you don't need to check for arg2 
-            if ((rightparameters[eachparameter].length > 0) || (rightparameters[eachparameter] == 'add')) {
-                // Store the value of the 'value' of the filter param in 'x'
-                var x = rightparameters[eachparameter];
-                // Grab the value of the matching key in the data
-                var y = parameters[eachparameter];
-                // Fix an undefined value of y
-                if (y === undefined) y = "";
-                // If x is 'add', remove it
-                if (x == 'add') { 
-                    // If the data has a key that matches the filter params AND the value is not ""
-                    if (parameters[eachparameter].length > 0) {
-                        // Assign x the value of the data that matches the filter key
-                        x = parameters[eachparameter]; 
-                    }
-                };
-                // Check and see if the data should override the default
-                if (y.length > 0) {
-                    // Assign the original data
-                    outputparameters[eachparameter.toLowerCase()] = y; 
-                }
-                else {
-                    // Put x in the key of the output params so that { eachparameter: x } is added to the output
-                    outputparameters[eachparameter.toLowerCase()] = x; 
-                }
+    // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
+    // the key is missing in the data, but found in the rightparameters
+    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter) {
+        // Use only the params that apply to the filter and assign to output
+        var output = (should_I_filter) ? filter_params(parameters, rightparameters) : just_lower_parameters(parameters);
+        // Iterate throught the right parameters...if we find a value to assign, do so, but only
+        // if it does not exist yet
+        for (tmp_key in rightparameters) {
+            // Grab the key of the hash
+            var key = tmp_key.toLowerCase();
+            // Grab the value of the hash
+            var val = rightparameters[key];
+            // Grab the value of the key in the data
+            var target = output[key.toLowerCase()];
+            // Polish the target...it may need it
+            target = (target === undefined) ? "" : target.toLowerCase();
+            // If there is no value in the filter, skip and move on
+            if (val === undefined) continue;
+            if (val.length > 0 && target.length === 0) {
+                // Polish val... it may need it
+                val = (val === 'add') ? "" : val;
+                // Apply it to the output
+                output[key] = val;
             }
         }
+        return output;
+    }
 
-        // Now that the defaults are in place, decide if you should use defaults or actual data
-        if (!filter) {
-            // Iterate through the actual data
-            for (eachparameter in parameters) {
-                // If you do not find a parameter key in the output data...do the following ---is this wrong? I think so
-                if ( !outputparameters[eachparameter.toLowerCase()] ) {    
-                        // Give the output a key from the data, and the value it contains
-                        outputparameters[eachparameter.toLowerCase()] = parameters[eachparameter].toLowerCase();
+    exports.filter_params = filter_params = function filter_params (parameters, filter_object, to_filter) {
+        var output = {};
+        var target_value = "";
+        // Get just the keys from the filter_object
+        var filter_by_keys = [];
+        for (f in filter_object) {
+            filter_by_keys.push(f.toLowerCase());
+        }
+        // Walk throught the data, 1 key at a time
+        for (var p in parameters) {
+            // Look at the filter and apply it to the data
+            for (var v in filter_by_keys) {
+                if (p.toLowerCase() === filter_by_keys[v]) {
+                    output[p.toLowerCase()] = parameters[p].toLowerCase();
                 }
             }
         }
-        return outputparameters;
-    };
+        return output;
+    }
+
+    // This is to lower keys of objects only.
+    exports.just_lower_parameters = just_lower_parameters = function just_lower_parameters(data) {
+        var data_out = {};
+        for (d in data) {
+            data_out[d.toLowerCase()] = data[d];
+        }
+        return data_out;
+    }
+
+    // exports.tolowerparameters2 = tolowerparameters2 = function tolowerparameters2(parameters, rightparameters, filter) {
+    //     var outputparameters = {};
+    //     for (var p in param)
+    //     console.log('Params:\n' + JSON.stringify(parameters, "-", 4));
+    //     console.log('rightparameters:\n' + JSON.stringify(rightparameters, "-", 4));
+    //     // Iterate throught the filter params, putting in the defaults of the filter params    
+    //     for (temp in rightparameters) {
+    //         var eachparameter = temp.toLowerCase();
+    //         // if the 'value' of a filter param is exists...do the following. btw the first arg has
+    //         // to be true if the second is true...i.e. you don't need to check for arg2 
+    //         // if ((rightparameters[eachparameter].length > 0) || (rightparameters[eachparameter] == 'add')) {
+    //         if (rightparameters[eachparameter].length > 0 || rightparameters[eachparameter] === "") {
+    //             // Store the value of the 'value' of the filter param in 'x'
+    //             var x = rightparameters[eachparameter].toLowerCase();
+    //             // Grab the value of the matching key in the 'data'
+    //             var y = parameters[eachparameter];
+    //             // Fix an undefined value of y or lowercase the defined value
+    //             if (y === undefined) {
+    //                 y = "";
+    //             }
+    //             else {
+    //                 y = y.toLowerCase();
+    //             }
+    //             // If x is 'add', remove it
+    //             if (x.toLowerCase() == 'add') { 
+    //                 // If the data has a key that matches the filter params AND the value is not ""
+    //                 if (y.length > 0) {
+    //                     // Assign x the value of the data that matches the filter key
+    //                     x = y; 
+    //                 } 
+    //                 else {
+    //                     // Otherwise you need to reset x to ""...we dont want 'add' in the data do we?
+    //                     x = "";
+    //                 }
+    //             };
+    //             // Check and see if the data should override the default
+    //             if (y.length > 0) {
+    //                 // Assign the original data
+    //                 outputparameters[eachparameter.toLowerCase()] = y.toLowerCase(); 
+    //             }
+    //             else {
+    //                 // Put x in the key of the output params so that { eachparameter: x } is added to the output
+    //                 outputparameters[eachparameter.toLowerCase()] = x.toLowerCase(); 
+    //             }
+    //         }
+    //     }
+    //     console.log('Before filter check output:\n' + JSON.stringify(outputparameters, "-", 4));
+    //     // Now that the defaults are in place, decide if you should use defaults or actual data
+    //     if (!filter) {
+    //         // Iterate through the actual data
+    //         for (eachparameter in parameters) {
+    //             // If you do not find a parameter key in the output data...do the following ---is this wrong? I think so
+    //             if ( !outputparameters[eachparameter.toLowerCase()] ) {    
+    //                     // Give the output a key from the data, and the value it contains
+    //                     outputparameters[eachparameter.toLowerCase()] = parameters[eachparameter].toLowerCase();
+    //             }
+    //         }
+    //     }
+    //     return outputparameters;
+    // };
 
     //rightparameters && rightparameters[eachparameter] && 
 

@@ -1351,501 +1351,69 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
             returnValues = mycursor;
         }
         proxyprinttodiv('Function Add On Query() output : ', returnValues);
-
-
-
         return returnValues;
     } //End of addOnQuery function
-
-    // This function will return a filtered object based on an array of strings
-    function pull_out_params (parameters, filter_by_values) {
-        var output = {};
-        for (var p in parameters) {
-            for (var v in filter_by_values) {
-                if (p == filter_by_values[v]) {
-                    output[p] = parameters[p].toLowerCase();
-                }
-            }
-        }
-        // console.log('Pulled out params:\n' + JSON.stringify(output, "-", 4));
-        return output;
-    }
-
 
     function fishOut(parameters) {
         var p = [];
 
-        p[0] = pull_out_params(parameters, [  // queParams
-                                            "mongowid",
-                                            "mongorawquery",
-                                            "mongoquerywid",
-                                            "mongosinglequery",
-                                            "mongomultiplequery"
-                                        ]);
-
-
-        p[1] = pull_out_params(parameters, [  // relParams
-                                            "mongorelationshipdirection",
-                                            "mongorelationshiptype",
-                                            "mongorelationshipmethod",
-                                            "mongorelationshiprawquery",
-                                            "mongorelationshipquery",
-                                            "mongodtotype",
-                                            "mongorelquery"
-                                        ]);
-                                        
-
-        p[2] = pull_out_params(parameters, [  // aggParams
-                                            "mongoaggregation",
-                                            "mongoaggquery"
-                                        ]);
-
-        p[3] = pull_out_params(parameters, [  // addParams
-                                            "mongosetfieldsinclude",
-                                            "mongosetfieldsexclude",
-                                            "mongosetlimit",
-                                            "mongosetskip",
-                                            "mongosethint",
-                                            "mongosetmax",
-                                            "mongosetsortby",
-                                            "mongoreturncount",
-                                            "mongoexplain",
-                                            "mongosize",
-                                            "mongosetsortorder",
-                                            "mongosetsortorder",
-                                            "mongosetsortorder"
-                                        ]);
-
-        p[4] = pull_out_params(parameters, [  // xtrParams
-                                                // "mongoToken":""
-                                        ]); 
-
-        p[5] = pull_out_params(parameters, [ // relafterParams;
-                                            "mongowidmethod"
-                                        ]);
-
-
-        p[6] = pull_out_params(parameters, [ // commandParams
-                                            "command.db",
-                                            "command.convertmethod"
-                                        ]);
-
-        // p[0] = tolowerparameters(parameters, {  // queParams
-        //                                         "mongowid":"",
-        //                                         "mongorawquery":"",
-        //                                         "mongoquerywid":"",
-        //                                         "mongosinglequery":"",
-        //                                         "mongomultiplequery":"",
-        //                                     }, true);
+        p[0] = tolowerparameters(parameters, {  // queParams
+                                                "mongowid":"",
+                                                "mongorawquery":"",
+                                                "mongoquerywid":"",
+                                                "mongosinglequery":"",
+                                                "mongomultiplequery":"",
+                                            }, true);
    
-        // p[1] = tolowerparameters(parameters, {  // relParams
-        //                                         "mongorelationshipdirection":"",
-        //                                         "mongorelationshiptype":"",
-        //                                         "mongorelationshipmethod":"",
-        //                                         "mongorelationshiprawquery":"",
-        //                                         "mongorelationshipquery":"",
-        //                                         "mongodtotype":"",
-        //                                         "mongorelquery":""
-        //                                     }, true);
+        p[1] = tolowerparameters(parameters, {  // relParams
+                                                "mongorelationshipdirection":"",
+                                                "mongorelationshiptype":"",
+                                                "mongorelationshipmethod":"",
+                                                "mongorelationshiprawquery":"",
+                                                "mongorelationshipquery":"",
+                                                "mongodtotype":"",
+                                                "mongorelquery":""
+                                            }, true);
                 
-        // p[2] = tolowerparameters(parameters, {  // aggParams
-        //                                         "mongoaggregation":"",
-        //                                         "mongoaggquery":""
-        //                                     }, true);
+        p[2] = tolowerparameters(parameters, {  // aggParams
+                                                "mongoaggregation":"",
+                                                "mongoaggquery":""
+                                            }, true);
 
-        // p[3] = tolowerparameters(parameters, {  // addParams
-        //                                         "mongosetfieldsinclude":"",
-        //                                         "mongosetfieldsexclude":"",
-        //                                         "mongosetlimit":"",
-        //                                         "mongosetskip":"",
-        //                                         "mongosethint":"",
-        //                                         "mongosetmax":"",
-        //                                         "mongosetsortby":"",
-        //                                         "mongoreturncount":"",
-        //                                         "mongoexplain":"",
-        //                                         "mongosize":"",
-        //                                         "mongosetsortorder":"",
-        //                                         "mongosetsortorder":"",
-        //                                         "mongosetsortorder":""
-        //                                     }, true);
+        p[3] = tolowerparameters(parameters, {  // addParams
+                                                "mongosetfieldsinclude":"",
+                                                "mongosetfieldsexclude":"",
+                                                "mongosetlimit":"",
+                                                "mongosetskip":"",
+                                                "mongosethint":"",
+                                                "mongosetmax":"",
+                                                "mongosetsortby":"",
+                                                "mongoreturncount":"",
+                                                "mongoexplain":"",
+                                                "mongosize":"",
+                                                "mongosetsortorder":"",
+                                                "mongosetsortorder":"",
+                                                "mongosetsortorder":""
+                                            }, true);
                                                 
-        // p[4] = tolowerparameters(parameters, {  // xtrParams
-        //                                         // "mongoToken":""
-        //                                     }, true);
+        p[4] = tolowerparameters(parameters, {  // xtrParams
+                                                // "mongoToken":""
+                                            }, true);
 
-        // p[5] = tolowerparameters(parameters, { // relafterParams;
-        //                                         "mongowidmethod":""
-        //                                     }, true);
+        p[5] = tolowerparameters(parameters, { // relafterParams;
+                                                "mongowidmethod":""
+                                            }, true);
 
-        // p[6] = tolowerparameters(parameters, { // commandParams
-        //                                         "command.db":"",
-        //                                         "command.convertmethod":""
-        //                                     }, true);
-        
-        
+        p[6] = tolowerparameters(parameters, { // commandParams
+                                                "command.db":"",
+                                                "command.convertmethod":""
+                                            }, true);
 
         // Gather the left over params  
         for (i in parameters) {
             p[4][parameters[i]] = parameters[i];
         }
-        // console.log("PPPPPPPPPPP: ", JSON.stringify(p, "-", 4));
+        console.log("Output from fishout: ", JSON.stringify(p, "-", 4));
         return p;
     }
-
-    // function fishOut2(parameters) {
-    //     var inbound_parameters = {};
-    //     inbound_parameters = JSON.parse(JSON.stringify(arguments));
-
-    //     // These are the categories of possible data sent in
-
-    //     // For query building from wids
-    //     var queParams = {};
-    //     // For getting relationships
-    //     var relParams = {};
-    //     // For doing math on the result set
-    //     var aggParams = {};
-    //     // For adjusting the output from the query
-    //     var addParams = {};
-    //     // Loose params that can be applied to the query
-    //     var xtrParams = {};
-    //     // Special case of relationship queries
-    //     var relafterParams = {};
-    //     var commandParams = {};
-
-    //     var db = ""; // String
-    //     if (isParameterLower(parameters, "command.db")) {
-    //         db = parameters["command.db"];
-    //         commandParams["command.db"] = db;
-    //         remove(parameters, "command.db");
-    //     }
-    //     var convertmethod = ""; // String
-    //     if (isParameterLower(parameters, "command.convertmethod")) {
-    //         convertmethod = parameters["command.convertmethod"];
-    //         commandParams["command.convertmethod"] = convertmethod;
-    //         remove(parameters, "command.convertmethod");
-    //     }
-
-    //     var mongowid = ""; // String
-    //     if (isParameterLower(parameters, "mongowid")) {
-    //         mongowid = parameters["mongowid"];
-    //         queParams['mongowid'] = mongowid;
-    //         remove(parameters, "mongowid");
-    //     }
-
-    //     var mongowidmethod = ""; // String
-    //     if (isParameterLower(parameters, "mongowidmethod")) {
-    //         mongowidmethod = parameters["mongowidmethod"];
-    //         relafterParams['mongowidmethod'] = mongowidmethod;
-    //         remove(parameters, "mongowidmethod");
-    //     }
-
-    //     var mongorawquery = ""; // String
-    //     if (isParameterLower(parameters, "mongorawquery")) {
-    //         mongorawquery = parameters["mongorawquery"];
-    //         queParams['mongorawquery'] = mongorawquery;
-    //         remove(parameters, "mongorawquery");
-    //     }
-    //     var mongoquerywid = ""; // String
-    //     if (isParameterLower(parameters, "mongoquerywid")) {
-    //         mongoquerywid = parameters["mongoquerywid"];
-    //         queParams['mongoquerywid'] = mongoquerywid;
-    //         remove(parameters, "mongoquerywid");
-    //     }
-    //     var singlemongoquery = ""; // String I don't think we need this one
-    //     if (isParameterLower(parameters, "mongosinglequery")) {
-    //         singlemongoquery = parameters["mongosinglequery"];
-    //         queParams["mongosinglequery"] = singlemongoquery;
-    //         remove(parameters, "mongosinglequery");
-    //     }
-    //     var multiplemongoquery = ""; // String 
-    //     if (isParameterLower(parameters, "mongomultiplequery")) {
-    //         multiplemongoquery = parameters["mongomultiplequery"];
-    //         queParams["mongomultiplequery"] = multiplemongoquery;
-    //         remove(parameters, "mongomultiplequery");
-    //     }
-    //     var mongorelationshipdirection = ""; // String
-    //     if (isParameterLower(parameters, "mongorelationshipdirection")) {
-    //         mongorelationshipdirection = parameters["mongorelationshipdirection"];
-    //         relParams['mongorelationshipdirection'] = mongorelationshipdirection;
-    //         remove(parameters, "mongorelationshipdirection");
-    //     }
-    //     var mongorelationshiptype = ""; // String
-    //     if (isParameterLower(parameters, "mongorelationshiptype")) {
-    //         mongorelationshiptype = parameters["mongorelationshiptype"];
-    //         remove(parameters, "mongorelationshiptype");
-    //         relParams['mongorelationshiptype'] = mongorelationshiptype;
-    //     }
-    //     var mongorelationshipmethod = ""; // String
-    //     if (isParameterLower(parameters, "mongorelationshipmethod")) {
-    //         mongorelationshipmethod = parameters["mongorelationshipmethod"];
-    //         remove(parameters, "mongorelationshipmethod");
-    //         relParams['mongorelationshipmethod'] = mongorelationshipmethod;
-    //     }
-    //     var mongorelationshiprawquery = ""; // String
-    //     if (isParameterLower(parameters, "mongorelationshiprawquery")) {
-    //         mongorelationshiprawquery = parameters["mongorelationshiprawquery"];
-    //         remove(parameters, "mongorelationshiprawquery");
-    //         relParams['mongorelationshiprawquery'] = mongorelationshiprawquery;
-    //     }
-    //     var mongorelationshipquery = ""; // String
-    //     if (isParameterLower(parameters, "mongorelationshipquery")) {
-    //         mongorelationshipquery = parameters["mongorelationshipquery"];
-    //         remove(parameters, "mongorelationshipquery");
-    //         relParams['mongorelationshipquery'] = mongorelationshipquery;
-    //     }
-    //     var mongoToken = ""; // String
-    //     if (isParameterLower(parameters, "mongoToken")) {
-    //         mongoToken = parameters["mongoToken"];
-    //         remove(parameters, "mongoToken");
-    //         // -------------------------------------TODO: assign this to Params group
-    //     }
-    //     var mongosetfieldsinclude = ""; // String
-    //     if (isParameterLower(parameters, "mongosetfieldsinclude")) {
-    //         mongosetfieldsinclude = parameters["mongosetfieldsinclude"];
-    //         remove(parameters, "mongosetfieldsinclude");
-    //         addParams['mongosetfieldsinclude'] = mongosetfieldsinclude;
-    //     }
-    //     var mongosetfieldsexclude = ""; // String
-    //     if (isParameterLower(parameters, "mongosetfieldsexclude")) {
-    //         mongosetfieldsexclude = parameters["mongosetfieldsexclude"];
-    //         remove(parameters, "mongosetfieldsexclude");
-    //         addParams['mongosetfieldsexclude'] = mongosetfieldsexclude;
-    //     }
-    //     var mongosetlimit = ""; // String
-    //     if (isParameterLower(parameters, "mongosetlimit")) {
-    //         mongosetlimit = parameters["mongosetlimit"];
-    //         remove(parameters, "mongosetlimit");
-    //         addParams['mongosetlimit'] = mongosetlimit;
-    //     }
-    //     var mongosetskip = ""; // String
-    //     if (isParameterLower(parameters, "mongosetskip")) {
-    //         mongosetskip = parameters["mongosetskip"];
-    //         remove(parameters, "mongosetskip");
-    //         addParams['mongosetskip'] = mongosetskip;
-    //     }
-    //     var mongosethint = ""; // String
-    //     if (isParameterLower(parameters, "mongosethint")) {
-    //         mongosethint = parameters["mongosethint"];
-    //         remove(parameters, "mongosethint");
-    //         addParams['mongosethint'] = mongosethint;
-    //     }
-    //     var mongoSetMax = ""; // String
-    //     if (isParameterLower(parameters, "mongosetmax")) {
-    //         mongosetmax = parameters["mongosetmax"];
-    //         remove(parameters, "mongosetmax");
-    //         addParams['mongosetmax'] = mongosetmax;
-    //     }
-    //     var mongosetsortby = ""; // String
-    //     if (isParameterLower(parameters, "mongosetsortby")) {
-    //         mongosetsortby = parameters["mongosetsortby"];
-    //         remove(parameters, "mongosetsortby");
-    //         addParams['mongosetsortby'] = mongosetsortby;
-    //     }
-    //     var mongoreturncount = ""; // String
-    //     if (isParameterLower(parameters, "mongoreturncount")) {
-    //         mongoreturncount = parameters["mongoreturncount"];
-    //         remove(parameters, "mongoreturncount");
-    //         addParams['mongoreturncount'] = mongoreturncount;
-    //     }
-    //     var mongoexplain = ""; // String
-    //     if (isParameterLower(parameters, "mongoexplain")) {
-    //         mongoexplain = parameters["mongoexplain"];
-    //         remove(parameters, "mongoexplain");
-    //         addParams['mongoexplain'] = mongoexplain;
-    //     }
-    //     var mongosize = ""; // String
-    //     if (isParameterLower(parameters, "mongosize")) {
-    //         mongosize = parameters["mongosize"];
-    //         remove(parameters, "mongosize");
-    //         addParams['mongosize'] = mongosize;
-    //     }
-    //     var mongosetsortorder = ""; // String
-    //     if (isParameterLower(parameters, "mongosetsortorder")) {
-    //         mongosetsortorder = parameters["mongosetsortorder"];
-    //         remove(parameters, "mongosetsortorder");
-    //         addParams['mongosetsortorder'] = mongosetsortorder;
-    //     }
-    //     var mongoaggregation = ""; // String
-    //     if (isParameterLower(parameters, "mongoaggregation")) {
-    //         mongoaggregation = parameters["mongoaggregation"];
-    //         remove(parameters, "mongoaggregation");
-    //         aggParams['mongoaggregation'] = mongoaggregation;
-    //     }
-    //     var mongodtotype = ""; // String
-    //     if (isParameterLower(parameters, "mongodtotype")) {
-    //         mongodtotype = parameters["mongodtotype"];
-    //         remove(parameters, "mongodtotype");
-    //         relParams['mongodtotype'] = mongodtotype;
-    //     }
-    //     var mongorelquery = ""; // String
-    //     if (isParameterLower(parameters, "mongorelquery")) {
-    //         mongorelquery = parameters["mongorelquery"];
-    //         remove(parameters, "mongorelquery");
-    //         relParams['mongorelquery'] = mongorelquery;
-    //     }
-    //     var mongoaggquery = ""; // String
-    //     if (isParameterLower(parameters, "mongoaggquery")) {
-    //         mongoaggquery = parameters["mongoaggquery"];
-    //         remove(parameters, "mongoaggquery");
-    //         aggParams['mongoaggquery'] = mongoaggquery;
-    //     }
-
-    //     // Gather the left over params  
-    //     for (i in parameters) {
-    //         xtrParams[i] = parameters[i];
-    //     }
-
-    //     // Slap all the groups into an array and return them
-    //     var p = [];
-    //     p[0] = queParams;
-    //     p[1] = relParams;
-    //     p[2] = aggParams;
-    //     p[3] = addParams;
-    //     p[4] = xtrParams;
-    //     p[5] = relafterParams;
-    //     p[6] = commandParams;
-
-    //     debugfn("fishOut code generator", "fishOut", "get", "code", 2, 1, {
-    //         0: inbound_parameters,
-    //         1: p
-    //     }, 6);
-
-    //     return p;
-    // }
-
-
-    // LM: TODO -- most likely delete the querywid function
-    // LM: commented out as of 10/21/13
-    //Starting of querywid function
-    // function querywid(parameters) {
-    //  proxyprinttodiv('Function querywid() Constant input : ', parameters );
-
-    //  /*--- region Variable Bullpen ---*/
-    //  var returnValues = [];
-    //  var listOfWidNames = [];
-    //  var listOfKVP = []
-    //  var tempListOfKVP = [];
-
-    //  var listsOfOrGroups = [];
-
-    //  //var qb = new MongoQBuilder();
-
-    //  //var connectionString = ConfigurationManager.AppSettings["MongoDBConnection"]; // String
-    //  //var dataBaseName = ConfigurationManager.AppSettings["MongoDB"] // String
-    //  //var collectionName = ConfigurationManager.AppSettings["MongoDBCollection"];
-    //  var mongoquerywid =  ""; // String
-    //  var mongoQueryType = ""; // String
-    //     var mQueryString = ""; // String
-
-    //  var mongoRelationshipDirection = ""; // String
-    //  var mongoRelationshipType = ""; // String
-    //  var mongoRelationshipMethod = ""; // String
-    //  var mongoRelationshipRawQuery = ""; // String
-    //  var mongoRelationshipQuery = ""; // String
-    //  var mongoToken = ""; // String
-
-    //  var mongoSetFieldsInclude = ""; // String
-    //  var mongoSetFieldsExclude = ""; // String
-    //  var mongoSetLimit = ""; // String
-    //  var mongoSetSkip = ""; // String
-    //  var mongoSetHint = ""; // String
-    //  var mongoSetMax = ""; // String
-    //  var mongoSetSortBy = ""; // String
-    //  var mongoReturnCount = ""; // String
-    //  var mongoExplain = ""; // String
-    //  var mongoSize = ""; // String
-    //  var mongoSetSortOrder = ""; // String
-    //  var mongoAggregation = ""; // String
-    //  var mongodtotype = ""; // String
-
-    //  var tempDataModeldto = [];
-    //  /*---  end of the region ---*/
-
-    //  var output ={};
-
-    //  /*---  region Fishing Out Parameter Keywords ---*/
-    //  // Fish out the keywords from the parameterdto's Set to GME
-    //  if (isParameterLower(parameters, "mongodtotype")) {
-    //      var first = firstOrDefault(parameters, "mongodtotype");
-    //      mongodtotype = first.ParameterValue;
-    //      remove(parameters, "mongodtotype");
-    //  }
-    //  if (isParameterLower(parameters, "mongoaggregation")) {
-    //      var first = firstOrDefault(parameters, "mongoaggregation");
-    //      mongoAggregation = first.ParameterValue;
-    //      remove(parameters, "mongoaggregation");
-    //  }
-
-    //  var output = getFromMongo(parameters);
-
-    //  /*if(!parameters.hasOwnProperty("relationshiprawmongoquery") && !parameters.hasOwnProperty("relationshipsinglemongoquery") && !parameters.hasOwnProperty("relationshipmultiplemongoquery")){
-    //      var txt ="";
-    //      txt += "Error Description: " + "Invalid Parameters in querywid" + "\n\n";
-    //      txt += "Click OK to continue. \n\n";
-    //      alert(txt);
-    //      return output;
-    //  }*/
-
-    //  if (isParameterLower(parameters, "relationshiprawmongoquery")) {
-    //      if(parameters.hasOwnProperty("relationshiprawmongoquery")){
-    //          output = parameters.relationshiprawmongoquery;          
-    //      }
-    //  }
-
-    //  if (isParameterLower(parameters, "relationshipsinglemongoquery")) {
-    //      if(parameters.hasOwnProperty("relationshipsinglemongoquery")){
-    //          var wid = parameters.relationshipsinglemongoquery;
-    //          var widObject = getFromMongo({'wid':wid});
-    //          delete widObject["wid"];
-    //          output = BuildSingleQuery(widObject);
-    //      }
-    //  }   
-
-    //  if (isParameterLower(parameters, "relationshipmultiplemongoquery")) {
-    //      if(parameters.hasOwnProperty("relationshipmultiplemongoquery")){
-    //          var wid = parameters.relationshipmultiplemongoquery;
-    //          var widObject = getFromMongo({'wid':wid});
-    //          delete widObject["wid"];
-    //          output = BuildMultipleQuery(widObject);
-    //      }
-    //  }   
-
-    //  proxyprinttodiv('Function querywid() output : ', output );
-    //  return output;
-    // }//End of querywid function
-
-    // Pulls data out of something...in this case, local storage. At some point, 
-    // this needs to point to either local storage
-    // or mongo; based on a flag maybe.?.
-
-
-    //Starting of mongo function
-    // function mongo(mQueryString) {
-    //  proxyprinttodiv('Function mongo() Constant input : ', mQueryString );
-
-    //  var output={};
-
-    //  var widSet=[];
-    //  switch(mQueryString){
-    //      case 'set1':
-    //          widSet =  ['1', '2', '3'];
-    //          break;
-    //      case 'set2':
-    //          widSet =  ['wid200', 'wid300'];
-    //          break;
-    //      case 'set3':
-    //          widSet=  ['wid100', 'wid100'];
-    //          break;
-    //  }
-
-    //  for(wid in widSet){
-    //      var widName = widSet[wid];
-    //      var widObject = getFromMongo({'wid':widName});
-    //      output[widName]=widObject;
-    //  }
-
-    //  proxyprinttodiv('Function mongo() out with  output : ', output );   
-    //  return output;
-    // }//End of mongo function
-
 })(typeof window == "undefined" ? global : window);
