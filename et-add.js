@@ -13,7 +13,7 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
 
     proxyprinttodiv("addwidmaster before clean", _object, 17);
 
-    cleanadd (_object, _dto_object, command, function (err, res) {
+    cleanadd(_object, _dto_object, command, function (err, res) {
         _object = res.obj;
         _dto_object = res.dtoobj;
        
@@ -195,11 +195,11 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                         relobj['wid'] = widset[0][0] ;
                         inputrecord['wid'] = widset[0][1]["secondarywid"] ;
                     }
-                    step1_callback(null);
+                    step1_callback(null, "one");
                 });
             }
             else {
-                step1_callback(null);
+                step1_callback(null, "one");
             }
 
         },
@@ -242,17 +242,23 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                         proxyprinttodiv("addrecord input added_relation :- ", added_relation, 17);
         				step2_callback(null, addobject);
         			 });
-                }
-                else {
+                } else {
                     step2_callback(null, addobject);
                 }
             });
         }
         ], 
         function (err, res) {
-            // res[1] is addobject from step2
-            callback({}, res[1]);
-        });
+            // sanity check for async
+            if(res.indexOf('one') > -1) {
+                //alert("addrecord: " + JSON.stringify(res));
+                callback({}, res[1]);
+            } else {
+                // TODO: alert is not being hit 
+                alert("Holy crap this broke, something went wrong! Heres what I have! : ", JSON.stringify(res));
+                callback("AddRecord broke", {});
+            }
+        }); // end async series
     }
 
 exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
