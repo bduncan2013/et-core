@@ -651,6 +651,17 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                 0: inbound_parameters,
                 1: resultObj
             }, 6); 
+
+            //joe - temp fix for addThis
+            if(resultObj.hasOwnProperty("addthis")) {
+                var addthis;
+
+                _add_this = resultObj['addthis'];
+                delete resultObj['addthis'];
+                for (var i in _add_this) {
+                    resultObj[i] = _add_this[i];
+                }
+            }
             
             callback(err, resultObj);
         }
