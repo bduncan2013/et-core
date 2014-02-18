@@ -38,8 +38,8 @@
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
             // fix incoming param
-            if ((!incomingparams['executethis']) && (Object.keys(incomingparamerters).length === 1)) {
-                incomingparams['executethis'] = incomingparameters;
+            if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
+                incomingparams['executethis'] = incomingparams;
             }
 
 
