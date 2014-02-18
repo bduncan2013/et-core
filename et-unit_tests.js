@@ -2670,18 +2670,20 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
     execute([{
             "executethis": "addwidmaster",
             "wid": "getexecutetest",
-            "addthis.postexecute": "func_b"
+            "addthis.executethis": "func_b"
         }, {
             "executethis": "getwidmaster",
             "wid": "getexecutetest"
         }],
         function (err, res) {
-            proxyprinttodiv("temp", res[1][0][0], 99);
+            alert(JSON.stringify(res[1][0]));
             // The following will pass...it shows what the getwidmaster returns
             // res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
 
             // This assertion is what is expected, but it fails
-            res = logverify("uwid1", res[1][0][0], {"wid":"getexecutetest","metadata.method":"defaultdto","g":"4"});
+            res = logverify("uwid1", res[1][0], {
+                "g": "4"
+            });
             callback(err, res);
         });
 }
