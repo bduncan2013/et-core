@@ -2686,6 +2686,30 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
         });
 }
 
+// Used as a test for having a executethis nested deep in the params in the parameters
+exports.uwid2 = uwid2 = function uwid2(params, callback) {
+    testclearstorage();
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "getexecutetest",
+            "addthis.postexecute": "func_b",
+            "nested.addthis.postexecute":"func_b"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "getexecutetest"
+        }],
+        function (err, res) {
+            proxyprinttodiv("uwid2 res: ", res, 99);
+            // The following will pass...it shows what the getwidmaster returns
+            // res = logverify("uwid2", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
+
+            // This assertion is what is expected, but it fails
+            res = logverify("uwid2", res[1][0][0], {"nested.postexecute":"func_b", "wid":"getexecutetest","metadata.method":"defaultdto","g":"4"});
+            callback(err, res);
+        });
+}
+
 exports.mut = mut = function mut(params, callback) {
     testclearstorage();
 
