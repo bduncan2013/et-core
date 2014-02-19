@@ -587,7 +587,7 @@ if (typeof angular !== 'undefined') {
                 queries;
 
             // Split into key/value pairs
-            if (queryString.startsWith('?')) { queryString = queryString.substring(1, queryString.length); }
+            if (queryString.slice(0, 1) === '?') { queryString = queryString.substring(1, queryString.length); }
             queries = queryString.split("&");
 
             // Convert the array of strings into an object
