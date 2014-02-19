@@ -2670,7 +2670,10 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
     execute([{
             "executethis": "addwidmaster",
             "wid": "getexecutetest",
-            "addthis.postexecute": "func_b"
+            "addthis.postexecute": "func_b",
+            "e":"this_will_be_deleted",
+            "d":"this_should_stay",
+            "g":"this_should_be_set_to_4"
         }, {
             "executethis": "getwidmaster",
             "wid": "getexecutetest"
@@ -2681,7 +2684,28 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
             // res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
 
             // This assertion is what is expected, but it fails
-            res = logverify("uwid1", res[1][0][0], {"wid":"getexecutetest","metadata.method":"defaultdto","g":"4"});
+            res = logverify("uwid1", res[1][0][0], {"d":"this_should_stay","g":"4","wid":"getexecutetest","metadata.method":"defaultdto"});
+            callback(err, res);
+        });
+}
+
+// Used as a test for having a postexecute deply nested deep in the params in the parameters
+exports.uwid2 = uwid2 = function uwid2(params, callback) {
+    testclearstorage();
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "getexecutetest",
+            "addthis.postexecute": "func_b",
+            "nested.addthis.postexecute":"func_b",
+            "nested.nested_again.addthis.postexecute":"func_b"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "getexecutetest"
+        }],
+        function (err, res) {
+            proxyprinttodiv("uwid2 res: ", res, 99);
+            res = logverify("uwid2", res[1][0][0], {"nested.postexecute":"func_b", "nested.nested_again.postexecute":"func_b", "wid":"getexecutetest","metadata.method":"defaultdto","g":"4"});
             callback(err, res);
         });
 }

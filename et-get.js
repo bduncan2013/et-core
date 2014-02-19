@@ -653,15 +653,40 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             }, 6); 
 
             //joe - temp fix for addThis
-            if(resultObj.hasOwnProperty("addthis")) {
-                var addthis;
+            // if(resultObj.hasOwnProperty("addthis")) {
+            //     var addthis;
 
-                _add_this = resultObj['addthis'];
-                delete resultObj['addthis'];
-                for (var i in _add_this) {
-                    resultObj[i] = _add_this[i];
+            //     _add_this = resultObj['addthis'];
+            //     delete resultObj['addthis'];
+            //     for (var i in _add_this) {
+            //         resultObj[i] = _add_this[i];
+            //     }
+            // }
+
+            function find_and_replace_addthis(obj) {
+                var _in_obj = {};
+
+                extend(true, _in_obj, obj);
+
+                if(_in_obj.hasOwnProperty("addthis")) {
+                    var _add_this = _in_obj["addthis"];
+                    delete _in_obj["addthis"];
+                    for (var i in _add_this) {
+                        _in_obj[i] = _add_this[i];
+                    }
                 }
-            }
+
+                for (var each_param in _in_obj) {
+                    if (isObject(_in_obj[each_param])) {
+                        proxyprinttodiv("--We are doing this again :(", _in_obj, 99);
+                        _in_obj[each_param] = find_and_replace_addthis(_in_obj[each_param]);
+                    } 
+                } // for each_param
+                
+                return _in_obj;
+            } // end fn recurse
+
+            resultObj = find_and_replace_addthis(resultObj);
             
             callback(err, resultObj);
         }
