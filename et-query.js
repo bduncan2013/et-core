@@ -199,7 +199,7 @@
                     function step01(cb) {
                         debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
                         // Use single to set up a query with the params of 1 wid
-                        if (validParams(queParams) && queParams['mongosinglequery'] != undefined && countKeys(xtrParams) == 0) {
+                        if (Object.keys(queParams).length > 0 && queParams['mongosinglequery'] != undefined && Object.keys(xtrParams).length === 0) {
                             console.log('singlemongoquery => ' + queParams['mongosinglequery']);
                             var wid = queParams['mongosinglequery'];
                             execute({
@@ -313,7 +313,7 @@
 
                     function step02(cb) {
                         // Primary Wid Section **********
-                        if (validParams(queParams) && queParams && queParams['mongowid'] !== undefined) {
+                        if (Object.keys(queParams).length > 0 && queParams && queParams['mongowid'] !== undefined) {
                             console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
                             //proxyprinttodiv('querywid output before format list mongowid', queParams, 28);
                             output = formatlist(output, "wid", "wid", environmentdb);
@@ -340,7 +340,7 @@
                         // Relationship Section **********
                         // Skip if there are no relParams
 
-                        if (validParams(relParams) && validParams(output)) {
+                        if (Object.keys(relParams).length > 0 && Object.keys(output).length > 0) {
                             if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
                                 output = formatlist(output, "wid", "wid", environmentdb)
                             };
@@ -351,7 +351,7 @@
                             mQueryString = relationShipQuery(relParams, output, "data");
                             console.log('mQueryString at step03 => ' + mQueryString);
 
-                            if (validParams(mQueryString)) {
+                            if (Object.keys(JSON.parse(mQueryString)).length > 0) {
                                 mongoquery(mQueryString, function (err, res) {
                                     console.log(" result from step03 " + JSON.stringify(res));
                                     output = res;
@@ -388,8 +388,15 @@
                                 }
                             }
                         proxyprinttodiv('querywid before after rel output', output, 28);
+                        proxyprinttodiv('relafterParams before after rel output', relafterParams, 28);
+                
+                        console.log('[[[[[[[[[[[[[[[[[[[[[[\n' + JSON.stringify(relafterParams, '-', 4));
+                        var flg = false;
+                        for (r in relafterParams) {
+                            if (relafterParams[r].length > 0) flg = true;
+                        }
 
-                        if ((validParams(relafterParams)) && (output) && (output.length > 0)) {
+                        if (flg && (output) && (output.length > 0)) {
                             console.log('>>> ' + JSON.stringify(output))
 
                             mQueryString = queryafterrelationship(relafterParams, output);
@@ -398,7 +405,7 @@
                             //mongoquery(JSON.parse(mQueryString), function (res) {
                             debugfn("step04", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
 
-                            if (validParams(mQueryString)) {
+                            if (Object.keys(JSON.parse(mQueryString)).length > 0) {
                                 mongoquery(mQueryString, function (err, res) {
                                     output = res;
                                     debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([4]));
@@ -847,7 +854,7 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         returnString = returnString.substring(0, returnString.length - 1);
         // Close the string based on the number of listofparameters
         // var parametersCount = Object.keys(parameters).length;  
-        if (countKeys(listofparameters) === 1) {
+        if (Object.keys(listofparameters).length === 1) {
             returnString += "";
         } else {
             returnString += "]}";
