@@ -9,8 +9,10 @@
 // 
 //
 //
+
+
 (function (window) {
-     // {"query":{"$eq":{"type":"minute"}}}
+     // {"executefilter" : {"query":{"$eq":{"type":"minute"}}}}
     exports.filter1 = filter1 = function filter1(params, callback) {
         debuglevel = 37;
         debugname = "";
@@ -32,7 +34,7 @@
             "metadata.method": "ttdto2",
             "type": "string"
         }];
-        execute(executeList, function (err, res) {
+        execute({"executethis":executeList,"executefilter" : {"query":{"$eq":{"type":"minute"}}}}, function (err, res) {
             proxyprinttodiv('Function filter1 added  ttdto -- ', res, 37);
             callback(null);
         });
@@ -47,11 +49,11 @@
         // we put groups insdie of groups
         // we add permissions
         // we test
-        var status = false;
+        // var status = false;
         debuglevel = 34;
-        debugname = "";
-        debugcat = "";
-        debugsubcat = "code";
+        // debugname = "";
+        // debugcat = "";
+        // debugsubcat = "code";
         async.series([
                 function (cb1) {
                     createtestuser("rogeruser0", "rogerac0", 99, function (err, res) {
@@ -64,7 +66,7 @@
                     });
                 },
                 function (cb1) {
-                    addpermission("rogeruser0", "codyuser0", "executethis", "createcoupon0", "data", 50, function (err, res) {
+                    addpermission("rogeruser0", "createcoupon0", "executethis", "data", 50, function (err, res) {
                         cb1(null);
                     });
                 },
@@ -80,7 +82,7 @@
                     });
                 },
                 function (cb1) {
-                    addpermission("rogeruser0", "driemployeegroup0", "executethis", "createcoupon0", "data", 50, function (err, res) {
+                    addpermission("rogeruser0",   "createcoupon0","executethis", "data", 50, function (err, res) {
                         cb1(null);
                     });
                 },
@@ -496,74 +498,8 @@
 
     }
 
-    // takes in needed details and does a security check on the basis of data received against the DB data received
-    // user is identified by the access token
-    // db says which DB to be used
-    // actiongroup says the type of wid the action is being tried upon
-    // targetaction is the action being executed on the wid
-    exports.testsecurity = testsecurity = function testsecurity(ac, targetgroup, actiongroup, dbgroup, assertion, callback) {
-        securitycheck(ac, targetgroup, actiongroup, dbgroup, function (err, res) {
-            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 99);
-            callback(err, res)
-        });
-    }
 
 
-
-    // creates test data for different tests to be run :: generates data and adds a new user 
-    exports.createtestuser = createtestuser = function createtestuser(userwid, ac, loginlevel, cb2) {
-        execute([{
-                // add user 
-                "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                // "metadata.owner": "system",
-                "wid": userwid,
-                "fname": "john",
-                "lname": "doe",
-                "email": "jj@gmail.com",
-                "email2": "",
-                "address": "123 pleasant lane",
-                "address2": "apt 101",
-                "city": "Pleasantville",
-                "state": "Florida",
-                "zip": "26534",
-                // security data
-                "systemdto.securitydto.logged_id": "true",
-                "systemdto.securitydto.accesstoken": ac,
-                "systemdto.securitydto.level": loginlevel,
-                // category data
-                "systemdto.categorydto.categorytype": "categorytype",
-                "systemdto.categorydto.categoryname": "categoryname",
-
-
-
-                // "executethis": "addwidmaster",
-                // "wid": "songdto",
-                // "title": "string",
-                // "metadata.method": "songdto",
-                // "metadata.sounddto.type": "onetomany",
-                // "sounddto.wid": "sounddto",
-                // "sounddto.note": "string",
-                // "sounddto.metadata.method": "sounddto"
-            }],
-            function (err, res) {
-                proxyprinttodiv('Function createtestuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 99);
-                // addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
-                //     proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 99);
-                //     addcategory(userwid, true, "categoryname", function (err, res2) {
-                //         proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 99);
-
-                execute({
-                    "executethis": "getwidmaster",
-                    "wid": userwid
-                }, function (err, res3) {
-                    proxyprinttodiv('Function createtestuser --  >>>>>> FINAL USER >>>>>    -- ' + userwid, res3, 99);
-                    cb2(err, res3);
-                })
-                //     });
-                // });
-            });
-    }
 
     // Simple create user, add user to group with permission to create a coupon, and then try to execute createcoupon. This should succeed.
     exports.ctest1 = ctest1 = function ctest1(parm, callback) {
@@ -777,13 +713,15 @@
             function (cb1) { // add codyuser to the driusergrp
                 addgrouptowid("codyuser", "userdto", "driusergrp1", cb1);
             },
-
+            function (cb1) {
+                creategroup("driusergrp1", cb1);
+            },
             function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
-                addpermission("rogerboss", "driusergrp1", "createcoupon", "test", "50", cb1);
+                addpermission("rogerboss", "driusergrp1", "createcoupon","data",  "99", cb1);
             },
 
             function (cb1) {
-                testsecurity("codyac", "executethis", "createcoupon", "test", false, cb1);
+                securitycheck("codyac", "executethis", "createcoupon", "test", false, cb1);
             }
         ];
 
@@ -793,4 +731,95 @@
         });
 
     }
+
+
+    exports.prob21 = prob21 = function prob21(parm, callback) {
+
+        var status = false;
+        debuglevel = 34;
+        debugname = "";
+        debugcat = "";
+        debugsubcat = "code";
+        async.series([
+                function (cb1) {
+                    addgrouptowid("rogeruser","userdto", "driemployeegroup", function (err, res) {
+                        cb1(null);
+
+                    });
+                // },
+                // function (cb1) {
+                //     addgrouptowid("codyuser0","userdto", "driemployeegroup0", function (err, res) {
+                //         cb1(null);
+
+                //     });
+                }
+            ],
+            function (err, res) {
+                console.log('created testdata for test1000 --  ' + JSON.stringify(status));
+
+                callback(err, status);
+
+            });
+
+    }
+
+
+    // creates test data for different tests to be run :: generates data and adds a new user 
+    exports.createtestuser = createtestuser = function createtestuser(userwid, ac, loginlevel, cb2) {
+        execute([{
+                // add user 
+                "executethis": "addwidmaster",
+                "metadata.method": "userdto",
+                // "metadata.owner": "system",
+                "wid": userwid,
+                "fname": "john",
+                "lname": "doe",
+                "email": "jj@gmail.com",
+                "email2": "",
+                "address": "123 pleasant lane",
+                "address2": "apt 101",
+                "city": "Pleasantville",
+                "state": "Florida",
+                "zip": "26534",
+                // security data
+                "systemdto.securitydto.logged_id": "true",
+                "systemdto.securitydto.accesstoken": ac,
+                "systemdto.securitydto.level": loginlevel,
+                // category data
+                "systemdto.categorydto.categorytype": "categorytype",
+                "systemdto.categorydto.categoryname": "categoryname",
+
+            }],
+            function (err, res) {
+                proxyprinttodiv('Function createtestuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 99);
+                // addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
+                //     proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 99);
+                //     addcategory(userwid, true, "categoryname", function (err, res2) {
+                //         proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 99);
+
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": userwid
+                }, function (err, res3) {
+                    proxyprinttodiv('Function createtestuser --  >>>>>> FINAL USER >>>>>    -- ' + userwid, res3, 99);
+                    cb2(err, res3);
+                })
+                //     });
+                // });
+            });
+    }
+
+        // takes in needed details and does a security check on the basis of data received against the DB data received
+    // user is identified by the access token
+    // db says which DB to be used
+    // actiongroup says the type of wid the action is being tried upon
+    // targetaction is the action being executed on the wid
+    exports.testsecurity = testsecurity = function testsecurity(ac, targetgroup, actiongroup, dbgroup, assertion, callback) {
+        securitycheck(ac, targetgroup, actiongroup, dbgroup, function (err, res) {
+            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 99);
+            callback(err, res)
+        });
+    }
+
+
 })(typeof window == "undefined" ? global : window);
