@@ -2,17 +2,27 @@
 
     // authcall looks at incoming paramters and creates call to security check
     //
-    // getuserbyac() gets user id by ac
-    // getgrouprecursive(wid) recurses finding group for wid
-    // recursepermissionlist(accountgroup, actiongroup, dbgroup, login) repeatedly calls getgrouprecursive
-    // getpermissionlist(account) gets permissionlist can calls recursepermissionlist repeated
-    // checkpermisstion(calculatepermissionlist, calculatedaccountpermissionlist)
-    //
     // security check accepts 
     //          accesstoken representing you 
     //          account(group) you want to pretend to be
     //          action(group) of what you want to do 
     //          db(group) of what database you want to do this in
+    //
+    // so basically security check:
+    // we get permission list for account (sent in)
+    // we step though each item on that list
+    // we call recursepermissionlist
+    // permission list row: account (grantee), action, db, login
+    // now we have a large list of all the permissions that account has given
+    //
+    // we take what was sent in 
+    // we convert ac to accout (our account)
+    // we call recursepermissionlist() with only the values sent in
+    // permission list row: account (who am I, action, db, login)
+    //
+    // now we have two lists permission list and request list
+    // we check for exactly mathing rows
+
     //
     // 1) Convert AC to user wid (if no user then fail)
     //    Calculate / create "complete permission request list"
@@ -28,24 +38,18 @@
     //          db get all realted dbthis
     //          get level
     //  3) check for matching rows
-
-    // so basically security check:
-    // we get permission list for account (sent in)
-    // we step though each item on that list
-    // we call recursepermissionlist
-    // permission list row: account (grantee), action, db, login
-    // now we have a large list of all the permissions that account has given
     //
-    // we take what was sent in 
-    // we convert ac to accout (our account)
-    // we call recursepermissionlist() with only the values sent in
-    // permission list row: account (who am I, action, db, login
-    //
-    // now we have two lists permission list and request list
-    // we check for exactly mathing rows
+    // getuserbyac() gets user id by ac
+    // getgrouprecursive(wid) recurses finding group for wid
+    // recursepermissionlist(accountgroup, actiongroup, dbgroup, login) repeatedly calls getgrouprecursive
+    // getpermissionlist(account) gets permissionlist can calls recursepermissionlist repeated
+    // checkpermisstion(requestpermissionlist, calculatedaccountpermissionlist)
 
+
+
+    // authcall looks at incoming paramters and creates call to security check
     exports.authcall = authcall = function authcall(inboundparams, callback) {
-        proxyprinttodiv('Function fishoutAuthParams() in : ', 'before');
+        proxyprinttodiv('authcall inboundparams ', inboundparams, 34);
         var environment;
         var status = false;
         // //console.debug">>>>> env >>> "+ JSON.stringify(inboundparams['etenvironment']));
@@ -76,175 +80,96 @@
         }
     }
 
-
     exports.securitycheck = securitycheck = function securitycheck(accesstoken, account, action, db, callback) {
+        proxyprinttodiv('Function securitytest accesstoken-- ', accesstoken, 91);
+        proxyprinttodiv('Function securitytest account-- ', account, 91);
+        proxyprinttodiv('Function securitytest action-- ', action, 91);
+        proxyprinttodiv('Function securitytest db-- ', db, 91);
 
-        proxyprinttodiv('Function securityCheck() in : ', 'before', 34);
-        proxyprinttodiv('Function security accesstoken-- ', accesstoken, 34);
-        proxyprinttodiv('Function security account-- ', account, 34);
-        proxyprinttodiv('Function security action-- ', action, 34);
-        proxyprinttodiv('Function security db-- ', db, 34);
-
-        // check if systemdto has status as logged in for the given access code, if yes proceed, else respond with unauthorized error
+        var requestpermissionlist = [];
+        var calculatedaccountpermissionlist = [];
         var securityCheckOutput = false;
 
-        var results1;
-        var results2;
-        var userWid;
-        var userDto;
-        var ret = false;
 
-        async.series([
+        getpermissionlist(account, function (err, res) {
+            var permissionsForThisAccount = res;
 
-            function part1(cb) {
-                var query1 = [{
-                    "executethis": "querywid",
-                    "mongorawquery": {
-                        "data.accesstoken": accesstoken
-                    },
-                    "mongorelationshipdirection": "backward",
-                    "mongorelationshipmethod": "all",
-                    "mongorelationshiptype": "attributes"
-                }];
 
-                execute(query1, function (err, res) {
-                    results1 = res[0][0][0];
-                    cb(null);
+            for (var i = 0; i < permissionsForThisAccount.length; i++) {
+                recursepermissionlist(permissionsForThisAccount[i]['myaccountgroup'], permissionsForThisAccount[i]['action'], permissionsForThisAccount[i]['db'], permissionsForThisAccount[i]['login'], function (err, res) {
+                    calculatedaccountpermissionlist.push(res);
+                    proxyprinttodiv('Function security account each ', res, 91);
                 });
-            },
+            }
+            proxyprinttodiv('Function security account permissionlist ', calculatedaccountpermissionlist, 91);
 
-            function part2(cb) {
-                if (validParams(results1) && validParams[0]) {
-                    var query2 = [{
-                        "executethis": "querywid",
-                        "mongorawquery": {
-                            // "wid": results1['wid']
-                            "wid": Object.keys(results1)[0]
-                        },
-                        "mongorelationshiptype": 'attributes',
-                        "mongorelationshipdirection": "backward"
-                    }]
-
-                    execute(query2, function (err, res) {
-                        userWid = res[0][0][0];
-                        userWid = Object.keys(userWid)[0];
-                        cb(null);
-                    });
-                } else {
-                    userWid = undefined;
-                    cb(null);
-                }
-            },
-
-
-
-            function part21(cb) {
-                if (userWid) {
-                    var query21 = [{
-                        "executethis": "getwidmaster",
-                        "wid": userWid
-                        // "wid": "rogeruser"
-                    }]
-
-                    execute(query21, function (err, res) {
-                        userDto = res[0][0][0];
-                        cb(null);
-                    });
-                } else {
-                    userDto = undefined;
-                    cb(null);
-                }
-            },
-
-            function part3(cb) {
-                if (!userWid) {
+            getuserbyac(accesstoken, function (err, userDto) {
+                if (!userDto || (userDto && !userDto.wid)) {
                     securityCheckOutput = false;
-                    cb(null);
                 } else {
 
-
-                    proxyprinttodiv('Function querywid() out with  userDto : ', JSON.stringify(userDto), 34);
-                    // if (!true) {
-
-                    proxyprinttodiv('Function security userDto[systemdto.securitydto.logged_id]-- ', userDto['systemdto.securitydto.logged_id'], 34);
+                    proxyprinttodiv('Function securitytest) out with  userDto : ', userDto, 91);
+                   
+                    proxyprinttodiv('Function securitytest userDto[systemdto.securitydto.logged_id]-- ', userDto['systemdto.securitydto.logged_id'], 91);
                     if (!userDto['systemdto.securitydto.logged_id']) {
                         // if not logged in,
                         securityCheckOutput = false;
                     } else {
-
-
                         var loginlevel = userDto['systemdto.securitydto.level'];
-                        getGroupRecursive(userWid, loginlevel, function (err, res) {
+                        getGroupRecursive(userDto.wid, function (err, res) {
                             var myAccountGroupdtoArr = res[1].groups;
                             console.log("getGroupRecursive 1 --- " + JSON.stringify(res));
-                            proxyprinttodiv('Function security getGroupRecursive 1 --  >>>>>>  >>>>>  for  securitycheck response for res-- ', res, 34);
+                            proxyprinttodiv('Function security recursive user wid ', res, 91);
 
-                            // get account groups
-                            // proxyprinttodiv('Function security getGroupRecursive 2 --  >>>>>>  >>>>>  account-- ', account, 34);
-                            // proxyprinttodiv('Function security getGroupRecursive 2 --  >>>>>>  >>>>>  db-- ', db, 34);
-                            // proxyprinttodiv('Function security getGroupRecursive 2 --  >>>>>>  >>>>>  action-- ', action, 34);
-                            getGroupRecursive(account, loginlevel, function (err, res) {
-                                var accountGroupdtoArr = res[1].groups;
-                                console.log("getGroupRecursive 2--- " + JSON.stringify(res));
-                                proxyprinttodiv('Function security getGroupRecursive 2 --  >>>>>>  >>>>>  for  securitycheck response for res-- ', res, 34);
+                            // //
+                            // // ** this one makes no sense
+                            // getGroupRecursive(account, function (err, res) {
+                            //     var accountGroupdtoArr = res[1].groups;
+                            //     console.log("getGroupRecursive 2--- " + JSON.stringify(res));
+                            //     proxyprinttodiv('Function security recursive  account????? ', res, 91);
 
                                 // get action groups
-                                getGroupRecursive(action, loginlevel, function (err, res) {
+                                getGroupRecursive(action, function (err, res) {
                                     var actionGroupdtoArr = res[1].groups;
                                     console.log("getGroupRecursive 3--- " + JSON.stringify(res));
-                                    proxyprinttodiv('Function security getGroupRecursive 3 --  >>>>>>  >>>>>  for  securitycheck response for res-- ', res, 34);
-
+                                    proxyprinttodiv('Function security recursive action', res, 91);
 
                                     // get db groups
-                                    getGroupRecursive(db, loginlevel, function (err, res) {
+                                    getGroupRecursive(db, function (err, res) {
                                         var dbGroupdtoArr = res[1].groups;
                                         console.log("getGroupRecursive 4--- " + JSON.stringify(res));
-                                        proxyprinttodiv('Function security getGroupRecursive 4 --  >>>>>>  >>>>>  for  securitycheck response for res-- ', res, 34);
+                                        proxyprinttodiv('Function security recursive db', res, 91);
 
-                                        // myAccountGroupdtoArr.push("driemployeegroup")
                                         // find all permissions where my groups are given permission
-                                        getPermissionsList(myAccountGroupdtoArr, actionGroupdtoArr, accountGroupdtoArr, dbGroupdtoArr, loginlevel, function (err, res) {
+                                        recursepermissionlist(myAccountGroupdtoArr, actionGroupdtoArr, dbGroupdtoArr, loginlevel, function (err, res) {
                                             var myPermissionsdtoArr = res;
-                                            console.log("getPermissionsList 1 --- " + JSON.stringify(res));
-                                            proxyprinttodiv('Function security  --  >>>>>>  >>>>>  for  securitycheck response for res-- ', res, 34);
-                                            proxyprinttodiv('Function security  --  >>>>>>  >>>>>  for  securitycheck response for ret-- ', ret, 34);
+                                            requestpermissionlist.push(myPermissionsdtoArr);
+                                            proxyprinttodiv('Function security my requestpermissionlist ', requestpermissionlist, 91);
 
-                                            // see if there is a permission record for that combination
-                                            if (myPermissionsdtoArr.length > 0) {
-                                                ret = true;
-                                            }
-
-                                            console.log("message --- " + ret);
-                                            cb(null);
+                                            // test security based on two permission lists
+                                            securityCheckOutput =  checkpermission(requestpermissionlist, calculatedaccountpermissionlist, callback);
                                         });
                                     });
-
-                                });
-
+                                //});
                             });
-
                         });
                     }
-                }
+                };
+                callback(null, securityCheckOutput);
+            });
 
-            }
-        ], function (err, res) {
-            //console.debug' done securitycheck in sync manner.');
-            console.log(">>>>>>> --- " + ret);
-            proxyprinttodiv('Function securitycheck --  >>>>>>  >>>>>  for  securitycheck response for ret-- ', ret, 34);
-            proxyprinttodiv('after securitycheck --  res', ret, 34);
-            callback(err, ret);
         });
-        // if (exports.environment === "local") {
-        //     while (ret === undefined) {}
-        //     return ret;
-        // }
-    }
+
+    };
+
+
 
     // get all the groupdto wids for a given wid
+    // getgrouprecursive(wid) recurses finding group for wid
 
-    function getGroupRecursive(wid, loginlevel, callback) {
-        proxyprinttodiv('Function getGroupRecursive  --  >>>>>>  >>>>>  loginlevel-- ', loginlevel, 34);
+    exports.getGroupRecursive = getGroupRecursive = function getGroupRecursive(wid, callback) {
+
+        // this makes no sense:
         if (wid instanceof Array) {
             wid = wid[0].groupsForThisWid;
         }
@@ -278,7 +203,7 @@
                                 var key = Object.keys(res[0][0][i])[0];
                                 groupsForThisWid.push(key);
                                 widGroupDtosWid.push(res[0][0][i][key]['groupname']);
-                                getGroupRecursive(key, loginlevel, function (err, res) {
+                                getGroupRecursive(key, function (err, res) {
                                     proxyprinttodiv("Function -- res: ", res, 34);
                                     // groupsForThisWid = groupsForThisWid.push(res);
                                     proxyprinttodiv('Function getGroupRecursive  --  >>>>>>  >>>>>  groupsForThisWid-- ', groupsForThisWid, 34);
@@ -310,47 +235,68 @@
     }
 
 
-    // get the group wids array for grantee, account, action and db, and get the matching permissions array
+    // recursepermissionlist(accountgroup, actiongroup, dbgroup, login) repeatedly calls getgrouprecursive
 
-    function getPermissionsList(myAccountGroupdtoArr, accountGroupdtoArr, actionGroupdtoArr, dbGroupdtoArr, loginlevel, callback) {
+    exports.recursepermissionlist = recursepermissionlist = function recursepermissionlist(accountgroup, actiongroup, dbgroup, login, callback) {
 
-        var permissionsArr;
-        proxyprinttodiv('Function -- getPermissionsList  loginlevel: ', loginlevel, 34);
-
-        proxyprinttodiv('Function -- getPermissionsList  myAccountGroupdtoArr: ', myAccountGroupdtoArr, 34);
-
-        proxyprinttodiv('Function -- getPermissionsList  accountGroupdtoArr: ', accountGroupdtoArr, 34);
-
-        proxyprinttodiv('Function -- getPermissionsList  actionGroupdtoArr: ', actionGroupdtoArr, 34);
-
-        proxyprinttodiv('Function -- getPermissionsList  dbGroupdtoArr: ', dbGroupdtoArr, 34);
+        var permissionsArr = [];
+        proxyprinttodiv('Function -- recursepermissionlist  login: ', login, 34);
+        proxyprinttodiv('Function -- recursepermissionlist  accountgroup: ', accountgroup, 34);
+        proxyprinttodiv('Function -- recursepermissionlist  actiongroup: ', actiongroup, 34);
+        proxyprinttodiv('Function -- recursepermissionlist  dbgroup: ', dbgroup, 34);
 
 
         var queryJson = {
             "executethis": "querywid",
             "mongorawquery": {
                 "data.granteegroup": {
-                    "$in": myAccountGroupdtoArr
+                    "$eq": accountgroup
                 },
                 "data.targetgroup": {
-                    "$in": actionGroupdtoArr
+                    "$eq": actiongroup
                 },
                 "data.dbgroup": {
-                    "$in": dbGroupdtoArr
-                },
-                "data.actiongroup": {
-                    "$in": accountGroupdtoArr
+                    "$eq": dbgroup
                 },
                 "data.levelgroup": {
-                    "$lte": loginlevel
+                    "$lte": login
                 }
             }
         };
 
-        proxyprinttodiv('Function -- getPermissionsList  queryJson: ', queryJson, 34);
-
+        proxyprinttodiv('Function -- recursepermissionlist  queryJson: ', queryJson, 34);
 
         // "data.granteegroup":"driemployeegroup","data.actiongroup":"createcoupon","data.targetgroup":"executethis","data.dbgroup":"data"
+        execute(queryJson, function (err, res) {
+            if (!res) {
+                res = [];
+            }
+            permissionsArr = res;
+            proxyprinttodiv('Function recursepermissionlist  --  >>>>>>  >>>>>  permissionsArr-- ', permissionsArr, 34);
+            //console.debug' done permissions retrieving in sync manner.');
+            callback(err, permissionsArr);
+        });
+
+
+    }
+
+    // getpermissionlist(account) gets permissionlist can calls recursepermissionlist repeated
+    exports.getpermissionlist = getpermissionlist = function getpermissionlist(account, callback) {
+
+        var permissionsArr = [];
+        proxyprinttodiv('Function -- getpermissionlist  account: ', account, 34);
+
+        // this does not look right ... should getwidmaster account...then look at permissionlist in there
+        var queryJson = {
+            "executethis": "querywid",
+            "mongorawquery": {
+                "data.granteegroup": {
+                    "$eq": account
+                }
+            }
+        };
+
+        proxyprinttodiv('Function -- getpermissionlist  queryJson: ', queryJson, 34);
 
         async.series([
             function part1(cb) {
@@ -359,13 +305,117 @@
                         res = [];
                     }
                     permissionsArr = res;
-                    proxyprinttodiv('Function getPermissionsList  --  >>>>>>  >>>>>  permissionsArr-- ', permissionsArr, 34);
+                    proxyprinttodiv('Function getpermissionlist  --  >>>>>>  >>>>>  permissionsArr-- ', permissionsArr, 34);
                     cb(null);
                 });
             }
         ], function (err, resp) {
             //console.debug' done permissions retrieving in sync manner.');
             callback(err, permissionsArr);
+        });
+
+    }
+
+    // checkpermisstion(requestpermissionlist, calculatedaccountpermissionlist)
+
+    function checkpermission(requestpermissionlist, calculatedaccountpermissionlist, callback) {
+        var result = false;
+        proxyprinttodiv('Function -- checkpermission  requestpermissionlist ', requestpermissionlist, 34);
+
+        proxyprinttodiv('Function -- checkpermission  calculatedaccountpermissionlist ', calculatedaccountpermissionlist, 34);
+
+        var queryJson = {
+            "executethis": "querywid",
+            "mongorawquery": {
+                // TODO :: correct the conditions
+                "data.granteegroup": {
+                    "$in": requestpermissionlist
+                },
+                "data.granteegroup": {
+                    "$in": calculatedaccountpermissionlist
+                }
+            }
+        };
+
+        execute(queryJson, function (err, res) {
+            if (res) {
+                result = true;
+            }
+
+            callback(err, result);
+        });
+    }
+
+
+    // getuserbyac() gets user id by ac
+    exports.getuserbyac = getuserbyac = function getuserbyac(userac, callback) {
+        var userDto, results1, userWid, systemWid;
+
+        async.series([
+
+            function part1(cb) {
+                var query1 = [{
+                    "executethis": "querywid",
+                    "mongorawquery": {
+                        "data.accesstoken": userac
+                    },
+                    "mongorelationshipdirection": "backward",
+                    "mongorelationshipmethod": "all",
+                    "mongorelationshiptype": "attributes"
+                }];
+
+                execute(query1, function (err, res) {
+                    systemWid = res[0][0][0];
+                    cb(null);
+                });
+            },
+
+            function part2(cb) {
+                if (validParams(systemWid)) {
+                    proxyprinttodiv('Function systemWid  --  >>>>>>  >>>>>  systemWid-- ', systemWid, 99);
+
+                    var query2 = [{
+                        "executethis": "querywid",
+                        "mongorawquery": {
+                            "wid": Object.keys(systemWid)[0]
+                        },
+                        "mongorelationshipdirection": "backward",
+                        "mongorelationshiptype": 'attributes'
+                    }]
+
+                    execute(query2, function (err, res) {
+                        userWid = res[0][0][0];
+                        userWid = Object.keys(userWid)[0];
+                        cb(null);
+                    });
+                } else {
+                    userWid = undefined;
+                    cb(null);
+                }
+            },
+
+            function part3(cb) {
+                if (userWid) {
+                    var query21 = [{
+                        "executethis": "getwidmaster",
+                        "wid": userWid
+                    }]
+
+                    execute(query21, function (err, res) {
+                        userDto = res[0][0][0];
+                        cb(null);
+                    });
+                } else {
+                    userDto = undefined;
+                    cb(null);
+                }
+            }
+        ], function (err, res) {
+            //console.debug' done securitycheck in sync manner.');
+            proxyprinttodiv('securitycheck userDto ', userDto, 99);
+            proxyprinttodiv('Function getuserbyac --  >>>>>>  >>>>>  -- ', res, 34);
+            proxyprinttodiv('after getuserbyac --  res', res, 34);
+            callback(err, userDto);
         });
 
     }
