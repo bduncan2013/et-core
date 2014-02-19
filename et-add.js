@@ -4,6 +4,11 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
+    // Test for lowering parameters
+    // tolowerparameters(object, {}, false, _object, _command);
+    // console.log('&&& _object\n' + JSON.stringify(_object, "-", 4));
+    // console.log('&&& _command\n' + JSON.stringify(_command, "-", 4));
+    
     var _object = ConvertFromDOTdri(object);
 
     var _dto_object;

@@ -85,7 +85,7 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
 }
 
 
-function getindex(parameterobject, dtoname, indexstring) {
+exports.getindex = getindex = function getindex(parameterobject, dtoname, indexstring) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -125,7 +125,7 @@ function getindex(parameterobject, dtoname, indexstring) {
 
 } 
 
-function setbyindex(obj, str, val) {
+exports.setbyindex = setbyindex = function setbyindex(obj, str, val) {
     var keys, key;
     //make sure str is a string with length
     if (str==="") {extend(true, obj, val)}
@@ -171,7 +171,7 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
 
 }
 
-function recurseModObj(inputObject,dtoObject, command){
+exports.recurseModObj = recurseModObj = function recurseModObj(inputObject,dtoObject, command){
     var modifiedObj = {};
     Object.keys(inputObject).forEach(function (inpKey) {
 
@@ -572,7 +572,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         var first = arr[0];
         var rest = arr.slice(1);
 
-        var result = {};
+        var result = {};recurFunc
         //if (_.isUndefined(result[first]) ) {
         if (isUndefined(result[first])) {
             result[first] = {};
@@ -606,7 +606,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     var hasOwn = Object.prototype.hasOwnProperty;
     var toString = Object.prototype.toString;
 
-    function isPlainObject(obj) {
+    exports.isPlainObject = isPlainObject = function isPlainObject(obj) {
         if (!obj || toString.call(obj) !== '[object Object]' || obj.nodeType || obj.setInterval)
             return false;
 
@@ -1543,7 +1543,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         //      addtolocalostore
     } // End of debugfn
 
-    function store_to_google(indebugname, google_object) {
+    exports.store_to_google = store_to_google = function store_to_google(indebugname, google_object) {
         if (exports.environment === "local") {
             $('#name').val(indebugname);
             $('#comment').val(JSON.stringify(google_object));
@@ -1551,7 +1551,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
     }
 
-    function readtestresutlsandstorwegoogle() {
+    exports.readtestresutlsandstorwegoogle = readtestresutlsandstorwegoogle = function readtestresutlsandstorwegoogle() {
         // read local store
         // clear local store
         // look for testtest
