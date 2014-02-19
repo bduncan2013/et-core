@@ -1413,7 +1413,7 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         for (i in parameters) {
             p[4][parameters[i]] = parameters[i];
         }
-        console.log("Output from fishout: ", JSON.stringify(p, "-", 4));
+        // console.log("Output from fishout: ", JSON.stringify(p, "-", 4));
         return p;
     }
 })(typeof window == "undefined" ? global : window);
