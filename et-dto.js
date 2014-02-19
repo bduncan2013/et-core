@@ -9,14 +9,15 @@
     // however we try to access it (using getwidmaster) using admin group user
 
     exports.createsystemdtos = createsystemdtos = function createsystemdtos(params, callback) {
-        debuglevel = 17
+
         createsystemdtos1(params, function (err, res) {
             createsystemdtos2(params, function (err, res) {
 
-                sectest1(params, function (err, res) {
-
-                    //createtestuser("rogeruser", "rogerac", 99, function (err, res) {
-
+                //sectest1(params, function (err, res) {
+                //debuglevel = 17
+                //createtestuser("rogeruser", "rogerac", "99", function (err, res) {
+                //test1000(params, function (err, res) {
+                    
                     execute([{
                             "executethis": "getwidmaster",
                             "wid": "userdto",
@@ -38,12 +39,28 @@
                         }, {
                             "executethis": "getwidmaster",
                             "wid": "rogeruser",
+                        }, {
+                            "executethis": "querywid",
+                            "mongorawquery": {
+                                "data.accesstoken": "rogeruser"
+                            },
+                            "mongorelationshipdirection": "forward",
+                            "mongorelationshipmethod": "all",
+                            "mongorelationshiptype": "attributes"
+                        }, {
+                            "executethis": "querywid",
+                            "mongorawquery": {
+                                "data.accesstoken": "rogerac"
+                            },
+                            "mongorelationshipdirection": "backward",
+                            "mongorelationshipmethod": "all",
+                            "mongorelationshiptype": "attributes"
                         }],
                         function (err, res) {
                             proxyprinttodiv('Function records added', res, 99);
                             callback(err, res);
                         })
-                })
+                //})
             })
         })
     }
@@ -53,6 +70,14 @@
         var executeList = [
 
             {
+                // note we do not actually store anything here
+                "executethis": "addwidmaster",
+                "metadata.method": "logindto",
+                "wid": "logindto",
+                "phone": "string",
+                "pin":"string"
+
+            },{
                 //create userdto
                 "executethis": "addwidmaster",
                 "metadata.method": "userdto",
@@ -60,16 +85,44 @@
                 "widname": "wid",
                 "fname": "string",
                 "lname": "string",
+                "phone": "phone",
                 "email": "string",
-                "email2": "string",
                 "address": "string",
                 "address2": "string",
                 "city": "string",
                 "state": "string",
                 "zip": "string",
+                "country":"string",
+                "metadata.systemdto.type": "onetoone",
+                "metadata.useradddto.type": "onetoone"
+            }, {
+                // link from user to other dto to show how done
+                // it would have own sych rules
+                "executethis": "addwidmaster",
+                "metadata.method": "environmentdto",
+                "wid": "environmentdto",
+                "ac": "string",  
+                "gps": "string", 
+                "account":"string",
+                "db":"string",
+                "collection":"collection",       
                 "metadata.systemdto.type": "onetoone"
             }, {
-                //create testdto
+                // add groupnamedto 
+                "executethis": "addwidmaster",
+                "wid": "groupnamedto",
+                "metadata.method": "groupnamedto",
+                "groupname": "string",
+                "metadata.systemdto.type": "onetoone" 
+            }, {
+                // add categorynamedto 
+                "executethis": "addwidmaster",
+                "wid": "categorynamedto",
+                "metadata.method": "categorynamedto",
+                "categoryname": "string",
+                "metadata.systemdto.type": "onetoone" 
+            }, {
+            //testdto
                 "executethis": "addwidmaster",
                 "metadata.method": "testdto",
                 "wid": "testdto",
@@ -77,21 +130,12 @@
                 "b": "string",
                 "metadata.systemdto.type": "onetoone"
             }, {
-                // add groupnamedto as per given wid 
-                "executethis": "addwidmaster",
-                "wid": "groupnamedto",
-                "metadata.method": "groupnamedto",
-                "groupname": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
                 //create systemdto
                 "executethis": "addwidmaster",
                 "metadata.method": "systemdto",
                 "wid": "systemdto",
-                "creator": "string",
-                "expiration": "string",
-                // "creator": "accounttype",
-                // "expiration": "datetime",
+                "creator": "string",        //"accounttype",
+                "expiration": "string",     //"datetime",
                 "offlinerule": "string",
                 "onlinerule": "string",
                 "metadata.securitydto.type": "onetoone",
@@ -105,7 +149,7 @@
                 "metadata.method": "groupdto",
                 "wid": "groupdto",
                 "grouptype": "string",
-                //"groupname": "grouptype",
+                "groupwid": "string",
                 "groupname": "string"
             }, {
                 // create securitydto
@@ -139,16 +183,19 @@
                 "categorytype": "string",
                 "categoryname": "string"
                 //"categoryname": "categorytype"
-            }, {
+            }, {     
                 // create balancedto
                 "executethis": "addwidmaster",
                 "metadata.method": "balancedto",
                 "wid": "balancedto",
-                "widname": "string",
-                "balance": "string"
-                //"widname": "wid",
-                //"balance": "integer"
-                // }, {
+                "currencywid": "string",    // wid 
+                "balance": "string"         // integer
+            }, {
+                // create system user data
+                "executethis": "addwidmaster",
+                "metadata.method": "systemuserdto",
+                "wid": "systemuserdto",
+                "startwid": "string"
             }
         ];
 
@@ -170,7 +217,7 @@
             {
                 // create relationships permissiondto
                 "executethis": "addwidmaster",
-                "wid": "rel_system_to_user",
+                "wid": "rel_user_to_system",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
                 "linktype": "onetoone",
@@ -179,10 +226,42 @@
                 "secondarywid": "systemdto",
                 "secondarymethod": "systemdto"
             }, {
-                // create relationships testdto
-                "primarymethod": "userdto",
+                // create relationships statusdto
                 "executethis": "addwidmaster",
-                "wid": "rel_system_to_test",
+                "wid": "rel_user_to_balance",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "userdto",
+                "primarymethod": "userdto",
+                "secondarywid": "balancedto",
+                "secondarymethod": "balancedto"
+            }, {
+                // create relationships systemuserdto
+                "executethis": "addwidmaster",
+                "wid": "rel_user_to_sytemuserdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "userdto",
+                "primarymethod": "userdto",
+                "secondarywid": "systemuserdto",
+                "secondarymethod": "systemuserdto"
+            }, {
+                // create relationships statusdto
+                "executethis": "addwidmaster",
+                "wid": "rel_useradd_to_system",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "environmentdto",
+                "primarymethod": "environmentdto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+            }, {
+                // create relationships testdto
+                "executethis": "addwidmaster",
+                "wid": "rel_test_to_system",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
                 "linktype": "onetoone",
@@ -190,7 +269,27 @@
                 "primarymethod": "testdto",
                 "secondarywid": "systemdto",
                 "secondarymethod": "systemdto"
-
+                // create relationships permissiondto
+            },{
+                "executethis": "addwidmaster",
+                "wid": "rel_cat_to_system",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "categorynamedto",
+                "primarymethod": "categorynamedto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+            }, {
+                "executethis": "addwidmaster",
+                "wid": "rel_grouo_to_system",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "groupnamedto",
+                "primarymethod": "groupnamedto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
             }, {
                 // create relationships permissiondto
                 "executethis": "addwidmaster",
@@ -203,6 +302,7 @@
                 "secondarywid": "groupdto",
                 "secondarymethod": "groupdto"
             }, {
+
                 // create relationships categorydto
                 "executethis": "addwidmaster",
                 "wid": "rel_system_to_category",
@@ -237,18 +337,29 @@
                 "primarymethod": "systemdto",
                 "secondarywid": "permissiondto",
                 "secondarymethod": "permissiondto"
-
             }, {
                 // create relationships statusdto
                 "executethis": "addwidmaster",
-                "wid": "rel_system_to_balance",
+                "wid": "rel_user_to_balance",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
                 "linktype": "onetoone",
-                "primarywid": "systemdto",
-                "primarymethod": "systemdto",
+                "primarywid": "userdto",
+                "primarymethod": "userdto",
                 "secondarywid": "balancedto",
                 "secondarymethod": "balancedto"
+            }, {
+                // create relationships systemuserdto
+                "executethis": "addwidmaster",
+                "wid": "rel_user_to_sytemuserdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "userdto",
+                "primarymethod": "userdto",
+                "secondarywid": "systemuserdto",
+                "secondarymethod": "systemuserdto"
+
             }
         ];
 
@@ -258,6 +369,11 @@
         });
     }
 
+    exports.createsystemdefaults = createsystemdefaults = function createsystemdefaults(params, callback) {
+    }
+
+    exports.createsystemdata = createsystemdata = function createsystemdata(params, callback) {
+    }
 
 
     exports.createsystemdtos3 = createsystemdtos3 = function createsystemdtos3(params, callback) {
@@ -343,13 +459,13 @@
     }
 
 
-    exports.creategroup = creategroup = function creategroup(groupname) {
+    exports.creategroup = creategroup = function creategroup(groupname, callback) {
         execute([{
             "executethis": "addwidmaster",
             "wid": "groupnamedto",
             "groupname": groupname
         }], function (err, res) {
-            proxyprinttodiv('Function datasum2 relationships -- added all this -- ', res, 99);
+            proxyprinttodiv('Function creategroup relationships -- added all this -- ', res, 99);
             callback(err, res);
         });
     }
