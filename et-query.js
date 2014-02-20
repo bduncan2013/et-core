@@ -1363,16 +1363,23 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
     function fishOut(parameters) {
         var p = [];
+        var filter_data = {};
 
-        p[0] = tolowerparameters(parameters, {  // queParams
+        // p[0] = tolowerparameters(parameters, {  // queParams
+        console.log("FFFFFilter_data inbound parameters\n" + JSON.stringify(parameters, '-', 4));
+        filter_data = tolowerparameters(parameters, {  // queParams
                                                 "mongowid":"",
                                                 "mongorawquery":"",
                                                 "mongoquerywid":"",
                                                 "mongosinglequery":"",
                                                 "mongomultiplequery":"",
                                             }, true);
+        p[0] = filter_data.output;
+
+        console.log("FFFFFilter_data output\n" + JSON.stringify(filter_data.output, '-', 4));
+        console.log("FFFFFilter_data left overs\n" + JSON.stringify(filter_data.left_over_object, '-', 4));
    
-        p[1] = tolowerparameters(parameters, {  // relParams
+        filter_data = tolowerparameters(parameters, {  // relParams
                                                 "mongorelationshipdirection":"",
                                                 "mongorelationshiptype":"",
                                                 "mongorelationshipmethod":"",
@@ -1381,11 +1388,12 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                                                 "mongodtotype":"",
                                                 "mongorelquery":""
                                             }, true);
-                
+        p[1] = filter_data.output;
+
         p[2] = tolowerparameters(parameters, {  // aggParams
                                                 "mongoaggregation":"",
                                                 "mongoaggquery":""
-                                            }, true);
+                                            }, true).output;
 
         p[3] = tolowerparameters(parameters, {  // addParams
                                                 "mongosetfieldsinclude":"",
@@ -1401,20 +1409,20 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                                                 "mongosetsortorder":"",
                                                 "mongosetsortorder":"",
                                                 "mongosetsortorder":""
-                                            }, true);
+                                            }, true).output;
                                                 
         p[4] = tolowerparameters(parameters, {  // xtrParams
                                                 // "mongoToken":""
-                                            }, true);
+                                            }, true).output;
 
         p[5] = tolowerparameters(parameters, { // relafterParams;
                                                 "mongowidmethod":""
-                                            }, true);
+                                            }, true).output;
 
         p[6] = tolowerparameters(parameters, { // commandParams
                                                 "command.db":"",
                                                 "command.convertmethod":""
-                                            }, true);
+                                            }, true).output;
 
         // Gather the left over params  
         for (i in parameters) {

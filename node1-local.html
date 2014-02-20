@@ -527,10 +527,11 @@ exports.verifysummary_local = verifysummary_local = function verifysummary_local
 }
 
 // LM: Please leave this here
-// $(document).keypress(function (e) {
-//     if(e.which == 13) {
-//     };
-// });
+$(document).keypress(function (e) {
+    if(e.which == 13) {
+    	execute_stuff(true, false);
+    };
+});
 
 function showPassFail (result) {
 

@@ -104,88 +104,110 @@ function etunittesttester(params, callback) {
             [{"fn": "ettestag3"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]], 
      
-            // The cctests pass various config data to manipulate 
+            // The cctests pass various config data to manipulate either the config itself or simply
+            // passing data to various components of config
 
+            // Remap func for mid
             // Call redir_b. The config should remap redir_b to call func_b with no pre or post execution.
             [{"fn": "ettestct1"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
+            // Remap funcs pre, mid, and post
             // Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and also remap redir_c to func_c.
             [{"fn": "ettestct2"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
+            // Remap funcs pre, mid
             // Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all.
             [{"fn": "ettestct3"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
+            // Remap funcs mid, post
             // Call redir_b with only post redir_a -- same result as ct3, but putting the only remap call in post instead of pre.
             [{"fn": "ettestct3a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
+            // Remap funcs mid, post
             // Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any function in either pre or post.
             [{"fn": "ettestct4"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
+            // Remap funcs pre, mid
             // Call redir_b with only pre redir_c -- same result as t4
             [{"fn": "ettestct4a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
+            // Remap funcs pre, mid, post
             // Call redir_b with a remapping of redir_a to func_a for both pre and post.
             [{"fn": "ettestct5"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
+            // Remap funcs pre, mid, post
             // Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions can be used with the same effect.
             [{"fn": "ettestct6"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
+            // Remap funcs remaps pre in the config and calls mid
             // This will try pre with func a, but remapped with a configuration thatis passed into executethis...it still wants to hit func_b with mid
             [{"fn": "ettestct7"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
+            // Config tryorder
             // This test asserts that the tryorder in the config is successful and causes executethis to call dothis, not server, or the others. As of jan 28, it still fails to reorder them and calls the server instead. It breaks the code and will not simply call func_b locally.
             [{"fn": "ettestct8"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
+            // Config will try to hook request for func that does not exist
             // This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
             [{"fn": "ettestct9"},   [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
+            // Config will try to hook request for pre tat does not exist
             // This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So far it does not work, and never has.
             [{"fn": "ettestct10"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
+            // Config will try to hook on pre and post requests that do not exist
             // This test is to call func_b, remap does_not_exist_1 to func_a, remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c. None of these ever work...
             [{"fn": "ettestct11"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
+            // Config will try to hook on pre and mid that dont exist and call a func that does exist
             // This test is to test a config where a and b do not exist, but func_c does and c will execute. You should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in the results
             [{"fn": "ettestct13"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
+            // Config with param data for pre, mid, and post
             // Here is the modified ct14 test This test is to test a config where a config with params is sent to pre, mid, and post. The results should have the a,b,c cereals, along with the regular params.
             [{"fn": "ettestct14"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
+            // Testing param data to pre config, but overwritten in the args
             // This will send the alphabits param in the preexecute config, but will be overriding it in the args.. Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. 
             [{"fn": "ettestct15"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]], 
 
+            // Passing a config as the params of config
             // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the config params in the assertion wid.
             [{"fn": "ettestct16"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
+            // Tests if executedefault gets used by calling a non-existing function
             // To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.
             [{"fn": "ettestct17"},  [{"type": "hourly", "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
+            // Tests if the pre config params are used
             // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
             [{"fn": "ettestct18"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
+            // Tests config params getting used by executethis
             // This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, the args sent to executethis will always win...not any of the 3 places in the config that they are set.
             [{"fn": "ettestct19"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]], 
 
+            // Tests confilicting config params
             // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
             [{"fn": "ettestct20"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]]   
@@ -306,19 +328,35 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     var result = [];
     var err;
 
-    ettesttt(result, function (err, r1) {
+    // ettesttt(result, function (err, r1) {
+    //   result.push(r1);
+    //     ettestastt(result, function (err, r2) {
+    //        result.push(r2);
+    //         ettestctt(result, function (err, r3) {
+    //             result.push(r3);
+    //             ettestagtt(result, function (err, r4) {
+    //                 result.push(r4);
+    //                 callback(err, result);
+    //             });
+    //         });
+    //     });
+    // });
+    
+    ettestagtt(result, function (err, r1) {
       result.push(r1);
-        ettestastt(result, function (err, r2) {
+        ettesttt(result, function (err, r2) {
            result.push(r2);
-            ettestctt(result, function (err, r3) {
-                result.push(r3);
-                // ettestagtt(result, function (err, r4) {
-                //     result.push(r4);
+            // ettestastt(result, function (err, r3) {
+            //     result.push(r3);
+            //     ettestagtt(result, function (err, r4) {
+            //         result.push(r4);
                     callback(err, result);
                 // });
-            });
+            // });
         });
-    });
+    }); 
+     
+    
 }
 
 exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
