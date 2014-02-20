@@ -154,6 +154,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
 
             // inobj.command.deepdtolist = dto;
             // inobj.command.inherit = dto;
+        proxyprinttodiv("In GetDTOObject before return -- we created dto -- :", dtoobj, 99);
         return dtoobj
         } // end fn recurse
 
@@ -663,6 +664,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             //     }
             // }
 
+            // this function removes
             function find_and_replace_addthis(obj) {
                 var _in_obj = {};
 
@@ -678,11 +680,10 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
                 for (var each_param in _in_obj) {
                     if (isObject(_in_obj[each_param])) {
-                        proxyprinttodiv("--We are doing this again :(", _in_obj, 99);
                         _in_obj[each_param] = find_and_replace_addthis(_in_obj[each_param]);
                     } 
                 } // for each_param
-                
+
                 return _in_obj;
             } // end fn recurse
 

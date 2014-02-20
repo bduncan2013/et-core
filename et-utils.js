@@ -988,10 +988,10 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             // Grab the value of the key in the data
             var target = output[key.toLowerCase()];
             // Polish the target...it may need it
-            target = (target === undefined) ? "" : target.toLowerCase();
+            target = (target === undefined) ? "" : target;
             // If there is no value in the filter, skip and move on
             if (val === undefined) continue;
-            if (val.length > 0 && target.length === 0) {
+            if (val.length > 0 && target) {
                 // Polish val... it may need it
                 val = (val === 'add') ? "" : val;
                 // Apply it to the output
@@ -1014,7 +1014,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             // Look at the filter and apply it to the data
             for (var v in filter_by_keys) {
                 if (p.toLowerCase() === filter_by_keys[v]) {
-                    output[p.toLowerCase()] = parameters[p].toLowerCase();
+                    output[p.toLowerCase()] = parameters[p];
                 }
             }
         }
