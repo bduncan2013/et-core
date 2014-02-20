@@ -1,84 +1,110 @@
 function etunittesttester(params, callback) {
     var unittestdb = 
-        [   // Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters"
+        [   // Within    
+
+            // Mid  -- testing the flow from pre to mid to post
+            // Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters"
             [{"fn": "ettestt1"},    [{"category":"executethis",   "subcategory":"dothis",    "type": "minute", 
             "test": "executethis calling a function "}]], 
 
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             // Call func_b, but also tell preexecutetunittesttestere to call func_a and postexecute to call func_c.
             [{"fn": "ettestt2"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",
             "test": "executethis calling a function"}]], 
 
+            // Pre, mid  -- testing the flow from pre to mid to post
             // Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b in midexecute and nothing in post execute.
             [{"fn": "ettestt3"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
 
+            // Mid, post  -- testing the flow from pre to mid to post
             // Call func_b with only post func_a -- same result as t3. This is to make sure that not calling pre is ok...this calls only mid and post.
             [{"fn": "ettestt3a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
 
+            // Mid, post  -- testing the flow from pre to mid to post
             // Call mid with func_b and post with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed. 
             [{"fn": "ettestt4"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
- 
+    
+            // Pre, Mid  -- testing the flow from pre to mid to post
             // Call mid with func_b and pre with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed.
             [{"fn": "ettestt4a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
  
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             // Call func_b with func_a for pre and post to ensure that calling the same function more than once is not a problem for the system.
             [{"fn": "ettestt5"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
     
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             // Double check that calling func_b with func_c for pre and post to ensure that calling the same function more than once is not a problem for the system. Essentially showing that tt5 was not a fluke, but a repeatable concept.
             [{"fn": "ettestt6"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
-    
+        
+            // This astt section is doing the same tests as the tt tests above...the
+            // difference is that these pre, mid, and post calls will wait, or sleep for
+            // a about 1/2 a second...this is to simulate latency in communicating with
+            // the db. So we are testing the robustness of the async capacities of the system.
+
+            // Mid  -- testing the flow from pre to mid to post
             // Call async_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters  
             [{"fn": "ettestast1"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-    
+
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             // Call async_func_b with pre calling func_a and post calling func_c...each simply deletes a prameter and add a parameter.
             [{"fn": "ettestast2"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
+            // Pre, mid  -- testing the flow from pre to mid to post
             // Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.
             [{"fn": "ettestast3"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-    
+
+            // Mid, post  -- testing the flow from pre to mid to post    
             // Call async_func_b with only post async_func_a -- same result as ast3
             [{"fn": "ettestast3a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-    
+
+            // Mid, post  -- testing the flow from pre to mid to post    
             // Call async_func_b with only post calling async_c  
             [{"fn": "ettestast4"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
+            // Pre, Mid  -- testing the flow from pre to mid to post
             // Call async_func_b with only pre async_func_c -- same result as t4
             [{"fn": "ettestast4a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             // Call async_func_b with async_func_a for pre and post
             [{"fn": "ettestast5"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             // Call async_func_b with async_func_c for pre and post
             [{"fn": "ettestast6"},  [{"type": "second", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
+            // Ag tests will add data to the db and get it. The tests get progressively
+            // more deep as the dto's begin to be applied in a more nested
+            // fasion.
 
-
-            // Add a dto and get it with 
+            // Add a dto with addwidmaster and get it with getwidmaster
             [{"fn": "ettestag1"  }, [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]], 
      
-            // Add 2 wids and get 1 wid
+            // Add 2 wids using addwidmaster and get 1 wid of them with getwidmaster
             [{"fn": "ettestag2"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]],
      
-            // Add wids 3 levels deep and get a wid related with them.
+            // Add wids 3 levels deep with addwidmaster, and get a wid related with them 
+            // by dto's using getwidmaster.
             [{"fn": "ettestag3"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]], 
      
-
+            // The cctests pass various config data to manipulate 
 
             // Call redir_b. The config should remap redir_b to call func_b with no pre or post execution.
             [{"fn": "ettestct1"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
@@ -3635,7 +3661,7 @@ exports.lwr9 = lwr9 = function lwr9(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
     var filter = {
                     "beta":"555",
-                    "charlie":"777"};
+                    "Charlie":"777"};
     var err;
     var result = {};
 

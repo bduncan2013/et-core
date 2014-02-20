@@ -984,25 +984,29 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             // Grab the key of the hash
             var key = tmp_key.toLowerCase();
             // Grab the value of the hash
-            var val = rightparameters[key];
+            var val = rightparameters[tmp_key];
             // Grab the value of the key in the data
             var target = output[key.toLowerCase()];
             // Polish the target...it may need it
-            target = (target === undefined) ? "" : target;
+            target = (target === undefined) ? "" : target.toLowerCase();
             // If there is no value in the filter, skip and move on
             if (val === undefined) continue;
-            if (val.length > 0 && target) {
+            // 2 Cases
+            // if ( val.length > 0 && target.length === 0) {
+            // If there is no value in the target data, put in the default that you 
+            // find in the right params...it is assigned to 'val'
+            if (target.length === 0) {
                 // Polish val... it may need it
                 val = (val === 'add') ? "" : val;
                 // Apply it to the output
                 output[key] = val;
             }
         }
-        filtered_object = parameters;
-        // filter_results = output;
+        // filtered_object = parameters;
+        // // filter_results = output;
 
-        filter_results = {"forced":"output"};
-        console.log('forced output:+_+_+_+_+_+_+_+_+_+_+_+_+_+\n' + JSON.stringify(filter_results, "-", 4));
+        // filter_results = {"forced":"output"};
+        // console.log('forced output:+_+_+_+_+_+_+_+_+_+_+_+_+_+\n' + JSON.stringify(filter_results, "-", 4));
         return output;
     }
 
@@ -1018,21 +1022,23 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         for (var p in parameters) {
             // Look at the filter and apply it to the data
             for (var v in filter_by_keys) {
+                // If a parameterkey equals the filterkey we are looking at, 
+                // put the parameterkey in the output with the lowercase value of the parameter
                 if (p.toLowerCase() === filter_by_keys[v]) {
-                    output[p.toLowerCase()] = parameters[p.toLowerCase()];
+                    output[p.toLowerCase()] = parameters[p].toLowerCase();
                 }
             }
         }
-        // Create leftovers...what was not put in output
-        filtered_object = {};
+        // // Create leftovers...what was not put in output
+        // filtered_object = {};
 
         
-        for (var p in parameters) {
-            if (!output.hasOwnProperty(p)) {
-                filtered_object[p] = parameters[p];
-            }
-        }
-        console.log("FFFFF  Filtered Object:\n" + JSON.stringify(filtered_object, "-",4));
+        // for (var p in parameters) {
+        //     if (!output.hasOwnProperty(p)) {
+        //         filtered_object[p] = parameters[p];
+        //     }
+        // }
+        // console.log("FFFFF  Filtered Object:\n" + JSON.stringify(filtered_object, "-",4));
         return output;
     }
 
