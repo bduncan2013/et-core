@@ -975,7 +975,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
-    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter) {
+    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter, filtered_object, filter_results) {
         // Use only the params that apply to the filter and assign to output
         var output = (should_I_filter) ? filter_params(parameters, rightparameters) : just_lower_parameters(parameters);
         // Iterate throught the right parameters...if we find a value to assign, do so, but only
@@ -998,10 +998,15 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 output[key] = val;
             }
         }
+        filtered_object = parameters;
+        // filter_results = output;
+
+        filter_results = {"forced":"output"};
+        console.log('forced output:+_+_+_+_+_+_+_+_+_+_+_+_+_+\n' + JSON.stringify(filter_results, "-", 4));
         return output;
     }
 
-    exports.filter_params = filter_params = function filter_params (parameters, filter_object, to_filter) {
+    exports.filter_params = filter_params = function filter_params (parameters, filter_object, filtered_object ) {
         var output = {};
         var target_value = "";
         // Get just the keys from the filter_object
@@ -1014,10 +1019,20 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             // Look at the filter and apply it to the data
             for (var v in filter_by_keys) {
                 if (p.toLowerCase() === filter_by_keys[v]) {
-                    output[p.toLowerCase()] = parameters[p];
+                    output[p.toLowerCase()] = parameters[p.toLowerCase()];
                 }
             }
         }
+        // Create leftovers...what was not put in output
+        filtered_object = {};
+
+        
+        for (var p in parameters) {
+            if (!output.hasOwnProperty(p)) {
+                filtered_object[p] = parameters[p];
+            }
+        }
+        console.log("FFFFF  Filtered Object:\n" + JSON.stringify(filtered_object, "-",4));
         return output;
     }
 

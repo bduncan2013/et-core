@@ -115,14 +115,6 @@ if (typeof angular !== 'undefined') {
 
                         // check if this is a screenwid and needs to be displayed
                         if (resultArray[x].html) {
-                            // save execute params to inwid
-                            execute({executethis:'addwidmaster',wid:'inwid',addthis:{wid:resultArray[x].wid}},
-                                function(err, retArr) {
-                                    if (err && Object.size(err) > 0) {
-                                        console.log('error adding to the wid "inwid" => ' + JSON.stringify(err));
-                                    }
-                                });
-
                             // clear page in preparation for the wid we are going to
                             if (resultArray[x].command && resultArray[x].command.htmltargetid) {
                                 etClearPage(resultArray[x].command.htmltargetid);
@@ -130,13 +122,44 @@ if (typeof angular !== 'undefined') {
                                 etClearPage();
                             }
 
-                            // call etProcessParams while passing in the contents of both the 'urlparams' and 'inwid' wids
-                            execute({preexecute:'urlparams',executethis:'inwid',postexecute:'etProcessParameters'},
-                                function(err, resultArr) {
-                                    if (err && Object.size(err) > 0) {
-                                        console.log('error leading up to calling the etProcessParameters function => ' + JSON.stringify(err));
+                            async.series([
+                                    function(cb) {
+                                        // save execute params to inwid
+                                        execute({executethis:'addwidmaster',wid:'inwid',addthis:{wid:resultArray[x].wid}},
+                                            function(err, retArr) {
+                                                if (err && Object.size(err) > 0) {
+                                                    console.log('error adding to the wid "inwid" => ' + JSON.stringify(err));
+                                                } else { cb(null, [{}]); }
+                                            });
+                                    },
+                                    function(cb) {
+                                        executeService.executeThis({executethis:'getwidmaster',wid:'urlparams'}, $scope,
+                                            function(err, resArr) { cb(null, resArr); });
+                                    },
+                                    function(cb) {
+                                        executeService.executeThis({executethis:'getwidmaster',wid:'inwid'}, $scope,
+                                            function(err, resArr) { cb(null, resArr); });
                                     }
+                                ],
+                                function(err, overallResults) {
+                                    var processParams = {};
+                                    for (var y = 0; y < overallResults.length; y++) {
+                                        for (var i = 0; x < overallResults[y].length; i++) {
+                                            extend(true, processParams, overallResults[y][i]);
+                                        }
+                                    }
+
+                                    // pass results of urlparams and inwid wids in as parameters to etProcessParameters
+                                    etProcessParameters(processParams);
                                 });
+
+//                            // call etProcessParams while passing in the contents of both the 'urlparams' and 'inwid' wids
+//                            execute({preexecute:'urlparams',executethis:'inwid',postexecute:'etProcessParameters'},
+//                            function(err, resultArr) {
+//                                if (err && Object.size(err) > 0) {
+//                                    console.log('error leading up to calling the etProcessParameters function => ' + JSON.stringify(err));
+//                                }
+//                            });
                         }
 
                         // TODO : find out if this is still valid logic
@@ -207,14 +230,45 @@ if (typeof angular !== 'undefined') {
         $scope.ajax = {};
         var querystring = window.location.search,
             parameters = helper.queryStrToObj(querystring.substring(1)),
-            currentUser = dataService.user.getLocal(),
-            executeObj = {preexecute:'urlparams', executethis:'inwid', postexecute:'etProcessParameters'};
+            currentUser = dataService.user.getLocal();
+//            executeObj = {preexecute:'urlparams', executethis:'inwid', postexecute:'etProcessParameters'};
 
-        // save parameters to 'urlparams' wid
-        urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
-        executeService.executeThis(urlExecuteObj, $scope);
+        async.series([
+                function(cb) {
+                    // save url parameters to 'urlparams' wid
+                    if (parameters.wid) { parameters.addthis = {wid:parameters.wid}; delete parameters['wid']; }
+                    if (parameters.executethis) {
+                        if (!parameters.addthis) { parameters.addthis = {executethis:parameters.executethis}; }
+                        else { parameters.addthis.executethis = parameters.executethis; }
+                        delete parameters['executethis'];
+                    }
 
-        executeService.executeThis(executeObj, $scope);
+                    urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
+                    executeService.executeThis(urlExecuteObj, $scope, function(err, resArr) { cb(null, [{}]); });
+                },
+                function(cb) {
+                    executeService.executeThis({executethis:'getwidmaster',wid:'urlparams'}, $scope,
+                        function(err, resArr) { cb(null, resArr); });
+                },
+                function(cb) {
+                    executeService.executeThis({executethis:'getwidmaster',wid:'inwid'}, $scope,
+                        function(err, resArr) { cb(null, resArr); });
+                }
+            ],
+            function(err, overallResults) {
+                var processParams = {};
+                for (var x = 0; x < overallResults.length; x++) {
+                    for (var i = 0; x < overallResults[x].length; i++) {
+                        extend(true, processParams, overallResults[x][i]);
+                    }
+                }
+
+                // pass results of urlparams and inwid wids in as parameters to etProcessParameters
+                etProcessParameters(processParams);
+            });
+
+
+//        executeService.executeThis(executeObj, $scope);
 
 //        if (!parameters.executethis) { parameters.executethis = 'etProcessParameters'; }
 //
@@ -533,7 +587,7 @@ if (typeof angular !== 'undefined') {
                 queries;
 
             // Split into key/value pairs
-            if (queryString.substring(0,1) === '?') { queryString = queryString.substring(1, queryString.length); }
+            if (queryString.slice(0, 1) === '?') { queryString = queryString.substring(1, queryString.length); }
             queries = queryString.split("&");
 
             // Convert the array of strings into an object

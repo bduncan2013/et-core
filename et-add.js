@@ -4,6 +4,19 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
+
+    var _command = {};
+
+    // Test for lowering parameters
+    tolowerparameters(object, {
+                                "command":"",
+
+                                }, false, _object, _command);
+
+
+    console.log('&&& _object\n' + JSON.stringify(_object, "-", 4));
+    console.log('&&& _command\n' + JSON.stringify(_command, "-", 4));
+    
     var _object = ConvertFromDOTdri(object);
 
     var _dto_object;
@@ -25,6 +38,46 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
         });
     });
 }
+
+// exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
+//     var inbound_parameters = {};
+//     inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
+
+//     var _command = {};
+
+//     // Test for lowering parameters
+//     tolowerparameters(object, {
+//                                 "command":"",
+
+//                                 }, false, _object, _command);
+
+
+//     console.log('&&& _object\n' + JSON.stringify(_object, "-", 4));
+//     console.log('&&& _command\n' + JSON.stringify(_command, "-", 4));
+    
+//     var _object = ConvertFromDOTdri(object);
+
+//     var _dto_object;
+
+//     var command = object.command;
+//     delete object.command;
+
+//     proxyprinttodiv("addwidmaster before clean", _object, 17);
+
+//     cleanadd (_object, _dto_object, command, function (err, res) {
+//         _object = res.obj;
+//         _dto_object = res.dtoobj;
+       
+//         proxyprinttodiv("addwidmaster after clean object", _object, 17);
+//         proxyprinttodiv("addwidmaster after clean", _dto_object, 17);
+
+//         addwidobject(_object, _dto_object, command, function (err, res) {
+//             callback(err, res);
+//         });
+//     });
+// }
+
 
 exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, callback) {
     getdtoobject(object, command, function (err, res) {
