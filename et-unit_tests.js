@@ -642,7 +642,7 @@ exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
             "e": "2"
         }],
         function (err, res) {
-            res = logverify("ettestt1_result", res[0][0], [{
+            res = logverify("ettestt1_result", res[0], [{
                 "c": "0",
                 "d": "1",
                 "g": "4"
@@ -696,7 +696,7 @@ exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt2_result", res[0][0], [{
+            res = logverify("ettestt2_result", res[0], [{
                 "f": "3",
                 "g": "4",
                 "h": "5"
@@ -717,7 +717,7 @@ exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
             "preexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt3_result", res[0][0], [{
+            res = logverify("ettestt3_result", res[0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
@@ -738,7 +738,7 @@ exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
             "postexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt3a_result", res[0][0], [{
+            res = logverify("ettestt3a_result", res[0], [{
                 "c": "0",
                 "g": "4",
                 "f": "3"
@@ -759,7 +759,7 @@ exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt4_result", res[0][0], [{
+            res = logverify("ettestt4_result", res[0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
@@ -780,7 +780,7 @@ exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
             "preexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt4a_result", res[0][0], [{
+            res = logverify("ettestt4a_result", res[0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
@@ -801,7 +801,7 @@ exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
             "postexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt5_result", res[0][0], [{
+            res = logverify("ettestt5_result", res[0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
@@ -823,7 +823,7 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt6_result", res[0][0], [{
+            res = logverify("ettestt6_result", res[0], [{
                 "d": "1",
                 "h": "5",
                 "g": "4"
@@ -846,7 +846,7 @@ exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
             "e": "2"
         }],
         function (err, res) {
-            res = logverify("ettestast1_result", res[0][0], [{
+            res = logverify("ettestast1_result", res[0], [{
                 "d": "1",
                 "c": "0",
                 "g": "4"
@@ -867,7 +867,7 @@ exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast2_result", res[0][0], [{
+            res = logverify("ettestast2_result", res[0], [{
                 "f": "3",
                 "g": "4",
                 "h": "5"
@@ -886,7 +886,7 @@ exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
             "preexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast3_result", res[0][0], [{
+            res = logverify("ettestast3_result", res[0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
@@ -905,7 +905,7 @@ exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
             "postexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast3a_result", res[0][0], [{
+            res = logverify("ettestast3a_result", res[0], [{
                 "c": "0",
                 "g": "4",
                 "f": "3"
@@ -924,7 +924,7 @@ exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast4_result", res[0][0], [{
+            res = logverify("ettestast4_result", res[0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
@@ -943,7 +943,7 @@ exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
             "preexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast4a_result", res[0][0], [{
+            res = logverify("ettestast4a_result", res[0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
@@ -963,7 +963,7 @@ exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
             "postexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast5_result", res[0][0], [{
+            res = logverify("ettestast5_result", res[0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
@@ -983,7 +983,7 @@ exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast6_result", res[0][0], [{
+            res = logverify("ettestast6_result", res[0], [{
                 "d": "1",
                 "h": "5",
                 "g": "4"
@@ -2340,7 +2340,7 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
         }],
         function (err, res) {
             proxyprinttodiv('Function ag1 result ', res, 99);
-            res = logverify("ettestag1_result", res[1][0], [{
+            res = logverify("ettestag1_result", res[1], [{
                 "note": "string",
                 "wid": "sounddto",
                 "metadata.method": "sounddto"
@@ -2372,7 +2372,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
         }],
         function (err, res) {
             proxyprinttodiv('Function ag1 result ', res, 99);
-            res = logverify("ettestag1a_result", res[2][0], {
+            res = logverify("ettestag1a_result", res[2], {
                 "name": "Nick Fury",
                 "wid": "superhero",
                 "metadata.method": ""
@@ -2447,7 +2447,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             debugcat = "";
             debugsubcat = "";
             proxyprinttodiv('Function ag2 result ', res, 99);
-            res = logverify("ettestag2_result", res[3][0], [{
+            res = logverify("ettestag2_result", res[3], [{
                 "hue": "red",
                 "wid": "color1",
                 "metadata.method": "defaultdto"
