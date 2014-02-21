@@ -28,9 +28,102 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
 
 // *** GetWidMaster ***
 // Purpose: splits wid and command parameters
+// exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
+//     var inbound_parameters = {};
+//     inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
+//     // +++ New code
+//     var filter_data = tolowerparameters(parameters, {"command":{"inheritflag":"true"}}, true, {"command":""});
+//     // Clear out the object...we need it to be filtered
+//     parameters = {};
+//     // Apply the filtered data...what was left over goes back into object
+//     parameters = filter_data.left_over_object;
+//     // The filtered data gets put into the command object
+//     command = filter_data.output;
+//     // +++
+
+//     parameters = ConvertFromDOTdri(parameters); // convert to object
+
+//     // lower case check
+//     // if (!parameters.command) {parameters.command={}}
+//     if (!command) {command={}}
+//     // if (!parameters.command.inheritflag) {parameters.command.inheritflag="true"}
+//     if (!command.inheritflag) {command.inheritflag = "true"}
+
+//     // getWidMongo(parameters.wid, parameters.command, "", 20, function (err, res) { // recurse up to 20 levels
+//     // getWidMongo(parameters.wid, command, "", 20, function (err, res) { // recurse up to 20 levels
+//     getWidMongo(parameters.wid, command, "", 4, function (err, res) { // recurse up to 20 levels
+
+//         if ((res) && (res.command) && (Object.keys(res.command).length === 0)) {
+//             delete res.command;
+//         }      
+//             // (parameters.command.inheritflag !== "false")) {
+//         if ((res) && (Object.keys(res).length !== 0) && (res['metadata']) && 
+//             (res['wid'] !== res['metadata']['method']) && (parameters.convertmethod!=="dto") && (command.inheritflag !== "false")) {
+            
+//             // getclean(res, parameters.command, function (err, res) {
+//             getclean(res, command, function (err, res) {
+//                 // if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
+//                 if (parameters && command && command.execute === "ConvertFromDOTdri") {
+//                     //res = ConvertFromDOTdri(res);
+                    
+//                     debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+//                         0: inbound_parameters,
+//                         1: res
+//                     }, 6);
+
+//                     callback(err, res);
+//                 }
+//                 else { // the detault is to return dot notation...so old code does not break
+//                     res = ConvertToDOTdri(res);
+                                        
+//                     debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+//                         0: inbound_parameters,
+//                         1: res
+//                     }, 6);
+
+//                     callback(err, res);  
+//                 }
+//             });
+//         } else {
+//             // if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
+//             if (parameters && command && command.execute === "ConvertFromDOTdri") {
+//                     //res = ConvertFromDOTdri(res);
+                                        
+//                 debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+//                     0: inbound_parameters,
+//                     1: res
+//                 }, 6);
+                
+//                 callback(err, res);
+//             }
+//             else { // the detault is to return dot notation...so old code does not break
+//                 res = ConvertToDOTdri(res);
+                                    
+//                 debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+//                     0: inbound_parameters,
+//                     1: res
+//                 }, 6);
+                
+//                 callback(err, res);  
+//             }  
+//         }
+//     }); // end get wid mongo
+// }
+
+// *** GetWidMaster ***
+// Purpose: splits wid and command parameters
 exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
+    // +++
+    // var filter_data = tolowerparameters(parameters, {"command.inheritflag":"true"}, true, {"command":""});
+
+
+
+
+    // +++
 
     parameters = ConvertFromDOTdri(parameters); // convert to object
 
@@ -92,6 +185,11 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
         }
     }); // end get wid mongo
 }
+
+
+
+
+
 
 // *** GetDTOObject ***
 // Purpose: Pulls the schema for objects

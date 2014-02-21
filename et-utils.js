@@ -975,38 +975,61 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
-    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter, filtered_object, filter_results) {
+    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter, filter_object) {
+        if (!filter_object) {
+            filter_object = rightparameters;
+        }
+
         // Use only the params that apply to the filter and assign to output
-        var output = (should_I_filter) ? filter_params(parameters, rightparameters) : just_lower_parameters(parameters);
+        var output = (should_I_filter) ? filter_params(parameters, filter_object) : just_lower_parameters(parameters);
         // Iterate throught the right parameters...if we find a value to assign, do so, but only
         // if it does not exist yet
         for (tmp_key in rightparameters) {
             // Grab the key of the hash
             var key = tmp_key.toLowerCase();
             // Grab the value of the hash
-            var val = rightparameters[key];
+            var val = rightparameters[tmp_key];
             // Grab the value of the key in the data
             var target = output[key.toLowerCase()];
             // Polish the target...it may need it
-            target = (target === undefined) ? "" : target;
+            // Do not lowercase anything that is not a string
+            if (typeof target === "string") {
+                target = ( target === undefined ) ? "" : target.toLowerCase();
+            }
+            // Simply make sure our target is defined
+            if (target === undefined) target = "";
             // If there is no value in the filter, skip and move on
             if (val === undefined) continue;
-            if (val.length > 0 && target) {
+            // if ( val.length > 0 && target.length === 0) {
+            // If there is no value in the target data, put in the default that you 
+            // find in the right params...it is assigned to 'val'
+            if (target.length === 0) {
                 // Polish val... it may need it
                 val = (val === 'add') ? "" : val;
                 // Apply it to the output
                 output[key] = val;
             }
         }
-        filtered_object = parameters;
-        // filter_results = output;
+        var left_over_object = {};
+        for (var p in parameters) {
+            // console.log("LLLLLLLLLLLeftovers\n" + JSON.stringify(parameters, '-', 4));
 
-        filter_results = {"forced":"output"};
-        console.log('forced output:+_+_+_+_+_+_+_+_+_+_+_+_+_+\n' + JSON.stringify(filter_results, "-", 4));
-        return output;
+            if (!output.hasOwnProperty(p.toLowerCase())) {
+                // left_over_object[p.toLowerCase()] = parameters[p].toLowerCase();
+                left_over_object[p.toLowerCase()] = parameters[p];
+            }
+        }
+
+        var return_data = {};
+
+        return_data["output"] = output;
+        return_data["left_over_object"] = left_over_object;
+
+        // return_data = output;
+        return return_data;
     }
 
-    exports.filter_params = filter_params = function filter_params (parameters, filter_object, filtered_object ) {
+    exports.filter_params = filter_params = function filter_params (parameters, filter_object) {
         var output = {};
         var target_value = "";
         // Get just the keys from the filter_object
@@ -1018,21 +1041,21 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         for (var p in parameters) {
             // Look at the filter and apply it to the data
             for (var v in filter_by_keys) {
+                // If a parameterkey equals the filterkey we are looking at, 
+                // put the parameterkey in the output with the lowercase value of the parameter
                 if (p.toLowerCase() === filter_by_keys[v]) {
-                    output[p.toLowerCase()] = parameters[p.toLowerCase()];
+                    // Assign the data, but only lowercase strings, not other data types
+                    if (typeof parameters[p] === 'string') {
+                        // output[p.toLowerCase()] = parameters[p].toLowerCase();
+                        output[p.toLowerCase()] = parameters[p];
+                    } 
+                    else {
+                        output[p] = parameters[p];
+                    }
                 }
             }
         }
-        // Create leftovers...what was not put in output
-        filtered_object = {};
 
-        
-        for (var p in parameters) {
-            if (!output.hasOwnProperty(p)) {
-                filtered_object[p] = parameters[p];
-            }
-        }
-        console.log("FFFFF  Filtered Object:\n" + JSON.stringify(filtered_object, "-",4));
         return output;
     }
 
@@ -1044,6 +1067,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
         return data_out;
     }
+
+    exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command_object, com_user) {
+        delete command_object["command"][com_user];
+        parameters["command"] = command_object["command"];
+        return parameters;
+    }
+
 
     // exports.tolowerparameters2 = tolowerparameters2 = function tolowerparameters2(parameters, rightparameters, filter) {
     //     var outputparameters = {};
@@ -1208,8 +1238,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
         if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
             printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
-            console.log(text);
-            console.log(obj);
+            // console.log(text);
+            // console.log(obj);
             if (document.getElementById('divprint')) {
                 document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
             }

@@ -349,11 +349,11 @@
                             proxyprinttodiv('querywid output before rel', output, 28);
 
                             mQueryString = relationShipQuery(relParams, output, "data");
-                            console.log('mQueryString at step03 => ' + mQueryString);
+                            // console.log('mQueryString at step03 => ' + mQueryString);
 
                             if (Object.keys(JSON.parse(mQueryString)).length > 0) {
                                 mongoquery(mQueryString, function (err, res) {
-                                    console.log(" result from step03 " + JSON.stringify(res));
+                                    // console.log(" result from step03 " + JSON.stringify(res));
                                     output = res;
                                     debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([4]));
                                     cb(null, "step03");
@@ -390,18 +390,18 @@
                         proxyprinttodiv('querywid before after rel output', output, 28);
                         proxyprinttodiv('relafterParams before after rel output', relafterParams, 28);
                 
-                        console.log('[[[[[[[[[[[[[[[[[[[[[[\n' + JSON.stringify(relafterParams, '-', 4));
+                        // console.log('[[[[[[[[[[[[[[[[[[[[[[\n' + JSON.stringify(relafterParams, '-', 4));
                         var flg = false;
                         for (r in relafterParams) {
                             if (relafterParams[r].length > 0) flg = true;
                         }
 
                         if (flg && (output) && (output.length > 0)) {
-                            console.log('>>> ' + JSON.stringify(output))
+                            // console.log('>>> ' + JSON.stringify(output))
 
                             mQueryString = queryafterrelationship(relafterParams, output);
                             proxyprinttodiv('querywid after queryafterrelationship mQueryString', mQueryString, 28);
-                            console.log('mQueryString at step04 => ' + mQueryString);
+                            // console.log('mQueryString at step04 => ' + mQueryString);
                             //mongoquery(JSON.parse(mQueryString), function (res) {
                             debugfn("step04", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
 
@@ -1363,16 +1363,23 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
     function fishOut(parameters) {
         var p = [];
+        var filter_data = {};
+        var left_overs = {};
+        // console.log ('$$$$$$$begin parameters\n' + JSON.stringify(parameters, '-', 4));
 
-        p[0] = tolowerparameters(parameters, {  // queParams
+        filter_data = tolowerparameters(parameters, {  // queParams
                                                 "mongowid":"",
                                                 "mongorawquery":"",
                                                 "mongoquerywid":"",
                                                 "mongosinglequery":"",
                                                 "mongomultiplequery":"",
                                             }, true);
-   
-        p[1] = tolowerparameters(parameters, {  // relParams
+        p[0] = filter_data.output;
+        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
+        // console.log ('$$$$$$$ filter 0\n' + JSON.stringify(filter_data.output, '-', 4));
+        // console.log ('$$$$$$$ 0\n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+
+        filter_data = tolowerparameters(parameters, {  // relParams
                                                 "mongorelationshipdirection":"",
                                                 "mongorelationshiptype":"",
                                                 "mongorelationshipmethod":"",
@@ -1381,13 +1388,21 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                                                 "mongodtotype":"",
                                                 "mongorelquery":""
                                             }, true);
-                
-        p[2] = tolowerparameters(parameters, {  // aggParams
+        p[1] = filter_data.output;
+        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
+        // console.log ('$$$$$$$ filter 1\n' + JSON.stringify(filter_data.output, '-', 4));
+        // console.log ('$$$$$$$$$$$$ 1 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+
+        filter_data = tolowerparameters(parameters, {  // aggParams
                                                 "mongoaggregation":"",
                                                 "mongoaggquery":""
                                             }, true);
+        p[2] = filter_data.output;
+        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
+        // console.log ('$$$$$$$ filter 2\n' + JSON.stringify(filter_data.output, '-', 4));
+        // console.log ('$$$$$$$$$$$$ 2 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
 
-        p[3] = tolowerparameters(parameters, {  // addParams
+        filter_data = tolowerparameters(parameters, {  // addParams
                                                 "mongosetfieldsinclude":"",
                                                 "mongosetfieldsexclude":"",
                                                 "mongosetlimit":"",
@@ -1402,24 +1417,42 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                                                 "mongosetsortorder":"",
                                                 "mongosetsortorder":""
                                             }, true);
-                                                
-        p[4] = tolowerparameters(parameters, {  // xtrParams
+        p[3] = filter_data.output;
+        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
+        // console.log ('$$$$$$$ filter 3\n' + JSON.stringify(filter_data.output, '-', 4));
+        // console.log ('$$$$$$$$$$$$ 3 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+        
+        filter_data = tolowerparameters(parameters, {  // xtrParams
                                                 // "mongoToken":""
                                             }, true);
+        p[4] = filter_data.output;
+        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
+        // console.log ('$$$$$$$ filter 4\n' + JSON.stringify(filter_data.output, '-', 4));
+        // console.log ('$$$$$$$$$$$$ 4 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
 
-        p[5] = tolowerparameters(parameters, { // relafterParams;
+        filter_data = tolowerparameters(parameters, { // relafterParams;
                                                 "mongowidmethod":""
                                             }, true);
+        p[5] = filter_data.output;
+        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
+        // console.log ('$$$$$$$ filter 5\n' + JSON.stringify(filter_data.output, '-', 4));
+        // console.log ('$$$$$$$$$$$$ 5 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
 
-        p[6] = tolowerparameters(parameters, { // commandParams
+        filter_data = tolowerparameters(parameters, { // commandParams
                                                 "command.db":"",
                                                 "command.convertmethod":""
                                             }, true);
+        p[6] = filter_data.output;
+        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
+        // console.log ('$$$$$$$ filter 6\n' + JSON.stringify(filter_data.output, '-', 4));
+        // console.log ('$$$$$$$$$$$$ 6 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+
+
 
         // Gather the left over params  
-        for (i in parameters) {
-            p[4][parameters[i]] = parameters[i];
-        }
+        // for (i in parameters) {
+        //     p[4][parameters[i]] = parameters[i];
+        // }
         // console.log("Output from fishout: ", JSON.stringify(p, "-", 4));
         return p;
     }

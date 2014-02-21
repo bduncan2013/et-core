@@ -1,166 +1,177 @@
 function etunittesttester(params, callback) {
     var unittestdb = 
-        [   // Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters"
+        [   // Within    
+
+            // Mid  -- testing the flow from pre to mid to post
             [{"fn": "ettestt1"},    [{"category":"executethis",   "subcategory":"dothis",    "type": "minute", 
             "test": "executethis calling a function "}]], 
 
-            // Call func_b, but also tell preexecutetunittesttestere to call func_a and postexecute to call func_c.
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             [{"fn": "ettestt2"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",
             "test": "executethis calling a function"}]], 
 
-            // Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b in midexecute and nothing in post execute.
+            // Pre, mid  -- testing the flow from pre to mid to post
             [{"fn": "ettestt3"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
 
-            // Call func_b with only post func_a -- same result as t3. This is to make sure that not calling pre is ok...this calls only mid and post.
+            // Mid, post  -- testing the flow from pre to mid to post
             [{"fn": "ettestt3a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
 
-            // Call mid with func_b and post with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed. 
+            // Mid, post  -- testing the flow from pre to mid to post
             [{"fn": "ettestt4"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
- 
-            // Call mid with func_b and pre with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed.
+    
+            // Pre, Mid  -- testing the flow from pre to mid to post
             [{"fn": "ettestt4a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
  
-            // Call func_b with func_a for pre and post to ensure that calling the same function more than once is not a problem for the system.
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             [{"fn": "ettestt5"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
     
-            // Double check that calling func_b with func_c for pre and post to ensure that calling the same function more than once is not a problem for the system. Essentially showing that tt5 was not a fluke, but a repeatable concept.
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             [{"fn": "ettestt6"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
-    
-            // Call async_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters  
+        
+            // This astt section is doing the same tests as the tt tests above...the
+            // difference is that these pre, mid, and post calls will wait, or sleep for
+            // a about 1/2 a second...this is to simulate latency in communicating with
+            // the db. So we are testing the robustness of the async capacities of the system.
+
+            // Mid  -- testing the flow from pre to mid to post
             [{"fn": "ettestast1"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-    
-            // Call async_func_b with pre calling func_a and post calling func_c...each simply deletes a prameter and add a parameter.
+
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             [{"fn": "ettestast2"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
             // Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.
             [{"fn": "ettestast3"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-    
-            // Call async_func_b with only post async_func_a -- same result as ast3
+
+            // Mid, post  -- testing the flow from pre to mid to post    
             [{"fn": "ettestast3a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-    
-            // Call async_func_b with only post calling async_c  
+
+            // Mid, post  -- testing the flow from pre to mid to post    
             [{"fn": "ettestast4"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
-            // Call async_func_b with only pre async_func_c -- same result as t4
+            // Pre, Mid  -- testing the flow from pre to mid to post
             [{"fn": "ettestast4a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
-            // Call async_func_b with async_func_a for pre and post
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             [{"fn": "ettestast5"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
-            // Call async_func_b with async_func_c for pre and post
+            // Pre, mid, post  -- testing the flow from pre to mid to post
             [{"fn": "ettestast6"},  [{"type": "second", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
+            // Ag tests will add data to the db and get it. The tests get progressively
+            // more deep as the dto's begin to be applied in a more nested
+            // fasion.
 
-
-            // Add a dto and get it with 
+            // Add a dto with addwidmaster and get it with getwidmaster
             [{"fn": "ettestag1"  }, [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]], 
      
-            // Add 2 wids and get 1 wid
+            // Add 2 wids using addwidmaster and get 1 wid of them with getwidmaster
             [{"fn": "ettestag2"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]],
      
-            // Add wids 3 levels deep and get a wid related with them.
+            // Add wids 3 levels deep with addwidmaster, and get a wid related with them 
+            // by dto's using getwidmaster.
             [{"fn": "ettestag3"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]], 
      
+            // The cctests pass various config data to manipulate either the config itself or simply
+            // passing data to various components of config
 
-
-            // Call redir_b. The config should remap redir_b to call func_b with no pre or post execution.
+            // Remap func for mid
             [{"fn": "ettestct1"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and also remap redir_c to func_c.
+            // Remap funcs pre, mid, and post
             [{"fn": "ettestct2"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all.
+            // Remap funcs pre, mid
             [{"fn": "ettestct3"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Call redir_b with only post redir_a -- same result as ct3, but putting the only remap call in post instead of pre.
+            // Remap funcs mid, post
             [{"fn": "ettestct3a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any function in either pre or post.
+            // Remap funcs mid, post
             [{"fn": "ettestct4"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Call redir_b with only pre redir_c -- same result as t4
+            // Remap funcs pre, mid
             [{"fn": "ettestct4a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Call redir_b with a remapping of redir_a to func_a for both pre and post.
+            // Remap funcs pre, mid, post
             [{"fn": "ettestct5"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions can be used with the same effect.
+            // Remap funcs pre, mid, post
             [{"fn": "ettestct6"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // This will try pre with func a, but remapped with a configuration thatis passed into executethis...it still wants to hit func_b with mid
+            // Remap funcs remaps pre in the config and calls mid
             [{"fn": "ettestct7"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // This test asserts that the tryorder in the config is successful and causes executethis to call dothis, not server, or the others. As of jan 28, it still fails to reorder them and calls the server instead. It breaks the code and will not simply call func_b locally.
+            // Config tryorder
             [{"fn": "ettestct8"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
+            // Config will try to hook request for func that does not exist
             [{"fn": "ettestct9"},   [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So far it does not work, and never has.
+            // Config will try to hook request for pre tat does not exist
             [{"fn": "ettestct10"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // This test is to call func_b, remap does_not_exist_1 to func_a, remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c. None of these ever work...
+            // Config will try to hook on pre and post requests that do not exist
             [{"fn": "ettestct11"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // This test is to test a config where a and b do not exist, but func_c does and c will execute. You should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in the results
+            // Config will try to hook on pre and mid that dont exist and call a func that does exist
             [{"fn": "ettestct13"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // Here is the modified ct14 test This test is to test a config where a config with params is sent to pre, mid, and post. The results should have the a,b,c cereals, along with the regular params.
+            // Config with param data for pre, mid, and post
             [{"fn": "ettestct14"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // This will send the alphabits param in the preexecute config, but will be overriding it in the args.. Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. 
+            // Testing param data to pre config, but overwritten in the args
             [{"fn": "ettestct15"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]], 
 
-            // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the config params in the assertion wid.
+            // Passing a config as the params of config
             [{"fn": "ettestct16"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.
+            // Tests if executedefault gets used by calling a non-existing function
             [{"fn": "ettestct17"},  [{"type": "hourly", "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
+            // Tests if the pre config params are used
             [{"fn": "ettestct18"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, the args sent to executethis will always win...not any of the 3 places in the config that they are set.
+            // Tests config params getting used by executethis
             [{"fn": "ettestct19"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]], 
 
-            // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
+            // Tests confilicting config params
             [{"fn": "ettestct20"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]]   
         ]
@@ -280,19 +291,35 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     var result = [];
     var err;
 
-    ettesttt(result, function (err, r1) {
+    // ettesttt(result, function (err, r1) {
+    //   result.push(r1);
+    //     ettestastt(result, function (err, r2) {
+    //        result.push(r2);
+    //         ettestctt(result, function (err, r3) {
+    //             result.push(r3);
+    //             ettestagtt(result, function (err, r4) {
+    //                 result.push(r4);
+    //                 callback(err, result);
+    //             });
+    //         });
+    //     });
+    // });
+    
+    ettestagtt(result, function (err, r1) {
       result.push(r1);
-        ettestastt(result, function (err, r2) {
+        ettesttt(result, function (err, r2) {
            result.push(r2);
-            ettestctt(result, function (err, r3) {
-                result.push(r3);
-                // ettestagtt(result, function (err, r4) {
-                //     result.push(r4);
+            // ettestastt(result, function (err, r3) {
+            //     result.push(r3);
+            //     ettestagtt(result, function (err, r4) {
+            //         result.push(r4);
                     callback(err, result);
                 // });
-            });
+            // });
         });
-    });
+    }); 
+     
+    
 }
 
 exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
@@ -3636,7 +3663,7 @@ exports.lwr9 = lwr9 = function lwr9(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
     var filter = {
                     "beta":"555",
-                    "charlie":"777"};
+                    "Charlie":"777"};
     var err;
     var result = {};
 
@@ -3724,3 +3751,12 @@ exports.lwr16 = lwr16 = function lwr16(params, callback) {
     callback(err, result);
 }
 
+exports.pu1 = pu1 = function pu1(params, callback) {
+    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
+    var command = {"command": {"somefunction":"orange", "action":"reaction"}};
+    var err;
+    var result = {};
+
+    result = pack_up_params(params, command, "somefunction");
+    callback(err, result);
+}

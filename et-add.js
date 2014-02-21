@@ -4,36 +4,45 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-
-    var _command = {};
-
+    // ++++ New code for filtering out command
+    // Insert some test data
+    object["command"] = {"somecommand":"someaction","addwidmaster":"filler"};
+    var command = {};
+     
     // Test for lowering parameters
-    tolowerparameters(object, {
-                                "command":"",
+    var filter_data = tolowerparameters(object, {"command":""}, true);
 
-                                }, false, _object, _command);
+    // Clear out the object...we need it to be filtered
+    object = {};
+    // Apply the filtered data...what was left over goes back into object
+    // extend (true, object, filter_data.left_over_object);
+    object = filter_data.left_over_object;
+    // The filtered data gets put into the command object
+    // extend (true, command, filter_data.output);
+    command = filter_data.output;
+    // ++++
 
-
-    console.log('&&& _object\n' + JSON.stringify(_object, "-", 4));
-    console.log('&&& _command\n' + JSON.stringify(_command, "-", 4));
-    
     var _object = ConvertFromDOTdri(object);
-
     var _dto_object;
+    // These are the original object.command lines
+    // ----
+    // var command = object.command;
+    // delete object.command;
+    // ----
 
-    var command = object.command;
-    delete object.command;
-
-    proxyprinttodiv("addwidmaster before clean", _object, 17);
 
     cleanadd (_object, _dto_object, command, function (err, res) {
         _object = res.obj;
         _dto_object = res.dtoobj;
-       
-        proxyprinttodiv("addwidmaster after clean object", _object, 17);
-        proxyprinttodiv("addwidmaster after clean", _dto_object, 17);
-
         addwidobject(_object, _dto_object, command, function (err, res) {
+
+            // Pack the command object back into the results...also add the
+            // function name that is using command and make sure it is removed
+            // from the command object
+            console.log('&&& res\n' + JSON.stringify(res, "-", 4));
+            res = pack_up_params(res, command, "addwidmaster");
+            console.log('&&& packed up res\n' + JSON.stringify(res, "-", 4));
+
             callback(err, res);
         });
     });
