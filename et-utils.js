@@ -975,9 +975,13 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
-    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter) {
+    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter, filter_object) {
+        if (!filter_object) {
+            filter_object = rightparameters;
+        }
+
         // Use only the params that apply to the filter and assign to output
-        var output = (should_I_filter) ? filter_params(parameters, rightparameters) : just_lower_parameters(parameters);
+        var output = (should_I_filter) ? filter_params(parameters, filter_object) : just_lower_parameters(parameters);
         // Iterate throught the right parameters...if we find a value to assign, do so, but only
         // if it does not exist yet
         for (tmp_key in rightparameters) {
@@ -988,7 +992,12 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             // Grab the value of the key in the data
             var target = output[key.toLowerCase()];
             // Polish the target...it may need it
-            target = (target === undefined) ? "" : target.toLowerCase();
+            // Do not lowercase anything that is not a string
+            if (typeof target === "string") {
+                target = ( target === undefined ) ? "" : target.toLowerCase();
+            }
+            // Simply make sure our target is defined
+            if (target === undefined) target = "";
             // If there is no value in the filter, skip and move on
             if (val === undefined) continue;
             // if ( val.length > 0 && target.length === 0) {
@@ -1003,10 +1012,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
         var left_over_object = {};
         for (var p in parameters) {
-            console.log("LLLLLLLLLLLeftovers\n" + JSON.stringify(parameters, '-', 4));
+            // console.log("LLLLLLLLLLLeftovers\n" + JSON.stringify(parameters, '-', 4));
 
             if (!output.hasOwnProperty(p.toLowerCase())) {
-                left_over_object[p.toLowerCase()] = parameters[p].toLowerCase();
+                // left_over_object[p.toLowerCase()] = parameters[p].toLowerCase();
+                left_over_object[p.toLowerCase()] = parameters[p];
             }
         }
 
@@ -1034,7 +1044,14 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 // If a parameterkey equals the filterkey we are looking at, 
                 // put the parameterkey in the output with the lowercase value of the parameter
                 if (p.toLowerCase() === filter_by_keys[v]) {
-                    output[p.toLowerCase()] = parameters[p].toLowerCase();
+                    // Assign the data, but only lowercase strings, not other data types
+                    if (typeof parameters[p] === 'string') {
+                        // output[p.toLowerCase()] = parameters[p].toLowerCase();
+                        output[p.toLowerCase()] = parameters[p];
+                    } 
+                    else {
+                        output[p] = parameters[p];
+                    }
                 }
             }
         }
@@ -1051,11 +1068,10 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return data_out;
     }
 
-    exports.pack_up_params = pack_up_params = function pack_up_params(parameters, com_object) {
-
-
-
-
+    exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command_object, com_user) {
+        delete command_object["command"][com_user];
+        parameters["command"] = command_object["command"];
+        return parameters;
     }
 
 
@@ -1222,8 +1238,8 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
         if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
             printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
-            console.log(text);
-            console.log(obj);
+            // console.log(text);
+            // console.log(obj);
             if (document.getElementById('divprint')) {
                 document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
             }
