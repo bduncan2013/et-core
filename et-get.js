@@ -137,10 +137,9 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
                     } // for metadata
                 } // if metadata
 
-
             if (isObject(inobj[eachparm])) {
                 dtoobj[eachparm]=recurseobj(inobj[eachparm])
-                }
+            }
             else { // if not object
                 dtoobj[eachparm]="string"
                 }
@@ -148,7 +147,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
      
 
         if (Object.keys(dtolist).length !== 0) {
-            if (!inobj.command) {dtoobj.command={}}
+            if (!inobj.command) {dtoobj.command={};}
             dtoobj.command.dtolist = dtolist
             } 
 
@@ -184,8 +183,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
 
             callback({}, dtoobject);
         }); // end execute
-    }   
-    else { // if there is no dtoType or obj.wid then call back with a blank dtoObject
+    } else { // if there is no dtoType or obj.wid then call back with a blank dtoObject
         debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
             0: inbound_parameters,
             1: dtoobject

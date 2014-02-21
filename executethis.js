@@ -28,9 +28,9 @@
 
         if ((incomingparams instanceof Array)) {
             proxyprinttodiv("execute - array params received ", incomingparams, 11);
-            executethismultiple(incomingparams, callback, commandmultiple);
+            executethismultiple(incomingparams, {}, callback);
+            //executethismultiple(incomingparams, commandmultiple, callback);
         } else {
-
             // if command.execute.parameters exist the insert those parameters into execution stream.  
             // Remove command.execute.parameters
             if (incomingparams.command && incomingparams.command.parameters) {
@@ -66,7 +66,6 @@
                         preResults = {};
                     }
                 }
-
 
                 dothisprocessor(preResults, 'midexecute', function (err, midResults) {
 
@@ -154,9 +153,10 @@
 
             callback(err, output); //callback(err, output[0]);
         };
+        proxyprinttodiv("executeone - params >> fn ", params, 99);
 
         if (params[0] && params[0].fn) {
-            proxyprinttodiv("executeone - params >> fn ", params, 99);
+
             fn = params[0]['fn'];
             fnparams = params[1];
         } else {
@@ -164,12 +164,14 @@
             fnparams.push(params[0]);
         }
         fnparams.push(fncallbck);
+		proxyprinttodiv("executeone - fncallbck ", fncallbck, 99);
+        proxyprinttodiv("executeone - window ", fnparams, 99);
 
         window[fn].apply(window, fnparams);
     }
 
 
-    exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(inparams, callback, inCmd) {
+    exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(inparams, inCmd, callback) {
 
         // > execute()
         // > if array then multiple()
@@ -183,7 +185,7 @@
         // >       }
         // > else (if not array) {executeone()}
 
-
+        var output = [];
         var commandobject = {};
         var defaultCommandObject = {};
         defaultCommandObject['executefilter'] = '';
@@ -229,123 +231,196 @@
                 callback(result);
             }
         }
-        async.filter(inparams, filterParams, function (filteredParams) {
-            proxyprinttodiv("executethismultiple - filteredParams ", filteredParams, 11);
+        // async.filter(inparams, filterParams, function (filteredParams) {
+        //     proxyprinttodiv("executethismultiple - filteredParams ", filteredParams, 11);
 
 
 
-            //filter 1st n request only
+        //     //filter 1st n request only
 
-            if (filteredParams && (filteredParams.length > commandobject.executelimit)) {
-                filteredParams = filteredParams.splice(15);
-            }
+        //     if (filteredParams && (filteredParams.length > commandobject.executelimit)) {
+        //         filteredParams = filteredParams.splice(15);
+        //     }
 
-            var output = [];
 
+            var filteredParams = JSON.parse(JSON.stringify(inparams));
 
             async.series([
-                    function (clb) {
-                        // series
-                        if (commandobject.executeorder === "series") {
-                            async.mapSeries(filteredParams, function (eachtodo, cbMap) {
-                                proxyprinttodiv("executethismultiple - eachtodo ", eachtodo, 11);
+                function step1(clb) {
+                    // series
+                    if (commandobject.executeorder === "series") {
+					    proxyprinttodiv("executethismultiple - filteredParams ", filteredParams, 99);
+                        async.mapSeries(filteredParams, function (eachtodo, cbMap) {
+							proxyprinttodiv("executethismultiple - eachtodo ", eachtodo, 99);
 
-                                // if the inside of the array is not an array then it sends either  [{fn:fn},[a:b]] or like this [{execuethis:a, b:c}] to execugeone
-
-                                if ((!(eachtodo instanceof Array && eachtodo[0] && eachtodo[0].fn && eachtodo[1] instanceof Array && eachtodo.length === 2)) && (!(typeof eachtodo === "object" && eachtodo['executethis']))) {
-                                    proxyprinttodiv("series - eachtodo 1st condition", eachtodo, 99);
-                                    executethismultiple(eachtodo, cbMap);
-                                } else if (eachtodo instanceof Array && eachtodo[0] && eachtodo[0].fn && eachtodo[1] instanceof Array && eachtodo.length === 2) {
-                                    executeone(eachtodo, function (err, res) {
-                                        // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
-                                        output.push(res);
-                                        cbMap(null);
-                                    });
-                                } else {
-                                    proxyprinttodiv("series - eachtodo", eachtodo, 11);
-                                    var eachtodoArr = [];
-                                    eachtodoArr.push(eachtodo);
-
-                                    executeone(eachtodoArr, function (err, res) {
-                                        // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
-                                        output.push(res);
-                                        cbMap(null);
-                                    });
-                                }
-                            }, function (err, re) {
-                                clb(null);
-                            });
-                        } else {
-                            clb(null);
-                        }
-                    },
-
-                    function (clb) {
-                        // waterfall
-                        if (commandobject.executeorder === "waterfall") {
-                            function createFnArray(filteredParams, output) {
-
-
-                                var fnArray = [];
-                                var output = [];
-                                for (var i = 0; i < filteredParams.length; i++) {
-                                    var params = filteredParams[i];
-                                    proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 11);
-                                    var func = getFunction(params);
-                                    fnArray.push(func);
-                                }
-
-                                function getFunction(params) {
-                                    return function (cb1) {
-                                        executeone(params, function (err, res) {
-                                            // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
-                                            output.push(res);
-                                            cb1(null);
-                                        });
-                                    };
-                                }
-                                return fnArray;
-                            };
-                            async.waterfall(createFnArray(filteredParams), function (err, resp) {
-                                clb(null);
-                            });
-
-                        } else {
-                            clb(null);
-                        }
-                    },
-
-                    function (clb) {
-                        // parallel
-                        if (commandobject.executeorder === "parallel") {
-                            async.map(filteredParams, function (eachtodo, cbMap) {
-                                proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 11);
-                                executeone(eachtodo, function (err, res) {
+                            if (eachtodo instanceof Array ) {
+                                proxyprinttodiv("series - eachtodo 1st condition ****** should not trigger un2 level deep", eachtodo, 99);
+                                executethismultiple(eachtodo, {}, function (err, res) {
+                                    // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
                                     output.push(res);
-                                    cbMap(null);
                                 });
-                            }, function (err, resp) {
-                                // if any of the saves produced an error, err would equal that error
-                                proxyprinttodiv("executethismultiple - parallel -- output ", output, 11);
-                                clb(null);
-                            });
+                            } else {
+                                proxyprinttodiv("series - eachtodo", eachtodo, 11);
+                                // async.nextTick(execute(eachtodo, function (err, res) {
+                                execute(eachtodo, function (err, res) {
+                                    output.push(res);
+                                    // cbMap(null);
+                                }));
 
-                        } else {
+                            }
+                            cbMap(null); // Moved by joe -- Fixes mem out error
+                        }, function (err, re) {
                             clb(null);
-                        }
+                        });
+                    } else {
+                        clb(null);
                     }
+                }
+                    // ,
+
+                    // function step2(clb) {
+                    //     // waterfall
+                    //     if (commandobject.executeorder === "waterfall") {
+                    //         function createFnArray(filteredParams, output) {
+
+
+                    //             var fnArray = [];
+                    //             var output = [];
+                    //             for (var i = 0; i < filteredParams.length; i++) {
+                    //                 var params = filteredParams[i];
+                    //                 proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 11);
+                    //                 var func = getFunction(params);
+                    //                 fnArray.push(func);
+                    //             }
+
+                    //             function getFunction(params) {
+                    //                 return function (cb1) {
+                    //                     executeone(params, function (err, res) {
+                    //                         // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
+                    //                         output.push(res);
+                    //                         cb1(null);
+                    //                     });
+                    //                 };
+                    //             }
+                    //             return fnArray;
+                    //         };
+                    //         async.waterfall(createFnArray(filteredParams), function (err, resp) {
+                    //             clb(null);
+                    //         });
+
+                    //     } else {
+                    //         clb(null);
+                    //     }
+                    // },
+
+                    // function step3 (clb) {
+                    //     // parallel
+                    //     if (commandobject.executeorder === "parallel") {
+                    //         async.map(filteredParams, function (eachtodo, cbMap) {
+                    //             proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 11);
+                    //             executeone(eachtodo, function (err, res) {
+                    //                 output.push(res);
+                    //                 cbMap(null);
+                    //             });
+                    //         }, function (err, resp) {
+                    //             // if any of the saves produced an error, err would equal that error
+                    //             proxyprinttodiv("executethismultiple - parallel -- output ", output, 11);
+                    //             clb(null);
+                    //         });
+
+                    //     } else {
+                    //         clb(null);
+                    //     }
+                    // }
 
                 ],
                 function (err, resp) {
                     // if any of the saves produced an error, err would equal that error
-                    // proxyprinttodiv("executethismultiple - output ", output, 99);
+                    proxyprinttodiv("executethismultiple - resp ", resp, 99);
                     callback(err, output);
                 });
-        });
+        //});
 
     }
 
 
+
+        // function executethismultiple(paramsArr, incmd, callback) {
+        //     var eachelement;
+        //     var resultlist=[];
+        //             if (paramsArr instanceof Array) {
+        //                 for (eachelement in paramsArr) {
+        //                 executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
+        //                     resultlist.push(retResults);
+        //                     callback(null, resultlist);
+        //                 });
+        //                 }
+        //             } else {
+        //                 execute(paramsArr, function (err, retResults) {
+        //                     console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
+        //                     proxyprinttodiv('Function retResults', retResults, 17);
+        //                     resultlist.push(retResults);
+        //                     proxyprinttodiv('Function resultlist', resultlist, 17);
+        //                     callback(null, resultlist);
+        //                 });
+        //             }
+        //         }
+
+
+        // function executethismultiple(paramsArr, incmd, callback) {
+        //     var eachelement;
+        //     var resultlist = [ ];
+
+        //     if (paramsArr instanceof Array) {
+        //         // async.map(paramsArr)
+        //         for (eachelement in paramsArr) {
+        //             executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
+        //                 resultlist.push(retResults);
+        //             });
+        //         }
+        //     } else {
+        //         execute(paramsArr, function (err, retResults) {
+        //             console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
+        //             proxyprinttodiv('Function retResults', retResults, 17);
+        //             resultlist.push(retResults[0]); // [0] controls the level of array nesting no [0] = [[]]
+        //             proxyprinttodiv('Function resultlist', resultlist, 17);
+        //         });
+        //     }
+
+        //     callback(null, resultlist);
+        // }
+
+        // function executethismultiple(paramsArr, incmd, callback) {
+        //     var eachelement;
+        //     var resultlist = [];
+
+        //     async.series([
+        //         function step1(step1_callback) {
+        //             if (paramsArr instanceof Array) {
+        //                 //async.mapSeries(paramsArr, function (param, map_callback) {
+        //                 for (eachelement in paramsArr) {
+        //                     executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
+        //                         resultlist.push(retResults);
+        //                         //map_callback(null);
+        //                        // step1_callback(null);
+        //                     });
+        //                 }
+        //                 //}); // end async broke it
+        //             } else {
+        //                 execute(paramsArr, function (err, retResults) {
+        //                     console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
+        //                     proxyprinttodiv('Function retResults', retResults, 17);
+        //                     resultlist.push(retResults[0]); // [0] controls the level of array nesting no [0] = [[]] on the end return
+        //                     proxyprinttodiv('Function resultlist', resultlist, 17);
+        //                     //step1_callback(null);
+        //                 });
+        //             }
+        //             step1_callback(null);
+        //         }
+        //     ], function (err, res) {
+        //             callback(null, resultlist);
+        //     });
+        // }
 
 
     function dothisprocessor(params, target, callback) {

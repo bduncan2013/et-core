@@ -2580,8 +2580,9 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             //debugcat = "";
             //debugsubcat = "";
 
-            proxyprinttodiv('Function ag3 result ', res[6][0], 99);
-            res = logverify("ettestag3_result", res[6][0], [{
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result ', res[6], 99);
+            res = logverify("ettestag3_result", res[6], [{
                 "title": "Highway to Hell",
                 "wid": "song1",
                 "metadata.method": "songdto",
