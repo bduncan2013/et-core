@@ -265,7 +265,7 @@
                                 execute(eachtodo, function (err, res) {
                                     output.push(res);
                                     // cbMap(null);
-                                }));
+                                });
 
                             }
                             cbMap(null); // Moved by joe -- Fixes mem out error
