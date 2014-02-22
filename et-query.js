@@ -246,19 +246,21 @@
                                 }
 
                                 async.mapSeries(todolist, function (w, cbMap) {
-                                    getwid({
-                                        'wid': w
-                                    }, function (err, res) {
-                                        var tempwid = res;
-                                        delete tempwid["wid"];
-                                        delete tempwid["metadata.method"];
-                                        // for (var t in tempwid) {
-                                        //     paramList[t] = tempwid[t];
-                                        // }
-                                        ListOfLists.push(tempwid);
-                                        paramList = {};
+                                    async.nextTick(function() {
+                                        getwid({
+                                            'wid': w
+                                        }, function (err, res) {
+                                            var tempwid = res;
+                                            delete tempwid["wid"];
+                                            delete tempwid["metadata.method"];
+                                            // for (var t in tempwid) {
+                                            //     paramList[t] = tempwid[t];
+                                            // }
+                                            ListOfLists.push(tempwid);
+                                            paramList = {};
 
-                                        cbMap(null, "map");
+                                            cbMap(null, "map");
+                                        });
                                     });
                                 }, function (err, res) {
 
