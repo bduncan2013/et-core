@@ -133,18 +133,22 @@ if (typeof angular !== 'undefined') {
                                             });
                                     },
                                     function(cb) {
-                                        executeService.executeThis({executethis:'getwidmaster',wid:'urlparams'}, $scope,
-                                            function(err, resArr) { cb(null, resArr); });
+                                        execute({executethis:'getwidmaster',wid:'urlparams'}, scope,
+                                            function(err, resArr) {
+                                                cb(null, resArr);
+                                            });
                                     },
                                     function(cb) {
-                                        executeService.executeThis({executethis:'getwidmaster',wid:'inwid'}, $scope,
-                                            function(err, resArr) { cb(null, resArr); });
+                                        execute({executethis:'getwidmaster',wid:'inwid'}, scope,
+                                            function(err, resArr) {
+                                                cb(null, resArr);
+                                            });
                                     }
                                 ],
                                 function(err, overallResults) {
                                     var processParams = {};
                                     for (var y = 0; y < overallResults.length; y++) {
-                                        for (var i = 0; x < overallResults[y].length; i++) {
+                                        for (var i = 0; i < overallResults[y].length; i++) {
                                             extend(true, processParams, overallResults[y][i]);
                                         }
                                     }
@@ -258,7 +262,7 @@ if (typeof angular !== 'undefined') {
             function(err, overallResults) {
                 var processParams = {};
                 for (var x = 0; x < overallResults.length; x++) {
-                    for (var i = 0; x < overallResults[x].length; i++) {
+                    for (var i = 0; i < overallResults[x].length; i++) {
                         extend(true, processParams, overallResults[x][i]);
                     }
                 }
@@ -730,26 +734,28 @@ if (typeof angular !== 'undefined') {
         // just in case parameters were not passed in
         parameters = parameters || {};
 
-        // delete inwid and urlparams wids
-        execute(
-            {executethis:'addwidmaster', wid:'inwid', medata:{status:'5'}},
-            function(err, retArray) {
-                if (err && Object.size(err) > 0) {
-                    console.log('error attempting to delete the wid "inwid" => ' + JSON.stringify(err));
-                }
-            }
-        );
-        execute(
-            {executethis:'addwidmaster', wid:'urlparams', medata:{status:'5'}},
-            function(err, retArray) {
-                if (err && Object.size(err) > 0) {
-                    console.log('error attempting to delete the wid "urlparams" => ' + JSON.stringify(err));
-                }
-            }
-        );
+//        // delete inwid and urlparams wids
+//        execute(
+//            {executethis:'addwidmaster', wid:'inwid', medata:{status:'5'}},
+//            function(err, retArray) {
+//                if (err && Object.size(err) > 0) {
+//                    console.log('error attempting to delete the wid "inwid" => ' + JSON.stringify(err));
+//                }
+//            }
+//        );
+//        execute(
+//            {executethis:'addwidmaster', wid:'urlparams', medata:{status:'5'}},
+//            function(err, retArray) {
+//                if (err && Object.size(err) > 0) {
+//                    console.log('error attempting to delete the wid "urlparams" => ' + JSON.stringify(err));
+//                }
+//            }
+//        );
 
         if (parameters.wid) {
-            executeObj.executethis = parameters.wid;
+//            executeObj.executethis = parameters.wid;
+            executeObj.executethis = 'getwidmaster';
+            executeObj.wid = parameters.wid;
             delete parameters['wid'];
         }
 
@@ -759,6 +765,10 @@ if (typeof angular !== 'undefined') {
         }
 
         var processParams = extend(true, executeObj, parameters);
+
+        if (processParams['metadata.method']) {
+            delete processParams['metadata.method'];
+        }
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
