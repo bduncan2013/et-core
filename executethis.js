@@ -679,19 +679,23 @@
                     "howtryorder": howtryorder,
                     "whattryorder": whattryorder
                 }
-            }
+            };
 
             var resultObj = {};
             var vargroup;
             if (!varlist) {
-                for (var eachgroup in allvars) {
-                    varlist.push(eachgroup);
+                for (var eachvar in allvars) {
+                    if (allvars.hasOwnProperty(eachvar)) {
+                        varlist.push(eachvar);
+                    }
                 }
             }
 
             for (var eachgroup in varlist) {
-                vargroup = varlist[eachgroup];
-                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                if (varlist.hasOwnProperty(eachgroup)) {
+                    vargroup = varlist[eachgroup];
+                    resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
             }
             return resultObj;
         }
@@ -721,6 +725,7 @@
 
 
         async.mapSeries(howToDoList, function (h, cbMapH) {
+            async.nextTick(function() {
                 proxyprinttodiv("executelist begin how howallowexecute ", howallowexecute, 11);
                 proxyprinttodiv("dothis - h ", h, 18);
                 howToDo = h['dothis']; // get specific howToDo from list
@@ -740,6 +745,7 @@
                 whatexecuteorder = 1;
 
                 async.mapSeries(whatToDoList, function (w, cbMapW) {
+                    async.nextTick(function() {
                         proxyprinttodiv("execute - I howallowexecute", howallowexecute, 11);
                         proxyprinttodiv("execute - I whatexecuteorder", whatallowexecute, 11);
                         proxyprinttodiv("execute - w", w, 18);
@@ -787,7 +793,7 @@
                                                     if ((res === undefined) || (res === {})) { // may be issues with empty object
                                                         whatallowexecute = true;
                                                         howallowexecute = true;
-                                                        executeobject.executeflag === false;
+                                                        executeobject.executeflag = false;
                                                     }
                                                     // ************************************************
 
@@ -835,34 +841,31 @@
                         } else {
                             cbMapW(null, "What Iteration");
                         }
-                    },
-
-                    function (err, res) {
-                        proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 11);
-
-                        cbMapH(null, "How Iteration");
-                        //console.log(' completed whatToDoList iteration in sync fashion.');
                     });
+                },
+                function (err, res) {
+                    proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 11);
+
+                    cbMapH(null, "How Iteration");
+                    //console.log(' completed whatToDoList iteration in sync fashion.');
+                });
 
                 // map w,
-
-            },
-
-            function (err, res) {
-                // console.log('>>> very outside >>> ' + JSON.stringify(outputResultsArr));
-                proxyprinttodiv("execute - resultsArr", outputResultsArr, 11);
-                // executearray(resultsArr, function (err, res) {
-                //     outputResultsArr = arrayUnique(outputResultsArr.concat(res));
-                //     callback(err, outputResultsArr);
-                //     console.log(' completed  howToDoList iteration in sync fashion.');
-                // });
-                callback(err, outputResultsArr);
             });
+        },
+
+        function (err, res) {
+            // console.log('>>> very outside >>> ' + JSON.stringify(outputResultsArr));
+            proxyprinttodiv("execute - resultsArr", outputResultsArr, 11);
+            // executearray(resultsArr, function (err, res) {
+            //     outputResultsArr = arrayUnique(outputResultsArr.concat(res));
+            //     callback(err, outputResultsArr);
+            //     console.log(' completed  howToDoList iteration in sync fashion.');
+            // });
+            callback(err, outputResultsArr);
+        });
         debugcolor--;
     }
-
-
-
 
 
     function getexecuteobject(params, howToDo, whatToDo, whatToDoFn, callback) {
