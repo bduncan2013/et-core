@@ -106,84 +106,37 @@ if (typeof angular !== 'undefined') {
             executeThis: function(parameters, scope, callback) {
                 execute(parameters, function(err, resultArray) {
                     for (var x = 0; x < resultArray.length; x++) {
-                        // if not logged in at this point send browser to login.html
-                        if (resultArray[x].etstatus) {
-                            if (resultArray[x].etstatus.status && resultArray[x].etstatus.status === 'unauthorized') {
-                                window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
+                        if (Array.isArray(resultArray[x])) {
+                            for (var i = 0; i < resultArray[x].length; i++) {
+                                // if not logged in at this point send browser to login.html
+                                if (resultArray[x][i].etstatus) {
+                                    if (resultArray[x][i].etstatus.status && resultArray[x][i].etstatus.status === 'unauthorized') {
+                                        window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
+                                    }
+                                }
+
+                                dataService.storeData(resultArray[x][i], scope);
+
+                                // check if this is a screenwid and needs to be displayed
+                                if (resultArray[x][i].html) {
+                                    etProcessScreenWid(resultArray[x][i]);
+                                }
+                            }
+                        } else {
+                            // if not logged in at this point send browser to login.html
+                            if (resultArray[x].etstatus) {
+                                if (resultArray[x].etstatus.status && resultArray[x].etstatus.status === 'unauthorized') {
+                                    window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
+                                }
+                            }
+
+                            dataService.storeData(resultArray[x], scope);
+
+                            // check if this is a screenwid and needs to be displayed
+                            if (resultArray[x].html) {
+                                etProcessScreenWid(resultArray[x]);
                             }
                         }
-
-                        // check if this is a screenwid and needs to be displayed
-                        if (resultArray[x].html) {
-                            // clear page in preparation for the wid we are going to
-                            if (resultArray[x].command && resultArray[x].command.htmltargetid) {
-                                etClearPage(resultArray[x].command.htmltargetid);
-                            } else {
-                                etClearPage();
-                            }
-
-                            async.series([
-                                    function(cb) {
-                                        // save execute params to inwid
-                                        execute({executethis:'addwidmaster',wid:'inwid',addthis:{wid:resultArray[x].wid}},
-                                            function(err, retArr) {
-                                                if (err && Object.size(err) > 0) {
-                                                    console.log('error adding to the wid "inwid" => ' + JSON.stringify(err));
-                                                } else { cb(null, [{}]); }
-                                            });
-                                    },
-                                    function(cb) {
-                                        execute({executethis:'getwidmaster',wid:'urlparams'}, scope,
-                                            function(err, resArr) {
-                                                cb(null, resArr);
-                                            });
-                                    },
-                                    function(cb) {
-                                        execute({executethis:'getwidmaster',wid:'inwid'}, scope,
-                                            function(err, resArr) {
-                                                cb(null, resArr);
-                                            });
-                                    }
-                                ],
-                                function(err, overallResults) {
-                                    var processParams = {};
-                                    for (var y = 0; y < overallResults.length; y++) {
-                                        for (var i = 0; i < overallResults[y].length; i++) {
-                                            extend(true, processParams, overallResults[y][i]);
-                                        }
-                                    }
-
-                                    // pass results of urlparams and inwid wids in as parameters to etProcessParameters
-                                    etProcessParameters(processParams);
-                                });
-
-//                            // call etProcessParams while passing in the contents of both the 'urlparams' and 'inwid' wids
-//                            execute({preexecute:'urlparams',executethis:'inwid',postexecute:'etProcessParameters'},
-//                            function(err, resultArr) {
-//                                if (err && Object.size(err) > 0) {
-//                                    console.log('error leading up to calling the etProcessParameters function => ' + JSON.stringify(err));
-//                                }
-//                            });
-                        }
-
-                        // TODO : find out if this is still valid logic
-//                        // if command.htmlwid found, begin screen redirection to said wid
-//                        if (resultArray[x].command && resultArray[x].command.htmlwid) {
-//                            // add params to inwid, then call etClearPage
-//                            angularExecuteThis({
-//                                executethis:'addwidmaster',
-//                                wid:'inwid',
-//                                parameters:{
-//                                    executethis:resultArray[x].command.htmlwid
-//                                }
-//                            });
-//
-//                            // begin display of new wid based on inwid params
-//                            etClearPage();
-//                            etProcessParameters();
-//                        }
-
-                        dataService.storeData(resultArray[x], scope);
                     }
 
                     // send array to callback
@@ -267,16 +220,15 @@ if (typeof angular !== 'undefined') {
                     }
                 }
 
-                // pass results of urlparams and inwid wids in as parameters to etProcessParameters
-                etProcessParameters(processParams);
+                if (processParams.wid) {
+                    processParams.executethis = processParams.wid;
+                    delete processParams['wid'];
+                }
+
+                executeService.executeThis(processParams, $scope);
             });
 
-
-//        executeService.executeThis(executeObj, $scope);
-
 //        if (!parameters.executethis) { parameters.executethis = 'etProcessParameters'; }
-//
-//        executeService.executeThis(parameters, $scope);
 
         // package url parameters into model
         if (Object.size(helper.queryStrToObj(location.search)) > 0) {
@@ -725,79 +677,77 @@ if (typeof angular !== 'undefined') {
         }
     };
 
-    exports.etProcessParameters = etProcessParameters = function etProcessParameters(parameters, callback) {
-        var widdata = '',
-            wid = '',
-            executeObj = {},
-            scope = $('body').scope();
-
-        // just in case parameters were not passed in
-        parameters = parameters || {};
-
-//        // delete inwid and urlparams wids
-//        execute(
-//            {executethis:'addwidmaster', wid:'inwid', medata:{status:'5'}},
-//            function(err, retArray) {
-//                if (err && Object.size(err) > 0) {
-//                    console.log('error attempting to delete the wid "inwid" => ' + JSON.stringify(err));
-//                }
-//            }
-//        );
-//        execute(
-//            {executethis:'addwidmaster', wid:'urlparams', medata:{status:'5'}},
-//            function(err, retArray) {
-//                if (err && Object.size(err) > 0) {
-//                    console.log('error attempting to delete the wid "urlparams" => ' + JSON.stringify(err));
-//                }
-//            }
-//        );
-
-        if (parameters.wid) {
+//    exports.etProcessParameters = etProcessParameters = function etProcessParameters(parameters, callback) {
+//        var widdata = '',
+//            wid = '',
+//            executeObj = {},
+//            scope = $('body').scope();
+//
+//        // just in case parameters were not passed in
+//        parameters = parameters || {};
+//
+////        // delete inwid and urlparams wids
+////        execute(
+////            {executethis:'addwidmaster', wid:'inwid', medata:{status:'5'}},
+////            function(err, retArray) {
+////                if (err && Object.size(err) > 0) {
+////                    console.log('error attempting to delete the wid "inwid" => ' + JSON.stringify(err));
+////                }
+////            }
+////        );
+////        execute(
+////            {executethis:'addwidmaster', wid:'urlparams', medata:{status:'5'}},
+////            function(err, retArray) {
+////                if (err && Object.size(err) > 0) {
+////                    console.log('error attempting to delete the wid "urlparams" => ' + JSON.stringify(err));
+////                }
+////            }
+////        );
+//
+//        if (parameters.wid) {
 //            executeObj.executethis = parameters.wid;
-            executeObj.executethis = 'getwidmaster';
-            executeObj.wid = parameters.wid;
-            delete parameters['wid'];
-        }
-
-        if (parameters.widdata) {
-            executeObj.preexecute = parameters.widdata;
-            delete parameters['widdata'];
-        }
-
-        var processParams = extend(true, executeObj, parameters);
-
-        if (processParams['metadata.method']) {
-            delete processParams['metadata.method'];
-        }
-
-        angular.injector(['ng', 'widApp'])
-            .get('executeService')
-            .executeThis(processParams, scope, function(err, resultArray) {
-                if (err && Object.size(err) > 0) {
-                    console.log('execute error => ' + JSON.stringify(err));
-                    callback(err, {});
-                } else {
-                    for (var i = 0; i < resultArray.length; i++) {
-                        if (resultArray[i].html) {
-                            $(resultArray[i].html).filter('execute').each(function(index, ele) {
-                                helper.processExecute(ele, scope);
-                            });
-
-                            // TODO: ask if this is still relevent logic
-                            // save this html to 'screenwid' wid instead of processing html
-                            var executeObj = extend(true, resultsArray[x], {executethis:'addwidmaster', wid:'screenwid'});
-                            execute(executeObj, function(err, resultsArr) {
-                                if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
-                            });
-                        }
-
-                        etProcessScreenWid(resultArray[i]);
-                    }
-
-                    if (callback instanceof Function) { callback(null, resultArray); }
-                }
-            });
-    };
+//            delete parameters['wid'];
+//        }
+//
+//        if (parameters.widdata) {
+//            executeObj.preexecute = parameters.widdata;
+//            delete parameters['widdata'];
+//        }
+//
+//        var processParams = extend(true, executeObj, parameters);
+//
+//        if (processParams['metadata.method']) {
+//            delete processParams['metadata.method'];
+//        }
+//
+//        angular.injector(['ng', 'widApp'])
+//            .get('executeService')
+//            .executeThis(processParams, scope, function(err, resultArray) {
+//                if (err && Object.size(err) > 0) {
+//                    console.log('execute error => ' + JSON.stringify(err));
+//                    callback(err, {});
+//                } else {
+//                    for (var i = 0; i < resultArray.length; i++) {
+//                        if (resultArray[i].html) {
+//                            $(resultArray[i].html).filter('execute').each(function(index, ele) {
+//                                helper.processExecute(ele, scope);
+//                            });
+//
+//                            // TODO: ask if this is still relevent logic
+//                            // save this html to 'screenwid' wid instead of processing html
+//                            var executeObj = extend(true, resultArray[i], {executethis:'addwidmaster', wid:'screenwid'});
+//                            execute(executeObj, function(err, resultsArr) {
+//                                if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
+//                            });
+//                        }
+//
+//                        etProcessScreenWid(resultArray[i]);
+//                    }
+//
+//                    if (callback instanceof Function) { callback(null, resultArray); }
+//                }
+//            });
+//    };
 
     exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(parameters) {
         var widforview = [],
@@ -806,8 +756,10 @@ if (typeof angular !== 'undefined') {
             links = [],
             dataforview = {},
             all_wids = [],
-            scope = $('body').scope(),
-            startwid;
+            scope = $('body').scope();
+
+        // take care of initial html in screenwid
+        if (parameters.html) { helper.processHtml(parameters); }
 
         if (parameters.widforview) { widforview = parameters.widforview.split(','); delete parameters['widforview']; }
         else if (typeof widForView !== 'undefined') { widforview = widForView.split(','); }
@@ -863,16 +815,19 @@ if (typeof angular !== 'undefined') {
         }
 
         if (parameters.startwid) {
-            angular.injector(['nt', 'widApp'])
+            angular.injector(['ng', 'widApp'])
                 .get('executeService')
                 .executeThis({executethis:parameters.startwid}, scope, function(err, resultsArr) {
                     if (err && Object.size(err) > 0) {
                         console.log('execute error while processing html => ' + JSON.stringify(err));
                     } else {
                         for (var i = 0; i < resultsArr.length; i++) {
-                            if (resultsArr[i].html) {
-                                helper.processHtml(resultsArr[i]);
+                            for (var x = 0; x < resultsArr[i]; i++) {
+                                if (resultsArr[i].html) {
+                                    helper.processHtml(resultsArr[i]);
+                                }
                             }
+
                         }
                     }
                 });
@@ -894,8 +849,10 @@ if (typeof angular !== 'undefined') {
                         console.log('execute error while processing html => ' + JSON.stringify(err));
                     } else {
                         for (var x = 0; x < resultArray.length; x++) {
-                            if (resultArray[x].html) {
-                                helper.processHtml(resultArray[x]);
+                            for (var i = 0; i < resultArray[x].length; i++) {
+                                if (resultArray[x][i].html) {
+                                    helper.processHtml(resultArray[x][i]);
+                                }
                             }
                         }
                     }
