@@ -17,8 +17,15 @@
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
 
 
-        var result, preError, midError, overallError, commandmultiple;
+    var result, preError, midError, overallError, commandmultiple;
         // check for execute multiple commands, if passed store and delete from request
+
+    if (isString(incomingparams)) {
+            incomingparams['executethis'] = incomingparams;
+            proxyprinttodiv("execute - array params received I", incomingparams, 99);
+        }
+    
+
         if ((incomingparams && incomingparams.command && incomingparams.command.multiple && incomingparams.command.multiple.parameters)) {
             proxyprinttodiv("execute - command.multiple ", incomingparams.command.multiple, 37);
             commandmultiple = incomingparams.command.multiple.parameters;
@@ -45,10 +52,11 @@
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
             // fix incoming param
-            if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
-                incomingparams['executethis'] = incomingparams;
-            }
-
+			// if(incomingparams){
+			// 	if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
+			// 		incomingparams['executethis'] = incomingparams;
+			// 	}
+			// }
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
@@ -112,9 +120,9 @@
                                 delete postResults.command.result;
                             }
 
-            
 
-                                if (Object.prototype.toString.call(postResults) !== '[object Array]') {
+
+                            if (Object.prototype.toString.call(postResults) !== '[object Array]') {
 
                                 var tempArray = [];
                                 tempArray.push(postResults);
@@ -130,7 +138,7 @@
                 });
             });
         }
-
+    
     };
 
 
@@ -143,7 +151,7 @@
     exports.executeone = executeone = function executeone(params, callback) {
         // execute one processes siglelevel arrays because they have to be either  
         // [{fn:fn},[a:b]] or like this [{execuethis:a, b:c}]
-        // proxyprinttodiv("executeone - params >> params ", params, 99);
+        // proxyprinttodiv("executeone - params >> params ", params, 11);
         var fn;
         var fnparams = [];
         var output = [];
@@ -153,7 +161,7 @@
 
             callback(err, output); //callback(err, output[0]);
         };
-        proxyprinttodiv("executeone - params >> fn ", params, 99);
+        proxyprinttodiv("executeone - params >> fn ", params, 11);
 
         if (params[0] && params[0].fn) {
 
@@ -164,8 +172,8 @@
             fnparams.push(params[0]);
         }
         fnparams.push(fncallbck);
-		proxyprinttodiv("executeone - fncallbck ", fncallbck, 99);
-        proxyprinttodiv("executeone - window ", fnparams, 99);
+        proxyprinttodiv("executeone - fncallbck ", fncallbck, 11);
+        proxyprinttodiv("executeone - window ", fnparams, 11);
 
         window[fn].apply(window, fnparams);
     }
@@ -211,7 +219,7 @@
         // }
 
         function filterParams(item, callback) {
-        proxyprinttodiv("executethismultiple - item ", item, 11);
+            proxyprinttodiv("executethismultiple - item ", item, 11);
             var result = true;
             if (commandobject && commandobject.executefilter) {
                 result = false;
@@ -243,32 +251,34 @@
         //     }
 
 
-            var filteredParams = JSON.parse(JSON.stringify(inparams));
+        var filteredParams = JSON.parse(JSON.stringify(inparams));
 
-            async.series([
+        async.series([
                 function step1(clb) {
                     // series
                     if (commandobject.executeorder === "series") {
-					    proxyprinttodiv("executethismultiple - filteredParams ", filteredParams, 99);
+                        proxyprinttodiv("executethismultiple - filteredParams ", filteredParams, 11);
                         async.mapSeries(filteredParams, function (eachtodo, cbMap) {
-							proxyprinttodiv("executethismultiple - eachtodo ", eachtodo, 99);
+                            async.nextTick( function () {
+                                proxyprinttodiv("executethismultiple - eachtodo ", eachtodo, 11);
 
-                            if (eachtodo instanceof Array ) {
-                                proxyprinttodiv("series - eachtodo 1st condition ****** should not trigger un2 level deep", eachtodo, 99);
-                                executethismultiple(eachtodo, {}, function (err, res) {
-                                    // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
-                                    output.push(res);
-                                });
-                            } else {
-                                proxyprinttodiv("series - eachtodo", eachtodo, 11);
-                                // async.nextTick(execute(eachtodo, function (err, res) {
-                                execute(eachtodo, function (err, res) {
-                                    output.push(res);
-                                    // cbMap(null);
-                                });
-
-                            }
-                            cbMap(null); // Moved by joe -- Fixes mem out error
+                                if (eachtodo instanceof Array ) {
+                                    proxyprinttodiv("series - eachtodo 1st condition ****** should not trigger un2 level deep", eachtodo, 11);
+                                    executethismultiple(eachtodo, {}, function (err, res) {
+                                        // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 11);
+                                        output.push(res);
+                                        cbMap(null);
+                                    });
+                                } else {
+                                    proxyprinttodiv("series - eachtodo", eachtodo, 11);
+                                    execute(eachtodo, function (err, res) {
+                                        // execute(eachtodo, function (err, res) {
+                                        output.push(res);
+                                        cbMap(null);
+                                    });
+                                }
+                            });
+                            //cbMap(null); // Moved by joe -- Fixes mem out error
                         }, function (err, re) {
                             clb(null);
                         });
@@ -276,151 +286,151 @@
                         clb(null);
                     }
                 }
-                    // ,
+                // ,
 
-                    // function step2(clb) {
-                    //     // waterfall
-                    //     if (commandobject.executeorder === "waterfall") {
-                    //         function createFnArray(filteredParams, output) {
+                // function step2(clb) {
+                //     // waterfall
+                //     if (commandobject.executeorder === "waterfall") {
+                //         function createFnArray(filteredParams, output) {
 
 
-                    //             var fnArray = [];
-                    //             var output = [];
-                    //             for (var i = 0; i < filteredParams.length; i++) {
-                    //                 var params = filteredParams[i];
-                    //                 proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 11);
-                    //                 var func = getFunction(params);
-                    //                 fnArray.push(func);
-                    //             }
+                //             var fnArray = [];
+                //             var output = [];
+                //             for (var i = 0; i < filteredParams.length; i++) {
+                //                 var params = filteredParams[i];
+                //                 proxyprinttodiv("executethismultiple - waterfall -- iteration - params ", params, 11);
+                //                 var func = getFunction(params);
+                //                 fnArray.push(func);
+                //             }
 
-                    //             function getFunction(params) {
-                    //                 return function (cb1) {
-                    //                     executeone(params, function (err, res) {
-                    //                         // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 99);
-                    //                         output.push(res);
-                    //                         cb1(null);
-                    //                     });
-                    //                 };
-                    //             }
-                    //             return fnArray;
-                    //         };
-                    //         async.waterfall(createFnArray(filteredParams), function (err, resp) {
-                    //             clb(null);
-                    //         });
+                //             function getFunction(params) {
+                //                 return function (cb1) {
+                //                     executeone(params, function (err, res) {
+                //                         // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 11);
+                //                         output.push(res);
+                //                         cb1(null);
+                //                     });
+                //                 };
+                //             }
+                //             return fnArray;
+                //         };
+                //         async.waterfall(createFnArray(filteredParams), function (err, resp) {
+                //             clb(null);
+                //         });
 
-                    //     } else {
-                    //         clb(null);
-                    //     }
-                    // },
+                //     } else {
+                //         clb(null);
+                //     }
+                // },
 
-                    // function step3 (clb) {
-                    //     // parallel
-                    //     if (commandobject.executeorder === "parallel") {
-                    //         async.map(filteredParams, function (eachtodo, cbMap) {
-                    //             proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 11);
-                    //             executeone(eachtodo, function (err, res) {
-                    //                 output.push(res);
-                    //                 cbMap(null);
-                    //             });
-                    //         }, function (err, resp) {
-                    //             // if any of the saves produced an error, err would equal that error
-                    //             proxyprinttodiv("executethismultiple - parallel -- output ", output, 11);
-                    //             clb(null);
-                    //         });
+                // function step3 (clb) {
+                //     // parallel
+                //     if (commandobject.executeorder === "parallel") {
+                //         async.map(filteredParams, function (eachtodo, cbMap) {
+                //             proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 11);
+                //             executeone(eachtodo, function (err, res) {
+                //                 output.push(res);
+                //                 cbMap(null);
+                //             });
+                //         }, function (err, resp) {
+                //             // if any of the saves produced an error, err would equal that error
+                //             proxyprinttodiv("executethismultiple - parallel -- output ", output, 11);
+                //             clb(null);
+                //         });
 
-                    //     } else {
-                    //         clb(null);
-                    //     }
-                    // }
+                //     } else {
+                //         clb(null);
+                //     }
+                // }
 
-                ],
-                function (err, resp) {
-                    // if any of the saves produced an error, err would equal that error
-                    proxyprinttodiv("executethismultiple - resp ", resp, 99);
-                    callback(err, output);
-                });
+            ],
+            function (err, resp) {
+                // if any of the saves produced an error, err would equal that error
+                proxyprinttodiv("executethismultiple - resp ", resp, 11);
+                callback(err, output);
+            });
         //});
 
     }
 
 
 
-        // function executethismultiple(paramsArr, incmd, callback) {
-        //     var eachelement;
-        //     var resultlist=[];
-        //             if (paramsArr instanceof Array) {
-        //                 for (eachelement in paramsArr) {
-        //                 executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
-        //                     resultlist.push(retResults);
-        //                     callback(null, resultlist);
-        //                 });
-        //                 }
-        //             } else {
-        //                 execute(paramsArr, function (err, retResults) {
-        //                     console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
-        //                     proxyprinttodiv('Function retResults', retResults, 17);
-        //                     resultlist.push(retResults);
-        //                     proxyprinttodiv('Function resultlist', resultlist, 17);
-        //                     callback(null, resultlist);
-        //                 });
-        //             }
-        //         }
+    // function executethismultiple(paramsArr, incmd, callback) {
+    //     var eachelement;
+    //     var resultlist=[];
+    //             if (paramsArr instanceof Array) {
+    //                 for (eachelement in paramsArr) {
+    //                 executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
+    //                     resultlist.push(retResults);
+    //                     callback(null, resultlist);
+    //                 });
+    //                 }
+    //             } else {
+    //                 execute(paramsArr, function (err, retResults) {
+    //                     console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
+    //                     proxyprinttodiv('Function retResults', retResults, 17);
+    //                     resultlist.push(retResults);
+    //                     proxyprinttodiv('Function resultlist', resultlist, 17);
+    //                     callback(null, resultlist);
+    //                 });
+    //             }
+    //         }
 
 
-        // function executethismultiple(paramsArr, incmd, callback) {
-        //     var eachelement;
-        //     var resultlist = [ ];
+    // function executethismultiple(paramsArr, incmd, callback) {
+    //     var eachelement;
+    //     var resultlist = [ ];
 
-        //     if (paramsArr instanceof Array) {
-        //         // async.map(paramsArr)
-        //         for (eachelement in paramsArr) {
-        //             executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
-        //                 resultlist.push(retResults);
-        //             });
-        //         }
-        //     } else {
-        //         execute(paramsArr, function (err, retResults) {
-        //             console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
-        //             proxyprinttodiv('Function retResults', retResults, 17);
-        //             resultlist.push(retResults[0]); // [0] controls the level of array nesting no [0] = [[]]
-        //             proxyprinttodiv('Function resultlist', resultlist, 17);
-        //         });
-        //     }
+    //     if (paramsArr instanceof Array) {
+    //         // async.map(paramsArr)
+    //         for (eachelement in paramsArr) {
+    //             executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
+    //                 resultlist.push(retResults);
+    //             });
+    //         }
+    //     } else {
+    //         execute(paramsArr, function (err, retResults) {
+    //             console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
+    //             proxyprinttodiv('Function retResults', retResults, 17);
+    //             resultlist.push(retResults[0]); // [0] controls the level of array nesting no [0] = [[]]
+    //             proxyprinttodiv('Function resultlist', resultlist, 17);
+    //         });
+    //     }
 
-        //     callback(null, resultlist);
-        // }
+    //     callback(null, resultlist);
+    // }
 
-        // function executethismultiple(paramsArr, incmd, callback) {
-        //     var eachelement;
-        //     var resultlist = [];
+    // function executethismultiple(paramsArr, incmd, callback) {
+    //     var eachelement;
+    //     var resultlist = [];
 
-        //     async.series([
-        //         function step1(step1_callback) {
-        //             if (paramsArr instanceof Array) {
-        //                 //async.mapSeries(paramsArr, function (param, map_callback) {
-        //                 for (eachelement in paramsArr) {
-        //                     executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
-        //                         resultlist.push(retResults);
-        //                         //map_callback(null);
-        //                        // step1_callback(null);
-        //                     });
-        //                 }
-        //                 //}); // end async broke it
-        //             } else {
-        //                 execute(paramsArr, function (err, retResults) {
-        //                     console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
-        //                     proxyprinttodiv('Function retResults', retResults, 17);
-        //                     resultlist.push(retResults[0]); // [0] controls the level of array nesting no [0] = [[]] on the end return
-        //                     proxyprinttodiv('Function resultlist', resultlist, 17);
-        //                     //step1_callback(null);
-        //                 });
-        //             }
-        //             step1_callback(null);
-        //         }
-        //     ], function (err, res) {
-        //             callback(null, resultlist);
-        //     });
-        // }
+    //     async.series([
+    //         function step1(step1_callback) {
+    //             if (paramsArr instanceof Array) {
+    //                 //async.mapSeries(paramsArr, function (param, map_callback) {
+    //                 for (eachelement in paramsArr) {
+    //                     executethismultiple(paramsArr[eachelement], {}, function (err, retResults) {
+    //                         resultlist.push(retResults);
+    //                         //map_callback(null);
+    //                        // step1_callback(null);
+    //                     });
+    //                 }
+    //                 //}); // end async broke it
+    //             } else {
+    //                 execute(paramsArr, function (err, retResults) {
+    //                     console.log('>>>> retResults >>>> ' + JSON.stringify(retResults));
+    //                     proxyprinttodiv('Function retResults', retResults, 17);
+    //                     resultlist.push(retResults[0]); // [0] controls the level of array nesting no [0] = [[]] on the end return
+    //                     proxyprinttodiv('Function resultlist', resultlist, 17);
+    //                     //step1_callback(null);
+    //                 });
+    //             }
+    //             step1_callback(null);
+    //         }
+    //     ], function (err, res) {
+    //             callback(null, resultlist);
+    //     });
+    // }
 
 
     function dothisprocessor(params, target, callback) {
@@ -659,7 +669,7 @@
                     "howToDoList": howToDoList,
                     "whatToDoList": whatToDoList,
                     "howallowexecute": howallowexecute,
-                    "whatallowexecute": whatallowexecute,
+                    "whatallowexecute": whatallowexecute
                 },
                 2: {
                     "outputResultsArr": outputResultsArr,
@@ -677,19 +687,23 @@
                     "howtryorder": howtryorder,
                     "whattryorder": whattryorder
                 }
-            }
+            };
 
             var resultObj = {};
             var vargroup;
             if (!varlist) {
-                for (var eachgroup in allvars) {
-                    varlist.push(eachgroup);
+                for (var eachvar in allvars) {
+                    if (allvars.hasOwnProperty(eachvar)) {
+                        varlist.push(eachvar);
+                    }
                 }
             }
 
             for (var eachgroup in varlist) {
-                vargroup = varlist[eachgroup];
-                resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                if (varlist.hasOwnProperty(eachgroup)) {
+                    vargroup = varlist[eachgroup];
+                    resultObj = jsonConcat(resultObj, allvars[vargroup]);
+                }
             }
             return resultObj;
         }
@@ -719,6 +733,7 @@
 
 
         async.mapSeries(howToDoList, function (h, cbMapH) {
+            async.nextTick(function() {
                 proxyprinttodiv("executelist begin how howallowexecute ", howallowexecute, 11);
                 proxyprinttodiv("dothis - h ", h, 18);
                 howToDo = h['dothis']; // get specific howToDo from list
@@ -738,6 +753,7 @@
                 whatexecuteorder = 1;
 
                 async.mapSeries(whatToDoList, function (w, cbMapW) {
+                    async.nextTick(function() {
                         proxyprinttodiv("execute - I howallowexecute", howallowexecute, 11);
                         proxyprinttodiv("execute - I whatexecuteorder", whatallowexecute, 11);
                         proxyprinttodiv("execute - w", w, 18);
@@ -785,7 +801,7 @@
                                                     if ((res === undefined) || (res === {})) { // may be issues with empty object
                                                         whatallowexecute = true;
                                                         howallowexecute = true;
-                                                        executeobject.executeflag === false;
+                                                        executeobject.executeflag = false;
                                                     }
                                                     // ************************************************
 
@@ -833,34 +849,31 @@
                         } else {
                             cbMapW(null, "What Iteration");
                         }
-                    },
-
-                    function (err, res) {
-                        proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 11);
-
-                        cbMapH(null, "How Iteration");
-                        //console.log(' completed whatToDoList iteration in sync fashion.');
                     });
+                },
+                function (err, res) {
+                    proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 11);
+
+                    cbMapH(null, "How Iteration");
+                    //console.log(' completed whatToDoList iteration in sync fashion.');
+                });
 
                 // map w,
-
-            },
-
-            function (err, res) {
-                // console.log('>>> very outside >>> ' + JSON.stringify(outputResultsArr));
-                proxyprinttodiv("execute - resultsArr", outputResultsArr, 11);
-                // executearray(resultsArr, function (err, res) {
-                //     outputResultsArr = arrayUnique(outputResultsArr.concat(res));
-                //     callback(err, outputResultsArr);
-                //     console.log(' completed  howToDoList iteration in sync fashion.');
-                // });
-                callback(err, outputResultsArr);
             });
+        },
+
+        function (err, res) {
+            // console.log('>>> very outside >>> ' + JSON.stringify(outputResultsArr));
+            proxyprinttodiv("execute - resultsArr", outputResultsArr, 11);
+            // executearray(resultsArr, function (err, res) {
+            //     outputResultsArr = arrayUnique(outputResultsArr.concat(res));
+            //     callback(err, outputResultsArr);
+            //     console.log(' completed  howToDoList iteration in sync fashion.');
+            // });
+            callback(err, outputResultsArr);
+        });
         debugcolor--;
     }
-
-
-
 
 
     function getexecuteobject(params, howToDo, whatToDo, whatToDoFn, callback) {
@@ -879,59 +892,59 @@
         // switch (howToDo) {
         switch (howToDo) {
 
-        case "dothis": // previously executefn ... go look for fn to execute
-            if (whatToDoFn !== window[whatToDo]) {
-                targetfn = window[whatToDo];
-            } else {
-                targetfn = whatToDoFn;
-            }
+            case "dothis": // previously executefn ... go look for fn to execute
+                if (whatToDoFn !== window[whatToDo]) {
+                    targetfn = window[whatToDo];
+                } else {
+                    targetfn = whatToDoFn;
+                }
 
-            break;
-
-        case "executeparam":
-            if (params[whatToDo] === undefined) {
-                targetfn = undefined;
                 break;
-            }
-            // targetfn = params[whatToDo];
-            targetfn = 'execute';
-            params['executethis'] = params[whatToDo];
+
+            case "executeparam":
+                if (params[whatToDo] === undefined) {
+                    targetfn = undefined;
+                    break;
+                }
+                // targetfn = params[whatToDo];
+                targetfn = 'execute';
+                params['executethis'] = params[whatToDo];
 
 
 
-            // if (!targetfn instanceof Function) {
-            //     targetfn = window[targetfn];
-            // } else if (typeof targetfn === 'string') {
-            //     targetfn = window[targetfn];
-            // }
+                // if (!targetfn instanceof Function) {
+                //     targetfn = window[targetfn];
+                // } else if (typeof targetfn === 'string') {
+                //     targetfn = window[targetfn];
+                // }
 
-            break;
+                break;
 
-        case "executegetwid":
-            targetfn = execute;
-            executeflag = true; // so caller gets wid and then executes with the results
-            //params = {};
-            params["executethis"] = "getwid";
-            params["wid"] = whatToDo;
+            case "executegetwid":
+                targetfn = execute;
+                executeflag = true; // so caller gets wid and then executes with the results
+                //params = {};
+                params["executethis"] = "getwid";
+                params["wid"] = whatToDo;
 
-            // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) { 
-            // tempobject=""
-            // if (tempobject !== undefined && tempobject['js']) {
-            //     targetfn = tempobject['js'];
-            //     fncheck = true;
-            // } else {
-            //     tempobject.skipExecuteObjCheck = true;
-            //     tempobject.params={};
-            //     callback({}, tempobject);
-            // }
-            // });
-            break;
+                // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) {
+                // tempobject=""
+                // if (tempobject !== undefined && tempobject['js']) {
+                //     targetfn = tempobject['js'];
+                //     fncheck = true;
+                // } else {
+                //     tempobject.skipExecuteObjCheck = true;
+                //     tempobject.params={};
+                //     callback({}, tempobject);
+                // }
+                // });
+                break;
 
 
-        case "server":
-            targetfn = window["server"];
-            params['executethis'] = whatToDo;
-            break;
+            case "server":
+                targetfn = window["server"];
+                params['executethis'] = whatToDo;
+                break;
         }
 
         //proxyprinttodiv("getexecuteobject targetfn I", String(targetfn), 11);

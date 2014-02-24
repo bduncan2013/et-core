@@ -159,83 +159,122 @@ function setbyindex(obj, str, val) {
 
 
 
-exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command) {
+exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
+	console.log("<< in deepfilter >>");
     var modifiedObj = {};
     extend(true, modifiedObj, inputObj);    
     if (dtoObjOpt) {
-        return recurseModObj(modifiedObj, dtoObjOpt, command);
+        var result = recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
+			proxyprinttodiv("deepfilter result with dtoObjOpt", res, 99);
+			callback(null, res);
+		});
     } else {
-        //dtoObjOpt = execute({"executethis":"getwidmaster", "wid": inputObj["metadata"]["method"]});
-        return inputObj;
-    };   
-
+		proxyprinttodiv("deepfilter result without dtoOBjOpt", inputObj, 99);
+		callback(null, inputObj);
+    }
 }
 
-function recurseModObj(inputObject,dtoObject, command){
+function recurseModObj(inputObject,dtoObject, command, callback){
+	console.log("<< in recurseModObj >>");	
     var modifiedObj = {};
-    Object.keys(inputObject).forEach(function (inpKey) {
+    
+	var todolist = [];
+	Object.keys(inputObject).forEach(function (inpKey) {
+		//for (eachkey in inputObject) {
+		todolist.push(inpKey);
+		//}
+	});
+	//proxyprinttodiv("recurseModObj - todolist ", todolist, 99);
+	
+	//async.series([
+		//function step1(cb1) { //step1 start
+			async.mapSeries(todolist, function (inpKey, cbMap) {
+				async.nextTick(function () { 
+					var inpVal = inputObject[inpKey];
+					if (dtoObject.hasOwnProperty(inpKey)) {
+						var dataType = dtoObject[inpKey];
+						
+						//proxyprinttodiv("recurseModObj - inpKey ", inpKey, 99);
+						//proxyprinttodiv("recurseModObj - inpVal ", inpVal, 99);
+						//proxyprinttodiv("recurseModObj - dataType ", dataType, 99);
+						
+						if(typeof inpVal === "string" && (dataType === "boolean" || dataType === "string" ||  dataType === "number" ||  dataType === "date")) {
+							switch(dataType) {
+								case "boolean":
+											var convB = null;
+											if (inpVal == "true") {
+												convB = true;
+											} else if (inpVal == "false") {
+												convB = false;
+											};
+											modifiedObj[inpKey] = convB;
+									break;
+								case "string":
+											modifiedObj[inpKey] = String(inpVal);
+									break;
+								case "number":
+											modifiedObj[inpKey] = parseInt(inpVal);                            
+									break;
+								case "date":
+											var arrD = inpVal.split("/");
+											var m = arrD[0];
+											m = (m<38 ? '0'+m : m);
+											var d = arrD[1];
+											d = (d<38 ? '0'+d : d);
+											var y = arrD[2];
+											var date = new Date(y,m-1,d); 
+											// add a day
+											date.setDate(date.getDate() + 1);
+											modifiedObj[inpKey] = date;                                                       
+									break;
+							}
+							cbMap(null);
+                        //} else if(typeof inpVal === "object" &&  dataType === "object") {
+                        //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
+						} else if((typeof inpVal === "object")) {
+							//proxyprinttodiv("typeof inpVal (object) - ", inpVal, 99);
+							
+                            if (inpKey !== "metadata") {
+                                recurseModObj(inpVal,dataType,command, function (err, result) {
+                                    //var modObj = recurseModObj(inpVal,dataType,command);
+                                    modifiedObj[inpKey] = result;
+                                    cbMap(null);
+                                });
 
-        // added by Roger
-        if ((inpKey.indexOf("addthis.") !== -1) && (!command.addthisflag)) {// if you found "addthis." then remove from inputObject
-        //if ((inpKey.indexOf("addthis.") !== -1)) {
-                inputObject[inpKey.replace("addthis.", "")]=inputObject[inpKey]; // then and readd without addthis
-                delete inputObject[inpKey]; // delete the old one
-                }
-
-        var inpVal = inputObject[inpKey];
-        if (dtoObject.hasOwnProperty(inpKey)) {
-            var dataType = dtoObject[inpKey];
-            if(typeof inpVal === "string" && typeof dataType === "string")
-            {
-                switch(dataType)
-                {
-                    case "boolean":
-                                var convB = null;
-                                if (inpVal == "true") {
-                                    convB = true;
-                                } else if (inpVal == "false") {
-                                    convB = false;
-                                };
-                                modifiedObj[inpKey] = convB;
-                        break;
-                    case "string":
-                                modifiedObj[inpKey] = String(inpVal);
-                        break;
-                    case "number":
-                                modifiedObj[inpKey] = parseInt(inpVal);                            
-                        break;
-                    case "date":
-                                var arrD = inpVal.split("/");
-                                var m = arrD[0];
-                                m = (m<38 ? '0'+m : m);
-                                var d = arrD[1];
-                                d = (d<38 ? '0'+d : d);
-                                var y = arrD[2];
-                                modifiedObj[inpKey] = new Date(y,m-1,d);                                                        
-                        break;
-                    default:
-                        //Nothing to be done
-                       break;
-                }
-            }else if(typeof inpVal === "object" && typeof dataType === "object")
-            {
-                //Ignoring metadata property in input.
-                if (inpKey != "metadata") {
-                    var modObj = recurseModObj(inpVal,dataType,command);
-                    modifiedObj[inpKey] = modObj;
-                }else{
-                    modifiedObj[inpKey] = inpVal;                    
-                }
-            }else
-            {
-                //Doesn't match with dto -- Nullifying the param
-                modifiedObj[inpKey] = null;
-            }
-        } else{
-            delete modifiedObj[inpKey];
-        };
-    });
-    return modifiedObj;        
+                            }else{
+                                modifiedObj[inpKey] = inpVal;  
+                                cbMap(null);                  
+                            }
+						} else {
+							// to read wid obj via getwidmaster
+							execute({"executethis":dataType}, function (err, result) {
+								//proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 99);
+								var widObj = result[0][0];
+								if(widObj){
+									if(widObj.hasOwnProperty(inpVal)){
+										modifiedObj[inpKey] = inpVal;
+									}
+								}								
+								cbMap(null);
+							});
+						} /*else {
+							//Doesn't match with dto -- Nullifying the param
+							modifiedObj[inpKey] = null;
+                            cbMap(null);
+						}*/	
+					} else {
+						delete modifiedObj[inpKey];
+						cbMap(null);
+					}
+				});
+			}, function (err, res) {
+				callback(err, modifiedObj);
+			});		
+		//}// step1 end	
+	//], function (err, res) {
+       // proxyprinttodiv("recurseModObj - resp ", resp, 11);
+        //callback(err, output);
+    //});      
 }
 
 exports.validParams = validParams = function validParams(obj) {
@@ -973,61 +1012,109 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return output;
     };
 
-    // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
+        // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
-    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter, filter_object) {
-        if (!filter_object) {
-            filter_object = rightparameters;
-        }
+    exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, defaults_object, filter_object, deleteflag) {
+        proxyprinttodiv("tolowerparameters parameters", parameters, 88);
+        proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
+        proxyprinttodiv("tolowerparameters filter_object", filter_object, 88);
+        proxyprinttodiv("tolowerparameters deleteflag", deleteflag, 88);
+        var val;
+        var filteredobject = {};
+        var output={};
+        var eachparm;
+        if (!filter_object) {filter_object = default_object}
 
-        // Use only the params that apply to the filter and assign to output
-        var output = (should_I_filter) ? filter_params(parameters, filter_object) : just_lower_parameters(parameters);
-        // Iterate throught the right parameters...if we find a value to assign, do so, but only
-        // if it does not exist yet
-        for (tmp_key in rightparameters) {
-            // Grab the key of the hash
-            var key = tmp_key.toLowerCase();
-            // Grab the value of the hash
-            var val = rightparameters[tmp_key];
-            // Grab the value of the key in the data
-            var target = output[key.toLowerCase()];
-            // Polish the target...it may need it
-            // Do not lowercase anything that is not a string
-            if (typeof target === "string") {
-                target = ( target === undefined ) ? "" : target.toLowerCase();
+        for (eachparm in parameters) {
+            output[eachparm.toLowerCase()] = parameters[eachparm]; // first lower case each parameter
             }
-            // Simply make sure our target is defined
-            if (target === undefined) target = "";
-            // If there is no value in the filter, skip and move on
-            if (val === undefined) continue;
-            // if ( val.length > 0 && target.length === 0) {
-            // If there is no value in the target data, put in the default that you 
-            // find in the right params...it is assigned to 'val'
-            if (target.length === 0) {
-                // Polish val... it may need it
-                val = (val === 'add') ? "" : val;
-                // Apply it to the output
-                output[key] = val;
+
+        if (Object.keys(defaults_object).length>0) {
+            for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
+                val = defaults_object[eachparam];
+                if (isObject(val)) {
+                    extend(true, output[eachparam], val)
+                    }
+                else {
+                    if (val.length!==0 && !output[eachparam]) { // if val exists and parm does not, then adopt
+                        output[eachparam]=val;
+                        }
+                    }
+                }
             }
-        }
-        var left_over_object = {};
-        for (var p in parameters) {
-            // console.log("LLLLLLLLLLLeftovers\n" + JSON.stringify(parameters, '-', 4));
 
-            if (!output.hasOwnProperty(p.toLowerCase())) {
-                // left_over_object[p.toLowerCase()] = parameters[p].toLowerCase();
-                left_over_object[p.toLowerCase()] = parameters[p];
+        if (Object.keys(filter_object).length>0) {
+            for (eachparam in filter_object) { // create filtered results
+                if (output[eachparam]) {
+                    filteredobject[eachparam]=output[eachparam]
+                    } // create left over object each iteration
+                if (deleteflag) {delete output[eachparam]} // delete filter parms from result
+                }
             }
-        }
-
-        var return_data = {};
-
-        return_data["output"] = output;
-        return_data["left_over_object"] = left_over_object;
-
-        // return_data = output;
-        return return_data;
+        proxyprinttodiv("tolowerparameters output", output, 88); 
+        proxyprinttodiv("tolowerparameters filteredobject", filteredobject, 88);         
+        return {
+                    output : output,
+                    filteredobject : filteredobject
+                }
     }
+
+
+    // // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
+    // // the key is missing in the data, but found in the rightparameters
+    // exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter, filter_object) {
+    //     if (!filter_object) {
+    //         filter_object = rightparameters;
+    //     }
+
+    //     // Use only the params that apply to the filter and assign to output
+    //     var output = (should_I_filter) ? filter_params(parameters, filter_object) : just_lower_parameters(parameters);
+    //     // Iterate throught the right parameters...if we find a value to assign, do so, but only
+    //     // if it does not exist yet
+    //     for (tmp_key in rightparameters) {
+    //         // Grab the key of the hash
+    //         var key = tmp_key.toLowerCase();
+    //         // Grab the value of the hash
+    //         var val = rightparameters[tmp_key];
+    //         // Grab the value of the key in the data
+    //         var target = output[key.toLowerCase()];
+    //         // Polish the target...it may need it
+    //         // Do not lowercase anything that is not a string
+    //         if (typeof target === "string") {
+    //             target = ( target === undefined ) ? "" : target.toLowerCase();
+    //         }
+    //         // Simply make sure our target is defined
+    //         if (target === undefined) target = "";
+    //         // If there is no value in the filter, skip and move on
+    //         if (val === undefined) continue;
+    //         // if ( val.length > 0 && target.length === 0) {
+    //         // If there is no value in the target data, put in the default that you 
+    //         // find in the right params...it is assigned to 'val'
+    //         if (target.length === 0) {
+    //             // Polish val... it may need it
+    //             val = (val === 'add') ? "" : val;
+    //             // Apply it to the output
+    //             output[key] = val;
+    //         }
+    //     }
+    //     var left_over_object = {};
+    //     for (var p in parameters) {
+    //         // console.log("LLLLLLLLLLLeftovers\n" + JSON.stringify(parameters, '-', 4));
+
+    //         if (!output.hasOwnProperty(p.toLowerCase())) {
+    //             // left_over_object[p.toLowerCase()] = parameters[p].toLowerCase();
+    //             left_over_object[p.toLowerCase()] = parameters[p];
+    //         }
+    //     }
+
+    //     var return_data = {};
+
+    //     return_data["output"] = output;
+    //     return_data["left_over_object"] = left_over_object;
+
+    //     // return_data = output;
+    //     return return_data;
+    // }
 
     exports.filter_params = filter_params = function filter_params (parameters, filter_object) {
         var output = {};
@@ -1068,11 +1155,21 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return data_out;
     }
 
-    exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command_object, com_user) {
-        delete command_object["command"][com_user];
-        parameters["command"] = command_object["command"];
+    exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command, com_user) {
+        var command_object={};
+        extend(true, command_object, command);
+        proxyprinttodiv('pack_up_params parameters', parameters, 97); 
+        proxyprinttodiv('pack_up_params command_object', command_object, 97);  
+        proxyprinttodiv('pack_up_params com_user', com_user, 97); 
+        if (command_object && command_object[com_user]) delete command_object[com_user];
+        proxyprinttodiv('pack_up_params command_object II', command_object, 97); 
+        if (!parameters.command) {parameters.command={}}
+        extend(true, parameters.command, command_object)
+        //parameters["command"] = command_object["command"];
+        proxyprinttodiv('pack_up_params parameters END', parameters, 97); 
         return parameters;
     }
+
 
 
     // exports.tolowerparameters2 = tolowerparameters2 = function tolowerparameters2(parameters, rightparameters, filter) {

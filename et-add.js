@@ -1,48 +1,21 @@
 (function (window) {
 
-exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
-    var inbound_parameters = {};
-    inbound_parameters = JSON.parse(JSON.stringify(arguments));
-
-    // ++++ New code for filtering out command
-    // Insert some test data
-    object["command"] = {"somecommand":"someaction","addwidmaster":"filler"};
-    var command = {};
-     
-    // Test for lowering parameters
-    var filter_data = tolowerparameters(object, {"command":""}, true);
-
-    // Clear out the object...we need it to be filtered
-    object = {};
-    // Apply the filtered data...what was left over goes back into object
-    // extend (true, object, filter_data.left_over_object);
-    object = filter_data.left_over_object;
-    // The filtered data gets put into the command object
-    // extend (true, command, filter_data.output);
-    command = filter_data.output;
-    // ++++
-
-    var _object = ConvertFromDOTdri(object);
+exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {     
+    var object = ConvertFromDOTdri(object);
+    var filter_data = tolowerparameters(object, {}, {"command":""}, true);
+    proxyprinttodiv("addwidmaster filter_data", filter_data, 99);
+    var _object = filter_data.output;
+    var command = filter_data.output.filteredobject;
     var _dto_object;
-    // These are the original object.command lines
-    // ----
-    // var command = object.command;
-    // delete object.command;
-    // ----
 
-
+    proxyprinttodiv("addwidmaster _object", _object, 99);
     cleanadd (_object, _dto_object, command, function (err, res) {
         _object = res.obj;
         _dto_object = res.dtoobj;
+        proxyprinttodiv("addwidmaster after clean obj", _object, 99);
+        proxyprinttodiv("addwidmaster after clean dto", _dto_object, 99);
         addwidobject(_object, _dto_object, command, function (err, res) {
-
-            // Pack the command object back into the results...also add the
-            // function name that is using command and make sure it is removed
-            // from the command object
-            console.log('&&& res\n' + JSON.stringify(res, "-", 4));
             res = pack_up_params(res, command, "addwidmaster");
-            console.log('&&& packed up res\n' + JSON.stringify(res, "-", 4));
-
             callback(err, res);
         });
     });
@@ -89,35 +62,47 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
 
 
 exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, callback) {
+
     getdtoobject(object, command, function (err, res) {
         dtoobject = res;
-        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
+        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 99);
         
         var dto_to_get;
         var big_dto = {};
         var result_obj = {};
         var output={};
 
+        output.obj=object;
+        output.dtoobj = dtoobject
         dto_to_get = res['metadata']['method'];
+        if (dto_to_get!=="string") {
+            proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 99);
+            execute({"executethis":"getwidmaster", 
+                "wid": dto_to_get, 
+                "command.getwidmaster.execute":"ConvertFromDOTdri",
+                "command.getwidmaster.convertmethod":"dto"
+                }, function (err, res) {
+                    proxyprinttodiv("cleanadd after execute", res, 99);
 
-        proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 17);
-        execute({"executethis":"getwidmaster", 
-            "wid": dto_to_get, 
-            "command.execute":"ConvertFromDOTdri",
-            "command.convertmethod":"dto"
-            }, function (err, res) {
-                proxyprinttodiv("cleanadd after execute", res, 17);
-
-                big_dto = res[0]; 
-                result_obj = insertbydtotype(object, big_dto, {}, command); // this fn in et-get
-                proxyprinttodiv("cleanadd after insertbydtotype", result_obj, 17);
-                result_obj = deepfilter(result_obj, dtoobject, command);
-                proxyprinttodiv("cleanadd after insertbydtotype after", result_obj, 17);
-                output.obj=result_obj;
-                output.dtoobj = dtoobject
-                proxyprinttodiv("cleanadd after executethis getwidmaster result_obj", output, 17);
-                callback(err, output);
-        });
+                    big_dto = res[0]; 
+                    result_obj = insertbydtotype(object, big_dto, {}, command); // this fn in et-get
+                    proxyprinttodiv("cleanadd after insertbydtotype", result_obj, 17);
+                    //command.deepfilter.convert="fromstring"; not needed since done in addwid anyway
+                    if (!command) {command={}}
+                    if (!command.deepfilter) {command.deepfilter={}}
+                    if (!command.deepfilter.convert) {command.deepfilter.convert='tostring'}
+                    deepfilter(result_obj, dtoobject, command, function (err, result_obj) {
+                        proxyprinttodiv("cleanadd after insertbydtotype after", result_obj, 17);
+                        output.obj=result_obj;
+                        output.dtoobj = dtoobject
+                        proxyprinttodiv("cleanadd after executethis getwidmaster result_obj", output, 17);
+                        callback(err, output);
+                        });
+                });
+            }
+        else { // if ==string
+            callback(err, output);
+            }
     });
 }
 
@@ -125,7 +110,9 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
 	proxyprinttodiv("addwidobject input input :- ", input, 17);
 	proxyprinttodiv("addwidobject input inputdto :- ", inputdto, 17);
 	proxyprinttodiv("addwidobject input command :- ", command, 17);
-	
+
+
+
     var _parent_object = {};
     var _parent_dto = {};
     var _children_object_collection = {};
@@ -141,8 +128,9 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
     extend(true, _parent_object, input);
     extend(true, _parent_dto, inputdto);
 
-    delete _parent_object.command;
-    delete _parent_dto.command;
+    // should not be necessary because addwidmaster does it
+    //delete _parent_object.command;
+    //delete _parent_dto.command;
     
     //_parent_object.command = {};
     //_parent_dto.command = {};
@@ -150,30 +138,37 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
     // create parent by deleting all children in parent, create children adding
     if(inputdto.command && inputdto.command.dtolist) {
         for (var each_property in inputdto.command.dtolist) { // go through list of children
-    		proxyprinttodiv("each_property :- ", each_property, 17);
-            
-            //delete _parent_object[inputdto.command.dtolist[each_property]];
-            //delete _parent_dto[inputdto.command.dtolist[each_property]];
-            delete _parent_object[each_property];
-            delete _parent_dto[each_property];            
-    	
-            if (input[each_property]) {
-                _children_object_collection[each_property] = {};
-        		extend(true, _children_object_collection[each_property], input[each_property]);
-                }
+            if (inputdto.command.dtolist.hasOwnProperty(each_property)) {
+        		proxyprinttodiv("each_property :- ", each_property, 17);
+                
+                _dto = {};
+                _dto["dtoname"] = each_property;
+                _dto["dtotype"] = inputdto.command.dtolist[each_property];
+                //_dto["dtotype"] = inputdto.command.deepdtolist[each_property];
 
-            if (inputdto[each_property]) {
-    		    _children_dto_collection[each_property] = {};
-    		    extend(true, _children_dto_collection[each_property], inputdto[each_property]);
+                if (_dto.dtotype!=="internal") { // if internal do nothing
+                    _children_dto_list.push(_dto); // produces list [{booksdto: onetomany},{}]
+
+                    //delete _parent_object[inputdto.command.dtolist[each_property]];
+                    //delete _parent_dto[inputdto.command.dtolist[each_property]];
+                    delete _parent_object[each_property];
+                    delete _parent_dto[each_property];            
+            	
+                    if (input[each_property]) {
+                        _children_object_collection[each_property] = {};
+                		extend(true, _children_object_collection[each_property], input[each_property]);
+                        }
+
+                    if (inputdto[each_property]) {
+            		    _children_dto_collection[each_property] = {};
+            		    extend(true, _children_dto_collection[each_property], inputdto[each_property]);
+                        }
                 }
-    		
-            _dto = {};
-            _dto["dtoname"] = each_property;
-            _dto["dtotype"] = inputdto.command.dtolist[each_property];
-            //_dto["dtotype"] = inputdto.command.deepdtolist[each_property];
-            _children_dto_list.push(_dto); // produces list [{booksdto: onetomany},{}]
+            }
         }
     }
+    proxyprinttodiv("_children_object_collection :- after ", _children_object_collection, 17);
+    proxyprinttodiv("_child_dto_list after",_children_dto_list, 17);
 
     // send the parent object and dto to addrecord
 	addrecord(_parent_object, _parent_dto, null, null, null, command, function (err, res) {
@@ -186,8 +181,8 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
 		
         // iterate over the list of dto's, loading up each child and sending them to addrecord
         async.mapSeries(_children_dto_list, function (eachchild, cbMap) {
+            async.nextTick(function() {
 			proxyprinttodiv("_children_object_collection :- ", _children_object_collection, 17);
-			proxyprinttodiv("_child_dto :- ", _child_dto, 17);
 			proxyprinttodiv("_children_dto_list eachchild :- ", eachchild, 17);
 			
             // look up child object and dto
@@ -195,7 +190,8 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
 			_child_dto = _children_dto_collection[eachchild.dtoname];
             delete _children_object_collection[eachchild.dtoname];
             delete _children_dto_collection[eachchild.dtoname];
-
+            proxyprinttodiv("_child_dto :- ", _child_dto, 17);
+            proxyprinttodiv("_child_object :- ", _child_object, 17);
             if (_child_object && Object.keys(_child_object).length!==0) {
 
                 if (!_child_object["metadata"]) {_child_object["metadata"]={}}
@@ -210,7 +206,7 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
             else { // if no data in _child_object
                 cbMap(null);
                 }
-
+            })
 		}, function (err, res) {
             // I'm guessing here but if we have left over children in the children collection then we recurse
 			if (Object.keys(_children_object_collection).length!==0) {
@@ -270,7 +266,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                 addobject = addobject[0];
                 proxyprinttodiv("addrecord input addobject :- ", addobject, 17);
 
-                if (relationshiptype) {
+                if (relationshiptype==="onetoone" || relationshiptype==="onetomany") {
 
                     reldto = {"wid":"string", 
                             "primarywid":"string",
@@ -323,12 +319,17 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
     function addwid3 () {
         proxyprinttodiv("addwid input dtoobject before", dtoobject,17);
         proxyprinttodiv("addwidbefore deepfilter,, object-- ", object, 17);
-        object = deepfilter(object, dtoobject, command);
-        object["executethis"]="updatewid";
-        proxyprinttodiv("addwid after deepfilter,, object-- ", object, 17);
-        execute(object, function (err, res) {
-            proxyprinttodiv("this was added", res, 17);
-            callback(err, res)
+        if (!command) {command={}}
+        if (!command.deepfilter) {command.deepfilter={}}
+        if (!command.deepfilter.convert) {command.deepfilter.convert='tostring'}
+        command.deepfilter.convert="fromstring";
+        deepfilter(object, dtoobject, command, function (err, object) {
+            object["executethis"]="updatewid";
+            proxyprinttodiv("addwid after deepfilter,, object-- ", object, 17);
+            execute(object, function (err, res) {
+                proxyprinttodiv("this was added", res, 17);
+                callback(err, res)
+            });
         });
     }
 
@@ -370,15 +371,24 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
     
     if (inheritwid) { // do not save if in inherit
         execute({"executethis":"getwidmaster","wid":inheritwid, 
-            "command.execute":"ConvertFromDOTdri","command.inheritflag":"false", 
-            "command.convertmethod":"nowid"}, function (err, res) {
+            "command.getwidmaster.execute":"ConvertFromDOTdri","command.getwidmaster.inheritflag":"false", 
+            "command.getwidmaster.convertmethod":"nowid"}, function (err, res) {
             proxyprinttodiv("getwidmaster wid : " + inheritwid  + " -- res -- " ,  res, 17);
+            // if (Object.keys(res).length !== 0) {
+            //     for (eachprop in res) {
+            //         if (object[eachprop]===res[eachprop]) {delete object[eachprop]}
+            //         }
+            // } else { // if no inherit then nothing to do
+            // }
             if (Object.keys(res).length !== 0) {
-                for (eachprop in res) {
-                    if (object[eachprop]===res[eachprop]) {delete object[eachprop]}
+                    for (var eachprop in res) {
+                        if (res.hasOwnProperty(eachprop)) {
+                            if (object[eachprop]===res[eachprop]) { delete object[eachprop]; }
+                        }
                     }
-            } else { // if no inherit then nothing to do
-            }
+                } else {
+                    // if no inherit then nothing to do
+                }
             proxyprinttodiv("object after deleting the properties--" ,  object, 17);
             addwid2();
         });

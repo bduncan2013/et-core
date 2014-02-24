@@ -16,6 +16,7 @@ exports.etdocsimpledto = etdocsimpledto = function etdocsimpledto(params, callba
 
 
         });
+		
 	}
 
 // THESE ARE THE TEST SUITES
@@ -47,9 +48,9 @@ exports.c0 = c0 = function c0(params, callback){
 exports.c1 = c1 = function c1(){
 
 	testclearstorage();
-
-	executetest("addwidmaster",{"wid":"booksdto1","metadata.method":"booksdto1","name":"string","ISBN":"string","publisher":"string"}, "", "");
 	
+	executetest("addwidmaster",{"wid":"booksdto1","metadata.method":"booksdto1","name":"string","ISBN":"string","publisher":"string"}, "", "");
+	alert('1');
 	executetest("addwidmaster",{"wid":"authordto1","metadata.method":"authordto1","first":"string","last":"string","age":"string","booksdto1":"onetomany"}, "", "");
 	
 	executetest("addwidmaster",{"wid":"rel_author_book","metadata.method":"relationshipdto","primarywid":"authordto1","secondarywid":"booksdto1"}, "", "");

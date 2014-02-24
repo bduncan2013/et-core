@@ -246,20 +246,50 @@
                                 }
 
                                 async.mapSeries(todolist, function (w, cbMap) {
-                                    getwid({
-                                        'wid': w
-                                    }, function (err, res) {
-                                        var tempwid = res;
-                                        delete tempwid["wid"];
-                                        delete tempwid["metadata.method"];
-                                        // for (var t in tempwid) {
-                                        //     paramList[t] = tempwid[t];
-                                        // }
-                                        ListOfLists.push(tempwid);
-                                        paramList = {};
+                                    async.nextTick(function() {
+                                        getwid({
+                                            'wid': w
+                                        }, function (err, res) {
+                                            var tempwid = res;
+                                            delete tempwid["wid"];
+                                            delete tempwid["metadata.method"];
+                                            // for (var t in tempwid) {
+                                            //     paramList[t] = tempwid[t];
+                                            // }
+                                            ListOfLists.push(tempwid);
+                                            paramList = {};
 
-                                        cbMap(null, "map");
+                                            cbMap(null, "map");
+                                        });
                                     });
+                            // }, function (err, res) {
+                            //     var listOfWids = res;
+                            //     delete listOfWids["wid"];
+                            //     delete listOfWids["metadata.method"];
+                            //     proxyprinttodiv('Function MongoDataQuery listOfWids : ', listOfWids, 31);
+
+                            //     var i = 0;
+                            //     ListOfLists = [];
+                            //     var todolist = [];
+                            //     for (var w in listOfWids) {
+                            //         todolist.push(w);
+                            //     }
+
+                            //     async.mapSeries(todolist, function (w, cbMap) {
+                            //         getwid({
+                            //             'wid': w
+                            //         }, function (err, res) {
+                            //             var tempwid = res;
+                            //             delete tempwid["wid"];
+                            //             delete tempwid["metadata.method"];
+                            //             // for (var t in tempwid) {
+                            //             //     paramList[t] = tempwid[t];
+                            //             // }
+                            //             ListOfLists.push(tempwid);
+                            //             paramList = {};
+
+                            //             cbMap(null, "map");
+                            //         });
                                 }, function (err, res) {
 
                                     if (xtrParams) {
@@ -1365,21 +1395,19 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
         var p = [];
         var filter_data = {};
         var left_overs = {};
-        // console.log ('$$$$$$$begin parameters\n' + JSON.stringify(parameters, '-', 4));
 
-        filter_data = tolowerparameters(parameters, {  // queParams
+
+        filter_data = tolowerparameters(parameters, {},
+                                                {  // queParams
                                                 "mongowid":"",
                                                 "mongorawquery":"",
                                                 "mongoquerywid":"",
                                                 "mongosinglequery":"",
                                                 "mongomultiplequery":"",
-                                            }, true);
-        p[0] = filter_data.output;
-        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
-        // console.log ('$$$$$$$ filter 0\n' + JSON.stringify(filter_data.output, '-', 4));
-        // console.log ('$$$$$$$ 0\n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+                                            }, false);
+        p[0] = filter_data.filteredobject;
 
-        filter_data = tolowerparameters(parameters, {  // relParams
+        filter_data = tolowerparameters(parameters, {},{  // relParams
                                                 "mongorelationshipdirection":"",
                                                 "mongorelationshiptype":"",
                                                 "mongorelationshipmethod":"",
@@ -1387,22 +1415,16 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                                                 "mongorelationshipquery":"",
                                                 "mongodtotype":"",
                                                 "mongorelquery":""
-                                            }, true);
-        p[1] = filter_data.output;
-        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
-        // console.log ('$$$$$$$ filter 1\n' + JSON.stringify(filter_data.output, '-', 4));
-        // console.log ('$$$$$$$$$$$$ 1 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+                                            }, false);
+        p[1] = filter_data.filteredobject;
 
-        filter_data = tolowerparameters(parameters, {  // aggParams
+        filter_data = tolowerparameters(parameters, {}, {  // aggParams
                                                 "mongoaggregation":"",
                                                 "mongoaggquery":""
-                                            }, true);
-        p[2] = filter_data.output;
-        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
-        // console.log ('$$$$$$$ filter 2\n' + JSON.stringify(filter_data.output, '-', 4));
-        // console.log ('$$$$$$$$$$$$ 2 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+                                            }, false);
+        p[2] = filter_data.filteredobject;
 
-        filter_data = tolowerparameters(parameters, {  // addParams
+        filter_data = tolowerparameters(parameters, {}, {  // addParams
                                                 "mongosetfieldsinclude":"",
                                                 "mongosetfieldsexclude":"",
                                                 "mongosetlimit":"",
@@ -1416,44 +1438,54 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                                                 "mongosetsortorder":"",
                                                 "mongosetsortorder":"",
                                                 "mongosetsortorder":""
-                                            }, true);
-        p[3] = filter_data.output;
-        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
-        // console.log ('$$$$$$$ filter 3\n' + JSON.stringify(filter_data.output, '-', 4));
-        // console.log ('$$$$$$$$$$$$ 3 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+                                            }, false);
+        p[3] = filter_data.filteredobject;
         
-        filter_data = tolowerparameters(parameters, {  // xtrParams
-                                                // "mongoToken":""
-                                            }, true);
-        p[4] = filter_data.output;
-        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
-        // console.log ('$$$$$$$ filter 4\n' + JSON.stringify(filter_data.output, '-', 4));
-        // console.log ('$$$$$$$$$$$$ 4 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
-
-        filter_data = tolowerparameters(parameters, { // relafterParams;
-                                                "mongowidmethod":""
-                                            }, true);
-        p[5] = filter_data.output;
-        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
-        // console.log ('$$$$$$$ filter 5\n' + JSON.stringify(filter_data.output, '-', 4));
-        // console.log ('$$$$$$$$$$$$ 5 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
-
-        filter_data = tolowerparameters(parameters, { // commandParams
+        filter_data = tolowerparameters(parameters, {}, {  // xtrParams
+                                                "mongowid":"",
+                                                "mongorawquery":"",
+                                                "mongoquerywid":"",
+                                                "mongosinglequery":"",
+                                                "mongomultiplequery":"",
+                                                "mongorelationshipdirection":"",
+                                                "mongorelationshiptype":"",
+                                                "mongorelationshipmethod":"",
+                                                "mongorelationshiprawquery":"",
+                                                "mongorelationshipquery":"",
+                                                "mongodtotype":"",
+                                                "mongorelquery":"",
+                                                "mongoaggregation":"",
+                                                "mongoaggquery":"",
+                                                "mongosetfieldsinclude":"",
+                                                "mongosetfieldsexclude":"",
+                                                "mongosetlimit":"",
+                                                "mongosetskip":"",
+                                                "mongosethint":"",
+                                                "mongosetmax":"",
+                                                "mongosetsortby":"",
+                                                "mongoreturncount":"",
+                                                "mongoexplain":"",
+                                                "mongosize":"",
+                                                "mongosetsortorder":"",
+                                                "mongosetsortorder":"",
+                                                "mongosetsortorder":"",
+                                                "mongowidmethod":"",
                                                 "command.db":"",
                                                 "command.convertmethod":""
-                                            }, true);
-        p[6] = filter_data.output;
-        left_overs = jsonConcat(left_overs, filter_data.left_over_object)
-        // console.log ('$$$$$$$ filter 6\n' + JSON.stringify(filter_data.output, '-', 4));
-        // console.log ('$$$$$$$$$$$$ 6 \n' + JSON.stringify(filter_data.left_over_object, '-', 4));
+                                            },true);
+        p[4] = filter_data.output;
 
+        filter_data = tolowerparameters(parameters, {}, { // relafterParams;
+                                                "mongowidmethod":""
+                                            }, false);
+        p[5] = filter_data.filteredobject;
 
+        filter_data = tolowerparameters(parameters, {}, { // commandParams
+                                                "command.db":"",
+                                                "command.convertmethod":""
+                                            }, false);
+        p[6] = filter_data.filteredobject;
 
-        // Gather the left over params  
-        // for (i in parameters) {
-        //     p[4][parameters[i]] = parameters[i];
-        // }
-        // console.log("Output from fishout: ", JSON.stringify(p, "-", 4));
         return p;
     }
 })(typeof window == "undefined" ? global : window);
