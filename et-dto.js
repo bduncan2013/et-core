@@ -21,7 +21,7 @@
                     execute([{
                             "executethis": "getwidmaster",
                             "wid": "userdto",
-                        }, {
+                        },{
                             "executethis": "getwidmaster",
                             "wid": "testdto",
                         }, {
@@ -57,7 +57,7 @@
                             "mongorelationshiptype": "attributes"
                         }],
                         function (err, res) {
-                            proxyprinttodiv('Function records added', res, 17);
+                            proxyprinttodiv('Function records added', res, 99);
                             callback(err, res);
                         })
                 //})
@@ -201,7 +201,7 @@
 
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('Function datasum relationships -- added all this -- ', res, 17);
+            proxyprinttodiv('Function datasum relationships -- added all this -- ', res, 99);
             callback(err, res);
 
         });
@@ -364,7 +364,7 @@
         ];
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('Function datasum2 relationships -- added all this -- ', res, 17);
+            proxyprinttodiv('Function datasum2 relationships -- added all this -- ', res, 99);
             callback(err, res);
         });
     }
@@ -400,48 +400,44 @@
                 "wid": "testdto",
                 "testdto.a": "string",
                 "testdto.b": "string",
-
                 // add systemdto structure
-                "systemdto.metadata.method": "systemdto",
-                "systemdto.metadata.securitydto.type": "onetoone",
-                "systemdto.metadata.balancedto.type": "onetoone",
-                "systemdto.metadata.categorydto.type": "onetoone",
-                "systemdto.metadata.groupdto.type": "onetoone",
-                "systemdto.metadata.permissiondto.type": "onetoone",
+                "metadata.method": "systemdto",
+                "metadata.systemdto.type": "onetoone",
                 "systemdto.wid": "systemdto",
                 "systemdto.creator": "accounttype",
                 "systemdto.expiration": "datetime",
                 "systemdto.offlinerule": "string",
                 "systemdto.onlinerule": "string",
-
                 // add securitydto structure
-                "systemdto.securitydto.metadata.method": "securitydto",
-                "systemdto.securitydto.accesstoken": "string",
-                "systemdto.securitydto.status": "integer",
-
+                "systemdto.metadata.method": "securitydto",
+                "systemdto.metadata.securitydto.type": "onetoone",
+                "accesstoken": "string",
+                "status": "integer",
                 // add balancedto structure
-                "systemdto.balancedto.metadata.method": "balancedto",
-                "systemdto.balancedto.type": "onetoone",
-                "systemdto.balancedto.widname": "wid",
-                "systemdto.balancedto.balance": "integer",
-
+                "systemdto.metadata.method": "balancedto",
+                "systemdto.metadata.balancedto.type": "onetoone",
+                "systemdto.metadata.balancedto.widname": "wid",
+                "systemdto.metadata.balancedto.balance": "integer",
                 // add categorydto structure
-                "systemdto.categorydto.method": "categorydto",
-                "systemdto.categorydto.categorytype": "string",
-                "systemdto.categorydto.categoryname": "categorytype",
+                "systemdto.metadata.method": "categorydto",
+                "systemdto.metadata.categorydto.type": "onetoone",
+                "systemdto.metadata.categorydto.categorytype": "string",
+                "systemdto.metadata.categorydto.categoryname": "categorytype",
 
                 // add groupdto structure
-                "systemdto.groupdto.method": "groupdto",
-                "systemdto.groupdto.grouptype": "string",
-                "systemdto.groupdto.groupname": "grouptype",
+                "systemdto.metadata.method": "groupdto",
+                "systemdto.metadata.groupdto.type": "onetoone",
+                "systemdto.metadata.groupdto.grouptype": "string",
+                "systemdto.metadata.groupdto.groupname": "grouptype",
 
                 // add permissiondto structure
-                "systemdto.permissiondto.method": "permissiondto",
-                "systemdto.permissiondto.granteegroup": "grouptype",
-                "systemdto.permissiondto.actiongroup": "grouptype",
-                "systemdto.permissiondto.targetgroup": "grouptype",
-                "systemdto.permissiondto.dbgroup": "dbtype",
-                "systemdto.permissiondto.levelgroup": "leveltype"
+                "systemdto.metadata.method": "permissiondto",
+                "systemdto.metadata.permissiondto.type": "onetoone",
+                "systemdto.metadata.permissiondto.granteegroup": "grouptype",
+                "systemdto.metadata.permissiondto.actiongroup": "grouptype",
+                "systemdto.metadata.permissiondto.targetgroup": "grouptype",
+                "systemdto.metadata.permissiondto.dbgroup": "dbtype",
+                "systemdto.metadata.permissiondto.levelgroup": "leveltype"
             }, {
                 // add groupnamedto as per given wid 
                 "executethis": "addwidmaster",
@@ -455,7 +451,7 @@
 
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('Function systemdto schema creation -- added all this -- ', res, 17);
+            proxyprinttodiv('Function systemdto schema creation -- added all this -- ', res, 99);
             callback(err, res);
 
         });
@@ -469,7 +465,7 @@
             "wid": "groupnamedto",
             "groupname": groupname
         }], function (err, res) {
-            proxyprinttodiv('Function creategroup relationships -- added all this -- ', res, 17);
+            proxyprinttodiv('Function creategroup relationships -- added all this -- ', res, 99);
             callback(err, res);
         });
     }
@@ -510,9 +506,15 @@
                 "systemdto.permissiondto.actiongroup": actiongroup,
                 "systemdto.permissiondto.dbgroup": dbgroup,
                 "systemdto.permissiondto.levelgroup": levelgroup
-            }],
+            },
+            {
+                "executethis":"getwidmaster",
+                "wid":userwid
+            }
+            ],
             function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userwid, res, 17);
+                proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userwid, res, 99);
+                proxyprinttodiv('from getwidmaster  -- ' + userwid, res[1], 99);
                 // console.debug('added permission data ' + granteegroup + ' for user ' + userwid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });
@@ -529,7 +531,7 @@
                 "systemdto.categorydto.categoryname": categoryname
             }],
             function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added category >>>>>  for  -- ' + wid, res, 17);
+                proxyprinttodiv('Function createuser done --  >>>>>> added category >>>>>  for  -- ' + wid, res, 99);
                 // console.debug('added categoryname ' + categoryname + ' for wid ' + wid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });
@@ -547,7 +549,7 @@
                 "systemdto.securitydto.level": loginlevel,
             }],
             function (err, res) {
-                proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + wid, res, 17);
+                proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + wid, res, 99);
                 // console.debug('added security for wid ' + wid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });

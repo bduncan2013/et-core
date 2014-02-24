@@ -17,8 +17,19 @@
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
 
 
-        var result, preError, midError, overallError, commandmultiple;
+    var result, preError, midError, overallError, commandmultiple;
         // check for execute multiple commands, if passed store and delete from request
+
+    
+    if (isString(incomingparams)) {
+            var temp={}
+            temp['executethis'] = incomingparams;
+            proxyprinttodiv("execute - array params received I", temp, 99);
+            incomingparams=temp;
+            proxyprinttodiv("execute - array params received I", incomingparams, 99);
+        }
+    
+
         if ((incomingparams && incomingparams.command && incomingparams.command.multiple && incomingparams.command.multiple.parameters)) {
             proxyprinttodiv("execute - command.multiple ", incomingparams.command.multiple, 37);
             commandmultiple = incomingparams.command.multiple.parameters;
@@ -45,10 +56,11 @@
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
             // fix incoming param
-            if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
-                incomingparams['executethis'] = incomingparams;
-            }
-
+			// if(incomingparams){
+			// 	if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
+			// 		incomingparams['executethis'] = incomingparams;
+			// 	}
+			// }
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
@@ -130,7 +142,7 @@
                 });
             });
         }
-
+    
     };
 
 

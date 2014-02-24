@@ -39,7 +39,43 @@
             callback(null);
         });
     }
+	
+	exports.test999 = test999 = function test999() {
+		debuglevel = 38;
 
+		execute([{
+                    "executethis":"addwidmaster",
+					"wid":"authordto",
+					"name": "string",
+                    "metadata.method": "authordto",
+                    "metadata.bookdto.type": "onetomany",
+					"bookdto.wid": "bookdto",
+					"bookdto.title":"string",
+					"bookdto.metadata.method":"bookdto"
+                },{
+                    "executethis":"addwidmaster",
+					"wid":"marysue",
+					"metadata.method": "authordto",
+					"name": "Mary Sue",
+					"bookdto.title":"Haunted Mansions"
+                },{
+                    "executethis":"getwidmaster",
+					"wid":"marysue"
+            }],
+            function (err, res) {
+                proxyprinttodiv('getwidmaster of marysue ', res, 99);
+                }
+            );
+	}
+            // "executethis": "addwidmaster",
+            // "wid": "songdto",
+            // "metadata.method": "songdto",
+            // "title": "string",
+            // "metadata.sounddto.type": "onetomany",
+            // "sounddto.wid": "sounddto",
+            // "sounddto.metadata.method": "sounddto",
+            // "sounddto.note": "string"
+	
     exports.test1000 = test1000 = function test1000(parm, callback) {
 
         // create users
@@ -55,18 +91,38 @@
         // debugcat = "";
         // debugsubcat = "code";
         async.series([
-                function (cb1) {
+				function (cb1) {
                     createtestuser("rogeruser0", "rogerac0", 99, function (err, res) {
                         cb1(null);
                     });
                 },
+				function (cb1) {
+					//alert('Entering execution phase...');
+					execute({"executethis":"addwidmaster",
+					"wid":"rogeruser0",
+					"metadata.method": "userdto",
+					"systemdto.permissiondto.granteegroup": "coduser1",
+					"systemdto.permissiondto.actiongroup": "createcoupon0",
+					"systemdto.permissiondto.dbgroup": "data",
+					"systemdto.permissiondto.levelgroup": "99"}, function (err, res) {
+                        proxyprinttodiv('added permissions to rogeruser0 >>>>>> ', res, 99);
+                        cb1(null);
+                    });
+				},
+                function (cb1) {
+                    execute({"executethis":"getwidmaster", "wid":"systemdto", "metadata.method":"systemdto"}, function (err, res) {
+                        proxyprinttodiv('I got this ', res, 99);
+                        cb1(null);
+                    });
+                },
+				/*
                 function (cb1) {
                     createtestuser("codyuser0", "codyac0", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addpermission("rogeruser0", "createcoupon0", "executethis", "data", 50, function (err, res) {
+                    addpermission("rogeruser0", "codyuser0", "createcoupon0", "data", 50, function (err, res) {
                         cb1(null);
                     });
                 },
@@ -82,7 +138,7 @@
                     });
                 },
                 function (cb1) {
-                    addpermission("rogeruser0",   "createcoupon0","executethis", "data", 50, function (err, res) {
+                    addpermission("rogeruser0", "codyuser0", "createcoupon0", "data", 50, function (err, res) {
                         cb1(null);
                     });
                 },
@@ -102,14 +158,13 @@
                         cb1(null);
                     });
                 }
+				*/
             ],
             function (err, res) {
                 console.log('created testdata for test1000 --  ' + JSON.stringify(status));
-
                 callback(err, status);
 
             });
-
     }
 
 

@@ -1,10 +1,54 @@
     // enter lots of data in series, ths inserts data via different executes results in Max Range error
     // this one inserts same amount of data but does not fail
+
+    exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
+    testclearstorage();
+     // config = setconfig1();
+    var recModObj = recurseModObj({
+                                    "metadata":{"method":"wid2"},
+                                    "a":"b",
+                                    "c":"30",
+                                    "e":"f",
+                                    "d":"6/23/1912",
+                                    "q":{"w":{"e":"t"}},
+                                    "g":"true"
+                                },
+                                {
+                                    "metadata":{"method":"wid2"},
+                                    "a":"string",
+                                    "c":"number",
+                                    "d":"date",
+                                    "q":{"w":{"e":"string"}},
+                                    "g":"boolean"
+                                });
+    proxyprinttodiv('recurseModObj inputObject', {
+                                    "metadata":{"method":"wid2"},
+                                    "a":"b",
+                                    "c":"30",
+                                    "e":"f",
+                                    "d":"6/23/1912",
+                                    "q":{"w":{"e":"t"}},
+                                    "g":"true"
+                                }, 99);    
+    proxyprinttodiv('recurseModObj inputDTO', {
+                                    "metadata":{"method":"wid2"},
+                                    "a":"string",
+                                    "c":"number",
+                                    "d":"date",
+                                    "q":{"w":{"e":"string"}},
+                                    "g":"boolean"
+                                }, 99);    
+    proxyprinttodiv('recurseModObj ModifiedObject', recModObj, 99);    
+ }
+
+
+
+
     exports.tss1 = tss1 = function tss1(params, callback) {
-        debuglevel = 34;
-        debugname = "";
-        debugcat = "";
-        debugsubcat = "code";
+        // debuglevel = 34;
+        // debugname = "";
+        // debugcat = "";
+        // debugsubcat = "code";
         var status = false;
 
 
@@ -41,16 +85,7 @@
                     "executethis": "addwidmaster",
                     "metadata.method": "ttdto",
                     "type": "a"
-                }];
-
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
+                },{
                     "executethis": "addwidmaster",
                     "metadata.method": "ttdto",
                     "type": "a"
@@ -94,7 +129,7 @@
                 }];
 
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+                    proxyprinttodiv('Function tss1 added  ttdto --4 ', res, 99);
                     cb1(null);
                 });
             },
@@ -116,38 +151,154 @@
                     "executethis": "addwidmaster",
                     "metadata.method": "ttdto",
                     "type": "a"
+                },{
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
+                }, {
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ttdto",
+                    "type": "a"
                 }];
 
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+                    proxyprinttodiv('Function tss1 added  ttdto --5 ', res, 99);
                     cb1(null);
                 });
             },
-            function (cb1) {
-                // create data for ttdto
-                var executeList = [{
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }, {
-                    "executethis": "addwidmaster",
-                    "metadata.method": "ttdto",
-                    "type": "a"
-                }];
+            // function (cb1) {
+            //     // create data for ttdto
+            //     var executeList = [{
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }];
 
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
-                    cb1(null);
-                });
-            }
+            //     execute(executeList, function (err, res) {
+            //         proxyprinttodiv('Function tss1 added  ttdto -- 6', res, 99);
+            //         cb1(null);
+            //     });
+            // }/*,
+            // function (cb1) {
+            //     // create data for ttdto
+            //     var executeList = [{
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }];
+
+            //     execute(executeList, function (err, res) {
+            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            //     // create data for ttdto
+            //     var executeList = [{
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }];
+
+            //     execute(executeList, function (err, res) {
+            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            //     // create data for ttdto
+            //     var executeList = [{
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }];
+
+            //     execute(executeList, function (err, res) {
+            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            //     // create data for ttdto
+            //     var executeList = [{
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }, {
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": "ttdto",
+            //         "type": "a"
+            //     }];
+
+            //     execute(executeList, function (err, res) {
+            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+            //         cb1(null);
+            //     });
+            // }*/
         ], function (err, res) {
             proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
             if (!res) {
@@ -158,7 +309,195 @@
     }
 
 
+	/*
+		addwidmater xdto
+		now add many with addwidmaster with x dto
+	*/
+    exports.t1 = t1 = function t1(params, callback) {
+        debuglvel = 34;
+        debugname = "";
+        debugcat = "";
+        debugsubcat = "code";
+        var status = false;
 
+        async.series([
+            function (callback1) {	//addwidmaster dto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "wid": "ttdto",
+                    "metadata.method": "ttdto",
+                    "type": "string"
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 99);
+					callback1(null);
+                });
+            },
+			function (callback2) {	//addwidmaster wid1
+				//n-times loop
+				async.times(100, function(n, next){
+					var executeList = [{
+						"executethis": "addwidmaster",
+						"wid": "ttdto_wid"+n,
+						"metadata.method": "ttdto",
+						"type": "a"
+					}];
+					execute(executeList, function (err, res) {
+						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 99);
+					});
+				}, function(err, result) {
+					callback2(null);
+				});
+            },
+			function (callback3) {	//getwidmaster
+				//n-times loop
+				async.times(5, function(n, next){
+					var executeList = [{
+						"executethis": "getwidmaster",
+						"wid": "ttdto_wid"+n,
+					}];
+					execute(executeList, function (err, res) {
+						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 99);
+					});
+				}, function(err, result) {
+					callback3(null);
+				});
+            }
+        ], function (err, res) {
+            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
+            if (!res) {
+                res = [];
+            }
+            callback(err, res);
+        });
+    }
+
+	/*
+	do NOT save addwidmater xdto
+	now add many with addwidmaster with x dto
+	*/
+    exports.t2 = t2 = function t2(params, callback) {
+        debuglevel = 34;
+        debugname = "";
+        debugcat = "";
+        debugsubcat = "code";
+        var status = false;
+
+        async.series([
+            /*function (callback1) {	//addwidmaster dto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "wid": "ttdto",
+                    "metadata.method": "ttdto",
+                    "type": "string"
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 99);
+					callback1(null);
+                });
+            },*/
+			function (callback2) {	//addwidmaster wid1
+				//n-times loop
+				async.times(500, function(n, next){
+					var executeList = [{
+						"executethis": "addwidmaster",
+						"wid": "ttdto_wid"+n,
+						"metadata.method": "ttdto",
+						"type": "a"
+					}];
+					execute(executeList, function (err, res) {
+						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 99);
+					});
+				}, function(err, result) {
+					callback2(null);
+				});
+            }/*,
+			function (callback3) {	//getwidmaster
+				//n-times loop
+				async.times(5, function(n, next){
+					var executeList = [{
+						"executethis": "getwidmaster",
+						"wid": "ttdto_wid"+n,
+					}];
+					execute(executeList, function (err, res) {
+						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 99);
+					});
+				}, function(err, result) {
+					callback3(null);
+				});
+            }*/
+        ], function (err, res) {
+            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
+            if (!res) {
+                res = [];
+            }
+            callback(err, res);
+        });
+    }
+	
+	/*
+	do NOT save addwidmater xdto
+	now add many with addwidmaster with x dto
+	*/
+    exports.t3 = t3 = function t2(params, callback) {
+        debuglevel = 34;
+        debugname = "";
+        debugcat = "";
+        debugsubcat = "code";
+        var status = false;
+
+        async.series([
+            function (callback1) {	//addwidmaster dto
+                var executeList = [{
+                    "executethis": "addwidmaster",
+                    "wid": "ttdto",
+                    "metadata.method": "ttdto",
+                    "type": "string"
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 99);
+					callback1(null);
+                });
+            },
+			function (callback2) {	//addwidmaster wid1
+				//n-times loop
+				async.times(1, function(n, next){
+					var executeList = [{
+						"executethis": "addwidmaster",
+						"wid": "ttdto_wid"+n,
+						"metadata.method": "ttdto",
+						"type": "a"
+					}];
+					execute(executeList, function (err, res) {
+						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 99);
+					});
+				}, function(err, result) {
+					callback2(null);
+				});
+            }/*,
+			function (callback3) {	//getwidmaster
+				//n-times loop
+				async.times(5, function(n, next){
+					var executeList = [{
+						"executethis": "getwidmaster",
+						"wid": "ttdto_wid"+n,
+					}];
+					execute(executeList, function (err, res) {
+						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 99);
+					});
+				}, function(err, result) {
+					callback3(null);
+				});
+            }*/
+        ], function (err, res) {
+            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
+            if (!res) {
+                res = [];
+            }
+            callback(err, res);
+        });
+    }
+	
     // enter lots of data in series, the same data when inserted via different executes results in Max Range error
     // this one inserts same amount of data but does not fail
     exports.tss2 = tss2 = function tss2(params, callback) {
@@ -4270,3 +4609,470 @@
         var err;
         callback(err, params);
     }
+	
+	exports.ar100 = ar100 = function ar100(params, callback) {
+		var object = {
+			"metadata": {
+				"method": "bookdto"
+			},
+			"wid": "222",
+			"title": "The X Factor",
+			"pages": "300"
+		};
+		var dtoobject = {
+			"metadata": {
+				"method": "bookdto"
+			},
+			"wid": "bookdto",
+			"title": "string",
+			"pages": "string",
+			"c": "string",
+			"d": "string"
+		};
+		var parentwid = "elizabeth_heart";
+		var parentmethod = "bookdto";
+		var relationshiptype = "onetomany";
+		var command = {};
+		/*
+		for(i=0; i<500; i++){
+			addrecord(object, dtoobject, parentwid, parentmethod, relationshiptype, command, function (err, res) {
+				console.log( i + "addrecord! -- got res -->" + JSON.stringify(res));
+			});	
+		}
+		*/
+		
+		// n times loop
+		async.times(500, function(n, next){
+			addrecord(object, dtoobject, parentwid, parentmethod, relationshiptype, command, function (err, res) {
+				console.log( n + "addrecord! -- got res -->" + JSON.stringify(res));
+			});
+		}, function(err, result) {
+			//after loop
+		});
+		
+		params = {
+			'test': 'PASS'
+		};
+		var err;
+		callback(err, params);
+	}
+	
+	/*
+		deep filter test
+	*/
+	exports.d1 = d1 = function d1(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid2",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": ""
+                }];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    cb1(null);
+                });
+            }
+        ], function (err, res) {	//after updatewid
+			var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
+                            "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
+			var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
+                            "c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
+			var command = {"formatresult": "false"};
+			  
+			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+				proxyprinttodiv("after d1 deepfilter res", res, 99);
+			});
+			
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	/*
+		number, string, boolean, date, nested string
+	*/
+	exports.d2 = d2 = function d2(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid2",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": ""
+                }];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    cb1(null);
+                });
+            }
+        ], function (err, res) {	//after updatewid
+			/*
+				var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
+                            "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
+				var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
+                            "c":"30","e":"f","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
+			*/
+
+			var dtoObjOpt = {"c":"number", "h":"string", "g":"boolean","d":"date", "q":{"w":{"e":"string"}}, "x":{"y":{"z":"string"}}};
+			var inputObj = {"c":"30", "h":"hval", "g":"true","d":"6/25/1912", "q":{"w":{"e":"t"}}, "x":{"y":{"z":"string"}}};
+			var command = {"formatresult": "false"};
+			  
+			deepfilter(inputObj, dtoObjOpt, command, function(err, res){
+				proxyprinttodiv("after d2 deepfilter res", res, 99);
+			});
+			
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	/*
+		wid
+	*/
+	exports.d3 = d3 = function d3(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid2",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": ""
+                }];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    cb1(null);
+                });
+            }
+        ], function (err, res) {	//after updatewid
+			var dtoObjOpt = {"a":"wid2","x":"wid2"} ;
+			var inputObj = {"a":"aaa", "x":"test"};
+			var command = {"formatresult": "false"};
+			  
+			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+				proxyprinttodiv("after d1 deepfilter res", res, 99);
+			});
+			
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	/*
+		updatewid and getwidmaster
+	*/
+	exports.d4 = d4 = function d4(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid3",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": ""
+                }];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('updatewid wid3 -- ', res, 99);
+                    cb1(null);
+                });
+            },
+			function (cb2) {
+				var executeList = [{
+					"executethis": "getwid",
+					"wid": "wid3",
+				}];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("getwidmaster  wid3 -- ", res, 99);
+                    cb2(null);
+				});
+			}
+        ], function (err, res) {	//after updatewid
+		
+			params = {	
+				'test': 'PASS'
+			};
+			callback(err,params);	
+        });
+	}
+	
+	/*	
+		added test in wid
+	*/
+	exports.d5 = d5 = function d5(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid2",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": "",
+					"test": ""
+                }];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    cb1(null);
+                });
+            },
+			function (cb2){
+				var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
+                            "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
+				var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
+								"c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("after d1 deepfilter res", res, 99);
+					cb2(null);
+				});
+			}
+        ], function (err, res) {
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	/*	
+		selected wid does not exist
+	*/
+	exports.d6 = d6 = function d6(params, callback) {
+		async.series([
+			function (cb2){
+				var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid6","x":"wid6", "z":"wid6",
+                            "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
+				var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
+								"c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("after d1 deepfilter res", res, 99);
+					cb2(null);
+				});
+			}
+        ], function (err, res) {
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	/*	
+		dto = null,, then return same object
+	*/
+	exports.d7 = d7 = function d7(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid2",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": ""
+                }];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    cb1(null);
+                });
+            },
+			function (cb2){
+				/*var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
+                            "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
+				*/
+				var	dtoObjOpt = null;			 
+				var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
+								"c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("after d1 deepfilter res", res, 99);
+					cb2(null);
+				});
+			}
+        ], function (err, res) {
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	/*	
+		date
+	*/
+	exports.d8 = d8 = function d8(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid2",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": ""
+                }];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    cb1(null);
+                });
+            },
+			function (cb2){
+				var dtoObjOpt = {"d":"date"} ;		 
+				var inputObj = {"d":"6/23/1912"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("after d1 deepfilter res", res, 99);
+					cb2(null);
+				});
+			}
+        ], function (err, res) {
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	/*
+		object dataType test
+	*/
+	exports.d10 = d10 = function d10(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid5",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": ""
+                }];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    cb1(null);
+                });
+            }
+        ], function (err, res) {	//after updatewid
+			var dtoObjOpt = {"obj":"", "c":"string", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
+			var inputObj = {"obj":"", "c":"cval", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
+			var command = {"formatresult": "false"};
+			  
+			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+				proxyprinttodiv("after d10 deepfilter res", res, 99);
+			});
+			
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	
+	/*
+		test to confirm deepfilter with wid that returns query results works
+	*/
+	exports.d11 = d11 = function d11(params, callback) {
+		async.series([
+            function (cb1) {	//5 (a)
+                var executeList = [
+					{ "executethis": "updatewid", "wid": "wid1", "metadata.method": "defaultdto", "x": "y", "a": "r"}, 
+					{ "executethis": "updatewid", "wid": "wid2", "metadata.method": "defaultdto", "w": "z", "a": "y"}, 
+					{ "executethis": "updatewid", "wid": "wid3", "metadata.method": "defaultdto", "a": "b", "g": "f"}, 
+					{ "executethis": "updatewid", "wid": "wid4", "metadata.method": "defaultdto", "h": "j", "k": "y", "a": "p"}
+				];
+				execute(executeList, function (err, res) {
+                    proxyprinttodiv('after updatewid wid1,2,3,4 -- ', res, 34);
+                    cb1(null);
+                });
+            },
+			function step2(cb2){	// 5 (b)
+				var executeList = [
+					{ "executethis": "querywid", "mongorawquery": '{"$or": [{ "data.a": "b" }]}'}
+				];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("mongo query result ", res, 99);
+					cb2(null);
+				});
+			},
+			function step3(cb3){	// 5 (c)
+				var executeList = [
+					{ "executethis": "updatewid", "wid": "wid5", "metadata.method": "defaultdto", "addthis.executethis":"querywid", "mongorawquery":"{data.a:b}"}
+				];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("after updatewid wid5 -- ", res, 99);
+					cb3(null);
+				});
+			},
+			function step4(cb4){	// 5 (d)
+				getwidmaster({"wid":"wid5", "command":{"getwidmaster":{"execute":"false"}}},function (err, res) {
+					proxyprinttodiv("5 (d) getwidmaster  wid5 -- ", res, 99);
+                    cb4(null);
+				});
+			},
+			function step5(cb5){	// 5 (e)
+				getwidmaster({"wid":"wid5"},function (err, res) {
+					proxyprinttodiv("5 (e) getwidmaster  wid5 -- ", res, 99);
+                    cb5(null);
+				});
+			},
+			function step6(cb6){	// 5 (f)
+				execute({"executethis":"wid5"},function (err, res) {
+					proxyprinttodiv("5 (f) getwidmaster  wid5 -- ", res, 99);
+                    cb6(null);
+				});
+			},
+			function step7(cb7){	// 5 (g)
+				execute("wid5",function (err, res) {
+					proxyprinttodiv("5 (g) getwidmaster  wid5 -- ", res, 99);
+                    cb7(null);
+				});
+			},
+			function step8(cb8){	// step 8 deep filter d = wid5
+				var dtoObjOpt = {"obj":"", "c":"string", "d":"wid5"};
+				var inputObj = {"c":"hello", "d":"wid3"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("step 8 res--", res, 99);
+					cb8(null);
+				});
+			},
+			function step9(cb9){	// step 9 deep filter
+				var dtoObjOpt = {"obj":"", "c":"string", "d":"wid5"};
+				var inputObj = {"c":"hello", "d":"wid5"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("step 9 res--", res, 99);
+					cb9(null);
+				});
+			},
+			function step10(cb10){	// step 10 deep filter
+				var dtoObjOpt = {"obj":"", "c":"string", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
+				var inputObj = {"obj":"", "c":"cval", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("step 10 res--", res, 99);
+					cb10(null);
+				});
+			}
+        ], function (err, res) {
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
