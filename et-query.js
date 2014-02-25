@@ -460,7 +460,7 @@
 
                     proxyprinttodiv('querywid before output', output, 28);
 
-                    output = formatListFinal(output, environmentdb, convertmethod, extraparameters);
+                    formatListFinal(output, environmentdb, convertmethod, extraparameters, function (error, output){ 
 
                     proxyprinttodiv('querywid after output', output, 28);
 
@@ -474,7 +474,7 @@
 
                     callback(err, output);
                 });
-        }
+        })
         //};
     }
 
@@ -668,7 +668,7 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
 
     // takes inlist, looks for wid, then goes to main database to get a get clean complete converted copy of that wid
     // also looks in extra paramters, append information found about that wid to results also
-    function formatListFinal(inlist, environmentdb, convertmethod, extraparameters) {
+    function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, callback) {
         var inbound_parameters = {};
         inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -686,7 +686,7 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
             return [];
         } else {
 
-        keydatabase = getFromLocalStorage(keycollection);
+//        keydatabase = getFromLocalStorage(keycollection);
 
         proxyprinttodiv('querywid finalformatlist inlist ', inlist, 28);
         proxyprinttodiv('querywid finalformatlist extraparameters ', extraparameters, 28);
@@ -694,9 +694,10 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                 record={};
                 wid = inlist[eachresult]["wid"];
                 proxyprinttodiv('querywid finalformatlist wid ', wid, 28);
-                proxyprinttodiv('querywid finalformatlist keydatabase[wid] ', keydatabase[wid], 28);
+//                proxyprinttodiv('querywid finalformatlist keydatabase[wid] ', keydatabase[wid], 28);
 
-                widrecord = keydatabase[wid];
+//                widrecord = keydatabase[wid];
+                execute({"executethis": "getwid", "wid":wid},function (error, widrecord){
                 extrarecord[environmentdb]=extraparameters[wid]
                 proxyprinttodiv('querywid finalformatlist widrecord', widrecord, 28);
                 proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
@@ -718,8 +719,9 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                 1: output
             }, 6);
 
-            return output
-        }
+            callback ({}, output);
+            }
+        })
     }
 
     //in: key, value, preamble 
