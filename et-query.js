@@ -1473,6 +1473,13 @@ function copylist(inlist, parmnamein, parmnameout, environmentdb) {
                                                 "command.db":"",
                                                 "command.convertmethod":""
                                             },true);
+        // ******
+        // ******
+        // ******
+        // This ignores the extra parameters from the other p[*] arrays...the output
+        // needs to be built upon everytime the tolowerparams is called. The following is 
+        // looking at the output of the p[3] group and that is not really the way
+        // querywid was designed to work.
         p[4] = filter_data.output;
 
         filter_data = tolowerparameters(parameters, {}, { // relafterParams;

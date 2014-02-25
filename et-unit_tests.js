@@ -291,35 +291,19 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
     var result = [];
     var err;
 
-    // ettesttt(result, function (err, r1) {
-    //   result.push(r1);
-    //     ettestastt(result, function (err, r2) {
-    //        result.push(r2);
-    //         ettestctt(result, function (err, r3) {
-    //             result.push(r3);
-    //             ettestagtt(result, function (err, r4) {
-    //                 result.push(r4);
-    //                 callback(err, result);
-    //             });
-    //         });
-    //     });
-    // });
-    
-    ettestagtt(result, function (err, r1) {
+    ettesttt(result, function (err, r1) {
       result.push(r1);
-        ettesttt(result, function (err, r2) {
+        ettestastt(result, function (err, r2) {
            result.push(r2);
-            // ettestastt(result, function (err, r3) {
-            //     result.push(r3);
-            //     ettestagtt(result, function (err, r4) {
-            //         result.push(r4);
+            ettestctt(result, function (err, r3) {
+                result.push(r3);
+                ettestagtt(result, function (err, r4) {
+                    result.push(r4);
                     callback(err, result);
-                // });
-            // });
+                });
+            });
         });
-    }); 
-     
-    
+    });
 }
 
 exports.ettestat2 = ettestat2 = function ettestat2(params, callback) {
@@ -2494,8 +2478,8 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
     execute([{
             "executethis": "addwidmaster",
-            "wid": "songdto",
-            "metadata.method": "songdto",
+            "wid": "Songdto",
+            "metadata.method": "Songdto",
             "title": "string",
             "metadata.sounddto.type": "onetomany",
             "sounddto.wid": "sounddto",
@@ -2533,19 +2517,19 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         }, {                       
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "songdto",
+            "metadata.method": "Songdto",
             "title": "Highway to Hell",
             "sounddto.note": "A flat"
         }, {            
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "songdto",
+            "metadata.method": "Songdto",
             "title": "Highway to Hell",
             "sounddto.note": "B sharp"
         }, {
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "songdto",
+            "metadata.method": "Songdto",
             "title": "Highway to Hell",
             "sounddto.note": "C flat"
         }, {
@@ -2618,6 +2602,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
             proxyprinttodiv('Function ag3 result Full res', res, 99);
             proxyprinttodiv('Function ag3 result ', res[4], 99);
+
             res = logverify("ettestag3_result", res[4], [{
                 "title": "Highway to Hell",
                 "wid": "song1",
@@ -3577,188 +3562,229 @@ exports.wrapped1 = wrapped1 = function wrapped1 (params, callback) {
 
     });
 }
-
+// data, defaults, filter
 exports.lwr1 = lwr1 = function lwr1(params, callback) {
     var params = {"Alpha":"1", "beta":"2", "Charlie":"3", "Delta":"4"};
-    var filter = {
+    var defaults = {
                     "Beta":"555",
                     "charlie":"777"};
+    var filter = {
+                    "Beta":"",
+                    "charlie":""};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, true);
+    result = tolowerparameters(params, defaults, filter, true);
     callback(err, result);
 }
 
 exports.lwr2 = lwr2 = function lwr2(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
+    var params = {"Alpha":"1", "bEta":"2", "Charlie":"3", "Delta":"4"};
+    var defaults = {
+                    "Beta":"555",
+                    "charlie":"777"};    
+
     var filter = {
-                    "beta":"555",
-                    "charlie":"777"};
+                    "Beta":"",
+                    "charlie":""};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, false);
+    result = tolowerparameters(params, defaults, filter, false);
     callback(err, result);
 }
 
 exports.lwr3 = lwr3 = function lwr3(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
+    var defaults = {
+                    "Beta":"",
+                    "charlie":""};    
     var filter = {
                     "beta":"",
                     "charlie":""};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, true);
+    result = tolowerparameters(params, defaults, filter, true);
     callback(err, result);
 }
 
 exports.lwr4 = lwr4 = function lwr4(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
+    var defaults = {
+                    "Beta":"",
+                    "charlie":""};    
     var filter = {
                     "beta":"",
                     "charlie":""};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, false);
+    result = tolowerparameters(params, defaults, filter, false);
     callback(err, result);
 }
 
 exports.lwr5 = lwr5 = function lwr5(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
+    var defaults = {
+                    "ceta":"",
+                    "charlie":""}; 
     var filter = {
                     "beta":"add",
                     "charlie":"add"};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, true);
+    result = tolowerparameters(params, defaults, filter, true);
     callback(err, result);
 }
 
 exports.lwr6 = lwr6 = function lwr6(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
-    var filter = {
+    var defaults = {
                     "beta":"add",
                     "charlie":"add"};
+    var filter = {
+                    "beta":"",
+                    "charlie":""};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, false);
+    result = tolowerparameters(params, defaults, filter, false);
     callback(err, result);
 }
 
 exports.lwr7 = lwr7 = function lwr7(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
+    var defaults = {};
     var filter = {};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, true);
+    result = tolowerparameters(params, defaults, filter, true);
     callback(err, result);
 }
 
 exports.lwr8 = lwr8 = function lwr8(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
+    var defaults = {};
     var filter = {};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, false);
+    result = tolowerparameters(params, defaults, filter, false);
     callback(err, result);
 }
 
 exports.lwr9 = lwr9 = function lwr9(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
+    var defaults = {
+                      "beta":"555",
+                      "Charlie":"777"};
     var filter = {
-                    "beta":"555",
-                    "Charlie":"777"};
+                  "beta":"",
+                  "charlie":""};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, true);
+    result = tolowerparameters(params, defaults, filter, true);
     callback(err, result);
 }
 
 exports.lwr10 = lwr10 = function lwr10(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var filter = {
+    var defaults = {
                     "beta":"555",
                     "charlie":"777"};
+    var filter = {
+                    "beta":"",
+                    "charlie":""};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, false);
+    result = tolowerparameters(params, defaults, filter, false);
     callback(err, result);
 }
 
 exports.lwr11 = lwr11 = function lwr11(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
+    var defaults = {
+                    "beta":"",
+                    "charlie":""};
+    
     var filter = {
                     "beta":"",
                     "charlie":""};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, true);
+    result = tolowerparameters(params, defaults, filter, true);
     callback(err, result);
 }
 
 exports.lwr12 = lwr12 = function lwr12(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var filter = {
+    var defaults = {
                     "beta":"",
                     "charlie":""};
-    var err;
+    var filter = {
+                    "beta":"",
+                    "charlie":""};    var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, false);
+    result = tolowerparameters(params, defaults, filter, false);
     callback(err, result);
 }
 
 exports.lwr13 = lwr13 = function lwr13(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
+    var defaults = {
+                    "beta":"",
+                    "charlie":""};
     var filter = {
                     "beta":"add",
                     "charlie":"add"};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, true);
+    result = tolowerparameters(params, defaults, filter, true);
     callback(err, result);
 }
 
 exports.lwr14 = lwr14 = function lwr14(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
+    var defaults = {
+                    "beta":"add",
+                    "charlie":"add"};
     var filter = {
                     "beta":"add",
                     "charlie":"add"};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, false);
+    result = tolowerparameters(params, defaults, filter, false);
     callback(err, result);
 }
 
 exports.lwr15 = lwr15 = function lwr15(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
+    var defaults = {};
     var filter = {};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, true);
+    result = tolowerparameters(params, defaults, filter, true);
     callback(err, result);
 }
 
 exports.lwr16 = lwr16 = function lwr16(params, callback) {
     var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
+    var defaults = {};
     var filter = {};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, filter, false);
+    result = tolowerparameters(params, defaults, filter, false);
     callback(err, result);
 }
 
