@@ -1,7 +1,7 @@
 (function (window) {
 
 exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {     
-    var object = ConvertFromDOTdri(object);
+    object = ConvertFromDOTdri(object);
     var filter_data = tolowerparameters(object, {}, {"command":""}, true);
     proxyprinttodiv("addwidmaster filter_data", filter_data, 99);
     var _object = filter_data.output;
@@ -19,7 +19,7 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
             callback(err, res);
         });
     });
-}
+};
 
 // exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
 //     var inbound_parameters = {};
@@ -73,7 +73,7 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
         var output={};
 
         output.obj=object;
-        output.dtoobj = dtoobject
+        output.dtoobj = dtoobject;
         dto_to_get = res['metadata']['method'];
         if (dto_to_get!=="string") {
             proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 99);
@@ -94,7 +94,7 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
                     deepfilter(result_obj, dtoobject, command, function (err, result_obj) {
                         proxyprinttodiv("cleanadd after insertbydtotype after", result_obj, 17);
                         output.obj=result_obj;
-                        output.dtoobj = dtoobject
+                        output.dtoobj = dtoobject;
                         proxyprinttodiv("cleanadd after executethis getwidmaster result_obj", output, 17);
                         callback(err, output);
                         });
@@ -104,7 +104,7 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
             callback(err, output);
             }
     });
-}
+};
 
 exports.addwidobject = addwidobject = function addwidobject(input, inputdto, command, callback) {
 	proxyprinttodiv("addwidobject input input :- ", input, 17);
@@ -220,7 +220,7 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
 			}
 		}); // End async map series
 	});
-}
+};
 
 
 exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, parentwid, parentmethod, relationshiptype, command, callback) {
@@ -292,7 +292,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                         relobj["primarymethod"] = parentmethod;
 
                     if (addobject["metadata"])
-                        relobj["secondarymethod"] = addobject["metadata"]["method"]
+                        relobj["secondarymethod"] = addobject["metadata"]["method"];
 
                     proxyprinttodiv("addrecord input relobj ", relobj, 17);
 
@@ -311,7 +311,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
             // res[1] is addobject from step2
             callback({}, res[1]);
         });
-    }
+    };
 
 exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
 
@@ -348,7 +348,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                 if (Object.keys(res[0]).length !== 0) {
                     proxyprinttodiv("before before extend,, res-- ", res[0], 17);
                     proxyprinttodiv("before before extend,, object-- ", object, 17);
-                    object = extend(true, res[0], object)
+                    object = extend(true, res[0], object);
                     proxyprinttodiv(" after extend,, object-- ", object, 17);
                     addwid3();
                 } else {
@@ -364,7 +364,6 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
     proxyprinttodiv("addwid input dtoobject", dtoobject, 17);
     proxyprinttodiv("addwid input command", command, 17);
     var inheritwid;
-    var eachprop;
     if (dtoobject.metadata && dtoobject.metadata.inherit) {
         inheritwid = dtoobject.metadata.inherit;
     }
@@ -395,7 +394,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
     } else { // if no inheritwid
         addwid2();
     }
-} // end of addwid
+}; // end of addwid
     
 
 
