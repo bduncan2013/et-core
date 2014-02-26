@@ -14,12 +14,10 @@ if (typeof angular !== 'undefined') {
                 : undefined;
 
             if (thisWid) {
-                if (typeof scope[thisWid] === 'undefined') {
-                    console.log('********************************************');
-                    console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
-                    console.log(obj);
-                    console.log('********************************************');
-                }
+                console.log('********************************************');
+                console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
+                console.log(obj);
+                console.log('********************************************');
 
                 scope[thisWid] = obj;
             }
@@ -202,15 +200,15 @@ if (typeof angular !== 'undefined') {
                         delete parameters['executethis'];
                     }
 
-                    var urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
+                    urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
                     executeService.executeThis(urlExecuteObj, $scope, function(err, resArr) { cb(null, [{}]); });
                 },
                 function(cb) {
-                    executeService.executeThis({executethis:'urlparams'}, $scope,
+                    executeService.executeThis({executethis:'getwidmaster',wid:'urlparams'}, $scope,
                         function(err, resArr) { cb(null, resArr); });
                 },
                 function(cb) {
-                    executeService.executeThis({executethis:'inwid'}, $scope,
+                    executeService.executeThis({executethis:'getwidmaster',wid:'inwid'}, $scope,
                         function(err, resArr) { cb(null, resArr); });
                 }
             ],
@@ -218,15 +216,9 @@ if (typeof angular !== 'undefined') {
                 var processParams = {};
                 for (var x = 0; x < overallResults.length; x++) {
                     for (var i = 0; i < overallResults[x].length; i++) {
-                        if (Array.isArray(overallResults[x][i])) {
-                            for (var y = 0; y < overallResults[x][i].length; y++) {
-                                extend(true, processParams, overallResults[x][i][y]);
-                            }
-                        } else { extend(true, processParams, overallResults[x][i]); }
+                        extend(true, processParams, overallResults[x][i]);
                     }
                 }
-
-                if (processParams.addthis) { processParams = helper.removeAddThis(processParams); }
 
                 if (processParams.wid) {
                     processParams.executethis = processParams.wid;
@@ -312,7 +304,7 @@ if (typeof angular !== 'undefined') {
             $scope.ajax.loading = true;
 
             getDriApiData('login1', parameters, function(err, results) {
-                if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
+                if (err, Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
                 else {
                     $('#pin,#pingrp').show();
                     $('#phonegrp').hide();
@@ -334,7 +326,7 @@ if (typeof angular !== 'undefined') {
             $scope.ajax.loading = true;
 
             getDriApiData('login2', parameters, function(err, results) {
-                if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
+                if (err, Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
                 else {
                     if (results[0].Value === 'True') {
                         dataService.user.putLocal('', user.at, true);
@@ -629,16 +621,6 @@ if (typeof angular !== 'undefined') {
                 return false;
             }
             return true;
-        },
-
-        removeAddThis: function(addThisObj) {
-            for (var prop in addThisObj.addthis) {
-                if (addThisObj.addthis.hasOwnProperty(prop)) {
-                    addThisObj[prop] = addThisObj.addthis[prop];
-                }
-            }
-            delete addThisObj['addthis'];
-            return addThisObj;
         }
     };
 
