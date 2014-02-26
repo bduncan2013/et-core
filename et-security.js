@@ -81,10 +81,10 @@
     }
 
     exports.securitycheck = securitycheck = function securitycheck(accesstoken, account, action, db, callback) {
-        proxyprinttodiv('Function securitytest accesstoken-- ', accesstoken, 34);
-        proxyprinttodiv('Function securitytest account-- ', account, 34);
-        proxyprinttodiv('Function securitytest action-- ', action, 34);
-        proxyprinttodiv('Function securitytest db-- ', db, 34);
+        proxyprinttodiv('Function securitytest accesstoken-- ', accesstoken, 91);
+        proxyprinttodiv('Function securitytest account-- ', account, 91);
+        proxyprinttodiv('Function securitytest action-- ', action, 91);
+        proxyprinttodiv('Function securitytest db-- ', db, 91);
 
         var requestpermissionlist = [];
         var calculatedaccountpermissionlist = [];
@@ -98,18 +98,18 @@
             for (var i = 0; i < permissionsForThisAccount.length; i++) {
                 recursepermissionlist(permissionsForThisAccount[i]['myaccountgroup'], permissionsForThisAccount[i]['action'], permissionsForThisAccount[i]['db'], permissionsForThisAccount[i]['login'], function (err, res) {
                     calculatedaccountpermissionlist.push(res);
-                    proxyprinttodiv('Function security account each ', res, 34);
+                    proxyprinttodiv('Function security account each ', res, 91);
                 });
             }
-            proxyprinttodiv('Function security account permissionlist ', calculatedaccountpermissionlist, 34);
+            proxyprinttodiv('Function security account permissionlist ', calculatedaccountpermissionlist, 91);
 
             getuserbyac(accesstoken, function (err, userDto) {
                 if (!userDto || (userDto && !userDto.wid)) {
                     securityCheckOutput = false;
                 } else {
 
-                    proxyprinttodiv('Function securitytest) out with  userDto : ', userDto, 34);
-
+                    proxyprinttodiv('Function securitytest) out with  userDto : ', userDto, 91);
+                   
                     proxyprinttodiv('Function securitytest userDto[systemdto.securitydto.logged_id]-- ', userDto['systemdto.securitydto.logged_id'], 91);
                     if (!userDto['systemdto.securitydto.logged_id']) {
                         // if not logged in,
@@ -119,7 +119,7 @@
                         getGroupRecursive(userDto.wid, function (err, res) {
                             var myAccountGroupdtoArr = res[1].groups;
                             console.log("getGroupRecursive 1 --- " + JSON.stringify(res));
-                            proxyprinttodiv('Function security recursive user wid ', res, 34);
+                            proxyprinttodiv('Function security recursive user wid ', res, 91);
 
                             // //
                             // // ** this one makes no sense
@@ -128,28 +128,28 @@
                             //     console.log("getGroupRecursive 2--- " + JSON.stringify(res));
                             //     proxyprinttodiv('Function security recursive  account????? ', res, 91);
 
-                            // get action groups
-                            getGroupRecursive(action, function (err, res) {
-                                var actionGroupdtoArr = res[1].groups;
-                                console.log("getGroupRecursive 3--- " + JSON.stringify(res));
-                                proxyprinttodiv('Function security recursive action', res, 91);
+                                // get action groups
+                                getGroupRecursive(action, function (err, res) {
+                                    var actionGroupdtoArr = res[1].groups;
+                                    console.log("getGroupRecursive 3--- " + JSON.stringify(res));
+                                    proxyprinttodiv('Function security recursive action', res, 91);
 
-                                // get db groups
-                                getGroupRecursive(db, function (err, res) {
-                                    var dbGroupdtoArr = res[1].groups;
-                                    console.log("getGroupRecursive 4--- " + JSON.stringify(res));
-                                    proxyprinttodiv('Function security recursive db', res, 91);
+                                    // get db groups
+                                    getGroupRecursive(db, function (err, res) {
+                                        var dbGroupdtoArr = res[1].groups;
+                                        console.log("getGroupRecursive 4--- " + JSON.stringify(res));
+                                        proxyprinttodiv('Function security recursive db', res, 91);
 
-                                    // find all permissions where my groups are given permission
-                                    recursepermissionlist(myAccountGroupdtoArr, actionGroupdtoArr, dbGroupdtoArr, loginlevel, function (err, res) {
-                                        var myPermissionsdtoArr = res;
-                                        requestpermissionlist.push(myPermissionsdtoArr);
-                                        proxyprinttodiv('Function security my requestpermissionlist ', requestpermissionlist, 91);
+                                        // find all permissions where my groups are given permission
+                                        recursepermissionlist(myAccountGroupdtoArr, actionGroupdtoArr, dbGroupdtoArr, loginlevel, function (err, res) {
+                                            var myPermissionsdtoArr = res;
+                                            requestpermissionlist.push(myPermissionsdtoArr);
+                                            proxyprinttodiv('Function security my requestpermissionlist ', requestpermissionlist, 91);
 
-                                        // test security based on two permission lists
-                                        securityCheckOutput = checkpermission(requestpermissionlist, calculatedaccountpermissionlist, callback);
+                                            // test security based on two permission lists
+                                            securityCheckOutput =  checkpermission(requestpermissionlist, calculatedaccountpermissionlist, callback);
+                                        });
                                     });
-                                });
                                 //});
                             });
                         });

@@ -2439,7 +2439,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             callback(err, res);
         });
 }
-// This is a 2 level test of the dtos...instantiate song1 with a sonddto, and some sounddto values
+// This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     testclearstorage();
 
@@ -2478,8 +2478,8 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
     execute([{
             "executethis": "addwidmaster",
-            "wid": "sonddto",
-            "metadata.method": "sonddto",
+            "wid": "Songdto",
+            "metadata.method": "Songdto",
             "title": "string",
             "metadata.sounddto.type": "onetomany",
             "sounddto.wid": "sounddto",
@@ -2492,24 +2492,24 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         //     "note": "string"
         // }, {
         //     "executethis": "addwidmaster",
-        //     "wid": "sonddto",
-        //     "metadata.method": "sonddto",
+        //     "wid": "songdto",
+        //     "metadata.method": "songdto",
         //     "title": "string",
         //     "metadata.sounddto.type": "onetomany"
         // }, {
         //     "executethis": "addwidmaster",
         //     "wid": "rel_sound_to_song",
         //     "metadata.method":"relationshipdto",
-        //     "primarywid": "sonddto",
+        //     "primarywid": "songdto",
         //     "secondarywid": "sounddto",
-        //     "primarymethod": "sonddto",
+        //     "primarymethod": "songdto",
         //     "secondarymethod": "sounddto",
         //     "linktype":"onetomany",
         //     "relationshiptype": "attributes"
         // }, {
         //     "executethis": "addwidmaster",
         //     "wid": "song1",
-        //     "metadata.method": "sonddto",
+        //     "metadata.method": "songdto",
         //     "title": "Highway to Hell",
         //     "sounddto.0.note": "A flat",
         //     "sounddto.1.note": "B sharp",
@@ -2517,19 +2517,19 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         }, {                       
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "sonddto",
+            "metadata.method": "Songdto",
             "title": "Highway to Hell",
             "sounddto.note": "A flat"
         }, {            
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "sonddto",
+            "metadata.method": "Songdto",
             "title": "Highway to Hell",
             "sounddto.note": "B sharp"
         }, {
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "sonddto",
+            "metadata.method": "Songdto",
             "title": "Highway to Hell",
             "sounddto.note": "C flat"
         }, {
@@ -2606,7 +2606,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             res = logverify("ettestag3_result", res[4], [{
                 "title": "Highway to Hell",
                 "wid": "song1",
-                "metadata.method": "sonddto",
+                "metadata.method": "songdto",
                 "sounddto.0.note": "A flat",
                 "sounddto.0.wid": "2",
                 "sounddto.0.metadata.method": "sounddto",
@@ -2618,10 +2618,8 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
                 "sounddto.2.metadata.method": "sounddto"
             }]);
             debuglevel=38;
-            execute({"executethis": "getwidmaster","wid": "sonddto",
-                  "command":{"getwidmaster":{"convertmethod":"dto",
-                                          "execute":"ConvertFromDOTdri",
-                                          "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
+               "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
             //execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
                 proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
                 callback(err, res); 
@@ -3136,9 +3134,9 @@ exports.newt2 = newt2 = function newt2(params, callback) {
                     "getwidmaster",
                     "getwidmaster",
                     {
-                        "wid": "sonddto",
+                        "wid": "songdto",
                         "command.convertmethod": "dto",
-                        "command.dtotype": "sonddto"
+                        "command.dtotype": "songdto"
                     },
                     {
                         "title": "string",
@@ -3162,13 +3160,13 @@ exports.newt2 = newt2 = function newt2(params, callback) {
                                 "date": "2014-02-04T18:31:01.199Z"
                             }
                         },
-                        "sonddto": {
+                        "songdto": {
                             "data": {
                                 "title": "string"
                             },
-                            "wid": "sonddto",
+                            "wid": "songdto",
                             "metadata": {
-                                "method": "sonddto",
+                                "method": "songdto",
                                 "sounddto": {
                                     "type": "onetomany"
                                 },
@@ -3177,7 +3175,7 @@ exports.newt2 = newt2 = function newt2(params, callback) {
                         },
                         "rel_sound_to_song": {
                             "data": {
-                                "primarywid": "sonddto",
+                                "primarywid": "songdto",
                                 "secondarywid": "sounddto",
                                 "relationshiptype": "attributes"
                             },
@@ -3214,7 +3212,7 @@ exports.newt4 = newt4 = function newt4(params, callback) {
             {
                 "title": "Highway to Hell",
                 "wid": "song1",
-                "metadata.method": "sonddto",
+                "metadata.method": "songdto",
                 "sounddto.0.note": "A flat",
                 "sounddto.0.wid": "1",
                 "sounddto.0.metadata.method": "sounddto",
@@ -3234,7 +3232,7 @@ exports.newt4 = newt4 = function newt4(params, callback) {
             "parms": {
                 "title": "Highway to Hell",
                 "wid": "song1",
-                "metadata.method": "sonddto",
+                "metadata.method": "songdto",
                 "sounddto.0.note": "A flat",
                 "sounddto.0.wid": "1",
                 "sounddto.0.metadata.method": "sounddto",
@@ -3248,13 +3246,13 @@ exports.newt4 = newt4 = function newt4(params, callback) {
             "dto": {
                 "title": "Highway to Hell",
                 "wid": "song1",
-                "metadata.method": "sonddto",
+                "metadata.method": "songdto",
                 "sounddto.note": "string",
                 "sounddto.wid": "sounddto",
                 "sounddto.metadata.method": "sounddto"
             }
         },
-                    {"1":{"data":{"note":"A flat"},"wid":"1","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.175Z"}},"2":{"data":{"primarywid":"song1","secondarywid":"1","relationshiptype":"attributes","linktype":"onetomany"},"wid":"2","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.248Z"}},"3":{"data":{"note":"B sharp"},"wid":"3","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.273Z"}},"4":{"data":{"primarywid":"song1","secondarywid":"3","relationshiptype":"attributes","linktype":"onetomany"},"wid":"4","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.348Z"}},"5":{"data":{"note":"C flat"},"wid":"5","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.366Z"}},"6":{"data":{"primarywid":"song1","secondarywid":"5","relationshiptype":"attributes","linktype":"onetomany"},"wid":"6","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.437Z"}},"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T18:43:42.711Z"}},"sonddto":{"data":{"title":"string"},"wid":"sonddto","metadata":{"method":"sonddto","sounddto":{"type":"onetomany"},"date":"2014-02-05T18:43:42.827Z"}},"rel_sound_to_song":{"data":{"primarywid":"sonddto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T18:43:42.888Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"sonddto","date":"2014-02-05T18:43:43.088Z"}}},
+                    {"1":{"data":{"note":"A flat"},"wid":"1","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.175Z"}},"2":{"data":{"primarywid":"song1","secondarywid":"1","relationshiptype":"attributes","linktype":"onetomany"},"wid":"2","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.248Z"}},"3":{"data":{"note":"B sharp"},"wid":"3","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.273Z"}},"4":{"data":{"primarywid":"song1","secondarywid":"3","relationshiptype":"attributes","linktype":"onetomany"},"wid":"4","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.348Z"}},"5":{"data":{"note":"C flat"},"wid":"5","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.366Z"}},"6":{"data":{"primarywid":"song1","secondarywid":"5","relationshiptype":"attributes","linktype":"onetomany"},"wid":"6","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.437Z"}},"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T18:43:42.711Z"}},"songdto":{"data":{"title":"string"},"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"onetomany"},"date":"2014-02-05T18:43:42.827Z"}},"rel_sound_to_song":{"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T18:43:42.888Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"songdto","date":"2014-02-05T18:43:43.088Z"}}},
                     {"command": "null"}
                 ]
             ]
@@ -3277,7 +3275,7 @@ exports.newt5 = newt5 = function newt5(params, callback) {
            "offlineupdatewid",
             [
     {
-        "metadata.method": "sonddto",
+        "metadata.method": "songdto",
         "wid": "song1",
         "title": "Highway to Hell"
     }
@@ -3288,11 +3286,11 @@ exports.newt5 = newt5 = function newt5(params, callback) {
     },
     "wid": "song1",
     "metadata": {
-        "method": "sonddto",
+        "method": "songdto",
         "date": "2014-02-05T21:11:19.461Z"
     }
 },
-            {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T21:11:18.876Z"}},"sonddto":{"data":{"title":"string"},"wid":"sonddto","metadata":{"method":"sonddto","sounddto":{"type":"onetomany"},"date":"2014-02-05T21:11:19.040Z"}},"rel_sound_to_song":{"data":{"primarywid":"sonddto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T21:11:19.141Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"sonddto","date":"2014-02-05T21:11:19.461Z"}}},
+            {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T21:11:18.876Z"}},"songdto":{"data":{"title":"string"},"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"onetomany"},"date":"2014-02-05T21:11:19.040Z"}},"rel_sound_to_song":{"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T21:11:19.141Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"songdto","date":"2014-02-05T21:11:19.461Z"}}},
             {"command": "null"}
         ]
     ]

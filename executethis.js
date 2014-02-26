@@ -22,7 +22,7 @@
 
     
     if (isString(incomingparams)) {
-            var temp={}
+            var temp={};
             temp['executethis'] = incomingparams;
             proxyprinttodiv("execute - array params received I", temp, 99);
             incomingparams=temp;
@@ -46,7 +46,9 @@
             // Remove command.execute.parameters
             if (incomingparams.command && incomingparams.command.parameters) {
                 for (var key in incomingparams.command.parameters) {
-                    incomingparams[key] = incomingparams.command.parameters[key];
+                    if (incomingparams.command.parameters.hasOwnProperty(key)) {
+                        incomingparams[key] = incomingparams.command.parameters[key];
+                    }
                 }
                 delete incomingparams.command.parameters;
             }
@@ -56,11 +58,11 @@
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
             // fix incoming param
-			// if(incomingparams){
-			// 	if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
-			// 		incomingparams['executethis'] = incomingparams;
-			// 	}
-			// }
+            // if(incomingparams){
+            //  if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
+            //      incomingparams['executethis'] = incomingparams;
+            //  }
+            // }
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
@@ -105,7 +107,7 @@
                             if (postResults.command.execute.parameters) {
                                 executeobject = postResults.command.execute.parameters
                             }
-                            delete postResults.command.execute.parameters
+                            delete postResults.command.execute.parameters;
                             if (isObject(postResults.command.execute)) {
                                 extend(true, executeobject, postResults.command.execute)
                             } else {
@@ -180,7 +182,7 @@
         proxyprinttodiv("executeone - window ", fnparams, 11);
 
         window[fn].apply(window, fnparams);
-    }
+    };
 
 
     exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(inparams, inCmd, callback) {
@@ -209,8 +211,10 @@
         if (inCmd) {
             commandobject = defaultCommandObject;
             for (var key in defaultCommandObject) {
-                if (inCmd[key]) {
-                    commandobject[key] = inCmd[key];
+                if (defaultCommandObject.hasOwnProperty(key)) {
+                    if (inCmd[key]) {
+                        commandobject[key] = inCmd[key];
+                    }
                 }
             }
         } else {
@@ -355,7 +359,7 @@
             });
         //});
 
-    }
+    };
 
 
 
@@ -889,7 +893,7 @@
         proxyprinttodiv("getexecuteobject whatToDo", whatToDo, 11);
         //proxyprinttodiv("getexecuteobject fn whatToDo", String(window[whatToDo]), 11);
         if ((!howToDo) || (!whatToDo)) {
-            params["etstatus"] = "invalidconfig"
+            params["etstatus"] = "invalidconfig";
             targetfn = executeerror
         }
 
@@ -979,16 +983,13 @@
 
 
     exports.executeerror = window.executeerror = executeerror = function executeerror(params, callback) {
-        var err;
         var output;
-        if (!output) {
-            output = {}
-        };
+        if (!output) { output = {} }
         if (params !== undefined) {
             output["etstatus"] = params["etstatus"]
         } else {
             output["etstatus"] = "error"
-        };
+        }
         callback(output, output);
     };
 

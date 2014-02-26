@@ -57,7 +57,6 @@ if (!test_results) {
 }
 
 exports.bootprocess = bootprocess = function bootprocess() {
-    clearLocalStorage();
     if (Object.keys(config).length === 0) { setdefaultparm(); }
 
     proxyprinttodiv('Function bootprocess config', config, 1);

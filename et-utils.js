@@ -162,26 +162,20 @@ function setbyindex(obj, str, val) {
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
     console.log("<< in deepfilter >>");
     var modifiedObj = {};
-    extend(true, modifiedObj, inputObj);   
-    proxyprinttodiv("deepfilter inputObj", inputObj, 41);
-    proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41); 
+    extend(true, modifiedObj, inputObj);    
     if (dtoObjOpt) {
-        recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
-            proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
+        var result = recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
+            proxyprinttodiv("deepfilter result with dtoObjOpt", res, 99);
             callback(null, res);
         });
     } else {
-        proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
+        proxyprinttodiv("deepfilter result without dtoOBjOpt", inputObj, 99);
         callback(null, inputObj);
     }
 }
 
 function recurseModObj(inputObject,dtoObject, command, callback){
-
-    if(command && !command["command.deepfilter.convert"]){ //command undefined
-        command["command.deepfilter.convert"]=false;    //default value
-    }
-    
+    console.log("<< in recurseModObj >>");  
     var modifiedObj = {};
     
     var todolist = [];
@@ -190,87 +184,77 @@ function recurseModObj(inputObject,dtoObject, command, callback){
         todolist.push(inpKey);
         //}
     });
-    proxyprinttodiv("recurseModObj - todolist ", todolist, 41);
-    
+    //proxyprinttodiv("recurseModObj - todolist ", todolist, 99);
+
     //async.series([
         //function step1(cb1) { //step1 start
             async.mapSeries(todolist, function (inpKey, cbMap) {
                 async.nextTick(function () { 
                     var inpVal = inputObject[inpKey];
-                        proxyprinttodiv("recurseModObj - inpKey ", inpKey, 41);
-                        proxyprinttodiv("recurseModObj - inpVal ", inpVal, 41);
-                        
                     if (dtoObject.hasOwnProperty(inpKey)) {
                         var dataType = dtoObject[inpKey];
-                        proxyprinttodiv("recurseModObj - dataType ", dataType, 41);
-                
-                        
+
+                        //proxyprinttodiv("recurseModObj - inpKey ", inpKey, 99);
+                        //proxyprinttodiv("recurseModObj - inpVal ", inpVal, 99);
+                        //proxyprinttodiv("recurseModObj - dataType ", dataType, 99);
+
                         if(typeof inpVal === "string" && (dataType === "boolean" || dataType === "string" ||  dataType === "number" ||  dataType === "date")) {
-                            if(command["command.deepfilter.convert"]==false){
-                                modifiedObj[inpKey] = inpVal;
-                            }else{
-                                switch(dataType) {
-                                    case "boolean":
-                                                var convB = null;
-                                                if (inpVal == true) {
-                                                    convB = true;
-                                                } else if (inpVal == false) {
-                                                    convB = false;
-                                                };
-                                                modifiedObj[inpKey] = convB;
-                                        break;
-                                    case "string":
-                                                modifiedObj[inpKey] = String(inpVal);
-                                        break;
-                                    case "number":
-                                                modifiedObj[inpKey] = parseInt(inpVal);                            
-                                        break;
-                                    case "date":
-                                                var arrD = inpVal.split("/");
-                                                var m = arrD[0];
-                                                m = (m<38 ? '0'+m : m);
-                                                var d = arrD[1];
-                                                d = (d<38 ? '0'+d : d);
-                                                var y = arrD[2];
-                                                var date = new Date(y,m-1,d); 
-                                                // add a day
-                                                date.setDate(date.getDate() + 1);
-                                                modifiedObj[inpKey] = date;                                                       
-                                        break;
-                                }
+                            switch(dataType) {
+                                case "boolean":
+                                            var convB = null;
+                                            if (inpVal == "true") {
+                                                convB = true;
+                                            } else if (inpVal == "false") {
+                                                convB = false;
+                                            };
+                                            modifiedObj[inpKey] = convB;
+                                    break;
+                                case "string":
+                                            modifiedObj[inpKey] = String(inpVal);
+                                    break;
+                                case "number":
+                                            modifiedObj[inpKey] = parseInt(inpVal);                            
+                                    break;
+                                case "date":
+                                            var arrD = inpVal.split("/");
+                                            var m = arrD[0];
+                                            m = (m<38 ? '0'+m : m);
+                                            var d = arrD[1];
+                                            d = (d<38 ? '0'+d : d);
+                                            var y = arrD[2];
+                                            var date = new Date(y,m-1,d); 
+                                            // add a day
+                                            date.setDate(date.getDate() + 1);
+                                            modifiedObj[inpKey] = date;                                                       
+                                    break;
                             }
-                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
                             cbMap(null);
                         //} else if(typeof inpVal === "object" &&  dataType === "object") {
                         //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
                         } else if((typeof inpVal === "object")) {
-                            //proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
-                            
+                            //proxyprinttodiv("typeof inpVal (object) - ", inpVal, 99);
+
                             if (inpKey !== "metadata") {
-                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
                                 recurseModObj(inpVal,dataType,command, function (err, result) {
                                     //var modObj = recurseModObj(inpVal,dataType,command);
                                     modifiedObj[inpKey] = result;
-                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
                                     cbMap(null);
                                 });
 
                             }else{
                                 modifiedObj[inpKey] = inpVal;  
-                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] IV", modifiedObj[inpKey], 41);
                                 cbMap(null);                  
                             }
                         } else {
                             // to read wid obj via getwidmaster
                             execute({"executethis":dataType}, function (err, result) {
-                                //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
+                                //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 99);
                                 var widObj = result[0][0];
                                 if(widObj){
                                     if(widObj.hasOwnProperty(inpVal)){
                                         modifiedObj[inpKey] = inpVal;
                                     }
-                                }
-                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);                             
+                                }                               
                                 cbMap(null);
                             });
                         } /*else {
@@ -280,7 +264,6 @@ function recurseModObj(inputObject,dtoObject, command, callback){
                         }*/ 
                     } else {
                         delete modifiedObj[inpKey];
-                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
                         cbMap(null);
                     }
                 });
@@ -293,7 +276,6 @@ function recurseModObj(inputObject,dtoObject, command, callback){
         //callback(err, output);
     //});      
 }
-
 
 // logic to add things to Local storage
 exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
@@ -520,30 +502,10 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return res;
     };
 
-
-    exports.getnewwid = getnewwid = function getnewwid(parameters, callback) {
-        //potentialwid++;
-        //return String(potentialwid);
-        var executeobject = {"executethis": "getwid", "wid": "currentwid"};
-        var widvalue = 1;
-        if (parameters && parameters['widvalue']) {widvalue=parseInt(parameters['widvalue'])}
-
-        execute(executeobject, function (err, result) {
-            executeobject=result[0];
-            if(Object.keys(executeobject).length !== 0) {
-                widvalue=parseInt(executeobject['widvalue'])
-                widvalue++;
-                }
-            proxyprinttodiv("deepfilter getnewwid", widvalue, 17);
-            executeobject['widvalue']=String(widvalue)
-            executeobject['wid']="currentwid"
-            executeobject['executethis']='updatewid';
-            proxyprinttodiv("deepfilter getnewwid", executeobject, 17);
-            execute(executeobject, function (err, result) {
-                    callback(null, executeobject['widvalue']);
-            });
-        })
-    };      
+    exports.getnewwid = getnewwid = function getnewwid() {
+        potentialwid++;
+        return String(potentialwid);
+    }
 
     // Strips the numbers from hash keys. It returns 3 arrays: input list, index list, and original input list.
     // Used by addWidParameters.
@@ -631,6 +593,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
     };
 
+
         // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
     exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, defaults_object, filter_object, deleteflag) {
@@ -646,11 +609,24 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
         for (eachparm in parameters) {
             output[eachparm.toLowerCase()] = parameters[eachparm]; // first lower case each parameter
+            if (eachparm === "wid") {
+                var t = parameters[eachparm];
+                output[eachparm.toLowerCase()] = t.toLowerCase();
             }
+            if (eachparm === "metadata") {
+                var m = JSON.stringify(parameters["metadata"]);
+                output["metadata"] = JSON.parse( m.toLowerCase() ); 
+            }
+        }
 
+                
+        // if key is meta or wid lower the right side.
+        
+        
+        // adopt defaults
         if (Object.keys(defaults_object).length>0) {
             for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
-                val = defaults_object[eachparam];
+                val = (defaults_object[eachparam]); //? defaults_object[eachparam] : (defaults_object[eachparam.toLowerCase()]) ? defaults_object[eachparam].toLowerCase() : ;
                 if (isObject(val)) {
                     extend(true, output[eachparam], val)
                     }
@@ -662,9 +638,10 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 }
             }
 
+        // filters
         if (Object.keys(filter_object).length>0) {
             for (eachparam in filter_object) { // create filtered results
-                if (output[eachparam]) {
+                if (output[eachparam] || output[eachparam.toLowerCase()]) {
                     filteredobject[eachparam]=output[eachparam]
                     } // create left over object each iteration
                 if (deleteflag) {delete output[eachparam]} // delete filter parms from result
@@ -677,7 +654,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                     filteredobject : filteredobject
                 }
     }
-
 
 
     // // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
@@ -777,19 +753,17 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command, com_user) {
         var command_object={};
-        if (command) {
-            extend(true, command_object, command);
-            proxyprinttodiv('pack_up_params parameters', parameters, 97); 
-            proxyprinttodiv('pack_up_params command_object', command_object, 97);  
-            proxyprinttodiv('pack_up_params com_user', com_user, 97); 
-            if (command_object && command_object[com_user]) delete command_object[com_user];
-            proxyprinttodiv('pack_up_params command_object II', command_object, 97); 
-            if (!parameters.command) {parameters.command={}}
-            extend(true, parameters.command, command_object)
-            if (Object.keys(parameters.command).length ===0) {delete parameters.command}
-            }
-            proxyprinttodiv('pack_up_params parameters END', parameters, 97); 
-            return parameters;
+        extend(true, command_object, command);
+        proxyprinttodiv('pack_up_params parameters', parameters, 97); 
+        proxyprinttodiv('pack_up_params command_object', command_object, 97);  
+        proxyprinttodiv('pack_up_params com_user', com_user, 97); 
+        if (command_object && command_object[com_user]) delete command_object[com_user];
+        proxyprinttodiv('pack_up_params command_object II', command_object, 97); 
+        if (!parameters.command) {parameters.command={}}
+        extend(true, parameters.command, command_object)
+        //parameters["command"] = command_object["command"];
+        proxyprinttodiv('pack_up_params parameters END', parameters, 97); 
+        return parameters;
     }
 
 
@@ -1926,45 +1900,45 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         window.sift = sift;
     }
 
-	exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify (testname, parameters, assert, database, command, callback) {
-		var err;
-		var results=[];
-		var temp_config = {};
-		var c_assert = {};
-		var c_parameters = {};
+    exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify (testname, parameters, assert, database, command, callback) {
+        var err;
+        var results=[];
+        var temp_config = {};
+        var c_assert = {};
+        var c_parameters = {};
 
-		// Take a snapshot of the default config
-		extend(true, temp_config, config);
-		// Make copies of the original parameters and assert
-		extend(true, c_parameters, parameters);
-		extend(true, c_assert, assert);
+        // Take a snapshot of the default config
+        extend(true, temp_config, config);
+        // Make copies of the original parameters and assert
+        extend(true, c_parameters, parameters);
+        extend(true, c_assert, assert);
 
-		// Call test_and_verify with the config parameters in the parameters
-		test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
-			// Add res to return data
-			results.push(res);
-			
-			// Add the config parameters to the default config
-			extend(true, config.configuration, parameters["configuration"]);
+        // Call test_and_verify with the config parameters in the parameters
+        test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
+            // Add res to return data
+            results.push(res);
 
-			// Reload c_parameters and delete the config
-			c_parameters = extend(true, {}, parameters);
-			delete c_parameters["configuration"];
+            // Add the config parameters to the default config
+            extend(true, config.configuration, parameters["configuration"]);
 
-			// Reload the assertion and delete the config
-			c_assert = extend(true, {}, assert);
-			delete c_assert[0]["configuration"];
+            // Reload c_parameters and delete the config
+            c_parameters = extend(true, {}, parameters);
+            delete c_parameters["configuration"];
 
-			// Call test_and_verify with c_ verion -- actual config changed
-			test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
-				// Add res to return data
-				results.push(res_2);
-				// Set the config back to normal
-				config = extend(true, {}, temp_config);
-				callback (err, results);
-			});
-		});
-	}
+            // Reload the assertion and delete the config
+            c_assert = extend(true, {}, assert);
+            delete c_assert[0]["configuration"];
+
+            // Call test_and_verify with c_ verion -- actual config changed
+            test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
+                // Add res to return data
+                results.push(res_2);
+                // Set the config back to normal
+                config = extend(true, {}, temp_config);
+                callback (err, results);
+            });
+        });
+    }
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
         testclearstorage();
