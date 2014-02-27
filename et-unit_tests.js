@@ -2628,6 +2628,92 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         });
 }
 
+// Test for supporting jsononetomany
+// *** warning clear local storage ***
+// 2/26/2014 -et-add - small amount of changes added today, ag5 is now makking it all the way through 
+// Major fix was making sure relationship was passed in correctly, bracket was also missing on else in addwid
+// Next step will be to add array processing to update wid
+// 2/27/2014
+// Goal for ag5's return
+// [ { 
+//     "title" : "Highway to Hell",
+//     "sounddto.0.note" : "A flat",
+//     "sounddto.0.wid" : "2",
+//     "sounddto.0.metadata.method" : "sounddto",
+//     "sounddto.1.note" : "B sharp",
+//     "sounddto.1.wid" : "4",
+//     "sounddto.1.metadata.method" : "sounddto",
+//     "sounddto.2.note" : "C flat",
+//     "sounddto.2.wid" : "6",
+//     "sounddto.2.metadata.method" : "sounddto",
+//     "wid" : "song1",
+//     "metadata.method" : "songdto"
+// } ]
+
+exports.ettestag5 = ettestag5 = function ettestag5(params, callback) {
+    clearLocalStorage();
+    addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
+    addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
+
+    //debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "Songdto",
+            "metadata.method": "Songdto",
+            "title": "string",
+            "metadata.sounddto.type": "jsononetomany",
+            "sounddto.[0].wid": "sounddto",
+            "sounddto.[0].metadata.method": "sounddto",
+            "sounddto.[0].note": "string"
+      }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "Songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+      }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "Songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
+      }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "Songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "C flat"
+      }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+      }],
+      function (err, res) {
+            proxyprinttodiv('Function ag5 result Full res', res, 99);
+            proxyprinttodiv('Function ag5 result ', res[4], 99);
+
+            res = logverify("ettestag5_result", res[4], [{
+                "title": "Highway to Hell",
+                "wid": "song1",
+                "metadata.method": "songdto",
+                "sounddto.0.note": "A flat",
+                "sounddto.0.wid": "2",
+                "sounddto.0.metadata.method": "sounddto",
+                "sounddto.1.note": "B sharp",
+                "sounddto.1.wid": "4",
+                "sounddto.1.metadata.method": "sounddto",
+                "sounddto.2.note": "C flat",
+                "sounddto.2.wid": "6",
+                "sounddto.2.metadata.method": "sounddto"
+            }]);
+ 
+            execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
+                  "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
+                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
+                  callback(err, res); 
+            });
+        });
+}
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
