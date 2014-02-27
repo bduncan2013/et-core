@@ -12,7 +12,7 @@
 
 
 (function (window) {
-     // {"executefilter" : {"query":{"$eq":{"type":"minute"}}}}
+    // {"executefilter" : {"query":{"$eq":{"type":"minute"}}}}
     exports.filter1 = filter1 = function filter1(params, callback) {
         debuglevel = 37;
         debugname = "";
@@ -34,48 +34,57 @@
             "metadata.method": "ttdto2",
             "type": "string"
         }];
-        execute({"executethis":executeList,"executefilter" : {"query":{"$eq":{"type":"minute"}}}}, function (err, res) {
+        execute({
+            "executethis": executeList,
+            "executefilter": {
+                "query": {
+                    "$eq": {
+                        "type": "minute"
+                    }
+                }
+            }
+        }, function (err, res) {
             proxyprinttodiv('Function filter1 added  ttdto -- ', res, 37);
             callback(null);
         });
     }
-	
-	exports.test999 = test999 = function test999() {
-		debuglevel = 38;
 
-		execute([{
-                    "executethis":"addwidmaster",
-					"wid":"authordto",
-					"name": "string",
-                    "metadata.method": "authordto",
-                    "metadata.bookdto.type": "onetomany",
-					"bookdto.wid": "bookdto",
-					"bookdto.title":"string",
-					"bookdto.metadata.method":"bookdto"
-                },{
-                    "executethis":"addwidmaster",
-					"wid":"marysue",
-					"metadata.method": "authordto",
-					"name": "Mary Sue",
-					"bookdto.title":"Haunted Mansions"
-                },{
-                    "executethis":"getwidmaster",
-					"wid":"marysue"
+    exports.test999 = test999 = function test999() {
+        debuglevel = 38;
+
+        execute([{
+                "executethis": "addwidmaster",
+                "wid": "authordto",
+                "name": "string",
+                "metadata.method": "authordto",
+                "metadata.bookdto.type": "onetomany",
+                "bookdto.wid": "bookdto",
+                "bookdto.title": "string",
+                "bookdto.metadata.method": "bookdto"
+            }, {
+                "executethis": "addwidmaster",
+                "wid": "marysue",
+                "metadata.method": "authordto",
+                "name": "Mary Sue",
+                "bookdto.title": "Haunted Mansions"
+            }, {
+                "executethis": "getwidmaster",
+                "wid": "marysue"
             }],
             function (err, res) {
                 proxyprinttodiv('getwidmaster of marysue ', res, 99);
-                }
-            );
-	}
-            // "executethis": "addwidmaster",
-            // "wid": "songdto",
-            // "metadata.method": "songdto",
-            // "title": "string",
-            // "metadata.sounddto.type": "onetomany",
-            // "sounddto.wid": "sounddto",
-            // "sounddto.metadata.method": "sounddto",
-            // "sounddto.note": "string"
-	
+            }
+        );
+    }
+    // "executethis": "addwidmaster",
+    // "wid": "songdto",
+    // "metadata.method": "songdto",
+    // "title": "string",
+    // "metadata.sounddto.type": "onetomany",
+    // "sounddto.wid": "sounddto",
+    // "sounddto.metadata.method": "sounddto",
+    // "sounddto.note": "string"
+
     exports.test1000 = test1000 = function test1000(parm, callback) {
 
         // create users
@@ -91,31 +100,37 @@
         // debugcat = "";
         // debugsubcat = "code";
         async.series([
-				function (cb1) {
+                function (cb1) {
                     createtestuser("rogeruser0", "rogerac0", 99, function (err, res) {
                         cb1(null);
                     });
                 },
-				function (cb1) {
-					//alert('Entering execution phase...');
-					execute({"executethis":"addwidmaster",
-					"wid":"rogeruser0",
-					"metadata.method": "userdto",
-					"systemdto.permissiondto.granteegroup": "coduser1",
-					"systemdto.permissiondto.actiongroup": "createcoupon0",
-					"systemdto.permissiondto.dbgroup": "data",
-					"systemdto.permissiondto.levelgroup": "99"}, function (err, res) {
+                function (cb1) {
+                    //alert('Entering execution phase...');
+                    execute({
+                        "executethis": "addwidmaster",
+                        "wid": "rogeruser0",
+                        "metadata.method": "userdto",
+                        "systemdto.permissiondto.granteegroup": "coduser1",
+                        "systemdto.permissiondto.actiongroup": "createcoupon0",
+                        "systemdto.permissiondto.dbgroup": "data",
+                        "systemdto.permissiondto.levelgroup": "99"
+                    }, function (err, res) {
                         proxyprinttodiv('added permissions to rogeruser0 >>>>>> ', res, 99);
                         cb1(null);
                     });
-				},
+                },
                 function (cb1) {
-                    execute({"executethis":"getwidmaster", "wid":"systemdto", "metadata.method":"systemdto"}, function (err, res) {
-                        proxyprinttodiv('I got this ', res, 99);
+                    execute({
+                        "executethis": "getwidmaster",
+                        "wid": "systemdto",
+                        "metadata.method": "systemdto"
+                    }, function (err, res) {
+                        proxyprinttodiv('getwidmaster on systemdto ', res, 99);
                         cb1(null);
                     });
                 },
-				/*
+
                 function (cb1) {
                     createtestuser("codyuser0", "codyac0", 99, function (err, res) {
                         cb1(null);
@@ -132,7 +147,7 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser0","userdto", "driemployeegroup0", function (err, res) {
+                    addgrouptowid("codyuser0", "userdto", "driemployeegroup0", function (err, res) {
                         cb1(null);
 
                     });
@@ -148,7 +163,7 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("anything0","userdto", "createcoupon0", function (err, res) {
+                    addgrouptowid("anything0", "userdto", "createcoupon0", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -158,7 +173,7 @@
                         cb1(null);
                     });
                 }
-				*/
+
             ],
             function (err, res) {
                 console.log('created testdata for test1000 --  ' + JSON.stringify(status));
@@ -262,7 +277,7 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser3","userdto", "driemployeesgroup3", function (err, res) {
+                    addgrouptowid("codyuser3", "userdto", "driemployeesgroup3", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -314,17 +329,17 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("billuser4","userdto", "drimanagersgroup4", function (err, res) {
+                    addgrouptowid("billuser4", "userdto", "drimanagersgroup4", function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("rogeruser4","userdto", "drimanagersgroup4", function (err, res) {
+                    addgrouptowid("rogeruser4", "userdto", "drimanagersgroup4", function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("drimanagersgroup4","groupnamedto", "driemployeesgroup4", function (err, res) {
+                    addgrouptowid("drimanagersgroup4", "groupnamedto", "driemployeesgroup4", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -366,7 +381,7 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser5","userdto", "driemployeesgroup5", function (err, res) {
+                    addgrouptowid("codyuser5", "userdto", "driemployeesgroup5", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -413,17 +428,17 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser6","userdto", "driemployeesgroup6", function (err, res) {
+                    addgrouptowid("codyuser6", "userdto", "driemployeesgroup6", function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("billuser6","userdto", "drimanagersgroup6", function (err, res) {
+                    addgrouptowid("billuser6", "userdto", "drimanagersgroup6", function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("rogeruser6","userdto", "drimanagersgroup6", function (err, res) {
+                    addgrouptowid("rogeruser6", "userdto", "drimanagersgroup6", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -467,13 +482,13 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser7","userdto", "driemployees7", function (err, res) {
+                    addgrouptowid("codyuser7", "userdto", "driemployees7", function (err, res) {
                         cb1(null);
                     });
                 },
 
                 function (cb1) {
-                    addgrouptowid("driemployees7","groupnamedto", "driusers7", function (err, res) {
+                    addgrouptowid("driemployees7", "groupnamedto", "driusers7", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -520,13 +535,13 @@
                     });
                 },
                 function (cb1) {
-                    addgrouptowid("codyuser8","userdto", "driemployees8", function (err, res) {
+                    addgrouptowid("codyuser8", "userdto", "driemployees8", function (err, res) {
                         cb1(null);
                     });
                 },
 
                 function (cb1) {
-                    addgrouptowid("driemployees8","groupnamedto", "driusers8", function (err, res) {
+                    addgrouptowid("driemployees8", "groupnamedto", "driusers8", function (err, res) {
                         cb1(null);
                     });
                 },
@@ -756,27 +771,41 @@
 
     // Cody is added to driusergrp1. Roger gives driusergrp1 permission to execute createcoupon. Cody's loginlevel is only 49, which is less than 50. Cody can't proceed.
     exports.ctest6 = ctest6 = function ctest6(parm, callback) {
+        debuglevel = 34;
+
         var executeList = [
             function (cb1) {
-                createtestuser("rogerboss", "rogerac", "99", cb1);
-            },
+                createtestuser("rogerboss", "rogerac", "99", function (err, res) {
+                    cb1(null);
+                });
+                // },
 
-            function (cb1) {
-                createtestuser("codyuser", "codyac", "49", cb1)
-            },
+                // function (cb1) {
+                //     createtestuser("codyuser", "codyac", "49", function(err, res){
+                //         cb1(null);
+                //     });
+                // },
 
-            function (cb1) { // add codyuser to the driusergrp
-                addgrouptowid("codyuser", "userdto", "driusergrp1", cb1);
-            },
-            function (cb1) {
-                creategroup("driusergrp1", cb1);
-            },
-            function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
-                addpermission("rogerboss", "driusergrp1", "createcoupon","data",  "99", cb1);
-            },
+                // function (cb1) { // add codyuser to the driusergrp
+                //     addgrouptowid("codyuser", "userdto", "driusergrp1", function(err, res){
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     creategroup("driusergrp1", function(err, res){
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
+                //     addpermission("rogerboss", "driusergrp1", "createcoupon","data",  "99", function(err, res){
+                //         cb1(null);
+                //     });
+                // },
 
-            function (cb1) {
-                securitycheck("codyac", "executethis", "createcoupon", "test", false, cb1);
+                // function (cb1) {
+                //     securitycheck("codyac", "executethis", "createcoupon", "test", false, function(err, res){
+                //         cb1(null);
+                //     });
             }
         ];
 
@@ -797,16 +826,16 @@
         debugsubcat = "code";
         async.series([
                 function (cb1) {
-                    addgrouptowid("rogeruser","userdto", "driemployeegroup", function (err, res) {
+                    addgrouptowid("rogeruser", "userdto", "driemployeegroup", function (err, res) {
                         cb1(null);
 
                     });
-                // },
-                // function (cb1) {
-                //     addgrouptowid("codyuser0","userdto", "driemployeegroup0", function (err, res) {
-                //         cb1(null);
+                    // },
+                    // function (cb1) {
+                    //     addgrouptowid("codyuser0","userdto", "driemployeegroup0", function (err, res) {
+                    //         cb1(null);
 
-                //     });
+                    //     });
                 }
             ],
             function (err, res) {
@@ -821,6 +850,7 @@
 
     // creates test data for different tests to be run :: generates data and adds a new user 
     exports.createtestuser = createtestuser = function createtestuser(userwid, ac, loginlevel, cb2) {
+
         execute([{
                 // add user 
                 "executethis": "addwidmaster",
@@ -864,7 +894,7 @@
             });
     }
 
-        // takes in needed details and does a security check on the basis of data received against the DB data received
+    // takes in needed details and does a security check on the basis of data received against the DB data received
     // user is identified by the access token
     // db says which DB to be used
     // actiongroup says the type of wid the action is being tried upon
@@ -875,6 +905,8 @@
             callback(err, res)
         });
     }
+
+
 
 
 })(typeof window == "undefined" ? global : window);

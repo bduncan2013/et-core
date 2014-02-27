@@ -10,7 +10,7 @@
         parameters["IAMALIVE"] = "hello";
         proxyprinttodiv('testquery parameters', parameters, true);
         return parameters;
-    };
+    }
 
     //Starting of querywid function...formerly MongoDataQuery
     //exports.querywid = querywid = function (parameters,target,callback) {
@@ -53,15 +53,16 @@
         var ListOfLists = [];
         var queryresults = {};
         var wid;
+        var output;
         var environmentdb;
         var convertmethod = commandParams['command.convertmethod'];
         var extraparameters = {};
         //proxyprinttodiv('querywid convertmethod', convertmethod, 99);
         //proxyprinttodiv('querywid commandParams', commandParams, 99);
         if (commandParams["db"]) {
-            environmentdb = commandParams["db"];
+            environmentdb = commandParams["db"]
         } else {
-            environmentdb = "data";
+            environmentdb = "data"
         }
 
 
@@ -99,8 +100,8 @@
             var resultObj = {};
             var vargroup;
             if (!varlist) {
-                for (var eachvar in allvars) {
-                    varlist.push(eachvar);
+                for (var eachgroup in allvars) {
+                    varlist.push(eachgroup);
                 }
             }
 
@@ -311,7 +312,8 @@
                             });
                         } else if (queParams && queParams['mongorawquery'] !== undefined) {
                             console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
-                            mQueryString = queParams['mongorawquery'];
+                            var mQuery = queParams['mongorawquery'];
+                            mQueryString = mQuery;
                             console.log('mQueryString at step01 => ' + JSON.stringify(mQueryString));
                             debugfn("querywid before mQueryString1", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
                             proxyprinttodiv('querywid mQueryString second', mQueryString, 28);
@@ -345,8 +347,8 @@
                             output = formatlist(output, "wid", "wid", environmentdb);
                             proxyprinttodiv('querywid output before mongowid', output, 28);
                             if (output === JSON.stringify([{}])) {
-                                output = [];
-                            }
+                                output = []
+                            };
 
                             output.push({
                                 'wid': queParams['mongowid']
@@ -368,8 +370,8 @@
 
                         if (Object.keys(relParams).length > 0 && Object.keys(output).length > 0) {
                             if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
-                                output = formatlist(output, "wid", "wid", environmentdb);
-                            }
+                                output = formatlist(output, "wid", "wid", environmentdb)
+                            };
                             debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
 
                             proxyprinttodiv('querywid output before rel', output, 28);
@@ -417,7 +419,7 @@
 
                         // console.log('[[[[[[[[[[[[[[[[[[[[[[\n' + JSON.stringify(relafterParams, '-', 4));
                         var flg = false;
-                        for (var r in relafterParams) {
+                        for (r in relafterParams) {
                             if (relafterParams[r].length > 0) flg = true;
                         }
 
@@ -455,22 +457,23 @@
 
                     proxyprinttodiv('querywid before output', output, 28);
 
-                    formatListFinal(output, environmentdb, convertmethod, extraparameters, function (err, output) {
-                        proxyprinttodiv('querywid after output', output, 28);
+                    output = formatListFinal(output, environmentdb, convertmethod, extraparameters);
 
-                        // ToDot -- should remove "data"
-                        // -- V1 --
+                    proxyprinttodiv('querywid after output', output, 28);
 
-                        debugfn("querywid code generator", "querywid", "get", "code", 2, 1, {
-                            0: inbound_parameters,
-                            1: output
-                        }, 6);
+                    // ToDot -- should remove "data"
+                    // -- V1 --
 
-                        callback(err, output);
-                    });
+                    debugfn("querywid code generator", "querywid", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: output
+                    }, 6);
+
+                    callback(err, output);
                 });
         }
-    };
+        //};
+    }
 
     //
     //    // Aggregation Section **********
@@ -542,10 +545,12 @@
     //     if parmnamein = "" then entire envrionendb (entire record will be sent)
 
     function copylist(inlist, parmnamein, parmnameout, environmentdb) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var widvalue;
         var item;
+        var i;
         var obj = {};
         var wid = {};
 
@@ -557,7 +562,7 @@
 
             proxyprinttodiv('querywid copylist parmnameout ', parmnameout, 28);
             proxyprinttodiv('querywid copylist parmnamein ', parmnamein, 28);
-            for (var i in inlist) { // changed by roger &&&
+            for (i in inlist) { // changed by roger &&&
                 item = inlist[i];
 
                 item = ConvertFromDOTdri(item);
@@ -591,11 +596,13 @@
     }
 
     function formatlist(inlist, parmnamein, parmnameout, environmentdb) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var output = [];
         var widvalue;
         var item;
+        var i;
         var obj = {};
         var wid = {};
 
@@ -605,7 +612,7 @@
             proxyprinttodiv('querywid formatlist inlist ', inlist, 28);
 
 
-            for (var i in inlist) { // changed by roger &&&
+            for (i in inlist) { // changed by roger &&&
                 item = inlist[i];
 
                 item = ConvertFromDOTdri(item);
@@ -636,7 +643,7 @@
                 if (parmnameout === "wid") {
                     output.push(obj); // [{x:{}}, {x:{}}, {x:{}}]
                 } else {
-                    output[widvalue] = obj[widvalue];
+                    output[widvalue] = obj[widvalue]
                     //[x:{}, x:{}, x:{}] 
                 }
 
@@ -655,101 +662,65 @@
     // takes inlist, looks for wid, then goes to main database to get a get clean complete converted copy of that wid
     // also looks in extra paramters, append information found about that wid to results also
 
-    function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, callback) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+    function formatListFinal(inlist, environmentdb, convertmethod, extraparameters) {
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var output = [];
         var keycollection = "DRIKEY";
         var keydatabase = {};
+        var output = [];
         var database = {};
         var record;
+        var eachresult;
         var widrecord;
         var extrarecord = {};
-        var todolist = [];
 
         if (inlist === undefined || inlist.length === 0) {
-            callback({}, []);
+            return [];
         } else {
 
-            //keydatabase = getFromLocalStorage(keycollection);
+            keydatabase = getFromLocalStorage(keycollection);
 
             proxyprinttodiv('querywid finalformatlist inlist ', inlist, 28);
             proxyprinttodiv('querywid finalformatlist extraparameters ', extraparameters, 28);
-            for (var eachresult in inlist) {
-                todolist.push(inlist[eachresult]["wid"])
+            for (eachresult in inlist) {
+                record = {};
+                wid = inlist[eachresult]["wid"];
+                proxyprinttodiv('querywid finalformatlist wid ', wid, 28);
+                proxyprinttodiv('querywid finalformatlist keydatabase[wid] ', keydatabase[wid], 28);
+
+                widrecord = keydatabase[wid];
+                extrarecord[environmentdb] = extraparameters[wid]
+
+                proxyprinttodiv('querywid finalformatlist widrecord', convertfromdriformat(widrecord), 99);
+                proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
+                widrecord = extend(true, widrecord, extrarecord);
+                proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 28);
+
+                if (convertmethod === "toobject") {
+                    record[wid] = widrecord;
+                } else {
+                    record[wid] = convertfromdriformat(widrecord);
+                }
+                output.push(record);
             }
 
-            async.mapSeries(todolist, function (wid, cbMap) {
-                async.nextTick(function () {
-                    record = {};
-                    proxyprinttodiv('querywid finalformatlist wid ', wid, 28);
-                    execute({
-                        'executethis': 'getwid',
-                        'wid': wid
-                    }, function (err, widrecord) {
-                        //widrecord = keydatabase[wid];
-
-
-                        // ***** fix widrecord here
-                        proxyprinttodiv('querywid finalformatlist widrecord ', widrecord, 28);
-                        var widrecordFixed = {};
-                        widrecordFixed['data'] = widrecord[0];
-                        widrecordFixed['metadata'] = widrecord[0]['metadata'];
-                        widrecordFixed['wid'] = widrecord[0]['wid'];
-                        extrarecord[environmentdb] = extraparameters[wid];
-                        delete widrecord[0]['wid'];
-                        delete widrecord[0]['metadata'];
-                        widrecord = widrecordFixed;
-
-
-                        proxyprinttodiv('querywid finalformatlist widrecord', convertfromdriformat(widrecord), 28);
-                        proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
-                        widrecord = extend(true, widrecord, extrarecord);
-                        proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 28);
-
-                        if (convertmethod === "toobject") {
-                            record[wid] = widrecord;
-                        } else {
-                            record[wid] = convertfromdriformat(widrecord);
-                        }
-                        output.push(record);
-
-
-
-                        // var json = {};
-                        // json['data'] = widrecord[0];
-                        // json['metadata'] = widrecord[0]['metadata'];
-                        // json['wid'] = widrecord[0]['wid'];
-                        // extrarecord[environmentdb] = extraparameters[wid]
-                        // proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
-                        // extend(true, json, extrarecord);
-                        // delete widrecord[0]['wid'];
-                        // delete widrecord[0]['metadata'];
-
-                        // if (convertmethod === "toobject") {
-                        //     record = json;
-                        // } else {
-                        //     record = convertfromdriformat(json);
-                        // }
-                        // proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 99);
-                        // proxyprinttodiv('querywid finalformatlist record', json, 99);
-
-                        // output.push(json);
-                        cbMap(null)
-                    })
-                }); // next tick
-            }, function (err, res) {
-                proxyprinttodiv('querywid finalformatlist output', output, 28);
-                callback({}, output)
-            }); // mapseries
-        } // if
+            debugfn("formatListFinal code generator", "formatListFinal", "get", "code", 2, 1, {
+                0: inbound_parameters,
+                1: output
+            }, 6);
+            proxyprinttodiv('querywid finalformatlist output ', output, 28);
+            return output
+        }
     }
 
     //in: key, value, preamble 
     //out STRING: {preamble.key: value}
 
     function BuildSimpleQuery(key, value, preamble) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var result;
         //buildsimplequery, text in and out
@@ -772,7 +743,8 @@
     // will create a string query based on outerquerytype
 
     function BuildSingleQuery(parameters, outerquerytype, preamble) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         if (!(parameters instanceof Array)) {
             var arr = [];
@@ -780,6 +752,7 @@
             parameters = arr;
         }
         proxyprinttodiv('querywid BuildSingleQuery parameters', parameters, 28);
+        var key;
         var parmarray = [];
         // buildsinglequery, (parameters, outerquerytype, preamble) 
         // parameters can be list [{}]
@@ -787,8 +760,8 @@
         // inside needs to be simple parameters a: b, c: d
         var returnString;
         if (!outerquerytype) {
-            outerquerytype = "or";
-        } // default if not sent in
+            outerquerytype = "or"
+        }; // default if not sent in
         // parameters can be [{a:b, c:d, e:f}] or {a:b, c:d, e:f}
         // if [] then remove []
 
@@ -828,8 +801,8 @@
                 }
             }
         } else {
-            for (var p in parameters) {
-                returnString += BuildSimpleQuery(p, parameters[p], preamble);
+            for (key in parameters) {
+                returnString += BuildSimpleQuery(key, parameters[key], preamble);
                 if (returnString.lastIndexOf(',') !== (returnString.length - 1)) {
                     returnString += ",";
                 }
@@ -857,7 +830,8 @@
     // will create a string query based on outerquerytype
 
     function BuildMultipleQuery(listofparameters, outerquerytype, innerquerytype, preamble) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         //buildmultiplequery (listofparameters, outerquerytype, innerquerytype, preamble)
         //list of parameters must be list: [{}, [], [], {}]
@@ -865,11 +839,11 @@
         var returnString = "";
         var parameters;
         if (!outerquerytype) {
-            outerquerytype = "and";
-        } // default if not sent in
+            outerquerytype = "and"
+        }; // default if not sent in
         if (!innerquerytype) {
-            innerquerytype = "or";
-        } // default if not sent in
+            innerquerytype = "or"
+        }; // default if not sent in
 
         var listofparametersCount = listofparameters.length;
         if (listofparametersCount == 0) return;
@@ -884,9 +858,9 @@
         // Iterate through the params from each wid to get the $or groups built
         //for (var i = 0; i < listofparametersCount; i++) {
         //    if (listofparameters[i].length != 0) {
-        for (var i in listofparameters) {
+        for (i in listofparameters) {
             // jan 22
-            parameters = listofparameters[i];
+            parameters = listofparameters[i]
             //            if (parameters instanceof Array) {
             //                parameters = parameters[0]
             //            };
@@ -955,7 +929,8 @@
     // }
 
     function queryafterrelationship(parameters, set2) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var set1 = [];
         var set3 = [];
@@ -980,15 +955,16 @@
     // Starting of relationShipQuery function
 
     function relationShipQuery(inputParameters, input, environmentdb) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         proxyprinttodiv('Function relationShipQuery() Constant input : ', parameters);
         var output = {};
         // TODO: added this quick to clone, needs to use extend
         var parameters = JSON.parse(JSON.stringify(inputParameters));
         if (!environmentdb) {
-            environmentdb = "data";
-        }
+            environmentdb = "data"
+        };
         environmentdb = environmentdb + '.';
 
         // Simply checking to make sure all the data is here
@@ -1025,17 +1001,16 @@
         var queryset = [];
         //for(var i = 0;i < input.length; i++){
         for (var i in input) { // &&& change by roger
-            if (input.hasOwnProperty(i)) {
-                var q1 = {};
-                var val = input[i]['wid'];
-                if (direction === 'forward') {
-                    q1[environmentdb + "primarywid"] = val;
-                } else {
-                    q1[environmentdb + "secondarywid"] = val;
-                    // q1= {environmentdb+"secondarywid": input[i]['wid']}
-                }
-                queryset.push(q1);
+            var q1 = {};
+            var val = input[i]['wid'];
+            var key;
+            if (direction === 'forward') {
+                q1[environmentdb + "primarywid"] = val;
+            } else {
+                q1[environmentdb + "secondarywid"] = val;
+                // q1= {environmentdb+"secondarywid": input[i]['wid']}    
             }
+            queryset.push(q1);
         }
 
 
@@ -1049,14 +1024,14 @@
             q2[environmentdb + "relationshiptype"] = type;
             queryset.push(q2);
         }
-        querystring = BuildMultipleQuery(queryset, "and", "or", null);
+        querystring = BuildMultipleQuery(queryset, "and", "or", null)
 
         debugfn("relationShipQuery code generator", "relationShipQuery", "get", "code", 2, 1, {
             0: inbound_parameters,
             1: querystring
         }, 6);
 
-        return querystring;
+        return querystring
     }
 
     //     var parametersCount = countKeys(input);
@@ -1141,7 +1116,8 @@
 
 
     function aggregationQuery(parameters) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var mongoAggregation = ""; // String
         var query;
@@ -1164,7 +1140,7 @@
         // Pull out widnames anb build aggregate string
         var originalQuery = "{\"$match\":{\"wid\":{\"$in\":[";
         // Build the array to match records in.
-        for (var p in parameters) {
+        for (p in parameters) {
             originalQuery += " 'wid':'" + p + "',";
         }
         // Strip off the last comma and close the string
@@ -1191,7 +1167,8 @@
     // is a result of implenting DRI type functions in stages to apply to mongo.
 
     function addonQuery(parameters) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = {};
+        inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var returnValues = {};
 
@@ -1205,7 +1182,7 @@
         var mongoReturnCount = ""; // String
         var mongoExplain = ""; // String
         var mongoSize = ""; // String
-        var mongoRelationshipMethod = "all";
+        var mongoRelationshipMethod = "all"
 
         if (isParameterLower(parameters, "mongosetlimit")) {
             mongoSetLimit = parameters["mongosetlimit"];
@@ -1245,9 +1222,9 @@
         var defaultSortOrder = (mongoSetSortOrder == "") ? "ascending" : mongoSetSortOrder;
         var defaultSetMax = (mongoSetMax == "") ? 282828289 : parseInt(mongoSetMax);
         var defaultHint = (mongoSetHint == "") ? "_id" : mongoSetHint;
-        var defaultCount = (mongoReturnCount != "");
-        var defaultExplain = (mongoExplain != "");
-        var defaultSize = (mongoSize != "");
+        var defaultCount = (mongoReturnCount == "") ? false : true;
+        var defaultExplain = (mongoExplain == "") ? false : true;
+        var defaultSize = (mongoSize == "") ? false : true;
 
         var defaultFieldsInclude = "";
         if (isParameterLower(parameters, "mongosetfieldsinclude")) {
@@ -1288,13 +1265,12 @@
         // Ascending Section
         var mycursor = "";
         if (defaultSortOrder != "descending") {
-            var key, value;
             // Count ignores the limit or skip, so it will return all the matching records.count regardless of limit or skip.
             if (defaultCount) {
                 // LM: ?
                 //returnValues.length = 0;
-                key = "Number of documents found is";
-                value = "";
+                var key = "Number of documents found is";
+                var value = "";
                 value += "defaultFieldsInclude: '" + defaultFieldsInclude + "' , ";
                 value += "defaultFieldsExclude: '" + defaultFieldsExclude + "' , ";
                 value += "defaultHint: '" + defaultHint + "' , ";
@@ -1307,8 +1283,8 @@
             if (defaultExplain) {
                 // LM: ?
                 //returnValues.length = 0;
-                key = "The query statistics are as follows";
-                value = "";
+                var key = "The query statistics are as follows";
+                var value = "";
                 value += "defaultFieldsInclude: '" + defaultFieldsInclude + "' , ";
                 value += "defaultFieldsExclude: '" + defaultFieldsExclude + "' , ";
                 value += "defaultHint: '" + defaultHint + "' , ";
@@ -1321,8 +1297,8 @@
             if (defaultSize) {
                 // LM: ?
                 //returnValues.length = 0;
-                key = "Number of documents found is";
-                value = "";
+                var key = "Number of documents found is";
+                var value = "";
                 value += "defaultFieldsInclude: '" + defaultFieldsInclude + "' , ";
                 value += "defaultFieldsExclude: '" + defaultFieldsExclude + "' , ";
                 value += "defaultHint: '" + defaultHint + "' , ";
@@ -1334,7 +1310,7 @@
             }
 
             if (!defaultCount && !defaultExplain && !defaultSize) {
-                value = "";
+                var value = "";
                 value += "defaultFieldsInclude: '" + defaultFieldsInclude + "' , ";
                 value += "defaultFieldsExclude: '" + defaultFieldsExclude + "' , ";
                 value += "defaultHint: '" + defaultHint + "' , ";
@@ -1348,8 +1324,8 @@
             if (defaultCount) {
                 // LM: ?
                 //returnValues.length = 0;
-                key = "Number of documents found is";
-                value = "";
+                var key = "Number of documents found is";
+                var value = "";
                 value += "defaultFieldsInclude: '" + defaultFieldsInclude + "' , ";
                 value += "defaultFieldsExclude: '" + defaultFieldsExclude + "' , ";
                 value += "defaultHint: '" + defaultHint + "' , ";
@@ -1362,8 +1338,8 @@
             if (defaultExplain) {
                 // LM: ?
                 //returnValues.length = 0;
-                key = "The query statistics are as follows";
-                value = "";
+                var key = "The query statistics are as follows";
+                var value = "";
                 value += "defaultFieldsInclude: '" + defaultFieldsInclude + "' , ";
                 value += "defaultFieldsExclude: '" + defaultFieldsExclude + "' , ";
                 value += "defaultHint: '" + defaultHint + "' , ";
@@ -1376,8 +1352,8 @@
             if (defaultSize) {
                 // LM: ?
                 //returnValues.length = 0;
-                key = "Number of documents found is";
-                value = "";
+                var key = "Number of documents found is";
+                var value = "";
                 value += "defaultFieldsInclude: '" + defaultFieldsInclude + "' , ";
                 value += "defaultFieldsExclude: '" + defaultFieldsExclude + "' , ";
                 value += "defaultHint: '" + defaultHint + "' , ";
@@ -1390,7 +1366,7 @@
             // The count, explain, and size are all calls that don't return records...
             // So don't use mycursor to get the records if you don't want them
             if (!defaultCount && !defaultExplain && !defaultSize) {
-                value = parameters["query"] + ",";
+                var value = parameters["query"] + ",";
                 value += "defaultFieldsInclude: '" + defaultFieldsInclude + "' , ";
                 value += "defaultFieldsExclude: '" + defaultFieldsExclude + "' , ";
                 value += "defaultHint: '" + defaultHint + "' , ";
@@ -1451,6 +1427,8 @@
             "mongoreturncount": "",
             "mongoexplain": "",
             "mongosize": "",
+            "mongosetsortorder": "",
+            "mongosetsortorder": "",
             "mongosetsortorder": ""
         }, false);
         p[3] = filter_data.filteredobject;
@@ -1480,6 +1458,8 @@
             "mongoreturncount": "",
             "mongoexplain": "",
             "mongosize": "",
+            "mongosetsortorder": "",
+            "mongosetsortorder": "",
             "mongosetsortorder": "",
             "mongowidmethod": "",
             "command.db": "",

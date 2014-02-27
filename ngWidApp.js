@@ -13,13 +13,11 @@ if (typeof angular !== 'undefined') {
                 ? obj.wid
                 : undefined;
 
-            if (thisWid) {
-                if (typeof scope[thisWid] === 'undefined') {
-                    console.log('********************************************');
-                    console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
-                    console.log(obj);
-                    console.log('********************************************');
-                }
+            if (thisWid && typeof scope[thisWid] === 'undefined') {
+                console.log('********************************************');
+                console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
+                console.log(obj);
+                console.log('********************************************');
 
                 scope[thisWid] = obj;
             }
@@ -53,14 +51,6 @@ if (typeof angular !== 'undefined') {
                         }
                     }
                 }
-            },
-
-            compileWithScope: function(whatToCompile) {
-                var scope = $('body').scope();
-                scope.$apply(function() {
-                    $compile(whatToCompile)(scope);
-                });
-
             },
 
             user: {
@@ -117,12 +107,13 @@ if (typeof angular !== 'undefined') {
                                     }
                                 }
 
-                                dataService.storeData(resultArray[x][i], scope);
-
                                 // check if this is a screenwid and needs to be displayed
                                 if (resultArray[x][i].html) {
+                                    helper.processHtml(resultArray[x][i]);
                                     etProcessScreenWid(resultArray[x][i]);
                                 }
+
+                                dataService.storeData(resultArray[x][i], scope);
                             }
                         } else {
                             // if not logged in at this point send browser to login.html
@@ -132,12 +123,13 @@ if (typeof angular !== 'undefined') {
                                 }
                             }
 
-                            dataService.storeData(resultArray[x], scope);
-
                             // check if this is a screenwid and needs to be displayed
                             if (resultArray[x].html) {
+                                helper.processHtml(resultArray[x]);
                                 etProcessScreenWid(resultArray[x]);
                             }
+
+                            dataService.storeData(resultArray[x], scope);
                         }
                     }
 
@@ -184,207 +176,214 @@ if (typeof angular !== 'undefined') {
 
     //<editor-fold desc="wid controller">
 
-    widApp.controller('widCtrl', ['$scope', 'dataService', 'executeService', function($scope, dataService, executeService) {
-        $scope.data = {};
-        $scope.ajax = {};
-        var querystring = window.location.search,
-            parameters = helper.queryStrToObj(querystring.substring(1)),
-            currentUser = dataService.user.getLocal();
-//            executeObj = {preexecute:'urlparams', executethis:'inwid', postexecute:'etProcessParameters'};
+    widApp.controller('widCtrl', ['$scope', '$compile', 'dataService', 'executeService',
+        function($scope, $compile, dataService, executeService) {
+            $scope.addHtml = function(target, html) {
+                $(target).html($compile(html)($scope));
+                $scope.$apply();
+            };
 
-        async.series([
-                function(cb) {
-                    // save url parameters to 'urlparams' wid
-                    if (parameters.wid) { parameters.addthis = {wid:parameters.wid}; delete parameters['wid']; }
-                    if (parameters.executethis) {
-                        if (!parameters.addthis) { parameters.addthis = {executethis:parameters.executethis}; }
-                        else { parameters.addthis.executethis = parameters.executethis; }
-                        delete parameters['executethis'];
+            $scope.data = {};
+            $scope.ajax = {};
+            var querystring = window.location.search,
+                parameters = helper.queryStrToObj(querystring.substring(1)),
+                currentUser = dataService.user.getLocal();
+            //            executeObj = {preexecute:'urlparams', executethis:'inwid', postexecute:'etProcessParameters'};
+
+            async.series([
+                    function(cb) {
+                        // save url parameters to 'urlparams' wid
+                        if (parameters.wid) { parameters.addthis = {wid:parameters.wid}; delete parameters['wid']; }
+                        if (parameters.executethis) {
+                            if (!parameters.addthis) { parameters.addthis = {executethis:parameters.executethis}; }
+                            else { parameters.addthis.executethis = parameters.executethis; }
+                            delete parameters['executethis'];
+                        }
+
+                        var urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
+                        executeService.executeThis(urlExecuteObj, $scope, function(err, resArr) { cb(null, [{}]); });
+                    },
+                    function(cb) {
+                        executeService.executeThis({executethis:'urlparams'}, $scope,
+                            function(err, resArr) { cb(null, resArr); });
+                    },
+                    function(cb) {
+                        executeService.executeThis({executethis:'inwid'}, $scope,
+                            function(err, resArr) { cb(null, resArr); });
+                    }
+                ],
+                function(err, overallResults) {
+                    var processParams = {};
+                    for (var x = 0; x < overallResults.length; x++) {
+                        for (var i = 0; i < overallResults[x].length; i++) {
+                            if (Array.isArray(overallResults[x][i])) {
+                                for (var y = 0; y < overallResults[x][i].length; y++) {
+                                    extend(true, processParams, overallResults[x][i][y]);
+                                }
+                            } else { extend(true, processParams, overallResults[x][i]); }
+                        }
                     }
 
-                    var urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
-                    executeService.executeThis(urlExecuteObj, $scope, function(err, resArr) { cb(null, [{}]); });
-                },
-                function(cb) {
-                    executeService.executeThis({executethis:'urlparams'}, $scope,
-                        function(err, resArr) { cb(null, resArr); });
-                },
-                function(cb) {
-                    executeService.executeThis({executethis:'inwid'}, $scope,
-                        function(err, resArr) { cb(null, resArr); });
-                }
-            ],
-            function(err, overallResults) {
-                var processParams = {};
-                for (var x = 0; x < overallResults.length; x++) {
-                    for (var i = 0; i < overallResults[x].length; i++) {
-                        if (Array.isArray(overallResults[x][i])) {
-                            for (var y = 0; y < overallResults[x][i].length; y++) {
-                                extend(true, processParams, overallResults[x][i][y]);
-                            }
-                        } else { extend(true, processParams, overallResults[x][i]); }
+                    if (processParams.addthis) { processParams = helper.removeAddThis(processParams); }
+
+                    if (processParams.wid) {
+                        processParams.executethis = processParams.wid;
+                        delete processParams['wid'];
                     }
-                }
 
-                if (processParams.addthis) { processParams = helper.removeAddThis(processParams); }
+                    executeService.executeThis(processParams, $scope);
+                });
 
-                if (processParams.wid) {
-                    processParams.executethis = processParams.wid;
-                    delete processParams['wid'];
-                }
+            //        if (!parameters.executethis) { parameters.executethis = 'etProcessParameters'; }
 
-                executeService.executeThis(processParams, $scope);
-            });
-
-//        if (!parameters.executethis) { parameters.executethis = 'etProcessParameters'; }
-
-        // package url parameters into model
-        if (Object.size(helper.queryStrToObj(location.search)) > 0) {
-            $scope.urlparameters = helper.queryStrToObj(location.search);
-        }
-
-        // package current users info into the model
-        if (currentUser && currentUser.loggedin) {
-            dataService.user.getInfo(currentUser.at, function(results) {
-                var info = JSON.parse(results[0].Value);
-                $scope.userinfo = info;
-                console.log('**ngModelData** data for current userinfo :');
-                console.log($scope.userinfo);
-
-                // update userid in local user object
-                var user = dataService.user.getLocal();
-                user.userid = info.UserId;
-                dataService.user.putLocal(user.userid, user.at, user.loggedin);
-            });
-        }
-
-        //<editor-fold desc='addDataWid section'>
-
-        $scope.addWidName = "";
-        $scope.deleteWid = false;
-
-        $scope.addWid = function () {
-            var pNames = $('.pname');
-            var pValues = $('.pvalue');
-            var updateParams = {wid:$scope.addWidName,executethis:'addwidmaster'};
-
-            for (var i = 0; i < pNames.length; i++) { updateParams[pNames[i].value] = pValues[i].value; }
-
-            if ($scope.deleteWid) { updateParams.metadata.status = '5'; }
-
-            executeService.executeThis(updateParams, $scope, function() {
-                $scope.clearAddWidForm();
-                $('#successlog').html("The wid has been successfully added or updated!");
-                //            self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
-            });
-        };
-
-        $scope.newPropRow = function() {
-            $('#propertyList').append(helper.newPropRowHtml);
-            $('.pname').last().focus();
-        };
-
-        $scope.clearAddWidForm = function() {
-            $('.added').remove();
-            $('#widname,.pname,.pvalue').val('');
-        };
-
-        //</editor-fold>
-
-        //<editor-fold desc='login section'>
-
-        $scope.loginGuid = '';
-
-        $scope.login1 = function() {
-            $scope.clearlogs();
-            var at = ''
-                , parameters = {parameterDTOs:[]}
-                , user = dataService.user.getLocal();
-
-            parameters.parameterDTOs.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
-
-            if (user) { at = user.at; }
-            else {
-                dataService.user.getNewAt(function(results) { at = results[0].Value; });
-                dataService.user.putLocal('', at, false);
+            // package url parameters into model
+            if (Object.size(helper.queryStrToObj(location.search)) > 0) {
+                $scope.urlparameters = helper.queryStrToObj(location.search);
             }
 
-            $scope.ajax.loading = true;
+            // package current users info into the model
+            if (currentUser && currentUser.loggedin) {
+                dataService.user.getInfo(currentUser.at, function(results) {
+                    var info = JSON.parse(results[0].Value);
+                    $scope.userinfo = info;
+                    console.log('**ngModelData** data for current userinfo :');
+                    console.log($scope.userinfo);
 
-            getDriApiData('login1', parameters, function(err, results) {
-                if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
+                    // update userid in local user object
+                    var user = dataService.user.getLocal();
+                    user.userid = info.UserId;
+                    dataService.user.putLocal(user.userid, user.at, user.loggedin);
+                });
+            }
+
+            //<editor-fold desc='addDataWid section'>
+
+            $scope.addWidName = "";
+            $scope.deleteWid = false;
+
+            $scope.addWid = function () {
+                var pNames = $('.pname');
+                var pValues = $('.pvalue');
+                var updateParams = {wid:$scope.addWidName,executethis:'addwidmaster'};
+
+                for (var i = 0; i < pNames.length; i++) { updateParams[pNames[i].value] = pValues[i].value; }
+
+                if ($scope.deleteWid) { updateParams.metadata.status = '5'; }
+
+                executeService.executeThis(updateParams, $scope, function() {
+                    $scope.clearAddWidForm();
+                    $('#successlog').html("The wid has been successfully added or updated!");
+                    //            self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
+                });
+            };
+
+            $scope.newPropRow = function() {
+                $('#propertyList').append(helper.newPropRowHtml);
+                $('.pname').last().focus();
+            };
+
+            $scope.clearAddWidForm = function() {
+                $('.added').remove();
+                $('#widname,.pname,.pvalue').val('');
+            };
+
+            //</editor-fold>
+
+            //<editor-fold desc='login section'>
+
+            $scope.loginGuid = '';
+
+            $scope.login1 = function() {
+                $scope.clearlogs();
+                var at = ''
+                    , parameters = {parameterDTOs:[]}
+                    , user = dataService.user.getLocal();
+
+                parameters.parameterDTOs.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
+
+                if (user) { at = user.at; }
                 else {
-                    $('#pin,#pingrp').show();
-                    $('#phonegrp').hide();
-
-                    $scope.loginGuid = results[0].Value;
-                    $scope.ajax.loading = false;
+                    dataService.user.getNewAt(function(results) { at = results[0].Value; });
+                    dataService.user.putLocal('', at, false);
                 }
-            });
-        };
 
-        $scope.login2 = function() {
-            $scope.clearlogs();
-            var user = dataService.user.getLocal();
-            var parameters = {parameterDTOs:[]};
-            parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:user.at},
-                {ParameterName:'pin',ParameterValue:$('#pin').val()},
-                {ParameterName:'guid',ParameterValue:$scope.loginGuid});
+                $scope.ajax.loading = true;
 
-            $scope.ajax.loading = true;
+                getDriApiData('login1', parameters, function(err, results) {
+                    if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
+                    else {
+                        $('#pin,#pingrp').show();
+                        $('#phonegrp').hide();
 
-            getDriApiData('login2', parameters, function(err, results) {
-                if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
-                else {
-                    if (results[0].Value === 'True') {
-                        dataService.user.putLocal('', user.at, true);
-                        $('#successlog').html("Thank you for logging into DRI!");
-                    } else {
-                        var error = results[7].Value !== '' ? results[7].Value : 'An error has occurred.';
-                        $('#errorlog').html(error);
+                        $scope.loginGuid = results[0].Value;
+                        $scope.ajax.loading = false;
                     }
+                });
+            };
 
-                    $scope.ajax.loading = false;
-                    var returnUrl = helper.getUrlParam('returnUrl');
-                    if (returnUrl !== '') { window.location = returnUrl; }
-                }
-            });
-        };
+            $scope.login2 = function() {
+                $scope.clearlogs();
+                var user = dataService.user.getLocal();
+                var parameters = {parameterDTOs:[]};
+                parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:user.at},
+                    {ParameterName:'pin',ParameterValue:$('#pin').val()},
+                    {ParameterName:'guid',ParameterValue:$scope.loginGuid});
 
-        $scope.logout = function() {
-            dataService.user.removeLocal();
-            $('#successlog').html('You are now logged out.');
-            window.location = '../login.html';
-        };
+                $scope.ajax.loading = true;
 
-        $scope.cancelLogin = function() {
-            $scope.clearlogs();
-            $('#phonenumber,#pin').val('');
-            $('#pin,#pingrp').hide();
-            $('#phonegrp').show();
-        };
+                getDriApiData('login2', parameters, function(err, results) {
+                    if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
+                    else {
+                        if (results[0].Value === 'True') {
+                            dataService.user.putLocal('', user.at, true);
+                            $('#successlog').html("Thank you for logging into DRI!");
+                        } else {
+                            var error = results[7].Value !== '' ? results[7].Value : 'An error has occurred.';
+                            $('#errorlog').html(error);
+                        }
 
-        //</editor-fold>
+                        $scope.ajax.loading = false;
+                        var returnUrl = helper.getUrlParam('returnUrl');
+                        if (returnUrl !== '') { window.location = returnUrl; }
+                    }
+                });
+            };
 
-        //<editor-fold desc='misc scoped helper functions'>
+            $scope.logout = function() {
+                dataService.user.removeLocal();
+                $('#successlog').html('You are now logged out.');
+                window.location = '../login.html';
+            };
 
-        $scope.widFromUrl = function() {
-            if ($scope.urlparameters && $scope.urlparameters.wid) {
-                return $scope[$scope.urlparameters.wid];
-            } else { return undefined; }
-        };
+            $scope.cancelLogin = function() {
+                $scope.clearlogs();
+                $('#phonenumber,#pin').val('');
+                $('#pin,#pingrp').hide();
+                $('#phonegrp').show();
+            };
 
-        $scope.clearlogs = function() { $('#errorlog,#successlog').html(''); };
+            //</editor-fold>
 
-        $scope.listLength = function(list) { return Object.size(list); };
+            //<editor-fold desc='misc scoped helper functions'>
 
-        $scope.getRawHtml = function() {
-            $('#rawhtml').text(document.getElementsByTagName('html')[0].outerHTML);
-            $scope.showrawhtml = true;
-        };
+            $scope.widFromUrl = function() {
+                if ($scope.urlparameters && $scope.urlparameters.wid) {
+                    return $scope[$scope.urlparameters.wid];
+                } else { return undefined; }
+            };
 
-        //</editor-fold>
-    }]);
+            $scope.clearlogs = function() { $('#errorlog,#successlog').html(''); };
+
+            $scope.listLength = function(list) { return Object.size(list); };
+
+            $scope.getRawHtml = function() {
+                $('#rawhtml').text(document.getElementsByTagName('html')[0].outerHTML);
+                $scope.showrawhtml = true;
+            };
+
+            //</editor-fold>
+        }
+    ]);
 
     widApp.controller('scaffoldCtrl', ['$scope', 'dataService', 'executeService', function($scope, dataService, executeService) {
         var allowedAttrs = [
@@ -595,7 +594,7 @@ if (typeof angular !== 'undefined') {
 
             if (clearTargetId) { $('#' + clearTargetId).html(''); }
 
-            $('#' + targetId).append(html);
+            scope.addHtml('#' + targetId, html);
 
             // take care of any <execute></execute> elements
             $('execute').each(function(index, ele) {
@@ -682,90 +681,90 @@ if (typeof angular !== 'undefined') {
 
     //<editor-fold desc="wid landing spot functions">
 
-    exports.etClearPage = etClearPage = function etClearPage(targetid) {
-        $('#default_view_loc').html('');
-        $('#errorlog').html('');
-        $('#successlog').html('');
-
-        if (targetid && targetid !== '') {
-            $('body').not('#default_view_loc #logs #' + targetid).remove();
-            $('#' + targetid).html('');
-        } else {
-            $('body').not('#default_view_loc #logs').remove();
-        }
-    };
-
-//    exports.etProcessParameters = etProcessParameters = function etProcessParameters(parameters, callback) {
-//        var widdata = '',
-//            wid = '',
-//            executeObj = {},
-//            scope = $('body').scope();
+//    exports.etClearPage = etClearPage = function etClearPage(targetid) {
+//        $('#default_view_loc').html('');
+//        $('#errorlog').html('');
+//        $('#successlog').html('');
 //
-//        // just in case parameters were not passed in
-//        parameters = parameters || {};
-//
-////        // delete inwid and urlparams wids
-////        execute(
-////            {executethis:'addwidmaster', wid:'inwid', medata:{status:'5'}},
-////            function(err, retArray) {
-////                if (err && Object.size(err) > 0) {
-////                    console.log('error attempting to delete the wid "inwid" => ' + JSON.stringify(err));
-////                }
-////            }
-////        );
-////        execute(
-////            {executethis:'addwidmaster', wid:'urlparams', medata:{status:'5'}},
-////            function(err, retArray) {
-////                if (err && Object.size(err) > 0) {
-////                    console.log('error attempting to delete the wid "urlparams" => ' + JSON.stringify(err));
-////                }
-////            }
-////        );
-//
-//        if (parameters.wid) {
-//            executeObj.executethis = parameters.wid;
-//            delete parameters['wid'];
+//        if (targetid && targetid !== '') {
+//            $('body').not('#default_view_loc #logs #' + targetid).remove();
+//            $('#' + targetid).html('');
+//        } else {
+//            $('body').not('#default_view_loc #logs').remove();
 //        }
-//
-//        if (parameters.widdata) {
-//            executeObj.preexecute = parameters.widdata;
-//            delete parameters['widdata'];
-//        }
-//
-//        var processParams = extend(true, executeObj, parameters);
-//
-//        if (processParams['metadata.method']) {
-//            delete processParams['metadata.method'];
-//        }
-//
-//        angular.injector(['ng', 'widApp'])
-//            .get('executeService')
-//            .executeThis(processParams, scope, function(err, resultArray) {
-//                if (err && Object.size(err) > 0) {
-//                    console.log('execute error => ' + JSON.stringify(err));
-//                    callback(err, {});
-//                } else {
-//                    for (var i = 0; i < resultArray.length; i++) {
-//                        if (resultArray[i].html) {
-//                            $(resultArray[i].html).filter('execute').each(function(index, ele) {
-//                                helper.processExecute(ele, scope);
-//                            });
-//
-//                            // TODO: ask if this is still relevent logic
-//                            // save this html to 'screenwid' wid instead of processing html
-//                            var executeObj = extend(true, resultArray[i], {executethis:'addwidmaster', wid:'screenwid'});
-//                            execute(executeObj, function(err, resultsArr) {
-//                                if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
-//                            });
-//                        }
-//
-//                        etProcessScreenWid(resultArray[i]);
-//                    }
-//
-//                    if (callback instanceof Function) { callback(null, resultArray); }
-//                }
-//            });
 //    };
+
+    exports.etProcessParameters = etProcessParameters = function etProcessParameters(parameters, callback) {
+        var widdata = '',
+            wid = '',
+            executeObj = {},
+            scope = $('body').scope();
+
+        // just in case parameters were not passed in
+        parameters = parameters || {};
+
+//        // delete inwid and urlparams wids
+//        execute(
+//            {executethis:'addwidmaster', wid:'inwid', medata:{status:'5'}},
+//            function(err, retArray) {
+//                if (err && Object.size(err) > 0) {
+//                    console.log('error attempting to delete the wid "inwid" => ' + JSON.stringify(err));
+//                }
+//            }
+//        );
+//        execute(
+//            {executethis:'addwidmaster', wid:'urlparams', medata:{status:'5'}},
+//            function(err, retArray) {
+//                if (err && Object.size(err) > 0) {
+//                    console.log('error attempting to delete the wid "urlparams" => ' + JSON.stringify(err));
+//                }
+//            }
+//        );
+
+        if (parameters.wid) {
+            executeObj.executethis = parameters.wid;
+            delete parameters['wid'];
+        }
+
+        if (parameters.widdata) {
+            executeObj.preexecute = parameters.widdata;
+            delete parameters['widdata'];
+        }
+
+        var processParams = extend(true, executeObj, parameters);
+
+        if (processParams['metadata.method']) {
+            delete processParams['metadata.method'];
+        }
+
+        angular.injector(['ng', 'widApp'])
+            .get('executeService')
+            .executeThis(processParams, scope, function(err, resultArray) {
+                if (err && Object.size(err) > 0) {
+                    console.log('execute error => ' + JSON.stringify(err));
+                    callback(err, {});
+                } else {
+                    for (var i = 0; i < resultArray.length; i++) {
+                        if (resultArray[i].html) {
+                            $(resultArray[i].html).filter('execute').each(function(index, ele) {
+                                helper.processExecute(ele, scope);
+                            });
+
+                            // TODO: ask if this is still relevent logic
+                            // save this html to 'screenwid' wid instead of processing html
+                            var executeObj = extend(true, resultArray[i], {executethis:'addwidmaster', wid:'screenwid'});
+                            execute(executeObj, function(err, resultsArr) {
+                                if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
+                            });
+                        }
+
+                        etProcessScreenWid(resultArray[i]);
+                    }
+
+                    if (callback instanceof Function) { callback(null, resultArray); }
+                }
+            });
+    };
 
     exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(parameters) {
         var widforview = [],
@@ -775,9 +774,6 @@ if (typeof angular !== 'undefined') {
             dataforview = {},
             all_wids = [],
             scope = $('body').scope();
-
-        // take care of initial html in screenwid
-        if (parameters.html) { helper.processHtml(parameters); }
 
         if (parameters.widforview) { widforview = parameters.widforview.split(','); delete parameters['widforview']; }
         else if (typeof widForView !== 'undefined') { widforview = widForView.split(','); }
@@ -838,15 +834,6 @@ if (typeof angular !== 'undefined') {
                 .executeThis({executethis:parameters.startwid}, scope, function(err, resultsArr) {
                     if (err && Object.size(err) > 0) {
                         console.log('execute error while processing html => ' + JSON.stringify(err));
-                    } else {
-                        for (var i = 0; i < resultsArr.length; i++) {
-                            for (var x = 0; x < resultsArr[i]; i++) {
-                                if (resultsArr[i].html) {
-                                    helper.processHtml(resultsArr[i]);
-                                }
-                            }
-
-                        }
                     }
                 });
         }
@@ -860,19 +847,12 @@ if (typeof angular !== 'undefined') {
             executeObj.executethis = all_wids[w];
             executeObj['command.convertmethod'] = 'toobject';
 
+            // run through executeThis to store data in the model and display any contained html
             angular.injector(['ng', 'widApp'])
                 .get('executeService')
                 .executeThis(executeObj, scope, function(err, resultArray) {
                     if (err && Object.size(err) > 0) {
                         console.log('execute error while processing html => ' + JSON.stringify(err));
-                    } else {
-                        for (var x = 0; x < resultArray.length; x++) {
-                            for (var i = 0; i < resultArray[x].length; i++) {
-                                if (resultArray[x][i].html) {
-                                    helper.processHtml(resultArray[x][i]);
-                                }
-                            }
-                        }
                     }
                 });
         }

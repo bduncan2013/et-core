@@ -7,6 +7,49 @@
     // this test shall result in an unauthorized access error
     // we create testdata stuff1 and provide access to it to only staff group memners
     // however we try to access it (using getwidmaster) using admin group user
+    exports.csd = csd = function csd(params, callback) {
+        var executeList = [
+
+            {
+                // parentdto
+                "executethis": "addwidmaster",
+                "metadata.method": "parentdto",
+                "wid": "parentdto",
+                "phone": "string",
+                "metadata.childdto.type": "onetoone"
+            }, {
+                //create childdto
+                "executethis": "addwidmaster",
+                "metadata.method": "childdto",
+                "wid": "childdto",
+                "phonechild": "string"
+            }, {
+                // create relationships 
+                "executethis": "addwidmaster",
+                "wid": "rel_parent_to_child",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "parentdto",
+                "primarymethod": "parentdto",
+                "secondarywid": "childdto",
+                "secondarymethod": "childdto"
+            }, {
+                // create data 
+                "executethis": "addwidmaster",
+                "metadata.method": "parentdto",
+                "phone": "9812121212",
+                "childdto.phonechild": "999988887777"
+            }
+        ];
+
+        execute(executeList, function (err, res) {
+            proxyprinttodiv('Function csd -- added all this -- ', res, 99);
+            callback(err, res);
+
+        });
+    }
+
 
     exports.createsystemdtos = createsystemdtos = function createsystemdtos(params, callback) {
 
@@ -17,49 +60,35 @@
                 //debuglevel = 17
                 //createtestuser("rogeruser", "rogerac", "99", function (err, res) {
                 //test1000(params, function (err, res) {
-                    
-                    execute([{
+
+                execute([{
+                        "executethis": "getwidmaster",
+                        "wid": "userdto",
+                    }, {
+                        "executethis": "getwidmaster",
+                        "wid": "testdto",
+                    }, {
+                        "executethis": "getwidmaster",
+                        "wid": "systemdto",
+                    }, {
+                        "executethis": "getwidmaster",
+                        "wid": "securitydto",
+                    }, {
+                        "executethis": "getwidmaster",
+                        "wid": "permissiondto",
+                    }, {
+                        "executethis": "getwidmaster",
+                        "wid": "categorydto",
+                    }],
+                    function (err, res) {
+                        execute({
                             "executethis": "getwidmaster",
                             "wid": "userdto",
-                        },{
-                            "executethis": "getwidmaster",
-                            "wid": "testdto",
-                        }, {
-                            "executethis": "getwidmaster",
-                            "wid": "systemdto",
-                        }, {
-                            "executethis": "getwidmaster",
-                            "wid": "securitydto",
-                        }, {
-                            "executethis": "getwidmaster",
-                            "wid": "permissiondto",
-                        }, {
-                            "executethis": "getwidmaster",
-                            "wid": "categorydto",
-                        }, {
-                            "executethis": "getwidmaster",
-                            "wid": "rogeruser",
-                        }, {
-                            "executethis": "querywid",
-                            "mongorawquery": {
-                                "data.accesstoken": "rogeruser"
-                            },
-                            "mongorelationshipdirection": "forward",
-                            "mongorelationshipmethod": "all",
-                            "mongorelationshiptype": "attributes"
-                        }, {
-                            "executethis": "querywid",
-                            "mongorawquery": {
-                                "data.accesstoken": "rogerac"
-                            },
-                            "mongorelationshipdirection": "backward",
-                            "mongorelationshipmethod": "all",
-                            "mongorelationshiptype": "attributes"
-                        }],
-                        function (err, res) {
-                            proxyprinttodiv('Function records added', res, 99);
+                        }, function (err, res) {
+                            proxyprinttodiv('Function createsystemdtos userdto', res, 99);
                             callback(err, res);
-                        })
+                        });
+                    })
                 //})
             })
         })
@@ -75,9 +104,9 @@
                 "metadata.method": "logindto",
                 "wid": "logindto",
                 "phone": "string",
-                "pin":"string"
+                "pin": "string"
 
-            },{
+            }, {
                 //create userdto
                 "executethis": "addwidmaster",
                 "metadata.method": "userdto",
@@ -92,7 +121,7 @@
                 "city": "string",
                 "state": "string",
                 "zip": "string",
-                "country":"string",
+                "country": "string",
                 "metadata.systemdto.type": "onetoone",
                 "metadata.useradddto.type": "onetoone"
             }, {
@@ -101,11 +130,11 @@
                 "executethis": "addwidmaster",
                 "metadata.method": "environmentdto",
                 "wid": "environmentdto",
-                "ac": "string",  
-                "gps": "string", 
-                "account":"string",
-                "db":"string",
-                "collection":"collection",       
+                "ac": "string",
+                "gps": "string",
+                "account": "string",
+                "db": "string",
+                "collection": "collection",
                 "metadata.systemdto.type": "onetoone"
             }, {
                 // add groupnamedto 
@@ -113,16 +142,16 @@
                 "wid": "groupnamedto",
                 "metadata.method": "groupnamedto",
                 "groupname": "string",
-                "metadata.systemdto.type": "onetoone" 
+                "metadata.systemdto.type": "onetoone"
             }, {
                 // add categorynamedto 
                 "executethis": "addwidmaster",
                 "wid": "categorynamedto",
                 "metadata.method": "categorynamedto",
                 "categoryname": "string",
-                "metadata.systemdto.type": "onetoone" 
+                "metadata.systemdto.type": "onetoone"
             }, {
-            //testdto
+                //testdto
                 "executethis": "addwidmaster",
                 "metadata.method": "testdto",
                 "wid": "testdto",
@@ -134,8 +163,8 @@
                 "executethis": "addwidmaster",
                 "metadata.method": "systemdto",
                 "wid": "systemdto",
-                "creator": "string",        //"accounttype",
-                "expiration": "string",     //"datetime",
+                "creator": "string", //"accounttype",
+                "expiration": "string", //"datetime",
                 "offlinerule": "string",
                 "onlinerule": "string",
                 "metadata.securitydto.type": "onetoone",
@@ -183,13 +212,13 @@
                 "categorytype": "string",
                 "categoryname": "string"
                 //"categoryname": "categorytype"
-            }, {     
+            }, {
                 // create balancedto
                 "executethis": "addwidmaster",
                 "metadata.method": "balancedto",
                 "wid": "balancedto",
-                "currencywid": "string",    // wid 
-                "balance": "string"         // integer
+                "currencywid": "string", // wid 
+                "balance": "string" // integer
             }, {
                 // create system user data
                 "executethis": "addwidmaster",
@@ -270,14 +299,14 @@
                 "secondarywid": "systemdto",
                 "secondarymethod": "systemdto"
                 // create relationships permissiondto
-            },{
+            }, {
                 "executethis": "addwidmaster",
                 "wid": "rel_cat_to_system",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
                 "linktype": "onetoone",
-                "primarywid": "categorynamedto",
-                "primarymethod": "categorynamedto",
+                "primarywid": "categorydto",
+                "primarymethod": "categorydto",
                 "secondarywid": "systemdto",
                 "secondarymethod": "systemdto"
             }, {
@@ -369,11 +398,9 @@
         });
     }
 
-    exports.createsystemdefaults = createsystemdefaults = function createsystemdefaults(params, callback) {
-    }
+    exports.createsystemdefaults = createsystemdefaults = function createsystemdefaults(params, callback) {}
 
-    exports.createsystemdata = createsystemdata = function createsystemdata(params, callback) {
-    }
+    exports.createsystemdata = createsystemdata = function createsystemdata(params, callback) {}
 
 
     exports.createsystemdtos3 = createsystemdtos3 = function createsystemdtos3(params, callback) {
@@ -506,15 +533,13 @@
                 "systemdto.permissiondto.actiongroup": actiongroup,
                 "systemdto.permissiondto.dbgroup": dbgroup,
                 "systemdto.permissiondto.levelgroup": levelgroup
-            },
-            {
-                "executethis":"getwidmaster",
-                "wid":userwid
-            }
-            ],
+            }, {
+                "executethis": "getwidmaster",
+                "wid": userwid
+            }],
             function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userwid, res, 99);
-                proxyprinttodiv('from getwidmaster  -- ' + userwid, res[1], 99);
+                proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userwid, res, 34);
+                proxyprinttodiv('from getwidmaster  -- ' + userwid, res[1], 34);
                 // console.debug('added permission data ' + granteegroup + ' for user ' + userwid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });
@@ -531,7 +556,7 @@
                 "systemdto.categorydto.categoryname": categoryname
             }],
             function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added category >>>>>  for  -- ' + wid, res, 99);
+                proxyprinttodiv('Function createuser done --  >>>>>> added category >>>>>  for  -- ' + wid, res, 34);
                 // console.debug('added categoryname ' + categoryname + ' for wid ' + wid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });
@@ -549,7 +574,7 @@
                 "systemdto.securitydto.level": loginlevel,
             }],
             function (err, res) {
-                proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + wid, res, 99);
+                proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + wid, res, 34);
                 // console.debug('added security for wid ' + wid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });
