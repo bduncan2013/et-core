@@ -1081,9 +1081,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             etcreatecode(indebugindent, displaycolor, indebugname);
             break;
         case 6:
+        if (exports.environment === 'local') {
             outobject[3] = getFromLocalStorage("DRIKEY");
             // outobject[4]=getFromLocalStorage("DRIKEY");
             etlogresults(indebugname, outobject)
+        }
             break;
         case 7:
             etcreatecode(indebugindent, displaycolor, indebugname);

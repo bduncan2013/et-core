@@ -691,7 +691,7 @@
 
 
                         // ***** fix widrecord here
-                        proxyprinttodiv('querywid finalformatlist widrecord ', widrecord, 99);
+                        proxyprinttodiv('querywid finalformatlist widrecord ', widrecord, 28);
                         var widrecordFixed = {};
                         widrecordFixed['data'] = widrecord[0];
                         widrecordFixed['metadata'] = widrecord[0]['metadata'];
@@ -702,7 +702,7 @@
                         widrecord = widrecordFixed;
 
 
-                        proxyprinttodiv('querywid finalformatlist widrecord', convertfromdriformat(widrecord), 99);
+                        proxyprinttodiv('querywid finalformatlist widrecord', convertfromdriformat(widrecord), 28);
                         proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
                         widrecord = extend(true, widrecord, extrarecord);
                         proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 28);

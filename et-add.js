@@ -3,12 +3,12 @@
 exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {     
     object = ConvertFromDOTdri(object);
     var filter_data = tolowerparameters(object, {}, {"command":""}, true);
-    proxyprinttodiv("addwidmaster filter_data", filter_data, 99);
+    proxyprinttodiv("addwidmaster filter_data", filter_data, 17);
     var _object = filter_data.output;
     var command = filter_data.output.filteredobject;
     var _dto_object;
 
-    proxyprinttodiv("addwidmaster _object", _object, 99);
+    proxyprinttodiv("addwidmaster _object", _object, 17);
     cleanadd (_object, _dto_object, command, function (err, res) {
         _object = res.obj;
         _dto_object = res.dtoobj;
@@ -65,7 +65,7 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
 
     getdtoobject(object, command, function (err, res) {
         dtoobject = res;
-        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 99);
+        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
         
         var dto_to_get;
         var big_dto = {};
