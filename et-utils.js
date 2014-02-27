@@ -969,6 +969,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     }
 
     exports.debugfn = debugfn = function debugfn() {
+    if (exports.environment !== 'local') {return};
         var processdebug = false;
         var color_list = [
             "black",
