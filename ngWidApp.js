@@ -231,6 +231,8 @@ if (typeof angular !== 'undefined') {
                         delete processParams['wid'];
                     }
 
+                    if (processParams.metadata) { delete processParams['metadata']; }
+
                     executeService.executeThis(processParams, $scope);
                 });
 
