@@ -162,7 +162,8 @@ function setbyindex(obj, str, val) {
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
     console.log("<< in deepfilter >>");
     var modifiedObj = {};
-    extend(true, modifiedObj, inputObj);   
+    extend(true, modifiedObj, inputObj);
+    console.log("<< extend >>" + JSON.stringify(modifiedObj));  
     proxyprinttodiv("deepfilter inputObj", inputObj, 41);
     proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41); 
     if (dtoObjOpt) {
