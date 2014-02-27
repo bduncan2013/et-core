@@ -209,6 +209,7 @@ function recurseModObj(inputObject,dtoObject, command, callback){
                         if(typeof inpVal === "string" && (dataType === "boolean" || dataType === "string" ||  dataType === "number" ||  dataType === "date")) {
                             if(command["command.deepfilter.convert"]==false){
                                 modifiedObj[inpKey] = inpVal;
+                                cbMap(null);
                             }else{
                                 switch(dataType) {
                                     case "boolean":
