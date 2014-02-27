@@ -384,7 +384,7 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
                 0: inbound_parameters,
                 1: convertedobject,
             }, 6);
-            callback({}, convertedobject);
+            callback({"found":"error"}, convertedobject);
         }
     });
 };
