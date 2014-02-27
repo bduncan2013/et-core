@@ -778,34 +778,34 @@
                 createtestuser("rogerboss", "rogerac", "99", function (err, res) {
                     cb1(null);
                 });
-                // },
+                },
 
-                // function (cb1) {
-                //     createtestuser("codyuser", "codyac", "49", function(err, res){
-                //         cb1(null);
-                //     });
-                // },
+                function (cb1) {
+                    createtestuser("codyuser", "codyac", "49", function(err, res){
+                        cb1(null);
+                    });
+                },
 
-                // function (cb1) { // add codyuser to the driusergrp
-                //     addgrouptowid("codyuser", "userdto", "driusergrp1", function(err, res){
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) {
-                //     creategroup("driusergrp1", function(err, res){
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
-                //     addpermission("rogerboss", "driusergrp1", "createcoupon","data",  "99", function(err, res){
-                //         cb1(null);
-                //     });
-                // },
+                function (cb1) { // add codyuser to the driusergrp
+                    addgrouptowid("codyuser", "userdto", "driusergrp1", function(err, res){
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    creategroup("driusergrp1", function(err, res){
+                        cb1(null);
+                    });
+                },
+                function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
+                    addpermission("rogerboss", "driusergrp1", "createcoupon","data",  "99", function(err, res){
+                        cb1(null);
+                    });
+                },
 
-                // function (cb1) {
-                //     securitycheck("codyac", "executethis", "createcoupon", "test", false, function(err, res){
-                //         cb1(null);
-                //     });
+                function (cb1) {
+                    securitycheck("codyac", "executethis", "createcoupon", "test", false, function(err, res){
+                        cb1(null);
+                    });
             }
         ];
 
@@ -816,6 +816,23 @@
 
     }
 
+    exports.ctest7 = ctest7 = function ctest7(parm, callback) {
+        var executeList = [
+            function (cb1) {
+                createsystemdtos({}, cb1);
+            },
+            function (cb1) {
+                createtestuser("rogerboss", "bossac", "99", cb1);
+            },
+            function (cb1) {
+                execute({"executethis": "getwidmaster", "wid":"rogerboss"}, cb1);
+            }
+        ];
+        async.series(executeList, function (err, res3) {
+            proxyprinttodiv('Function ctest7 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            callback(err, res3);
+        });
+    }
 
     exports.prob21 = prob21 = function prob21(parm, callback) {
 
