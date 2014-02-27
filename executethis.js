@@ -46,9 +46,7 @@
             // Remove command.execute.parameters
             if (incomingparams.command && incomingparams.command.parameters) {
                 for (var key in incomingparams.command.parameters) {
-                    if (incomingparams.command.parameters.hasOwnProperty(key)) {
-                        incomingparams[key] = incomingparams.command.parameters[key];
-                    }
+                    incomingparams[key] = incomingparams.command.parameters[key];
                 }
                 delete incomingparams.command.parameters;
             }
@@ -983,12 +981,15 @@
 
 
     exports.executeerror = window.executeerror = executeerror = function executeerror(params, callback) {
+        var err;
         var output;
-        if (!output) { output = {} }
+        if (!output) {
+            output = {};
+        }
         if (params !== undefined) {
             output["etstatus"] = params["etstatus"]
         } else {
-            output["etstatus"] = "error"
+            output["etstatus"] = "error";
         }
         callback(output, output);
     };
