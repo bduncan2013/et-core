@@ -434,7 +434,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, relationshiptype, c
     var inheritwidlist=[];
     var eachprop;
     var objectarray=[];
-    }
+    
     
     if (inheritwidlist) { // do not save if in inherit
         async.mapSeries(inheritwidlist, function (inheritwid, cbMap) {
