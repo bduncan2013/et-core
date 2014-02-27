@@ -1,7 +1,7 @@
 (function (window) {
 
 exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {     
-    var object = ConvertFromDOTdri(object);
+    object = ConvertFromDOTdri(object);
     var filter_data = tolowerparameters(object, {}, {"command":""}, true);
     proxyprinttodiv("addwidmaster filter_data", filter_data, 17);
     var _object = filter_data.output;
@@ -19,7 +19,7 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
             callback(err, res);
         });
     });
-}
+};
 
 // exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
 //     var inbound_parameters = {};
@@ -73,7 +73,7 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
         var output={};
 
         output.obj=object;
-        output.dtoobj = dtoobject
+        output.dtoobj = dtoobject;
         dto_to_get = res['metadata']['method'];
         if (dto_to_get!=="string") {
             proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 17);
@@ -88,13 +88,13 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
                     result_obj = insertbydtotype(object, big_dto, {}, command); // this fn in et-get
                     proxyprinttodiv("cleanadd after insertbydtotype", result_obj, 17);
                     //command.deepfilter.convert="fromstring"; not needed since done in addwid anyway
-                    if (!command) {command={}}
-                    if (!command.deepfilter) {command.deepfilter={}}
-                    if (!command.deepfilter.convert) {command.deepfilter.convert=false}
+                    if (!command) {command={};}
+                    if (!command.deepfilter) {command.deepfilter={};}
+                    if (!command.deepfilter.convert) {command.deepfilter.convert=false;}
                     deepfilter(result_obj, dtoobject, command, function (err, result_obj) {
                         proxyprinttodiv("cleanadd after insertbydtotype after", result_obj, 17);
                         output.obj=result_obj;
-                        output.dtoobj = dtoobject
+                        output.dtoobj = dtoobject;
                         proxyprinttodiv("cleanadd after executethis getwidmaster result_obj", output, 17);
                         callback(err, output);
                     });
@@ -104,7 +104,7 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
             callback(err, output);
             }
     });
-}
+};
 
 exports.addwidobject = addwidobject = function addwidobject(input, inputdto, command, callback) {
     proxyprinttodiv("addwidobject input input :- ", input, 17);
@@ -221,7 +221,7 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
             }
         }); // End async map series
     });
-}
+};
 
 
 exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, parentwid, parentmethod, relationshiptype, command, callback) {
@@ -307,7 +307,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                         relobj["primarymethod"] = parentmethod;
 
                     if (addobject["metadata"])
-                        relobj["secondarymethod"] = addobject["metadata"]["method"]
+                        relobj["secondarymethod"] = addobject["metadata"]["method"];
 
                     proxyprinttodiv("addrecord input relobj ", relobj, 17);
 
@@ -326,24 +326,22 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
             // res[1] is addobject from step2
             callback({}, res[1]);
         });
-    }
+    };
 
 exports.addwid = addwid = function addwid(object, dtoobject, relationshiptype, command, callback) {
-    var relationshiptype = relationshiptype;
-    
     function addwid3() {
         proxyprinttodiv("addwid input dtoobject before", dtoobject,17);
         proxyprinttodiv("addwidbefore deepfilter,, newobject-- ", object, 17);
 
-        if (!command) {command = {}}
-        if (!command.deepfilter) {command.deepfilter = {}}
-        if (!command.deepfilter.convert) {command.deepfilter.convert = 'tostring'}
+        if (!command) {command = {};}
+        if (!command.deepfilter) {command.deepfilter = {};}
+        if (!command.deepfilter.convert) {command.deepfilter.convert = 'tostring';}
 
         command.deepfilter.convert = true;
         
         deepfilter(object, dtoobject, command, function (err, resultobject) {
             if (relationshiptype === 'jsononetomany') {
-                objectarray.push(resultobject)
+                objectarray.push(resultobject);
                 object[db] = objectarray;
             }
 
@@ -353,7 +351,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, relationshiptype, c
             execute(object, function (err, res) {
                 proxyprinttodiv("this was added", res, 17);
 
-                callback(err, res)
+                callback(err, res);
             });
         });
     }
@@ -366,7 +364,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, relationshiptype, c
                 proxyprinttodiv("addwid getnewwid", res, 17);
                 object["wid"]=res;
                 addwid3();
-                })
+            });
 
         } else { // if wid then read wid, and extend
 
@@ -380,7 +378,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, relationshiptype, c
                     
                     if (relationshiptype !== "jsononetomany") {
                     //     proxyprinttodiv("AddWid jsononetomany -- relationshiptype --> ", relationshiptype, 99);
-                        object = extend(true, res[0], object)
+                        object = extend(true, res[0], object);
                         proxyprinttodiv(" after extend,, newobject-- ", object, 17);
                         addwid3();
                     } else { // if jsononetomany
@@ -426,13 +424,12 @@ exports.addwid = addwid = function addwid(object, dtoobject, relationshiptype, c
     // }
 
     // start of addwid -- step 1
-    var db='data'
+    var db='data';
     if (command && command.db) {db=command.db}
     proxyprinttodiv("addwid input object", object, 17);
     proxyprinttodiv("addwid input dtoobject", dtoobject, 17);
     proxyprinttodiv("addwid input command", command, 17);
     var inheritwidlist=[];
-    var eachprop;
     var objectarray=[];
     
     
@@ -466,6 +463,6 @@ exports.addwid = addwid = function addwid(object, dtoobject, relationshiptype, c
     } else { // if no inheritwid
         addwid2();
     }
-} // end of addwid
+}; // end of addwid
 
 })(typeof window === "undefined" ? global : window);//

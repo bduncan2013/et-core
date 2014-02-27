@@ -16,30 +16,27 @@
                 "metadata.method": "parentdto",
                 "wid": "parentdto",
                 "phone": "string",
-                "metadata.childdto.type": "onetoone"
+                "metadata.childdto.type": "onetoone",
+                "metadata.childdto.grandchilddto.type": "onetoone"
             }, {
                 //create childdto
                 "executethis": "addwidmaster",
                 "metadata.method": "childdto",
                 "wid": "childdto",
-                "phonechild": "string"
-            }, {
-                // create relationships 
+                "phonechild": "string",
+            },{
+                //create grandchilddto
                 "executethis": "addwidmaster",
-                "wid": "rel_parent_to_child",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "parentdto",
-                "primarymethod": "parentdto",
-                "secondarywid": "childdto",
-                "secondarymethod": "childdto"
+                "metadata.method": "grandchilddto",
+                "wid": "grandchilddto",
+                "phonegrandchild": "string"
             }, {
                 // create data 
                 "executethis": "addwidmaster",
                 "metadata.method": "parentdto",
                 "phone": "9812121212",
-                "childdto.phonechild": "999988887777"
+                "childdto.phonechild": "999988887777",
+                "grandchilddto.phoneegrandhild": "11112222233333"
             }
         ];
 
@@ -266,6 +263,17 @@
                 "secondarywid": "balancedto",
                 "secondarymethod": "balancedto"
             }, {
+                // create relationships useradddto
+                "executethis": "addwidmaster",
+                "wid": "rel_user_to_useradddto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "userdto",
+                "primarymethod": "userdto",
+                "secondarywid": "useradddto",
+                "secondarymethod": "useradddto"
+            }, {
                 // create relationships systemuserdto
                 "executethis": "addwidmaster",
                 "wid": "rel_user_to_sytemuserdto",
@@ -305,24 +313,24 @@
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
                 "linktype": "onetoone",
-                "primarywid": "categorydto",
-                "primarymethod": "categorydto",
-                "secondarywid": "systemdto",
-                "secondarymethod": "systemdto"
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "categorydto",
+                "secondarymethod": "categorydto"
             }, {
                 "executethis": "addwidmaster",
                 "wid": "rel_grouo_to_system",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
                 "linktype": "onetoone",
-                "primarywid": "groupnamedto",
-                "primarymethod": "groupnamedto",
-                "secondarywid": "systemdto",
-                "secondarymethod": "systemdto"
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "groupnamedto",
+                "secondarymethod": "groupnamedto"
             }, {
                 // create relationships permissiondto
                 "executethis": "addwidmaster",
-                "wid": "rel_system_to_group",
+                "wid": "rel_system_to_groupname",
                 "metadata.method": "relationshipdto",
                 "relationshiptype": "attributes",
                 "linktype": "onetoone",
@@ -389,7 +397,20 @@
                 "secondarywid": "systemuserdto",
                 "secondarymethod": "systemuserdto"
 
+            }, {
+                // create relationships systemuserdto
+                "executethis": "addwidmaster",
+                "wid": "rel_user_to_categorynamedto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "categorynamedto",
+                "primarymethod": "categorynamedto",
+                "secondarywid": "systemuserdto",
+                "secondarymethod": "systemuserdto"
+
             }
+            
         ];
 
         execute(executeList, function (err, res) {
