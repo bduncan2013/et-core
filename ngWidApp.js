@@ -173,8 +173,6 @@ if (typeof angular !== 'undefined') {
             var startX = 0, startY = 0, x = 0, y = 0;
             element.css({
                 position: 'relative',
-                border: '1px solid red',
-                backgroundColor: 'lightgrey',
                 cursor: 'pointer'
             });
             element.on('mousedown', function(event) {
@@ -214,7 +212,6 @@ if (typeof angular !== 'undefined') {
                 parameters = helper.queryStrToObj(querystring.substring(1)),
                 currentUser = dataService.user.getLocal(),
                 processParams = {};
-            //            executeObj = {preexecute:'urlparams', executethis:'inwid', postexecute:'etProcessParameters'};
 
             // save url parameters to 'urlparams' wid
             if (parameters.wid) { parameters.addthis = {wid:parameters.wid}; delete parameters['wid']; }
@@ -225,6 +222,8 @@ if (typeof angular !== 'undefined') {
             }
             var urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
 
+            // get urlparams and inwid parameters and call executeThis with them
+            // executeThis will check for screenwids to display
             executeService.executeThis(urlExecuteObj, $scope, function(err, urlResultArr) {
                 var urlResultObj = helper.mergeNestedArray(urlResultArr);
                 extend(true, processParams, urlResultObj.data);
@@ -484,7 +483,8 @@ if (typeof angular !== 'undefined') {
                         function(err, resultsArr) {
                             cb(null, resultsArr);
                         });
-                }],
+                }
+            ],
             function(err, resultsArray) {
                 for (var x = 0; x < resultsArray.length; x++) {
                     for (var y = 0; y < resultsArray[x].length; y++) {
@@ -700,93 +700,6 @@ if (typeof angular !== 'undefined') {
 
     //</editor-fold>
 
-    //<editor-fold desc="wid landing spot functions">
-
-//    exports.etClearPage = etClearPage = function etClearPage(targetid) {
-//        $('#default_view_loc').html('');
-//        $('#errorlog').html('');
-//        $('#successlog').html('');
-//
-//        if (targetid && targetid !== '') {
-//            $('body').not('#default_view_loc #logs #' + targetid).remove();
-//            $('#' + targetid).html('');
-//        } else {
-//            $('body').not('#default_view_loc #logs').remove();
-//        }
-//    };
-
-//    exports.etProcessParameters = etProcessParameters = function etProcessParameters(parameters, callback) {
-//        var widdata = '',
-//            wid = '',
-//            executeObj = {},
-//            scope = $('body').scope();
-//
-//        // just in case parameters were not passed in
-//        parameters = parameters || {};
-//
-////        // delete inwid and urlparams wids
-////        execute(
-////            {executethis:'addwidmaster', wid:'inwid', medata:{status:'5'}},
-////            function(err, retArray) {
-////                if (err && Object.size(err) > 0) {
-////                    console.log('error attempting to delete the wid "inwid" => ' + JSON.stringify(err));
-////                }
-////            }
-////        );
-////        execute(
-////            {executethis:'addwidmaster', wid:'urlparams', medata:{status:'5'}},
-////            function(err, retArray) {
-////                if (err && Object.size(err) > 0) {
-////                    console.log('error attempting to delete the wid "urlparams" => ' + JSON.stringify(err));
-////                }
-////            }
-////        );
-//
-//        if (parameters.wid) {
-//            executeObj.executethis = parameters.wid;
-//            delete parameters['wid'];
-//        }
-//
-//        if (parameters.widdata) {
-//            executeObj.preexecute = parameters.widdata;
-//            delete parameters['widdata'];
-//        }
-//
-//        var processParams = extend(true, executeObj, parameters);
-//
-//        if (processParams['metadata.method']) {
-//            delete processParams['metadata.method'];
-//        }
-//
-//        angular.injector(['ng', 'widApp'])
-//            .get('executeService')
-//            .executeThis(processParams, scope, function(err, resultArray) {
-//                if (err && Object.size(err) > 0) {
-//                    console.log('execute error => ' + JSON.stringify(err));
-//                    callback(err, {});
-//                } else {
-//                    for (var i = 0; i < resultArray.length; i++) {
-//                        if (resultArray[i].html) {
-//                            $(resultArray[i].html).filter('execute').each(function(index, ele) {
-//                                helper.processExecute(ele, scope);
-//                            });
-//
-//                            // TODO: ask if this is still relevent logic
-//                            // save this html to 'screenwid' wid instead of processing html
-//                            var executeObj = extend(true, resultArray[i], {executethis:'addwidmaster', wid:'screenwid'});
-//                            execute(executeObj, function(err, resultsArr) {
-//                                if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
-//                            });
-//                        }
-//
-//                        etProcessScreenWid(resultArray[i]);
-//                    }
-//
-//                    if (callback instanceof Function) { callback(null, resultArray); }
-//                }
-//            });
-//    };
-
     exports.etProcessScreenWid = etProcessScreenWid = function etProcessScreenWid(parameters, scope, callback) {
         var widforview = [],
             widforbase = [],
@@ -880,26 +793,7 @@ if (typeof angular !== 'undefined') {
             function(err) {
                 if (callback instanceof Function) { callback(); }
             });
-
-//        for (var w = 0; w < all_wids.length; w++) {
-//            var executeObj = {};
-//            executeObj.executethis = all_wids[w];
-//            executeObj['command.convertmethod'] = 'toobject';
-//
-//            // run through executeThis to store data in the model and display any contained html
-//            angular.injector(['ng', 'widApp'])
-//                .get('executeService')
-//                .executeThis(executeObj, scope, function(err, resultArray) {
-//                    if (err && Object.size(err) > 0) {
-//                        console.log('execute error while processing html => ' + JSON.stringify(err));
-//                    }
-//                });
-//        }
-//
-//        if (callback instanceof Function) { callback(); }
     };
-
-    //</editor-fold>
 
     // get an object or function from the current angularJS scope based on passed in property name
     exports.getFromAngular = getFromAngular = function getFromAngular(propName) {
