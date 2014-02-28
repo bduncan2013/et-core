@@ -57,7 +57,7 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
             proxyprinttodiv('getwidmaster command II-3', command, 38);
             getclean(res, command, function (err, res) {
                 res = pack_up_params(res, command, "getwidmaster");
-                 proxyprinttodiv('getwidmaster command II-4', command, 38);
+                proxyprinttodiv('getwidmaster command II-4', command, 38);
                 // if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                 if (command && command.getwidmaster && command.getwidmaster.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);
@@ -206,8 +206,22 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
         var dtoobj={};
         var metadata={};
         var tempobj={};
-        var inobj={};
-        extend(true, inobj, params);
+
+        var inobj = JSON.parse(JSON.stringify(params));
+
+        //if we get an array in (usally happens on the recurse)
+        if (inobj instanceof Array) {
+            var mergedObj = {};
+            var tempArray = [];
+
+            for (var i in inobj) {
+                extend(true, mergedObj, recurseobj(inobj[i]));
+            }
+
+            tempArray.push(mergedObj);
+            proxyprinttodiv("tempArray", tempArray, 99);
+            return tempArray;
+        }
 
         for (var eachparm in inobj) {
             if (inobj.hasOwnProperty(eachparm)) {
@@ -233,8 +247,10 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
 
                 if (isObject(inobj[eachparm])) {
                     dtoobj[eachparm]=recurseobj(inobj[eachparm])
+                } else if (eachparm instanceof Array) {
+                    dtoObject[eachparm].push(recurseobj[eachparam]);
                 } else { // if not object
-                    dtoobj[eachparm]="string"
+                    dtoobj[eachparm]="string";
                 }
             }
         } // for eachparm
@@ -242,14 +258,18 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
 
         if (Object.keys(dtolist).length !== 0) {
             if (!inobj.command) {dtoobj.command={};}
-            dtoobj.command.dtolist = dtolist
-            } 
+                dtoobj.command.dtolist = dtolist;
+        }
+
+        // if (!dtoobj.command || Object.keys(dtoobj.command).length === 0) {
+        //     delete dtoobj.command;
+        // }
 
             // inobj.command.deepdtolist = dto;
             // inobj.command.inherit = dto;
         proxyprinttodiv("In GetDTOObject before return -- we created dto -- :", dtoobj, 38);
-        return dtoobj
-        } // end fn recurse
+        return dtoobj;
+    } // end fn recurse
 
     // function recurseobj(params) {
     //     var dtolist={}
@@ -307,13 +327,13 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
     // dtoobject["metadata.method"] = "string";
     // if (!obj["metadata.method"]) {obj["metadata.method"] = "defaultdto"}
     
-    if (command && command.getwidmaster && command.getwidmaster.dtotype) {
+    //if (command && command.getwidmaster && command.getwidmaster.dtotype) {
+    if (command && command.dtotype) {
         dtotype = command.dtotype;
-        } 
-    else {
+    } else {
         //dtotype = obj.metadata.method;
         dtotype = obj['metadata']['method'];
-        }
+    }
     if ((dtotype!=="defaultdto") && (dtotype !== obj.wid)) {
         proxyprinttodiv("getdtoobject about to getwidmaster dtotype ", dtotype, 38);
         execute({"executethis":"getwidmaster", "wid":dtotype, "command.getwidmaster.convertmethod":"dto",
@@ -321,7 +341,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
             proxyprinttodiv("getdtoobject input res[0] ", res, 38);
             if (res && (Object.keys(res[0]).length !== 0)) {dtoobject=res[0]}
 
-            proxyprinttodiv("getdtoobject input dtoobject +++++++ ", dtoobject, 17);
+            proxyprinttodiv("getdtoobject input dtoobject +++++++ ", dtoobject, 99);
             debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
                 0: inbound_parameters,
                 1: dtoobject
