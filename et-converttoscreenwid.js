@@ -13,7 +13,10 @@ $(document).ready(function () {
     $('style').each(function () { $('body').append(this.outerHTML); });
 
     // convert linked html page to a screenwid
-    htmlToScreenwid(widName, $('body').html(), params);
-
-    window.location = 'http://dripoint.com?wid=' + widName;
+    htmlToScreenwid(widName, $('body').html(), params, function() {
+        var dialog = window.open('','','top=50,screenY=50,left=50,width=500,height=100,scrollbars=no,scrollbar=no,menubar=no');
+        dialog.document.write('<p>This page was saved as the ' + widName + ' screenwid.\n'
+                            + 'You will be redirected to http://dripoint.com?wid = ' + widName + '</p>');
+        setTimeout(function() { dialog.close(); window.location = 'http://dripoint.com?wid=' + widName;},3500);
+    });
 });
