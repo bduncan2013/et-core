@@ -56,11 +56,11 @@
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
             // fix incoming param
-			// if(incomingparams){
-			// 	if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
-			// 		incomingparams['executethis'] = incomingparams;
-			// 	}
-			// }
+            // if(incomingparams){
+            //  if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
+            //      incomingparams['executethis'] = incomingparams;
+            //  }
+            // }
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
