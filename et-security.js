@@ -122,8 +122,7 @@
                             proxyprinttodiv('Function security recursive user wid ', res, 34);
                             // [2/26/14, 5:42:32 PM] Roger Colburn: so when we check the first time we are checking if I appear in the grantee list
                             // [2/26/14, 5:42:57 PM] Roger Colburn: then we must check if the grantor of the record appears in the grantee list
-                            // [2/26/14, 5:43:00 PM] Roger Colburn: ok?
-
+                      
                             // get action groups
                             getGroupRecursive(action, function (err, res) {
                                 var actionGroupdtoArr = res[1].groups;

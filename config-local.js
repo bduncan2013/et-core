@@ -57,9 +57,10 @@ if (!test_results) {
 }
 
 exports.bootprocess = bootprocess = function bootprocess() {
+    clearLocalStorage();
     if (Object.keys(config).length === 0) { setdefaultparm(); }
 
-    proxyprinttodiv('Function bootprocess config', config, 1);
+    proxyprinttodiv('Function bootprocess config', config, 99);
 
     // if DRIKEY does not exist in localStorage
     // then assume this is first visit to app and run appinstall
@@ -268,6 +269,7 @@ function config123() {
     };
 
     exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
+        proxyprinttodiv('clear clearLocalStorage', 'hi',99);
         widMasterKey = "widmaster_";
         localStorage.clear();
         potentialwid = 0;

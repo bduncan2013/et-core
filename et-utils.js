@@ -193,106 +193,124 @@ function recurseModObj(inputObject,dtoObject, command, callback){
     });
     proxyprinttodiv("recurseModObj - todolist ", todolist, 41);
     
-    //async.series([
-        //function step1(cb1) { //step1 start
-            async.mapSeries(todolist, function (inpKey, cbMap) {
-                async.nextTick(function () { 
-                    var inpVal = inputObject[inpKey];
-                        proxyprinttodiv("recurseModObj - inpKey ", inpKey, 41);
-                        proxyprinttodiv("recurseModObj - inpVal ", inpVal, 41);
-                        
-                    if (dtoObject.hasOwnProperty(inpKey)) {
-                        var dataType = dtoObject[inpKey];
-                        proxyprinttodiv("recurseModObj - dataType ", dataType, 41);
+    async.mapSeries(todolist, function (inpKey, cbMap) {
+        async.nextTick(function () { 
+            var inpVal = inputObject[inpKey];
+                proxyprinttodiv("recurseModObj - inpKey ", inpKey, 41);
+                proxyprinttodiv("recurseModObj - inpVal ", inpVal, 41);
                 
-                        
-                        if(typeof inpVal === "string" && (dataType === "boolean" || dataType === "string" ||  dataType === "number" ||  dataType === "date")) {
-                            if(command["command.deepfilter.convert"]==false){
-                                modifiedObj[inpKey] = inpVal;
-                            }else{
-                                switch(dataType) {
-                                    case "boolean":
-                                                var convB = null;
-                                                if (inpVal == true) {
-                                                    convB = true;
-                                                } else if (inpVal == false) {
-                                                    convB = false;
-                                                };
-                                                modifiedObj[inpKey] = convB;
-                                        break;
-                                    case "string":
-                                                modifiedObj[inpKey] = String(inpVal);
-                                        break;
-                                    case "number":
-                                                modifiedObj[inpKey] = parseInt(inpVal);                            
-                                        break;
-                                    case "date":
-                                                var arrD = inpVal.split("/");
-                                                var m = arrD[0];
-                                                m = (m<38 ? '0'+m : m);
-                                                var d = arrD[1];
-                                                d = (d<38 ? '0'+d : d);
-                                                var y = arrD[2];
-                                                var date = new Date(y,m-1,d); 
-                                                // add a day
-                                                date.setDate(date.getDate() + 1);
-                                                modifiedObj[inpKey] = date;                                                       
-                                        break;
-                                }
-                            }
-                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
-                            cbMap(null);
-                        //} else if(typeof inpVal === "object" &&  dataType === "object") {
-                        //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
-                        } else if((typeof inpVal === "object")) {
-                            //proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
-                            
-                            if (inpKey !== "metadata") {
-                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
-                                recurseModObj(inpVal,dataType,command, function (err, result) {
-                                    //var modObj = recurseModObj(inpVal,dataType,command);
-                                    modifiedObj[inpKey] = result;
-                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
-                                    cbMap(null);
-                                });
-
-                            }else{
-                                modifiedObj[inpKey] = inpVal;  
-                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] IV", modifiedObj[inpKey], 41);
-                                cbMap(null);                  
-                            }
-                        } else {
-                            // to read wid obj via getwidmaster
-                            execute({"executethis":dataType}, function (err, result) {
-                                //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
-                                var widObj = result[0][0];
-                                if(widObj){
-                                    if(widObj.hasOwnProperty(inpVal)){
-                                        modifiedObj[inpKey] = inpVal;
-                                    }
-                                }
-                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);                             
-                                cbMap(null);
-                            });
-                        } /*else {
-                            //Doesn't match with dto -- Nullifying the param
-                            modifiedObj[inpKey] = null;
-                            cbMap(null);
-                        }*/ 
-                    } else {
-                        delete modifiedObj[inpKey];
-                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
-                        cbMap(null);
+            if (dtoObject.hasOwnProperty(inpKey)) {
+                var dataType = dtoObject[inpKey];
+                proxyprinttodiv("recurseModObj - dataType ", dataType, 41);
+        
+                if(inpVal instanceof Array) {
+                    if (!modifiedObj[inpKey]) {modifiedObj[inpKey]=[]}
+                    if (isArray(dataType)) {dataType=dataType[0]}
+                    async.mapSeries(inpVal, function (eachinputval, cb1) {
+                        async.nextTick(function () { 
+                            recurseModObj(eachinputval, dataType, command, function (err, result) {
+                                if (Object.keys(result).length!==0) {modifiedObj[inpKey].push(result)};
+                                cb1(null) 
+                                }) // recurse
+                            }) // next tick
+                    }, function (err, res) {
+					    cbMap(null);
+					}); 
                     }
-                });
-            }, function (err, res) {
-                callback(err, modifiedObj);
-            });     
-        //}// step1 end 
-    //], function (err, res) {
-       // proxyprinttodiv("recurseModObj - resp ", resp, 11);
-        //callback(err, output);
-    //});      
+                else 
+                
+                if(typeof inpVal === "string" && (dataType === "boolean" || dataType === "string" ||  dataType === "number" ||  dataType === "date")) {
+                    if(command["command.deepfilter.convert"]==false){
+                        modifiedObj[inpKey] = inpVal;
+                    }else{
+                        switch(dataType) {
+                            case "boolean":
+                                        var convB = null;
+                                        if (inpVal == true || inpVal == "true") {
+                                            convB = true;
+                                        } else if (inpVal == false || inpVal == "false") {
+                                            convB = false;
+                                        };
+                                        modifiedObj[inpKey] = convB;
+                                break;
+                            case "string":
+                                        modifiedObj[inpKey] = String(inpVal);
+                                break;
+                            case "number":
+                                        modifiedObj[inpKey] = parseInt(inpVal);                            
+                                break;
+                            case "date":
+                                        var arrD = inpVal.split("/");
+                                        var m = arrD[0];
+                                        m = (m<38 ? '0'+m : m);
+                                        var d = arrD[1];
+                                        d = (d<38 ? '0'+d : d);
+                                        var y = arrD[2];
+                                        var date = new Date(y,m-1,d); 
+                                        // add a day
+                                        date.setDate(date.getDate() + 1);
+                                        modifiedObj[inpKey] = date;                                                       
+                                break;
+                        }
+                    }
+                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
+                    cbMap(null);
+                //} else if(typeof inpVal === "object" &&  dataType === "object") {
+                //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
+                // } else if(inpVal instanceof Array) {
+                //     async.mapSeries(inpVal, function (eachinputval, cb1) {
+                //         async.nextTick(function () { 
+                //             recurseModObj(eachinputval, dataType, command, function (err, result) {
+                //                 modifiedObj[inpKey] = inpVal;
+                //                 cb1(null) 
+                //                 }) // recurse
+                //             }) // next tick
+                //         }, // mapseries
+                //         cbMap(null);
+                //         ) // mapseries
+
+				} else if((typeof inpVal === "object")) {
+                    proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
+                    if (inpKey !== "metadata") {
+                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
+                        recurseModObj(inpVal,dataType,command, function (err, result) {
+                            //var modObj = recurseModObj(inpVal,dataType,command);
+                            modifiedObj[inpKey] = result;
+                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
+                            cbMap(null);
+                        });
+                    }else{
+                        modifiedObj[inpKey] = inpVal;  
+                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] IV", modifiedObj[inpKey], 41);
+                        cbMap(null);                  
+                    }
+                } else {
+                    // to read wid obj via getwidmaster
+                    execute({"executethis":dataType}, function (err, result) {
+                        //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
+                        var widObj = result[0][0];
+                        if(widObj){
+                            if(widObj.hasOwnProperty(inpVal)){
+                                modifiedObj[inpKey] = inpVal;
+                            }
+                        }
+                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);                             
+                        cbMap(null);
+                    });
+                } /*else {
+                    //Doesn't match with dto -- Nullifying the param
+                    modifiedObj[inpKey] = null;
+                    cbMap(null);
+                }*/ 
+            } else {
+                delete modifiedObj[inpKey];
+                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
+                cbMap(null);
+            }
+        });
+    }, function (err, res) {
+        callback(err, modifiedObj);
+    });         
 }
 
 
@@ -968,6 +986,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     }
 
     exports.debugfn = debugfn = function debugfn() {
+    if (exports.environment !== 'local') {return};
         var processdebug = false;
         var color_list = [
             "black",

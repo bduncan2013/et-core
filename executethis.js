@@ -56,11 +56,11 @@
             console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
             // fix incoming param
-			// if(incomingparams){
-			// 	if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
-			// 		incomingparams['executethis'] = incomingparams;
-			// 	}
-			// }
+            // if(incomingparams){
+            //  if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
+            //      incomingparams['executethis'] = incomingparams;
+            //  }
+            // }
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
@@ -492,6 +492,10 @@
 
                 } // params[target] undefined
                 else { // execute the nextstage (mid or post), may need to remove target out of params
+                    if (params.hasOwnProperty('preexecute') && params.preexecute === undefined) { delete params['preexecute']; }
+                    if (params.hasOwnProperty('midexecute') && params.midexecute === undefined) { delete params['midexecute']; }
+                    if (params.hasOwnProperty('postexecute') && params.postexecute === undefined) { delete params['postexecute']; }
+
                     callback(err, params);
                 }
             } // else not test4
