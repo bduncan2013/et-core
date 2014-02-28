@@ -2309,6 +2309,120 @@ exports.async_func_c = async_func_c = function async_func_c(parameters, callback
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
+exports.ettestag11 = ettestag11 = function ettestag11(params, callback) {
+    testclearstorage();
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "first_wid",
+            "data_1": "Red"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "second_wid",
+            "data_2": "Green"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "third_wid",
+            "data_3": "Blue"
+        }, {
+            "executethis": "first_wid"
+        }, {
+            "executethis": "second_wid"
+        }, {
+            "executethis": "third_wid"
+        }],
+        function (err, res) {
+            
+            console.log('Function ag11 result\n' + JSON.stringify(res, '-', 4));
+            
+            // res = logverify("ettestag11_result", res[3], [{
+            //     "data_1": "Red",
+            //     "wid": "first_wid",
+            //     "metadata": {}
+            // }]);
+
+            // res = logverify("ettestag11_result", res[4], [{
+            //     "data_2": "Green",
+            //     "wid": "second_wid",
+            //     "metadata": {}
+            // }]);
+
+            res = logverify("ettestag11_result", res[4], [
+                  {"0":
+                        {
+                            "data_2": "Green",
+                            "wid": "second_wid",
+                            "metadata": {}
+                        }
+            }])
+            
+            // res = logverify("ettestag11_result", res[5], [{
+            //     "data_3": "Blue",
+            //     "wid": "third_wid",
+            //     "metadata": {}
+            // }]);
+
+            callback(err, res);
+        });
+}
+
+exports.ettestag12 = ettestag12 = function ettestag12(params, callback) {
+    testclearstorage();
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "first_wid",
+            "data_1": "Red"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "second_wid",
+            "data_2": "Green"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "third_wid",
+            "data_3": "Blue"
+        }, {
+            "preexecute": "first_wid"
+        }, {
+            "executethis": "second_wid"
+        }, {
+            "postexecute": "third_wid"
+        }],
+        function (err, res) {
+            
+            console.log('Function ag11 result\n' + JSON.stringify(res, '-', 4));
+            
+            // res = logverify("ettestag12_result", res[3], [{
+            //     "data_1": "Red",
+            //     "wid": "first_wid",
+            //     "metadata": {}
+            // }]);
+
+            // res = logverify("ettestag12_result", res[4], [{
+            //     "data_2": "Green",
+            //     "wid": "second_wid",
+            //     "metadata": {}
+            // }]);
+
+            res = logverify("ettestag12_result", res[4], [
+                  {"0":
+                        {
+                            "data_2": "Green",
+                            "wid": "second_wid",
+                            "metadata": {"method":"defaultdto"}
+                            // "midexecute": null
+                        }
+            }])
+            
+            // res = logverify("ettestag12_result", res[5], [{
+            //     "data_3": "Blue",
+            //     "wid": "third_wid",
+            //     "metadata": {}
+            // }]);
+
+            callback(err, res);
+        });
+}
+
+
 // This will test the ability to write a dto to the db and retrieve it
 
 exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {

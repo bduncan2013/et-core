@@ -83,6 +83,7 @@
 
                     midError = err;
                     console.log(' after midexecute >> ' + nonCircularStringify(midResults));
+                    console.log(' after midexecute II >> \n' + JSON.stringify(midResults, '-', 4));
 
                     if (!midResults)
                         midResults = {};
