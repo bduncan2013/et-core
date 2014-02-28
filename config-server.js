@@ -233,23 +233,23 @@ function config123() {
 //    configuration.postExecute[3].dothis = 'server';
 //    configuration.postExecute[3].params = {};
 
-    configuration.getwid = [];
-    configuration.getwid[0] = {};
-    configuration.getwid[0].executeorder = 1;
-    configuration.getwid[0].tryorder = 1;
-    configuration.getwid[0].dothis = 'offlinegetwid';
-    configuration.getwid[0].server = 'getwid';
-    configuration.getwid[0].dofn = offlinegetwid;
-    configuration.getwid[0].params = {};
+    // configuration.getwid = [];
+    // configuration.getwid[0] = {};
+    // configuration.getwid[0].executeorder = 1;
+    // configuration.getwid[0].tryorder = 1;
+    // configuration.getwid[0].dothis = 'offlinegetwid';
+    // configuration.getwid[0].server = 'getwid';
+    // configuration.getwid[0].dofn = offlinegetwid;
+    // configuration.getwid[0].params = {};
 
-    configuration.updatewid = [];
-    configuration.updatewid[0] = {};
-    configuration.updatewid[0].executeorder = 1;
-    configuration.updatewid[0].tryorder = 1;
-    configuration.updatewid[0].dothis = 'offlineupdatewid';
-    configuration.updatewid[0].server = 'updatewid';
-    configuration.updatewid[0].dofn = offlineupdatewid;
-    configuration.updatewid[0].params = {};
+    // configuration.updatewid = [];
+    // configuration.updatewid[0] = {};
+    // configuration.updatewid[0].executeorder = 1;
+    // configuration.updatewid[0].tryorder = 1;
+    // configuration.updatewid[0].dothis = 'offlineupdatewid';
+    // configuration.updatewid[0].server = 'updatewid';
+    // configuration.updatewid[0].dofn = offlineupdatewid;
+    // configuration.updatewid[0].params = {};
 
     return {
         "configuration": configuration

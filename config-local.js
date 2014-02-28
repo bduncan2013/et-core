@@ -57,7 +57,6 @@ if (!test_results) {
 }
 
 exports.bootprocess = bootprocess = function bootprocess() {
-    clearLocalStorage();
     if (Object.keys(config).length === 0) { setdefaultparm(); }
 
     proxyprinttodiv('Function bootprocess config', config, 99);
@@ -487,7 +486,8 @@ exports.server = window.server = server = function server(params, callback) {
 
     executeAjax("", params, function (data) {
         console.log("Return from server: " + JSON.stringify(data));
-        callback(data);
+        var err;
+        callback(err, data);
     });
 };
 

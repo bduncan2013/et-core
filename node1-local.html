@@ -410,6 +410,28 @@ function get_indexes_of(needle, haystack ) {
 
 function show_function_output3 (err, result_array) {
 	// console.log("+++\n" + JSON.stringify(result_array, "-", 4));
+
+	var tmp_output = {};
+	var server_output = [];
+	var indexes = [];
+	
+	for (var r in result_array) {
+		tmp_output = result_array[r];
+		
+		if (tmp_output.hasOwnProperty('command')) {
+			server_output.push(tmp_output['command']['debug']);
+			// Save which items to remove
+			indexes.push[r];
+		}
+	}	
+	// This will rearrange the index so that it starts removing at the end, not the beginning.
+	// If you started at the beginning, you would change the indexes of the later items to remove.
+	indexes.reverse();
+
+	for (var ix in indexes) {
+		server_output.splice(ix,1);
+	}
+
 	$('#Function_Output').empty();
 	var index = 0;
 	var target = "";
@@ -429,83 +451,21 @@ function show_function_output3 (err, result_array) {
 	
 	$('#Function_Output').append(output_short);
 	$('#Function_Output').append(output_long);
-}
 
-function show_function_output2 (err, result_array) {
-	// Clear out the screen
-	$('#Function_Output').empty();
-	console.log('result_array: ' + JSON.stringify(result_array, "-", 4));
-	var ultimate_pass_fail = "UNKNOWN";
-	var index = 0;
-	var target = "";
-	var did_fail_flag = false;
-	var did_pass_flag = false;
+	var output_text = "";
+	var entry = {};
+	var text = "";
+	var objekt = {};
 
-	var tmp_html_short = "";
-	var tmp_html_long = "";
-
-	var output_short = "<div id='short_output' style='display:block'>{";
-	var output_long = "<div id='long_output' style='display:block'>";
-
-	// Iterate throught the array
-	for (var x in result_array) {
-		console.log("x:" + x);
-		// Convert the object to string
-        var jsonPretty = JSON.stringify(result_array[x], "-", 4);
-        console.log("Pretty: " +jsonPretty);
-        // tmp_html_long = syntaxHighlight(jsonPretty);
-        tmp_html_long = jsonPretty;
-
-        // console.log("index: " + index);
-		// console.log("tmp_html_long:" + tmp_html_long);
-		var z=1;
-		for (var i in result_array[x]) {
-			if (z%2) {
-				console.log("i:" + i);
-				target = JSON.stringify(result_array[x][i]);
-		        console.log("target: " + target );
-		        // index = target.indexOf(',');
-	            tmp_html_short = "\"" + i + "\": " + target + ",";
-
-	            if (tmp_html_short.indexOf("{") != -1) {
-					tmp_html_short = tmp_html_short.substring(tmp_html_short.indexOf('{'), tmp_html_short.indexOf(',') -1);        
-	            }
-
-				console.log("tmp_html_short:" + tmp_html_short);
-		    	output_short += tmp_html_short;
-				
-		        // console.log("result_array["+ x + "][" + i + "]   " + target );
-		    }
-		    z++;
-	        // tmp_html_short = tmp_html_long.substring(2,index) + "---";
+	for (var s in server_output) {
+		entry = server_output[s];
+		for (var e in entry) {
+			text = entry[e]['text'];
+			objekt = entry[e]['object'];
+			proxyprinttodiv(text, objekt, 99);
 		}
-  
-		// This works only on the first object of result_array
-        // index = tmp_html_long.indexOf('string') + 21;
-
-	    if ( tmp_html_long.indexOf("PASS") !== -1 ) did_pass_flag = true;
-	    if ( tmp_html_long.indexOf("FAIL") !== -1 ) did_fail_flag = true;
-
-	    output_long += "<pre>" + tmp_html_long + "</pre>";
-	    // output_short += "<pre>" + tmp_html_short + "</pre>";
-
-		if (did_pass_flag && !did_fail_flag) ultimate_pass_fail = "PASS";
-		if (did_fail_flag) ultimate_pass_fail = "FAIL";
-	}  
-
-	// Strip off the comma of output_short
-	output_short = output_short.substring(0, output_short.length -1);
-	output_short += "}</div>"
-	output_long += "</div>"
-	// console.log("output_short: " + output_short);
-	// console.log("output_long: " + output_long);
-	$('#Function_Output').append(output_short);
-	$('#Function_Output').append(output_long);
-	showPassFail(ultimate_pass_fail);
+	}
 }
-
-		// console.log("did_pass_flag: " + did_pass_flag);
-		// console.log("did_fail_flag: " + did_fail_flag);
 
 exports.verifysummary_local = verifysummary_local = function verifysummary_local(resultsobject) {
 	var testfailflag = "false";
