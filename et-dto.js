@@ -48,7 +48,7 @@
     }
 
     exports.createsystemdtos = createsystemdtos = function createsystemdtos(params, callback) {
-        debuglevel=17;
+        debuglevel = 17;
         // create dtos  
         var executeList = [
             // "executethis": "addwidmaster",
@@ -61,14 +61,14 @@
             // "sounddto.note": "string"
 
             {
-            //     // note we do not actually store anything here
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "logindto",
-            //     "wid": "logindto",
-            //     "phone": "string",
-            //     "pin": "string"
+                // note we do not actually store anything here
+                "executethis": "addwidmaster",
+                "metadata.method": "logindto",
+                "wid": "logindto",
+                "phone": "string",
+                "pin": "string"
 
-            // }, {
+            }, {
                 //create userdto
                 "executethis": "addwidmaster",
                 "metadata.method": "userdto",
@@ -95,20 +95,20 @@
                 "expiration": "string", //"datetime",
                 "offlinerule": "string",
                 "onlinerule": "string",
-                "metadata.securitydto.type": "onetoone"
-                // "metadata.balancedto.type": "onetoone",
-                // "metadata.categorydto.type": "onetoone",
-                // "metadata.groupdto.type": "onetoone",
-                // "metadata.permissiondto.type": "onetoone"
+                "metadata.securitydto.type": "onetoone",
+                "metadata.balancedto.type": "onetoone",
+                "metadata.categorydto.type": "onetoone",
+                "metadata.groupdto.type": "onetoone",
+                "metadata.permissiondto.type": "onetoone"
             }, {
-            //     // create groupdto
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "groupdto",
-            //     "wid": "groupdto",
-            //     "grouptype": "string",
-            //     "groupwid": "string",
-            //     "groupname": "string"
-            // }, {
+                // create groupdto
+                "executethis": "addwidmaster",
+                "metadata.method": "groupdto",
+                "wid": "groupdto",
+                "grouptype": "string",
+                "groupwid": "string",
+                "groupname": "string"
+            }, {
                 // create securitydto
                 // securitydto holds accesstoken, status
                 "executethis": "addwidmaster",
@@ -117,152 +117,151 @@
                 "accesstoken": "string",
                 //"status": "integer"
                 "status": "string"
-            // }, {
-            //     // create permissiondto
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "permissiondto",
-            //     "wid": "permissiondto",
-            //     // "granteegroup": "grouptype",
-            //     // "actiongroup": "grouptype",
-            //     // "targetgroup": "grouptype",
-            //     // "dbgroup": "dbtype",
-            //     // "levelgroup": "leveltype"
-            //     "granteegroup": "string",
-            //     "actiongroup": "string",
-            //     //"targetgroup": "string",
-            //     "dbgroup": "string",
-            //     "levelgroup": "string"
-            // }, {
-            //     //create categorydto
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "categorydto",
-            //     "wid": "categorydto",
-            //     "categorytype": "string",
-            //     "categoryname": "string"
-            //     //"categoryname": "categorytype"
-            // }, {
-            //     // create balancedto
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "balancedto",
-            //     "wid": "balancedto",
-            //     "currencywid": "string", // wid 
-            //     "balance": "string" // integer
-            // }, {
-            //     // create system user data
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "systemuserdto",
-            //     "wid": "systemuserdto",
-            //     "startwid": "string"
+            }, {
+                // create permissiondto
+                "executethis": "addwidmaster",
+                "metadata.method": "permissiondto",
+                "wid": "permissiondto",
+                // "granteegroup": "grouptype",
+                // "actiongroup": "grouptype",
+                // "targetgroup": "grouptype",
+                // "dbgroup": "dbtype",
+                // "levelgroup": "leveltype"
+                "granteegroup": "string",
+                "actiongroup": "string",
+                //"targetgroup": "string",
+                "dbgroup": "string",
+                "levelgroup": "string"
+            }, {
+                //create categorydto
+                "executethis": "addwidmaster",
+                "metadata.method": "categorydto",
+                "wid": "categorydto",
+                "categorytype": "string",
+                "categoryname": "string"
+                //"categoryname": "categorytype"
+            }, {
+                // create balancedto
+                "executethis": "addwidmaster",
+                "metadata.method": "balancedto",
+                "wid": "balancedto",
+                "currencywid": "string", // wid 
+                "balance": "string" // integer
+            }, {
+                // create system user data
+                "executethis": "addwidmaster",
+                "metadata.method": "systemuserdto",
+                "wid": "systemuserdto",
+                "startwid": "string"
 
-            // }, {
-            //     // create useradddto
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "useradddto",
-            //     "wid": "useradddto"
-            // },{
-            //     //testdto
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "testdto",
-            //     "wid": "testdto",
-            //     "a": "string",
-            //     "b": "string",
-            //     "metadata.systemdto.type": "onetoone"
-            // },
+            }, {
+                // create useradddto
+                "executethis": "addwidmaster",
+                "metadata.method": "useradddto",
+                "wid": "useradddto"
+            }, {
+                //testdto
+                "executethis": "addwidmaster",
+                "metadata.method": "testdto",
+                "wid": "testdto",
+                "a": "string",
+                "b": "string",
+                "metadata.systemdto.type": "onetoone"
+            },
 
-            // {
-            //     // add categorynamedto 
-            //     "executethis": "addwidmaster",
-            //     "wid": "categorynamedto",
-            //     "metadata.method": "categorynamedto",
-            //     "categoryname": "string",
-            //     "metadata.systemdto.type": "onetoone"
-            // }, {
-            //     // add groupnamedto 
-            //     "executethis": "addwidmaster",
-            //     "wid": "groupnamedto",
-            //     "metadata.method": "groupnamedto",
-            //     "groupname": "string",
-            //     "metadata.systemdto.type": "onetoone"
-            // }, {
-            //     // link from user to other dto to show how done
-            //     // it would have own sych rules
-            //     "executethis": "addwidmaster",
-            //     "metadata.method": "environmentdto",
-            //     "wid": "environmentdto",
-            //     "ac": "string",
-            //     "gps": "string",
-            //     "account": "string",
-            //     "db": "string",
-            //     "collection": "collection",
-            //     "metadata.systemdto.type": "onetoone"
-            // }, {
-            //     // create relationships user >> useradddto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_user_to_useradddto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "userdto",
-            //     "primarymethod": "userdto",
-            //     "secondarywid": "useradddto",
-            //     "secondarymethod": "useradddto"
-            // },
-            // {
-            //     // create relationships environmentdto >> systemdto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_environmentdto_to_systemdto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "environmentdto",
-            //     "primarymethod": "environmentdto",
-            //     "secondarywid": "systemdto",
-            //     "secondarymethod": "systemdto"
-            // }, {
-            //     // create relationships test >>  systemdto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_test_to_systemdto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "testdto",
-            //     "primarymethod": "testdto",
-            //     "secondarywid": "systemdto",
-            //     "secondarymethod": "systemdto"
-            // }, {
-            //     // create relationships systemdto >> groupdto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_system_to_groupdto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "systemdto",
-            //     "primarymethod": "systemdto",
-            //     "secondarywid": "groupdto",
-            //     "secondarymethod": "groupdto"
-            // }, {
-            //     // create relationships systemdto >> permissiondto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_system_to_permissiondto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "systemdto",
-            //     "primarymethod": "systemdto",
-            //     "secondarywid": "permissiondto",
-            //     "secondarymethod": "permissiondto"
-            // }, {
-            //     // create relationships systemdto >> balancedto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_system_to_balancedto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "systemdto",
-            //     "primarymethod": "systemdto",
-            //     "secondarywid": "balancedto",
-            //     "secondarymethod": "balancedto"
-            },{
+            {
+                // add categorynamedto 
+                "executethis": "addwidmaster",
+                "wid": "categorynamedto",
+                "metadata.method": "categorynamedto",
+                "categoryname": "string",
+                "metadata.systemdto.type": "onetoone"
+            }, {
+                // add groupnamedto 
+                "executethis": "addwidmaster",
+                "wid": "groupnamedto",
+                "metadata.method": "groupnamedto",
+                "groupname": "string",
+                "metadata.systemdto.type": "onetoone"
+            }, {
+                // link from user to other dto to show how done
+                // it would have own sych rules
+                "executethis": "addwidmaster",
+                "metadata.method": "environmentdto",
+                "wid": "environmentdto",
+                "ac": "string",
+                "gps": "string",
+                "account": "string",
+                "db": "string",
+                "collection": "collection",
+                "metadata.systemdto.type": "onetoone"
+            }, {
+                // create relationships user >> useradddto
+                "executethis": "addwidmaster",
+                "wid": "rel_user_to_useradddto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "userdto",
+                "primarymethod": "userdto",
+                "secondarywid": "useradddto",
+                "secondarymethod": "useradddto"
+            }, {
+                // create relationships environmentdto >> systemdto
+                "executethis": "addwidmaster",
+                "wid": "rel_environmentdto_to_systemdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "environmentdto",
+                "primarymethod": "environmentdto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+            }, {
+                // create relationships test >>  systemdto
+                "executethis": "addwidmaster",
+                "wid": "rel_test_to_systemdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "testdto",
+                "primarymethod": "testdto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+            }, {
+                // create relationships systemdto >> groupdto
+                "executethis": "addwidmaster",
+                "wid": "rel_system_to_groupdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "groupdto",
+                "secondarymethod": "groupdto"
+            }, {
+                // create relationships systemdto >> permissiondto
+                "executethis": "addwidmaster",
+                "wid": "rel_system_to_permissiondto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "permissiondto",
+                "secondarymethod": "permissiondto"
+            }, {
+                // create relationships systemdto >> balancedto
+                "executethis": "addwidmaster",
+                "wid": "rel_system_to_balancedto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "balancedto",
+                "secondarymethod": "balancedto"
+            }, {
                 // create relationships user >> systemdto
                 "executethis": "addwidmaster",
                 "wid": "rel_user_to_systemdto",
@@ -284,82 +283,82 @@
                 "primarymethod": "systemdto",
                 "secondarywid": "securitydto",
                 "secondarymethod": "securitydto"
-            // }, {
-            //     // create relationships systemdto >> categorydto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_system_to_categorydto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "systemdto",
-            //     "primarymethod": "systemdto",
-            //     "secondarywid": "categorydto",
-            //     "secondarymethod": "categorydto"
-            // }, {
-            //     // create relationships systemdto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_categorynamedto_to_systemdto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "categorynamedto",
-            //     "primarymethod": "categorynamedto",
-            //     "secondarywid": "systemdto",
-            //     "secondarymethod": "systemdto"
-            // }, {
-            //     // create relationships systemdto
-            //     "executethis": "addwidmaster",
-            //     "wid": "rel_groupnamedto_to_systemdto",
-            //     "metadata.method": "relationshipdto",
-            //     "relationshiptype": "attributes",
-            //     "linktype": "onetoone",
-            //     "primarywid": "groupnamedto",
-            //     "primarymethod": "groupnamedto",
-            //     "secondarywid": "systemdto",
-            //     "secondarymethod": "systemdto"
-
-            },
-            {
-                // create test data
+            }, {
+                // create relationships systemdto >> categorydto
                 "executethis": "addwidmaster",
-                "metadata.method": "userdto",
-                "wid":"someuser", // 
-                "widname": "wid1",
-                "fname": "string1",
-                "lname": "string1",
-                "phone": "phone1",
-                "email": "string1",
-                "address": "string1",
-                "address2": "string1",
-                "city": "string1",
-                "state": "string1",
-                "zip": "string1",
-                "country": "string1",
-                "systemdto.creator": "string", //"accounttype",
-                "systemdto.expiration": "string", //"datetime",
-                "systemdto.offlinerule": "string",
-                "systemdto.onlinerule": "string",
-                "systemdto.securitydto.accesstoken": "ac1",
-                "systemdto.securitydto.status": "status1"
-            },{
+                "wid": "rel_system_to_categorydto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "systemdto",
+                "primarymethod": "systemdto",
+                "secondarywid": "categorydto",
+                "secondarymethod": "categorydto"
+            }, {
+                // create relationships systemdto
+                "executethis": "addwidmaster",
+                "wid": "rel_categorynamedto_to_systemdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "categorynamedto",
+                "primarymethod": "categorynamedto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+            }, {
+                // create relationships systemdto
+                "executethis": "addwidmaster",
+                "wid": "rel_groupnamedto_to_systemdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "groupnamedto",
+                "primarymethod": "groupnamedto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+
+                // },
+                // {
+                // create test data
+                // "executethis": "addwidmaster",
+                // "metadata.method": "userdto",
+                // "wid":"someuser", // 
+                // "widname": "wid1",
+                // "fname": "string1",
+                // "lname": "string1",
+                // "phone": "phone1",
+                // "email": "string1",
+                // "address": "string1",
+                // "address2": "string1",
+                // "city": "string1",
+                // "state": "string1",
+                // "zip": "string1",
+                // "country": "string1",
+                // "systemdto.creator": "string", //"accounttype",
+                // "systemdto.expiration": "string", //"datetime",
+                // "systemdto.offlinerule": "string",
+                // "systemdto.onlinerule": "string",
+                // "systemdto.securitydto.accesstoken": "ac1",
+                // "systemdto.securitydto.status": "status1"
+            }, {
                 "executethis": "getwidmaster",
                 "wid": "userdto",
-            // }, {
-            //     "executethis": "getwidmaster",
-            //     "wid": "testdto",
-            // }, {
-            //     "executethis": "getwidmaster",
-            //     "wid": "systemdto",
-            // }, {
-            //     "executethis": "getwidmaster",
-            //     "wid": "securitydto",
-            // }, {
-            //     "executethis": "getwidmaster",
-            //     "wid": "permissiondto",
-            // }, {
-            //     "executethis": "getwidmaster",
-            //     "wid": "categorydto"
-            // }, {
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": "testdto",
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": "systemdto",
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": "securitydto",
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": "permissiondto",
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": "categorydto"
+                // }, {
                 // "executethis": "getwidmaster",
                 // "wid": "someuser"
             }
@@ -825,7 +824,7 @@
     //     });
 
     // }
-    
+
     // exports.createsystemdefaults = createsystemdefaults = function createsystemdefaults(params, callback) {}
 
     // exports.createsystemdata = createsystemdata = function createsystemdata(params, callback) {}
