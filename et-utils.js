@@ -36,6 +36,36 @@ exports.localStore = localStore = function () {
 }();
 localStore.clear();
 
+    exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
+        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+            // console.log(text);
+            // console.log(obj);
+            if (document.getElementById('divprint')) {
+                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+            }
+        }
+    };
+
+    exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
+        if (!debugone) {
+            debugone = -1;
+        }
+        if (exports.environment === "local") {
+            printToDiv(text, obj, debugone);
+        } 
+        else 
+        {
+            if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+                debuglinenum++;
+                var tempobj={};
+                tempobj["text"]=text;
+                tempobj["obj"]=obj;
+                addtolocal(debuglinenum,tempobj)
+            }
+        }
+    }
+
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
     proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 38);
@@ -932,25 +962,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return true;
     };
 
-    exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
-        if (!debugone) {
-            debugone = -1;
-        }
-        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
-            printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
-            // console.log(text);
-            // console.log(obj);
-            if (document.getElementById('divprint')) {
-                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
-            }
-        }
-    };
 
-    exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
-        if (exports.environment === "local") {
-            printToDiv(text, obj, debugone);
-        }
-    }
 
     // exports.arrayUnique = window.arrayUnique = arrayUnique = function arrayUnique(array) {
     //     var a = array.concat();
