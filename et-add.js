@@ -1,5 +1,26 @@
 (function (window) {
 
+exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
+    // var originalarguments=arguments;
+    // var executionid = new Date();
+    var originalarguments = {};
+    extend(true, originalarguments, inputObject);
+
+    // convert to dri format before saving
+    addtomongo(converttodriformat(inputObject), function (err, results) {
+        proxyprinttodiv('Function updatewid in : x', results, 10);
+
+        debugfn("updatewid code generator", "updatewid", "", "code", 2, 1, {
+                0: originalarguments,
+                1: results
+                // 2: executionid
+            }, 6);
+        callback({}, results);
+
+    });
+};
+
+
 exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {     
     object = ConvertFromDOTdri(object);
     var filter_data = tolowerparameters(object, {}, {"command":""}, true);

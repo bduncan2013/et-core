@@ -923,6 +923,104 @@
         });
     }
 
+    exports.zx1 = zx1 = function zx1(parm, callback) {
+
+        // create users
+        // creates wids
+        // we put users and put wids into groups
+        // we create actiongroups, targetroups, 
+        // we put groups insdie of groups
+        // we add permissions
+        // we test
+        // var status = false;
+        debuglevel = 34;
+        // debugname = "";
+        // debugcat = "";
+        // debugsubcat = "code";
+        async.series([
+                function (cb1) {
+                    createtestuser("rogeruser0", "rogerac0", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    //alert('Entering execution phase...');
+                    execute({
+                        "executethis": "addwidmaster",
+                        "wid": "rogeruser0",
+                        "metadata.method": "userdto",
+                        "systemdto.permissiondto.granteegroup": "coduser1",
+                        "systemdto.permissiondto.actiongroup": "createcoupon0",
+                        "systemdto.permissiondto.dbgroup": "data",
+                        "systemdto.permissiondto.levelgroup": "99"
+                    }, function (err, res) {
+                        proxyprinttodiv('added permissions to rogeruser0 >>>>>> ', res, 99);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    execute({
+                        "executethis": "getwidmaster",
+                        "wid": "systemdto",
+                        "metadata.method": "systemdto"
+                    }, function (err, res) {
+                        proxyprinttodiv('getwidmaster on systemdto ', res, 99);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    createtestuser("codyuser0", "codyac0", 99, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    addpermission("rogeruser0", "codyuser0", "createcoupon0", "data", 50, function (err, res) {
+                        cb1(null);
+                    });
+                }
+                // function (cb1) {
+                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     addgrouptowid("codyuser0", "userdto", "driemployeegroup0", function (err, res) {
+                //         cb1(null);
+
+                //     });
+                // },
+                // function (cb1) {
+                //     addpermission("rogeruser0", "codyuser0", "createcoupon0", "data", 50, function (err, res) {
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     addgrouptowid("anything0", "userdto", "createcoupon0", function (err, res) {
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                //         status = res;
+                //         cb1(null);
+                //     });
+                // }
+
+            ],
+            function (err, res) {
+                console.log('created testdata for zx1 --  ' + JSON.stringify(res));
+                callback(err, status);
+
+            });
+    }
+
+
 
 
 

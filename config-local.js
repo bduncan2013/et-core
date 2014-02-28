@@ -487,7 +487,8 @@ exports.server = window.server = server = function server(params, callback) {
 
     executeAjax("", params, function (data) {
         console.log("Return from server: " + JSON.stringify(data));
-        callback(data);
+        var err;
+        callback(err, data);
     });
 };
 

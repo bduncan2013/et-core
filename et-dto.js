@@ -76,7 +76,7 @@
                 "widname": "wid",
                 "fname": "string",
                 "lname": "string",
-                "phone": "phone",
+                "phone": "string",
                 "email": "string",
                 "address": "string",
                 "address2": "string",
