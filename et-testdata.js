@@ -778,34 +778,34 @@
                 createtestuser("rogerboss", "rogerac", "99", function (err, res) {
                     cb1(null);
                 });
-                // },
+            },
 
-                // function (cb1) {
-                //     createtestuser("codyuser", "codyac", "49", function(err, res){
-                //         cb1(null);
-                //     });
-                // },
+            function (cb1) {
+                createtestuser("codyuser", "codyac", "49", function (err, res) {
+                    cb1(null);
+                });
+            },
 
-                // function (cb1) { // add codyuser to the driusergrp
-                //     addgrouptowid("codyuser", "userdto", "driusergrp1", function(err, res){
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) {
-                //     creategroup("driusergrp1", function(err, res){
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
-                //     addpermission("rogerboss", "driusergrp1", "createcoupon","data",  "99", function(err, res){
-                //         cb1(null);
-                //     });
-                // },
+            function (cb1) { // add codyuser to the driusergrp
+                addgrouptowid("codyuser", "userdto", "driusergrp1", function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                creategroup("driusergrp1", function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
+                addpermission("rogerboss", "driusergrp1", "createcoupon", "data", "99", function (err, res) {
+                    cb1(null);
+                });
+            },
 
-                // function (cb1) {
-                //     securitycheck("codyac", "executethis", "createcoupon", "test", false, function(err, res){
-                //         cb1(null);
-                //     });
+            function (cb1) {
+                securitycheck("codyac", "executethis", "createcoupon", "test", false, function (err, res) {
+                    cb1(null);
+                });
             }
         ];
 

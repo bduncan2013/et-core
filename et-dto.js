@@ -48,6 +48,7 @@
     }
 
     exports.createsystemdtos = createsystemdtos = function createsystemdtos(params, callback) {
+        debuglevel=17;
         // create dtos  
         var executeList = [
             // "executethis": "addwidmaster",
@@ -84,7 +85,7 @@
                 "zip": "string",
                 "country": "string",
                 // "metadata.useradddto.type": "onetoone",
-                ////"metadata.systemdto.type": "onetoone"
+                "metadata.systemdto.type": "onetoone"
             }, {
                 //create systemdto
                 "executethis": "addwidmaster",
@@ -94,7 +95,7 @@
                 "expiration": "string", //"datetime",
                 "offlinerule": "string",
                 "onlinerule": "string",
-                ////"metadata.securitydto.type": "onetoone"
+                "metadata.securitydto.type": "onetoone"
                 // "metadata.balancedto.type": "onetoone",
                 // "metadata.categorydto.type": "onetoone",
                 // "metadata.groupdto.type": "onetoone",

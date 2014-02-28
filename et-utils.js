@@ -201,7 +201,7 @@ function recurseModObj(inputObject,dtoObject, command, callback){
                 
             if (dtoObject.hasOwnProperty(inpKey)) {
                 var dataType = dtoObject[inpKey];
-                proxyprinttodiv("recurseModObj - dataType ", dataType, 99);
+                proxyprinttodiv("recurseModObj - dataType ", dataType, 41);
         
                 if(inpVal instanceof Array) {
                     if (!modifiedObj[inpKey]) {modifiedObj[inpKey]=[]}

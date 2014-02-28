@@ -14,7 +14,7 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
         _dto_object = res.dtoobj;
         proxyprinttodiv("addwidmaster after clean obj", _object, 17);
         proxyprinttodiv("addwidmaster after clean dto", _dto_object, 17);
-        addwidobject(_object, _dto_object, command, function (err, res) {
+        addwidobject(_object, _dto_object, null, null, null, command, function (err, res) {
             res = pack_up_params(res, command, "addwidmaster");
             callback(err, res);
         });
@@ -106,7 +106,8 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
     });
 };
 
-exports.addwidobject = addwidobject = function addwidobject(input, inputdto, command, callback) {
+exports.addwidobject = addwidobject = function addwidobject(input, inputdto, parentwid, parentmethod, relationshiptype, command, callback ) {
+
     proxyprinttodiv("addwidobject input input :- ", input, 17);
     proxyprinttodiv("addwidobject input inputdto :- ", inputdto, 17);
     proxyprinttodiv("addwidobject input command :- ", command, 17);
@@ -171,7 +172,8 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
     proxyprinttodiv("_child_dto_list after",_children_dto_list, 17);
 
     // send the parent object and dto to addrecord
-    addrecord(_parent_object, _parent_dto, null, null, null, command, function (err, res) {
+    addrecord(_parent_object, _parent_dto, parentwid, parentmethod, relationshiptype, command, function (err, res) {
+
         proxyprinttodiv("addrecord parentobj result :- ", res, 17);
         
         _parent_object = res;
@@ -200,7 +202,7 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, com
 
                     // delete the child and dto object from the collection
 
-                    addrecord(_child_object, _child_dto,  _parent_wid, _parent_method, eachchild.dtotype, command, function (err, res) {
+                    addwidobject(_child_object, _child_dto,  _parent_wid, _parent_method, eachchild.dtotype, command, function (err, res) {
                         cbMap(null);
                     });
                 }
