@@ -105,8 +105,8 @@
 
             for (var i = 0; i < permissionsForThisAccount.length; i++) {
                 proxyprinttodiv('Function securitytest permissionsForThisAccount[i]-- ', permissionsForThisAccount[i], 34);
-                permissionsForThisAccount[i]
-                if(permissionsForThisAccount[i]){
+                
+                if(permissionsForThisAccount[i]){   
                     // TODO :: fix below permissionsForThisAccount[i] has {"13":{ required attributes as JSON}}
                     recursepermissionlist(permissionsForThisAccount[i]['myaccountgroup'], permissionsForThisAccount[i]['actiongroup'], permissionsForThisAccount[i]['dbgroup'], permissionsForThisAccount[i]['levelgroup'], function (err, res) {
                         calculatedaccountpermissionlist.push(res);
@@ -316,6 +316,8 @@
                         res = [];
                     }
                     proxyprinttodiv('Function -- getpermissionlist  queryJson: ', queryJson, 34);
+                    var arr = Object.keys(res);
+                    
                     permissionsArr = res;
                     proxyprinttodiv('Function getpermissionlist  --  >>>>>>  >>>>>  permissionsArr-- ', permissionsArr, 34);
                     cb(null);

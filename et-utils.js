@@ -56,8 +56,8 @@ localStore.clear();
         } 
         else 
         {
-            if (true) {
-            // if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            // if (true) {
+            if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
                 debuglinenum++;
                 var tempobj={};
                 tempobj["text"]=text;
@@ -859,19 +859,19 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command, com_user) {
         var command_object={};
-        if (command) {
-            extend(true, command_object, command);
-            proxyprinttodiv('pack_up_params parameters', parameters, 97); 
-            proxyprinttodiv('pack_up_params command_object', command_object, 97);  
-            proxyprinttodiv('pack_up_params com_user', com_user, 97); 
-            if (command_object && command_object[com_user]) delete command_object[com_user];
-            proxyprinttodiv('pack_up_params command_object II', command_object, 97); 
-            if (!parameters.command) {parameters.command={}}
-            extend(true, parameters.command, command_object)
-            if (Object.keys(parameters.command).length ===0) {delete parameters.command}
-            }
-            proxyprinttodiv('pack_up_params parameters END', parameters, 97); 
-            return parameters;
+        if (command) {extend(true, command_object, command)}
+            
+        proxyprinttodiv('pack_up_params parameters', parameters, 97); 
+        proxyprinttodiv('pack_up_params command_object', command_object, 97);  
+        proxyprinttodiv('pack_up_params com_user', com_user, 97); 
+        if (command_object && command_object[com_user]) delete command_object[com_user];
+        proxyprinttodiv('pack_up_params command_object II', command_object, 97); 
+        if (!parameters.command) {parameters.command={}}
+        extend(true, parameters.command, command_object)
+        if (Object.keys(parameters.command).length ===0) {delete parameters.command}
+        
+        proxyprinttodiv('pack_up_params parameters END', parameters, 97); 
+        return parameters;
     }
 
 

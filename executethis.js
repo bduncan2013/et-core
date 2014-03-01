@@ -14,6 +14,13 @@
 
     var execute, executethis, etexecute;
 
+    exports.executethis = window.executethis = executethis = function executethis(incomingparams, overallError, callback) {
+        execute(incomingparams, function (err, res) {
+            overallError.push(err)
+            callback(err, overallError)
+            })
+    }
+    
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
 
 
