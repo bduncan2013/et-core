@@ -14,9 +14,10 @@ $(document).ready(function () {
 
     // convert linked html page to a screenwid
     htmlToScreenwid(widName, $('body').html(), params, function() {
-        var dialog = window.open('','','top=50,screenY=50,left=50,width=500,height=100,scrollbars=no,scrollbar=no,menubar=no');
-        dialog.document.write('<p>This page was saved as the ' + widName + ' screenwid.\n'
-                            + 'You will be redirected to http://dripoint.com?wid = ' + widName + '</p>');
-        setTimeout(function() { dialog.close(); window.location = 'http://dripoint.com?wid=' + widName;},3500);
+        $('body').html('<div class="container" style="margin-top:30px;text-align:center;">'
+                     + '<div class="row well col-md-8 col-md-offset-2"><h4>This page has been saved as the '
+                     + widName + ' screenwid.<br /> ' + 'You will be redirected to <a href="http://dripoint.com?wid='
+                     + widName + '">http://dripoint.com?wid = ' + widName + '</a></h4></div></div>');
+        setTimeout(function() { window.location = 'http://dripoint.com?wid=' + widName; },3500);
     });
 });
