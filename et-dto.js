@@ -48,7 +48,7 @@
     }
 
     exports.createsystemdtos = createsystemdtos = function createsystemdtos(params, callback) {
-        debuglevel = 17;
+        //debuglevel = 17;
         // create dtos  
         var executeList = [
             // "executethis": "addwidmaster",
@@ -851,7 +851,7 @@
         execute([{
                 // add group as per given wid 
                 "executethis": "addwidmaster",
-                "wid": "groupnamedto",
+                "wid": groupname,
                 "groupname": groupname
             }, {
                 "executethis": "addwidmaster",
@@ -891,7 +891,7 @@
             });
     }
 
-    exports.addcategory = addcategory = function addcategory(wid, widmethod, categorytype, categoryname, callback) {
+    exports.createcateogry = createcateogry = function createcateogry(wid, widmethod, categorytype, categoryname, callback) {
         execute([{
                 // add group as per given wid 
                 "executethis": "addwidmaster",
@@ -902,7 +902,7 @@
                 "systemdto.categorydto.categoryname": categoryname
             }],
             function (err, res) {
-                proxyprinttodiv('Function createuser done --  >>>>>> added category >>>>>  for  -- ' + wid, res, 34);
+                proxyprinttodiv('Function createcateogry done --  >>>>>> added category >>>>>  for  -- ' + wid, res, 34);
                 // console.debug('added categoryname ' + categoryname + ' for wid ' + wid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });

@@ -80,11 +80,19 @@
         }
     }
 
+    // Function securitytest accesstoken-- 
+    // "user2ac"
+    // Function securitytest account-- 
+    // "createcoupon0"
+    // Function securitytest action-- 
+    // "executethis"
+    // Function securitytest db-- 
+    // "data"
     exports.securitycheck = securitycheck = function securitycheck(accesstoken, account, action, db, callback) {
-        proxyprinttodiv('Function securitytest accesstoken-- ', accesstoken, 91);
-        proxyprinttodiv('Function securitytest account-- ', account, 91);
-        proxyprinttodiv('Function securitytest action-- ', action, 91);
-        proxyprinttodiv('Function securitytest db-- ', db, 91);
+        proxyprinttodiv('Function securitytest accesstoken-- ', accesstoken, 34);
+        proxyprinttodiv('Function securitytest account-- ', account, 34);
+        proxyprinttodiv('Function securitytest action-- ', action, 34);
+        proxyprinttodiv('Function securitytest db-- ', db, 34);
 
         var requestpermissionlist = [];
         var calculatedaccountpermissionlist = [];
@@ -96,10 +104,15 @@
 
 
             for (var i = 0; i < permissionsForThisAccount.length; i++) {
-                recursepermissionlist(permissionsForThisAccount[i]['myaccountgroup'], permissionsForThisAccount[i]['action'], permissionsForThisAccount[i]['db'], permissionsForThisAccount[i]['login'], function (err, res) {
-                    calculatedaccountpermissionlist.push(res);
-                    proxyprinttodiv('Function security account each ', res, 91);
-                });
+                proxyprinttodiv('Function securitytest permissionsForThisAccount[i]-- ', permissionsForThisAccount[i], 34);
+                permissionsForThisAccount[i]
+                if(permissionsForThisAccount[i]){
+                    // TODO :: fix below permissionsForThisAccount[i] has {"13":{ required attributes as JSON}}
+                    recursepermissionlist(permissionsForThisAccount[i]['myaccountgroup'], permissionsForThisAccount[i]['actiongroup'], permissionsForThisAccount[i]['dbgroup'], permissionsForThisAccount[i]['levelgroup'], function (err, res) {
+                        calculatedaccountpermissionlist.push(res);
+                        proxyprinttodiv('Function security account each ', res, 91);
+                    });
+                }
             }
             proxyprinttodiv('Function security account permissionlist ', calculatedaccountpermissionlist, 91);
 
@@ -122,7 +135,7 @@
                             proxyprinttodiv('Function security recursive user wid ', res, 34);
                             // [2/26/14, 5:42:32 PM] Roger Colburn: so when we check the first time we are checking if I appear in the grantee list
                             // [2/26/14, 5:42:57 PM] Roger Colburn: then we must check if the grantor of the record appears in the grantee list
-                      
+
                             // get action groups
                             getGroupRecursive(action, function (err, res) {
                                 var actionGroupdtoArr = res[1].groups;
@@ -244,15 +257,9 @@
         var queryJson = {
             "executethis": "querywid",
             "mongorawquery": {
-                "data.granteegroup": {
-                    "$eq": accountgroup
-                },
-                "data.targetgroup": {
-                    "$eq": actiongroup
-                },
-                "data.dbgroup": {
-                    "$eq": dbgroup
-                },
+                "data.granteegroup": accountgroup,
+                "data.targetgroup": actiongroup,
+                "data.dbgroup": dbgroup,
                 "data.levelgroup": {
                     "$lte": login
                 }
@@ -282,23 +289,33 @@
         proxyprinttodiv('Function -- getpermissionlist  account: ', account, 34);
 
         // this does not look right ... should getwidmaster account...then look at permissionlist in there
-        var queryJson = {
-            "executethis": "querywid",
-            "mongorawquery": {
-                "data.granteegroup": {
-                    "$eq": account
-                }
-            }
-        };
 
-        proxyprinttodiv('Function -- getpermissionlist  queryJson: ', queryJson, 34);
-
+        var userWid = {};
         async.series([
             function part1(cb) {
+                var queryJson = {
+                    "executethis": "getwidmaster",
+                    "wid": account
+                };
+                execute(queryJson, function (err, res) {
+                    userWid = res;
+                    proxyprinttodiv('Function getpermissionlist  --  >>>>>>  >>>>>  account -- ', res, 34);
+                    cb(null);
+                });
+            },
+            function part2(cb) {
+                var queryJson = {
+                    "executethis": "querywid",
+                    "mongorawquery": {
+                        "data.primarywid": "1"// TODO :: remove hardcoding find systemdto
+                    },
+                    "mongowidmethod": "permissiondto"
+                };
                 execute(queryJson, function (err, res) {
                     if (!res) {
                         res = [];
                     }
+                    proxyprinttodiv('Function -- getpermissionlist  queryJson: ', queryJson, 34);
                     permissionsArr = res;
                     proxyprinttodiv('Function getpermissionlist  --  >>>>>>  >>>>>  permissionsArr-- ', permissionsArr, 34);
                     cb(null);
@@ -366,7 +383,7 @@
             },
 
             function part2(cb) {
-                if (validParams(systemWid)) {
+                if (systemWid) {
                     proxyprinttodiv('Function systemWid  --  >>>>>>  >>>>>  systemWid-- ', systemWid, 34);
 
                     var query2 = [{

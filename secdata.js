@@ -460,7 +460,7 @@
                 proxyprinttodiv('Function createuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 99);
                 addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
                     proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 99);
-                    addcategory(userwid, true, "categoryname", function (err, res2) {
+                    createcategory(userwid, true, "categoryname", function (err, res2) {
                         proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 99);
 
                         execute({
@@ -519,7 +519,7 @@
             });
     }
 
-    exports.addcategory = addcategory = function addcategory(wid, categorytype, categoryname, callback) {
+    exports.createcateogry = createcateogry = function createcateogry(wid, categorytype, categoryname, callback) {
         execute([{
                 // add group as per given wid 
                 "executethis": "addwidmaster",

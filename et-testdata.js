@@ -72,7 +72,7 @@
                 "wid": "marysue"
             }],
             function (err, res) {
-                proxyprinttodiv('getwidmaster of marysue ', res, 99);
+                proxyprinttodiv('getwidmaster of marysue ', res, 35);
             }
         );
     }
@@ -84,8 +84,7 @@
     // "sounddto.wid": "sounddto",
     // "sounddto.metadata.method": "sounddto",
     // "sounddto.note": "string"
-
-    exports.test1000 = test1000 = function test1000(parm, callback) {
+    exports.test998 = test998 = function test998(parm, callback) {
 
         // create users
         // creates wids
@@ -100,6 +99,164 @@
         // debugcat = "";
         // debugsubcat = "code";
         async.series([
+            // function (cb1) {
+            //     createsystemdtos({}, function (err, res) {
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            //     createtestuser("user1", "user1ac", 99, function (err, res) {
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            //     createtestuser("user2", "user2ac", 99, function (err, res) {
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            ///    //userwid, granteegroup, actiongroup, dbgroup, levelgroup,
+            //     addpermission("user1", "user2", "createcoupon0", "data", 50, function (err, res) {
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            //     addgrouptowid("user2", "userdto", "group1", function (err, res) {
+            //         cb1(null);
+            //     });
+            // },
+            function (cb1) {
+                //ac, actiongroup, targetaction, dbgroup
+                testsecurity("user2ac", "user1", "createcoupon0", "data", true, function (err, res) {
+                    cb1(null);
+                });
+                // },
+                // function (cb1) {
+                //     addgrouptowid("anything0", "userdto", "createcoupon0", function (err, res) {
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                //         status = res;
+                //         cb1(null);
+                //     });
+            }
+
+        ], function (err, res) {
+            execute({
+                "executethis": "getwidmaster",
+                "wid": "user1"
+            }, function (err, res) {
+                proxyprinttodiv('test998 --- getwidmaster on user1 >>>>>> ', res, 35);
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": "user2"
+                }, function (err, res) {
+                    proxyprinttodiv('test998 --- getwidmaster on user2 >>>>>> ', res, 35);
+                    callback(err, status);
+                });
+            });
+
+        });
+    }
+
+    exports.test999 = test999 = function test999(parm, callback) {
+
+        // create users
+        // creates wids
+        // we put users and put wids into groups
+        // we create actiongroups, targetroups, 
+        // we put groups insdie of groups
+        // we add permissions
+        // we test
+        // var status = false;
+        debuglevel = 35;
+        // debugname = "";
+        // debugcat = "";
+        // debugsubcat = "code";
+        async.series([
+            function (cb1) {
+                createsystemdtos({}, function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                createtestuser("user1", "user1ac", 99, function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                createtestuser("user2", "user2ac", 99, function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+
+                addpermission("user1", "user2", "createcoupon0", "data", 50, function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                addgrouptowid("user2", "userdto", "group1", function (err, res) {
+                    cb1(null);
+                });
+                // },
+                // function (cb1) {
+                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     addgrouptowid("anything0", "userdto", "createcoupon0", function (err, res) {
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                //         status = res;
+                //         cb1(null);
+                //     });
+            }
+
+        ], function (err, res) {
+            execute({
+                "executethis": "getwidmaster",
+                "wid": "user1"
+            }, function (err, res) {
+                proxyprinttodiv('test999 --- getwidmaster on user1 >>>>>> ', res, 35);
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": "user2"
+                }, function (err, res) {
+                    proxyprinttodiv('test999 --- getwidmaster on user2 >>>>>> ', res, 35);
+                    callback(err, status);
+                });
+            });
+
+        });
+    }
+
+    exports.test1000 = test1000 = function test1000(parm, callback) {
+
+        // create users
+        // creates wids
+        // we put users and put wids into groups
+        // we create actiongroups, targetroups, 
+        // we put groups insdie of groups
+        // we add permissions
+        // we test
+        // var status = false;
+        debuglevel = 35;
+        // debugname = "";
+        // debugcat = "";
+        // debugsubcat = "code";
+        async.series([
+                function (cb1) {
+                    createsystemdtos({}, function (err, res) {
+                        cb1(null);
+                    });
+                },
                 function (cb1) {
                     createtestuser("rogeruser0", "rogerac0", 99, function (err, res) {
                         cb1(null);
@@ -107,30 +264,10 @@
                 },
                 function (cb1) {
                     //alert('Entering execution phase...');
-                    execute({
-                        "executethis": "addwidmaster",
-                        "wid": "rogeruser0",
-                        "metadata.method": "userdto",
-                        "systemdto.permissiondto.granteegroup": "coduser1",
-                        "systemdto.permissiondto.actiongroup": "createcoupon0",
-                        "systemdto.permissiondto.dbgroup": "data",
-                        "systemdto.permissiondto.levelgroup": "99"
-                    }, function (err, res) {
-                        proxyprinttodiv('added permissions to rogeruser0 >>>>>> ', res, 99);
+                    addpermission("codyuser1", "rogeruser0", "createcoupon0", "data", 99, function (err, res) {
                         cb1(null);
                     });
                 },
-                function (cb1) {
-                    execute({
-                        "executethis": "getwidmaster",
-                        "wid": "systemdto",
-                        "metadata.method": "systemdto"
-                    }, function (err, res) {
-                        proxyprinttodiv('getwidmaster on systemdto ', res, 99);
-                        cb1(null);
-                    });
-                },
-
                 function (cb1) {
                     createtestuser("codyuser0", "codyac0", 99, function (err, res) {
                         cb1(null);
@@ -141,40 +278,41 @@
                         cb1(null);
                     });
                 },
-                function (cb1) {
-                    testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
-                        cb1(null);
-                    });
-                },
+                // function (cb1) {
+                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                //         cb1(null);
+                //     });
+                // },
+
                 function (cb1) {
                     addgrouptowid("codyuser0", "userdto", "driemployeegroup0", function (err, res) {
                         cb1(null);
-
                     });
                 },
                 function (cb1) {
                     addpermission("rogeruser0", "codyuser0", "createcoupon0", "data", 50, function (err, res) {
                         cb1(null);
                     });
-                },
-                function (cb1) {
-                    testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
-                    addgrouptowid("anything0", "userdto", "createcoupon0", function (err, res) {
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
-                    testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
-                        status = res;
-                        cb1(null);
-                    });
+                    // },
+                    // function (cb1) {
+                    //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                    //         cb1(null);
+                    //     });
+                    // },
+                    // function (cb1) {
+                    //     addgrouptowid("anything0", "userdto", "createcoupon0", function (err, res) {
+                    //         cb1(null);
+                    //     });
+                    // },
+                    // function (cb1) {
+                    //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                    //         status = res;
+                    //         cb1(null);
+                    //     });
                 }
 
             ],
+
             function (err, res) {
                 console.log('created testdata for test1000 --  ' + JSON.stringify(status));
                 callback(err, status);
@@ -244,14 +382,14 @@
                 },
                 function (cb1) {
                     testsecurity("codyac2", "executethis2", "createcoupon2", "data", false, function (err, res) {
-                        proxyprinttodiv('after testsecurity -- ', res, 34);
+                        proxyprinttodiv('after testsecurity -- ', res, 35);
                         status = res;
                         cb1(null);
                     });
                 }
             ],
             function (err, res) {
-                proxyprinttodiv('created testdata for test1002 -- ', JSON.stringify(res), 34);
+                proxyprinttodiv('created testdata for test1002 -- ', JSON.stringify(res), 35);
                 console.log('created testdata for test1002 --  ' + JSON.stringify(res));
                 callback(err, status);
             });
@@ -573,33 +711,42 @@
 
     // Simple create user, add user to group with permission to create a coupon, and then try to execute createcoupon. This should succeed.
     exports.ctest1 = ctest1 = function ctest1(parm, callback) {
-
         var executeList = [
             function (cb1) {
-                createtestuser("rogerboss", "bossac", "99", cb1);
+                createtestuser("rogerboss", "bossac", "99", function (err, res) {
+                    cb1(null);
+                });
             },
 
             function (cb1) {
-                createtestuser("codyuser", "codyac", "99", cb1)
+                createtestuser("codyuser", "codyac", "99", function (err, res) {
+                    cb1(null);
+                });
             },
 
             function (cb1) { // add codyuser to the driemployeesgroup
-                addgrouptowid("codyuser", "userdto", "driemployeegrp", cb1);
+                addgrouptowid("codyuser", "userdto", "driemployeegrp", function (err, res) {
+                    cb1(null);
+                });
             },
 
             function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
-                addpermission("rogerboss", "driemployeegrp", "createdricoupon", "test", "50", cb1);
+                addpermission("rogerboss", "driemployeegrp", "createdricoupon", "test", "50", function (err, res) {
+                    cb1(null);
+                });
             },
 
             function (cb1) {
-                testsecurity("codyac", "executethis", "createdricoupon", "test", true, cb1);
+                testsecurity("codyac", "executethis", "createdricoupon", "test", true, function (err, res) {
+                    cb1(null);
+                });
             }
         ];
 
 
         async.series(executeList, function (err, res3) {
-            proxyprinttodiv('Function ctest1 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
-            cb2(err, res3);
+            proxyprinttodiv('Function ctest1 --  >>>>>> FINAL >>>>>    -- ', res3, 35);
+            callback(err, res3);
         });
     }
 
@@ -639,7 +786,7 @@
 
 
         async.series(executeList, function (err, res3) {
-            proxyprinttodiv('Function ctest2 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            proxyprinttodiv('Function ctest2 --  >>>>>> FINAL >>>>>    -- ', res3, 35);
             cb2(err, res3);
         });
     }
@@ -678,7 +825,7 @@
         ];
 
         async.series(executeList, function (err, res3) {
-            proxyprinttodiv('Function ctest3 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            proxyprinttodiv('Function ctest3 --  >>>>>> FINAL >>>>>    -- ', res3, 35);
             callback(err, res3);
         });
     }
@@ -707,7 +854,7 @@
 
         ];
         async.series(executeList, function (err, res3) {
-            proxyprinttodiv('Function ctest4 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            proxyprinttodiv('Function ctest4 --  >>>>>> FINAL >>>>>    -- ', res3, 35);
             callback(err, res3);
         });
     }
@@ -764,7 +911,7 @@
         ];
 
         async.series(executeList, function (err, res3) {
-            proxyprinttodiv('Function ctest5 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            proxyprinttodiv('Function ctest5 --  >>>>>> FINAL >>>>>    -- ', res3, 35);
             callback(err, res3);
         });
     }
@@ -810,7 +957,7 @@
         ];
 
         async.series(executeList, function (err, res3) {
-            proxyprinttodiv('Function ctest6 --  >>>>>> FINAL >>>>>    -- ', res3, 99);
+            proxyprinttodiv('Function ctest6 --  >>>>>> FINAL >>>>>    -- ', res3, 35);
             callback(err, res3);
         });
 
@@ -893,17 +1040,17 @@
 
             }],
             function (err, res) {
-                proxyprinttodiv('Function createtestuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 99);
+                proxyprinttodiv('Function createtestuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 35);
                 // addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
-                //     proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 99);
+                //     proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 35);
                 //     addcategory(userwid, true, "categoryname", function (err, res2) {
-                //         proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 99);
+                //         proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 35);
 
                 execute({
                     "executethis": "getwidmaster",
                     "wid": userwid
                 }, function (err, res3) {
-                    proxyprinttodiv('Function createtestuser --  >>>>>> FINAL USER >>>>>    -- ' + userwid, res3, 99);
+                    proxyprinttodiv('Function createtestuser --  >>>>>> FINAL USER >>>>>    -- ' + userwid, res3, 35);
                     cb2(err, res3);
                 })
                 //     });
@@ -916,9 +1063,9 @@
     // db says which DB to be used
     // actiongroup says the type of wid the action is being tried upon
     // targetaction is the action being executed on the wid
-    exports.testsecurity = testsecurity = function testsecurity(ac, targetgroup, actiongroup, dbgroup, assertion, callback) {
-        securitycheck(ac, targetgroup, actiongroup, dbgroup, function (err, res) {
-            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 99);
+    exports.testsecurity = testsecurity = function testsecurity(ac,  targetaction, actiongroup,dbgroup, assertion, callback) {
+        securitycheck(ac, targetaction, actiongroup, dbgroup, function (err, res) {
+            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 35);
             callback(err, res)
         });
     }

@@ -298,7 +298,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                 parentrelationshiptype = relationshiptype;
             }
 
-            proxyprinttodiv("parentrelationshiptype: ", parentrelationshiptype, 99);
+            proxyprinttodiv("parentrelationshiptype: ", parentrelationshiptype, 17);
 
             addwid(inputrecord, dtoobject, parentrelationshiptype, command, function (err, addobject) {
                 addobject = addobject[0];
