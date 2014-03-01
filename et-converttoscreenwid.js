@@ -3,11 +3,11 @@ $(document).ready(function () {
         widName = fileName.substr(0, fileName.indexOf('.')),
         params = {};
 
-    if (typeof widforview != 'undefined') { params.widforview = widforview; }
-    if (typeof widforbase != 'undefined') { params.widforbase = widforbase;}
-    if (typeof widforbackground != 'undefined') { params.widforbackground = widforbackground; }
-    if (typeof dataforview != 'undefined') { params.dataforview = dataforview; }
-    if (typeof links != 'undefined') { params.links = links; }
+    if (typeof widforview !== 'undefined') { params.widforview = widforview; }
+    if (typeof widforbase !== 'undefined') { params.widforbase = widforbase;}
+    if (typeof widforbackground !== 'undefined') { params.widforbackground = widforbackground; }
+    if (typeof dataforview !== 'undefined') { params.dataforview = dataforview; }
+    if (typeof links !== 'undefined') { params.links = links; }
 
     // append any existing style blocks to body before continuing
     $('style').each(function () { $('body').append(this.outerHTML); });
