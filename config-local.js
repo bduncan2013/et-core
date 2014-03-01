@@ -143,7 +143,7 @@ function setdefaultparm() {
     exports.environment = environment;
     test_results = {}; // can take out
     debuglog = {};
-    exports.debuglog = debuglog = debuglog;
+    exports.debuglog = debuglog;
 
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
@@ -284,12 +284,11 @@ function config123() {
 //function addtomongo(inputWidgetObject) {
 exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
     var collection="DRI";
-    var keycollection = "DRIKEY"
+    var keycollection = "DRIKEY";
     var err={};
     var widobject = {};
     var database = {};
     var keydatabase = {};
-    var record;
     var widName = inputWidgetObject['wid'];
     var found=false;
     if (widName) {
@@ -298,19 +297,19 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
         database = getFromLocalStorage(collection);
         proxyprinttodiv('Function addtomongo database', database,1);
 
-        for (record in database) {
+        for (var record in database) {
             proxyprinttodiv('Function addtomongo database[record]', database[record],1);
             if (database[record]["wid"]==widName) {
                 database[record]=inputWidgetObject;
                 proxyprinttodiv('Function addtomongo found', database[record],1);
                 found=true;
                 break;
-                }
             }
+        }
 
         if (!found) {
                database.push(inputWidgetObject);
-            }
+        }
 
         keydatabase = getFromLocalStorage(keycollection);
         keydatabase[widName]=inputWidgetObject;
@@ -324,10 +323,10 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
         //widobject['wid'] = widName;
         //return widobject;
         callback(err, widobject);
-        }
+    }
     else { // if no widName
         callback({}, {}); // should have better error here
-        }
+    }
 
 };
 
@@ -335,18 +334,17 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
 exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
 
     var collection = "DRI";
-    var keycollection = "DRIKEY"
+    var keycollection = "DRIKEY";
     var err={};
     var output = {};
     var keydatabase = {};
-    var record;
     var widName = inputWidgetObject['wid'];
     if (widName) {
         keydatabase = getFromLocalStorage(keycollection);
         output = keydatabase[widName];
         //output = getFromLocalStorage(widMasterKey + widKey);
         //database = getFromLocalStorage(collection);
-        // for (record in database) {
+        // for (var record in database) {
         //     if (database[record]["wid"]==widName) {
         //         output=database[record];
         //         break;
@@ -370,21 +368,21 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
         // convert the object from dri standard before returnning it
         proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject, 11);
 
-        var convertedobject=convertfromdriformat(resultobject)
+        var convertedobject=convertfromdriformat(resultobject);
         proxyprinttodiv('Function getwid in : convertedobject', convertedobject, 11);
         proxyprinttodiv('Function getwid in : resultobject', resultobject, 11);
 
         if (inputWidgetObject['command.convertmethod']==='toobject') {
             debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
                 0: inbound_parameters,
-                1: ConvertFromDOTdri(convertedobject),
+                1: ConvertFromDOTdri(convertedobject)
             }, 6);
             callback({}, ConvertFromDOTdri(convertedobject))
-            }
+        }
         else {
             debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
                 0: inbound_parameters,
-                1: convertedobject,
+                1: convertedobject
             }, 6);
             callback({"found":"error"}, convertedobject);
         }
@@ -570,14 +568,14 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     });
 
     keydatabase=getFromLocalStorage(keycollection);
-    for (eachrecord in outlist) {
-        eachwid=keydatabase[outlist[eachrecord]["wid"]]
+    for (var eachrecord in outlist) {
+        eachwid=keydatabase[outlist[eachrecord]["wid"]];
         resultlist.push(eachwid);
         }
 
     proxyprinttodiv('Function outlist', outlist, 30);
     callback(null, resultlist);
-}
+};
 
 // function getwidcopy() {
 //     // step through local storage looking for
