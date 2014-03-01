@@ -2,7 +2,7 @@
 if (!exports) {
     var exports = {};
 }
-(function (window) {
+// (function (window) {
 
 exports.localStore = localStore = function () {
 
@@ -47,7 +47,7 @@ localStore.clear();
         }
     };
 
-    exports.proxyprinttodiv = window.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
+    exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
         if (!debugone) {
             debugone = -1;
         }
@@ -56,7 +56,8 @@ localStore.clear();
         } 
         else 
         {
-            if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            if (true) {
+            // if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
                 debuglinenum++;
                 var tempobj={};
                 tempobj["text"]=text;
@@ -2190,4 +2191,4 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 })();
 
 
-})(typeof window == "undefined" ? global : window);
+// })(typeof window == "undefined" ? global : window);
