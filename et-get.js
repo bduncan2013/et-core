@@ -719,7 +719,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
         }
     ],
     function (err, results) {
-
+        if (Object.keys(parameterobject.command).length ===0) {delete parameterobject.command}
         debugfn("getWidMongo code generator", "getWidMongo", "get", "code", 2, 1, {
             0: inbound_parameters,
             1: parameterobject

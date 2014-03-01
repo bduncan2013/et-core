@@ -36,36 +36,35 @@ exports.localStore = localStore = function () {
 }();
 localStore.clear();
 
-    exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
-        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
-            printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
-            // console.log(text);
-            // console.log(obj);
-            if (document.getElementById('divprint')) {
-                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
-            }
-        }
-    };
-
-    exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
-        if (!debugone) {
-            debugone = -1;
-        }
-        if (exports.environment === "local") {
-            printToDiv(text, obj, debugone);
-        } 
-        else 
-        {
-            // if (true) {
-            if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
-                debuglinenum++;
-                var tempobj={};
-                tempobj["text"]=text;
-                tempobj["obj"]=obj;
-                addtolocal(debuglinenum,tempobj)
-            }
+exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
+    if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+        printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+        // console.log(text);
+        // console.log(obj);
+        if (document.getElementById('divprint')) {
+            document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
         }
     }
+};
+
+exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
+    if (!debugone) {
+        debugone = -1;
+    }
+    if (exports.environment === "local") {
+        printToDiv(text, obj, debugone);
+    } else {
+        // if (true) {
+        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            debuglinenum++;
+            var tempobj = {};
+            tempobj["text"] = text;
+            tempobj["obj"] = obj;
+            tempobj["executethis"] = "printdiv";
+            addtolocal(debuglinenum, tempobj)
+        }
+    }
+}
 
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
@@ -73,44 +72,45 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
     proxyprinttodiv("insertbydtotype input bigdto :- ", bigdto, 38);
     proxyprinttodiv("insertbydtotype input insertobj :- ", insertobj, 38);
     proxyprinttodiv("insertbydtotype input command :- ", command, 38);
-    
+
     var dtoname;
     var dtonameobj;
     var dtoindex;
     if (bigdto.metadata && bigdto["metadata"]["method"]) {
         dtoname = bigdto["metadata"]["method"];
-        }
+    }
     if (insertobj.metadata && insertobj["metadata"]["method"]) {
         dtoname = insertobj["metadata"]["method"];
-        }
+    }
     if (command && command.dtotype) {
         dtoname = command.dtotype;
-       }
+    }
     proxyprinttodiv("insertbydtotype dtoname :- ", dtoname, 38);
     if (dtoname) {
-        dtoindex = getindex(bigdto, dtoname, null); 
+        dtoindex = getindex(bigdto, dtoname, null);
         proxyprinttodiv("insertbydtotype dtoindex:- ", dtoindex, 38);
-        if(!insertobj.metadata){ insertobj.metadata={};}
+        if (!insertobj.metadata) {
+            insertobj.metadata = {};
+        }
         delete insertobj.wid;
-        insertobj["metadata"]["method"]=dtoname;
+        insertobj["metadata"]["method"] = dtoname;
         proxyprinttodiv("insertbydtotype setbyindex  insertobj:- ", insertobj, 38);
         proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- I", inputobj, 38);
-        if (dtoindex===null) { // create outside wrapper
-            dtoname=inputobj["metadata"]["method"];
-            insertobj[dtoname]={};
+        if (dtoindex === null) { // create outside wrapper
+            dtoname = inputobj["metadata"]["method"];
+            insertobj[dtoname] = {};
             extend(true, insertobj[dtoname], inputobj)
-            inputobj=insertobj;
+            inputobj = insertobj;
             proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- II", inputobj, 38);
-            inputobj=ConvertFromDOTdri(inputobj);
+            inputobj = ConvertFromDOTdri(inputobj);
             proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- HI", "HI", 38);
             proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- III", inputobj, 38);
-            }
-        else {
+        } else {
             setbyindex(inputobj, dtoindex, insertobj);
             proxyprinttodiv("insertbydtotype setbyindex  inputobj:- ", inputobj, 38);
-            inputobj=ConvertFromDOTdri(inputobj);
-            }
-       }
+            inputobj = ConvertFromDOTdri(inputobj);
+        }
+    }
     proxyprinttodiv("insertbydtotype result :- ", inputobj, 38);
     return inputobj;
 }
@@ -122,69 +122,75 @@ function getindex(parameterobject, dtoname, indexstring) {
 
     var match;
     var potentialmap;
-    if (parameterobject["metadata"] && parameterobject["metadata"]["method"] && parameterobject["metadata"]["method"]===dtoname) {return ""}
-
-    else
-    {
-    for (eachelement in parameterobject) {
-        proxyprinttodiv('Function getindex eachelement', eachelement,23);  
-        if (eachelement===dtoname) {
-            if (indexstring) {indexstring=indexstring+'.'+eachelement} else {indexstring=eachelement}
-              proxyprinttodiv('Function indexstring FOUND', indexstring, 23);  
-            break;         
-        }
-
-        if (parameterobject[eachelement] instanceof Object) {
-            if (indexstring) {potentialmap=indexstring+'.'+eachelement} else {potentialmap=eachelement}
-            match = getindex(parameterobject[eachelement], dtoname, potentialmap)
-            if (potentialmap!==match) {
-                indexstring=match;
-                proxyprinttodiv('Function match inside', match, 23);  
+    if (parameterobject["metadata"] && parameterobject["metadata"]["method"] && parameterobject["metadata"]["method"] === dtoname) {
+        return ""
+    } else {
+        for (eachelement in parameterobject) {
+            proxyprinttodiv('Function getindex eachelement', eachelement, 23);
+            if (eachelement === dtoname) {
+                if (indexstring) {
+                    indexstring = indexstring + '.' + eachelement
+                } else {
+                    indexstring = eachelement
+                }
+                proxyprinttodiv('Function indexstring FOUND', indexstring, 23);
                 break;
+            }
+
+            if (parameterobject[eachelement] instanceof Object) {
+                if (indexstring) {
+                    potentialmap = indexstring + '.' + eachelement
+                } else {
+                    potentialmap = eachelement
+                }
+                match = getindex(parameterobject[eachelement], dtoname, potentialmap)
+                if (potentialmap !== match) {
+                    indexstring = match;
+                    proxyprinttodiv('Function match inside', match, 23);
+                    break;
                 }
             }
         }
     }
-    proxyprinttodiv('Function indexstring ', indexstring, 23);  
+    proxyprinttodiv('Function indexstring ', indexstring, 23);
 
     debugfn("getindex code generator", "getindex", "get", "code", 2, 1, {
         0: inbound_parameters,
         1: indexstring
-    }, 6); 
-    
+    }, 6);
+
     return indexstring;
 
-} 
+}
 
 function setbyindex(obj, str, val) {
     var keys, key;
     //make sure str is a string with length
-    if (str==="") {extend(true, obj, val)}
-
-    else
-    {
-    if (!str || !str.length || Object.prototype.toString.call(str) !== "[object String]") {
-        return false;
-    }
-    if (obj !== Object(obj)) {
-        //if it's not an object, make it one
-        obj = {};
-    }
-    keys = str.split(".");
-    while (keys.length > 1) {
-        key = keys.shift();
+    if (str === "") {
+        extend(true, obj, val)
+    } else {
+        if (!str || !str.length || Object.prototype.toString.call(str) !== "[object String]") {
+            return false;
+        }
         if (obj !== Object(obj)) {
             //if it's not an object, make it one
             obj = {};
         }
-        if (!(key in obj)) {
-            //if obj doesn't contain the key, add it and set it to an empty object
-            obj[key] = {};
+        keys = str.split(".");
+        while (keys.length > 1) {
+            key = keys.shift();
+            if (obj !== Object(obj)) {
+                //if it's not an object, make it one
+                obj = {};
+            }
+            if (!(key in obj)) {
+                //if obj doesn't contain the key, add it and set it to an empty object
+                obj[key] = {};
+            }
+            obj = obj[key];
         }
-        obj = obj[key];
-    }
-    // return obj[keys[0]] = val;
-    return extend(true, obj[keys[0]], val); // we want to add data not overwrite data
+        // return obj[keys[0]] = val;
+        return extend(true, obj[keys[0]], val); // we want to add data not overwrite data
     }
 };
 
@@ -194,9 +200,9 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
     console.log("<< in deepfilter >>");
     var modifiedObj = {};
     extend(true, modifiedObj, inputObj);
-    console.log("<< extend >>" + JSON.stringify(modifiedObj));  
+    console.log("<< extend >>" + JSON.stringify(modifiedObj));
     proxyprinttodiv("deepfilter inputObj", inputObj, 41);
-    proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41); 
+    proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
     if (dtoObjOpt) {
         recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
             proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
@@ -208,14 +214,14 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
     }
 }
 
-function recurseModObj(inputObject,dtoObject, command, callback){
+function recurseModObj(inputObject, dtoObject, command, callback) {
 
-    if(command && !command["command.deepfilter.convert"]){ //command undefined
-        command["command.deepfilter.convert"]=false;    //default value
+    if (command && !command["command.deepfilter.convert"]) { //command undefined
+        command["command.deepfilter.convert"] = false; //default value
     }
-    
+
     var modifiedObj = {};
-    
+
     var todolist = [];
     Object.keys(inputObject).forEach(function (inpKey) {
         //for (eachkey in inputObject) {
@@ -223,116 +229,124 @@ function recurseModObj(inputObject,dtoObject, command, callback){
         //}
     });
     proxyprinttodiv("recurseModObj - todolist ", todolist, 41);
-    
+
     async.mapSeries(todolist, function (inpKey, cbMap) {
-        async.nextTick(function () { 
+        async.nextTick(function () {
             var inpVal = inputObject[inpKey];
-                proxyprinttodiv("recurseModObj - inpKey ", inpKey, 41);
-                proxyprinttodiv("recurseModObj - inpVal ", inpVal, 41);
-                
+            proxyprinttodiv("recurseModObj - inpKey ", inpKey, 41);
+            proxyprinttodiv("recurseModObj - inpVal ", inpVal, 41);
+
             if (dtoObject.hasOwnProperty(inpKey)) {
                 var dataType = dtoObject[inpKey];
                 proxyprinttodiv("recurseModObj - dataType ", dataType, 41);
-        
-                if(inpVal instanceof Array) {
-                    if (!modifiedObj[inpKey]) {modifiedObj[inpKey]=[]}
-                    if (isArray(dataType)) {dataType=dataType[0]}
-                    async.mapSeries(inpVal, function (eachinputval, cb1) {
-                        async.nextTick(function () { 
-                            recurseModObj(eachinputval, dataType, command, function (err, result) {
-                                if (Object.keys(result).length!==0) {modifiedObj[inpKey].push(result)};
-                                cb1(null) 
-                                }) // recurse
-                            }) // next tick
-                    }, function (err, res) {
-					    cbMap(null);
-					}); 
+
+                if (inpVal instanceof Array) {
+                    if (!modifiedObj[inpKey]) {
+                        modifiedObj[inpKey] = []
                     }
-                else 
-                
-                if(typeof inpVal === "string" && (dataType === "boolean" || dataType === "string" ||  dataType === "number" ||  dataType === "date")) {
-                    if(command["command.deepfilter.convert"]==false){
+                    if (isArray(dataType)) {
+                        dataType = dataType[0]
+                    }
+                    async.mapSeries(inpVal, function (eachinputval, cb1) {
+                        async.nextTick(function () {
+                            recurseModObj(eachinputval, dataType, command, function (err, result) {
+                                if (Object.keys(result).length !== 0) {
+                                    modifiedObj[inpKey].push(result)
+                                };
+                                cb1(null)
+                            }) // recurse
+                        }) // next tick
+                    }, function (err, res) {
+                        cbMap(null);
+                    });
+                } else
+
+                if (typeof inpVal === "string" && (dataType === "boolean" || dataType === "string" || dataType === "number" || dataType === "date")) {
+                    if (command["command.deepfilter.convert"] == false) {
                         modifiedObj[inpKey] = inpVal;
-                    }else{
-                        switch(dataType) {
-                            case "boolean":
-                                        var convB = null;
-                                        if (inpVal == true || inpVal == "true") {
-                                            convB = true;
-                                        } else if (inpVal == false || inpVal == "false") {
-                                            convB = false;
-                                        };
-                                        modifiedObj[inpKey] = convB;
-                                break;
-                            case "string":
-                                        modifiedObj[inpKey] = String(inpVal);
-                                break;
-                            case "number":
-                                        modifiedObj[inpKey] = parseInt(inpVal);                            
-                                break;
-                            case "date":
-                                        var arrD = inpVal.split("/");
-                                        var m = arrD[0];
-                                        m = (m<38 ? '0'+m : m);
-                                        var d = arrD[1];
-                                        d = (d<38 ? '0'+d : d);
-                                        var y = arrD[2];
-                                        var date = new Date(y,m-1,d); 
-                                        // add a day
-                                        date.setDate(date.getDate() + 1);
-                                        modifiedObj[inpKey] = date;                                                       
-                                break;
+                    } else {
+                        switch (dataType) {
+                        case "boolean":
+                            var convB = null;
+                            if (inpVal == true || inpVal == "true") {
+                                convB = true;
+                            } else if (inpVal == false || inpVal == "false") {
+                                convB = false;
+                            };
+                            modifiedObj[inpKey] = convB;
+                            break;
+                        case "string":
+                            modifiedObj[inpKey] = String(inpVal);
+                            break;
+                        case "number":
+                            modifiedObj[inpKey] = parseInt(inpVal);
+                            break;
+                        case "date":
+                            var arrD = inpVal.split("/");
+                            var m = arrD[0];
+                            m = (m < 38 ? '0' + m : m);
+                            var d = arrD[1];
+                            d = (d < 38 ? '0' + d : d);
+                            var y = arrD[2];
+                            var date = new Date(y, m - 1, d);
+                            // add a day
+                            date.setDate(date.getDate() + 1);
+                            modifiedObj[inpKey] = date;
+                            break;
                         }
                     }
                     proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
                     cbMap(null);
-                //} else if(typeof inpVal === "object" &&  dataType === "object") {
-                //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
-                // } else if(inpVal instanceof Array) {
-                //     async.mapSeries(inpVal, function (eachinputval, cb1) {
-                //         async.nextTick(function () { 
-                //             recurseModObj(eachinputval, dataType, command, function (err, result) {
-                //                 modifiedObj[inpKey] = inpVal;
-                //                 cb1(null) 
-                //                 }) // recurse
-                //             }) // next tick
-                //         }, // mapseries
-                //         cbMap(null);
-                //         ) // mapseries
+                    //} else if(typeof inpVal === "object" &&  dataType === "object") {
+                    //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
+                    // } else if(inpVal instanceof Array) {
+                    //     async.mapSeries(inpVal, function (eachinputval, cb1) {
+                    //         async.nextTick(function () { 
+                    //             recurseModObj(eachinputval, dataType, command, function (err, result) {
+                    //                 modifiedObj[inpKey] = inpVal;
+                    //                 cb1(null) 
+                    //                 }) // recurse
+                    //             }) // next tick
+                    //         }, // mapseries
+                    //         cbMap(null);
+                    //         ) // mapseries
 
-				} else if((typeof inpVal === "object")) {
+                } else if ((typeof inpVal === "object")) {
                     proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
                     if (inpKey !== "metadata") {
                         proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
-                        recurseModObj(inpVal,dataType,command, function (err, result) {
+                        recurseModObj(inpVal, dataType, command, function (err, result) {
                             //var modObj = recurseModObj(inpVal,dataType,command);
                             modifiedObj[inpKey] = result;
                             proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
                             cbMap(null);
                         });
-                    }else{
-                        modifiedObj[inpKey] = inpVal;  
+                    } else {
+                        modifiedObj[inpKey] = inpVal;
                         proxyprinttodiv("recurseModObj - modifiedObj[inpKey] IV", modifiedObj[inpKey], 41);
-                        cbMap(null);                  
+                        cbMap(null);
                     }
                 } else {
                     // to read wid obj via getwidmaster
-                    execute({"executethis":dataType}, function (err, result) {
+                    execute({
+                        "executethis": dataType
+                    }, function (err, result) {
                         //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
                         var widObj = result[0][0];
-                        if(widObj){
-                            if(widObj.hasOwnProperty(inpVal)){
+                        if (widObj) {
+                            if (widObj.hasOwnProperty(inpVal)) {
                                 modifiedObj[inpKey] = inpVal;
                             }
                         }
-                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);                             
+                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);
                         cbMap(null);
                     });
-                } /*else {
+                }
+                /*else {
                     //Doesn't match with dto -- Nullifying the param
                     modifiedObj[inpKey] = null;
                     cbMap(null);
-                }*/ 
+                }*/
             } else {
                 delete modifiedObj[inpKey];
                 proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
@@ -341,7 +355,7 @@ function recurseModObj(inputObject,dtoObject, command, callback){
         });
     }, function (err, res) {
         callback(err, modifiedObj);
-    });         
+    });
 }
 
 
@@ -531,7 +545,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         if (Object(data) !== data || Array.isArray(data))
             return data;
         var result = {}, cur, prop, idx, last, temp;
-        for(var p in data) {
+        for (var p in data) {
             cur = result, prop = "", last = 0;
             do {
                 idx = p.indexOf(".", last);
@@ -539,7 +553,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                 cur = cur[prop] || (cur[prop] = (!isNaN(parseInt(temp)) ? [] : {}));
                 prop = temp;
                 last = idx + 1;
-            } while(idx >= 0);
+            } while (idx >= 0);
             cur[prop] = data[p];
         }
         return result[""];
@@ -580,19 +594,20 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
     exports.ConvertToDOTdri = ConvertToDOTdri = function ConvertToDOTdri(data) { //dotize
         var result = {};
-        function recurse (cur, prop) {
+
+        function recurse(cur, prop) {
             if (Object(cur) !== cur) {
                 result[prop] = cur;
             } else if (Array.isArray(cur)) {
-                 for(var i=0, l=cur.length; i<l; i++)
-                     recurse(cur[i], prop ? prop+"."+i : ""+i);
+                for (var i = 0, l = cur.length; i < l; i++)
+                    recurse(cur[i], prop ? prop + "." + i : "" + i);
                 if (l == 0)
                     result[prop] = [];
             } else {
                 var isEmpty = true;
                 for (var p in cur) {
                     isEmpty = false;
-                    recurse(cur[p], prop ? prop+"."+p : p);
+                    recurse(cur[p], prop ? prop + "." + p : p);
                 }
                 if (isEmpty)
                     result[prop] = {};
@@ -606,26 +621,31 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     exports.getnewwid = getnewwid = function getnewwid(parameters, callback) {
         //potentialwid++;
         //return String(potentialwid);
-        var executeobject = {"executethis": "getwid", "wid": "currentwid"};
+        var executeobject = {
+            "executethis": "getwid",
+            "wid": "currentwid"
+        };
         var widvalue = 1;
-        if (parameters && parameters['widvalue']) {widvalue=parseInt(parameters['widvalue'])}
+        if (parameters && parameters['widvalue']) {
+            widvalue = parseInt(parameters['widvalue'])
+        }
 
         execute(executeobject, function (err, result) {
-            executeobject=result[0];
-            if(Object.keys(executeobject).length !== 0) {
-                widvalue=parseInt(executeobject['widvalue'])
+            executeobject = result[0];
+            if (Object.keys(executeobject).length !== 0) {
+                widvalue = parseInt(executeobject['widvalue'])
                 widvalue++;
-                }
+            }
             proxyprinttodiv("deepfilter getnewwid", widvalue, 17);
-            executeobject['widvalue']=String(widvalue)
-            executeobject['wid']="currentwid"
-            executeobject['executethis']='updatewid';
+            executeobject['widvalue'] = String(widvalue)
+            executeobject['wid'] = "currentwid"
+            executeobject['executethis'] = 'updatewid';
             proxyprinttodiv("deepfilter getnewwid", executeobject, 17);
             execute(executeobject, function (err, result) {
-                    callback(null, executeobject['widvalue']);
+                callback(null, executeobject['widvalue']);
             });
         })
-    };      
+    };
 
     // Strips the numbers from hash keys. It returns 3 arrays: input list, index list, and original input list.
     // Used by addWidParameters.
@@ -713,7 +733,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         }
     };
 
-        // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
+    // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
     exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, defaults_object, filter_object, deleteflag) {
         proxyprinttodiv("tolowerparameters parameters", parameters, 88);
@@ -722,42 +742,45 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         proxyprinttodiv("tolowerparameters deleteflag", deleteflag, 88);
         var val;
         var filteredobject = {};
-        var output={};
+        var output = {};
         var eachparm;
-        if (!filter_object) {filter_object = default_object}
+        if (!filter_object) {
+            filter_object = default_object
+        }
 
         for (eachparm in parameters) {
             output[eachparm.toLowerCase()] = parameters[eachparm]; // first lower case each parameter
-            }
+        }
 
-        if (Object.keys(defaults_object).length>0) {
+        if (Object.keys(defaults_object).length > 0) {
             for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
                 val = defaults_object[eachparam];
                 if (isObject(val)) {
                     extend(true, output[eachparam], val)
-                    }
-                else {
-                    if (val.length!==0 && !output[eachparam]) { // if val exists and parm does not, then adopt
-                        output[eachparam]=val;
-                        }
+                } else {
+                    if (val.length !== 0 && !output[eachparam]) { // if val exists and parm does not, then adopt
+                        output[eachparam] = val;
                     }
                 }
             }
+        }
 
-        if (Object.keys(filter_object).length>0) {
+        if (Object.keys(filter_object).length > 0) {
             for (eachparam in filter_object) { // create filtered results
                 if (output[eachparam]) {
-                    filteredobject[eachparam]=output[eachparam]
-                    } // create left over object each iteration
-                if (deleteflag) {delete output[eachparam]} // delete filter parms from result
-                }
+                    filteredobject[eachparam] = output[eachparam]
+                } // create left over object each iteration
+                if (deleteflag) {
+                    delete output[eachparam]
+                } // delete filter parms from result
             }
-        proxyprinttodiv("tolowerparameters output", output, 88); 
-        proxyprinttodiv("tolowerparameters filteredobject", filteredobject, 88);         
+        }
+        proxyprinttodiv("tolowerparameters output", output, 88);
+        proxyprinttodiv("tolowerparameters filteredobject", filteredobject, 88);
         return {
-                    output : output,
-                    filteredobject : filteredobject
-                }
+            output: output,
+            filteredobject: filteredobject
+        }
     }
 
 
@@ -818,7 +841,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     //     return return_data;
     // }
 
-    exports.filter_params = filter_params = function filter_params (parameters, filter_object) {
+    exports.filter_params = filter_params = function filter_params(parameters, filter_object) {
         var output = {};
         var target_value = "";
         // Get just the keys from the filter_object
@@ -837,8 +860,7 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
                     if (typeof parameters[p] === 'string') {
                         // output[p.toLowerCase()] = parameters[p].toLowerCase();
                         output[p.toLowerCase()] = parameters[p];
-                    } 
-                    else {
+                    } else {
                         output[p] = parameters[p];
                     }
                 }
@@ -858,19 +880,25 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     }
 
     exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command, com_user) {
-        var command_object={};
-        if (command) {extend(true, command_object, command)}
-            
-        proxyprinttodiv('pack_up_params parameters', parameters, 97); 
-        proxyprinttodiv('pack_up_params command_object', command_object, 97);  
-        proxyprinttodiv('pack_up_params com_user', com_user, 97); 
+        var command_object = {};
+        if (command) {
+            extend(true, command_object, command)
+        }
+
+        proxyprinttodiv('pack_up_params parameters', parameters, 97);
+        proxyprinttodiv('pack_up_params command_object', command_object, 97);
+        proxyprinttodiv('pack_up_params com_user', com_user, 97);
         if (command_object && command_object[com_user]) delete command_object[com_user];
-        proxyprinttodiv('pack_up_params command_object II', command_object, 97); 
-        if (!parameters.command) {parameters.command={}}
+        proxyprinttodiv('pack_up_params command_object II', command_object, 97);
+        if (!parameters.command) {
+            parameters.command = {}
+        }
         extend(true, parameters.command, command_object)
-        if (Object.keys(parameters.command).length ===0) {delete parameters.command}
-        
-        proxyprinttodiv('pack_up_params parameters END', parameters, 97); 
+        if (Object.keys(parameters.command).length === 0) {
+            delete parameters.command
+        }
+
+        proxyprinttodiv('pack_up_params parameters END', parameters, 97);
         return parameters;
     }
 
@@ -1031,7 +1059,9 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     }
 
     exports.debugfn = debugfn = function debugfn() {
-    if (exports.environment !== 'local') {return};
+        if (exports.environment !== 'local') {
+            return
+        };
         var processdebug = false;
         var color_list = [
             "black",
@@ -1146,11 +1176,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             etcreatecode(indebugindent, displaycolor, indebugname);
             break;
         case 6:
-        if (exports.environment === 'local') {
-            outobject[3] = getFromLocalStorage("DRIKEY");
-            // outobject[4]=getFromLocalStorage("DRIKEY");
-            etlogresults(indebugname, outobject)
-        }
+            if (exports.environment === 'local') {
+                outobject[3] = getFromLocalStorage("DRIKEY");
+                // outobject[4]=getFromLocalStorage("DRIKEY");
+                etlogresults(indebugname, outobject)
+            }
             break;
         case 7:
             etcreatecode(indebugindent, displaycolor, indebugname);
@@ -1214,14 +1244,14 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             for (eachtest in debuglog) {
                 testresults = debuglog[eachtest];
                 var test_to_print = "";
-    var name = testresults[0][0]['command']['executemethod'];
-                
+                var name = testresults[0][0]['command']['executemethod'];
+
                 // var parameters  = JSON.stringify(testresults['0'][1]['0'], "-", 4);
                 // console.log('testresults[0][1]: ' + JSON.stringify(testresults[0][1]));
                 // console.log('parameters: ' + parameters);
-                
+
                 // Pull out the parameters
-                var raw_parameters  = testresults[0][1];
+                var raw_parameters = testresults[0][1];
                 var parameters = [];
 
                 // Look in parameters to see if it is an 'array' inside
@@ -1249,19 +1279,19 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
 
 
-                var assert      = JSON.stringify(testresults[0][2], "-", 4);
-                var database    = JSON.stringify(testresults[0][3]);
-                var command     = '{"command": "null"}';
+                var assert = JSON.stringify(testresults[0][2], "-", 4);
+                var database = JSON.stringify(testresults[0][3]);
+                var command = '{"command": "null"}';
 
-                test_to_print = '[\n    [\n'   +
-                                '        {"fn": "test_and_verify"},\n        [\n' +         
-                                '           "' + name          + '",\n'   +
-                                '           "' + name          + '",\n'   +
-                                '            ' + parameters    + ',\n'    +
-                                '            ' + assert        + ',\n'    +
-                                '            ' + database      + ',\n'    +
-                                '            ' + command       + '\n        ]\n'  +
-                                '    ]\n],\n';
+                test_to_print = '[\n    [\n' +
+                    '        {"fn": "test_and_verify"},\n        [\n' +
+                    '           "' + name + '",\n' +
+                    '           "' + name + '",\n' +
+                    '            ' + parameters + ',\n' +
+                    '            ' + assert + ',\n' +
+                    '            ' + database + ',\n' +
+                    '            ' + command + '\n        ]\n' +
+                    '    ]\n],\n';
 
                 $('#divprint').append(test_to_print);
             }
@@ -1993,45 +2023,45 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         window.sift = sift;
     }
 
-	exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify (testname, parameters, assert, database, command, callback) {
-		var err;
-		var results=[];
-		var temp_config = {};
-		var c_assert = {};
-		var c_parameters = {};
+    exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify(testname, parameters, assert, database, command, callback) {
+        var err;
+        var results = [];
+        var temp_config = {};
+        var c_assert = {};
+        var c_parameters = {};
 
-		// Take a snapshot of the default config
-		extend(true, temp_config, config);
-		// Make copies of the original parameters and assert
-		extend(true, c_parameters, parameters);
-		extend(true, c_assert, assert);
+        // Take a snapshot of the default config
+        extend(true, temp_config, config);
+        // Make copies of the original parameters and assert
+        extend(true, c_parameters, parameters);
+        extend(true, c_assert, assert);
 
-		// Call test_and_verify with the config parameters in the parameters
-		test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
-			// Add res to return data
-			results.push(res);
-			
-			// Add the config parameters to the default config
-			extend(true, config.configuration, parameters["configuration"]);
+        // Call test_and_verify with the config parameters in the parameters
+        test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
+            // Add res to return data
+            results.push(res);
 
-			// Reload c_parameters and delete the config
-			c_parameters = extend(true, {}, parameters);
-			delete c_parameters["configuration"];
+            // Add the config parameters to the default config
+            extend(true, config.configuration, parameters["configuration"]);
 
-			// Reload the assertion and delete the config
-			c_assert = extend(true, {}, assert);
-			delete c_assert[0]["configuration"];
+            // Reload c_parameters and delete the config
+            c_parameters = extend(true, {}, parameters);
+            delete c_parameters["configuration"];
 
-			// Call test_and_verify with c_ verion -- actual config changed
-			test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
-				// Add res to return data
-				results.push(res_2);
-				// Set the config back to normal
-				config = extend(true, {}, temp_config);
-				callback (err, results);
-			});
-		});
-	}
+            // Reload the assertion and delete the config
+            c_assert = extend(true, {}, assert);
+            delete c_assert[0]["configuration"];
+
+            // Call test_and_verify with c_ verion -- actual config changed
+            test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
+                // Add res to return data
+                results.push(res_2);
+                // Set the config back to normal
+                config = extend(true, {}, temp_config);
+                callback(err, results);
+            });
+        });
+    }
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
         testclearstorage();
@@ -2044,11 +2074,11 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
             this_string = this_string.substring(0, this_string.length - 1) + ']';
             addToLocalStorage("DRI", JSON.parse(this_string));
         }
-        if(parameters instanceof Array){
+        if (parameters instanceof Array) {
             parameters.push(function (err, res) {
-                    res = logverify(testname, res, assert);
-                    callback(err, res);
-                });
+                res = logverify(testname, res, assert);
+                callback(err, res);
+            });
             window[fnname].apply(window, parameters);
         } else {
             window[fnname](
@@ -2069,7 +2099,9 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         var wid;
         var metadata;
         var date;
-        if (command && command.db) {db = command.db}
+        if (command && command.db) {
+            db = command.db
+        }
 
         inputWidgetObject['metadata.date'] = new Date();
 
@@ -2135,10 +2167,12 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return saveobject;
     };
 
-    exports.convertfromdriformat = convertfromdriformat =  function convertfromdriformat(widobject, command) {
+    exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
         var outobject = {};
-        var db="data";
-        if (command && command.db) {db = command.db}
+        var db = "data";
+        if (command && command.db) {
+            db = command.db
+        }
 
         //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
 
