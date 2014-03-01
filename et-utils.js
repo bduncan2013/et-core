@@ -2,7 +2,7 @@
 if (!exports) {
     var exports = {};
 }
-
+(function (window) {
 
 exports.localStore = localStore = function () {
 
@@ -2188,3 +2188,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
         return outobject;
     };
 })();
+
+
+})(typeof window == "undefined" ? global : window);
