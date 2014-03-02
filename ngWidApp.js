@@ -44,13 +44,13 @@ if (typeof angular !== 'undefined') {
         return {
             storeData: function(results, scope, modelKey, callback) {
                 if (results !== null && results instanceof Object) {
-                    storeAllData(results, scope, modelKey, function() {
+                    storeAllData(results, scope, modelKey, function () {
                         callback(results);
                     });
                 } else if (Array.isArray(results)) {
                     for (var i = 0; i < results.length; i++) {
                         if (results[i] !== null && results[i] instanceof Object) {
-                            storeAllData(results[i], scope, modelKey, function() {
+                            storeAllData(results[i], scope, modelKey, function () {
                                 callback(results);
                             });
                         }
@@ -82,14 +82,14 @@ if (typeof angular !== 'undefined') {
                     var parameters = {parameterDTOs:[]};
                     parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:accessToken});
 
-                    return getDriApiData('getuserinfo?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff', parameters, function(err, results) {
+                    return getDriApiData('getuserinfo?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff', parameters, function (err, results) {
                         if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
                         else { callback(results); }
                     });
                 },
 
                 getNewAt: function(callback) {
-                    return getDriApiData('getnewaccesstoken', {}, function(err, results) {
+                    return getDriApiData('getnewaccesstoken', {}, function (err, results) {
                         if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
                         else { callback(results); }
                     });
@@ -108,10 +108,10 @@ if (typeof angular !== 'undefined') {
                 }
             }
 
-            dataService.storeData(result, scope, undefined, function(dataset) {
+            dataService.storeData(result, scope, undefined, function (dataset) {
                 // check if this is a screenwid and needs to be displayed
                 if (dataset.html) {
-                    etProcessScreenWid(dataset, scope, function() {
+                    etProcessScreenWid(dataset, scope, function () {
                         widAppHelper.processHtml(dataset, scope, $compile);
                     });
                 }
@@ -120,7 +120,7 @@ if (typeof angular !== 'undefined') {
 
         return {
             executeThis: function(parameters, scope, callback) {
-                execute(parameters, function(err, resultArray) {
+                execute(parameters, function (err, resultArray) {
                     for (var x = 0; x < resultArray.length; x++) {
                         if (Array.isArray(resultArray[x])) {
                             for (var i = 0; i < resultArray[x].length; i++) {
@@ -224,11 +224,11 @@ if (typeof angular !== 'undefined') {
 
             // get urlparams and inwid parameters and call executeThis with them
             // executeThis will check for screenwids to display
-            executeService.executeThis(urlExecuteObj, $scope, function(err, urlResultArr) {
+            executeService.executeThis(urlExecuteObj, $scope, function (err, urlResultArr) {
                 var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
                 extend(true, processParams, urlResultObj.data);
 
-                executeService.executeThis({executethis:'inwid'}, $scope, function(err, inwidResultArr) {
+                executeService.executeThis({executethis:'inwid'}, $scope, function (err, inwidResultArr) {
                     extend(true, processParams, widAppHelper.mergeNestedArray(inwidResultArr));
 
                     if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
@@ -251,7 +251,7 @@ if (typeof angular !== 'undefined') {
 
             // package current users info into the model
             if (currentUser && currentUser.loggedin) {
-                dataService.user.getInfo(currentUser.at, function(results) {
+                dataService.user.getInfo(currentUser.at, function (results) {
                     var info = JSON.parse(results[0].Value);
                     $scope.userinfo = info;
                     console.log('**ngModelData** data for current userinfo :');
@@ -278,7 +278,7 @@ if (typeof angular !== 'undefined') {
 
                 if ($scope.deleteWid) { updateParams.metadata.status = '5'; }
 
-                executeService.executeThis(updateParams, $scope, function() {
+                executeService.executeThis(updateParams, $scope, function () {
                     $scope.clearAddWidForm();
                     $('#successlog').html("The wid has been successfully added or updated!");
                     //            self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
@@ -317,7 +317,7 @@ if (typeof angular !== 'undefined') {
 
                 $scope.ajax.loading = true;
 
-                getDriApiData('login1', parameters, function(err, results) {
+                getDriApiData('login1', parameters, function (err, results) {
                     if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
                     else {
                         $('#pin,#pingrp').show();
@@ -480,7 +480,7 @@ if (typeof angular !== 'undefined') {
         async.series([
                 function(cb) {
                     execute({executethis:$scope.wid},
-                        function(err, resultsArr) {
+                        function (err, resultsArr) {
                             cb(null, resultsArr);
                         });
                 }
@@ -596,7 +596,7 @@ if (typeof angular !== 'undefined') {
             }
 
             // take care of any <execute></execute> elements
-            $(screenWid.html).filter('execute').each(function(index, ele) {
+            $(screenWid.html).filter('execute').each(function (index, ele) {
                 widAppHelper.processExecute(ele, scope);
             });
 
@@ -612,7 +612,7 @@ if (typeof angular !== 'undefined') {
             if (!excuteObj.processed || executeObj.processed !== 'true') {
                 angular.injector(['ng', 'widApp'])
                     .get('executeService')
-                    .executeThis(executeObj, scope, function(err, resultArr) {
+                    .executeThis(executeObj, scope, function (err, resultArr) {
                         if (err && Object.size(err) > 0) {
                             console.log('screenwidToHtml execute error => ' + JSON.stringify(err));
                         }
@@ -669,7 +669,7 @@ if (typeof angular !== 'undefined') {
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
-            .executeThis(parameters, scope, function(err, resultArray) {
+            .executeThis(parameters, scope, function (err, resultArray) {
                 if (err && Object.size(err) > 0) {
                     console.log('error in execute process that was bound using links event binding => ' + JSON.stringify(err));
                 }
@@ -762,7 +762,7 @@ if (typeof angular !== 'undefined') {
         if (parameters.startwid) {
             angular.injector(['ng', 'widApp'])
                 .get('executeService')
-                .executeThis({executethis:parameters.startwid}, scope, function(err, resultsArr) {
+                .executeThis({executethis:parameters.startwid}, scope, function (err, resultsArr) {
                     if (err && Object.size(err) > 0) {
                         console.log('execute error while processing html => ' + JSON.stringify(err));
                     }
@@ -782,7 +782,7 @@ if (typeof angular !== 'undefined') {
                 // run through executeThis to store data in the model and display any contained html
                 angular.injector(['ng', 'widApp'])
                     .get('executeService')
-                    .executeThis(executeObj, scope, function(err, resultArray) {
+                    .executeThis(executeObj, scope, function (err, resultArray) {
                         cb();
                     });
             },
@@ -806,7 +806,7 @@ if (typeof angular !== 'undefined') {
         var scope = $('body').scope();
         angular.injector(['ng', 'widApp'])
             .get('executeService')
-            .executeThis(parameters, scope, function(err, resultArray) {
+            .executeThis(parameters, scope, function (err, resultArray) {
                 if (callback instanceof Function) { callback(err, resultArray); }
             });
     };
@@ -827,11 +827,11 @@ exports.htmlToScreenwid = htmlToScreenwid = function htmlToScreenwid(screenWidNa
     }
 
     // add all execute elements as numbered properties of the screenWid
-    htmlDom.filter('execute').each(function(i, ele) {
+    htmlDom.filter('execute').each(function (i, ele) {
         newScreenwid[i.toString()] = ele.outerHTML;
     });
 
-    execute(newScreenwid, function(err, resultArray) {
+    execute(newScreenwid, function (err, resultArray) {
         if (err && Object.size(err) > 0) {
             console.log('htmlToScreenwid addwidmaster error => ' + JSON.stringify(err));
         }
@@ -847,7 +847,7 @@ exports.screenwidToHtml = screenwidToHtml = function screenwidToHtml(screenWid, 
     function addToElement(ele, cb) {
         var executeObj = NNMtoObj(ele.attributes);
 
-        execute(executeObj, function(err, resultArray) {
+        execute(executeObj, function (err, resultArray) {
             if (err && Object.size(err) > 0) {
                 console.log('screenwidToHtml execute error => ' + JSON.stringify(err));
             } else {
@@ -860,8 +860,8 @@ exports.screenwidToHtml = screenwidToHtml = function screenwidToHtml(screenWid, 
         });
     }
 
-    async.each(htmlDom.filter('execute'), addToElement, function(err) {
-        htmlDom.each(function(index, element) {
+    async.each(htmlDom.filter('execute'), addToElement, function (err) {
+        htmlDom.each(function (index, element) {
             if (element.outerHTML !== undefined) {
                 htmlString += element.outerHTML;
             }
