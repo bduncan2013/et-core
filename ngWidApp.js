@@ -585,39 +585,69 @@ if (typeof angular !== 'undefined') {
             "onclick='$(this).parent().parent().parent().remove();'>-</button></div></div></span>",
 
         processHtml: function(screenWid, scope, compile) {
-            var targetid = 'default_view_loc';
+            var targetElement = $('#default_view_loc');
+
+//            // if processing an execute element then the html must be placed inside current element
+//            if (scope.processingExecute) {
+//                targetElement = $(scope.executeProcessingElement);
+//                scope.processingExecute = false;
+//            }
 
             // find targetid from screenwid if it exists
             if (screenWid.command) {
-                if (screenWid.command.htmltargetid) { targetid = screenWid.command.htmltargetid; }
+                if (screenWid.command.htmltargetid) { targetElement = $('#' + screenWid.command.htmltargetid); }
 
                 // clear html from element if specified
                 if (screenWid.command.htmlcleartargetid) { $('#' + screenWid.command.htmlcleartargetid).html(''); }
             }
 
-            // take care of any <execute></execute> elements
-            $(screenWid.html).filter('execute').each(function (index, ele) {
-                widAppHelper.processExecute(ele, scope);
+            scope.$apply(function() {
+                targetElement.append(compile(screenWid.html)(scope));
             });
 
-            scope.$apply(function() {
-                $('#' + targetid).append(compile(screenWid.html)(scope));
+            // take care of any <execute></execute> elements
+            $('execute').each(function (index, ele) {
+                if ($(ele).attr('processed') !== undefined || $(ele).attr('processed') !== 'true') {
+                    widAppHelper.processExecute(ele, scope, compile);
+                    $(ele).attr('processed', 'true');
+                }
             });
         },
 
-        processExecute: function(ele, scope) {
+        processExecute: function(ele, scope, compile) {
             var executeObj = NNMtoObj(ele.attributes);
+//            scope.processingExecute = true;
+//            scope.executeProcessingElement = ele;
 
-            // proceed if execute tag wasn't already processed during server conversion process
-            if (!excuteObj.processed || executeObj.processed !== 'true') {
+            execute(executeObj, function(err, resultArr) {
+                var results = widAppHelper.mergeNestedArray(resultArr);
                 angular.injector(['ng', 'widApp'])
-                    .get('executeService')
-                    .executeThis(executeObj, scope, function (err, resultArr) {
-                        if (err && Object.size(err) > 0) {
-                            console.log('screenwidToHtml execute error => ' + JSON.stringify(err));
+                    .get('dataService')
+                    .storeData(results, scope, '', function() {
+                        if (results.html) {
+                            // take care of any <execute></execute> elements
+                            $('<div>' + results.html + '</div>').find('execute').each(function (index, element) {
+                                widAppHelper.processExecute(element, scope, compile);
+                            });
+
+                            scope.$apply(function() {
+//                               $('#' + eleId).html(compile(results.html)(scope));
+                                $(ele).replaceWith(compile(results.html)(scope));
+                            });
                         }
                     });
-            }
+            });
+
+//            // proceed if execute tag wasn't already processed during server conversion process
+//            if (!executeObj.processed || executeObj.processed !== 'true') {
+//                angular.injector(['ng', 'widApp'])
+//                    .get('executeService')
+//                    .executeThis(executeObj, scope, function (err, resultArr) {
+//                        if (err && Object.size(err) > 0) {
+//                            console.log('screenwidToHtml execute error => ' + JSON.stringify(err));
+//                        }
+//                    });
+//            }
         },
 
         isJsonStr: function(jsonStr) {
@@ -826,10 +856,11 @@ exports.htmlToScreenwid = htmlToScreenwid = function htmlToScreenwid(screenWidNa
         if (params.links) { newScreenwid.links = JSON.stringify(links); }
     }
 
-    // add all execute elements as numbered properties of the screenWid
-    htmlDom.filter('execute').each(function (i, ele) {
-        newScreenwid[i.toString()] = ele.outerHTML;
-    });
+    // commented, this causes execute() to read property '0' and convert it to 'wid' which is bad
+//    // add all execute elements as numbered properties of the screenWid
+//    htmlDom.filter('execute').each(function (i, ele) {
+//        newScreenwid[i.toString()] = ele.outerHTML;
+//    });
 
     execute(newScreenwid, function (err, resultArray) {
         if (err && Object.size(err) > 0) {
