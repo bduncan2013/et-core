@@ -112,7 +112,7 @@ if (typeof angular !== 'undefined') {
                 // check if this is a screenwid and needs to be displayed
                 if (dataset.html) {
                     etProcessScreenWid(dataset, scope, function() {
-                        helper.processHtml(dataset, scope, $compile);
+                        widAppHelper.processHtml(dataset, scope, $compile);
                     });
                 }
             });
@@ -209,7 +209,7 @@ if (typeof angular !== 'undefined') {
             $scope.data = {};
             $scope.ajax = {};
             var querystring = window.location.search,
-                parameters = helper.queryStrToObj(querystring.substring(1)),
+                parameters = widAppHelper.queryStrToObj(querystring.substring(1)),
                 currentUser = dataService.user.getLocal(),
                 processParams = {};
 
@@ -225,13 +225,13 @@ if (typeof angular !== 'undefined') {
             // get urlparams and inwid parameters and call executeThis with them
             // executeThis will check for screenwids to display
             executeService.executeThis(urlExecuteObj, $scope, function(err, urlResultArr) {
-                var urlResultObj = helper.mergeNestedArray(urlResultArr);
+                var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
                 extend(true, processParams, urlResultObj.data);
 
                 executeService.executeThis({executethis:'inwid'}, $scope, function(err, inwidResultArr) {
-                    extend(true, processParams, helper.mergeNestedArray(inwidResultArr));
+                    extend(true, processParams, widAppHelper.mergeNestedArray(inwidResultArr));
 
-                    if (processParams.addthis) { processParams = helper.removeAddThis(processParams); }
+                    if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
 
                     if (processParams.wid) {
                         processParams.executethis = processParams.wid;
@@ -245,8 +245,8 @@ if (typeof angular !== 'undefined') {
             });
 
             // package url parameters into model
-            if (Object.size(helper.queryStrToObj(location.search)) > 0) {
-                $scope.urlparameters = helper.queryStrToObj(location.search);
+            if (Object.size(widAppHelper.queryStrToObj(location.search)) > 0) {
+                $scope.urlparameters = widAppHelper.queryStrToObj(location.search);
             }
 
             // package current users info into the model
@@ -286,7 +286,7 @@ if (typeof angular !== 'undefined') {
             };
 
             $scope.newPropRow = function() {
-                $('#propertyList').append(helper.newPropRowHtml);
+                $('#propertyList').append(widAppHelper.newPropRowHtml);
                 $('.pname').last().focus();
             };
 
@@ -351,7 +351,7 @@ if (typeof angular !== 'undefined') {
                         }
 
                         $scope.ajax.loading = false;
-                        var returnUrl = helper.getUrlParam('returnUrl');
+                        var returnUrl = widAppHelper.getUrlParam('returnUrl');
                         if (returnUrl !== '') { window.location = returnUrl; }
                     }
                 });
@@ -412,7 +412,7 @@ if (typeof angular !== 'undefined') {
             };
 
         $scope.sDOM = $(document.createElement('html'));
-        $scope.wid = helper.getUrlParam('wid');
+        $scope.wid = widAppHelper.getUrlParam('wid');
 
         // set up head and body elements
         var head = $(document.createElement('head'));
@@ -546,7 +546,7 @@ if (typeof angular !== 'undefined') {
 
     //<editor-fold desc="helper object and functions"
 
-    var helper = {
+    var widAppHelper = {
         getUrlParam: function(name) {
             name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -595,13 +595,13 @@ if (typeof angular !== 'undefined') {
                 if (screenWid.command.htmlcleartargetid) { $('#' + screenWid.command.htmlcleartargetid).html(''); }
             }
 
-            scope.$apply(function() {
-                $('#' + targetid).append(compile(screenWid.html)(scope));
+            // take care of any <execute></execute> elements
+            $(screenWid.html).filter('execute').each(function(index, ele) {
+                widAppHelper.processExecute(ele, scope);
             });
 
-            // take care of any <execute></execute> elements
-            $('execute').each(function(index, ele) {
-                helper.processExecute(ele, scope);
+            scope.$apply(function() {
+                $('#' + targetid).append(compile(screenWid.html)(scope));
             });
         },
 
@@ -615,10 +615,6 @@ if (typeof angular !== 'undefined') {
                     .executeThis(executeObj, scope, function(err, resultArr) {
                         if (err && Object.size(err) > 0) {
                             console.log('screenwidToHtml execute error => ' + JSON.stringify(err));
-                        } else {
-                            for (var i = 0; i < resultsArr.length; i++) {
-                                if (resultArr[i].html) { $(ele).append(resultArr[i].html); }
-                            }
                         }
                     });
             }
@@ -669,7 +665,7 @@ if (typeof angular !== 'undefined') {
 
         // send calling element and any additional info into the execute process
         parameters.command.parameters.eventdata.element = ele;
-        parameters.command.parameters.eventdata.originatingscreen = helper.getUrlParam('wid');
+        parameters.command.parameters.eventdata.originatingscreen = widAppHelper.getUrlParam('wid');
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
@@ -743,7 +739,7 @@ if (typeof angular !== 'undefined') {
             }
 
             // check if the executethis property is an object
-            if (helper.isJsonStr(links[i].executethis)) { eventParams = JSON.parse(links[i].executethis); }
+            if (widAppHelper.isJsonStr(links[i].executethis)) { eventParams = JSON.parse(links[i].executethis); }
             else { eventParams.executethis = links[i].executethis; }
 
             // add event attributes to element
