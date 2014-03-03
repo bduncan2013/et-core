@@ -220,8 +220,8 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         command["command.deepfilter.convert"] = false; //default value
     }
 
+    var temparray=[];
     var modifiedObj = {};
-
     var todolist = [];
     Object.keys(inputObject).forEach(function (inpKey) {
         //for (eachkey in inputObject) {
@@ -231,6 +231,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     proxyprinttodiv("recurseModObj - todolist ", todolist, 41);
 
     async.mapSeries(todolist, function (inpKey, cbMap) {
+        proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
         async.nextTick(function () {
             var inpVal = inputObject[inpKey];
             proxyprinttodiv("recurseModObj - inpKey ", inpKey, 41);
@@ -240,23 +241,40 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 var dataType = dtoObject[inpKey];
                 proxyprinttodiv("recurseModObj - dataType ", dataType, 41);
 
-                if (inpVal instanceof Array) {
-                    if (!modifiedObj[inpKey]) {
-                        modifiedObj[inpKey] = []
-                    }
+                //if (inpVal instanceof Array) {
+                if ((isArray(inpVal)) || (isArray(dataType))) {
+                    if (!isArray(inpVal)) {
+                        temparray=[];
+                        temparray.push(inpVal)
+                        inpVal=temparray;
+                        }
                     if (isArray(dataType)) {
                         dataType = dataType[0]
-                    }
-                    async.mapSeries(inpVal, function (eachinputval, cb1) {
+                        }
+                    if (!modifiedObj[inpKey]) {
+                        modifiedObj[inpKey] = []
+                        }
+                    proxyprinttodiv("recurseModObj - before mapseries inpVal ", inpVal, 41);
+                    proxyprinttodiv("recurseModObj - before mapseries inpVal isArray", isArray(inpVal), 41);
+                    proxyprinttodiv("recurseModObj - before mapseries dataType ", dataType, 41);
+                    async.mapSeries(inpVal, function (eachinputval, cb1) { // step through each inpVal
                         async.nextTick(function () {
+                            proxyprinttodiv("recurseModObj - in mapseries eachinputval ", eachinputval, 41);
                             recurseModObj(eachinputval, dataType, command, function (err, result) {
+                                proxyprinttodiv("recurseModObj - in mapseries result ", result, 41);
                                 if (Object.keys(result).length !== 0) {
                                     modifiedObj[inpKey].push(result)
-                                };
+                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] ", modifiedObj[inpKey], 41);
+                                    proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
+                                    };
+                                proxyprinttodiv("recurseModObj - after if ", modifiedObj[inpKey], 41);
                                 cb1(null)
                             }) // recurse
+                            proxyprinttodiv("recurseModObj - between ", modifiedObj[inpKey], 41);
                         }) // next tick
+                        proxyprinttodiv("recurseModObj - between II ", modifiedObj[inpKey], 41);
                     }, function (err, res) {
+                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] end nextTick ", modifiedObj[inpKey], 41);
                         cbMap(null);
                     });
                 } else
@@ -2176,10 +2194,17 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
 
         //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
 
+        // if ((widobject) && (Object.keys(widobject).length > 0)) {
+        //     if (widobject[db]) {
+        //         outobject = widobject[db];
+        //     }
         if ((widobject) && (Object.keys(widobject).length > 0)) {
-            if (widobject[db]) {
+            if (isArray(widobject[db])) {
+                outobject = widobject[db][0];
+                }
+            else {
                 outobject = widobject[db];
-            }
+                }
 
             if (widobject['wid']) {
                 outobject['wid'] = widobject['wid'];

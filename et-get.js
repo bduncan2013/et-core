@@ -114,77 +114,6 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
     }); // end get wid mongo
 };
 
-// *** GetWidMaster ***
-// Purpose: splits wid and command parameters
-
-// exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
-//     var inbound_parameters = {};
-//     inbound_parameters = JSON.parse(JSON.stringify(arguments));
-
-//     parameters = ConvertFromDOTdri(parameters); // convert to object
-
-//     // lower case check
-//     if (!parameters.command) {parameters.command={}}
-//     if (!parameters.command.inheritflag) {parameters.command.inheritflag="true"}
-
-//     proxyprinttodiv('In __getwidmaster__ with parameters: ', parameters, 38);
-//     getWidMongo(parameters.wid, parameters.command, "", 20, function (err, res) { // recurse up to 20 levels
-//         proxyprinttodiv('In __getwidmaster__ with res: ', res, 38);
-//         if ((res) && (res.command) && (Object.keys(res.command).length === 0)) {delete res.command}      
-//         if ((res) && (Object.keys(res).length !== 0) && (res['metadata']) && 
-//             (res['wid'] !== res['metadata']['method']) && (parameters.convertmethod!=="dto") && 
-//             (parameters.command.inheritflag !== "false")) {
-//             proxyprinttodiv('<<< calling getclean >>>', res, 38);
-//             getclean(res, parameters.command, function (err, res) {
-//                 if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
-//                     //res = ConvertFromDOTdri(res);
-                    
-//                     debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
-//                         0: inbound_parameters,
-//                         1: res
-//                     }, 6);
-
-//                     callback(err, res);
-//                 }
-//                 else { // the detault is to return dot notation...so old code does not break
-//                     res = ConvertToDOTdri(res);
-                                        
-//                     debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
-//                         0: inbound_parameters,
-//                         1: res
-//                     }, 6);
-
-//                     callback(err, res);  
-//                 }
-//             });
-//         } else {
-//             if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
-//                     //res = ConvertFromDOTdri(res);
-                                        
-//                 debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
-//                     0: inbound_parameters,
-//                     1: res
-//                 }, 6);
-                
-//                 callback(err, res);
-//             }
-//             else { // the detault is to return dot notation...so old code does not break
-//                 res = ConvertToDOTdri(res);
-                                    
-//                 debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
-//                     0: inbound_parameters,
-//                     1: res
-//                 }, 6);
-                
-//                 callback(err, res);  
-//             }  
-//         }
-//     }); // end get wid mongo
-// }
-
-
-
-
 
 // *** GetDTOObject ***
 // Purpose: Pulls the schema for objects
@@ -239,6 +168,16 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
                                 tempobj={};
                                 tempobj[eachitem]=metadata[eachitem]['type'];
                                 extend(true, dtolist, tempobj);
+                                // eachitem would be a child
+                                if ((metadata[eachitem]['type']==="onetomany" || 
+                                    metadata[eachitem]['type']==="jsononetomany") &&
+                                    (!isArray(inobj[eachitem]))) {
+                                        tempArray=[]
+                                        tempArray.push(inobj[eachitem]);
+                                        delete inobj[eachitem];
+                                        inobj[eachitem]=tempArray;
+                                    }
+                                
                                 //proxyprinttodiv("getdtoobject dtolist", dtolist, 38);
                             }
                         }
@@ -535,7 +474,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             }
                             //rightparameters = moreDTOParameters[eachresult][key];
                         }
-
+                        proxyprinttodiv('Function getwidmongo rightparameters inside ', rightparameters, 38);
                         // added
                         // if metadata: {inherit: wid1} then create command: {inherit: { wid1: wid}}
 
@@ -551,6 +490,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             //getWidMongo(key, convertmethod, accesstoken, dtotype, rightparameters["metadata"]["method"], level, function (err, params) { 
                             getWidMongo(key, command, rightparameters["metadata"]["method"], level, function (err, params) { 
                                 proxyprinttodiv('Function getwidmongo params', params, 38);
+                                //proxyprinttodiv('Function getwidmongo rightparameters inside II ', rightparameters, 38);
                                 debugcolor--;
                                 debugindent--;
                                 if (Object.keys(params).length!==0) {
@@ -585,12 +525,13 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                     //if ((rightparameters["data"]) && (rightparameters["data"]["linktype"]) && 
                                     //    (rightparameters["data"]["linktype"] === "onetomany") && (command.convertmethod !== "dto"))  {
 
-                                    if ((command) && (command.getwidmaster) && (command.getwidmaster.convertmethod === "dto")) {
-                                        parameterobject[rightparameters["metadata"]["method"]]=params;
-                                    }
-                                    else { // if not dto, i.e most of time
+//                                    if ((command) && (command.getwidmaster) && (command.getwidmaster.convertmethod === "dto")) {
+//                                        parameterobject[rightparameters["metadata"]["method"]]=params;
+//                                    }
+//                                    else { // if not dto, i.e most of time
                                         if ((rightparameters) && (rightparameters["linktype"])) {
-                                            if (rightparameters["linktype"] === "onetomany") {
+                                            if ((rightparameters["linktype"] === "onetomany") || 
+                                                (rightparameters["linktype"] === "jsononetomany")) {
                                                 if (Object.prototype.toString.call(parameterobject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
                                                     parameterobject[rightparameters["metadata"]["method"]]=[]; 
                                                     }
@@ -598,17 +539,26 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                                 }
                                             else 
                                                 {
-                                                if (rightparameters["linktype"] === "onetoone") {
+                                                if ((rightparameters["linktype"] === "onetoone") ||
+                                                    (rightparameters["linktype"] === "jsononetoone")) {
                                                     parameterobject[rightparameters["metadata"]["method"]]=params;
                                                     }
                                                 else {
-                                                    if (rightparameters["linktype"] === "internal") {
+                                                    if ((rightparameters["linktype"] === "jsononetoone") ||
+                                                        (rightparameters["linktype"] === "jsononetomany")) {
                                                         // add code here
                                                         }
                                                     }
                                                 } // end of 2nd else
+
+                                            proxyprinttodiv('Function getwidmongo parameterobject II-before', parameterobject, 38);
+                                            parameterobject['metadata'][rightparameters.metadata.method]={};
+                                            parameterobject['metadata'][rightparameters.metadata.method]['type']=
+                                                                                        rightparameters["linktype"];
+
                                             }
-                                        } // if not dto else
+                                            proxyprinttodiv('Function getwidmongo parameterobject II', parameterobject, 38);
+//                                        } // if not dto else
                                         //cbMap(null);
                                     } // if object length                                         
                                 //else { // if nothing returned
@@ -676,7 +626,9 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                     (parameterobject['metadata'][eachmetadata]['type']) &&
                                     (
                                         (parameterobject['metadata'][eachmetadata]['type']==="onetomany") || 
-                                        (parameterobject['metadata'][eachmetadata]['type']==="onetoone")
+                                        (parameterobject['metadata'][eachmetadata]['type']==="onetoone") ||
+                                        (parameterobject['metadata'][eachmetadata]['type']==="jsononetomany") || 
+                                        (parameterobject['metadata'][eachmetadata]['type']==="jsononetoone")
                                     )
                                 )
                                 {

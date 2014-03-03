@@ -925,34 +925,34 @@
                 createtestuser("rogerboss", "rogerac", "99", function (err, res) {
                     cb1(null);
                 });
-                },
+            },
 
-                function (cb1) {
-                    createtestuser("codyuser", "codyac", "49", function (err, res) {
-                        cb1(null);
-                    });
-                },
+            function (cb1) {
+                createtestuser("codyuser", "codyac", "49", function (err, res) {
+                    cb1(null);
+                });
+            },
 
-                function (cb1) { // add codyuser to the driusergrp
-                    addgrouptowid("codyuser", "userdto", "driusergrp1", function (err, res) {
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
-                    creategroup("driusergrp1", function (err, res) {
-                        cb1(null);
-                    });
-                },
-                function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
-                    addpermission("rogerboss", "driusergrp1", "createcoupon", "data", "99", function (err, res) {
-                        cb1(null);
-                    });
-                },
+            function (cb1) { // add codyuser to the driusergrp
+                addgrouptowid("codyuser", "userdto", "driusergrp1", function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                creategroup("driusergrp1", function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) { // rogerboss allows anyone in driemployees to executethis to cretecoupon
+                addpermission("rogerboss", "driusergrp1", "createcoupon", "data", "99", function (err, res) {
+                    cb1(null);
+                });
+            },
 
-                function (cb1) {
-                    securitycheck("codyac", "executethis", "createcoupon", "test", false, function (err, res) {
-                        cb1(null);
-                    });
+            function (cb1) {
+                securitycheck("codyac", "executethis", "createcoupon", "test", false, function (err, res) {
+                    cb1(null);
+                });
             }
         ];
 
@@ -972,7 +972,10 @@
                 createtestuser("rogerboss", "bossac", "99", cb1);
             },
             function (cb1) {
-                execute({"executethis": "getwidmaster", "wid":"rogerboss"}, cb1);
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": "rogerboss"
+                }, cb1);
             }
         ];
         async.series(executeList, function (err, res3) {
@@ -1063,7 +1066,7 @@
     // db says which DB to be used
     // actiongroup says the type of wid the action is being tried upon
     // targetaction is the action being executed on the wid
-    exports.testsecurity = testsecurity = function testsecurity(ac,  targetaction, actiongroup,dbgroup, assertion, callback) {
+    exports.testsecurity = testsecurity = function testsecurity(ac, targetaction, actiongroup, dbgroup, assertion, callback) {
         securitycheck(ac, targetaction, actiongroup, dbgroup, function (err, res) {
             proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 35);
             callback(err, res)

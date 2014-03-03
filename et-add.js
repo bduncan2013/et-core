@@ -138,16 +138,20 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
     var _parent_dto = {};
     var _children_object_collection = {};
     var _children_dto_collection = {};
-    var _child_object = {};
-    var _child_dto = {};
+    var _child_object;
+    var _child_dto;
     var _dto;
     var _children_dto_list = [];
     var _parent_wid;
     var _parent_method;
+    var _child_object_map=[];
 
     // clone input and inputdto to parent object and child object
-    extend(true, _parent_object, input);
-    extend(true, _parent_dto, inputdto);
+
+    _parent_object= JSON.parse(JSON.stringify(input))
+    _parent_dto= JSON.parse(JSON.stringify(inputdto))
+    //extend(true, _parent_object, input);
+    //extend(true, _parent_dto, inputdto);
 
     // should not be necessary because addwidmaster does it
     //delete _parent_object.command;
@@ -167,7 +171,7 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
                 _dto["dtotype"] = inputdto.command.dtolist[each_property];
                 //_dto["dtotype"] = inputdto.command.deepdtolist[each_property];
 
-                if (_dto.dtotype!=="jsononetomany") { // if internal do nothing
+                if ((_dto.dtotype!=="jsononetomany") && (_dto.dtotype!=="jsononetoone")) { // if internal do nothing
                     _children_dto_list.push(_dto); // produces list [{booksdto: onetomany},{}]
 
                     //delete _parent_object[inputdto.command.dtolist[each_property]];
@@ -176,13 +180,15 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
                     delete _parent_dto[each_property];            
                 
                     if (input[each_property]) {
-                        _children_object_collection[each_property] = {};
-                        extend(true, _children_object_collection[each_property], input[each_property]);
+                        //_children_object_collection[each_property] = {};
+                        //extend(true, _children_object_collection[each_property], input[each_property]);
+                        _children_object_collection[each_property] = JSON.parse(JSON.stringify(input[each_property]));
                     }
 
                     if (inputdto[each_property]) {
-                        _children_dto_collection[each_property] = {};
-                        extend(true, _children_dto_collection[each_property], inputdto[each_property]);
+                        //_children_dto_collection[each_property] = {};
+                        //extend(true, _children_dto_collection[each_property], inputdto[each_property]);
+                        _children_dto_collection[each_property] = JSON.parse(JSON.stringify(inputdto[each_property]));
                     }
                 }
             }
@@ -210,26 +216,66 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
                 proxyprinttodiv("_children_dto_list eachchild :- ", eachchild, 17);
 
                 // look up child object and dto
+                // if ((eachchild.dtotype==="onetomany" || (eachchild.dtotype==="jsononetomany")) {
+                //     _child_dto.push(_child_dto)
+                //     }
+
                 _child_object = _children_object_collection[eachchild.dtoname];
                 _child_dto = _children_dto_collection[eachchild.dtoname];
+
                 delete _children_object_collection[eachchild.dtoname];
                 delete _children_dto_collection[eachchild.dtoname];
                 proxyprinttodiv("_child_dto :- ", _child_dto, 17);
                 proxyprinttodiv("_child_object :- ", _child_object, 17);
-                if (_child_object && Object.keys(_child_object).length!==0) {
 
-                    if (!_child_object["metadata"]) {_child_object["metadata"]={}}
-                    if (!_child_object["metadata"]["method"]) {_child_object["metadata"]["method"]=eachchild.dtoname}
+                if (!isArray(_child_object)) {
+                    _child_object_map.push(_child_object);
+                    }
+                else {
+                    _child_object_map=_child_object;
+                    }
+                if (isArray(_child_dto)) {_child_dto=_child_dto[0]}
+                proxyprinttodiv("_child_object map :- ", _child_object_map, 17);
+                async.mapSeries(_child_object_map, function (_child_object, cbMap2) {
+                    async.nextTick(function() {
+                        proxyprinttodiv("_child_object loop :- ", _child_object, 17);
+                        //if (isArray(_child_dto)) && 
+                        //    ((eachchild.dtotype==="jsononetomany") || (eachchild.dtotype==="onetomany")) {
+                            if (_child_object && Object.keys(_child_object).length!==0 &&
+                                _child_dto && Object.keys(_child_dto).length!==0) {
 
-                    // delete the child and dto object from the collection
+                                if (!_child_object["metadata"]) {_child_object["metadata"]={}}
+                                if (!_child_object["metadata"]["method"]) {_child_object["metadata"]["method"]=eachchild.dtoname}
 
-                    addwidobject(_child_object, _child_dto,  _parent_wid, _parent_method, eachchild.dtotype, command, function (err, res) {
-                        cbMap(null);
-                    });
-                }
-                else { // if no data in _child_object
+                                addwidobject(_child_object, _child_dto,  _parent_wid, _parent_method, eachchild.dtotype, command, function (err, res) {
+                                    cbMap2(null);
+                                });
+                            }
+                            else { 
+                                cbMap2(null);
+                            }
+                        //    }
+                        })
+                    }, function (err, res) {
                     cbMap(null);
-                }
+                    })
+
+
+                // if (_child_object && Object.keys(_child_object).length!==0) {
+
+                //     if (!_child_object["metadata"]) {_child_object["metadata"]={}}
+                //     if (!_child_object["metadata"]["method"]) {_child_object["metadata"]["method"]=eachchild.dtoname}
+
+                //     // delete the child and dto object from the collection
+
+                //     addwidobject(_child_object, _child_dto,  _parent_wid, _parent_method, eachchild.dtotype, command, function (err, res) {
+                //         cbMap(null);
+                //     });
+                // }
+                // else { // if no data in _child_object
+                //     cbMap(null);
+                // }
+
             });
         }, function (err, res) {
             // I'm guessing here but if we have left over children in the children collection then we recurse
@@ -292,15 +338,15 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
         },
         function step2(step2_callback) {
             // added by joe, seems roundabout but I wanted to keep sending in "" for most of the cases
-            if(relationshiptype !== "jsononetomany") {
-                parentrelationshiptype = "";
-            } else {
-                parentrelationshiptype = relationshiptype;
-            }
+            // if(relationshiptype !== "jsononetomany") {
+            //     parentrelationshiptype = "";
+            // } else {
+            //     parentrelationshiptype = relationshiptype;
+            // }
 
-            proxyprinttodiv("parentrelationshiptype: ", parentrelationshiptype, 17);
+            //proxyprinttodiv("parentrelationshiptype: ", parentrelationshiptype, 17);
 
-            addwid(inputrecord, dtoobject, parentrelationshiptype, command, function (err, addobject) {
+            addwid(inputrecord, dtoobject, command, function (err, addobject) {
                 addobject = addobject[0];
                 proxyprinttodiv("addrecord input addobject :- ", addobject, 17);
 
@@ -334,7 +380,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
 
                     proxyprinttodiv("addrecord input relobj ", relobj, 17);
 
-        			addwid(relobj, reldto, relationshiptype, command, function (err, added_relation) {
+        			addwid(relobj, reldto, command, function (err, added_relation) {
                         proxyprinttodiv("addrecord input added_relation :- ", added_relation, 17);
                         step2_callback(null, addobject);
                      });
@@ -351,115 +397,98 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
         });
     };
 
-exports.addwid = addwid = function addwid(object, dtoobject, relationshiptype, command, callback) {
-    function addwid3() {
-        proxyprinttodiv("addwid input dtoobject before", dtoobject,17);
-        proxyprinttodiv("addwidbefore deepfilter,, newobject-- ", object, 17);
-
-        if (!command) {command = {};}
-        if (!command.deepfilter) {command.deepfilter = {};}
-        if (!command.deepfilter.convert) {command.deepfilter.convert = 'tostring';}
-
-        command.deepfilter.convert = true;
-        
-        deepfilter(object, dtoobject, command, function (err, resultobject) {
-            if (relationshiptype === 'jsononetomany') {
-                objectarray.push(resultobject);
-                object[db] = objectarray;
-            }
-
-            object["executethis"] = "updatewid";
-
-            proxyprinttodiv("addwid after deepfilter,, object-- ", object, 17);
-            execute(object, function (err, res) {
-                proxyprinttodiv("this was added", res, 17);
-
-                callback(err, res);
-            });
+exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
+    function addwid5() { 
+        object["executethis"] = "updatewid";
+        proxyprinttodiv("addwid before updatewid ", object, 17);
+        execute(object, function (err, res) {
+            proxyprinttodiv("this was added", res, 17);
+            callback(err, res);
         });
     }
 
-    function addwid2() { // if not wid then assign new wid
-        proxyprinttodiv("addwid addwid2 object[wid]I", object, 17);
-        if (!object["wid"]) {
-            proxyprinttodiv("addwid addwid2 object[wid] after if", object["wid"], 17);
+    function addwid4() { 
+        var dtolist={};
+        if (dtoobject.command && dtoobject.command.dtolist) {dtolist=dtoobject.command.dtolist}
+        proxyprinttodiv("addwid step4 dtolist", dtolist, 17);           
+        for (dtoname in dtolist) {  // 
+            dtotype=dtolist[dtoname]
+            if (dtotype==="jsononetomany") {
+                var subobject=[]
+                if (object[dtoname]) {
+                    subobject=JSON.parse(JSON.stringify(object[dtoname]))
+                    proxyprinttodiv("addwid subobject", subobject, 17); 
+                    delete object[dtoname]
+                    if (!currentobject[dtoname]) {currentobject[dtoname]=[]}
+                    for (eachobject in subobject) {
+                        currentobject[dtoname].push(subobject[eachobject])
+                        }                            
+                    proxyprinttodiv("after currentobject", currentobject, 17); 
+                    }
+                }
+            }
+        object = extend(true, currentobject, object);
+        proxyprinttodiv("after extend,, object-- ", object, 17); 
+        addwid5();
+    }
+
+    function addwid3() { // if not wid then assign new wid
+        proxyprinttodiv("addwid step3 check for wid id object ", object, 17);
+        if  (!object["wid"]) {
             getnewwid({}, function (err, res) {
                 proxyprinttodiv("addwid getnewwid", res, 17);
                 object["wid"]=res;
-                addwid3();
+                addwid4();
             });
 
         } else { // if wid then read wid, and extend
-
             object["wid"] = object["wid"].toLowerCase();
-            proxyprinttodiv("addwid addwid2 object[wid] after else", object, 17);
-
+            proxyprinttodiv("addwid wid id existed", object, 17);
             execute({"executethis":"getwid","wid":object["wid"]}, function (err, res) {
                 if (Object.keys(res[0]).length !== 0) {
-                    proxyprinttodiv("before before extend,, res-- ", res[0], 17);
-                    proxyprinttodiv("before before extend,, object-- ", object, 17);
-                    
-                    if (relationshiptype !== "jsononetomany") {
-                    //     proxyprinttodiv("AddWid jsononetomany -- relationshiptype --> ", relationshiptype, 99);
-                        object = extend(true, res[0], object);
-                        proxyprinttodiv(" after extend,, newobject-- ", object, 17);
-                        addwid3();
-                    } else { // if jsononetomany
-                        objectarray = res[0][db];
-                        
-                        // proxyprinttodiv("AddWid jsononetomany -- objectarray --> ", objectarray, 99);
-                        // proxyprinttodiv("AddWid jsononetomany -- object --> ", object, 99);
-
-                        addwid3(); // moved  by joe
-                        // addwid 3 should move it out, then updatewid needs to add an array
+                    currentobject=res[0];
                     }
-                } else {
-                    addwid3();
-                }
-            });
+                proxyprinttodiv("before currentobject ", currentobject, 17);
+                addwid4();
+            })
         }
     }
 
-    // // rough draft for one to many internal data storage 
-    // function addWidOneToManyInternal(object) {
-    //     // save the object
-    //     var internalDataObject = object;
-    //     // Deep filter compare to dto
-    //     deepfilter(object, dtoobject, command, function (err, res) {
-    //         // push the res onto the saved internal data
-    //         // we are assuming this is an array here may need to fix this
-    //         internalDataObject.push(res);
-    //         // update
-    //         object["executethis"]="updatewid";
+    function addwid2() {
 
-    //         execute(object, function (err, res) {
-               
-    //             callback(err, res)
-    //         });
+        if (!command) {command = {};}
+        if (!command.deepfilter) {command.deepfilter = {};}
+        command.deepfilter.convert = true;
 
-
-    //     });
-        
-        
-    //     // build command object 
-        
-    //     // call update wid
-    // }
+        proxyprinttodiv("addwid step2 before to deepfilter object ", object, 17);  
+        proxyprinttodiv("addwid to deepfilter dto", dtoobject,17);     
+        deepfilter(object, dtoobject, command, function (err, resultobject) {
+            object=resultobject;
+            proxyprinttodiv("addwid result deepfilter object", object,17); 
+            addwid3();
+            });
+    }
 
     // start of addwid -- step 1
     var db='data';
     if (command && command.db) {db=command.db}
-    proxyprinttodiv("addwid input object", object, 17);
+    proxyprinttodiv("addwid step 1input object", object, 17);
     proxyprinttodiv("addwid input dtoobject", dtoobject, 17);
     proxyprinttodiv("addwid input command", command, 17);
     var inheritwidlist=[];
+    if (dtoobject.command && dtoobject.command.inherit) {
+        inheritwidlist.push(dtoobject.command.inherit)
+        }
     var objectarray=[];
+    var eachobject;
+    var currentobject={};
     
-    
+    proxyprinttodiv("addwid inheritwidlist", inheritwidlist, 17);
     if (inheritwidlist) { // do not save if in inherit
         async.mapSeries(inheritwidlist, function (inheritwid, cbMap) {
             async.nextTick(function() {
-                execute({"executethis":"getwidmaster","wid":inheritwid, 
+                for (eachobject in inheritwid) {} // to get left side
+                execute({"executethis":"getwidmaster","wid":eachobject, 
                     "command.getwidmaster.execute":"ConvertFromDOTdri","command.getwidmaster.inheritflag":"false", 
                     "command.getwidmaster.convertmethod":"nowid"}, function (err, res) {
                     proxyprinttodiv("getwidmaster wid : " + inheritwid  + " -- res -- " ,  res, 17);

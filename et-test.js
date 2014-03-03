@@ -1,4 +1,4 @@
-   // enter lots of data in series, ths inserts data via different executes results in Max Range error
+    // enter lots of data in series, ths inserts data via different executes results in Max Range error
     // this one inserts same amount of data but does not fail
 
     exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
@@ -309,10 +309,10 @@
     }
 
 
-    /*
-        addwidmater xdto
-        now add many with addwidmaster with x dto
-    */
+	/*
+		addwidmater xdto
+		now add many with addwidmaster with x dto
+	*/
     exports.t1 = t1 = function t1(params, callback) {
         debuglvel = 34;
         debugname = "";
@@ -372,10 +372,10 @@
         });
     }
 
-    /*
-    do NOT save addwidmater xdto
-    now add many with addwidmaster with x dto
-    */
+	/*
+	do NOT save addwidmater xdto
+	now add many with addwidmaster with x dto
+	*/
     exports.t2 = t2 = function t2(params, callback) {
         debuglevel = 34;
         debugname = "";
@@ -384,7 +384,7 @@
         var status = false;
 
         async.series([
-            /*function (callback1) {    //addwidmaster dto
+            /*function (callback1) {	//addwidmaster dto
                 var executeList = [{
                     "executethis": "addwidmaster",
                     "wid": "ttdto",
@@ -393,38 +393,38 @@
                 }];
                 execute(executeList, function (err, res) {
                     proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 99);
-                    callback1(null);
+					callback1(null);
                 });
             },*/
-            function (callback2) {  //addwidmaster wid1
-                //n-times loop
-                async.times(500, function(n, next){
-                    var executeList = [{
-                        "executethis": "addwidmaster",
-                        "wid": "ttdto_wid"+n,
-                        "metadata.method": "ttdto",
-                        "type": "a"
-                    }];
-                    execute(executeList, function (err, res) {
-                        proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 99);
-                    });
-                }, function(err, result) {
-                    callback2(null);
-                });
+			function (callback2) {	//addwidmaster wid1
+				//n-times loop
+				async.times(500, function(n, next){
+					var executeList = [{
+						"executethis": "addwidmaster",
+						"wid": "ttdto_wid"+n,
+						"metadata.method": "ttdto",
+						"type": "a"
+					}];
+					execute(executeList, function (err, res) {
+						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 99);
+					});
+				}, function(err, result) {
+					callback2(null);
+				});
             }/*,
-            function (callback3) {  //getwidmaster
-                //n-times loop
-                async.times(5, function(n, next){
-                    var executeList = [{
-                        "executethis": "getwidmaster",
-                        "wid": "ttdto_wid"+n,
-                    }];
-                    execute(executeList, function (err, res) {
-                        proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 99);
-                    });
-                }, function(err, result) {
-                    callback3(null);
-                });
+			function (callback3) {	//getwidmaster
+				//n-times loop
+				async.times(5, function(n, next){
+					var executeList = [{
+						"executethis": "getwidmaster",
+						"wid": "ttdto_wid"+n,
+					}];
+					execute(executeList, function (err, res) {
+						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 99);
+					});
+				}, function(err, result) {
+					callback3(null);
+				});
             }*/
         ], function (err, res) {
             proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
@@ -456,7 +456,7 @@
                 }];
                 execute(executeList, function (err, res) {
                     proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 99);
-                    callback1(null);
+					callback1(null);
                 });
             },
 			function (callback2) {	//addwidmaster wid1
@@ -497,7 +497,7 @@
             callback(err, res);
         });
     }
-
+	
     // enter lots of data in series, the same data when inserted via different executes results in Max Range error
     // this one inserts same amount of data but does not fail
     exports.tss2 = tss2 = function tss2(params, callback) {
@@ -4609,105 +4609,107 @@
         var err;
         callback(err, params);
     }
-
-    exports.ar100 = ar100 = function ar100(params, callback) {
-        var object = {
-            "metadata": {
-                "method": "bookdto"
-            },
-            "wid": "222",
-            "title": "The X Factor",
-            "pages": "300"
-        };
-        var dtoobject = {
-            "metadata": {
-                "method": "bookdto"
-            },
-            "wid": "bookdto",
-            "title": "string",
-            "pages": "string",
-            "c": "string",
-            "d": "string"
-        };
-        var parentwid = "elizabeth_heart";
-        var parentmethod = "bookdto";
-        var relationshiptype = "onetomany";
-        var command = {};
-        /*
-        for(i=0; i<500; i++){
-            addrecord(object, dtoobject, parentwid, parentmethod, relationshiptype, command, function (err, res) {
-                console.log( i + "addrecord! -- got res -->" + JSON.stringify(res));
-            }); 
-        }
-        */
-
-        // n times loop
-        async.times(500, function(n, next){
-            addrecord(object, dtoobject, parentwid, parentmethod, relationshiptype, command, function (err, res) {
-                console.log( n + "addrecord! -- got res -->" + JSON.stringify(res));
-            });
-        }, function(err, result) {
-            //after loop
-        });
-
-        params = {
-            'test': 'PASS'
-        };
-        var err;
-        callback(err, params);
-    }
-
-    /*
-        deep filter test
-    */
-    exports.d1 = d1 = function d1(params, callback) {
-        async.series([
+	
+	exports.ar100 = ar100 = function ar100(params, callback) {
+		var object = {
+			"metadata": {
+				"method": "bookdto"
+			},
+			"wid": "222",
+			"title": "The X Factor",
+			"pages": "300"
+		};
+		var dtoobject = {
+			"metadata": {
+				"method": "bookdto"
+			},
+			"wid": "bookdto",
+			"title": "string",
+			"pages": "string",
+			"c": "string",
+			"d": "string"
+		};
+		var parentwid = "elizabeth_heart";
+		var parentmethod = "bookdto";
+		var relationshiptype = "onetomany";
+		var command = {};
+		/*
+		for(i=0; i<500; i++){
+			addrecord(object, dtoobject, parentwid, parentmethod, relationshiptype, command, function (err, res) {
+				console.log( i + "addrecord! -- got res -->" + JSON.stringify(res));
+			});	
+		}
+		*/
+		
+		// n times loop
+		async.times(500, function(n, next){
+			addrecord(object, dtoobject, parentwid, parentmethod, relationshiptype, command, function (err, res) {
+				console.log( n + "addrecord! -- got res -->" + JSON.stringify(res));
+			});
+		}, function(err, result) {
+			//after loop
+		});
+		
+		params = {
+			'test': 'PASS'
+		};
+		var err;
+		callback(err, params);
+	}
+	
+	/*
+		deep filter test
+	*/
+	exports.d1 = d1 = function d1(params, callback) {
+		async.series([
             function (cb1) {
                 var executeList = [{
                     "executethis": "updatewid",
-                    "wid": "wid2",
-                    "metadata.method": "defaultdto",
-                    "aaa": "",
-                    "ggg": ""
-                }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {    //after updatewid
-            var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
-                            "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
-            var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
-                            "c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
-            var command = {"formatresult": "false"};
-
-            deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                proxyprinttodiv("after d1 deepfilter res", res, 99);
-            });
-
-            params = {  
-                'test': 'PASS'
-            };
-            callback(params);   
-        });
-    }
-
-    /*
-        number, string, boolean, date, nested string
-    */
-    exports.d2 = d2 = function d2(params, callback) {
-        async.series([
-            function (cb1) {
-                var executeList = [{
-                    "executethis": "updatewid",
-                    "wid": "wid2",
+					"wid": "wid2",
                     "metadata.method": "defaultdto",
 					"aaa": "",
 					"ggg": ""
                 }];
 				execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    cb1(null);
+                });
+            }
+        ], function (err, res) {	//after updatewid
+			var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
+                            "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean", "b":[{"c":"string"}, {"d":"string"}], 
+							"x1": [{"y":"string","d":"date", "b":[{"c":"string","c1":"number"}]}]};
+			var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
+                            "c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true", "b":[{"c":"one"}, {"d":"two"}],
+							"x1":[{"y":"hello","d":"2/27/2014","b":[{"c":"one","c1":"50"}, {"c":"two","c1":"30"},{"c":"three","d":"30"}, {"cx":"two","c1x":"30"}]}]};
+			var command = {"formatresult": "false", "command.deepfilter.convert":true};
+			  
+			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+				proxyprinttodiv("after d1 deepfilter res", res, 99);
+			});
+			
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });
+	}
+	
+	/*
+		number, string, boolean, date, nested string
+	*/
+	exports.d2 = d2 = function d2(params, callback) {
+		async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+					"wid": "wid2",
+                    "metadata.method": "defaultdto",
+					"aaa": "",
+					"ggg": ""
+                }];
+				execute(executeList, function (err, res) {
+                    //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
                     cb1(null);
                 });
             }
@@ -4715,124 +4717,124 @@
 			/*
 				var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
                             "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
-                var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
+				var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
                             "c":"30","e":"f","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
-            */
+			*/
 
-            var dtoObjOpt = {"c":"number", "h":"string", "g":"boolean","d":"date", "q":{"w":{"e":"string"}}, "x":{"y":{"z":"string"}}};
-            var inputObj = {"c":"30", "h":"hval", "g":"true","d":"6/25/1912", "q":{"w":{"e":"t"}}, "x":{"y":{"z":"string"}}};
-            var command = {"formatresult": "false"};
-
-            deepfilter(inputObj, dtoObjOpt, command, function(err, res){
-                proxyprinttodiv("after d2 deepfilter res", res, 99);
-            });
-
-            params = {  
-                'test': 'PASS'
-            };
-            callback(params);   
+			var dtoObjOpt = {"c":"number", "h":"string", "g":"boolean","d":"date", "q":{"w":{"e":"string"}}, "x":{"y":{"z":"string"}}};
+			var inputObj = {"c":"30", "h":"hval", "g":"true","d":"6/25/1912", "q":{"w":{"e":"t"}}, "x":{"y":{"z":"string"}}};
+			var command = {"formatresult": "false"};
+			  
+			deepfilter(inputObj, dtoObjOpt, command, function(err, res){
+				proxyprinttodiv("after d2 deepfilter res", res, 99);
+			});
+			
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
         });
-    }
-
-    /*
-        wid
-    */
-    exports.d3 = d3 = function d3(params, callback) {
-        async.series([
+	}
+	
+	/*
+		wid
+	*/
+	exports.d3 = d3 = function d3(params, callback) {
+		async.series([
             function (cb1) {
                 var executeList = [{
                     "executethis": "updatewid",
-                    "wid": "wid2",
+					"wid": "wid2",
                     "metadata.method": "defaultdto",
-                    "aaa": "",
-                    "ggg": ""
+					"aaa": "",
+					"ggg": ""
                 }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+				execute(executeList, function (err, res) {
+                    //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
                     cb1(null);
                 });
             }
-        ], function (err, res) {    //after updatewid
-            var dtoObjOpt = {"a":"wid2","x":"wid2"} ;
-            var inputObj = {"a":"aaa", "x":"test"};
-            var command = {"formatresult": "false"};
-
-            deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                proxyprinttodiv("after d1 deepfilter res", res, 99);
-            });
-
-            params = {  
-                'test': 'PASS'
-            };
-            callback(params);   
+        ], function (err, res) {	//after updatewid
+			var dtoObjOpt = {"a":"wid2","x":"wid2"} ;
+			var inputObj = {"a":"aaa", "x":"test"};
+			var command = {"formatresult": "false"};
+			  
+			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+				proxyprinttodiv("after d3 deepfilter res", res, 99);
+			});
+			
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
         });
-    }
-
-    /*
-        updatewid and getwidmaster
-    */
-    exports.d4 = d4 = function d4(params, callback) {
-        async.series([
+	}
+	
+	/*
+		updatewid and getwidmaster
+	*/
+	exports.dupdateget4 = dupdateget4 = function dupdateget4(params, callback) {
+		async.series([
             function (cb1) {
                 var executeList = [{
                     "executethis": "updatewid",
-                    "wid": "wid3",
+					"wid": "wid3",
                     "metadata.method": "defaultdto",
-                    "aaa": "",
-                    "ggg": ""
+					"aaa": "",
+					"ggg": ""
                 }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('updatewid wid3 -- ', res, 99);
+				execute(executeList, function (err, res) {
+                    //proxyprinttodiv('updatewid wid3 -- ', res, 99);
                     cb1(null);
                 });
             },
-            function (cb2) {
-                var executeList = [{
-                    "executethis": "getwid",
-                    "wid": "wid3",
-                }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv("getwidmaster  wid3 -- ", res, 99);
+			function (cb2) {
+				var executeList = [{
+					"executethis": "getwid",
+					"wid": "wid3",
+				}];
+				execute(executeList, function (err, res) {
+					//proxyprinttodiv("getwidmaster  wid3 -- ", res, 99);
                     cb2(null);
-                });
-            }
-        ], function (err, res) {    //after updatewid
-
-            params = {  
-                'test': 'PASS'
-            };
-            callback(err,params);   
+				});
+			}
+        ], function (err, res) {	//after updatewid
+		
+			params = {	
+				'test': 'PASS'
+			};
+			callback(err,params);	
         });
-    }
-
-    /*  
-        added test in wid
-    */
-    exports.d5 = d5 = function d5(params, callback) {
-        async.series([
+	}
+	
+	/*	
+		added test in wid
+	*/
+	exports.d5 = d5 = function d5(params, callback) {
+		async.series([
             function (cb1) {
                 var executeList = [{
                     "executethis": "updatewid",
-                    "wid": "wid2",
+					"wid": "wid2",
                     "metadata.method": "defaultdto",
-                    "aaa": "",
-                    "ggg": "",
-                    "test": ""
+					"aaa": "",
+					"ggg": "",
+					"test": ""
                 }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+				execute(executeList, function (err, res) {
+                    //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
                     cb1(null);
                 });
             },
-            function (cb2){
-                var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
+			function (cb2){
+				var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid2","x":"wid2", "z":"wid2",
                             "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
 				var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
 								"c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after d1 deepfilter res", res, 99);
+					proxyprinttodiv("after d5 deepfilter res", res, 99);
 					cb2(null);
 				});
 			}
@@ -4857,7 +4859,7 @@
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after d1 deepfilter res", res, 99);
+					proxyprinttodiv("after d6 deepfilter res", res, 99);
 					cb2(null);
 				});
 			}
@@ -4866,10 +4868,6 @@
 				'test': 'PASS'
 			};
 			callback(params);	
-            params = {  
-                'test': 'PASS'
-            };
-            callback(params);   
         });
 	}
 	
@@ -4887,7 +4885,7 @@
 					"ggg": ""
                 }];
 				execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
                     cb1(null);
                 });
             },
@@ -4901,7 +4899,7 @@
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after d1 deepfilter res", res, 99);
+					proxyprinttodiv("after d7 deepfilter res", res, 99);
 					cb2(null);
 				});
 			}
@@ -4911,173 +4909,197 @@
 			};
 			callback(params);	
         });
-    }
-
-    /*  
-        date
-    */
-    exports.d8 = d8 = function d8(params, callback) {
-        async.series([
+	}
+	
+	/*	
+		date
+	*/
+	exports.d8 = d8 = function d8(params, callback) {
+		async.series([
             function (cb1) {
                 var executeList = [{
                     "executethis": "updatewid",
-                    "wid": "wid2",
+					"wid": "wid2",
                     "metadata.method": "defaultdto",
-                    "aaa": "",
-                    "ggg": ""
+					"aaa": "",
+					"ggg": ""
                 }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+				execute(executeList, function (err, res) {
+                    //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
                     cb1(null);
                 });
             },
-            function (cb2){
-                var dtoObjOpt = {"d":"date"} ;       
-                var inputObj = {"d":"6/23/1912"};
-                var command = {"formatresult": "false"};
-
-                deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                    proxyprinttodiv("after d1 deepfilter res", res, 99);
-                    cb2(null);
-                });
-            }
+			function (cb2){
+				var dtoObjOpt = {"d":"date"} ;		 
+				var inputObj = {"d":"6/23/1912"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("after d8 deepfilter res", res, 99);
+					cb2(null);
+				});
+			}
         ], function (err, res) {
-            params = {  
-                'test': 'PASS'
-            };
-            callback(params);   
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
         });
-    }
-
-    /*
-        object dataType test
-    */
-    exports.d10 = d10 = function d10(params, callback) {
-        async.series([
+	}
+	
+	/*
+		object dataType test
+	*/
+	exports.d10 = d10 = function d10(params, callback) {
+		async.series([
             function (cb1) {
                 var executeList = [{
                     "executethis": "updatewid",
-                    "wid": "wid5",
+					"wid": "wid5",
                     "metadata.method": "defaultdto",
-                    "aaa": "",
-                    "ggg": ""
+					"aaa": "",
+					"ggg": ""
                 }];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+				execute(executeList, function (err, res) {
+                    //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
                     cb1(null);
                 });
             }
-        ], function (err, res) {    //after updatewid
-            var dtoObjOpt = {"obj":"", "c":"string", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
-            var inputObj = {"obj":"", "c":"cval", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
-            var command = {"formatresult": "false"};
-
-            deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                proxyprinttodiv("after d10 deepfilter res", res, 99);
-            });
-
-            params = {  
-                'test': 'PASS'
-            };
-            callback(params);   
+        ], function (err, res) {	//after updatewid
+			var dtoObjOpt = {"obj":"", "c":"string", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
+			var inputObj = {"obj":"", "c":"cval", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
+			var command = {"formatresult": "false"};
+			  
+			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+				proxyprinttodiv("after d10 deepfilter res", res, 99);
+			});
+			
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
         });
-    }
+	}
+	
 
+exports.d10b = d10b = function d10b(params, callback) {
 
-    /*
-        test to confirm deepfilter with wid that returns query results works
-    */
-    exports.d11 = d11 = function d11(params, callback) {
-        async.series([
-            function (cb1) {    //5 (a)
+    debuglevel=41;
+    var obj = {"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"jsononetomany"}},
+                "title":"string","sounddto":{"wid":"string","metadata":{"method":"string"},"note":"string"}}
+
+    var dto = {"wid":"string","metadata":{"method":"string","sounddto":{"type":"string"}},
+                "title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}],
+                "command":{"dtolist":{"sounddto":"jsononetomany"}}}
+    var command;
+        if (!command) {command = {};}
+        if (!command.deepfilter) {command.deepfilter = {};}
+        command.deepfilter.convert = true;
+//exepected
+//{"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"jsononetomany"}},
+//"title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}]}
+
+    deepfilter(obj, dto,command, function (err, res) {
+        proxyprinttodiv('Function d10b deepfilter result ', res, 99); 
+       callback(err, res);  
+        })
+}
+
+	
+	/*
+		test to confirm deepfilter with wid that returns query results works
+	*/
+	exports.d11 = d11 = function d11(params, callback) {
+		async.series([
+            function (cb1) {	//5 (a)
                 var executeList = [
-                    { "executethis": "updatewid", "wid": "wid1", "metadata.method": "defaultdto", "x": "y", "a": "r"}, 
-                    { "executethis": "updatewid", "wid": "wid2", "metadata.method": "defaultdto", "w": "z", "a": "y"}, 
-                    { "executethis": "updatewid", "wid": "wid3", "metadata.method": "defaultdto", "a": "b", "g": "f"}, 
-                    { "executethis": "updatewid", "wid": "wid4", "metadata.method": "defaultdto", "h": "j", "k": "y", "a": "p"}
-                ];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1,2,3,4 -- ', res, 34);
+					{ "executethis": "updatewid", "wid": "wid1", "metadata.method": "defaultdto", "x": "y", "a": "r"}, 
+					{ "executethis": "updatewid", "wid": "wid2", "metadata.method": "defaultdto", "w": "z", "a": "y"}, 
+					{ "executethis": "updatewid", "wid": "wid3", "metadata.method": "defaultdto", "a": "b", "g": "f"}, 
+					{ "executethis": "updatewid", "wid": "wid4", "metadata.method": "defaultdto", "h": "j", "k": "y", "a": "p"}
+				];
+				execute(executeList, function (err, res) {
+                    //proxyprinttodiv('after updatewid wid1,2,3,4 -- ', res, 34);
                     cb1(null);
                 });
             },
-            function step2(cb2){    // 5 (b)
-                var executeList = [
-                    { "executethis": "querywid", "mongorawquery": '{"$or": [{ "data.a": "b" }]}'}
-                ];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv("mongo query result ", res, 99);
-                    cb2(null);
-                });
-            },
-            function step3(cb3){    // 5 (c)
-                var executeList = [
-                    { "executethis": "updatewid", "wid": "wid5", "metadata.method": "defaultdto", "addthis.executethis":"querywid", "mongorawquery":"{data.a:b}"}
-                ];
-                execute(executeList, function (err, res) {
-                    proxyprinttodiv("after updatewid wid5 -- ", res, 99);
-                    cb3(null);
-                });
-            },
-            function step4(cb4){    // 5 (d)
-                getwidmaster({"wid":"wid5", "command":{"getwidmaster":{"execute":"false"}}},function (err, res) {
-                    proxyprinttodiv("5 (d) getwidmaster  wid5 -- ", res, 99);
+			function step2(cb2){	//5 (b)
+				var executeList = [
+					{ "executethis": "querywid", "mongorawquery": '{"$or": [{ "data.a": "b" }]}'}
+				];
+				execute(executeList, function (err, res) {
+					//proxyprinttodiv("mongo query result ", res, 99);
+					cb2(null);
+				});
+			},
+			function step3(cb3){	//5 (c)
+				var executeList = [
+					{ "executethis": "updatewid", "wid": "wid5", "metadata.method": "defaultdto", "addthis.executethis":"querywid", "mongorawquery":"{data.a:b}"}
+				];
+				execute(executeList, function (err, res) {
+					//proxyprinttodiv("after updatewid wid5 -- ", res, 99);
+					cb3(null);
+				});
+			},
+			function step4(cb4){	//5 (d)
+				getwidmaster({"wid":"wid5", "command":{"getwidmaster":{"execute":"false"}}},function (err, res) {
+					//proxyprinttodiv("5 (d) getwidmaster  wid5 -- ", res, 99);
                     cb4(null);
-                });
-            },
-            function step5(cb5){    // 5 (e)
-                getwidmaster({"wid":"wid5"},function (err, res) {
-                    proxyprinttodiv("5 (e) getwidmaster  wid5 -- ", res, 99);
+				});
+			},
+			function step5(cb5){	//5 (e)
+				getwidmaster({"wid":"wid5"},function (err, res) {
+					//proxyprinttodiv("5 (e) getwidmaster  wid5 -- ", res, 99);
                     cb5(null);
-                });
-            },
-            function step6(cb6){    // 5 (f)
-                execute({"executethis":"wid5"},function (err, res) {
-                    proxyprinttodiv("5 (f) getwidmaster  wid5 -- ", res, 99);
+				});
+			},
+			function step6(cb6){	//5 (f)
+				execute({"executethis":"wid5"},function (err, res) {
+					//proxyprinttodiv("5 (f) getwidmaster  wid5 -- ", res, 99);
                     cb6(null);
-                });
-            },
-            function step7(cb7){    // 5 (g)
-                execute("wid5",function (err, res) {
-                    proxyprinttodiv("5 (g) getwidmaster  wid5 -- ", res, 99);
+				});
+			},
+			function step7(cb7){	//5 (g)
+				execute("wid5",function (err, res) {
+					//proxyprinttodiv("5 (g) getwidmaster  wid5 -- ", res, 99);
                     cb7(null);
-                });
-            },
-            function step8(cb8){    // step 8 deep filter d = wid5
-                var dtoObjOpt = {"obj":"", "c":"string", "d":"wid5"};
-                var inputObj = {"c":"hello", "d":"wid3"};
-                var command = {"formatresult": "false"};
-
-                deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                    proxyprinttodiv("step 8 res--", res, 99);
-                    cb8(null);
-                });
-            },
-            function step9(cb9){    // step 9 deep filter
-                var dtoObjOpt = {"obj":"", "c":"string", "d":"wid5"};
-                var inputObj = {"c":"hello", "d":"wid5"};
-                var command = {"formatresult": "false"};
-
-                deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                    proxyprinttodiv("step 9 res--", res, 99);
-                    cb9(null);
-                });
-            },
-            function step10(cb10){  // step 10 deep filter
-                var dtoObjOpt = {"obj":"", "c":"string", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
-                var inputObj = {"obj":"", "c":"cval", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
-                var command = {"formatresult": "false"};
-
-                deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                    proxyprinttodiv("step 10 res--", res, 99);
-                    cb10(null);
-                });
-            }
+				});
+			},
+			function step8(cb8){	//step 8 deep filter d = wid5
+				var dtoObjOpt = {"obj":"", "c":"string", "d":"wid5"};
+				var inputObj = {"c":"hello", "d":"wid3"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					//proxyprinttodiv("step 8 res--", res, 99);
+					cb8(null);
+				});
+			},
+			function step9(cb9){	//step 9 deep filter
+				var dtoObjOpt = {"obj":"", "c":"string", "d":"wid5"};
+				var inputObj = {"c":"hello", "d":"wid5"};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					//proxyprinttodiv("step 9 res--", res, 99);
+					cb9(null);
+				});
+			},
+			function step10(cb10){	//step 10 deep filter
+				var dtoObjOpt = {"obj":"", "c":"string", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
+				var inputObj = {"obj":"", "c":"cval", "d":{"executethis": "getwidmaster", "wid": "wid5"}};
+				var command = {"formatresult": "false"};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("d11 - step 10 res--", res, 99);
+					cb10(null);
+				});
+			}
         ], function (err, res) {
-            params = {  
-                'test': 'PASS'
-            };
-            callback(params);   
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
         });
 	}
 	
@@ -5091,7 +5113,7 @@
 				var inputObj = {"b1":"true", "b2":false};
 				var command = {};
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("without command-- res ", res, 99);
+					//proxyprinttodiv("without command-- res ", res, 99);
 					cb1(null);
 				});
 			},
@@ -5100,7 +5122,7 @@
 				var inputObj = {"b1":"true", "b2":false};
 				var command = {"command.deepfilter.convert":"true"};
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("command.deepfilter.convert = true-- res ", res, 99);
+					//proxyprinttodiv("command.deepfilter.convert = true-- res ", res, 99);
 					cb2(null);
 				});
 			},
@@ -5109,7 +5131,7 @@
 				var inputObj = {"b1":"true", "b2":false};
 				var command = {"command.deepfilter.convert":"false"};
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("command.deepfilter.convert = false-- res ", res, 99);
+					proxyprinttodiv("d12 - command.deepfilter.convert = false-- res ", res, 99);
 					cb3(null);
 				});
 			}
@@ -5143,7 +5165,7 @@
 					"bbb": ""
                 }];
 				execute(executeList, function (err, res) {
-                    proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                    //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
                     cb1(null);
                 });
             },
@@ -5166,56 +5188,45 @@
 	}
 	
 	/*
-		test inherit…metadata.dtoname.inherit=wid5 … look at examples in test.js
-		first create a wid "defaultauthordtoactions"
-		then create a dto , mention the inherit as you show
-		"metadata": {
-			"inherit": "defaultauthordtoactions"
-		}
-		then add some data using the dto
-		then get it
-		system will also get defaultauthroactions and include it as part of the results as  long as it passes deepfilter
+		deep filter should process arrays
+		i.e.
+		dto=xdto
+		a: string
+		b: [c: string, d: string]
+
+		inobj=
+		a:test
+		b:[{c:one, d:two}, {c:three, d:four}, {c:five, d:six}]
 	*/
 	exports.d14 = d14 = function d14(params, callback) {
 		async.series([
-			function (cb1) {
-				var executeList = [{
-                    "executethis": "addwidmaster",
-					"wid": "defaultbookdto",
-					"title": "The X Factor",
-					"pages": "300"
-                },{
-                    "executethis": "addwidmaster",
-					"wid": "bookdto",
-                    "metadata.method": "bookdto",
-					"metadata.inherit": ["defaultbookdto"],
-					"title": "string",
-					"pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-					"wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-					"title": "Book Title1"
-                    // notice no pages
-                // },{
-                //     "executethis": "getwidmaster",
-                //     "wid": "bookdtowid111",
-                }];
-                // the response for this should be "title": "Book Title1" and "pages": "300" (inherit pages from default)
-				execute(executeList, function (err, res) {
-					proxyprinttodiv('after adding defaultbookdto, bookdto, bookdtowid -- ', res, 99);
+			function (cb1){
+				var dtoObjOpt = {"a":"string",
+                                "y":"string",
+                                "x": [{ "y":"string", 
+                                        "b":[{"c":"string","c1":"number"}
+                                            ]
+                                    }
+                                    ]
+                                };
+				var inputObj = {"a":"aval",
+								"y":"yes",
+                                "x":[{"y":"hello", 
+                                      "b":[{"c":"one","c1":"50"}, 
+                                           {"c":"two","c1":"30"},
+                                           {"c":"three","d":"30"}, 
+                                           {"cx":"two","c1x":"30"}
+                                          ]
+                                        }
+                                    ], 
+                                "q":"no"};
+				var command = {"formatresult": "false", "command.deepfilter.convert":true};
+				  
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+                    proxyprinttodiv("after d14 deepfilter in", inputObj, 99);
+                    proxyprinttodiv("after d14 deepfilter out", dtoObjOpt, 99);
+					proxyprinttodiv("after d14 deepfilter res", res, 99);
 					cb1(null);
-				});
-			},
-			function (cb2) {
-                debuglevel=38;
-				var executeList = [{
-					"executethis": "getwidmaster",
-					"wid": "bookdtowid111"
-				}];
-				execute(executeList, function (err, res) {
-					proxyprinttodiv("getwidmaster  bookdtowid111 -- ", res, 99);
-                    cb2(null);
 				});
 			}
         ], function (err, res) {
@@ -5223,7 +5234,7 @@
 				'test': 'PASS'
 			};
 			callback(params);	
-        });		
+        });
 	}
 	
 	/*
@@ -5253,7 +5264,8 @@
 	}
 	
 	/*
-		5) check to see if declaring "type" in the dto is needed if we add a relationshipationship
+		5) 	check to see if declaring "type" in the dto is needed if we add a relationshipationship
+			enter a dto using metadata.<>.type:onetoany
 	*/
 	exports.dtotypetest1 = dtotypetest1 = function dtotypetest1(params, callback) {
 		async.series([
@@ -5263,40 +5275,46 @@
 					"wid": "bookdto",
                     "metadata.method": "bookdto",
 					"title": "string",
-					"pages": "string"
-                }, {
-					"executethis": "addwidmaster",
-					"wid": "authordto", 
-					"metadata.method": "authordto",
-					"name": "string",
-					"metadata": {
-						"method": "authordto",
-						"bookdto": {
-							"type": "onetomany"
-						}
-					}	
+					"pages": "string",
+                    "metadata.bookdto.type": "onetomany",
+                    "bookdto.wid":"string",
+                    "bookdto.metadata.method":"string",
+                    "bookdto.name": "string"	
 				},{
                     "executethis": "addwidmaster",
 					"wid": "authordtowid111",
                     "metadata.method":"authordto",
 					"name": "Author 1",
 					"bookdto": {
-						"title": "The X Factor",
-						"pages": "300",
 						"wid": "book 222",
 						"metadata": {
 							"method": "bookdto"
-						}
+						},
+						"title": "The X Factor",
+						"pages": "300"
 					}
                 }];
-                // the response for this should be "title": "Book Title1" and "pages": "300" (inherit pages from default)
+                /*
+                 another test where we enter authordto, then bookdto, then relationship record
+                                 "executethis": "addwidmaster",
+                 "wid": "rel_user_to_system",
+                 "metadata.method": "relationshipdto",
+                 "relationshiptype": "attributes",
+                 "linktype": "onetoone",
+                 "primarywid": "userdto",
+                 "primarymethod": "userdto",
+                 "secondarywid": "systemdto",
+                 "secondarymethod": "systemdto"
+                 and we do NOT have "metadata.bookdto.type": "onetomany",
+
+                 the response for this should be "title": "Book Title1" and "pages": "300" (inherit pages from default)
+				*/
 				execute(executeList, function (err, res) {
 					proxyprinttodiv('addwidmaster dtotypetest1 -- ', res, 99);
 					cb1(null);
 				});
 			},
 			function (cb2) {
-                //debuglevel=38;
 				var executeList = [{
 					"executethis": "getwid",
 					"wid": "authordtowid111",
@@ -5312,4 +5330,1272 @@
 			};
 			callback(params);	
         });				
+	}
+	
+	/*
+		5) 	check to see if declaring "type" in the dto is needed if we add a relationshipationship
+			enter a dto using metadata.<>.type:onetoany
+	*/
+	exports.dtotypetest2 = dtotypetest2 = function dtotypetest2(params, callback) {
+		async.series([
+			function (cb1) {
+				var executeList = [{
+                    "executethis": "addwidmaster",
+					"wid": "bookdto",
+                    "metadata.method": "bookdto",
+					"title": "string",
+					"pages": "string",
+                    "metadata.bookdto.type": "onetomany",
+                    "bookdto.wid":"string",
+                    "bookdto.metadata.method":"string",
+                    "bookdto.name": "string"	
+				},{
+                    "executethis": "addwidmaster",
+					"wid": "authordtowid111",
+                    "metadata.method":"authordto",
+					"name": "Author 1",
+					"bookdto": {
+						"title": "The X Factor",
+						"pages": "300",
+						"wid": "book 222",
+						"metadata": {
+							"method": "bookdto"
+						}
+					}
+                }];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv('addwidmaster dtotypetest1 -- ', res, 99);
+					cb1(null);
+				});
+			},
+			function (cb2) {
+				var executeList = [{
+					"executethis": "getwid",
+					"wid": "authordtowid111",
+				}];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("getwidmaster  authordtowid111 -- ", res, 99);
+                    cb2(null);
+				});
+			}
+        ], function (err, res) {
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });				
+	}
+
+// DTO 1, dot > object 3, dot
+exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata.method": "songdto",
+            "title": "string",
+            "metadata.sounddto.type": "onetomany",
+            "sounddto.wid": "sounddto",
+            "sounddto.metadata.method": "sounddto",
+            "sounddto.note": "string"
+
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result ', res[4], 99);
+
+            res = logverify("ettestagag3_result", res[4], [{
+                "title": "Highway to Hell",
+                "wid": "song1",
+                "metadata.method": "songdto",
+                "sounddto.0.note": "A flat",
+                "sounddto.0.wid": "2",
+                "sounddto.0.metadata.method": "sounddto",
+                "sounddto.1.note": "B sharp",
+                "sounddto.1.wid": "4",
+                "sounddto.1.metadata.method": "sounddto",
+                "sounddto.2.note": "C flat",
+                "sounddto.2.wid": "6",
+                "sounddto.2.metadata.method": "sounddto",
+                "metadata.sounddto.type": "onetomany"
+            }]);
+
+            debuglevel=38;
+            //execute({"executethis": "getwidmaster","wid": "songdto",
+            //      "command":{"getwidmaster":{"convertmethod":"dto",
+            //                              "execute":"ConvertFromDOTdri",
+            //                              "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+
+// DTO 3, dot > object 3, dot
+exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "songdto",
+            "wid": "songdto",
+            "title": "string",
+        }, {
+            "executethis": "addwidmaster",
+            "metadata.method": "sounddto",
+            "wid": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_song_sound",
+            "metadata.method": "relationshipdto",
+            "relationshiptype": "attributes",
+            "linktype": "onetomany",
+            "primarywid": "songdto",
+            "primarymethod": "songdto",
+            "secondarywid": "sounddto",
+            "secondarymethod": "sounddto"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 99);
+
+            res = logverify("ettestagag3_result", res[6], [{
+        "title": "Highway to Hell",
+        "sounddto.0.wid": "1",
+        "sounddto.0.note": "A flat",
+        "sounddto.0.metadata.method": "sounddto",
+        "sounddto.1.wid": "3",
+        "sounddto.1.note": "B sharp",
+        "sounddto.1.metadata.method": "sounddto",
+        "sounddto.2.wid": "5",
+        "sounddto.2.note": "C flat",
+        "sounddto.2.metadata.method": "sounddto",
+        "wid": "song1",
+        "metadata.method": "songdto",
+        "metadata.sounddto.type": "onetomany"
+
+
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot
+exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "songdto",
+            "wid": "songdto",
+            "title": "string",
+        }, {
+            "executethis": "addwidmaster",
+            "metadata.method": "sounddto",
+            "wid": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_song_sound",
+            "metadata.method": "relationshipdto",
+            "relationshiptype": "attributes",
+            "linktype": "onetomany",
+            "primarywid": "songdto",
+            "primarymethod": "songdto",
+            "secondarywid": "sounddto",
+            "secondarymethod": "sounddto"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.0.note": "A flat",
+            "sounddto.1.note": "B sharp",
+            "sounddto.2.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 99);
+
+            res = logverify("ettestagag3_result", res[4], [{
+        "title": "Highway to Hell",
+        "sounddto.0.wid": "1",
+        "sounddto.0.note": "A flat",
+        "sounddto.0.metadata.method": "sounddto",
+        "sounddto.1.wid": "3",
+        "sounddto.1.note": "B sharp",
+        "sounddto.1.metadata.method": "sounddto",
+        "sounddto.2.wid": "5",
+        "sounddto.2.note": "C flat",
+        "sounddto.2.metadata.method": "sounddto",
+        "wid": "song1",
+        "metadata.method": "songdto",
+        "metadata.sounddto.type": "onetomany"
+
+
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot
+exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata.method": "songdto",
+            "title": "string",
+            "metadata.sounddto.type": "onetomany",
+            "sounddto.wid": "sounddto",
+            "sounddto.metadata.method": "sounddto",
+            "sounddto.note": "string"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.0.note": "A flat",
+            "sounddto.1.note": "B sharp",
+            "sounddto.2.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 99);
+
+            res = logverify("ettestagag3_result", res[2], [{
+        "title": "Highway to Hell",
+        //"sounddto.0.wid": "2",
+        //"sounddto.0.note": "A flat",
+        //"sounddto.0.metadata.method": "sounddto",
+        //"sounddto.1.wid": "4",
+        //"sounddto.1.note": "B sharp",
+        //"sounddto.1.metadata.method": "sounddto",
+        "sounddto.2.wid": "6",
+        "sounddto.2.note": "C flat",
+        "sounddto.2.metadata.method": "sounddto",
+        "wid": "song1",
+        "metadata.method": "songdto",
+        "metadata.sounddto.type": "onetomany"
+
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+/* jsononetomany tests */
+// DTO 1, dot > object , dot,, jsononetomany
+exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3dotjsonmany(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata.method": "songdto",
+            "title": "string",
+            "metadata.sounddto.type": "jsononetomany",
+            //"sounddto.wid": "sounddto",
+            //"sounddto.metadata.method": "sounddto",
+            "sounddto.wid": "string",
+            "sounddto.metadata.method": "string",
+            "sounddto.note": "string"
+
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result ', res[4], 99);
+
+            res = logverify("ettestagag3_result", res[4], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
+                "sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]
+                );
+
+            //[{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat",
+            //"title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]
+            
+            debuglevel=38;
+            //execute({"executethis": "getwidmaster","wid": "songdto",
+            //      "command":{"getwidmaster":{"convertmethod":"dto",
+            //                              "execute":"ConvertFromDOTdri",
+            //                              "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, jsononetomany
+exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3dotjsonmany(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "songdto",
+            "wid": "songdto",
+            "title": "string",
+        }, {
+            "executethis": "addwidmaster",
+            "metadata.method": "sounddto",
+            "wid": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_song_sound",
+            "metadata.method": "relationshipdto",
+            "relationshiptype": "attributes",
+            "linktype": "jsononetomany",
+            "primarywid": "songdto",
+            "primarymethod": "songdto",
+            "secondarywid": "sounddto",
+            "secondarymethod": "sounddto"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 99);
+
+            res = logverify("ettestagag3_result", res[6], [{
+				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, jsononetomany
+exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1dotjsonmany(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "songdto",
+            "wid": "songdto",
+            "title": "string",
+        }, {
+            "executethis": "addwidmaster",
+            "metadata.method": "sounddto",
+            "wid": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_song_sound",
+            "metadata.method": "relationshipdto",
+            "relationshiptype": "attributes",
+            "linktype": "jsononetomany",
+            "primarywid": "songdto",
+            "primarymethod": "songdto",
+            "secondarywid": "sounddto",
+            "secondarymethod": "sounddto"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.0.note": "A flat",
+            "sounddto.1.note": "B sharp",
+            "sounddto.2.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 99);
+
+            res = logverify("ettestagag3_result", res[4], [{
+				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, jsononetomany
+exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1dotjsonmany(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata.method": "songdto",
+            "title": "string",
+            "metadata.sounddto.type": "jsononetomany",
+            "sounddto.wid": "sounddto",
+            "sounddto.metadata.method": "sounddto",
+            "sounddto.note": "string"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.0.note": "A flat",
+            "sounddto.1.note": "B sharp",
+            "sounddto.2.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 99);
+
+            res = logverify("ettestagag3_result", res[2], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
+                "sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+/* jsononetoone tests */
+// DTO 1, dot > object , dot,, jsononetoone
+exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotjsonone(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata.method": "songdto",
+            "title": "string",
+            "metadata.sounddto.type": "jsononetoone",
+            //"sounddto.wid": "sounddto",
+            //"sounddto.metadata.method": "sounddto",
+            "sounddto.wid": "string",
+            "sounddto.metadata.method": "string",
+            "sounddto.note": "string"
+
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result ', res[4], 99);
+
+            res = logverify("ettestagag3_result", res[4], [{
+				"title":"Highway to Hell",
+				"sounddto.note":"C flat",
+				"wid":"song1",
+				"metadata.method":"songdto"
+            }]);
+
+            debuglevel=38;
+            //execute({"executethis": "getwidmaster","wid": "songdto",
+            //      "command":{"getwidmaster":{"convertmethod":"dto",
+            //                              "execute":"ConvertFromDOTdri",
+            //                              "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, jsononetoone
+exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotjsonone(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "songdto",
+            "wid": "songdto",
+            "title": "string",
+        }, {
+            "executethis": "addwidmaster",
+            "metadata.method": "sounddto",
+            "wid": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_song_sound",
+            "metadata.method": "relationshipdto",
+            "relationshiptype": "attributes",
+            "linktype": "jsononetoone",
+            "primarywid": "songdto",
+            "primarymethod": "songdto",
+            "secondarywid": "sounddto",
+            "secondarymethod": "sounddto"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "A flat"
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "B sharp"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 99);
+
+            res = logverify("ettestagag3_result", res[6], [{
+				"title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
+			}]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, jsononetoone
+exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotjsonone(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "songdto",
+            "wid": "songdto",
+            "title": "string",
+        }, {
+            "executethis": "addwidmaster",
+            "metadata.method": "sounddto",
+            "wid": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_song_sound",
+            "metadata.method": "relationshipdto",
+            "relationshiptype": "attributes",
+            "linktype": "jsononetoone",
+            "primarywid": "songdto",
+            "primarymethod": "songdto",
+            "secondarywid": "sounddto",
+            "secondarymethod": "sounddto"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.0.note": "A flat",
+            "sounddto.1.note": "B sharp",
+            "sounddto.2.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 99);
+
+            res = logverify("ettestagag3_result", res[4], [{
+				"title":"Highway to Hell",
+				//"sounddto.0.note":"A flat",
+				//"sounddto.1.note":"B sharp",
+				"sounddto.2.note":"C flat",
+				"wid":"song1",
+				"metadata.method":"songdto"
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, jsononetoone
+exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotjsonone(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata.method": "songdto",
+            "title": "string",
+            "metadata.sounddto.type": "jsononetoone",
+            "sounddto.wid": "sounddto",
+            "sounddto.metadata.method": "sounddto",
+            "sounddto.note": "string"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "title": "Highway to Hell",
+            "sounddto.0.note": "A flat",
+            "sounddto.1.note": "B sharp",
+            "sounddto.2.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 99);
+
+            res = logverify("ettestagag3_result", res[2], [{
+				"title":"Highway to Hell",
+				//"sounddto.0.note":"A flat",
+				//"sounddto.1.note":"B sharp",
+				"sounddto.2.note":"C flat",
+				"wid":"song1",
+				"metadata.method":"songdto"
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+/* object tests */
+// DTO 1, dot > object , dot,, object
+exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobject(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata":{"method":"songdto"},
+            "title": "string",
+            "metadata.sounddto.type": "jsononetoone",
+            //"sounddto.wid": "sounddto",
+            //"sounddto.metadata.method": "sounddto",
+            "sounddto":{"wid":"string"},
+            "sounddto":{"metadata":{"method": "string"}},
+            "sounddto":{"note":"string"}
+
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata":{"method":"songdto"},
+            "title": "Highway to Hell",
+            "sounddto":{"note": "A flat"}
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata":{"method":"songdto"},
+            "title": "Highway to Hell",
+            "sounddto":{"note": "B sharp"}
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata":{"method":"songdto"},
+            "title": "Highway to Hell",
+            "sounddto":{"note": "C flat"}
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result ', res[4], 99);
+
+            res = logverify("ettestagag3_result", res[4], [{
+                "title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
+            }]);
+
+            debuglevel=38;
+            //execute({"executethis": "getwidmaster","wid": "songdto",
+            //      "command":{"getwidmaster":{"convertmethod":"dto",
+            //                              "execute":"ConvertFromDOTdri",
+            //                              "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, object
+exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobject(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "metadata":{"method":"songdto"},
+            "wid": "songdto",
+            "title": "string",
+        }, {
+            "executethis": "addwidmaster",
+            "metadata":{"method":"sounddto"},
+            "wid": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_song_sound",
+            "metadata":{"method": "relationshipdto"},
+            "relationshiptype": "attributes",
+            "linktype": "jsononetoone",
+            "primarywid": "songdto",
+            "primarymethod": "songdto",
+            "secondarywid": "sounddto",
+            "secondarymethod": "sounddto"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata":{"method":"songdto"},
+            "title": "Highway to Hell",
+            "sounddto":{"note": "A flat"}
+        }, {            
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata":{"method":"songdto"},
+            "title": "Highway to Hell",
+            "sounddto":{"note": "B sharp"}
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata":{"method":"songdto"},
+            "title": "Highway to Hell",
+            "sounddto":{"note": "C flat"}
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 99);
+
+            res = logverify("ettestagag3_result", res[6], [{
+				"title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, object
+exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobject(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "metadata":{"method":"songdto"},
+            "wid": "songdto",
+            "title": "string",
+        }, {
+            "executethis": "addwidmaster",
+            "metadata":{"method": "sounddto"},
+            "wid": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_song_sound",
+            "metadata":{"method": "relationshipdto"},
+            "relationshiptype": "attributes",
+            "linktype": "jsononetoone",
+            "primarywid": "songdto",
+            "primarymethod": "songdto",
+            "secondarywid": "sounddto",
+            "secondarymethod": "sounddto"
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata":{"method":"songdto"},
+            "title": "Highway to Hell",
+            "sounddto.0.note": "A flat",
+            "sounddto.1.note": "B sharp",
+            "sounddto.2.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 99);
+
+            res = logverify("ettestagag3_result", res[4], [{
+				"title":"Highway to Hell","sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","wid":"song1","metadata.method":"songdto"
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+                 
+            })
+        });
+}
+
+// DTO 3, dot > object 3, dot,, object
+exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobject(params, callback) {
+    testclearstorage();
+
+    debuglevel = 17;
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata":{"method":"songdto"},
+            "title": "string",
+            "metadata":{"sounddto":{"type": "jsononetoone"}},
+            "sounddto":{"wid": "sounddto"},
+            "sounddto":{"metadata":{"method": "sounddto"}},
+            "sounddto":{"note":"string"}
+        }, {                       
+            "executethis": "addwidmaster",
+            "wid": "song1",
+            "metadata":{"method":"songdto"},
+            "title": "Highway to Hell",
+            "sounddto.0.note": "A flat",
+            "sounddto.1.note": "B sharp",
+            "sounddto.2.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1"
+         }
+        ],
+
+        function (err, res) {
+
+            proxyprinttodiv('Function ag3 result Full res', res, 99);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 99);
+
+            res = logverify("ettestagag3_result", res[2], [{
+				"title":"Highway to Hell","sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","wid":"song1","metadata.method":"songdto"
+            }]);
+            debuglevel=38;
+            // execute({"executethis": "getwidmaster","wid": "songdto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                callback(err, res); 
+            })
+        });
+}
+
+exports.ettestdot = ettestdot = function ettestdot(params, callback) {
+    var result = [];
+    var err;
+
+    ettest1dot3dotjsonmany(result, function (err, r1) {
+        result.push(r1);
+        ettest3dot3dotjsonmany(result, function (err, r2) {
+            result.push(r2);
+            ettest3dot1dotjsonmany(result, function (err, r3) {
+                result.push(r3);
+                    ettest1dot3dotjsonone(result, function (err, r4) {
+                        result.push(r4);
+                            ettest1dot3dotjsonone(result, function (err, r5) {
+                                result.push(r5);
+                                ettest3dot3dotjsonone(result, function (err, r6) {
+									result.push(r6);
+									ettest3dot1dotjsonone(result, function (err, r7) {
+										result.push(r7);
+										ettest1dot1dotjsonone(result, function (err, r8) {
+											result.push(r8);
+											ettest1dot3dotobject(result, function (err, r9) {
+												result.push(r9);
+												ettest3dot3dotobject(result, function (err, r10) {
+													result.push(r10);
+													ettest3dot1dotobject(result, function (err, r11) {
+														result.push(r11);
+														ettest1dot1dotobject(result, function (err, r12) {
+															result.push(r12);
+															callback(err, result);
+														});
+													});
+												});
+											});
+										});
+									});
+                            });
+                        });
+                    });
+            });
+        });
+    });
+}
+
+exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(params, callback) {
+    var result = [];
+    var err;
+
+    d1(result, function (err, r1) {
+        result.push(r1);
+        d2(result, function (err, r2) {
+            result.push(r2);
+            d3(result, function (err, r3) {
+                result.push(r3);
+					d5(result, function (err, r5) {
+						result.push(r5);
+						d6(result, function (err, r6) {
+							result.push(r6);
+							d7(result, function (err, r7) {
+								result.push(r7);
+								d8(result, function (err, r8) {
+									result.push(r8);
+										d10(result, function (err, r10) {
+											result.push(r10);
+											d10b(result, function (err, r10b) {
+												result.push(r10b);
+												d11(result, function (err, r11) {
+													result.push(r11);
+													d12(result, function (err, r12) {
+														result.push(r12);
+														d13(result, function (err, r13) {
+															result.push(r13);
+															d14(result, function (err, r14) {
+																result.push(r14);
+																callback(err, result);
+															});
+														});
+													});
+												});
+											});
+										});
+									});
+								});
+							});
+						});
+					});
+				});
+
+		});
+	}
+	
+	
+	/*
+		5)
+		test inherit…metadata.dtoname.inherit=wid5 … look at examples in test.js
+		first create a wid "defaultauthordtoactions"
+		then create a dto , mention the inherit as you show
+		"metadata": {
+			"inherit": "defaultauthordtoactions"
+		}
+		then add some data using the dto
+		then get it
+		system will also get defaultauthroactions and include it as part of the results as  long as it passes deepfilter
+	*/
+	exports.inherittest1 = inherittest1 = function inherittest1(params, callback) {
+		testclearstorage();
+		debuglevel = 17;
+		
+		execute([{
+                    "executethis": "addwidmaster",
+					"wid": "bookdtoextra",
+					"metadata.method": "bookdtoextra",
+					"title": "string",
+					"pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdefaultdto",
+					"metadata.method": "bookdtoextra",
+					"title":"X title",
+					"pages":"300"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdto",
+                    "metadata.method": "bookdto",
+					"metadata.inherit": "bookdefaultdto",
+					"title": "string",
+					"pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdtowid111",
+                    "metadata.method":"bookdto",
+					"title": "Book Title1"
+                    // notice no pages
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "bookdtowid111",
+                }
+			], function (err, res) {
+				proxyprinttodiv('Function bookdtowid111 result Full res', res, 99);
+				
+				proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+				
+				var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+				proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 99);
+				
+				res = logverify("bookdtowid111_result", res[4], expectedResult);
+				debuglevel=38;
+				execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+					proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 99); 
+					callback(err, res); 
+				})
+        });
 	}
