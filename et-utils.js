@@ -408,9 +408,13 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
 exports.testclearstorage = testclearstorage = function testclearstorage() {
     widMasterKey = "widmaster_";
     potentialwid = 0;
-    localStore.clear();
-    // localStorage.clear();
+    //localStore.clear();
+    localStorage.clear();
+    // clearLocalStorage();
+    // addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
+    // addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
 };
+
 (function (window) {
 
     // Utility function to return json with all keys in lowercase

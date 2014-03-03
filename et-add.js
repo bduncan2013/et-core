@@ -412,9 +412,9 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         if (dtoobject.command && dtoobject.command.dtolist) {dtolist=dtoobject.command.dtolist}
         proxyprinttodiv("addwid step4 dtolist", dtolist, 17);           
         for (dtoname in dtolist) {  // 
-            dtotype=dtolist[dtoname]
+            dtotype = dtolist[dtoname];
             if (dtotype==="jsononetomany") {
-                var subobject=[]
+                var subobject = [];
                 if (object[dtoname]) {
                     subobject=JSON.parse(JSON.stringify(object[dtoname]))
                     proxyprinttodiv("addwid subobject", subobject, 17); 
@@ -422,11 +422,20 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                     if (!currentobject[dtoname]) {currentobject[dtoname]=[]}
                     for (eachobject in subobject) {
                         currentobject[dtoname].push(subobject[eachobject])
-                        }                            
+                    }                            
                     proxyprinttodiv("after currentobject", currentobject, 17); 
-                    }
+                }
+            } else if (dtotype === "jsononetoone") {
+                var lastObject;
+                if (object[dtoname] instanceof Array) {
+                    lastObject = object[dtoname][object[dtoname].length -1];
+                    // rewrite array to only contain the last item
+                    object[dtoname] = lastObject;
                 }
             }
+
+        }
+        
         object = extend(true, currentobject, object);
         proxyprinttodiv("after extend,, object-- ", object, 17); 
         addwid5();

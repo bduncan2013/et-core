@@ -2,7 +2,7 @@
     // this one inserts same amount of data but does not fail
 
     exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
-    testclearstorage();
+    etappinstall();
      // config = setconfig1();
     var recModObj = recurseModObj({
                                     "metadata":{"method":"wid2"},
@@ -1168,7 +1168,7 @@
     }
 
     exports.add1 = add1 = function add1(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1238,7 +1238,7 @@
     }
 
     exports.add11 = add11 = function add11(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1312,7 +1312,7 @@
     this should insert {a:b} at the bookdto level
 */
     exports.get4 = get4 = function get4(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1383,7 +1383,7 @@
     }
 
     exports.get4 = get4 = function get22(parameters, callback) { //add clean test
-        testclearstorage();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1457,7 +1457,7 @@
     do not specify command.dto...should put it at root/author level
 */
     exports.get5 = get5 = function get5(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1529,7 +1529,7 @@
     specify command.dtotype = x should wrap result in {x: {.....}}
 */
     exports.get6 = get6 = function get6(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1603,7 +1603,7 @@
     specify command.dtotype.x.y.z should wrap result in {x:{y:z{......}}}
 */
     exports.get7 = get7 = function get7(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1681,7 +1681,7 @@
     get8 - to get the dtoname
 */
     exports.get8 = get8 = function get8(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1756,7 +1756,7 @@
     addwid with out inherit ... should add inputobject
 */
     exports.addwidtest = addwidtest = function addwidtest(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1812,7 +1812,7 @@
     addwid without inherit .. should add the input record
 */
     exports.addwidtest2 = addwidtest2 = function addwidtest2(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1856,7 +1856,7 @@
     addwid - with record alreayd exists ... should update name, leave all else the same
 */
     exports.addwidtest3 = addwidtest3 = function addwidtest3(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var executeList = [
             //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
             {
@@ -1903,7 +1903,7 @@
     addwid with inherit that DOES matter ... should return name of roger
 */
     exports.addwidtest4 = addwidtest4 = function addwidtest4(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1959,7 +1959,7 @@
     addwid - with record .. but dto fliters age
 */
     exports.addwidtest5 = addwidtest5 = function addwidtest5(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var executeList = [
             //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
             {
@@ -2007,7 +2007,7 @@
     addwid with inherit that DOES matter ... deep should return name of roger + more
 */
     exports.addwidtest6 = addwidtest6 = function addwidtest6(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -2068,7 +2068,7 @@
     addwid without inherit  ... should add inputobject -- test of deep filter string, number, boolean, date -- did it convert it?
 */
     exports.addwidtest7 = addwidtest7 = function addwidtest7(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -2178,7 +2178,7 @@
 
 
     exports.get1 = get1 = function get1(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         // debuglevel=10;
         var executeList = [{
                 "executethis": "updatewid",
@@ -2272,7 +2272,7 @@
     }
 
     exports.get3 = get3 = function get3(parameters, callback) {
-        testclearstorage();
+        etappinstall();
         debuglevel = 38;
         var executeList = [{
             "executethis": "updatewid",
@@ -2358,7 +2358,7 @@
 
     exports.get2 = get2 = function get2(parameters, callback) {
         // Setup test
-        testclearstorage();
+        etappinstall();
         // debuglevel = 10;
 
         var executeList = [
@@ -2476,7 +2476,7 @@
 
     exports.get11 = get11 = function get11(parameters, callback) {
         // Setup test
-        testclearstorage();
+        etappinstall();
         // debuglevel = 10;
 
         var executeList = [
@@ -2947,7 +2947,7 @@
         }
         //debuglevel=17;
         /* adding wids */
-        testclearstorage();
+        etappinstall();
         debugname = "updatewid";
         debugsubcat = "code";
         debugcat = "add";
@@ -3459,7 +3459,7 @@
         }
 
         /* adding wids */
-        testclearstorage();
+        etappinstall();
         var executeList = [];
         executeList = addmttestdata(callback);
         execute(executeList, function (err, res) {
@@ -3745,7 +3745,7 @@
 
 
     exports.t1example = t1example = function t1example(params, callback) {
-        testclearstorage();
+        etappinstall();
         config = setconfig1();
         execute([{
                 "executethis": "func_b",
@@ -3771,7 +3771,7 @@
     exports.mttest2 = mttest2 = function mttest2(params, callback) {
         console.log("<< mongoquery_two_test >>");
 
-        testclearstorage();
+        etappinstall();
 
         //To add wid data
         var executeList = [];
@@ -3858,7 +3858,7 @@
     exports.mttest3 = mttest3 = function mttest3(params, callback) {
         console.log("<< mttest3 >>");
 
-        testclearstorage();
+        etappinstall();
 
         //To add wid data
         var executeList = [{
@@ -4017,7 +4017,7 @@
 
     exports.mttest333 = mttest333 = function mttest333(params, callback) {
         console.log("<< mttest3 >>");
-        testclearstorage();
+        etappinstall();
 
         // Add List
         var addlist = [{
@@ -4468,7 +4468,7 @@
         }
 
 
-        testclearstorage();
+        etappinstall();
 
         // debugcolor = 0;
         // debugon = true;
@@ -5388,9 +5388,9 @@ exports.d10b = d10b = function d10b(params, callback) {
 
 // DTO 1, dot > object 3, dot
 exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5401,7 +5401,6 @@ exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callba
             "sounddto.wid": "sounddto",
             "sounddto.metadata.method": "sounddto",
             "sounddto.note": "string"
-
         }, {                       
             "executethis": "addwidmaster",
             "wid": "song1",
@@ -5423,13 +5422,11 @@ exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callba
         }, {
             "executethis": "getwidmaster",
             "wid": "song1"
-         }
-        ],
-
+        }],
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result ', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{
                 "title": "Highway to Hell",
@@ -5447,13 +5444,12 @@ exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callba
                 "metadata.sounddto.type": "onetomany"
             }]);
 
-            debuglevel=38;
             //execute({"executethis": "getwidmaster","wid": "songdto",
             //      "command":{"getwidmaster":{"convertmethod":"dto",
             //                              "execute":"ConvertFromDOTdri",
             //                              "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -5463,9 +5459,9 @@ exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5514,8 +5510,8 @@ exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callba
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
             res = logverify("ettestagag3_result", res[6], [{
         "title": "Highway to Hell",
@@ -5534,13 +5530,12 @@ exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callba
 
 
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -5549,9 +5544,9 @@ exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5590,8 +5585,8 @@ exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callba
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{
         "title": "Highway to Hell",
@@ -5610,13 +5605,12 @@ exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callba
 
 
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -5625,9 +5619,9 @@ exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5654,32 +5648,32 @@ exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callba
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
             res = logverify("ettestagag3_result", res[2], [{
-        "title": "Highway to Hell",
-        //"sounddto.0.wid": "2",
-        //"sounddto.0.note": "A flat",
-        //"sounddto.0.metadata.method": "sounddto",
-        //"sounddto.1.wid": "4",
-        //"sounddto.1.note": "B sharp",
-        //"sounddto.1.metadata.method": "sounddto",
-        "sounddto.2.wid": "6",
-        "sounddto.2.note": "C flat",
-        "sounddto.2.metadata.method": "sounddto",
-        "wid": "song1",
-        "metadata.method": "songdto",
-        "metadata.sounddto.type": "onetomany"
+            "title": "Highway to Hell",
+            "sounddto.0.wid": "2",
+            "sounddto.0.note": "A flat",
+            "sounddto.0.metadata.method": "sounddto",
+            "sounddto.1.wid": "4",
+            "sounddto.1.note": "B sharp",
+            "sounddto.1.metadata.method": "sounddto",
+            "sounddto.2.wid": "6",
+            "sounddto.2.note": "C flat",
+            "sounddto.2.metadata.method": "sounddto",
+            "wid": "song1",
+            "metadata.method": "songdto",
+            "metadata.sounddto.type": "onetomany"
 
             }]);
-            debuglevel=38;
+
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -5689,9 +5683,9 @@ exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callba
 /* jsononetomany tests */
 // DTO 1, dot > object , dot,, jsononetomany
 exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3dotjsonmany(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5731,8 +5725,8 @@ exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3do
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result ', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
                 "sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]
@@ -5747,7 +5741,7 @@ exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3do
             //                              "execute":"ConvertFromDOTdri",
             //                              "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -5756,9 +5750,9 @@ exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3dotjsonmany(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5807,11 +5801,16 @@ exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3do
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
             res = logverify("ettestagag3_result", res[6], [{
-				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
+				"sounddto.0.note":"A flat",
+                "sounddto.1.note":"B sharp",
+                "sounddto.2.note":"C flat",
+                "title":"Highway to Hell",
+                "wid":"song1",
+                "metadata.method":"songdto"
             }]);
             debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -5819,7 +5818,7 @@ exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3do
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -5828,9 +5827,9 @@ exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1dotjsonmany(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5869,11 +5868,16 @@ exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1do
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{
-				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
+				"sounddto.0.note":"A flat",
+                "sounddto.1.note":"B sharp",
+                "sounddto.2.note":"C flat",
+                "title":"Highway to Hell",
+                "wid":"song1",
+                "metadata.method":"songdto"
             }]);
             debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -5881,7 +5885,7 @@ exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1do
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -5890,9 +5894,9 @@ exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1dotjsonmany(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5919,8 +5923,8 @@ exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1do
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
             res = logverify("ettestagag3_result", res[2], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
                 "sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]);
@@ -5930,7 +5934,7 @@ exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1do
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -5940,9 +5944,9 @@ exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1do
 /* jsononetoone tests */
 // DTO 1, dot > object , dot,, jsononetoone
 exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotjsonone(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5982,8 +5986,8 @@ exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotj
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result ', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{
 				"title":"Highway to Hell",
@@ -5998,7 +6002,7 @@ exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotj
             //                              "execute":"ConvertFromDOTdri",
             //                              "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -6007,9 +6011,9 @@ exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotjsonone(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -6058,8 +6062,8 @@ exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotj
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
             res = logverify("ettestagag3_result", res[6], [{
 				"title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
@@ -6070,7 +6074,7 @@ exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotj
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -6079,9 +6083,9 @@ exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotjsonone(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -6120,14 +6124,14 @@ exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotj
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{
 				"title":"Highway to Hell",
 				//"sounddto.0.note":"A flat",
 				//"sounddto.1.note":"B sharp",
-				"sounddto.2.note":"C flat",
+				"sounddto.note":"C flat",
 				"wid":"song1",
 				"metadata.method":"songdto"
             }]);
@@ -6137,7 +6141,7 @@ exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotj
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -6146,7 +6150,7 @@ exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotjsonone(params, callback) {
-    testclearstorage();
+    etappinstall();
 
     debuglevel = 17;
 
@@ -6170,19 +6174,17 @@ exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotj
         }, {
             "executethis": "getwidmaster",
             "wid": "song1"
-         }
-        ],
-
+        }],
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
             res = logverify("ettestagag3_result", res[2], [{
 				"title":"Highway to Hell",
 				//"sounddto.0.note":"A flat",
 				//"sounddto.1.note":"B sharp",
-				"sounddto.2.note":"C flat",
+				"sounddto.note":"C flat",
 				"wid":"song1",
 				"metadata.method":"songdto"
             }]);
@@ -6192,7 +6194,7 @@ exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotj
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -6202,9 +6204,9 @@ exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotj
 /* object tests */
 // DTO 1, dot > object , dot,, object
 exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobject(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -6244,8 +6246,8 @@ exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobj
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result ', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{
                 "title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
@@ -6257,7 +6259,7 @@ exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobj
             //                              "execute":"ConvertFromDOTdri",
             //                              "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -6266,9 +6268,9 @@ exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobject(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -6317,11 +6319,14 @@ exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobj
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
             res = logverify("ettestagag3_result", res[6], [{
-				"title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
+				"title":"Highway to Hell",
+                "sounddto.note":"C flat",
+                "wid":"song1",
+                "metadata.method":"songdto"
             }]);
             debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -6329,7 +6334,7 @@ exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobj
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -6338,9 +6343,9 @@ exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobject(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -6373,17 +6378,19 @@ exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobj
         }, {
             "executethis": "getwidmaster",
             "wid": "song1"
-         }
-        ],
-
-
+        }],
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{
-				"title":"Highway to Hell","sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","wid":"song1","metadata.method":"songdto"
+				"title":"Highway to Hell",
+                // "sounddto.0.note":"A flat",
+                // "sounddto.1.note":"B sharp",
+                "sounddto.note":"C flat",
+                "wid":"song1",
+                "metadata.method":"songdto"
             }]);
             debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -6391,7 +6398,7 @@ exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobj
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -6400,9 +6407,9 @@ exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobject(params, callback) {
-    testclearstorage();
+    etappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -6429,11 +6436,16 @@ exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobj
 
         function (err, res) {
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
             res = logverify("ettestagag3_result", res[2], [{
-				"title":"Highway to Hell","sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","wid":"song1","metadata.method":"songdto"
+				"title":"Highway to Hell",
+                // "sounddto.0.note":"A flat",
+                // "sounddto.1.note":"B sharp",
+                "sounddto.note":"C flat",
+                "wid":"song1",
+                "metadata.method":"songdto"
             }]);
             debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -6441,7 +6453,7 @@ exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobj
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
             })
         });
@@ -6550,9 +6562,9 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		then get it
 		system will also get defaultauthroactions and include it as part of the results as  long as it passes deepfilter
 	*/
-	exports.inherittest1 = inherittest1 = function inherittest1(params, callback) {
-		testclearstorage();
-		debuglevel = 17;
+	exports.ettestinherittest1 = ettestinherittest1 = function ettestinherittest1(params, callback) {
+		etappinstall();
+		debuglevel = 0;
 		
 		execute([{
                     "executethis": "addwidmaster",
@@ -6584,17 +6596,17 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
                     "wid": "bookdtowid111",
                 }
 			], function (err, res) {
-				proxyprinttodiv('Function bookdtowid111 result Full res', res, 99);
+				proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
 				
-				proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+				proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 17);
 				
 				var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
-				proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 99);
+				proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
 				
 				res = logverify("bookdtowid111_result", res[4], expectedResult);
 				debuglevel=38;
 				execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-					proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 99); 
+					proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
 					callback(err, res); 
 				})
         });
