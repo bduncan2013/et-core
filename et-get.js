@@ -49,15 +49,18 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
         //  } 
         proxyprinttodiv('getwidmaster command II-2', command, 38);
         proxyprinttodiv('getwidmaster res from getWidMongo', res, 38);
-        if ((res) && (Object.keys(res).length !== 0) && (res['metadata']) && 
-            (res['wid'] !== res['metadata']['method']) && (command) && (command.getwidmaster) && 
-            (command.getwidmaster.convertmethod!=="dto") && (command.getwidmaster.inheritflag !== "false")) {
+        // if ((res) && (Object.keys(res).length !== 0) && (res['metadata']) && 
+        //     (res['wid'] !== res['metadata']['method']) && (command) && (command.getwidmaster) && 
+        //     (command.getwidmaster.convertmethod!=="dto") && (command.getwidmaster.inheritflag !== "false")) {
+        if (((res) && (Object.keys(res).length !== 0) && (res['metadata']) && 
+            (res['wid'] !== res['metadata']['method'])) || ((command) && (command.getwidmaster) && 
+            (command.getwidmaster.convertmethod!=="dto") && (command.getwidmaster.inheritflag !== "false"))) {
             
             // getclean(res, parameters.command, function (err, res) {
-            proxyprinttodiv('getwidmaster command II-3', command, 38);
+            proxyprinttodiv('getwidmaster command II-3', command, 99);
             getclean(res, command, function (err, res) {
                 res = pack_up_params(res, command, "getwidmaster");
-                proxyprinttodiv('getwidmaster command II-4', command, 38);
+                proxyprinttodiv('getwidmaster command II-4', command, 99);
                 // if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                 if (command && command.getwidmaster && command.getwidmaster.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);

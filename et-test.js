@@ -5268,12 +5268,13 @@ exports.d10b = d10b = function d10b(params, callback) {
 			enter a dto using metadata.<>.type:onetoany
 	*/
 	exports.dtotypetest1 = dtotypetest1 = function dtotypetest1(params, callback) {
+        etappinstall()
 		async.series([
 			function (cb1) {
 				var executeList = [{
                     "executethis": "addwidmaster",
-					"wid": "bookdto",
-                    "metadata.method": "bookdto",
+					"wid": "authordto",
+                    "metadata.method": "authordto",
 					"title": "string",
 					"pages": "string",
                     "metadata.bookdto.type": "onetomany",
@@ -6564,7 +6565,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 	*/
 	exports.ettestinherittest1 = ettestinherittest1 = function ettestinherittest1(params, callback) {
 		etappinstall();
-		debuglevel = 0;
+		debuglevel = 17;
 		
 		execute([{
                     "executethis": "addwidmaster",
