@@ -60,7 +60,7 @@
 
             proxyprinttodiv("execute - inboundparms", incomingparams, 11);
             proxyprinttodiv("execute - callback fn ", String(callback), 11);
-            console.log(' *** test2  ' + nonCircularStringify(incomingparams));
+//            console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
             // fix incoming param
             // if(incomingparams){
@@ -71,7 +71,7 @@
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
-            console.log('starting preexecute ' + nonCircularStringify(incomingparams));
+//            console.log('starting preexecute ' + nonCircularStringify(incomingparams));
             dothisprocessor(incomingparams, 'preexecute', function (err, preResults) {
                 preError = err;
 
@@ -89,8 +89,8 @@
                 dothisprocessor(preResults, 'midexecute', function (err, midResults) {
 
                     midError = err;
-                    console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-                    console.log(' after midexecute II >> \n' + nonCircularStringify(midResults, '-', 4));
+//                    console.log(' after midexecute >> ' + nonCircularStringify(midResults));
+//                    console.log(' after midexecute II >> \n' + JSON.stringify(midResults, '-', 4));
 
                     if (!midResults)
                         midResults = {};
