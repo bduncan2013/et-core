@@ -377,7 +377,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 }
 
 
-// logic to add things to Local storage
+// logic to add things to localStore object
 exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     if (!widobject) {
         widobject = {}
@@ -387,7 +387,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     }
 };
 
-// logic to get things from Local storage
+// logic to get things from localStore object
 exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     var output = {};
     if (inputWidgetObject["wid"]) {
@@ -404,16 +404,36 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     return output
 };
 
-// logic to clear things from Local storage
-exports.testclearstorage = testclearstorage = function testclearstorage() {
+exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
     widMasterKey = "widmaster_";
-    potentialwid = 0;
-    //localStore.clear();
     localStorage.clear();
-    // clearLocalStorage();
-    // addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-    // addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
+    potentialwid = 0;
+        addToLocal("DRI", [{
+            "wid": "initialwid",
+            "initialwid": "hello from bootprocess"
+        }]);
+        addToLocal("DRIKEY", {
+            "initialwid": {
+                "wid": "initialwid",
+                "initialwid": "for key hello from bootprocess"
+            }
+        });
 };
+
+
+
+
+
+// logic to clear things from Local storage
+// exports.testclearstorage = testclearstorage = function testclearstorage() {
+//     widMasterKey = "widmaster_";
+//     potentialwid = 0;
+//     //localStore.clear();
+//     localStorage.clear();
+//     // clearLocalStorage();
+//     // addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
+//     // addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
+// };
 
 (function (window) {
 
@@ -2086,7 +2106,6 @@ exports.testclearstorage = testclearstorage = function testclearstorage() {
     }
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
-        testclearstorage();
         if (database && JSON.stringify(database) !== "{}") {
             addToLocalStorage("DRIKEY", database);
             var this_string = "[";

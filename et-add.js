@@ -148,8 +148,8 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
 
     // clone input and inputdto to parent object and child object
 
-    _parent_object= JSON.parse(JSON.stringify(input))
-    _parent_dto= JSON.parse(JSON.stringify(inputdto))
+    _parent_object= JSON.parse(JSON.stringify(input));
+    _parent_dto= JSON.parse(JSON.stringify(inputdto));
     //extend(true, _parent_object, input);
     //extend(true, _parent_dto, inputdto);
 
@@ -258,7 +258,7 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
                         })
                     }, function (err, res) {
                     cbMap(null);
-                    })
+                    });
 
 
                 // if (_child_object && Object.keys(_child_object).length!==0) {
@@ -431,17 +431,17 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         var dtolist={};
         if (dtoobject.command && dtoobject.command.dtolist) {dtolist=dtoobject.command.dtolist}
         proxyprinttodiv("addwid step4 dtolist", dtolist, 17);           
-        for (dtoname in dtolist) {  // 
+        for (var dtoname in dtolist) {  //
             dtotype = dtolist[dtoname];
             if (dtotype==="jsononetomany") {
                 var subobject = [];
                 if (object[dtoname]) {
-                    subobject=JSON.parse(JSON.stringify(object[dtoname]))
+                    subobject=JSON.parse(JSON.stringify(object[dtoname]));
                     proxyprinttodiv("addwid subobject", subobject, 17); 
                     delete object[dtoname]
-                    if (!currentobject[dtoname]) {currentobject[dtoname]=[]}
-                    for (eachobject in subobject) {
-                        currentobject[dtoname].push(subobject[eachobject])
+                    if (!currentobject[dtoname]) {currentobject[dtoname]=[];}
+                    for (var eachobject in subobject) {
+                        currentobject[dtoname].push(subobject[eachobject]);
                     }                            
                     proxyprinttodiv("after currentobject", currentobject, 17); 
                 }
@@ -509,14 +509,13 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         inheritwidlist.push(dtoobject.command.inherit)
         }
     var objectarray=[];
-    var eachobject;
     var currentobject={};
     
     proxyprinttodiv("addwid inheritwidlist", inheritwidlist, 17);
     if (inheritwidlist) { // do not save if in inherit
         async.mapSeries(inheritwidlist, function (inheritwid, cbMap) {
             async.nextTick(function() {
-                for (eachobject in inheritwid) {} // to get left side
+                for (var eachobject in inheritwid) {} // to get left side
                 execute({"executethis":"getwidmaster","wid":eachobject, 
                     "command.getwidmaster.execute":"ConvertFromDOTdri","command.getwidmaster.inheritflag":"false", 
                     "command.getwidmaster.convertmethod":"nowid"}, function (err, res) {
