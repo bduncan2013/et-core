@@ -5498,7 +5498,7 @@ exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callba
 exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callback) {
     etappinstall();
 
-    debuglevel = 0;
+    debuglevel = 17;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5529,19 +5529,19 @@ exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callba
             proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
             res = logverify("ettestagag3_result", res[2], [{
-        "title": "Highway to Hell",
-        //"sounddto.0.wid": "2",
-        //"sounddto.0.note": "A flat",
-        //"sounddto.0.metadata.method": "sounddto",
-        //"sounddto.1.wid": "4",
-        //"sounddto.1.note": "B sharp",
-        //"sounddto.1.metadata.method": "sounddto",
-        "sounddto.2.wid": "6",
-        "sounddto.2.note": "C flat",
-        "sounddto.2.metadata.method": "sounddto",
-        "wid": "song1",
-        "metadata.method": "songdto",
-        "metadata.sounddto.type": "onetomany"
+                "title": "Highway to Hell",
+                "sounddto.0.wid": "2",
+                "sounddto.0.note": "A flat",
+                "sounddto.0.metadata.method": "sounddto",
+                "sounddto.1.wid": "4",
+                "sounddto.1.note": "B sharp",
+                "sounddto.1.metadata.method": "sounddto",
+                "sounddto.2.wid": "6",
+                "sounddto.2.note": "C flat",
+                "sounddto.2.metadata.method": "sounddto",
+                "wid": "song1",
+                "metadata.method": "songdto",
+                "metadata.sounddto.type": "onetomany"
 
             }]);
 
@@ -6600,10 +6600,10 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 					"metadata.method": "relationshipdto",
 					"relationshiptype": "attributes",
 					"linktype": "manytoone",
-					"primarywid": "pubhousedto",
-					"primarymethod": "pubhousedto",
-					"secondarywid": "bookdto",
-					"secondarymethod": "bookdto"
+					"primarywid": "bookdto",
+					"primarymethod": "bookdto",
+					"secondarywid": "pubhousedto",
+					"secondarymethod": "pubhousedto"
 				},{		//addressdto
 					"executethis": "addwidmaster",
 					"metadata.method": "addressdto",
@@ -6615,21 +6615,43 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 					"metadata.method": "relationshipdto",
 					"relationshiptype": "attributes",
 					"linktype": "onetomany",
-					"primarywid": "pubhousedto",
-					"primarymethod": "pubhousedto",
-					"secondarywid": "addressdto",
-					"secondarymethod": "addressdto"
-				}, {	//wid
+					"primarywid": "addressdto",
+					"primarymethod": "addressdto",
+					"secondarywid": "pubhousedto",
+					"secondarymethod": "pubhousedto"
+				}, {	//author wid
 					"executethis": "addwidmaster",
 					"metadata.method": "authordto",
 					"wid": "author1",
+					"name": "devang"
+				}, {	//book wid
+					"executethis": "addwidmaster",
+					"metadata.method": "bookdto",
+					"wid": "book1",
+					"title": "book1"
+				}, {	//pubhouse wid
+					"executethis": "addwidmaster",
+					"metadata.method": "pubhousedto",
+					"wid": "pubhouse1",
+					"coname": "Pub House Company"
+				}, {	//address wid
+					"executethis": "addwidmaster",
+					"metadata.method": "addressdto",
+					"wid": "address1",
+					"city": "City"
+				}, {	//author+book wid
+					"executethis": "addwidmaster",
+					"metadata.method": "authordto",
+					"wid": "authorbook1",
 					"name": "devang",
-                    "bookdto.title": "programming101",
-                   // "bookdto.pubhousedto.coname": "bigco",
-                    //"bookdto.pubhousedto.addressdto.city": "somecity"
-				}, {
-					"executethis": "getwidmaster",
-					"wid": "author1"
+					"bookdto.title": "Author Book 1"
+				}, {	//author+book+pubhouse wid
+					"executethis": "addwidmaster",
+					"metadata.method": "authordto",
+					"wid": "authorbookpubhouse1",
+					"name": "devang",
+					"bookdto.title": "Author Book 1",
+					"bookdto.pubhousedto.coname": "Author Book1 PubHouse1 "
 				}];
 				execute(executeList, function (err, res) {
 					proxyprinttodiv("manytoonetest getwidmaster -- ", res, 99);
@@ -6637,12 +6659,27 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 				});
 			},
 			function (cb2) {
-				var executeList = [{
-					"executethis": "getwid",
+				var executeList = [/*{
+					"executethis": "getwidmaster",
 					"wid": "author1",
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "book1",
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "pubhouse1",
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "address1",
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "authorbook1",
+				},*/ {
+					"executethis": "getwidmaster",
+					"wid": "authorbookpubhouse1",
 				}];
 				execute(executeList, function (err, res) {
-					proxyprinttodiv("manytoonetest  getwid -- ", res, 99);
+					proxyprinttodiv("manytoonetest  getwidmaster res -- ", res, 99);
                     cb2(null);
 				});
 			}
@@ -6653,3 +6690,252 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 			callback(params);	
         });				
 	}
+
+        exports.manytoonetestsmall = manytoonetestsmall = function manytoonetestsmall(params, callback) {
+            etappinstall();
+
+            debuglevel = 0;
+
+            async.series([
+            function (cb1) {
+                var executeList = [
+                {    //bookdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "bookdto",
+                    "wid": "bookdto",
+                    "title": "string"
+                }, {    //pubhousedto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "pubhousedto",
+                    "wid": "pubhousedto",
+                    "coname": "string"
+                }, {      //addressdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "addressdto",
+                    "wid": "addressdto",
+                    "street":"string",
+                    "city": "string",
+                    "state": "string",
+                    "ZIP": "string"
+                }, {  //note_dto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "notedto",
+                    "wid": "notedto",
+                    "note":"string"
+                }, {  //visble dto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "visibledto",
+                    "wid": "visibledto",
+                    "isvisible": "string"
+                }, {    //bookdto - pubhousedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_book_pubhouse",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "manytoone",
+                    //"linktype": "onetoone",
+                    //"linktype":"onetomany",
+                    "primarywid": "bookdto",
+                    "primarymethod": "bookdto",
+                    "secondarywid": "pubhousedto",
+                    "secondarymethod": "pubhousedto"
+                    // "primarywid": "pubhousedto",
+                    // "primarymethod": "pubhousedto",
+                    // "secondarywid": "bookdto",
+                    // "secondarymethod": "bookdto"
+                }, {    //pubhousedto - addressdto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_pubhouse_address",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    //"linktype": "onetomany",
+                    "linktype":"onetomany",
+                    // "primarywid": "addressdto",
+                    // "primarymethod": "addressdto",
+                    // "secondarywid": "pubhousedto",
+                    // "secondarymethod": "pubhousedto"
+                    "primarywid": "pubhousedto",
+                    "primarymethod": "pubhousedto",
+                    "secondarywid": "addressdto",
+                    "secondarymethod": "addressdto"
+                }, {  // addressdto to notedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_adressdto_notedto",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype":"onetomany",
+                    "primarywid": "addressdto",
+                    "primarymethod": "addressdto",
+                    "secondarywid": "notedto",
+                    "secondarymethod": "notedto"
+                }, {  // rel notedto to visibledto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_notedto_to_visbledto",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype":"onetoone",
+                    "primarywid": "notedto",
+                    "primarymethod": "notedto",
+                    "secondarywid": "visibledto",
+                    "secondarymethod": "visibledto"
+                }, {  //book wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "bookdto",
+                    "wid": "book1",
+                    "title": "book1",
+                }, { // pubhouse wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "pubhousedto",
+                    "wid": "pubhouse1",
+                    "coname": "Pub House Company"
+                }, { // rel between book1 and puhouse1
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"manytoone",
+                    //"linktype":"onetoone",
+                    "primarywid":"book1",
+                    "secondarywid":"pubhouse1",
+                    "primarymethod":"bookdto",
+                    "secondarymethod":"pubhousedto",
+                    "wid":"rel_book1_to_pubhouse1",
+                    "metadata.method":"relationshipdto"
+                }, { // address wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "addressdto",
+                    "wid": "address1",
+                    "street":"1234 First st",
+                    "city": "Traverse City",
+                    "state": "MI",
+                    "ZIP": "12346"
+                }, { // rel between pubhouse1 and address1
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetomany",
+                    "primarywid":"pubhouse1",
+                    "secondarywid":"address1",
+                    "primarymethod":"pubhousedto",
+                    "secondarymethod":"addressdto",
+                    "wid":"rel_pubhouse1_to_address1",
+                    "metadata.method":"relationshipdto"
+                }, {// address wid 2
+                    "executethis": "addwidmaster",
+                    "metadata.method": "addressdto",
+                    "wid": "address2",
+                    "street":"2222 Second st",
+                    "city": "Second Traverse City",
+                    "state": "MI",
+                    "zip": "2222"
+                }, { // rel between pubhouse1 and address2
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetomany",
+                    "primarywid":"pubhouse1",
+                    "secondarywid":"address2",
+                    "primarymethod":"pubhousedto",
+                    "secondarymethod":"addressdto",
+                    "wid":"rel_pubhouse1_to_address2",
+                    "metadata.method":"relationshipdto"
+                }, { // note wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "notedto",
+                    "wid": "note1",
+                    "note": "please do not ship to this address"
+                }, { // rel note to address2
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetomany",
+                    "primarywid":"address2",
+                    "secondarywid":"note1",
+                    "primarymethod":"addressdto",
+                    "secondarymethod":"notedto",
+                    "wid":"rel_address2_to_note1",
+                    "metadata.method":"relationshipdto"
+                }, { // note2 wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "notedto",
+                    "wid": "note2",
+                    "note": "here is a note we have set to visble"
+                }, { // rel note2 to address2
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetomany",
+                    "primarywid":"address2",
+                    "secondarywid":"note2",
+                    "primarymethod":"addressdto",
+                    "secondarymethod":"notedto",
+                    "wid":"rel_address2_to_note2",
+                    "metadata.method":"relationshipdto"
+                },{ // visiblewid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "visibledto",
+                    "wid": "visble1",
+                    "isvisible": "true"
+                },{ // relate note2 to visible1
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetoone",
+                    "primarywid":"note2",
+                    "secondarywid":"visble1",
+                    "primarymethod":"notedto",
+                    "secondarymethod":"visibledto",
+                    "wid":"rel_note2_to_visble1",
+                    "metadata.method":"relationshipdto"
+                }];
+                execute(executeList, function (err, res) {
+                    // proxyprinttodiv("manytoonetest step 1 getwidmaster -- ", res, 99);
+                    cb1(null);
+                });
+            },
+            function (cb2) {
+                var executeList = [
+                // var executeList = [{
+                //     "executethis": "addwidmaster",
+                //     "wid": "songdto",
+                //     "metadata.method": "songdto",
+                //     "title": "string",
+                //     "metadata.sounddto.type": "onetomany",
+                //     "sounddto.wid": "sounddto",
+                //     "sounddto.metadata.method": "sounddto",
+                //     "sounddto.note": "string"
+
+                // }, {                       
+                //     "executethis": "addwidmaster",
+                //     "wid": "song1",
+                //     "metadata.method": "songdto",
+                //     "title": "Highway to Hell",
+                //     "sounddto.note": "A flat"
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": "song1"
+                // }];
+                /*{
+                    "executethis": "getwidmaster",
+                    "wid": "author1",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "book1",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "pubhouse1",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "address1",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "authorbook1",
+                },*/ {
+                    "executethis": "getwidmaster",
+                    "wid": "book1",
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonetest  step2 getwidmaster res -- ", res, 99);
+                    cb2(null);
+                });
+            }
+        ], function (err, res) {
+            params = {  
+                "test": "PASS"
+            };
+            callback(params);   
+        });             
+    }

@@ -309,16 +309,27 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
         // if the incoming relationship is one to one 
     async.series([
         function step1(step1_callback) {
-            if (relationshiptype === "onetoone") {
+            if ((relationshiptype === "onetoone") || (relationshiptype === "manytoone")) {
                 proxyprinttodiv("addrecord async.series fired with relationshiptype -- ", relationshiptype, 17);
 
+            if (relationshiptype === "onetoone") {
                 executeobject["executethis"] = "querywid";
                 executeobject["mongorawquery"] = {
                     "$and": [{
                         "data.primarywid": parentwid,
                         "data.secondarymethod": inputrecord["metadata"]["method"]
                     }]};
-                    
+                }
+                 
+            if (relationshiptype === "manytoone") {
+                executeobject["executethis"] = "querywid";
+                executeobject["mongorawquery"] = {
+                    "$and": [{
+                        "data.primarywid": inputrecord["metadata"]["method"],
+                        "data.secondarymethod": parentwid
+                    }]};
+                }   
+
                 execute(executeobject, function (err, widset) {
                     var widrecord;
                     if ((widset.length > 0) && (relationshiptype === "onetoone")) {
@@ -350,8 +361,6 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                 addobject = addobject[0];
                 proxyprinttodiv("addrecord input addobject :- ", addobject, 17);
 
-                if (relationshiptype==="onetoone" || relationshiptype==="onetomany") {
-
                     reldto = {"wid":"string", 
                             "primarywid":"string",
                             "secondarywid":"string",
@@ -360,30 +369,41 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                             "primarymethod":"string",
                             "secondarymethod":"string",
                             "metadata":{"method":"string"}};
-            
-                    relobj["primarywid"] = parentwid;
-                    relobj["secondarywid"] = addobject['wid'];
-
-                    proxyprinttodiv("addrecord input addobject :-II ", addobject, 17);
-                    proxyprinttodiv("addrecord input addobject['wid'] :- ", addobject['wid'], 17);
-
                     relobj["relationshiptype"] = "attributes";
                     relobj["metadata"]= {};
                     relobj["metadata"]["method"] = "relationshipdto";
                     relobj["linktype"] = relationshiptype;
 
-                    if (parentmethod) 
-                        relobj["primarymethod"] = parentmethod;
+                if (relationshiptype==="onetoone" || relationshiptype==="onetomany" || relationshiptype==="manytoone") {
+                    if (relationshiptype==="onetoone" || relationshiptype==="onetomany") {
+                        relobj["primarywid"] = parentwid;
+                        relobj["secondarywid"] = addobject['wid'];
 
-                    if (addobject["metadata"])
-                        relobj["secondarymethod"] = addobject["metadata"]["method"];
+                        if (parentmethod) 
+                            relobj["primarymethod"] = parentmethod;
 
-                    proxyprinttodiv("addrecord input relobj ", relobj, 17);
+                        if (addobject["metadata"])
+                            relobj["secondarymethod"] = addobject["metadata"]["method"];
+                        }
+                    else { // if manytoone
+                        relobj["primarywid"] = addobject['wid'];
+                        relobj["secondarywid"] = parentwid
 
-        			addwid(relobj, reldto, command, function (err, added_relation) {
-                        proxyprinttodiv("addrecord input added_relation :- ", added_relation, 17);
-                        step2_callback(null, addobject);
-                     });
+                        if (parentmethod) 
+                            relobj["primarymethod"] = addobject["metadata"]["method"];
+
+                        if (addobject["metadata"])
+                            relobj["secondarymethod"] = parentmethod;
+                        }
+
+                        proxyprinttodiv("addrecord input addobject :-II ", addobject, 17);
+                        proxyprinttodiv("addrecord input addobject['wid'] :- ", addobject['wid'], 17);
+                        proxyprinttodiv("addrecord input relobj ", relobj, 17);
+
+                        addwid(relobj, reldto, command, function (err, added_relation) {
+                            proxyprinttodiv("addrecord input added_relation :- ", added_relation, 17);
+                            step2_callback(null, addobject);
+                         });                   
                 }
                 else {
                     step2_callback(null, addobject);

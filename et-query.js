@@ -455,7 +455,7 @@
 
                     proxyprinttodiv('querywid before output', output, 28);
 
-                    formatListFinal(output, environmentdb, convertmethod, extraparameters, function (err, output) {
+                    formatListFinal(output, environmentdb, convertmethod, extraparameters, aggParams, function (err, output) {
                         proxyprinttodiv('querywid after output', output, 28);
 
                         // ToDot -- should remove "data"
@@ -655,7 +655,7 @@
     // takes inlist, looks for wid, then goes to main database to get a get clean complete converted copy of that wid
     // also looks in extra paramters, append information found about that wid to results also
 
-    function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, callback) {
+    function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, aggParams, callback) {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var output = [];
@@ -666,6 +666,10 @@
         var widrecord;
         var extrarecord = {};
         var todolist = [];
+        var excludeset = {};
+        if (aggParams["mongosetfieldsexclude"] && Object.keys(aggParams["mongosetfieldsexclude"]).length === 0) {
+            excludeset=aggParams["mongosetfieldsexclude"]
+            }
 
         if (inlist === undefined || inlist.length === 0) {
             callback({}, []);
@@ -712,29 +716,11 @@
                         } else {
                             record[wid] = convertfromdriformat(widrecord);
                         }
-                        output.push(record);
 
+                        if (!excludeset[wid]) {
+                            output.push(record);    
+                            }
 
-
-                        // var json = {};
-                        // json['data'] = widrecord[0];
-                        // json['metadata'] = widrecord[0]['metadata'];
-                        // json['wid'] = widrecord[0]['wid'];
-                        // extrarecord[environmentdb] = extraparameters[wid]
-                        // proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
-                        // extend(true, json, extrarecord);
-                        // delete widrecord[0]['wid'];
-                        // delete widrecord[0]['metadata'];
-
-                        // if (convertmethod === "toobject") {
-                        //     record = json;
-                        // } else {
-                        //     record = convertfromdriformat(json);
-                        // }
-                        // proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 99);
-                        // proxyprinttodiv('querywid finalformatlist record', json, 99);
-
-                        // output.push(json);
                         cbMap(null)
                     })
                 }); // next tick
@@ -1012,6 +998,10 @@
             var method = parameters["mongorelationshipmethod"];
             remove(parameters, "mongorelationshipmethod");
         }
+        if (isParameterLower(parameters, "mongorelationshiplink")) {
+            var link = parameters["mongorelationshiplink"];
+            remove(parameters, "mongorelationshiplink");
+        }
 
         if (isParameterLower(parameters, "mongowidmethod")) {
             var dtotype = parameters["mongowidmethod"];
@@ -1038,7 +1028,6 @@
             }
         }
 
-
         if (dtotype) {
             queryset.push({
                 "metadata.method": dtotype
@@ -1047,6 +1036,11 @@
         if (type) {
             var q2 = {};
             q2[environmentdb + "relationshiptype"] = type;
+            queryset.push(q2);
+        }
+        if (link) {
+            var q2 = {};
+            q2[environmentdb + "linktype"] = type;
             queryset.push(q2);
         }
         querystring = BuildMultipleQuery(queryset, "and", "or", null);
@@ -1428,6 +1422,7 @@
             "mongorelationshiptype": "",
             "mongorelationshipmethod": "",
             "mongorelationshiprawquery": "",
+            "mongorelationshiplink":"",
             "mongorelationshipquery": "",
             "mongodtotype": "",
             "mongorelquery": ""
@@ -1466,6 +1461,7 @@
             "mongorelationshipmethod": "",
             "mongorelationshiprawquery": "",
             "mongorelationshipquery": "",
+            "mongorelationshiplink":"",
             "mongodtotype": "",
             "mongorelquery": "",
             "mongoaggregation": "",
