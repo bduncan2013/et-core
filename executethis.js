@@ -60,7 +60,7 @@
 
             proxyprinttodiv("execute - inboundparms", incomingparams, 11);
             proxyprinttodiv("execute - callback fn ", String(callback), 11);
-            console.log(' *** test2  ' + JSON.stringify(incomingparams));
+            console.log(' *** test2  ' + nonCircularStringify(incomingparams));
 
             // fix incoming param
             // if(incomingparams){
@@ -90,7 +90,7 @@
 
                     midError = err;
                     console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-                    console.log(' after midexecute II >> \n' + JSON.stringify(midResults, '-', 4));
+                    console.log(' after midexecute II >> \n' + nonCircularStringify(midResults, '-', 4));
 
                     if (!midResults)
                         midResults = {};
