@@ -94,53 +94,53 @@
         // we add permissions
         // we test
         // var status = false;
-        debuglevel = 34;
+        debuglevel = 39;
         // debugname = "";
         // debugcat = "";
         // debugsubcat = "code";
         async.series([
-            // function (cb1) {
-            //     createsystemdtos({}, function (err, res) {
-            //         cb1(null);
-            //     });
-            // },
-            // function (cb1) {
-            //     createtestuser("user1", "user1ac", 99, function (err, res) {
-            //         cb1(null);
-            //     });
-            // },
-            // function (cb1) {
-            //     createtestuser("user2", "user2ac", 99, function (err, res) {
-            //         cb1(null);
-            //     });
-            // },
-            // function (cb1) {
-            ///    //userwid, granteegroup, actiongroup, dbgroup, levelgroup,
-            //     addpermission("user1", "user2", "createcoupon0", "data", 50, function (err, res) {
-            //         cb1(null);
-            //     });
-            // },
-            // function (cb1) {
-            //     addgrouptowid("user2", "userdto", "group1", function (err, res) {
-            //         cb1(null);
-            //     });
-            // },
+            function (cb1) {
+                createsystemdtos({}, function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                createtestuser("user1", "user1ac", 99, function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                createtestuser("user2", "user2ac", 99, function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                //userwid, granteegroup, actiongroup, dbgroup, levelgroup,
+                addpermission("user1", "user2", "createcoupon0", "data", 50, function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                addgrouptowid("user2", "userdto", "group1", function (err, res) {
+                    cb1(null);
+                });
+            },
             function (cb1) {
                 //ac, actiongroup, targetaction, dbgroup
                 testsecurity("user2ac", "user1", "createcoupon0", "data", true, function (err, res) {
                     cb1(null);
                 });
-                // },
-                // function (cb1) {
-                //     addgrouptowid("anything0", "userdto", "createcoupon0", function (err, res) {
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) {
-                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
-                //         status = res;
-                //         cb1(null);
-                //     });
+            },
+            function (cb1) {
+                addgrouptowid("anything0", "userdto", "createcoupon0", function (err, res) {
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
+                    status = res;
+                    cb1(null);
+                });
             }
 
         ], function (err, res) {
@@ -253,17 +253,19 @@
         // debugsubcat = "code";
         async.series([
                 function (cb1) {
+                    // setup schema data
                     createsystemdtos({}, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
+                    // create testuser rogeruser0
                     createtestuser("rogeruser0", "rogerac0", 99, function (err, res) {
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    //alert('Entering execution phase...');
+                    // add permission for rogeruser0 
                     addpermission("codyuser1", "rogeruser0", "createcoupon0", "data", 99, function (err, res) {
                         cb1(null);
                     });
@@ -278,11 +280,14 @@
                         cb1(null);
                     });
                 },
-                // function (cb1) {
-                //     testsecurity("codyac0", "executethis", "createcoupon0", "data", true, function (err, res) {
-                //         cb1(null);
-                //     });
-                // },
+                function (cb1) {
+                    // call security check without mygroup (for cody)
+                    // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel
+                    testsecurity("codyac0", undefined, "createcoupon0", "execute", "data", 99, function (err, res) {
+
+                        cb1(null);
+                    });
+                },
 
                 function (cb1) {
                     addgrouptowid("codyuser0", "userdto", "driemployeegroup0", function (err, res) {
@@ -314,7 +319,6 @@
             ],
 
             function (err, res) {
-                console.log('created testdata for test1000 --  ' + JSON.stringify(status));
                 callback(err, status);
 
             });
@@ -323,7 +327,7 @@
 
     // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 99 so this should work.
     exports.test1001 = test1001 = function test1001(params, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
@@ -359,7 +363,7 @@
 
     // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 0 so this should fail.
     exports.test1002 = test1002 = function test1002(params, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
@@ -398,7 +402,7 @@
     // cody is made a member of the dri employees group. roger gives dri employees permission to create data wids.
     // cody should be able to create a datawid.
     exports.test1003 = test1003 = function test1003(params, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
@@ -440,7 +444,7 @@
 
     // drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
     exports.test1004 = test1004 = function test1004(params, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
@@ -502,7 +506,7 @@
 
     // cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should not be able to create a datawid as his security level is too low.
     exports.test1005 = test1005 = function test1005(params, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
@@ -544,7 +548,7 @@
     // drimanagers is made a member of driemployees group. 
     // Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
     exports.test1006 = test1006 = function test1006(params, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
@@ -601,7 +605,7 @@
 
     // driemployees is made a member of usersofdri. roger gives driusers read permission on coupons. cody is made a member of driemployees. cody should be able to read coupons. 
     exports.test1007 = test1007 = function test1007(params, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
@@ -654,7 +658,7 @@
 
     //
     exports.test1008 = test1008 = function test1008(params, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
         debugname = "";
         debugcat = "";
         debugsubcat = "code";
@@ -918,7 +922,7 @@
 
     // Cody is added to driusergrp1. Roger gives driusergrp1 permission to execute createcoupon. Cody's loginlevel is only 49, which is less than 50. Cody can't proceed.
     exports.ctest6 = ctest6 = function ctest6(parm, callback) {
-        debuglevel = 34;
+        debuglevel = 39;
 
         var executeList = [
             function (cb1) {
@@ -984,35 +988,6 @@
         });
     }
 
-    exports.prob21 = prob21 = function prob21(parm, callback) {
-
-        var status = false;
-        debuglevel = 34;
-        debugname = "";
-        debugcat = "";
-        debugsubcat = "code";
-        async.series([
-                function (cb1) {
-                    addgrouptowid("rogeruser", "userdto", "driemployeegroup", function (err, res) {
-                        cb1(null);
-
-                    });
-                    // },
-                    // function (cb1) {
-                    //     addgrouptowid("codyuser0","userdto", "driemployeegroup0", function (err, res) {
-                    //         cb1(null);
-
-                    //     });
-                }
-            ],
-            function (err, res) {
-                console.log('created testdata for test1000 --  ' + JSON.stringify(status));
-
-                callback(err, status);
-
-            });
-
-    }
 
 
     // creates test data for different tests to be run :: generates data and adds a new user 
@@ -1032,7 +1007,7 @@
                 "address2": "apt 101",
                 "city": "Pleasantville",
                 "state": "Florida",
-                "zip": "26534",
+                "zip": "26539",
                 // security data
                 "systemdto.securitydto.logged_id": "true",
                 "systemdto.securitydto.accesstoken": ac,
@@ -1066,8 +1041,8 @@
     // db says which DB to be used
     // actiongroup says the type of wid the action is being tried upon
     // targetaction is the action being executed on the wid
-    exports.testsecurity = testsecurity = function testsecurity(ac, targetaction, actiongroup, dbgroup, assertion, callback) {
-        securitycheck(ac, targetaction, actiongroup, dbgroup, function (err, res) {
+    exports.testsecurity = testsecurity = function testsecurity(_accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel, callback) {
+        securitycheck(_accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel, function (err, res) {
             proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 35);
             callback(err, res)
         });
@@ -1083,7 +1058,7 @@
         // we add permissions
         // we test
         // var status = false;
-        debuglevel = 34;
+        debuglevel = 39;
         // debugname = "";
         // debugcat = "";
         // debugsubcat = "code";
@@ -1167,6 +1142,301 @@
                 console.log('created testdata for zx1 --  ' + JSON.stringify(res));
                 callback(err, status);
 
+            });
+    }
+
+
+
+    exports.fresh1 = fresh1 = function fresh1(parm, callback) {
+
+        // create users
+        // creates wids
+        // we put users and put wids into groups
+
+        // we create actiongroups, targetgroups,
+
+        // we put groups insdie of groups
+        // we add permissions
+        // we test
+        // var status = false;
+        debuglevel = 39;
+        // debugname = "";
+        // debugcat = "";
+        // debugsubcat = "code";
+        async.series([
+                function (cb1) {
+                    // creste schema data
+                    createsystemdtos({}, function (err, res) {
+                        proxyprinttodiv('Function fresh1 -- createsystemdtos', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create users -- create user roger
+                    createtestuser("roger", "rogerac", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- roger', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create users -- create user cody
+                    createtestuser("cody", "codyac", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 createtestuser -- cody', res, 39);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    // create groups driemployee
+                    creategroup("driemployee", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- driemployee', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups drimanager
+                    creategroup("drimanager", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- group -- drimanager', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups  "execute"
+                    creategroup("execute", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- actiontype -- execute', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups  "clean"
+                    creategroup("clean", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- actiontype -- clean', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups action --  default_dto_read
+                    creategroup("default_dto_read", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- default_dto_read', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups action --  default_dto_write
+                    creategroup("default_dto_write", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- default_dto_read', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups db --  db
+                    creategroup("db", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- db', res, 39);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    // add group to wid -- drimanager to roger wid
+                    addgrouptowid("roger", "userdto", "drimanager", function (err, res) {
+                        proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid -- drimanager to roger', res, 39);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    // add group to wid -- driemployee to roger wid
+                    addgrouptowid("roger", "userdto", "driemployee", function (err, res) {
+                        proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid --  driemployee  to roger', res, 39);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    // add group to wid -- driemployee to cody wid
+                    addgrouptowid("cody", "userdto", "driemployee", function (err, res) {
+                        proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid --  driemployee  to  cody', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // addpermission -- add permission --- 
+                    // "execute" actiontype  ,for group "driemployee", for action "default_dto_read", for "db"
+                    addpermission("cody", "driemployee", "default_dto_read", "execute", "db", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 addpermission --  "execute" actiontype  ,for group "driemployee", for action "default_dto_read", for "db" ', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // addpermission -- add permission --- 
+                    // "execute" actiontype  ,for group "drimanager", for action "default_dto_write", for ""
+                    //userwid, granteegroup, actiongroup, actiontypegroup, dbgroup, levelgroup, 
+                    addpermission("cody", "drimanager", "default_dto_write", "execute", "db", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 addpermission --  "execute" actiontype  ,for group "drimanager", for action "default_dto_write", for "db"', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
+                    testsecurity("rogerac", undefined, "dto_read", "execute", "db", 99, function (err, res) {
+                        status = res;
+                        cb1(null);
+                    });
+                }
+
+            ],
+
+            function (err, res) {
+                console.log('Function fresh 1 -- add data and test --  ' + JSON.stringify(res));
+                callback(err, status);
+            });
+    }
+
+
+    exports.fresh1 = fresh1 = function fresh1(parm, callback) {
+
+        // create users
+        // creates wids
+        // we put users and put wids into groups
+
+        // we create actiongroups, targetgroups,
+
+        // we put groups insdie of groups
+        // we add permissions
+        // we test
+        // var status = false;
+        debuglevel = 39;
+        // debugname = "";
+        // debugcat = "";
+        // debugsubcat = "code";
+        async.series([
+                // function (cb1) {
+                //     // creste schema data
+                //     createsystemdtos({}, function (err, res) {
+                //         proxyprinttodiv('Function fresh1 -- createsystemdtos', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // create users -- create user roger
+                //     createtestuser("roger", "rogerac", 99, function (err, res) {
+                //         proxyprinttodiv('Function fresh1 creategroup -- roger', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // create users -- create user cody
+                //     createtestuser("cody", "codyac", 99, function (err, res) {
+                //         proxyprinttodiv('Function fresh1 createtestuser -- cody', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+
+                // function (cb1) {
+                //     // create groups driemployee
+                //     creategroup("driemployee", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 creategroup -- driemployee', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // create groups drimanager
+                //     creategroup("drimanager", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 creategroup -- group -- drimanager', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // create groups  "execute"
+                //     creategroup("execute", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 creategroup -- actiontype -- execute', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // create groups  "clean"
+                //     creategroup("clean", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 creategroup -- actiontype -- clean', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // create groups action --  default_dto_read
+                //     creategroup("default_dto_read", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 creategroup -- default_dto_read', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // create groups action --  default_dto_write
+                //     creategroup("default_dto_write", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 creategroup -- default_dto_read', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // create groups db --  data
+                //     creategroup("data", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 creategroup -- data', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+
+                // function (cb1) {
+                //     // add group to wid -- drimanager to roger wid
+                //     addgrouptowid("roger", "userdto", "drimanager", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid -- drimanager to roger', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+
+                // function (cb1) {
+                //     // add group to wid -- driemployee to roger wid
+                //     addgrouptowid("roger", "userdto", "driemployee", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid --  driemployee  to roger', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+
+                // function (cb1) {
+                //     // add group to wid -- driemployee to cody wid
+                //     addgrouptowid("cody", "userdto", "driemployee", function (err, res) {
+                //         proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid --  driemployee  to  cody', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // addpermission -- add permission --- 
+                //     // "execute" actiontype  ,for group "driemployee", for action "getwidmaster", for "data"
+                //     addpermission("cody", "driemployee", "getwidmaster", "execute", "data", 99, function (err, res) {
+                //         proxyprinttodiv('Function fresh1 addpermission --  "execute" actiontype  ,for group "driemployee", for action "getwidmaster", for "db" ', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // addpermission -- add permission --- 
+                //     // "execute" actiontype  ,for group "drimanager", for action "addwidmaster", for "data"
+                //     //userwid, granteegroup, actiongroup, actiontypegroup, dbgroup, levelgroup, 
+                //     addpermission("cody", "drimanager", "addwidmaster", "execute", "data", 99, function (err, res) {
+                //         proxyprinttodiv('Function fresh1 addpermission --  "execute" actiontype  ,for group "drimanager", for action "addwidmaster", for "db"', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                function (cb1) {
+                    // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
+                    testsecurity("codyac", undefined, "getwidmaster", "execute", "data", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 testsecurity --  "codyac" actiontype  ,for group "drimanager", for action "default_dto_write", for "db"', res, 39);
+
+                        status = res;
+                        cb1(null);
+                    });
+                }
+
+            ],
+
+            function (err, res) {
+                console.log('Function fresh 1 -- add data and test --  ' + JSON.stringify(res));
+                callback(err, status);
             });
     }
 

@@ -2426,7 +2426,7 @@ exports.ettestag12 = ettestag12 = function ettestag12(params, callback) {
 // This will test the ability to write a dto to the db and retrieve it
 
 exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
-    testclearstorage();
+    // testclearstorage();
     execute([{
             "executethis": "addwidmaster",
             "wid": "sounddto",

@@ -5262,130 +5262,6 @@ exports.d10b = d10b = function d10b(params, callback) {
 			callback(params);	
         });		
 	}
-	
-	/*
-		5) 	check to see if declaring "type" in the dto is needed if we add a relationshipationship
-			enter a dto using metadata.<>.type:onetoany
-	*/
-	exports.dtotypetest1 = dtotypetest1 = function dtotypetest1(params, callback) {
-        etappinstall()
-		async.series([
-			function (cb1) {
-				var executeList = [{
-                    "executethis": "addwidmaster",
-					"wid": "authordto",
-                    "metadata.method": "authordto",
-					"title": "string",
-					"pages": "string",
-                    "metadata.bookdto.type": "onetomany",
-                    "bookdto.wid":"string",
-                    "bookdto.metadata.method":"string",
-                    "bookdto.name": "string"	
-				},{
-                    "executethis": "addwidmaster",
-					"wid": "authordtowid111",
-                    "metadata.method":"authordto",
-					"name": "Author 1",
-					"bookdto": {
-						"wid": "book 222",
-						"metadata": {
-							"method": "bookdto"
-						},
-						"title": "The X Factor",
-						"pages": "300"
-					}
-                }];
-                /*
-                 another test where we enter authordto, then bookdto, then relationship record
-                                 "executethis": "addwidmaster",
-                 "wid": "rel_user_to_system",
-                 "metadata.method": "relationshipdto",
-                 "relationshiptype": "attributes",
-                 "linktype": "onetoone",
-                 "primarywid": "userdto",
-                 "primarymethod": "userdto",
-                 "secondarywid": "systemdto",
-                 "secondarymethod": "systemdto"
-                 and we do NOT have "metadata.bookdto.type": "onetomany",
-
-                 the response for this should be "title": "Book Title1" and "pages": "300" (inherit pages from default)
-				*/
-				execute(executeList, function (err, res) {
-					proxyprinttodiv('addwidmaster dtotypetest1 -- ', res, 99);
-					cb1(null);
-				});
-			},
-			function (cb2) {
-				var executeList = [{
-					"executethis": "getwid",
-					"wid": "authordtowid111",
-				}];
-				execute(executeList, function (err, res) {
-					proxyprinttodiv("getwidmaster  authordtowid111 -- ", res, 99);
-                    cb2(null);
-				});
-			}
-        ], function (err, res) {
-			params = {	
-				'test': 'PASS'
-			};
-			callback(params);	
-        });				
-	}
-	
-	/*
-		5) 	check to see if declaring "type" in the dto is needed if we add a relationshipationship
-			enter a dto using metadata.<>.type:onetoany
-	*/
-	exports.dtotypetest2 = dtotypetest2 = function dtotypetest2(params, callback) {
-		async.series([
-			function (cb1) {
-				var executeList = [{
-                    "executethis": "addwidmaster",
-					"wid": "bookdto",
-                    "metadata.method": "bookdto",
-					"title": "string",
-					"pages": "string",
-                    "metadata.bookdto.type": "onetomany",
-                    "bookdto.wid":"string",
-                    "bookdto.metadata.method":"string",
-                    "bookdto.name": "string"	
-				},{
-                    "executethis": "addwidmaster",
-					"wid": "authordtowid111",
-                    "metadata.method":"authordto",
-					"name": "Author 1",
-					"bookdto": {
-						"title": "The X Factor",
-						"pages": "300",
-						"wid": "book 222",
-						"metadata": {
-							"method": "bookdto"
-						}
-					}
-                }];
-				execute(executeList, function (err, res) {
-					proxyprinttodiv('addwidmaster dtotypetest1 -- ', res, 99);
-					cb1(null);
-				});
-			},
-			function (cb2) {
-				var executeList = [{
-					"executethis": "getwid",
-					"wid": "authordtowid111",
-				}];
-				execute(executeList, function (err, res) {
-					proxyprinttodiv("getwidmaster  authordtowid111 -- ", res, 99);
-                    cb2(null);
-				});
-			}
-        ], function (err, res) {
-			params = {	
-				'test': 'PASS'
-			};
-			callback(params);	
-        });				
-	}
 
 // DTO 1, dot > object 3, dot
 exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callback) {
@@ -5653,19 +5529,19 @@ exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callba
             proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
             res = logverify("ettestagag3_result", res[2], [{
-            "title": "Highway to Hell",
-            "sounddto.0.wid": "2",
-            "sounddto.0.note": "A flat",
-            "sounddto.0.metadata.method": "sounddto",
-            "sounddto.1.wid": "4",
-            "sounddto.1.note": "B sharp",
-            "sounddto.1.metadata.method": "sounddto",
-            "sounddto.2.wid": "6",
-            "sounddto.2.note": "C flat",
-            "sounddto.2.metadata.method": "sounddto",
-            "wid": "song1",
-            "metadata.method": "songdto",
-            "metadata.sounddto.type": "onetomany"
+        "title": "Highway to Hell",
+        //"sounddto.0.wid": "2",
+        //"sounddto.0.note": "A flat",
+        //"sounddto.0.metadata.method": "sounddto",
+        //"sounddto.1.wid": "4",
+        //"sounddto.1.note": "B sharp",
+        //"sounddto.1.metadata.method": "sounddto",
+        "sounddto.2.wid": "6",
+        "sounddto.2.note": "C flat",
+        "sounddto.2.metadata.method": "sounddto",
+        "wid": "song1",
+        "metadata.method": "songdto",
+        "metadata.sounddto.type": "onetomany"
 
             }]);
 
@@ -5806,12 +5682,7 @@ exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3do
             proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
             res = logverify("ettestagag3_result", res[6], [{
-				"sounddto.0.note":"A flat",
-                "sounddto.1.note":"B sharp",
-                "sounddto.2.note":"C flat",
-                "title":"Highway to Hell",
-                "wid":"song1",
-                "metadata.method":"songdto"
+				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
             }]);
             debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -5873,12 +5744,7 @@ exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1do
             proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
             res = logverify("ettestagag3_result", res[4], [{
-				"sounddto.0.note":"A flat",
-                "sounddto.1.note":"B sharp",
-                "sounddto.2.note":"C flat",
-                "title":"Highway to Hell",
-                "wid":"song1",
-                "metadata.method":"songdto"
+				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
             }]);
             debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -6460,6 +6326,23 @@ exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobj
         });
 }
 
+/*
+ettest1dot3dotjsonmany
+ettest3dot3dotjsonmany
+ettest3dot1dotjsonmany
+ettest1dot1dotjsonmany
+
+ettest1dot3dotjsonone
+ettest3dot3dotjsonone
+ettest3dot1dotjsonone
+ettest1dot1dotjsonone
+
+ettest1dot3dotobject
+ettest3dot3dotobject
+ettest3dot1dotobject
+ettest1dot1dotobject
+*/
+
 exports.ettestdot = ettestdot = function ettestdot(params, callback) {
     var result = [];
     var err;
@@ -6611,4 +6494,162 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 					callback(err, res); 
 				})
         });
+	}
+		
+	/*
+		5) 	check to see if declaring "type" in the dto is needed if we add a relationshipationship
+			enter a dto using metadata.<>.type:onetoany
+	*/
+	exports.dtotypetest1 = dtotypetest1 = function dtotypetest1(params, callback) {
+		async.series([
+			function (cb1) {
+				var executeList = [{
+					"executethis": "addwidmaster",
+					"wid": "songdto",
+					"metadata.method": "songdto",
+					"title": "string",
+					"metadata.sounddto.type": "onetomany",
+					"sounddto.wid": "sounddto",
+					"sounddto.metadata.method": "sounddto",
+					"sounddto.note": "string"
+
+				}, {                       
+					"executethis": "addwidmaster",
+					"wid": "song1",
+					"metadata.method": "songdto",
+					"title": "Highway to Hell",
+					"sounddto.note": "A flat"
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "song1"
+				}];
+                /*
+                 another test where we enter authordto, then bookdto, then relationship record
+                                 "executethis": "addwidmaster",
+                 "wid": "rel_user_to_system",
+                 "metadata.method": "relationshipdto",
+                 "relationshiptype": "attributes",
+                 "linktype": "onetoone",
+                 "primarywid": "userdto",
+                 "primarymethod": "userdto",
+                 "secondarywid": "systemdto",
+                 "secondarymethod": "systemdto"
+                 and we do NOT have "metadata.bookdto.type": "onetomany",
+
+                 the response for this should be "title": "Book Title1" and "pages": "300" (inherit pages from default)
+				*/
+				execute(executeList, function (err, res) {
+					proxyprinttodiv('addwidmaster dtotypetest1 -- ', res, 99);
+					cb1(null);
+				});
+			},
+			function (cb2) {
+				var executeList = [{
+					"executethis": "getwid",
+					"wid": "authordtowid111",
+				}];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("getwidmaster  authordtowid111 -- ", res, 99);
+                    cb2(null);
+				});
+			}
+        ], function (err, res) {
+			params = {	
+				'test': 'PASS'
+			};
+			callback(params);	
+        });				
+	}
+	
+	/*
+		manytoone test
+		author ----onetomany -->  book(s)   ---- manytoone --> publishing houses ---- onetomany --> addresses
+	*/
+	exports.manytoonetest = manytoonetest = function manytoonetest(params, callback) {
+		async.series([
+			function (cb1) {
+				var executeList = [
+				{		//authordto
+					"executethis": "addwidmaster",
+					"metadata.method": "authordto",
+					"wid": "authordto",
+					"name": "string"
+				}, {	//bookdto
+					"executethis": "addwidmaster",
+					"metadata.method": "bookdto",
+					"wid": "bookdto",
+					"title": "string"
+				}, {	//authordto - bookdto
+					"executethis": "addwidmaster",
+					"wid": "rel_author_book",
+					"metadata.method": "relationshipdto",
+					"relationshiptype": "attributes",
+					"linktype": "onetomany",
+					"primarywid": "authordto",
+					"primarymethod": "authordto",
+					"secondarywid": "bookdto",
+					"secondarymethod": "bookdto"
+				}, {	//pubhousedto
+					"executethis": "addwidmaster",
+					"metadata.method": "pubhousedto",
+					"wid": "pubhousedto",
+					"coname": "string"
+				}, {	//bookdto - pubhousedto
+					"executethis": "addwidmaster",
+					"wid": "rel_book_pubhouse",
+					"metadata.method": "relationshipdto",
+					"relationshiptype": "attributes",
+					"linktype": "manytoone",
+					"primarywid": "pubhousedto",
+					"primarymethod": "pubhousedto",
+					"secondarywid": "bookdto",
+					"secondarymethod": "bookdto"
+				},{		//addressdto
+					"executethis": "addwidmaster",
+					"metadata.method": "addressdto",
+					"wid": "addressdto",
+					"city": "string"
+				}, {	//pubhousedto - addressdto
+					"executethis": "addwidmaster",
+					"wid": "rel_pubhouse_address",
+					"metadata.method": "relationshipdto",
+					"relationshiptype": "attributes",
+					"linktype": "onetomany",
+					"primarywid": "pubhousedto",
+					"primarymethod": "pubhousedto",
+					"secondarywid": "addressdto",
+					"secondarymethod": "addressdto"
+				}, {	//wid
+					"executethis": "addwidmaster",
+					"metadata.method": "authordto",
+					"wid": "author1",
+					"name": "devang",
+                    "bookdto.title": "programming101",
+                   // "bookdto.pubhousedto.coname": "bigco",
+                    //"bookdto.pubhousedto.addressdto.city": "somecity"
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "author1"
+				}];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("manytoonetest getwidmaster -- ", res, 99);
+					cb1(null);
+				});
+			},
+			function (cb2) {
+				var executeList = [{
+					"executethis": "getwid",
+					"wid": "author1",
+				}];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("manytoonetest  getwid -- ", res, 99);
+                    cb2(null);
+				});
+			}
+        ], function (err, res) {
+			params = {	
+				"test": "PASS"
+			};
+			callback(params);	
+        });				
 	}
