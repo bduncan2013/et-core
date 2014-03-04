@@ -538,7 +538,7 @@ exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
 // functions a,b,c manipulate parameters
 // Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters
 exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -557,7 +557,7 @@ exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
 
 // Not an 'at' test...used to test the verify system. This is a passing test.
 exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     res = logverify("ettestt1s_result", {
         "d": "1",
         "c": "0",
@@ -573,7 +573,7 @@ exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
 
 // Not an 'at' test...used to tes the veryify system. This is a failing test.
 exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     res = logverify("ettestt1sf_result", {
         "d": "1",
         "c": "0",
@@ -590,7 +590,7 @@ exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
 
 // Call func_b, but also tell preexecute to call func_a and postexecute to call func_c.
 exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -612,7 +612,7 @@ exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
 // Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b 
 // in midexecute and nothing in post execute.
 exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -633,7 +633,7 @@ exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
 // Call func_b with only post func_a -- same result as t3. This is to make sure that not
 // calling pre is ok...this calls only mid and post.
 exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -654,7 +654,7 @@ exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
 // Call mid with func_b and post with func_c, assuring that multiple functions exectue
 // well, no matter where in the pre/mid/post they are placed.
 exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -675,7 +675,7 @@ exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
 // Call mid with func_b and pre with func_c, assuring that multiple functions exectue
 // well, no matter where in the pre/mid/post they are placed.
 exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -695,7 +695,7 @@ exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
 // Call func_b with func_a for pre and post to ensure that calling the same
 // function more than once is not a problem for the system.
 exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -717,7 +717,7 @@ exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
 // function more than once is not a problem for the system. Essentially showing that tt5 was not 
 // a fluke, but a repeatable concept.
 exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -742,7 +742,7 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
 // This whole section will mirror the tt tests, but call functions that have intentional
 // delays to test the async portioins of the system.
 exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -761,7 +761,7 @@ exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
 // Call async_func_b with pre calling func_a and post calling func_c...each simply
 // deletes a prameter and add a parameter.
 exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -781,7 +781,7 @@ exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
 }
 // Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.
 exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -800,7 +800,7 @@ exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
 }
 // Call async_func_b with only post async_func_a -- same result as t3
 exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -819,7 +819,7 @@ exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
 }
 // Call async_func_b with only post
 exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -838,7 +838,7 @@ exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
 }
 // Call async_func_b with only pre async_func_c -- same result as t4
 exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -857,7 +857,7 @@ exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
 }
 // Call async_func_b with async_func_a for pre and post
 exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -877,7 +877,7 @@ exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
 }
 // Call async_func_b with async_func_c for pre and post
 exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -1210,7 +1210,7 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
 }
 // Call redir_b with only pre redir_c -- same result as t4
 exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "redir_b",
         "c": "0",
@@ -1272,7 +1272,7 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
 }
 // Call redir_b with a remapping of redir_a to func_a for both pre and post.
 exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "redir_b",
         "c": "0",
@@ -1336,7 +1336,7 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
 // Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions
 // can be used with the same effect.
 exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "redir_b",
         "c": "0",
@@ -1400,7 +1400,7 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 // This will try pre with func a, but remapped with a configuration that
 // is passed into executethis...it still wants to hit func_b with mid
 exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "c": "0",
         "d": "1",
@@ -1442,7 +1442,7 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
 // still fails to reorder them and calls the server instead. It breaks the code and will not
 // simply call func_b locally.
 exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     // config = setconfig5();
     var parameters = {
         "executethis": "func_b",
@@ -1489,7 +1489,7 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
 
 // This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "does_not_exist",
         "does_not_exist": "func_b",
@@ -1513,7 +1513,7 @@ exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
 }
 // This test is to call does_not_exist, remapped to a function in the parameters. So far it does not work...never has.
 exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "does_not_exist",
         "does_not_exist": "function () { return {data: 'Keg of Beer'}; }"
@@ -1532,7 +1532,7 @@ exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
 // This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So
 // far it does not work, and never has.
 exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "does_not_exist",
@@ -1560,7 +1560,7 @@ exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
 // remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c.
 // None of these ever work...
 exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "does_not_exist_1",
@@ -1590,7 +1590,7 @@ exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
 // This test is to send in a config as parameter of a config. This allows for the server to recieve a config
 // from a config that is passed in the parameters.
 exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "c": "0",
         "d": "1",
@@ -1632,7 +1632,7 @@ exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
 // should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in
 // the results
 exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var parameters = {
         "executethis": "a",
@@ -1682,7 +1682,7 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
 // // This test is to test a config where a config with params is sent to pre, mid, and post.
 // // The results should have the a,b,c cereals, along with the regular params.
 // exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
-//  testclearstorage();
+//  clearLocalStorage();
 //  config = setconfig6();
 //  execute([{
 //      "executethis": "func_b",
@@ -1709,7 +1709,7 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
 // This test is to test a config where a config with params is sent to pre, mid, and post.
 // The results should have the a,b,c cereals, along with the regular params.
 exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "func_a",
@@ -1766,7 +1766,7 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
 // This will send the alphabits param in the preexecute config, but will be overriding it in the args..
 // Which one will win out? It does...the config params are lost and the 'arg' params from the config win out.
 exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     // config = setconfig6();
     var parameters = {
         "executethis": "func_b",
@@ -1846,7 +1846,7 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
 // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the 
 // config params in the assertion wid.
 exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "mock_server",
@@ -1931,7 +1931,7 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
 
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
 exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var parameters = {
         "executethis": "func_b",
         "c": "0",
@@ -1964,7 +1964,7 @@ exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
 
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
 exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     // config = setconfig7();
     var parameters = {
         "executethis": "func_b",
@@ -2000,7 +2000,7 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
 // sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, 
 // the args sent to executethis will always win...not any of the 3 places in the config that they are set.
 exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     config = setconfig8();
     var parameters = {
         "executethis": "func_b",
@@ -2055,7 +2055,7 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are 
 // all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
 exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     config = setconfig8();
     var parameters = {
         "executethis": "func_b",
@@ -2083,7 +2083,7 @@ exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
 
 // Template for a new test, yet to be determined
 exports.ct1000 = ct1000 = function ct1000(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     executetest("executethis", {
         "executethis": "func_b",
         "c": "0",
@@ -2180,7 +2180,7 @@ exports.async_func_c = async_func_c = function async_func_c(parameters, callback
 // This will test the ability to write a dto to the db and retrieve it
 
 exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     execute([{
             "executethis": "addwidmaster",
             "wid": "sounddto",
@@ -2202,7 +2202,7 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
 }
 
 exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     debuglevel = 75;
     debugname = "updatewid";
@@ -2243,7 +2243,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 // // This will test the ability to write a dto to the db, use that dto to write
 // // a wid with that dto, and get the results of getting that wid.
 // exports.ag211 = ag211 = function ag211(params, callback) {
-//  // testclearstorage();
+//  // clearLocalStorage();
 //  // ag2_setup();
 //  executetest("getwidmaster", {
 //      "wid": "color1"
@@ -2267,7 +2267,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
 exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     // alert('here');
 
     debuglevel = 75;
@@ -2309,7 +2309,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 }
 // This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     debuglevel = 98;
     //debugname = "";
@@ -2532,7 +2532,7 @@ exports.sleep = sleep = function sleep(milliseconds) {
 
 // Used as a test for having a executethis in the parameters
 exports.uwid1 = uwid1 = function uwid1(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     execute([{
             "executethis": "addwidmaster",
@@ -2586,7 +2586,7 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
 // }
 
 exports.mut = mut = function mut(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var commandobject = {};
     commandobject['executemethod'] = "execute";
@@ -2625,7 +2625,7 @@ exports.addwid4params = addwid4params = function addwid4params(a, b, c, d, callb
 }
 
 exports.testnested1 = testnested1 = function testnested1(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var inparams = [
         [{
@@ -2660,7 +2660,7 @@ exports.testnested1 = testnested1 = function testnested1(params, callback) {
 
 
 exports.testnested3 = testnested3 = function testnested3(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var inparams = [{
             "executethis": "addwidmaster",
@@ -2695,7 +2695,7 @@ exports.testnested3 = testnested3 = function testnested3(params, callback) {
 }
 
 exports.testnested4 = testnested4 = function testnested4(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var inparams = [{
         "executethis": "addwidmaster",
@@ -2711,7 +2711,7 @@ exports.testnested4 = testnested4 = function testnested4(params, callback) {
 }
 
 exports.testnested5 = testnested5 = function testnested5(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var inparams = {
         "executethis": "addwidmaster",
@@ -2723,7 +2723,7 @@ exports.testnested5 = testnested5 = function testnested5(params, callback) {
 }
 
 exports.testnested6 = testnested6 = function testnested6(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var inparams = {
         "executethis": "test121212"
@@ -2733,7 +2733,7 @@ exports.testnested6 = testnested6 = function testnested6(params, callback) {
 }
 
 exports.testnested2 = testnested2 = function testnested2(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var inparams = [
         [{
@@ -2769,7 +2769,7 @@ exports.testnested2 = testnested2 = function testnested2(params, callback) {
 
 
 exports.testmultiplenested = testmultiplenested = function testmultiplenested(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
 
     var inparams = [
         [{
@@ -2816,7 +2816,7 @@ exports.testmultiplenested = testmultiplenested = function testmultiplenested(pa
 }
 
 // exports.t121212 = t121212 = function t121212(params, callback) {
-//     testclearstorage();
+//     clearLocalStorage();
 
 //     var todolist = [
 //         [{
@@ -3305,7 +3305,7 @@ exports.newt5 = newt5 = function newt5(params, callback) {
 // fn b accepts one object and produces one array result
 
 exports.test121212 = test121212 = function test121212(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var todolist = [
         [{
                 "fn": "test_and_verify"
@@ -3336,7 +3336,7 @@ exports.test121212 = test121212 = function test121212(params, callback) {
 
 function test141414(params, callback) {
     // Calling func_b2 with single
-    testclearstorage();
+    clearLocalStorage();
     var todolist = [
         [{
                 "fn": "test_and_verify"
@@ -3374,7 +3374,7 @@ function test141414(params, callback) {
 // func_b3 and func_b33 accepts 4 arrays and produces one object result
 
 function test151515(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var todolist = [
         [{
                 "fn": "test_and_verify"
@@ -3413,7 +3413,7 @@ function test151515(params, callback) {
 }
 
 function test161616(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var todolist = [
         [{
                 "fn": "test_and_verify"
@@ -3490,7 +3490,7 @@ exports.sample3 = sample3 = function sample3(params, callback) {
 }
 
 function test171717(params, callback) {
-    testclearstorage();
+    clearLocalStorage();
     var todolist = [
         [{
                 "fn": "test_and_verify"
