@@ -587,12 +587,6 @@ if (typeof angular !== 'undefined') {
         processHtml: function(screenWid, scope, compile) {
             var targetElement = $('#default_view_loc');
 
-//            // if processing an execute element then the html must be placed inside current element
-//            if (scope.processingExecute) {
-//                targetElement = $(scope.executeProcessingElement);
-//                scope.processingExecute = false;
-//            }
-
             // find targetid from screenwid if it exists
             if (screenWid.command) {
                 if (screenWid.command.htmltargetid) { targetElement = $('#' + screenWid.command.htmltargetid); }
@@ -607,6 +601,7 @@ if (typeof angular !== 'undefined') {
 
             // take care of any <execute></execute> elements
             $('execute').each(function (index, ele) {
+                // proceed if execute tag wasn't already processed during server conversion process
                 if ($(ele).attr('processed') !== undefined || $(ele).attr('processed') !== 'true') {
                     widAppHelper.processExecute(ele, scope, compile);
                     $(ele).attr('processed', 'true');
@@ -616,8 +611,6 @@ if (typeof angular !== 'undefined') {
 
         processExecute: function(ele, scope, compile) {
             var executeObj = NNMtoObj(ele.attributes);
-//            scope.processingExecute = true;
-//            scope.executeProcessingElement = ele;
 
             execute(executeObj, function(err, resultArr) {
                 var results = widAppHelper.mergeNestedArray(resultArr);
@@ -637,17 +630,6 @@ if (typeof angular !== 'undefined') {
                         }
                     });
             });
-
-//            // proceed if execute tag wasn't already processed during server conversion process
-//            if (!executeObj.processed || executeObj.processed !== 'true') {
-//                angular.injector(['ng', 'widApp'])
-//                    .get('executeService')
-//                    .executeThis(executeObj, scope, function (err, resultArr) {
-//                        if (err && Object.size(err) > 0) {
-//                            console.log('screenwidToHtml execute error => ' + JSON.stringify(err));
-//                        }
-//                    });
-//            }
         },
 
         isJsonStr: function(jsonStr) {
@@ -828,7 +810,10 @@ if (typeof angular !== 'undefined') {
 
     // adds the passed in object to the current angularJS scope (model) under the passed in name
     exports.addToAngular = addToAngular = function addToAngular(name, obj) {
-        $('body').scope()[name] = obj;
+        var scope = $('body').scope();
+        angular.injector(['ng', 'widApp'])
+            .get('dataService')
+            .storeData(obj, scope, name);
     };
 
     // call executeService.executeThis from legacy (non angularJS) code
