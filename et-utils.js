@@ -798,6 +798,10 @@ exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
             for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
                 val = defaults_object[eachparam];
                 if (isObject(val)) {
+                    // eachparam may not exist in the outputobject
+                    // if(!output[eachparam]){
+                    //     output[eachparam] = {};
+                    // }
                     extend(true, output[eachparam], val)
                 } else {
                     if (val.length !== 0 && !output[eachparam]) { // if val exists and parm does not, then adopt

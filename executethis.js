@@ -31,9 +31,9 @@
     if (isString(incomingparams)) {
             var temp={};
             temp['executethis'] = incomingparams;
-            proxyprinttodiv("execute - array params received I", temp, 99);
+            proxyprinttodiv("execute - array params received I", temp, 38);
             incomingparams=temp;
-            proxyprinttodiv("execute - array params received I", incomingparams, 99);
+            proxyprinttodiv("execute - array params received I", incomingparams, 38);
         }
     
 

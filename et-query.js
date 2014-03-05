@@ -56,8 +56,8 @@
         var environmentdb;
         var convertmethod = commandParams['command.convertmethod'];
         var extraparameters = {};
-        //proxyprinttodiv('querywid convertmethod', convertmethod, 99);
-        //proxyprinttodiv('querywid commandParams', commandParams, 99);
+        //proxyprinttodiv('querywid convertmethod', convertmethod, 38);
+        //proxyprinttodiv('querywid commandParams', commandParams, 38);
         if (commandParams["db"]) {
             environmentdb = commandParams["db"];
         } else {

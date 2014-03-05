@@ -62,7 +62,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
         setdefaultparm();
 //        clearLocalStorage();
     }
-    proxyprinttodiv('Function bootprocess config', config, 99);
+    proxyprinttodiv('Function bootprocess config', config, 38);
     if (!getFromLocalStorage('DRIKEY')) {
         etappinstall();
     }
@@ -279,7 +279,7 @@ exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = funct
 };
 
 exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
-    proxyprinttodiv('clear clearLocalStorage', 'hi', 99);
+    proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
     widMasterKey = "widmaster_";
     localStorage.clear();
     potentialwid = 0;
