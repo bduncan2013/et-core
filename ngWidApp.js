@@ -45,13 +45,13 @@ if (typeof angular !== 'undefined') {
             storeData: function(results, scope, modelKey, callback) {
                 if (results !== null && results instanceof Object) {
                     storeAllData(results, scope, modelKey, function () {
-                        callback(results);
+                        if (callback instanceof Function) { callback(results); }
                     });
                 } else if (Array.isArray(results)) {
                     for (var i = 0; i < results.length; i++) {
                         if (results[i] !== null && results[i] instanceof Object) {
                             storeAllData(results[i], scope, modelKey, function () {
-                                callback(results);
+                                if (callback instanceof Function) { callback(results); }
                             });
                         }
                     }
