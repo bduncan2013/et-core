@@ -107,17 +107,17 @@ exports.etappinstall = etappinstall = function etappinstall() { // exeucte only 
     //clearLocalStorage();
     setdefaultparm();
     if (exports.environment === 'local') {
-        clearLocalStorage();
-        addToLocalStorage("DRI", [{
-            "wid": "initialwid",
-            "initialwid": "hello from bootprocess"
-        }]);
-        addToLocalStorage("DRIKEY", {
-            "initialwid": {
-                "wid": "initialwid",
-                "initialwid": "for key hello from bootprocess"
-            }
-        });
+        // clearLocalStorage();
+        // addToLocalStorage("DRI", [{
+        //     "wid": "initialwid",
+        //     "initialwid": "hello from bootprocess"
+        // }]);
+        // addToLocalStorage("DRIKEY", {
+        //     "initialwid": {
+        //         "wid": "initialwid",
+        //         "initialwid": "for key hello from bootprocess"
+        //     }
+        // });
     }
 };
 

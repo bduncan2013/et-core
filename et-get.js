@@ -283,7 +283,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
             proxyprinttodiv("getdtoobject input res[0] ", res, 38);
             if (res && (Object.keys(res[0]).length !== 0)) {dtoobject=res[0]}
 
-            proxyprinttodiv("getdtoobject input dtoobject +++++++ ", dtoobject, 99);
+            proxyprinttodiv("getdtoobject input dtoobject +++++++ ", dtoobject, 38);
             debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
                 0: inbound_parameters,
                 1: dtoobject
@@ -766,14 +766,14 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
     async.series([
         function step1(cb) { // getdto
             getdtoobject(resultObj, command, function (err, res) {
-                proxyprinttodiv('In __getclean__ step1 with res: ', res, 99);
+                proxyprinttodiv('In __getclean__ step1 with res: ', res, 38);
                 dtoobject = res;
                 proxyprinttodiv('In __getclean__ step1 with dtoobject: ', dtoobject, 38);
                 cb(null);
             });
         },
         function step2(cb) { // getaggressivedto
-            proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 99);
+            proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 38);
             if (resultObj.wid !== resultObj.metadata.method) {
                 proxyprinttodiv('In __getclean__ step2 with before getWidMongo: ', resultObj, 38);
             
@@ -786,7 +786,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                     //"command.inheritflag":"false"
                     }, function (err, res) {
                         bigdto = res[0]; 
-                        proxyprinttodiv('In __getclean__ bigdto ', bigdto, 99);
+                        proxyprinttodiv('In __getclean__ bigdto ', bigdto, 38);
                         cb(null);
                 });
             } else {
@@ -808,7 +808,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                 delete dtoobject.command;
 
                 proxyprinttodiv('<<< Get_CLean before call to execute command >>>', command, 38);
-                proxyprinttodiv('<<< Get_CLean before call to execute listToDo >>>', listToDo, 99);
+                proxyprinttodiv('<<< Get_CLean before call to execute listToDo >>>', listToDo, 38);
 
                 if (listToDo.length > 0 && command && command.inheritflag === "true") {
                     async.mapSeries(listToDo, function (eachresult, cbMap) {
@@ -823,7 +823,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                                 if ((res.length > 0) && (Object.keys(res[0]).length > 0)) {
                                     inheritobject = res[0];
                                     delete inheritobject['wid'];
-                                    proxyprinttodiv('inherit result', inheritobject, 99);
+                                    proxyprinttodiv('inherit result', inheritobject, 38);
                                     insertbydtotype(resultObj, bigdto, inheritobject, command);
 
                                     cbMap(null);

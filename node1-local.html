@@ -117,7 +117,7 @@
                     <span class="label label-default well_hider">Debug</span>
                     <div class="well" style='display: none;'>
                         <label>Clean local storage?</label>
-                        <input type='checkbox' id='localStorageClean' checked="true">
+                        <input type='checkbox' id='localStorageClean'>
                         <label>Debug?</label>
                         <input type='checkbox' id='debugon'>
                         <label>Destination: Print?</label>
@@ -595,7 +595,7 @@
             alert("JSON Parsing error:", e);
             return;
         }
-        execute(widParameters, show_function_output2);
+        execute(widParameters, show_function_output3);
     }
 
     function testconverttodot() {

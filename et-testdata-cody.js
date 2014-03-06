@@ -48,190 +48,181 @@
             callback(null);
         });
     }
+	
+	exports.createactiondto = createactiondto = function createactiondto(){
+		execute([{"executethis":"addwidmaster",
+				"wid":"actiondto",
+				"metadata.method":"actiondto",
+				"actionname":"string",
+				"beforewid":"string",
+				"afterwid":"string",
+				"errorobject":"string",
+				"metadata.queuedto.type":"onetomany",
+				"metadata.systemdto.type":"onetoone"},
+				{
+                // create relationships systemdto
+                "executethis": "addwidmaster",
+                "wid": "rel_actiondto_to_systemdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "actiondto",
+                "primarymethod": "actiondto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+				}]);
+	}
+	
+	exports.createtestaction = createtestaction = function createtestaction(wid, actionname, beforewid, afterwid, errorobject) {
+		execute([{"executethis":"addwidmaster",
+				"wid":wid,
+				"metadata.method":"actiondto",
+				"actionname":actionname,
+				"beforewid":beforewid,
+				"afterwid":afterwid,
+				"errorobject":errorobject}]);
+	}
+	
+	// Create an actiondto tree
+	exports.createaction1 = createaction1 = function createaction1(){
+		
+		createtestaction("useraction1","userdto","read_stuff","log_stuff","err_obj");
+		addgrouptowid("useraction1","actiondto","bottom_action", function (err, res) {
+					cb1(null);
+				});
+		
+		createtestaction("useraction2","userdto","read_stuff","log_stuff","err_obj");
+		addgrouptowid("useraction2","actiondto","middle_action",function (err, res) {
+					cb1(null);
+				});
+		
+		createtestaction("useraction3","userdto","read_stuff","log_stuff","err_obj");
+		addgrouptowid("useraction3","actiondto","top_action",function (err, res) {
+					cb1(null);
+				});
+		
+		//alert('next');
+		addgrouptowid("bottom_action","groupdto","middle_action",function (err, res) {
+					cb1(null);
+				});
+		//alert('next');		
+		addgrouptowid("middle_action","groupdto","top_action",function (err, res) {
+					cb1(null);
+				});
+	}
+	
+	exports.createactiontypedto = createactiontypedto = function createactiontypedto(){
+		execute([{"executethis":"addwidmaster",
+				"wid":"actiontypedto",
+				"metadata.method":"actiontypedto",
+				"actiontype":"string",
+				"metadata.systemdto.type":"onetoone"},
+				{
+                // create relationships systemdto
+                "executethis": "addwidmaster",
+                "wid": "rel_actiontypedto_to_systemdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "actiontypedto",
+                "primarymethod": "actiontypedto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+				}]);
+	}
+	
+	exports.createtestactiontype = createtestactiontype = function createtestactiontype(wid, actiontype) {
+		execute([{"executethis":"addwidmaster",
+				"wid":wid,
+				"metadata.method":"actiondto",
+				"actiontype":actiontype}]);
+	}
 
-    exports.createactiondto = createactiondto = function createactiondto() {
-        execute([{
-            "executethis": "addwidmaster",
-            "wid": "actiondto",
-            "metadata.method": "actiondto",
-            "actionname": "string",
-            "beforewid": "string",
-            "afterwid": "string",
-            "errorobject": "string",
-            "metadata.queuedto.type": "onetomany",
-            "metadata.systemdto.type": "onetoone"
-        }, {
-            // create relationships systemdto
-            "executethis": "addwidmaster",
-            "wid": "rel_actiondto_to_systemdto",
-            "metadata.method": "relationshipdto",
-            "relationshiptype": "attributes",
-            "linktype": "onetoone",
-            "primarywid": "actiondto",
-            "primarymethod": "actiondto",
-            "secondarywid": "systemdto",
-            "secondarymethod": "systemdto"
-        }]);
-    }
+		// Create an actiondto tree
+	exports.createactiontype1 = createactiontype1 = function createactiontype1(){
+		
+		createtestactiontype("read_type","read");
+		addgrouptowid("read_type","actiontypedto","read_write", function (err, res) {
+					cb1(null);
+				});
+		
+		createtestactiontype("write_type","write");
+		addgrouptowid("write_type","actiontypedto","read_write",function (err, res) {
+					cb1(null);
+				});
+				
+		createtestactiontype("create_type","create");
+		addgrouptowid("create_type","actiontypedto","create_delete",function (err, res) {
+					cb1(null);
+				});
 
-    exports.createtestaction = createtestaction = function createtestaction(wid, actionname, beforewid, afterwid, errorobject) {
-        execute([{
-            "executethis": "addwidmaster",
-            "wid": wid,
-            "metadata.method": "actiondto",
-            "actionname": actionname,
-            "beforewid": beforewid,
-            "afterwid": afterwid,
-            "errorobject": errorobject
-        }]);
-    }
+		createtestactiontype("delete_type","delete");
+		addgrouptowid("delete_type","actiontypedto","create_delete",function (err, res) {
+					cb1(null);
+				});
 
-    // Create an actiondto tree
-    exports.createaction1 = createaction1 = function createaction1() {
+		addgrouptowid("read_write","groupdto","all_action_types",function (err, res) {
+					cb1(null);
+				});
+				
+		addgrouptowid("create_delete","actiontypedto","all_action_types",function (err, res) {
+					cb1(null);
+				});
+	}
+	
+	exports.createdbdto = createdbdto = function createdbdto(){
+		execute([{"executethis":"addwidmaster",
+				"wid":"dbdto",
+				"metadata.method":"dbdto",
+				"data":"string",
+				"metadata.systemdto.type":"onetoone"},
+				{
+                // create relationships systemdto
+                "executethis": "addwidmaster",
+                "wid": "rel_dbdto_to_systemdto",
+                "metadata.method": "relationshipdto",
+                "relationshiptype": "attributes",
+                "linktype": "onetoone",
+                "primarywid": "dbdto",
+                "primarymethod": "dbdto",
+                "secondarywid": "systemdto",
+                "secondarymethod": "systemdto"
+				}]);
+	}
+	
+	exports.createtestdata = createtestdata = function createtestdata(wid, data) {
+		execute([{"executethis":"addwidmaster",
+				"wid":wid,
+				"metadata.method":"actiondto",
+				"data":data}]);
+	}
+	
+	exports.createdata1 = createdata1 = function createdata1(){
+		
+		createtestdata("data1","stuff0");
+		addgrouptowid("data1","dbdto","bottom_db", function (err, res) {
+					cb1(null);
+				});
+		
+		createtestactiontype("data1","stuff1");
+		addgrouptowid("data1","dbdto","middle_db",function (err, res) {
+					cb1(null);
+				});
+				
+		createtestactiontype("data1","stuff2");
+		addgrouptowid("data1","dbdto","top_db",function (err, res) {
+					cb1(null);
+				});
 
-        createtestaction("useraction1", "userdto", "read_stuff", "log_stuff", "err_obj");
-        addgrouptowid("useraction1", "actiondto", "bottom_action", function (err, res) {
-            cb1(null);
-        });
-
-        createtestaction("useraction2", "userdto", "read_stuff", "log_stuff", "err_obj");
-        addgrouptowid("useraction2", "actiondto", "middle_action", function (err, res) {
-            cb1(null);
-        });
-
-        createtestaction("useraction3", "userdto", "read_stuff", "log_stuff", "err_obj");
-        addgrouptowid("useraction3", "actiondto", "top_action", function (err, res) {
-            cb1(null);
-        });
-
-        //alert('next');
-        addgrouptowid("bottom_action", "groupdto", "middle_action", function (err, res) {
-            cb1(null);
-        });
-        //alert('next');        
-        addgrouptowid("middle_action", "groupdto", "top_action", function (err, res) {
-            cb1(null);
-        });
-    }
-
-    exports.createactiontypedto = createactiontypedto = function createactiontypedto() {
-        execute([{
-            "executethis": "addwidmaster",
-            "wid": "actiontypedto",
-            "metadata.method": "actiontypedto",
-            "actiontype": "string",
-            "metadata.systemdto.type": "onetoone"
-        }, {
-            // create relationships systemdto
-            "executethis": "addwidmaster",
-            "wid": "rel_actiontypedto_to_systemdto",
-            "metadata.method": "relationshipdto",
-            "relationshiptype": "attributes",
-            "linktype": "onetoone",
-            "primarywid": "actiontypedto",
-            "primarymethod": "actiontypedto",
-            "secondarywid": "systemdto",
-            "secondarymethod": "systemdto"
-        }]);
-    }
-
-    exports.createtestactiontype = createtestactiontype = function createtestactiontype(wid, actiontype) {
-        execute([{
-            "executethis": "addwidmaster",
-            "wid": wid,
-            "metadata.method": "actiondto",
-            "actiontype": actiontype
-        }]);
-    }
-
-    // Create an actiondto tree
-    exports.createactiontype1 = createactiontype1 = function createactiontype1() {
-
-        createtestactiontype("read_type", "read");
-        addgrouptowid("read_type", "actiontypedto", "read_write", function (err, res) {
-            cb1(null);
-        });
-
-        createtestactiontype("write_type", "write");
-        addgrouptowid("write_type", "actiontypedto", "read_write", function (err, res) {
-            cb1(null);
-        });
-
-        createtestactiontype("create_type", "create");
-        addgrouptowid("create_type", "actiontypedto", "create_delete", function (err, res) {
-            cb1(null);
-        });
-
-        createtestactiontype("delete_type", "delete");
-        addgrouptowid("delete_type", "actiontypedto", "create_delete", function (err, res) {
-            cb1(null);
-        });
-
-        addgrouptowid("read_write", "groupdto", "all_action_types", function (err, res) {
-            cb1(null);
-        });
-
-        addgrouptowid("create_delete", "actiontypedto", "all_action_types", function (err, res) {
-            cb1(null);
-        });
-    }
-
-    exports.createdbdto = createdbdto = function createdbdto() {
-        execute([{
-            "executethis": "addwidmaster",
-            "wid": "dbdto",
-            "metadata.method": "dbdto",
-            "data": "string",
-            "metadata.systemdto.type": "onetoone"
-        }, {
-            // create relationships systemdto
-            "executethis": "addwidmaster",
-            "wid": "rel_dbdto_to_systemdto",
-            "metadata.method": "relationshipdto",
-            "relationshiptype": "attributes",
-            "linktype": "onetoone",
-            "primarywid": "dbdto",
-            "primarymethod": "dbdto",
-            "secondarywid": "systemdto",
-            "secondarymethod": "systemdto"
-        }]);
-    }
-
-    exports.createtestdata = createtestdata = function createtestdata(wid, data) {
-        execute([{
-            "executethis": "addwidmaster",
-            "wid": wid,
-            "metadata.method": "actiondto",
-            "data": data
-        }]);
-    }
-
-    exports.createdata1 = createdata1 = function createdata1() {
-
-        createtestdata("data1", "stuff0");
-        addgrouptowid("data1", "dbdto", "bottom_db", function (err, res) {
-            cb1(null);
-        });
-
-        createtestactiontype("data1", "stuff1");
-        addgrouptowid("data1", "dbdto", "middle_db", function (err, res) {
-            cb1(null);
-        });
-
-        createtestactiontype("data1", "stuff2");
-        addgrouptowid("data1", "dbdto", "top_db", function (err, res) {
-            cb1(null);
-        });
-
-        addgrouptowid("bottom_db", "groupdto", "middle_db", function (err, res) {
-            cb1(null);
-        });
-
-        addgrouptowid("middle_db", "groupdto", "top_db", function (err, res) {
-            cb1(null);
-        });
-    }
-
+		addgrouptowid("bottom_db","groupdto","middle_db",function (err, res) {
+					cb1(null);
+				});
+				
+		addgrouptowid("middle_db","groupdto","top_db",function (err, res) {
+				cb1(null);
+			});
+	}
+	
     exports.test999 = test999 = function test999() {
         debuglevel = 38;
 
@@ -1399,15 +1390,161 @@
                 },
                 function (cb1) {
                     // create groups action --  default_dto_read
-                    creategroup("addwidmaster", function (err, res) {
-                        proxyprinttodiv('Function fresh1 creategroup -- addwidmaster', res, 39);
+                    creategroup("default_dto_read", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- default_dto_read', res, 39);
                         cb1(null);
                     });
                 },
                 function (cb1) {
-                    // create groups action --  getwidmaster
-                    creategroup("getwidmaster", function (err, res) {
-                        proxyprinttodiv('Function fresh1 creategroup -- getwidmaster', res, 39);
+                    // create groups action --  default_dto_write
+                    creategroup("default_dto_write", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- default_dto_read', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups db --  db
+                    creategroup("db", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- db', res, 39);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    // add group to wid -- drimanager to roger wid
+                    addgrouptowid("roger", "userdto", "drimanager", function (err, res) {
+                        proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid -- drimanager to roger', res, 39);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    // add group to wid -- driemployee to roger wid
+                    addgrouptowid("roger", "userdto", "driemployee", function (err, res) {
+                        proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid --  driemployee  to roger', res, 39);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    // add group to wid -- driemployee to cody wid
+                    addgrouptowid("cody", "userdto", "driemployee", function (err, res) {
+                        proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid --  driemployee  to  cody', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // addpermission -- add permission --- 
+                    // "execute" actiontype  ,for group "driemployee", for action "default_dto_read", for "db"
+                    addpermission("cody", "driemployee", "default_dto_read", "execute", "db", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 addpermission --  "execute" actiontype  ,for group "driemployee", for action "default_dto_read", for "db" ', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // addpermission -- add permission --- 
+                    // "execute" actiontype  ,for group "drimanager", for action "default_dto_write", for ""
+                    //userwid, granteegroup, actiongroup, actiontypegroup, dbgroup, levelgroup, 
+                    addpermission("cody", "drimanager", "default_dto_write", "execute", "db", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 addpermission --  "execute" actiontype  ,for group "drimanager", for action "default_dto_write", for "db"', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
+                    testsecurity("rogerac", undefined, "dto_read", "execute", "db", 99, function (err, res) {
+                        status = res;
+                        cb1(null);
+                    });
+                }
+
+            ],
+
+            function (err, res) {
+                console.log('Function fresh 1 -- add data and test --  ' + JSON.stringify(res));
+                callback(err, status);
+            });
+    }
+
+
+    exports.fresh1 = fresh1 = function fresh1(parm, callback) {
+
+        // create users
+        // creates wids
+        // we put users and put wids into groups
+
+        // we create actiongroups, targetgroups,
+
+        // we put groups insdie of groups
+        // we add permissions
+        // we test
+        // var status = false;
+        debuglevel = 39;
+        // debugname = "";
+        // debugcat = "";
+        // debugsubcat = "code";
+        async.series([
+                function (cb1) {
+                    // creste schema data
+                    createsystemdtos({}, function (err, res) {
+                        proxyprinttodiv('Function fresh1 -- createsystemdtos', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create users -- create user roger
+                    createtestuser("roger", "rogerac", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- roger', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create users -- create user cody
+                    createtestuser("cody", "codyac", 99, function (err, res) {
+                        proxyprinttodiv('Function fresh1 createtestuser -- cody', res, 39);
+                        cb1(null);
+                    });
+                },
+
+                function (cb1) {
+                    // create groups driemployee
+                    creategroup("driemployee", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- driemployee', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups drimanager
+                    creategroup("drimanager", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- group -- drimanager', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups  "execute"
+                    creategroup("execute", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- actiontype -- execute', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups  "clean"
+                    creategroup("clean", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- actiontype -- clean', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups action --  default_dto_read
+                    creategroup("default_dto_read", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- default_dto_read', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create groups action --  default_dto_write
+                    creategroup("default_dto_write", function (err, res) {
+                        proxyprinttodiv('Function fresh1 creategroup -- default_dto_read', res, 39);
                         cb1(null);
                     });
                 },
@@ -1415,21 +1552,6 @@
                     // create groups db --  data
                     creategroup("data", function (err, res) {
                         proxyprinttodiv('Function fresh1 creategroup -- data', res, 39);
-                        cb1(null);
-                    });
-                },
-
-                function (cb1) {
-                    // add group to wid -- addwidmaster to addwidmaster wid
-                    addgrouptowid("addwidmaster", "groupdto", "addwidmaster", function (err, res) {
-                        proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid -- addwidmaster to addwidmaster', res, 39);
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
-                    // add group to wid -- getwidmaster to getwidmaster wid
-                    addgrouptowid("getwidmaster", "groupdto", "getwidmaster", function (err, res) {
-                        proxyprinttodiv('Function fresh1 addgrouptowid added  group to wid -- getwidmaster to getwidmaster', res, 39);
                         cb1(null);
                     });
                 },
@@ -1492,23 +1614,6 @@
             });
     }
 
-    exports.freshgroups = freshgroups = function freshgroups(parm, callback) {
-        debuglevel = 39;
-        async.series([
-                function (cb1) {
-                    // creste schema data
-                    getgroupsrecursive("addwidmaster", "execute", function (err, res) {
-                        proxyprinttodiv('Function freshgroups -- res', res, 39);
-                        cb1(null);
-                    });
-                }
-            ],
-
-            function (err, res) {
-                console.log('Function fresh 1 -- add data and test --  ' + JSON.stringify(res));
-                callback(err, status);
-            });
-    };
 
 
 
