@@ -404,7 +404,7 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     return output
 };
 
-exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
+exports.clearLocal = clearLocal = function clearLocal() {
     widMasterKey = "widmaster_";
     localStorage.clear();
     potentialwid = 0;
