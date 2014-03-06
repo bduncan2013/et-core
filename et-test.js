@@ -6496,7 +6496,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
         });
 	}
 
-    exports.ettestinherittest2 = ettestinherittest2 = function ettestinherittest2(params, callback) {
+    exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
         etappinstall();
         debuglevel = 0;
         
@@ -6518,6 +6518,57 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
                     "metadata.method": "bookdto",
                     "metadata.inherit.override.0": "bookdefaultdto",
                     "metadata.inherit.override.1": "bookdefaultdto2",
+                    "title": "string",
+                    "pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdtowid111",
+                    "metadata.method":"bookdto",
+                    "title": "Book Title1"
+                    // notice no pages
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "bookdtowid111",
+                }
+            ], function (err, res) {
+                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+                
+                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+                
+                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+                
+                res = logverify("bookdtowid111_result", res[4], expectedResult);
+                debuglevel=0;
+                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+                    callback(err, res); 
+                })
+        });
+    }
+
+    exports.ettestinheritdefault = ettestinheritdefault = function ettestinheritdefault(params, callback) {
+        etappinstall();
+        debuglevel = 0;
+        
+        execute([{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdtoextra",
+                    "metadata.method": "bookdtoextra",
+                    "title": "string", // changed by joe
+                    "pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdefaultdto",
+                    "metadata.method": "bookdtoextra",
+                    "title":"X title", // changed by joe
+                    "pages":"300"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdto",
+                    "metadata.method": "bookdto",
+                    "metadata.inherit.default.0": "bookdefaultdto",
+                    "metadata.inherit.default.1": "bookdefaultdto2",
                     "title": "string",
                     "pages": "string"
                 },{

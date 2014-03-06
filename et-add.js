@@ -86,7 +86,7 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
 
     getdtoobject(object, command, function (err, res) {
         dtoobject = res;
-        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
+        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 99);
         
         var dto_to_get;
         var big_dto = {};

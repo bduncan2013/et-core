@@ -97,14 +97,27 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
         proxyprinttodiv("insertbydtotype setbyindex  insertobj:- ", insertobj, 38);
         proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- I", inputobj, 38);
         if (dtoindex === null) { // create outside wrapper
-            dtoname = inputobj["metadata"]["method"];
-            insertobj[dtoname] = {};
-            extend(true, insertobj[dtoname], inputobj)
-            inputobj = insertobj;
+            // Changed by joe to fix a nesting issue
+            // dtoname = inputobj["metadata"]["method"];
+            // insertobj[dtoname] = {};
+            // extend(true, insertobj[dtoname], inputobj)
+            // extend(true, insertobj[dtoname], inputobj)
+            // inputobj = insertobj;
+            proxyprinttodiv("insertbydtotype setbyindex  null insertobj:- II", insertobj, 38);
+            // inputobj = ConvertFromDOTdri(inputobj);
             proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- II", inputobj, 38);
-            inputobj = ConvertFromDOTdri(inputobj);
-            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- HI", "HI", 38);
-            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- III", inputobj, 38);
+            proxyprinttodiv("insertbydtotype setbyindex  null command.inherit:- II", command.inherit, 38);
+            
+            // this section handels the inherit types
+            if (command.inherit === "default") {
+                // default
+                inputobj = extend(true, insertobj, inputobj);
+            } 
+            else if (command.inherit === "override") {
+                // override
+                inputobj = extend(true, inputobj, insertobj);  // notice the inputs are fliped
+            }
+
         } else {
             setbyindex(inputobj, dtoindex, insertobj);
             proxyprinttodiv("insertbydtotype setbyindex  inputobj:- ", inputobj, 38);
@@ -798,11 +811,21 @@ exports.clearLocal = clearLocal = function clearLocal() {
             for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
                 val = defaults_object[eachparam];
                 if (isObject(val)) {
-                    // eachparam may not exist in the outputobject
-                    // if(!output[eachparam]){
-                    //     output[eachparam] = {};
-                    // }
-                    extend(true, output[eachparam], val)
+                    // eachparam may not exist in the outputobject so we make one here
+                    if(!output[eachparam]) {
+                        output[eachparam] = {};
+                    }
+                    
+                    proxyprinttodiv("tolowerparameters output[eachparam] ", output[eachparam], 88);
+                    proxyprinttodiv("tolowerparameters val ", val, 88);
+                    // extend(true, output[eachparam], val);
+                    // do not overwrite an existing property in the parameters
+                    // this fix is only goes one layer deep (which may be an issue)
+                    for (var property in val) {
+                        if(!output[eachparam].hasOwnProperty(property)) {
+                            extend(true, output[eachparam], val);
+                        } 
+                    }
                 } else {
                     if (val.length !== 0 && !output[eachparam]) { // if val exists and parm does not, then adopt
                         output[eachparam] = val;
@@ -936,13 +959,22 @@ exports.clearLocal = clearLocal = function clearLocal() {
         proxyprinttodiv('pack_up_params com_user', com_user, 97);
         if (command_object && command_object[com_user]) delete command_object[com_user];
         proxyprinttodiv('pack_up_params command_object II', command_object, 97);
-        if (!parameters.command) {
-            parameters.command = {}
+        // changed by joe
+        // if (!parameters.command) {
+        //     parameters.command = {}
+        // }
+        // added by joe
+        // we only want to extend into and object that actually has a command property already
+        // this may need to be changed in the future
+        if (parameters.command) {
+            extend(true, parameters.command, command_object);
+
+            // if end up making an empty comand object delete it
+            if (Object.keys(parameters.command).length === 0) {
+                delete parameters.command;
+            }
         }
-        extend(true, parameters.command, command_object)
-        if (Object.keys(parameters.command).length === 0) {
-            delete parameters.command
-        }
+
 
         proxyprinttodiv('pack_up_params parameters END', parameters, 97);
         return parameters;

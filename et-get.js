@@ -32,8 +32,10 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
     proxyprinttodiv('getwidmaster start parameters', parameters, 38);
     parameters = ConvertFromDOTdri(parameters);
 
+    // this sends in a default command object 
     var filter_data = tolowerparameters(parameters, {"command":{"getwidmaster": {"inheritflag":"true", 
-                                                    "dtotype":"", "execute":"ConvertFromDOTdri"}}}, 
+                                                     "dtotype":"", "execute":"ConvertToDOTdri"}}}, 
+                                                     //"dtotype":"", "execute":"ConvertFromDOTdri"}}}, 
                                                     {"command":""}, true);
 
     proxyprinttodiv('getwidmaster filter_data', filter_data, 38);
@@ -41,7 +43,7 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
     parameters = filter_data.output;
     command = filter_data.filteredobject.command;
 
-    proxyprinttodiv('getwidmaster command I', command, 99);
+    proxyprinttodiv('getwidmaster command I', command, 38);
 
     proxyprinttodiv('GetWidMaster parameters.wid right before getwidmongo', parameters.wid, 38);
 
@@ -64,8 +66,12 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
             proxyprinttodiv('GetWidMaster res from getWidMongo right before getClean', res, 38);
 
             getclean(res, command, function (err, res) {
+                proxyprinttodiv("GetWidMaster after getclean before packed", res, 38);
                 res = pack_up_params(res, command, "getwidmaster");
+                proxyprinttodiv("GetWidMaster after getclean after packed", res, 38);
+
                 proxyprinttodiv('getwidmaster command II-4', command, 38);
+                proxyprinttodiv('getwidmaster after getclean ', res, 38);
                 // if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
                 if (command && command.getwidmaster && command.getwidmaster.execute === "ConvertFromDOTdri") {
                     //res = ConvertFromDOTdri(res);
@@ -191,7 +197,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
                                         inobj[eachitem]=tempArray;
                                     }
                                 
-                                proxyprinttodiv("getdtoobject dtolist", dtolist, 99);
+                                proxyprinttodiv("getdtoobject dtolist", dtolist, 38);
                             }
                         }
                     } // for metadata
@@ -288,8 +294,10 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
     }
     if ((dtotype!=="defaultdto") && (dtotype !== obj.wid)) {
         proxyprinttodiv("getdtoobject about to getwidmaster dtotype ", dtotype, 38);
-        execute({"executethis":"getwidmaster", "wid":dtotype, "command.getwidmaster.convertmethod":"dto",
-                "command.getwidmaster.execute":"ConvertFromDOTdri"}, function (err, res) {
+        execute({"executethis":"getwidmaster", 
+            "wid":dtotype, 
+            "command.getwidmaster.convertmethod":"dto",
+            "command.getwidmaster.execute":"ConvertFromDOTdri"}, function (err, res) {
             proxyprinttodiv("getdtoobject input res[0] ", res, 38);
             if (res && (Object.keys(res[0]).length !== 0)) {dtoobject=res[0]}
 
@@ -362,7 +370,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
         return resultObj;
     }
 
-    excludeset[widInput]=widInput // keep track of what we have done so we do not do it again
+    excludeset[widInput] = widInput; // keep track of what we have done so we do not do it again
 
     async.series([
         function step1(cb) {
@@ -667,17 +675,17 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                         // we do not want to extend a string into an object or we will get something like
                         // inherit":{"0":"b","1":"o","2":"o","3":"k","4":"d","5":"e","6":"f","7":"a","8":"u","9":"l","10":"t","11":"d","12":"t","13":"o"}
                         // This sections looks for a string then builds an object of {"inheritString":"inheritString"} which extend will not explode
-                        if(typeof parameterobject["metadata"]["inherit"] === 'string') {
-                            var tempObj = {};
-                            var inheritString = parameterobject["metadata"]["inherit"];
-                            tempObj[inheritString] = inheritString;
-                            parameterobject["metadata"]["inherit"] = tempObj;
-                            proxyprinttodiv('*** parameterobject["metadata"]["inherit"] *** FIXED ***', parameterobject["metadata"]["inherit"], 38);
-                        }
+                        // if(typeof parameterobject["metadata"]["inherit"] === 'string') {
+                        //     var tempObj = {};
+                        //     var inheritString = parameterobject["metadata"]["inherit"];
+                        //     tempObj[inheritString] = inheritString;
+                        //     parameterobject["metadata"]["inherit"] = tempObj;
+                        //     proxyprinttodiv('*** parameterobject["metadata"]["inherit"] *** FIXED ***', parameterobject["metadata"]["inherit"], 38);
+                        // }
 
                         extend(true, parameterobject.command.inherit, parameterobject["metadata"]["inherit"]);
 
-                        proxyprinttodiv('*** parameterobject.command.inherit ***', parameterobject.command.inherit, 99);
+                        proxyprinttodiv('*** parameterobject.command.inherit ***', parameterobject.command.inherit, 38);
 
                         //parameterobject.command.inherit[parameterobject["metadata"]["inherit"]] = parameterobject["metadata"]["inherit"];  
                         // get inherit value from metadata.inherit and move it to command.inherit -- handle mult inherits
@@ -779,6 +787,8 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
     async.series([
         function step1(cb) { // getdto
+            proxyprinttodiv('In __getclean__ resultObj: ', resultObj, 38);
+
             getdtoobject(resultObj, command, function (err, res) {
                 proxyprinttodiv('In __getclean__ step1 with res: ', res, 38);
                 proxyprinttodiv('In __getclean__ step1 command: ', command, 38);
@@ -789,6 +799,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
         },
         function step2(cb) { // getaggressivedto
             proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 38);
+            // if we have the root dto do not go off and get it again
             if (resultObj.wid !== resultObj.metadata.method) {
                 proxyprinttodiv('In __getclean__ step2 with before getWidMongo: ', resultObj, 38);
             
@@ -805,24 +816,33 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                         cb(null);
                 });
             } else {
+                // in the case of having a root dto
+                bigdto = dtoobject;
                 cb(null);
             }
         },
         function step3(cb) { // process inherit, override, default
             proxyprinttodiv('<<< Get_Clean step3 resultObj >>', resultObj, 38);
-            var listToDo=[];
+            var listToDo = [];
             var inheritobject;
 
             // if inherit
-            if (bigdto && bigdto.command && bigdto.command.inherit && THISSHOULDNOTRUN) {
+            proxyprinttodiv('<<< Get_Clean step3 bigdto >>', bigdto, 38);
+            if (bigdto && bigdto.command && bigdto.command.inherit) {
 
                 // added by joe, built for dealing with diffrent cases of inherit
                 // handel override
-                proxyprinttodiv('<<< bigdto.command.inherit.override >>', bigdto.command.inherit.override, 99);
+                proxyprinttodiv('<<< bigdto.command.inherit.override >>', bigdto.command.inherit.override, 38);
+                
+                // we have overrides go ahead and load them up
                 if (bigdto.command.inherit.override) {
                     for (var eachkey in bigdto.command.inherit.override) {
-
-                        listToDo.push(bigdto.command.inherit.override[eachkey]);
+                        listToDo.push({"override":bigdto.command.inherit.override[eachkey]});
+                    }
+                }
+                if (bigdto.command.inherit.default) {
+                    for (var eachkey in bigdto.command.inherit.override) {
+                        listToDo.push({"default":bigdto.command.inherit.override[eachkey]});
                     }
                 }
                 // else if (bigdto.command.inherit) {
@@ -830,41 +850,45 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                 //         listToDo.push(eachkey);
                 //     }
                 // }
-                for (var eachkey in bigdto.command.inherit) {
-                        listToDo.push(eachkey);
-                }
 
-                proxyprinttodiv('<<< Get_Clean listToDo', listToDo, 99);
+                // for (var eachkey in bigdto.command.inherit) {
+                //         listToDo.push(eachkey);
+                // }
+
+                proxyprinttodiv('<<< Get_Clean listToDo', listToDo, 38);
 
                 proxyprinttodiv('<<< Get_Clean bigdto.command', bigdto.command, 38);
                 proxyprinttodiv('<<< Get_Clean dtoobject.command', dtoobject.command, 38);
-                proxyprinttodiv('<<< Get_CLean before call to execute command >>>', command, 99);
+                proxyprinttodiv('<<< Get_CLean before call to execute command >>>', command, 38);
 
 
                 delete dtoobject.command;
                 delete bigdto.command; // added by joe to delete the command obj so we do not get a blank command object after deep filter
 
-                proxyprinttodiv('<<< Get_CLean before call to execute listToDo >>>', listToDo, 99);
-
                 //if (listToDo.length > 0 && command && command.inheritflag === "true") { // changed by joe
                 if (listToDo.length > 0 && command && command.getwidmaster.inheritflag === "true") {
                     async.mapSeries(listToDo, function (eachresult, cbMap) {
                         async.nextTick(function() {
-                            proxyprinttodiv('<<< Get_Clean execute firing !!!! >>>', eachresult, 99);
+                            proxyprinttodiv('<<< Get_Clean execute firing !!!! >>>', eachresult[Object.keys(eachresult)[0]], 38);
                             execute({"executethis":"getwidmaster",
-                                        "wid":eachresult,
+                                        "wid":eachresult[Object.keys(eachresult)[0]],
                                         "command.getwidmaster.execute":"ConvertFromDOTdri",
                                         //"command.convertmethod":"nowid",
                                         "command.getwidmaster.inheritflag":"false"
                                         }, function (err, res) {
                                 if ((res.length > 0) && (Object.keys(res[0]).length > 0)) {
+                                    
                                     inheritobject = res[0];
                                     delete inheritobject['wid'];
-                                    proxyprinttodiv('inherit result', inheritobject, 99);
-                                    
+                                    proxyprinttodiv('inheritobject before insertbydtotype in inherit: ', inheritobject, 38);
+                                    proxyprinttodiv('bigdto before insertbydtotype in inherit: ', bigdto, 38);
+                                    proxyprinttodiv('resultObj before insertbydtotype in inherit: ', resultObj, 38);
+                                    proxyprinttodiv('command before insertbydtotype in inherit: ', command, 38);
                                     // insertbydtotype(resultObj, bigdto, inheritobject, command); // changed by joe
+                                    // sets the inherit command to override or default -- this is deleted in insertbydtotype
+                                    command.inherit = Object.keys(eachresult)[0];
                                     resultObj = insertbydtotype(resultObj, bigdto, inheritobject, command);
-                                    proxyprinttodiv('resultObj after insertbydtotype in inherit: ', resultObj, 99);
+                                    proxyprinttodiv('resultObj after insertbydtotype in inherit: ', resultObj, 38);
                                     cbMap(null);
                                 } // end if
                                 else { // if no result
@@ -947,16 +971,19 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                 return _in_obj;
             } // end fn recurse
 
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 38);
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 38);
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 38);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 99);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 99);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 99);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 99);
+
             if (!command) {command={}}
             if (!command.deepfilter) {command.deepfilter={}}
             if (!command.deepfilter.convert) {command.deepfilter.convert=true}
-            // deepfilter(resultObj, dtoobject, command, function (err, resultObj){ changed by joe
             
-            deepfilter(resultObj, bigdto, command, function (err, resultObj){
-                proxyprinttodiv('<<< Get_Clean before call back afterdeepfilter resultObj >>>', resultObj, 38);                 
+            deepfilter(resultObj, dtoobject, command, function (err, resultObj){ // changed by joe
+            //deepfilter(resultObj, bigdto, command, function (err, resultObj){
+                delete command.deepfilter;
+                proxyprinttodiv('<<< Get_Clean before call back afterdeepfilter resultObj >>>', resultObj, 99);                 
                 debugfn("getclean code generator", "getclean", "get", "code", 2, 1, {
                     0: inbound_parameters,
                     1: resultObj
@@ -967,10 +994,10 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                 }
                 else { // if = true or !=false -- remove addthis.
                     resultObj = find_and_replace_addthis(resultObj);
+                    proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>', resultObj, 99);
                 }
                 
                 callback(err, resultObj);
-
             });
 
         }
