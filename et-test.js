@@ -29,7 +29,7 @@
                                     "d":"6/23/1912",
                                     "q":{"w":{"e":"t"}},
                                     "g":"true"
-                                }, 99);    
+                                }, 17);    
     proxyprinttodiv('recurseModObj inputDTO', {
                                     "metadata":{"method":"wid2"},
                                     "a":"string",
@@ -37,8 +37,8 @@
                                     "d":"date",
                                     "q":{"w":{"e":"string"}},
                                     "g":"boolean"
-                                }, 99);    
-    proxyprinttodiv('recurseModObj ModifiedObject', recModObj, 99);    
+                                }, 17);    
+    proxyprinttodiv('recurseModObj ModifiedObject', recModObj, 17);    
  }
 
 
@@ -63,7 +63,7 @@
                     "type": "string"
                 }];
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 17);
                     cb1(null);
                 });
             },
@@ -104,7 +104,7 @@
                 }];
 
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+                    proxyprinttodiv('Function tss1 added  ttdto -- ', res, 17);
                     cb1(null);
                 });
             },
@@ -129,7 +129,7 @@
                 }];
 
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto --4 ', res, 99);
+                    proxyprinttodiv('Function tss1 added  ttdto --4 ', res, 17);
                     cb1(null);
                 });
             },
@@ -170,7 +170,7 @@
                 }];
 
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv('Function tss1 added  ttdto --5 ', res, 99);
+                    proxyprinttodiv('Function tss1 added  ttdto --5 ', res, 17);
                     cb1(null);
                 });
             },
@@ -195,7 +195,7 @@
             //     }];
 
             //     execute(executeList, function (err, res) {
-            //         proxyprinttodiv('Function tss1 added  ttdto -- 6', res, 99);
+            //         proxyprinttodiv('Function tss1 added  ttdto -- 6', res, 17);
             //         cb1(null);
             //     });
             // }/*,
@@ -220,7 +220,7 @@
             //     }];
 
             //     execute(executeList, function (err, res) {
-            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 17);
             //         cb1(null);
             //     });
             // },
@@ -245,7 +245,7 @@
             //     }];
 
             //     execute(executeList, function (err, res) {
-            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 17);
             //         cb1(null);
             //     });
             // },
@@ -270,7 +270,7 @@
             //     }];
 
             //     execute(executeList, function (err, res) {
-            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 17);
             //         cb1(null);
             //     });
             // },
@@ -295,12 +295,12 @@
             //     }];
 
             //     execute(executeList, function (err, res) {
-            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 99);
+            //         proxyprinttodiv('Function tss1 added  ttdto -- ', res, 17);
             //         cb1(null);
             //     });
             // }*/
         ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
+            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 17);
             if (!res) {
                 res = [];
             }
@@ -329,7 +329,7 @@
                     "type": "string"
                 }];
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 99);
+                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 17);
 					callback1(null);
                 });
             },
@@ -343,7 +343,7 @@
 						"type": "a"
 					}];
 					execute(executeList, function (err, res) {
-						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 99);
+						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 17);
 					});
 				}, function(err, result) {
 					callback2(null);
@@ -357,14 +357,14 @@
 						"wid": "ttdto_wid"+n,
 					}];
 					execute(executeList, function (err, res) {
-						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 99);
+						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 17);
 					});
 				}, function(err, result) {
 					callback3(null);
 				});
             }
         ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
+            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 17);
             if (!res) {
                 res = [];
             }
@@ -392,7 +392,7 @@
                     "type": "string"
                 }];
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 99);
+                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 17);
 					callback1(null);
                 });
             },*/
@@ -406,7 +406,7 @@
 						"type": "a"
 					}];
 					execute(executeList, function (err, res) {
-						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 99);
+						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 17);
 					});
 				}, function(err, result) {
 					callback2(null);
@@ -420,14 +420,14 @@
 						"wid": "ttdto_wid"+n,
 					}];
 					execute(executeList, function (err, res) {
-						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 99);
+						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 17);
 					});
 				}, function(err, result) {
 					callback3(null);
 				});
             }*/
         ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
+            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 17);
             if (!res) {
                 res = [];
             }
@@ -455,7 +455,7 @@
                     "type": "string"
                 }];
                 execute(executeList, function (err, res) {
-                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 99);
+                    proxyprinttodiv("Function t1 addwidmaster ttdto  result -- ", res, 17);
 					callback1(null);
                 });
             },
@@ -469,7 +469,7 @@
 						"type": "a"
 					}];
 					execute(executeList, function (err, res) {
-						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 99);
+						proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 17);
 					});
 				}, function(err, result) {
 					callback2(null);
@@ -483,14 +483,14 @@
 						"wid": "ttdto_wid"+n,
 					}];
 					execute(executeList, function (err, res) {
-						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 99);
+						proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 17);
 					});
 				}, function(err, result) {
 					callback3(null);
 				});
             }*/
         ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 99);
+            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 17);
             if (!res) {
                 res = [];
             }
@@ -648,13 +648,13 @@
                     }];
 
                     execute(executeList, function (err, res) {
-                        proxyprinttodiv('Function tss2 added  ttdto -- ', res, 99);
+                        proxyprinttodiv('Function tss2 added  ttdto -- ', res, 17);
                         cb1(null);
                     });
                 }
             ],
             function (err, res) {
-                proxyprinttodiv('Function tss2 done a series of tasks using ttdto -- ', res, 99);
+                proxyprinttodiv('Function tss2 done a series of tasks using ttdto -- ', res, 17);
                 if (!res) {
                     res = [];
                 }
@@ -1063,7 +1063,7 @@
         }]
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res, 99);
+            proxyprinttodiv('__--__', res, 17);
 
             var object = {
                 "metadata": {
@@ -1132,7 +1132,7 @@
         ]
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res, 99);
+            proxyprinttodiv('__--__', res, 17);
 
             var object = {
                 "metadata": {
@@ -1233,7 +1233,7 @@
         var command = {};
 
         addwidobject(inputObject, inputdto, command, function (err, res) {
-            proxyprinttodiv("add1 fired! -- got res --> ", res, 99);
+            proxyprinttodiv("add1 fired! -- got res --> ", res, 17);
         });
     }
 
@@ -1304,7 +1304,7 @@
         var command = {};
 
         addwidobject(inputObject, inputdto, command, function (err, res) {
-            proxyprinttodiv("add1 fired! -- got res --> ", res, 99);
+            proxyprinttodiv("add1 fired! -- got res --> ", res, 17);
         });
     }
 
@@ -1764,7 +1764,7 @@
             "name": "roger"
         }];
         execute(executeList, function (err, res) {
-            proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+            proxyprinttodiv("addwidtest updatewid authordto result ", res, 17);
 
             var inputobject = {
                 "name": "Elizabeth Heart",
@@ -1802,7 +1802,7 @@
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+                proxyprinttodiv("addwidtest addwid res :- ", res, 17);
             });
             callback(err, res);
         });
@@ -1820,7 +1820,7 @@
             "name": "roger"
         }];
         execute(executeList, function (err, res) {
-            proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+            proxyprinttodiv("addwidtest updatewid authordto result ", res, 17);
 
             var inputobject = {
                 "name": "Elizabeth Heart",
@@ -1846,7 +1846,7 @@
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+                proxyprinttodiv("addwidtest addwid res :- ", res, 17);
             });
             callback(err, res);
         });
@@ -1867,7 +1867,7 @@
             }
         ];
         execute(executeList, function (err, res) {
-            proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+            proxyprinttodiv("addwidtest updatewid authordto result ", res, 17);
 
             var inputobject = {
                 "name": "Elizabeth Heart",
@@ -1893,7 +1893,7 @@
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+                proxyprinttodiv("addwidtest addwid res :- ", res, 17);
             });
             callback(err, res);
         });
@@ -1911,7 +1911,7 @@
             "name": "roger"
         }];
         execute(executeList, function (err, res) {
-            proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+            proxyprinttodiv("addwidtest updatewid authordto result ", res, 17);
 
             var inputobject = {
                 //"name": "Elizabeth Heart",
@@ -1949,7 +1949,7 @@
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+                proxyprinttodiv("addwidtest addwid res :- ", res, 17);
             });
             callback(err, res);
         });
@@ -1971,7 +1971,7 @@
             }
         ];
         execute(executeList, function (err, res) {
-            proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+            proxyprinttodiv("addwidtest updatewid authordto result ", res, 17);
 
             var inputobject = {
                 "name": "Elizabeth Heart",
@@ -1996,7 +1996,7 @@
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+                proxyprinttodiv("addwidtest addwid res :- ", res, 17);
             });
             callback(err, res);
         });
@@ -2017,7 +2017,7 @@
             }
         }];
         execute(executeList, function (err, res) {
-            proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+            proxyprinttodiv("addwidtest updatewid authordto result ", res, 17);
 
             var inputobject = {
                 "name": {
@@ -2057,7 +2057,7 @@
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+                proxyprinttodiv("addwidtest addwid res :- ", res, 17);
             });
             callback(err, res);
         });
@@ -2076,7 +2076,7 @@
             "name": "roger"
         }];
         execute(executeList, function (err, res) {
-            proxyprinttodiv("addwidtest updatewid authordto result ", res, 99);
+            proxyprinttodiv("addwidtest updatewid authordto result ", res, 17);
 
             var inputobject = {
                 "name": {
@@ -2118,7 +2118,7 @@
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                proxyprinttodiv("addwidtest addwid res :- ", res, 99);
+                proxyprinttodiv("addwidtest addwid res :- ", res, 17);
             });
             callback(err, res);
         });
@@ -2168,7 +2168,7 @@
         ]
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[7], 99);
+            proxyprinttodiv('__--__', res[7], 17);
             callback(err, res);
         });
     }
@@ -2242,7 +2242,7 @@
         ]
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[8], 99);
+            proxyprinttodiv('__--__', res[8], 17);
             callback(err, res);
         });
 
@@ -2254,19 +2254,19 @@
         var level = "";
 
         getWidMongo(widInput, command, preamble, level, function (err, res) {
-            proxyprinttodiv('__--__', res, 99);
+            proxyprinttodiv('__--__', res, 17);
             callback(err, res);
         });
 
         widInput = "authordto";
         getWidMongo(widInput, command, preamble, level, function (err, res) {
-            proxyprinttodiv('__--__', res, 99);
+            proxyprinttodiv('__--__', res, 17);
             callback(err, res);
         });
 
         widInput = "bookdto";
         getWidMongo(widInput, command, preamble, level, function (err, res) {
-            proxyprinttodiv('__--__', res, 99);
+            proxyprinttodiv('__--__', res, 17);
             callback(err, res);
         });
     }
@@ -2351,7 +2351,7 @@
         //                   "dtolist":{}}}}
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[8], 99);
+            proxyprinttodiv('__--__', res[8], 17);
             callback(err, res);
         });
     }
@@ -2469,7 +2469,7 @@
 
         // alert(JSON.stringify(executeList));    
         execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[11], 99);
+            proxyprinttodiv('__--__', res[11], 17);
             callback(err, res);
         });
     }
@@ -2587,7 +2587,7 @@
 
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[11], 99);
+            proxyprinttodiv('__--__', res[11], 17);
             callback(err, res);
         });
         //         {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"defaultpagecontent","content":"This page is blank","number":"0"},
@@ -2607,7 +2607,7 @@
 
         //     // alert(JSON.stringify(executeList));    
         //     execute(executeList, function (err, res) {
-        //         proxyprinttodiv('__--__', res[11], 99);
+        //         proxyprinttodiv('__--__', res[11], 17);
         //         callback(err, res);
         //     });
     }
@@ -2701,16 +2701,16 @@
                 }
             ],
             function (err, res) {
-                proxyprinttodiv('Function update userdto', res[0], 99);
-                proxyprinttodiv('Function update surveydto', res[1], 99);
-                proxyprinttodiv('Function update relationshipdto1', res[2], 99);
-                proxyprinttodiv('Function update bill', res[3], 99);
-                proxyprinttodiv('Function update happy', res[4], 99);
-                proxyprinttodiv('Function update relationshipdto1', res[5], 99);
-                proxyprinttodiv('Function get bill', res[6], 99);
-                proxyprinttodiv('Function get happy', res[7], 99);
-                proxyprinttodiv('Function update bill2', res[8], 99);
-                proxyprinttodiv('Function get bill2', res[9], 99);
+                proxyprinttodiv('Function update userdto', res[0], 17);
+                proxyprinttodiv('Function update surveydto', res[1], 17);
+                proxyprinttodiv('Function update relationshipdto1', res[2], 17);
+                proxyprinttodiv('Function update bill', res[3], 17);
+                proxyprinttodiv('Function update happy', res[4], 17);
+                proxyprinttodiv('Function update relationshipdto1', res[5], 17);
+                proxyprinttodiv('Function get bill', res[6], 17);
+                proxyprinttodiv('Function get happy', res[7], 17);
+                proxyprinttodiv('Function update bill2', res[8], 17);
+                proxyprinttodiv('Function get bill2', res[9], 17);
                 callback(err, res)
             });
     }
@@ -2777,11 +2777,11 @@
                 }
             ],
             function (err, res) {
-                proxyprinttodiv('Function getwidmongo parameterObject after', res[0], 99);
-                proxyprinttodiv('Function getwidmongo parameterObject after', res[1], 99);
-                proxyprinttodiv('Function getwidmongo parameterObject after', res[2], 99);
-                proxyprinttodiv('Function getwidmongo parameterObject after', res[3], 99);
-                proxyprinttodiv('Function getwidmongo parameterObject after', res[4], 99);
+                proxyprinttodiv('Function getwidmongo parameterObject after', res[0], 17);
+                proxyprinttodiv('Function getwidmongo parameterObject after', res[1], 17);
+                proxyprinttodiv('Function getwidmongo parameterObject after', res[2], 17);
+                proxyprinttodiv('Function getwidmongo parameterObject after', res[3], 17);
+                proxyprinttodiv('Function getwidmongo parameterObject after', res[4], 17);
                 callback(err, res)
             });
     }
@@ -3361,7 +3361,7 @@
 
             // execute mongoquery
             //mongoquery(mongorawquery, function (err, res) {
-            proxyprinttodiv('Function mttest ', res, 99);
+            proxyprinttodiv('Function mttest ', res, 17);
 
             // build execute array for testing query wid
             executeObj = {};
@@ -3372,7 +3372,7 @@
 
             // Execute our query wid test
             execute(executeList, function (err, res) {
-                proxyprinttodiv('Function mttest II', res, 99);
+                proxyprinttodiv('Function mttest II', res, 17);
             });
             //});
         });
@@ -3470,17 +3470,17 @@
         if (ortests) {
             var mongorawquery = '{"$or":[{"data.a":"string"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 17);
             });
 
             var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"1"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 17);
             });
             //test fails
             var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 17);
             });
 
         }
@@ -3489,27 +3489,27 @@
         if (andtests) {
             var mongorawquery = '{"$and":[{"data.a":"string"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 17);
             });
             var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 17);
             });
             var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"16"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 17);
             });
             var mongorawquery = '{"$and":[{"data.a":"1"},{"data.b":"1"},{"data.b":"1"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 17);
             });
             var mongorawquery = '{"$and":[{"data.a":"1"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 17);
             });
             var mongorawquery = '{"$and":[{"data.a":"5"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 17);
             });
         }
 
@@ -3517,15 +3517,15 @@
         if (orortests) {
             var mongorawquery = '{"$or":[{"data.a":"1"},{"$or":[{"data.b":"25"},{"data.a":"5"},{"data.a":"5"},{"data.a":"1"}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1,wid5]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1,wid5]", result, 17);
             });
             var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"},{"$or":[{"data.a":"5"},{"$or":[{"data.b":"25"}]}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 17);
             });
             var mongorawquery = '{"$or":[{"data.a":"5"},{"$or":[{"data.b":"16"}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid4,wid5]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid4,wid5]", result, 17);
             });
         }
 
@@ -3533,16 +3533,16 @@
         if (andandtests) {
             var mongorawquery = '{"$and":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 17);
             });
             var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 17);
             });
             //test fails
             var mongorawquery = '{"$and":[{"data.a":"5"},{"$and":[{"data.b":"25"},{"$and":[{"data.b":"1"}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- []", result, 17);
             });
         }
 
@@ -3550,11 +3550,11 @@
         if (orandtests) {
             var mongorawquery = '{"$or":[{"data.a":"1"},{"$and":[{"data.b":"1"}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1]", result, 17);
             });
             var mongorawquery = '{"$or":[{"data.a":"5"},{"$and":[{"data.a":"4"},{"$and":[{"data.b":"1"}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid5]", result, 17);
             });
         }
 
@@ -3562,11 +3562,11 @@
         if (failedtests) {
             var mongorawquery = '{"$and":[{"data.a":"4"},{"$or":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid4]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid4]", result, 17);
             });
             var mongorawquery = '{"$or":[{"data.a":"1"},{"data.b":"16"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid1, wid4]", result, 17);
             });
         }
 
@@ -3574,28 +3574,28 @@
         if (orandtests20) {
             var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 17);
             });
             var mongorawquery = '{"$or":[{"data.a":"25"},{"$and":[{"data.a":"44"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 17);
             });
             var mongorawquery = '{"$or":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 17);
             });
             var mongorawquery = '{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid2,wid20,wid25]", result, 17);
             });
             //test fails
             var mongorawquery = '{"$and":[{"data.a":"25"},{"$or":[{"data.a":"2"},{"data.a":"64"},{"$or":[{"data.b":"400"},{"data.b":"625"},{"$or":[{"data.a":"2"}]}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 17);
             });
             var mongorawquery = '{"$and":[{"data.a":"4"},{"$and":[{"data.a":"2"},{"$or":[{"data.b":"16"}]}]}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [wid25]", result, 17);
             });
         }
 
@@ -3620,7 +3620,7 @@
                 });
                 params = logverify("mongoquery", "resultwid1", res[1], "", "", expectedResultArray);
 
-                proxyprinttodiv("end of verify tests", "end of verify tests", 99);
+                proxyprinttodiv("end of verify tests", "end of verify tests", 17);
             });
         }
 
@@ -3688,13 +3688,13 @@
                 }]
             };
             var result = sift(mongorawquery, widArray);
-            proxyprinttodiv("widArray", widArray, 99);
-            proxyprinttodiv("mongorawquery", mongorawquery, 99);
-            proxyprinttodiv("result", result, 99);
+            proxyprinttodiv("widArray", widArray, 17);
+            proxyprinttodiv("mongorawquery", mongorawquery, 17);
+            proxyprinttodiv("result", result, 17);
 
             var mongorawquery = '{"$or":[{"data.a":"string"}]}';
             mongoquery(mongorawquery, function (err, result) {
-                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 99);
+                proxyprinttodiv("result from mongoquery with query " + mongorawquery + " -- expected result :- [testdto]", result, 17);
             });
         }
 
@@ -3707,7 +3707,7 @@
     function addmttestdata(callback) {
         console.log("<< addmttestdata >>");
 
-        proxyprinttodiv("staring data add", "data add", 99);
+        proxyprinttodiv("staring data add", "data add", 17);
         var widArray = [];
 
         var dtoObj = {
@@ -3735,7 +3735,7 @@
     execute(widArray, function (err, res) {
         console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
     });
-    proxyprinttodiv("end of data add", "end data add", 99);
+    proxyprinttodiv("end of data add", "end data add", 17);
     */
         return widArray;
     }
@@ -3822,10 +3822,10 @@
         };
         executeList.push(queryobj);
 
-        proxyprinttodiv("execute list ", executeList, 99);
+        proxyprinttodiv("execute list ", executeList, 17);
 
         execute(executeList, function (err, res) {
-            proxyprinttodiv('Function verifytestresults', res, 99);
+            proxyprinttodiv('Function verifytestresults', res, 17);
             console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
             var expectedResultList = [{
                 "wid": "wid4",
@@ -3838,10 +3838,10 @@
                 "data.a": "5",
                 "data.b": "25"
             }];
-            proxyprinttodiv('Function verifytestresults', res, 99);
+            proxyprinttodiv('Function verifytestresults', res, 17);
             params = logverify("mongoquery", "resultwid", "", res[6][0], "", expectedResultList);
             x = verifysummary("test_results");
-            proxyprinttodiv('x', x, 99);
+            proxyprinttodiv('x', x, 17);
             callback(null, x);
             //verifytestresults(res);
         });
@@ -3913,7 +3913,7 @@
             "executethis": "getwidmaster",
             "wid": "color7"
         }];
-        proxyprinttodiv("execute list", executeList, 99);
+        proxyprinttodiv("execute list", executeList, 17);
         execute(executeList, function (err, res) {
 
         });
@@ -3970,7 +3970,7 @@
                 }]
             }
         }];
-        proxyprinttodiv("execute list for query", executeList, 99);
+        proxyprinttodiv("execute list for query", executeList, 17);
         execute(executeList, function (err, res) {
 
         });
@@ -4442,9 +4442,9 @@
         ];
 
 
-        proxyprinttodiv("addlist", addlist, 99);
-        proxyprinttodiv("querylist", querylist, 99);
-        proxyprinttodiv("verifylist", verifylist, 99);
+        proxyprinttodiv("addlist", addlist, 17);
+        proxyprinttodiv("querylist", querylist, 17);
+        proxyprinttodiv("verifylist", verifylist, 17);
 
         execute([addlist, querylist], function (err, res) {
             verifyarray[res[1], verifylist]
@@ -4479,7 +4479,7 @@
         // debugdestination = 1;
         // //debuglevel=15;
 
-        proxyprinttodiv("staring data add", "data add", 99);
+        proxyprinttodiv("staring data add", "data add", 17);
         x[0] = {
             "executethis": "updatewid",
             "metadata.method": "mongoquerytwodto",
@@ -4586,7 +4586,7 @@
             }; // add destination parameter if needed
             y = executetest(x[eachx]); // enter the data
         }
-        proxyprinttodiv("end of data add", "end data add", 99);
+        proxyprinttodiv("end of data add", "end data add", 17);
 
         // executeobject["mongorawquery"] = 
         //           "{$and: [" +
@@ -4685,7 +4685,7 @@
 			var command = {"formatresult": "false", "command.deepfilter.convert":true};
 			  
 			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-				proxyprinttodiv("after d1 deepfilter res", res, 99);
+				proxyprinttodiv("after d1 deepfilter res", res, 17);
 			});
 			
 			params = {	
@@ -4726,7 +4726,7 @@
 			var command = {"formatresult": "false"};
 			  
 			deepfilter(inputObj, dtoObjOpt, command, function(err, res){
-				proxyprinttodiv("after d2 deepfilter res", res, 99);
+				proxyprinttodiv("after d2 deepfilter res", res, 17);
 			});
 			
 			params = {	
@@ -4760,7 +4760,7 @@
 			var command = {"formatresult": "false"};
 			  
 			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-				proxyprinttodiv("after d3 deepfilter res", res, 99);
+				proxyprinttodiv("after d3 deepfilter res", res, 17);
 			});
 			
 			params = {	
@@ -4784,7 +4784,7 @@
 					"ggg": ""
                 }];
 				execute(executeList, function (err, res) {
-                    //proxyprinttodiv('updatewid wid3 -- ', res, 99);
+                    //proxyprinttodiv('updatewid wid3 -- ', res, 17);
                     cb1(null);
                 });
             },
@@ -4794,7 +4794,7 @@
 					"wid": "wid3",
 				}];
 				execute(executeList, function (err, res) {
-					//proxyprinttodiv("getwidmaster  wid3 -- ", res, 99);
+					//proxyprinttodiv("getwidmaster  wid3 -- ", res, 17);
                     cb2(null);
 				});
 			}
@@ -4834,7 +4834,7 @@
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after d5 deepfilter res", res, 99);
+					proxyprinttodiv("after d5 deepfilter res", res, 17);
 					cb2(null);
 				});
 			}
@@ -4859,7 +4859,7 @@
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after d6 deepfilter res", res, 99);
+					proxyprinttodiv("after d6 deepfilter res", res, 17);
 					cb2(null);
 				});
 			}
@@ -4899,7 +4899,7 @@
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after d7 deepfilter res", res, 99);
+					proxyprinttodiv("after d7 deepfilter res", res, 17);
 					cb2(null);
 				});
 			}
@@ -4935,7 +4935,7 @@
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after d8 deepfilter res", res, 99);
+					proxyprinttodiv("after d8 deepfilter res", res, 17);
 					cb2(null);
 				});
 			}
@@ -4971,7 +4971,7 @@
 			var command = {"formatresult": "false"};
 			  
 			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-				proxyprinttodiv("after d10 deepfilter res", res, 99);
+				proxyprinttodiv("after d10 deepfilter res", res, 17);
 			});
 			
 			params = {	
@@ -5000,7 +5000,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 //"title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}]}
 
     deepfilter(obj, dto,command, function (err, res) {
-        proxyprinttodiv('Function d10b deepfilter result ', res, 99); 
+        proxyprinttodiv('Function d10b deepfilter result ', res, 17); 
        callback(err, res);  
         })
 }
@@ -5028,7 +5028,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 					{ "executethis": "querywid", "mongorawquery": '{"$or": [{ "data.a": "b" }]}'}
 				];
 				execute(executeList, function (err, res) {
-					//proxyprinttodiv("mongo query result ", res, 99);
+					//proxyprinttodiv("mongo query result ", res, 17);
 					cb2(null);
 				});
 			},
@@ -5037,31 +5037,31 @@ exports.d10b = d10b = function d10b(params, callback) {
 					{ "executethis": "updatewid", "wid": "wid5", "metadata.method": "defaultdto", "addthis.executethis":"querywid", "mongorawquery":"{data.a:b}"}
 				];
 				execute(executeList, function (err, res) {
-					//proxyprinttodiv("after updatewid wid5 -- ", res, 99);
+					//proxyprinttodiv("after updatewid wid5 -- ", res, 17);
 					cb3(null);
 				});
 			},
 			function step4(cb4){	//5 (d)
 				getwidmaster({"wid":"wid5", "command":{"getwidmaster":{"execute":"false"}}},function (err, res) {
-					//proxyprinttodiv("5 (d) getwidmaster  wid5 -- ", res, 99);
+					//proxyprinttodiv("5 (d) getwidmaster  wid5 -- ", res, 17);
                     cb4(null);
 				});
 			},
 			function step5(cb5){	//5 (e)
 				getwidmaster({"wid":"wid5"},function (err, res) {
-					//proxyprinttodiv("5 (e) getwidmaster  wid5 -- ", res, 99);
+					//proxyprinttodiv("5 (e) getwidmaster  wid5 -- ", res, 17);
                     cb5(null);
 				});
 			},
 			function step6(cb6){	//5 (f)
 				execute({"executethis":"wid5"},function (err, res) {
-					//proxyprinttodiv("5 (f) getwidmaster  wid5 -- ", res, 99);
+					//proxyprinttodiv("5 (f) getwidmaster  wid5 -- ", res, 17);
                     cb6(null);
 				});
 			},
 			function step7(cb7){	//5 (g)
 				execute("wid5",function (err, res) {
-					//proxyprinttodiv("5 (g) getwidmaster  wid5 -- ", res, 99);
+					//proxyprinttodiv("5 (g) getwidmaster  wid5 -- ", res, 17);
                     cb7(null);
 				});
 			},
@@ -5071,7 +5071,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					//proxyprinttodiv("step 8 res--", res, 99);
+					//proxyprinttodiv("step 8 res--", res, 17);
 					cb8(null);
 				});
 			},
@@ -5081,7 +5081,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					//proxyprinttodiv("step 9 res--", res, 99);
+					//proxyprinttodiv("step 9 res--", res, 17);
 					cb9(null);
 				});
 			},
@@ -5091,7 +5091,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("d11 - step 10 res--", res, 99);
+					proxyprinttodiv("d11 - step 10 res--", res, 17);
 					cb10(null);
 				});
 			}
@@ -5113,7 +5113,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 				var inputObj = {"b1":"true", "b2":false};
 				var command = {};
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					//proxyprinttodiv("without command-- res ", res, 99);
+					//proxyprinttodiv("without command-- res ", res, 17);
 					cb1(null);
 				});
 			},
@@ -5122,7 +5122,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 				var inputObj = {"b1":"true", "b2":false};
 				var command = {"command.deepfilter.convert":"true"};
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					//proxyprinttodiv("command.deepfilter.convert = true-- res ", res, 99);
+					//proxyprinttodiv("command.deepfilter.convert = true-- res ", res, 17);
 					cb2(null);
 				});
 			},
@@ -5131,7 +5131,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 				var inputObj = {"b1":"true", "b2":false};
 				var command = {"command.deepfilter.convert":"false"};
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("d12 - command.deepfilter.convert = false-- res ", res, 99);
+					proxyprinttodiv("d12 - command.deepfilter.convert = false-- res ", res, 17);
 					cb3(null);
 				});
 			}
@@ -5175,7 +5175,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 				var command = {"formatresult": "false"};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after d13 deepfilter res", res, 99);
+					proxyprinttodiv("after d13 deepfilter res", res, 17);
 					cb2(null);
 				});
 			}
@@ -5223,9 +5223,9 @@ exports.d10b = d10b = function d10b(params, callback) {
 				var command = {"formatresult": "false", "command.deepfilter.convert":true};
 				  
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                    proxyprinttodiv("after d14 deepfilter in", inputObj, 99);
-                    proxyprinttodiv("after d14 deepfilter out", dtoObjOpt, 99);
-					proxyprinttodiv("after d14 deepfilter res", res, 99);
+                    proxyprinttodiv("after d14 deepfilter in", inputObj, 17);
+                    proxyprinttodiv("after d14 deepfilter out", dtoObjOpt, 17);
+					proxyprinttodiv("after d14 deepfilter res", res, 17);
 					cb1(null);
 				});
 			}
@@ -5251,7 +5251,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 		async.series([
 			function (cb1) {
 				getnewwid(function (err, res){
-					proxyprinttodiv("after getnewwid", res, 99);
+					proxyprinttodiv("after getnewwid", res, 17);
 					cb1(null);
 				});
 			}
@@ -5498,7 +5498,7 @@ exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callba
 exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callback) {
     etappinstall();
 
-    debuglevel = 0;
+    debuglevel = 17;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5529,19 +5529,19 @@ exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callba
             proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
             res = logverify("ettestagag3_result", res[2], [{
-        "title": "Highway to Hell",
-        //"sounddto.0.wid": "2",
-        //"sounddto.0.note": "A flat",
-        //"sounddto.0.metadata.method": "sounddto",
-        //"sounddto.1.wid": "4",
-        //"sounddto.1.note": "B sharp",
-        //"sounddto.1.metadata.method": "sounddto",
-        "sounddto.2.wid": "6",
-        "sounddto.2.note": "C flat",
-        "sounddto.2.metadata.method": "sounddto",
-        "wid": "song1",
-        "metadata.method": "songdto",
-        "metadata.sounddto.type": "onetomany"
+                "title": "Highway to Hell",
+                "sounddto.0.wid": "2",
+                "sounddto.0.note": "A flat",
+                "sounddto.0.metadata.method": "sounddto",
+                "sounddto.1.wid": "4",
+                "sounddto.1.note": "B sharp",
+                "sounddto.1.metadata.method": "sounddto",
+                "sounddto.2.wid": "6",
+                "sounddto.2.note": "C flat",
+                "sounddto.2.metadata.method": "sounddto",
+                "wid": "song1",
+                "metadata.method": "songdto",
+                "metadata.sounddto.type": "onetomany"
 
             }]);
 
@@ -6448,19 +6448,19 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 	*/
 	exports.ettestinherittest1 = ettestinherittest1 = function ettestinherittest1(params, callback) {
 		etappinstall();
-		debuglevel = 17;
+		debuglevel = 0;
 		
 		execute([{
                     "executethis": "addwidmaster",
 					"wid": "bookdtoextra",
 					"metadata.method": "bookdtoextra",
-					"title": "string",
+					"title": "string", // changed by joe
 					"pages": "string"
                 },{
                     "executethis": "addwidmaster",
 					"wid": "bookdefaultdto",
 					"metadata.method": "bookdtoextra",
-					"title":"X title",
+					"title":"X title", // changed by joe
 					"pages":"300"
                 },{
                     "executethis": "addwidmaster",
@@ -6482,19 +6482,121 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 			], function (err, res) {
 				proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
 				
-				proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 17);
+				proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
 				
 				var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
 				proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
 				
 				res = logverify("bookdtowid111_result", res[4], expectedResult);
-				debuglevel=38;
+				debuglevel=0;
 				execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
 					proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
 					callback(err, res); 
 				})
         });
 	}
+
+    exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
+        etappinstall();
+        debuglevel = 0;
+        
+        execute([{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdtoextra",
+                    "metadata.method": "bookdtoextra",
+                    "title": "string", // changed by joe
+                    "pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdefaultdto",
+                    "metadata.method": "bookdtoextra",
+                    "title":"X title", // changed by joe
+                    "pages":"300"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdto",
+                    "metadata.method": "bookdto",
+                    "metadata.inherit.override.0": "bookdefaultdto",
+                    "metadata.inherit.override.1": "bookdefaultdto2",
+                    "title": "string",
+                    "pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdtowid111",
+                    "metadata.method":"bookdto",
+                    "title": "Book Title1"
+                    // notice no pages
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "bookdtowid111",
+                }
+            ], function (err, res) {
+                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+                
+                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+                
+                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+                
+                res = logverify("bookdtowid111_result", res[4], expectedResult);
+                debuglevel=0;
+                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+                    callback(err, res); 
+                })
+        });
+    }
+
+    exports.ettestinheritdefault = ettestinheritdefault = function ettestinheritdefault(params, callback) {
+        etappinstall();
+        debuglevel = 0;
+        
+        execute([{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdtoextra",
+                    "metadata.method": "bookdtoextra",
+                    "title": "string", // changed by joe
+                    "pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdefaultdto",
+                    "metadata.method": "bookdtoextra",
+                    "title":"X title", // changed by joe
+                    "pages":"300"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdto",
+                    "metadata.method": "bookdto",
+                    "metadata.inherit.default.0": "bookdefaultdto",
+                    "metadata.inherit.default.1": "bookdefaultdto2",
+                    "title": "string",
+                    "pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdtowid111",
+                    "metadata.method":"bookdto",
+                    "title": "Book Title1"
+                    // notice no pages
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "bookdtowid111",
+                }
+            ], function (err, res) {
+                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+                
+                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+                
+                var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+                
+                res = logverify("bookdtowid111_result", res[4], expectedResult);
+                debuglevel=0;
+                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+                    callback(err, res); 
+                })
+        });
+    }
 		
 	/*
 		5) 	check to see if declaring "type" in the dto is needed if we add a relationshipationship
@@ -6539,7 +6641,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
                  the response for this should be "title": "Book Title1" and "pages": "300" (inherit pages from default)
 				*/
 				execute(executeList, function (err, res) {
-					proxyprinttodiv('addwidmaster dtotypetest1 -- ', res, 99);
+					proxyprinttodiv('addwidmaster dtotypetest1 -- ', res, 17);
 					cb1(null);
 				});
 			},
@@ -6549,7 +6651,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 					"wid": "authordtowid111",
 				}];
 				execute(executeList, function (err, res) {
-					proxyprinttodiv("getwidmaster  authordtowid111 -- ", res, 99);
+					proxyprinttodiv("getwidmaster  authordtowid111 -- ", res, 17);
                     cb2(null);
 				});
 			}
@@ -6600,10 +6702,10 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 					"metadata.method": "relationshipdto",
 					"relationshiptype": "attributes",
 					"linktype": "manytoone",
-					"primarywid": "pubhousedto",
-					"primarymethod": "pubhousedto",
-					"secondarywid": "bookdto",
-					"secondarymethod": "bookdto"
+					"primarywid": "bookdto",
+					"primarymethod": "bookdto",
+					"secondarywid": "pubhousedto",
+					"secondarymethod": "pubhousedto"
 				},{		//addressdto
 					"executethis": "addwidmaster",
 					"metadata.method": "addressdto",
@@ -6615,34 +6717,71 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 					"metadata.method": "relationshipdto",
 					"relationshiptype": "attributes",
 					"linktype": "onetomany",
-					"primarywid": "pubhousedto",
-					"primarymethod": "pubhousedto",
-					"secondarywid": "addressdto",
-					"secondarymethod": "addressdto"
-				}, {	//wid
+					"primarywid": "addressdto",
+					"primarymethod": "addressdto",
+					"secondarywid": "pubhousedto",
+					"secondarymethod": "pubhousedto"
+				}, {	//author wid
 					"executethis": "addwidmaster",
 					"metadata.method": "authordto",
 					"wid": "author1",
+					"name": "devang"
+				}, {	//book wid
+					"executethis": "addwidmaster",
+					"metadata.method": "bookdto",
+					"wid": "book1",
+					"title": "book1"
+				}, {	//pubhouse wid
+					"executethis": "addwidmaster",
+					"metadata.method": "pubhousedto",
+					"wid": "pubhouse1",
+					"coname": "Pub House Company"
+				}, {	//address wid
+					"executethis": "addwidmaster",
+					"metadata.method": "addressdto",
+					"wid": "address1",
+					"city": "City"
+				}, {	//author+book wid
+					"executethis": "addwidmaster",
+					"metadata.method": "authordto",
+					"wid": "authorbook1",
 					"name": "devang",
-                    "bookdto.title": "programming101",
-                   // "bookdto.pubhousedto.coname": "bigco",
-                    //"bookdto.pubhousedto.addressdto.city": "somecity"
+					"bookdto.title": "Author Book 1"
+				}, {	//author+book+pubhouse wid
+					"executethis": "addwidmaster",
+					"metadata.method": "authordto",
+					"wid": "authorbookpubhouse1",
+					"name": "devang",
+					"bookdto.title": "Author Book 1",
+					"bookdto.pubhousedto.coname": "Author Book1 PubHouse1 "
+				}];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("manytoonetest getwidmaster -- ", res, 17);
+					cb1(null);
+				});
+			},
+			function (cb2) {
+				var executeList = [/*{
+					"executethis": "getwidmaster",
+					"wid": "author1",
 				}, {
 					"executethis": "getwidmaster",
-					"wid": "author1"
+					"wid": "book1",
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "pubhouse1",
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "address1",
+				}, {
+					"executethis": "getwidmaster",
+					"wid": "authorbook1",
+				},*/ {
+					"executethis": "getwidmaster",
+					"wid": "authorbookpubhouse1",
 				}];
 				execute(executeList, function (err, res) {
-					proxyprinttodiv("manytoonetest getwidmaster -- ", res, 99);
-					cb1(null);
-				});
-			},
-			function (cb2) {
-				var executeList = [{
-					"executethis": "getwid",
-					"wid": "author1",
-				}];
-				execute(executeList, function (err, res) {
-					proxyprinttodiv("manytoonetest  getwid -- ", res, 99);
+					proxyprinttodiv("manytoonetest  getwidmaster res -- ", res, 17);
                     cb2(null);
 				});
 			}
@@ -6650,100 +6789,255 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 			params = {	
 				"test": "PASS"
 			};
-			callback({}, params);	
+			callback(params);	
         });				
 	}
-	
-	/*
-		attest
-		to add and get
-	*/
-	exports.attest = attest = function attest(params, callback) {
-		async.series([
-			function (cb1) {
-				var executeList = [
-				{		//authordto
-					"executethis": "updatewid",
-					"metadata.method": "authordto",
-					"wid": "authordto",
-					"name": "string"
-				}, {	//wid
-					"executethis": "updatewid",
-					"metadata.method": "authordto",
-					"wid": "author1",
-					"name": "devang"
-				}];
-				execute(executeList, function (err, res) {
-					proxyprinttodiv("attest updatewid authordto, wid -- ", res, 99);
-					cb1(null);
-				});
-			},
-			function (cb2) {
-				var executeList = [{
-					"executethis": "getwid",
-					"wid": "author1",
-				}];
-				execute(executeList, function (err, res) {
-					proxyprinttodiv("attest  getwid author1-- ", res, 99);
+
+        exports.manytoonetestsmall = manytoonetestsmall = function manytoonetestsmall(params, callback) {
+            etappinstall();
+
+            debuglevel = 0;
+
+            async.series([
+            function (cb1) {
+                var executeList = [
+                {    //bookdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "bookdto",
+                    "wid": "bookdto",
+                    "title": "string"
+                }, {    //pubhousedto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "pubhousedto",
+                    "wid": "pubhousedto",
+                    "coname": "string"
+                }, {      //addressdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "addressdto",
+                    "wid": "addressdto",
+                    "street":"string",
+                    "city": "string",
+                    "state": "string",
+                    "ZIP": "string"
+                }, {  //note_dto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "notedto",
+                    "wid": "notedto",
+                    "note":"string"
+                }, {  //visble dto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "visibledto",
+                    "wid": "visibledto",
+                    "isvisible": "string"
+                }, {    //bookdto - pubhousedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_book_pubhouse",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "manytoone",
+                    //"linktype": "onetoone",
+                    //"linktype":"onetomany",
+                    "primarywid": "bookdto",
+                    "primarymethod": "bookdto",
+                    "secondarywid": "pubhousedto",
+                    "secondarymethod": "pubhousedto"
+                    // "primarywid": "pubhousedto",
+                    // "primarymethod": "pubhousedto",
+                    // "secondarywid": "bookdto",
+                    // "secondarymethod": "bookdto"
+                }, {    //pubhousedto - addressdto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_pubhouse_address",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    //"linktype": "onetomany",
+                    "linktype":"onetomany",
+                    // "primarywid": "addressdto",
+                    // "primarymethod": "addressdto",
+                    // "secondarywid": "pubhousedto",
+                    // "secondarymethod": "pubhousedto"
+                    "primarywid": "pubhousedto",
+                    "primarymethod": "pubhousedto",
+                    "secondarywid": "addressdto",
+                    "secondarymethod": "addressdto"
+                }, {  // addressdto to notedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_adressdto_notedto",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype":"onetomany",
+                    "primarywid": "addressdto",
+                    "primarymethod": "addressdto",
+                    "secondarywid": "notedto",
+                    "secondarymethod": "notedto"
+                }, {  // rel notedto to visibledto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_notedto_to_visbledto",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype":"onetoone",
+                    "primarywid": "notedto",
+                    "primarymethod": "notedto",
+                    "secondarywid": "visibledto",
+                    "secondarymethod": "visibledto"
+                }, {  //book wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "bookdto",
+                    "wid": "book1",
+                    "title": "book1",
+                }, { // pubhouse wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "pubhousedto",
+                    "wid": "pubhouse1",
+                    "coname": "Pub House Company"
+                }, { // rel between book1 and puhouse1
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"manytoone",
+                    //"linktype":"onetoone",
+                    "primarywid":"book1",
+                    "secondarywid":"pubhouse1",
+                    "primarymethod":"bookdto",
+                    "secondarymethod":"pubhousedto",
+                    "wid":"rel_book1_to_pubhouse1",
+                    "metadata.method":"relationshipdto"
+                }, { // address wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "addressdto",
+                    "wid": "address1",
+                    "street":"1234 First st",
+                    "city": "Traverse City",
+                    "state": "MI",
+                    "ZIP": "12346"
+                }, { // rel between pubhouse1 and address1
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetomany",
+                    "primarywid":"pubhouse1",
+                    "secondarywid":"address1",
+                    "primarymethod":"pubhousedto",
+                    "secondarymethod":"addressdto",
+                    "wid":"rel_pubhouse1_to_address1",
+                    "metadata.method":"relationshipdto"
+                }, {// address wid 2
+                    "executethis": "addwidmaster",
+                    "metadata.method": "addressdto",
+                    "wid": "address2",
+                    "street":"2222 Second st",
+                    "city": "Second Traverse City",
+                    "state": "MI",
+                    "zip": "2222"
+                }, { // rel between pubhouse1 and address2
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetomany",
+                    "primarywid":"pubhouse1",
+                    "secondarywid":"address2",
+                    "primarymethod":"pubhousedto",
+                    "secondarymethod":"addressdto",
+                    "wid":"rel_pubhouse1_to_address2",
+                    "metadata.method":"relationshipdto"
+                }, { // note wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "notedto",
+                    "wid": "note1",
+                    "note": "please do not ship to this address"
+                }, { // rel note to address2
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetomany",
+                    "primarywid":"address2",
+                    "secondarywid":"note1",
+                    "primarymethod":"addressdto",
+                    "secondarymethod":"notedto",
+                    "wid":"rel_address2_to_note1",
+                    "metadata.method":"relationshipdto"
+                }, { // note2 wid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "notedto",
+                    "wid": "note2",
+                    "note": "here is a note we have set to visble"
+                }, { // rel note2 to address2
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetomany",
+                    "primarywid":"address2",
+                    "secondarywid":"note2",
+                    "primarymethod":"addressdto",
+                    "secondarymethod":"notedto",
+                    "wid":"rel_address2_to_note2",
+                    "metadata.method":"relationshipdto"
+                },{ // visiblewid
+                    "executethis": "addwidmaster",
+                    "metadata.method": "visibledto",
+                    "wid": "visble1",
+                    "isvisible": "true"
+                },{ // relate note2 to visible1
+                    "executethis": "addwidmaster",
+                    "relationshiptype":"attributes",
+                    "linktype":"onetoone",
+                    "primarywid":"note2",
+                    "secondarywid":"visble1",
+                    "primarymethod":"notedto",
+                    "secondarymethod":"visibledto",
+                    "wid":"rel_note2_to_visble1",
+                    "metadata.method":"relationshipdto"
+                }];
+                execute(executeList, function (err, res) {
+                    // proxyprinttodiv("manytoonetest step 1 getwidmaster -- ", res, 17);
+                    cb1(null);
+                });
+            },
+            function (cb2) {
+                var executeList = [
+                // var executeList = [{
+                //     "executethis": "addwidmaster",
+                //     "wid": "songdto",
+                //     "metadata.method": "songdto",
+                //     "title": "string",
+                //     "metadata.sounddto.type": "onetomany",
+                //     "sounddto.wid": "sounddto",
+                //     "sounddto.metadata.method": "sounddto",
+                //     "sounddto.note": "string"
+
+                // }, {                       
+                //     "executethis": "addwidmaster",
+                //     "wid": "song1",
+                //     "metadata.method": "songdto",
+                //     "title": "Highway to Hell",
+                //     "sounddto.note": "A flat"
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": "song1"
+                // }];
+                /*{
+                    "executethis": "getwidmaster",
+                    "wid": "author1",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "book1",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "pubhouse1",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "address1",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "authorbook1",
+                },*/ {
+                    "executethis": "getwidmaster",
+                    "wid": "book1",
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonetest  step2 getwidmaster res -- ", res, 17);
                     cb2(null);
-				});
-			}
+                });
+            }
         ], function (err, res) {
-			params = {	
-				"test": "PASS"
-			};
-			callback(params, params);	
-        });				
-	}
-	
-	/*
-		attest
-		to add and get
-	*/
-	exports.hellopass = hellopass = function hellopass(params, callback) {
-		params = {	
-			"hello": "PASS"
-		};
-		callback({"test_errer": "test_error_data"}, params);				
-	}
-
-exports.wd1 = wd1 = function wd1(params, callback) {
-    execute([{
-            "executethis": "updatewid",
-            "wid": "testing_update",
-            "param_1": "cashews"
-        }, {
-            "executethis": "getwidmaster",
-            "wid": "testing_update"
-        }],
-        function (err, res) {
-            res = logverify("ettestwd1_result", res[1], [{
-                "wid": "testing_update",
-                "metadata.method": "defaultdto",
-                "param_1": "cashews"
-            }]);
-            callback({"test_errer": "test_error_data"}, res);
-        });
-          
-}
-
-exports.wd2 = wd2 = function wd2(params, callback) {
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "testing_update",
-            "param_1": "cashews"
-        }, {
-            "executethis": "getwidmaster",
-            "wid": "testing_update"
-        }],
-        function (err, res) {
-            res = logverify("ettestwd2_result", res[1], [{
-                "wid": "testing_update",
-                "metadata.method": "defaultdto",
-                "param_1": "cashews"
-            }]);
-            callback({"test_errer": "test_error_data"}, res);
-        });
-          
-}
-            // proxyprinttodiv('Function wd1 result ', res, 99);
+            params = {  
+                "test": "PASS"
+            };
+            callback(params);   
+        });             
+    }

@@ -45,13 +45,21 @@ if (typeof angular !== 'undefined') {
             storeData: function(results, scope, modelKey, callback) {
                 if (results !== null && results instanceof Object) {
                     storeAllData(results, scope, modelKey, function () {
+<<<<<<< HEAD
                         callback(results);
+=======
+                        if (callback instanceof Function) { callback(results); }
+>>>>>>> db6e018feb6296b93aeca14902cd2018930b0f27
                     });
                 } else if (Array.isArray(results)) {
                     for (var i = 0; i < results.length; i++) {
                         if (results[i] !== null && results[i] instanceof Object) {
                             storeAllData(results[i], scope, modelKey, function () {
+<<<<<<< HEAD
                                 callback(results);
+=======
+                                if (callback instanceof Function) { callback(results); }
+>>>>>>> db6e018feb6296b93aeca14902cd2018930b0f27
                             });
                         }
                     }
@@ -587,12 +595,15 @@ if (typeof angular !== 'undefined') {
         processHtml: function(screenWid, scope, compile) {
             var targetElement = $('#default_view_loc');
 
+<<<<<<< HEAD
 //            // if processing an execute element then the html must be placed inside current element
 //            if (scope.processingExecute) {
 //                targetElement = $(scope.executeProcessingElement);
 //                scope.processingExecute = false;
 //            }
 
+=======
+>>>>>>> db6e018feb6296b93aeca14902cd2018930b0f27
             // find targetid from screenwid if it exists
             if (screenWid.command) {
                 if (screenWid.command.htmltargetid) { targetElement = $('#' + screenWid.command.htmltargetid); }
@@ -607,6 +618,10 @@ if (typeof angular !== 'undefined') {
 
             // take care of any <execute></execute> elements
             $('execute').each(function (index, ele) {
+<<<<<<< HEAD
+=======
+                // proceed if execute tag wasn't already processed during server conversion process
+>>>>>>> db6e018feb6296b93aeca14902cd2018930b0f27
                 if ($(ele).attr('processed') !== undefined || $(ele).attr('processed') !== 'true') {
                     widAppHelper.processExecute(ele, scope, compile);
                     $(ele).attr('processed', 'true');
@@ -616,8 +631,11 @@ if (typeof angular !== 'undefined') {
 
         processExecute: function(ele, scope, compile) {
             var executeObj = NNMtoObj(ele.attributes);
+<<<<<<< HEAD
 //            scope.processingExecute = true;
 //            scope.executeProcessingElement = ele;
+=======
+>>>>>>> db6e018feb6296b93aeca14902cd2018930b0f27
 
             execute(executeObj, function(err, resultArr) {
                 var results = widAppHelper.mergeNestedArray(resultArr);
@@ -637,6 +655,7 @@ if (typeof angular !== 'undefined') {
                         }
                     });
             });
+<<<<<<< HEAD
 
 //            // proceed if execute tag wasn't already processed during server conversion process
 //            if (!executeObj.processed || executeObj.processed !== 'true') {
@@ -648,6 +667,8 @@ if (typeof angular !== 'undefined') {
 //                        }
 //                    });
 //            }
+=======
+>>>>>>> db6e018feb6296b93aeca14902cd2018930b0f27
         },
 
         isJsonStr: function(jsonStr) {
@@ -828,7 +849,14 @@ if (typeof angular !== 'undefined') {
 
     // adds the passed in object to the current angularJS scope (model) under the passed in name
     exports.addToAngular = addToAngular = function addToAngular(name, obj) {
+<<<<<<< HEAD
         $('body').scope()[name] = obj;
+=======
+        var scope = $('body').scope();
+        angular.injector(['ng', 'widApp'])
+            .get('dataService')
+            .storeData(obj, scope, name);
+>>>>>>> db6e018feb6296b93aeca14902cd2018930b0f27
     };
 
     // call executeService.executeThis from legacy (non angularJS) code

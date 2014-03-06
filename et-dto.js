@@ -356,22 +356,9 @@
                 // }, {
                 // "executethis": "getwidmaster",
                 // "wid": "someuser"
-            // }, {
-            //     // create errorwid and errorlogdto systemdto
-            //     "executethis": "addwidmaster",
-            //     "wid": "errorlogwid",
-            //     "metadata.method": "errorlogwid",
-            //     "type": "string",
-            //     "status": "string",
-            //     "code": "string",
-            //     "message": "string",
-            //     "metadata.errorlogdto.type": "onetomany",
-            //     "errorlogdto.wid": "string",
-            //     "errorlogdto.metadata.method": "string",
-            //     "errorlogdto.error": "string",
-            //     "errorlogdto.parameters": "string"
             }
         ];
+
 
         execute(executeList, function (err, res) {
             // proxyprinttodiv('Function createsystemdtos4 -- added all this -- ', res, 99);

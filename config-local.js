@@ -60,13 +60,13 @@ if (!test_results) {
 exports.bootprocess = bootprocess = function bootprocess() {
     if (Object.keys(config).length === 0) {
         setdefaultparm();
-        clearLocalStorage();
+//        clearLocalStorage();
     }
-    proxyprinttodiv('Function bootprocess config', config, 99);
+    proxyprinttodiv('Function bootprocess config', config, 38);
     if (!getFromLocalStorage('DRIKEY')) {
         etappinstall();
     }
-}
+};
 
 //    execute({
 //        "executethis": "getwid",
@@ -119,17 +119,17 @@ exports.etappinstall = etappinstall = function etappinstall() { // exeucte only 
             }
         });
     }
-}
+};
 
 exports.etappstarted = etappstarted = function etappstarted() {
 
 
-} // execute only once per day when app is started
+} ;// execute only once per day when app is started
 
 exports.etappnewpage = etappnewpage = function etappnewpage() {
 
 
-} // execute each time we go to new page
+}; // execute each time we go to new page
 
 
 function setdefaultparm() {
@@ -153,7 +153,7 @@ function setdefaultparm() {
     exports.environment = environment;
     test_results = {}; // can take out
     debuglog = {};
-    exports.debuglog = debuglog = debuglog;
+    exports.debuglog = debuglog;
 
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
@@ -279,7 +279,7 @@ exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = funct
 };
 
 exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
-    proxyprinttodiv('clear clearLocalStorage', 'hi', 99);
+    proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
     widMasterKey = "widmaster_";
     localStorage.clear();
     potentialwid = 0;
@@ -304,12 +304,11 @@ exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocal
 //function addtomongo(inputWidgetObject) {
 exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
     var collection = "DRI";
-    var keycollection = "DRIKEY"
+    var keycollection = "DRIKEY";
     var err = {};
     var widobject = {};
     var database = {};
     var keydatabase = {};
-    var record;
     var widName = inputWidgetObject['wid'];
     var found = false;
     if (widName) {
@@ -318,7 +317,7 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
         database = getFromLocalStorage(collection);
         proxyprinttodiv('Function addtomongo database', database, 1);
 
-        for (record in database) {
+        for (var record in database) {
             proxyprinttodiv('Function addtomongo database[record]', database[record], 1);
             if (database[record]["wid"] == widName) {
                 database[record] = inputWidgetObject;
@@ -354,7 +353,7 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
 exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
 
     var collection = "DRI";
-    var keycollection = "DRIKEY"
+    var keycollection = "DRIKEY";
     var err = {};
     var output = {};
     var keydatabase = {};
@@ -589,14 +588,14 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     });
 
     keydatabase = getFromLocalStorage(keycollection);
-    for (eachrecord in outlist) {
-        eachwid = keydatabase[outlist[eachrecord]["wid"]]
+    for (var eachrecord in outlist) {
+        eachwid = keydatabase[outlist[eachrecord]["wid"]];
         resultlist.push(eachwid);
     }
 
     proxyprinttodiv('Function outlist', outlist, 30);
     callback(null, resultlist);
-}
+};
 
 // function getwidcopy() {
 //     // step through local storage looking for

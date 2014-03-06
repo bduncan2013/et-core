@@ -2527,10 +2527,12 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "hue": "string"
         }, {
             "executethis": "addwidmaster",
+            //"metadata.method": "colordto", // added by joe
             "wid": "color1",
             "hue": "red"
         }, {
             "executethis": "addwidmaster",
+            //"metadata.method": "colordto", // added by joe
             "wid": "color2",
             "hue": "blue"
         }, {
@@ -2543,11 +2545,12 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             debugname = "";
             debugcat = "";
             debugsubcat = "";
-            proxyprinttodiv('Function ag2 result ', res, 99);
+            proxyprinttodiv('Function ag2 result ', res, 38);
             res = logverify("ettestag2_result", res[3], [{
                 "hue": "red",
                 "wid": "color1",
-                "metadata.method": "defaultdto"
+                "metadata.method": "defaultdto" // changed by joe
+                //"metadata": {"method":"colordto"}
             }]);
             callback(err, res);
     });
