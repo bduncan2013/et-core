@@ -61,12 +61,12 @@
     // securitycheck(ac, mygroup(opt), accountgroup, actiongroup, actiontypegroup, dbgroup, _loginlevel, callback)
     // (AC or my account, action, action type, db)
     exports.securitycheck = securitycheck = function securitycheck(_accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel, callback) {
-        proxyprinttodiv('Function securitytest accesstoken-- ', _accesstoken, 39);
-        proxyprinttodiv('Function securitytest mygroup-- ', _mygroup, 39);
-        proxyprinttodiv('Function securitytest actiongroup-- ', _actiongroup, 39);
-        proxyprinttodiv('Function securitytest actiontypegroup-- ', _actiontypegroup, 39);
-        proxyprinttodiv('Function securitytest dbgroup-- ', _dbgroup, 39);
-        proxyprinttodiv('Function securitytest _loginlevel-- ', _loginlevel, 39);
+        // proxyprinttodiv('Function securitytest accesstoken-- ', _accesstoken, 39);
+        // proxyprinttodiv('Function securitytest mygroup-- ', _mygroup, 39);
+        // proxyprinttodiv('Function securitytest actiongroup-- ', _actiongroup, 39);
+        // proxyprinttodiv('Function securitytest actiontypegroup-- ', _actiontypegroup, 39);
+        // proxyprinttodiv('Function securitytest dbgroup-- ', _dbgroup, 39);
+        // proxyprinttodiv('Function securitytest _loginlevel-- ', _loginlevel, 39);
 
         var requestpermissionlist = [];
         var calculatedaccountpermissionlist = [];
@@ -85,14 +85,7 @@
                         getuserbyac(_accesstoken, function (err, userDto) {
                             userDto = userDto;
                             userGroupWid = userDto["systemdto.groupdto.groupname"];
-                            // if (userDto && (userDto && userDto.wid)) {
-                            //     userGroup = userDto;
-
-
-                            //     cb1(null);
-                            // } else {
                             cb1(null);
-                            // }
                         });
                     } else {
                         userGroupWid = _mygroup;
@@ -103,10 +96,10 @@
                     //  X = getlist (my account, action, action type, db, loginlevel, {empty}) // getrequestlist
                     getrequestlist(userGroupWid, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel, function (err, res) {
                         requestpermissionlist = res;
-                        for (var permissiondto in requestpermissionlist) {
-                            // if (permissiondto.granteegroup === )
-                            // TODO :: check for the assigner's permissions
-                        }
+                        // for (var permissiondto in requestpermissionlist) {
+                        //     // if (permissiondto.granteegroup === )
+                        //     // TODO :: check for the assigner's permissions
+                        // }
                         cb1(null);
                     });
                 },
@@ -127,13 +120,14 @@
                         var permissionsForThisAccount = res;
 
                         for (var i = 0; i < permissionsForThisAccount.length; i++) {
-                            proxyprinttodiv('Function securitytest permissionsForThisAccount[i]-- ', permissionsForThisAccount[i], 39);
+                            // proxyprinttodiv('Function securitytest permissionsForThisAccount[i]-- ', permissionsForThisAccount[i], 39);
 
                             if (permissionsForThisAccount[i]) {
                                 // TODO :: fix below permissionsForThisAccount[i] has {"13":{ required attributes as JSON}}
-                                recursepermissionlist(permissionsForThisAccount[i]['actiongroup'], permissionsForThisAccount[i]['actiontypegroup'], permissionsForThisAccount[i]['dbgroup'], permissionsForThisAccount[i]['levelgroup'], function (err, res) {
+                                var arr = Object.keys(permissionsForThisAccount[i]);
+                                recursepermissionlist(permissionsForThisAccount[i][arr[0]]['actiongroup'], permissionsForThisAccount[i][arr[0]]['actiontypegroup'], permissionsForThisAccount[i][ arr[0]]['dbgroup'], permissionsForThisAccount[i][ arr[0]]['levelgroup'], function (err, res) {
                                     calculatedaccountpermissionlist.push(res);
-                                    proxyprinttodiv('Function security account each ', res, 39);
+                                    // proxyprinttodiv('Function security account each ', res, 39);
                                 });
                             }
                         }
@@ -166,6 +160,7 @@
             function (cb2) {
                 getactionlist(sentingroup, sentinactiongroup, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
                     actionlist = res;
+                    proxyprinttodiv('Function --- getrequestlist  ---  sentinactiongroup ', sentinactiongroup, 39);
                     proxyprinttodiv('Function getrequestlist actionlist ', actionlist, 39);
                     cb2(null);
                 });
@@ -173,14 +168,16 @@
             function (cb2) {
                 getaccountlist(sentingroup, sentinactiongroup, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
                     accountlist = res;
-                    proxyprinttodiv('Function getrequestlist accountlist ', accountlist, 39);
+                    proxyprinttodiv('Function --- getrequestlist  ---  sentingroup ', sentingroup, 39);
+                    proxyprinttodiv('Function getrequestlist actionlist ', actionlist, 39);
                     cb2(null);
                 });
             },
             function (cb2) {
                 getdblist(sentingroup, sentinactiongroup, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
                     dblist = res;
-                    proxyprinttodiv('Function getrequestlist dblist ', dblist, 39);
+                    proxyprinttodiv('Function --- getrequestlist  ---  sentindbgroup ', sentindbgroup, 39);
+                    proxyprinttodiv('Function getrequestlist actionlist ', actionlist, 39);
                     cb2(null);
                 });
             }
@@ -189,7 +186,7 @@
             // return A+B+C
             callback(err, accountlist.concat(dblist, accountlist));
             proxyprinttodiv('Function getrequestlist accountlist.concat(dblist, accountlist) ', accountlist.concat(dblist, accountlist), 39);
-                    
+
 
         });
 
@@ -205,21 +202,27 @@
         //  Level must > level
         var matchingGroups = [];
 
-        getgroupsrecursive(sentinactiongroup, sentinactiontypegroup, function (err, res) {
-            for (var action in res[1].groups) {
-                recursepermissionlist(action, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
-                    for (var permissiondto in res) {
-                        if ((permissiondto.actiongroup === action) && (sentinloginlevel >= permissiondto.levelgroup)) {
-                            matchingGroups.push(permissiondto);
-                        }
-                    }
-                    callback(err, matchingGroups);
-                });
+        getgroupsrecursive(sentinactiongroup, "actiongroup", function (err, res) {
+            proxyprinttodiv('Function getactionlist -- sentinactiongroup ', sentinactiongroup, 39);
+            proxyprinttodiv('Function getactionlist -- actiongroup ', "actiongroup", 39);
+            proxyprinttodiv('Function getactionlist -- permissions ', res[1].permissions, 39);
+
+
+            var dtoPermissionsList = res[0].wids;
+            // recursepermissionlist(action, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
+            for (var idx = 0; idx < dtoPermissionsList.length; idx++) {
+                if (((!dtoPermissionsList[idx].levelgroup) || (sentinloginlevel >= dtoPermissionsList[idx].levelgroup))) {
+                    matchingGroups.push(dtoPermissionsList[idx].actiongroup);
+                }
             }
+            // });
+
+            proxyprinttodiv('Function getactionlist --  matchingGroups ', matchingGroups, 39);
+            callback(err, matchingGroups);
         });
     };
 
-    exports.getaccountlist = getaccountlist = function getaccountlist(sentingroup, sentinactiongroup, sentinactiontypegroup, sentindbgroup, sentinloginlevel, getgroupsrecursive) {
+    exports.getaccountlist = getaccountlist = function getaccountlist(sentingroup, sentinactiongroup, sentinactiontypegroup, sentindbgroup, sentinloginlevel, callback) {
         //  B=getaccountlist based on action/type (sentinaccount, sentinaction, sentintype, sentindb, sentinlevel)
         // getaccountlist
         //  recurse on accountlist
@@ -228,17 +231,28 @@
         var matchingGroups = [];
 
 
-        getgroupsrecursive(sentindbgroup, sentinactiontypegroup, function (err, res) {
-            for (var account in res[1].groups) {
-                recursepermissionlist(account, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
-                    for (var permissiondto in res) {
-                        if ((permissiondto.granteegroup === account) && (sentinloginlevel >= permissiondto.levelgroup)) {
-                            matchingGroups.push(permissiondto);
-                        }
-                    }
-                    callback(err, matchingGroups);
+        getgroupsrecursive(sentingroup, "granteegroup", function (err, res) {
+            proxyprinttodiv('Function getaccountlist -- sentingroup ', sentingroup, 39);
+            proxyprinttodiv('Function getaccountlist -- granteegroup ', "granteegroup", 39);
+            proxyprinttodiv('Function getaccountlist --  permissions ', res[1].permissions, 39);
+
+            var dtoPermissionsList = res[0].wids;
+            // recursepermissionlist(action, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
+            async.mapSeries(dtoPermissionsList, function (eachchild, cbMap) {
+                if (((!eachchild.levelgroup) || (sentinloginlevel >= eachchild.levelgroup))) {
+                    matchingGroups.push(eachchild.granteegroup);
+                }
+
+                getaccountlist(eachchild.granteegroup, "granteegroup", sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
+                    matchingGroups = matchingGroups.caoncat(res);
+                    cbMap(null);
                 });
-            }
+            }, function (err, res) {
+                proxyprinttodiv('Function getaccountlist --  matchingGroups ', matchingGroups, 39);
+                callback(err, matchingGroups);
+            });
+            // });
+
         });
     };
 
@@ -252,17 +266,21 @@
         var matchingGroups = [];
 
 
-        getgroupsrecursive(sentindbgroup, sentinactiontypegroup, function (err, res) {
-            for (var db in res[1].groups) {
-                recursepermissionlist(db, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
-                    for (var permissiondto in res) {
-                        if ((permissiondto.granteegroup === db) && (sentinloginlevel >= permissiondto.levelgroup)) {
-                            matchingGroups.push(permissiondto);
-                        }
-                    }
-                    callback(err, matchingGroups);
-                });
+        getgroupsrecursive(sentindbgroup, "dbgroup", function (err, res) {
+            proxyprinttodiv('Function getdblist -- sentinactiontypegroup ', sentinactiontypegroup, 39);
+            proxyprinttodiv('Function getdblist -- dbgroup ', "dbgroup", 39);
+
+            var dtoPermissionsList = res[0].wids;
+            // recursepermissionlist(action, sentinactiontypegroup, sentindbgroup, sentinloginlevel, function (err, res) {
+            for (var idx = 0; idx < dtoPermissionsList.length; idx++) {
+                if (((!dtoPermissionsList[idx].levelgroup) || (sentinloginlevel >= dtoPermissionsList[idx].levelgroup))) {
+                    matchingGroups.push(dtoPermissionsList[idx].dbgroup);
+                }
             }
+            // });
+
+            proxyprinttodiv('Function getdblist --  matchingGroups ', matchingGroups, 39);
+            callback(err, matchingGroups);
         });
     };
 
@@ -271,14 +289,17 @@
     // getgroupsrecursive(group, type) that returns the tree for the group sent in
     // we need a getgroupsrecursive(group, type, callback) that returns the tree for the group sent in
     exports.getgroupsrecursive = getgroupsrecursive = function getgroupsrecursive(group, type, callback) {
-        proxyprinttodiv('Function -- getGroupRecursive  group: ', group, 39);
+        // proxyprinttodiv('Function -- getGroupRecursive  group: ', group, 39);
+        // proxyprinttodiv('Function -- getGroupRecursive  type: ', type, 39);
+
+
 
         var widGroupDtosWid = [];
         var groupsForThisWid = [];
 
         var arrGroups = [];
         if (group instanceof Array) {
-            arrGroups = group['groups'];
+            arrGroups = group['permissions'];
         } else {
             arrGroups.push(group);
         }
@@ -286,37 +307,36 @@
 
         async.series([
                 function part1(cb) {
-                    proxyprinttodiv('Function -- look up for group : ', group, 39);
+                    // proxyprinttodiv('Function getgroupsrecursive -- look up for arrGroups : ', arrGroups, 39);
+                    var query = {};
+                    query["data." + type] = {
+                        "$in": arrGroups
+                    };
                     execute([{
-                        "executethis": "querywid",
-                        "mongorawquery": {
-                            "data.groupname": {
-                                "$in": arrGroups
-                            }
-                        },
-                        "mongowidmethod": "groupdto"
-                    }], function (err, res) {
-                        if (res[0]) {
-                            var arr = res[0];
-                            for (var id in arr) {
-                                var jsonKey = Object.keys(arr[id])[0];
-                                var jsonVal = arr[id][jsonKey];
-                                var thisGroup = jsonVal;
+                            "executethis": "querywid",
+                            "mongorawquery": query,
+                            "mongowidmethod": "permissiondto"
+                        }],
+                        function (err, res) {
+                            if (res[0] && res[0].length > 0) {
+                                var arr = res[0];
+                                for (var id in arr) {
+                                    var jsonKey = Object.keys(arr[id])[0];
+                                    var jsonVal = arr[id][jsonKey];
+                                    var thisGroup = jsonVal;
 
-                                // TODO :: use type in getting groups
-                                if (thisGroup.groupname && thisGroup.groupname.length > 0 && thisGroup.wid !== "groupdto") {
-                                    // widGroupDtosWid.push(thisGroup); // push self to the group permitted
-                                    // var key = Object.keys(arr[id])[0];
-                                    proxyprinttodiv('Function getGroupRecursive  --  >>>>>>  >>>>>  thisGroup-- ', thisGroup, 39);
-                                    groupsForThisWid.push(thisGroup);
-                                    widGroupDtosWid.push(thisGroup['groupname']);
+                                    // TODO :: use type in getting groups
+                                    if (thisGroup && thisGroup[type]) {
+                                        // proxyprinttodiv('Function getGroupRecursive  --  >>>>>>  >>>>>  thisGroup-- ', thisGroup, 39);
+                                        groupsForThisWid.push(thisGroup);
+                                        widGroupDtosWid.push(thisGroup[type]);
+                                    }
                                 }
+                                cb(null);
+                            } else {
+                                cb(null);
                             }
-                            cb(null);
-                        }else{
-                            cb(null);
-                        }
-                    });
+                        });
                 }
             ],
 
@@ -327,7 +347,7 @@
                     'wids': groupsForThisWid
                 });
                 arr.push({
-                    'groups': widGroupDtosWid
+                    'permissions': widGroupDtosWid
                 });
 
                 // TODO : *** Make the recursion work
@@ -337,8 +357,8 @@
                 //     proxyprinttodiv('Function getGroupRecursive  --  >>>>>>  >>>>>  widGroupDtosWid- ', widGroupDtosWid, 39);
                 //     callback(null, widGroupDtosWid);
                 // });
-                proxyprinttodiv("Function -- arr: ", arr, 39);
-                callback(null, arr);
+                // proxyprinttodiv("Function getgroupsrecursive "+ group +" -- "+ type +" permissions : ", arr[1].permissions, 39);
+                callback(err, arr);
             });
 
         // return groupsForThisWid;
@@ -346,20 +366,20 @@
 
 
     // recursepermissionlist(accountgroup, actiongroup, dbgroup, login) repeatedly calls getgrouprecursive
-
+    // TODO :: CORRECT THE LOGIC BELOW
     exports.recursepermissionlist = recursepermissionlist = function recursepermissionlist(accountgroup, actiongroup, dbgroup, login, callback) {
 
         var permissionsArr = [];
-        proxyprinttodiv('Function -- recursepermissionlist  login: ', login, 39);
-        proxyprinttodiv('Function -- recursepermissionlist  accountgroup: ', accountgroup, 39);
-        proxyprinttodiv('Function -- recursepermissionlist  actiongroup: ', actiongroup, 39);
-        proxyprinttodiv('Function -- recursepermissionlist  dbgroup: ', dbgroup, 39);
+        // proxyprinttodiv('Function -- recursepermissionlist  login: ', login, 39);
+        // proxyprinttodiv('Function -- recursepermissionlist  accountgroup: ', accountgroup, 39);
+        // proxyprinttodiv('Function -- recursepermissionlist  actiongroup: ', actiongroup, 39);
+        // proxyprinttodiv('Function -- recursepermissionlist  dbgroup: ', dbgroup, 39);
 
 
         var queryJson = {
             "executethis": "querywid",
             "mongorawquery": {
-                "data.granteegroup": accountgroup,
+                "data.granteegroup": "drimanager",
                 "data.dbgroup": dbgroup
                 // ,
                 // "data.levelgroup": {
@@ -368,16 +388,23 @@
             }
         };
 
-        proxyprinttodiv('Function -- recursepermissionlist  queryJson: ', queryJson, 39);
+        // proxyprinttodiv('Function -- recursepermissionlist  queryJson: ', queryJson, 39);
 
         // "data.granteegroup":"driemployeegroup","data.actiongroup":"createcoupon","data.targetgroup":"executethis","data.dbgroup":"data"
         execute(queryJson, function (err, res) {
             if (!res) {
                 res = [];
             }
-            permissionsArr = res;
+
+            for(var i=0;i<res.length;i++){
+                var jsonObj = res[i];
+                var jsonKey = Object.keys(jsonObj);
+                var jsonVal = jsonObj[jsonKey];
+                
+                permissionsArr.push(jsonVal);
+            }
+
             proxyprinttodiv('Function recursepermissionlist  --  >>>>>>  >>>>>  permissionsArr-- ', permissionsArr, 39);
-            //console.debug' done permissions retrieving in sync manner.');
             callback(err, permissionsArr);
         });
 
