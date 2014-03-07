@@ -456,6 +456,11 @@
 
     function show_function_output3(err, result_array) {
         // console.log("+++\n" + JSON.stringify(result_array, "-", 4));
+        console.log("err object\n" + JSON.stringify(err, "-", 4));
+         
+        if (Object.keys(err).length > 0) {
+            result_array.push(err)
+        }
         proxyprinttodiv("result_array", result_array, 99);
 
         var server_output = [];
