@@ -206,6 +206,8 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
                 // override
                 inputobj = extend(true, inputobj, insertobj);  // notice the inputs are fliped
             }
+            // clean up the command object
+            delete command.inherit 
 
         } else {
             setbyindex(inputobj, dtoindex, insertobj);

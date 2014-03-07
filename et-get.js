@@ -183,14 +183,25 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
 
         //if we get an array in (usally happens on the recurse)
         if (inobj instanceof Array) {
+            proxyprinttodiv("inobj instanceof array", inobj, 99);
             var mergedObj = {};
             var tempArray = [];
 
+
             for (var i in inobj) {
-                extend(true, mergedObj, recurseobj(inobj[i]));
+                // if our array is just a list of strings
+                if (typeof inobj[i] === 'string') {
+                    tempArray.push("string");
+                } else {
+                    extend(true, mergedObj, recurseobj(inobj[i]));
+                }
             }
 
-            tempArray.push(mergedObj);
+            // there has to be something in the merge object to push it onto the return
+            if (Object.keys(mergedObj).length > 0){
+                tempArray.push(mergedObj);
+            }
+
             proxyprinttodiv("tempArray", tempArray, 38);
             return tempArray;
         }
@@ -920,8 +931,8 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                     }
                 }
                 if (bigdto.command.inherit.default) {
-                    for (var eachkey in bigdto.command.inherit.override) {
-                        listToDo.push({"default":bigdto.command.inherit.override[eachkey]});
+                    for (var eachkey in bigdto.command.inherit.default) {
+                        listToDo.push({"default":bigdto.command.inherit.default[eachkey]});
                     }
                 }
                 // else if (bigdto.command.inherit) {

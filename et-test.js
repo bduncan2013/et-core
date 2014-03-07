@@ -6535,7 +6535,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
                 
                 proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
                 
-                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdtoextra","pages":"300"}];
                 proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
                 
                 res = logverify("bookdtowid111_result", res[4], expectedResult);
