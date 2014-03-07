@@ -36,7 +36,82 @@ exports.localStore = localStore = function () {
 }();
 localStore.clear();
 
+exports.getglobal = getglobal = function getglobal(varname) {
+    return localStore.get(varname);
+}
+
+exports.saveglobal = saveglobal = function saveglobal(varname, varvalue) {
+    return localStore.push(varname, varvalue);
+}
+
+// logic to add things to localStore object
+exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
+    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        if (!widobject) {
+            widobject = {}
+        }
+        if (widName) {
+            localStore.push(widMasterKey + widName, widobject);
+        }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"addtolocal"});        
+        var finalobject = createfinalobject({"result":"addtolocal"}, {}, "addtolocal", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
+};
+
+// logic to get things from localStore object
+exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
+    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
+        var output = {};
+        if (inputWidgetObject["wid"]) {
+            inputWidgetObject = toLowerKeys(inputWidgetObject);
+            var widKey = inputWidgetObject["wid"].toLowerCase();
+            output = localStore.get(widMasterKey + widKey);
+            if (output == null) {
+                output = {};
+            }
+        }
+        proxyprinttodiv('getfromlocal output', output, 38);
+        //var x = localStore.get(inputWidgetObject);
+        //if (!x) {x={}};
+        return output;
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getfromlocal"});        
+        var finalobject = createfinalobject({"result":"getfromlocal"}, {}, "getfromlocal", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
+};
+
+exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
+    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
+        widMasterKey = "widmaster_";
+        localStorage.clear();
+        potentialwid = 0;
+            addToLocal("DRI", [{
+                "wid": "initialwid",
+                "initialwid": "hello from bootprocess"
+            }]);
+            addToLocal("DRIKEY", {
+                "initialwid": {
+                    "wid": "initialwid",
+                    "initialwid": "for key hello from bootprocess"
+                }
+            });
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"clearLocal"});        
+        var finalobject = createfinalobject({"result":"clearLocal"}, {}, "clearLocal", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
+};
+
+
+
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
+    try {
     if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
         printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
         // console.log(text);
@@ -45,9 +120,16 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
             document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
         }
     }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"printToDiv"});  
+        var finalobject = createfinalobject({"result":"printToDiv"}, {}, "printToDiv", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
+    try {
     if (!debugone) {
         debugone = -1;
     }
@@ -64,10 +146,17 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
             addtolocal(debuglinenum, tempobj)
         }
     }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"proxyprinttodiv"});        
+        var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }   
 }
 
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
+    try {
     proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 38);
     proxyprinttodiv("insertbydtotype input bigdto :- ", bigdto, 38);
     proxyprinttodiv("insertbydtotype input insertobj :- ", insertobj, 38);
@@ -126,10 +215,17 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
     }
     proxyprinttodiv("insertbydtotype result :- ", inputobj, 38);
     return inputobj;
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"insertbydtotype"});        
+        var finalobject = createfinalobject({"result":"insertbydtotype"}, {}, "insertbydtotype", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 }
 
 
 function getindex(parameterobject, dtoname, indexstring) {
+    try {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -173,10 +269,16 @@ function getindex(parameterobject, dtoname, indexstring) {
     }, 6);
 
     return indexstring;
-
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getindex"});        
+        var finalobject = createfinalobject({"result":"getindex"}, {}, "getindex", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 }
 
 function setbyindex(obj, str, val) {
+    try {
     var keys, key;
     //make sure str is a string with length
     if (str === "") {
@@ -205,11 +307,18 @@ function setbyindex(obj, str, val) {
         // return obj[keys[0]] = val;
         return extend(true, obj[keys[0]], val); // we want to add data not overwrite data
     }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"setbyindex"});        
+        var finalobject = createfinalobject({"result":"setbyindex"}, {}, "setbyindex", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
 };
 
 
 
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
+    try {
     console.log("<< in deepfilter >>");
     var modifiedObj = {};
     extend(true, modifiedObj, inputObj);
@@ -218,6 +327,10 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
     proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
     if (dtoObjOpt) {
         recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
+           // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            }
             proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
             callback(null, res);
         });
@@ -225,10 +338,16 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
         proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
         callback(null, inputObj);
     }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"deepfilter"});
+        var finalobject = createfinalobject({"result":"deepfilter"}, {}, "deepfilter", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);        
+    }
 }
 
 function recurseModObj(inputObject, dtoObject, command, callback) {
-
+    try {
     if (command && !command["command.deepfilter.convert"]) { //command undefined
         command["command.deepfilter.convert"] = false; //default value
     }
@@ -274,6 +393,10 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                         async.nextTick(function () {
                             proxyprinttodiv("recurseModObj - in mapseries eachinputval ", eachinputval, 41);
                             recurseModObj(eachinputval, dataType, command, function (err, result) {
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    callback(err, result);
+                                } 
                                 proxyprinttodiv("recurseModObj - in mapseries result ", result, 41);
                                 if (Object.keys(result).length !== 0) {
                                     modifiedObj[inpKey].push(result)
@@ -287,6 +410,10 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                         }) // next tick
                         proxyprinttodiv("recurseModObj - between II ", modifiedObj[inpKey], 41);
                     }, function (err, res) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, result);
+                        } 
                         proxyprinttodiv("recurseModObj - modifiedObj[inpKey] end nextTick ", modifiedObj[inpKey], 41);
                         cbMap(null);
                     });
@@ -347,6 +474,10 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                     if (inpKey !== "metadata") {
                         proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
                         recurseModObj(inpVal, dataType, command, function (err, result) {
+                            // If error, bounce out
+                            if (err && Object.keys(err).length > 0) {
+                                callback(err, result);
+                            } 
                             //var modObj = recurseModObj(inpVal,dataType,command);
                             modifiedObj[inpKey] = result;
                             proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
@@ -362,6 +493,10 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                     execute({
                         "executethis": dataType
                     }, function (err, result) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, result);
+                        } 
                         //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
                         var widObj = result[0][0];
                         if (widObj) {
@@ -385,8 +520,18 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             }
         });
     }, function (err, res) {
+        // If error, bounce out
+        if (err && Object.keys(err).length > 0) {
+            callback(err, result);
+        } 
         callback(err, modifiedObj);
     });
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"recurseModObj"});        
+        var finalobject = createfinalobject({"result":"recurseModObj"}, {}, "recurseModObj", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
 }
 
 
@@ -400,38 +545,38 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     }
 };
 
-// logic to get things from localStore object
-exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
-    var output = {};
-    if (inputWidgetObject["wid"]) {
-        inputWidgetObject = toLowerKeys(inputWidgetObject);
-        var widKey = inputWidgetObject["wid"].toLowerCase();
-        output = localStore.get(widMasterKey + widKey);
-        if (output == null) {
-            output = {};
-        }
-    }
-    proxyprinttodiv('getfromlocal output', output, 38);
-    //var x = localStore.get(inputWidgetObject);
-    //if (!x) {x={}};
-    return output
-};
+// // logic to get things from localStore object
+// exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
+//     var output = {};
+//     if (inputWidgetObject["wid"]) {
+//         inputWidgetObject = toLowerKeys(inputWidgetObject);
+//         var widKey = inputWidgetObject["wid"].toLowerCase();
+//         output = localStore.get(widMasterKey + widKey);
+//         if (output == null) {
+//             output = {};
+//         }
+//     }
+//     proxyprinttodiv('getfromlocal output', output, 38);
+//     //var x = localStore.get(inputWidgetObject);
+//     //if (!x) {x={}};
+//     return output
+// };
 
-exports.clearLocal = clearLocal = function clearLocal() {
-    widMasterKey = "widmaster_";
-    localStorage.clear();
-    potentialwid = 0;
-        addToLocal("DRI", [{
-            "wid": "initialwid",
-            "initialwid": "hello from bootprocess"
-        }]);
-        addToLocal("DRIKEY", {
-            "initialwid": {
-                "wid": "initialwid",
-                "initialwid": "for key hello from bootprocess"
-            }
-        });
-};
+// exports.clearLocal = clearLocal = function clearLocal() {
+//     widMasterKey = "widmaster_";
+//     localStorage.clear();
+//     potentialwid = 0;
+//         addToLocal("DRI", [{
+//             "wid": "initialwid",
+//             "initialwid": "hello from bootprocess"
+//         }]);
+//         addToLocal("DRIKEY", {
+//             "initialwid": {
+//                 "wid": "initialwid",
+//                 "initialwid": "for key hello from bootprocess"
+//             }
+//         });
+// };
 
 
 
@@ -452,6 +597,7 @@ exports.clearLocal = clearLocal = function clearLocal() {
 
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
+        try {
         if (obj && obj instanceof Object) {
             var key, keys = Object.keys(obj);
             var n = keys.length;
@@ -464,18 +610,31 @@ exports.clearLocal = clearLocal = function clearLocal() {
         } else {
             return obj;
         }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"toLowerKeys"});        
+            var finalobject = createfinalobject({"result":"toLowerKeys"}, {}, "toLowerKeys", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     // Utility function to return json attr count
     exports.jsonLength = jsonLength = function jsonLength(obj) {
+        try {
         return Object.keys(obj).length;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"jsonLength"});        
+            var finalobject = createfinalobject({"result":"jsonLength"}, {}, "jsonLength", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }        
     };
 
 
     /* lib.js functions */
 
     var recurFunc = function (arr, val) {
-
+        try {
         // stop condition
         if (arr.length <= 0) {
             return val;
@@ -494,6 +653,12 @@ exports.clearLocal = clearLocal = function clearLocal() {
         var temp = recurFunc(rest, val);
         result[first] = temp;
         return result;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"recurFunc"});        
+            var finalobject = createfinalobject({"result":"recurFunc"}, {}, "recurFunc", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     }
 
     // exports.converttojson = converttojson = function converttojson(data) {
@@ -520,6 +685,7 @@ exports.clearLocal = clearLocal = function clearLocal() {
     var toString = Object.prototype.toString;
 
     function isPlainObject(obj) {
+        try {
         if (!obj || toString.call(obj) !== '[object Object]' || obj.nodeType || obj.setInterval)
             return false;
 
@@ -535,10 +701,18 @@ exports.clearLocal = clearLocal = function clearLocal() {
         for (key in obj) {}
 
         return key === undefined || hasOwn.call(obj, key);
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isPlainObject"});        
+            var finalobject = createfinalobject({"result":"isPlainObject"}, {}, "isPlainObject", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     exports.extend = extend = function extend() { // similar to jquery exetend()
-        var options, name, src, copy, copyIsArray, clone,
+        try {
+            var inbound_parameters = JSON.parse(JSON.stringify(arguments)); 
+            var options, name, src, copy, copyIsArray, clone,
             target = arguments[0] || {},
             i = 1,
             length = arguments.length,
@@ -592,11 +766,18 @@ exports.clearLocal = clearLocal = function clearLocal() {
         }
         // Return the modified object
         return target;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"extend"});        
+            var finalobject = createfinalobject({"result":"extend"}, {}, "extend", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
 
     // Deconstructs the dot.notation string into an object that has properties.
     exports.ConvertFromDOTdri = ConvertFromDOTdri = function ConvertFromDOTdri(data) { //Expands to Real javascript object
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
         if (Object(data) !== data || Array.isArray(data))
             return data;
         var result = {}, cur, prop, idx, last, temp;
@@ -612,6 +793,12 @@ exports.clearLocal = clearLocal = function clearLocal() {
             cur[prop] = data[p];
         }
         return result[""];
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"ConvertFromDOTdri"});        
+            var finalobject = createfinalobject({"result":"ConvertFromDOTdri"}, {}, "ConvertFromDOTdri", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     }
 
 
@@ -619,6 +806,7 @@ exports.clearLocal = clearLocal = function clearLocal() {
     // recurse until there is only 1 chain so you get chain:value returned. This is called only 
     // from ConvertFrom DOT, so you can see it part of the process of deconstructing the dot.notaion string.
     exports.createObjects = createObjects = function createObjects(parent, chainArray, value) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
         //proxyprinttodiv('createobject parent',  parent,38);
         //proxyprinttodiv('createobject chainArray',  chainArray,38);
         if (chainArray.length == 1) {
@@ -627,6 +815,12 @@ exports.clearLocal = clearLocal = function clearLocal() {
         } else {
             parent[chainArray[0]] = parent[chainArray[0]] || {};
             return createObjects(parent[chainArray[0]], chainArray.slice(1, chainArray.length), value);
+        }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"createObjects"});        
+            var finalobject = createfinalobject({"result":"createObjects"}, {}, "createObjects", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
         }
     };
 
@@ -648,6 +842,8 @@ exports.clearLocal = clearLocal = function clearLocal() {
     // };
 
     exports.ConvertToDOTdri = ConvertToDOTdri = function ConvertToDOTdri(data) { //dotize
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var result = {};
 
         function recurse(cur, prop) {
@@ -670,10 +866,18 @@ exports.clearLocal = clearLocal = function clearLocal() {
         }
         recurse(data, "");
         return result;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"ConvertToDOTdri"});        
+            var finalobject = createfinalobject({"result":"ConvertToDOTdri"}, {}, "ConvertToDOTdri", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
 
     exports.getnewwid = getnewwid = function getnewwid(parameters, callback) {
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         //potentialwid++;
         //return String(potentialwid);
         var executeobject = {
@@ -686,6 +890,10 @@ exports.clearLocal = clearLocal = function clearLocal() {
         }
 
         execute(executeobject, function (err, result) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, result);
+            } 
             executeobject = result[0];
             if (Object.keys(executeobject).length !== 0) {
                 widvalue = parseInt(executeobject['widvalue'])
@@ -700,6 +908,12 @@ exports.clearLocal = clearLocal = function clearLocal() {
                 callback(null, executeobject['widvalue']);
             });
         })
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"getnewwid"});        
+            var finalobject = createfinalobject({"result":"getnewwid"}, {}, "getnewwid", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     // Strips the numbers from hash keys. It returns 3 arrays: input list, index list, and original input list.
@@ -757,6 +971,8 @@ exports.clearLocal = clearLocal = function clearLocal() {
 
     // Returns true if the parameter is lower case
     exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         //function isParameterLower(parameters, str) {
         // getObjectSize(parameters);
         var length;
@@ -770,10 +986,17 @@ exports.clearLocal = clearLocal = function clearLocal() {
                 return true;
             }
         }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isParameterLower"});        
+            var finalobject = createfinalobject({"result":"isParameterLower"}, {}, "isParameterLower", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     // Deletes a hash from an object    
     exports.remove = remove = function remove(parameters, str) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         //function remove(parameters, str){
         var length;
         if (parameters.length === undefined) {
@@ -786,11 +1009,19 @@ exports.clearLocal = clearLocal = function clearLocal() {
         } else {
             length = parameters.length
         }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"remove"});
+            var finalobject = createfinalobject({"result":"remove"}, {}, "remove", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
     exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, defaults_object, filter_object, deleteflag) {
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));       
         proxyprinttodiv("tolowerparameters parameters", parameters, 88);
         proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
         proxyprinttodiv("tolowerparameters filter_object", filter_object, 88);
@@ -849,6 +1080,12 @@ exports.clearLocal = clearLocal = function clearLocal() {
         return {
             output: output,
             filteredobject: filteredobject
+        }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"tolowerparameters"});        
+            var finalobject = createfinalobject({"result":"tolowerparameters"}, {}, "tolowerparameters", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
         }
     }
 
@@ -911,6 +1148,8 @@ exports.clearLocal = clearLocal = function clearLocal() {
     // }
 
     exports.filter_params = filter_params = function filter_params(parameters, filter_object) {
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var output = {};
         var target_value = "";
         // Get just the keys from the filter_object
@@ -935,20 +1174,34 @@ exports.clearLocal = clearLocal = function clearLocal() {
                 }
             }
         }
-
         return output;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"filter_params"});        
+            var finalobject = createfinalobject({"result":"filter_params"}, {}, "filter_params", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     }
 
     // This is to lower keys of objects only.
     exports.just_lower_parameters = just_lower_parameters = function just_lower_parameters(data) {
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var data_out = {};
         for (d in data) {
             data_out[d.toLowerCase()] = data[d];
         }
         return data_out;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"just_lower_parameters"});        
+            var finalobject = createfinalobject({"result":"just_lower_parameters"}, {}, "just_lower_parameters", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     }
 
     exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command, com_user) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments)); 
         var command_object = {};
         if (command) {
             extend(true, command_object, command)
@@ -974,10 +1227,14 @@ exports.clearLocal = clearLocal = function clearLocal() {
                 delete parameters.command;
             }
         }
-
-
         proxyprinttodiv('pack_up_params parameters END', parameters, 97);
         return parameters;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"pack_up_params"});        
+            var finalobject = createfinalobject({"result":"pack_up_params"}, {}, "pack_up_params", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     }
 
 
@@ -1047,6 +1304,7 @@ exports.clearLocal = clearLocal = function clearLocal() {
 
     // Adds the key of object2 to object 1
     exports.jsonConcat = jsonConcat = function jsonConcat(o1, o2) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments)); 
         var clonedObject = {};
         extend(true, clonedObject, o1); // clone received params
 
@@ -1056,23 +1314,50 @@ exports.clearLocal = clearLocal = function clearLocal() {
             }
         }
         return clonedObject;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"jsonConcat"});        
+            var finalobject = createfinalobject({"result":"jsonConcat"}, {}, "jsonConcat", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     // Returns if o is a string or not
     exports.isString = isString = function isString(o) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return typeof o == "string" || (typeof o == "object" && o.constructor === String);
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isString"});        
+            var finalobject = createfinalobject({"result":"isString"}, {}, "isString", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }   
     };
 
     // Returns true if the val is an int, or false
     exports.isInteger = isInteger = function isInteger(val) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return val.match(/^[0-9]$/);
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"jsonConcat"});        
+            var finalobject = createfinalobject({"result":"jsonConcat"}, {}, "jsonConcat", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     };
 
     exports.isSet = isSet = function isSet(val) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
         if ((val != undefined) && (val != null)) {
             return true;
         }
         return false;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isSet"});        
+            var finalobject = createfinalobject({"result":"isSet"}, {}, "isSet", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
 
@@ -1081,24 +1366,52 @@ exports.clearLocal = clearLocal = function clearLocal() {
     // }
 
     exports.isArray = isArray = function isArray(obj) { //nativeIsArray
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));   
         return toString.call(obj) == '[object Array]';
+                } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isArray"});
+            var finalobject = createfinalobject({"result":"isArray"}, {}, "isArray", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);             
+        }
     };
 
     exports.isObject = isObject = function isObject(obj) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));   
         return obj === Object(obj);
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isObject"});
+            var finalobject = createfinalobject({"result":"isObject"}, {}, "isObject", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);             
+        }
     };
 
     exports.isFunction = isFunction = function isFunction(obj) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));   
         return typeof obj === 'function';
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isFunction"});
+            var finalobject = createfinalobject({"result":"isFunction"}, {}, "isFunction", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);             
+        }
     };
 
     exports.isJson = isJson = function isJson(str) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));   
         try {
             JSON.parse(str);
         } catch (e) {
             return false;
         }
         return true;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isJson"});
+            var finalobject = createfinalobject({"result":"isJson"}, {}, "isJson", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
 
@@ -1115,6 +1428,7 @@ exports.clearLocal = clearLocal = function clearLocal() {
     // };
 
     exports.logverify = logverify = function logverify(test_name, data_object, assertion_object) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if (test_name === undefined) test_name = "defaulttest";
 
         var result = deepDiffMapper.map(data_object, assertion_object);
@@ -1134,9 +1448,16 @@ exports.clearLocal = clearLocal = function clearLocal() {
         data["test_name"] = test_name;
         data[test_name + '_diff'] = result;
         return data;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"logverify"});
+            var finalobject = createfinalobject({"result":"logverify"}, {}, "logverify", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }   
     }
 
     exports.debugfn = debugfn = function debugfn() {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if (exports.environment !== 'local') {
             return
         };
@@ -1442,13 +1763,26 @@ exports.clearLocal = clearLocal = function clearLocal() {
         // google: storetogoogle
         // file: outobject["testtest":"testtest"]
         //      addtolocalostore
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"debugfn"});
+            var finalobject = createfinalobject({"result":"debugfn"}, {}, "debugfn", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     } // End of debugfn
 
     function store_to_google(indebugname, google_object) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if (exports.environment === "local") {
             $('#name').val(indebugname);
             $('#comment').val(JSON.stringify(google_object));
             document.getElementById('theForm').submit();
+        }
+        }
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"store_to_google"});
+            var finalobject = createfinalobject({"result":"store_to_google"}, {}, "store_to_google", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
         }
     }
 
@@ -1462,6 +1796,7 @@ exports.clearLocal = clearLocal = function clearLocal() {
 
 
     var deepDiffMapper = function () {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return {
             VALUE_CREATED: 'created',
             VALUE_UPDATED: 'updated',
@@ -1521,9 +1856,16 @@ exports.clearLocal = clearLocal = function clearLocal() {
                 return !this.isObject(obj) && !this.isArray(obj);
             }
         }
+        }
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"deepDiffMapper"});
+            var finalobject = createfinalobject({"result":"deepDiffMapper"}, {}, "deepDiffMapper", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     }();
 
     exports.syntaxHighlight = syntaxHighlight = function syntaxHighlight(json) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
             var cls = 'number';
@@ -1540,6 +1882,12 @@ exports.clearLocal = clearLocal = function clearLocal() {
             }
             return '<span class="' + cls + '">' + match + '</span>';
         });
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"syntaxHighlight"});
+            var finalobject = createfinalobject({"result":"syntaxHighlight"}, {}, "syntaxHighlight", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     }
 
 })(typeof window === "undefined" ? global : window);
@@ -2102,6 +2450,7 @@ exports.clearLocal = clearLocal = function clearLocal() {
     }
 
     exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify(testname, parameters, assert, database, command, callback) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var err;
         var results = [];
         var temp_config = {};
@@ -2139,9 +2488,16 @@ exports.clearLocal = clearLocal = function clearLocal() {
                 callback(err, results);
             });
         });
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"master_test_and_verify"});
+            var finalobject = createfinalobject({"result":"master_test_and_verify"}, {}, "master_test_and_verify", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     }
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if (database && JSON.stringify(database) !== "{}") {
             addToLocalStorage("DRIKEY", database);
             var this_string = "[";
@@ -2165,9 +2521,16 @@ exports.clearLocal = clearLocal = function clearLocal() {
                     callback(err, res);
                 });
         }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"test_and_verify"});
+            var finalobject = createfinalobject({"result":"test_and_verify"}, {}, "test_and_verify", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     };
 
     exports.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
         delete inputWidgetObject['executethis'];
         proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
@@ -2242,9 +2605,16 @@ exports.clearLocal = clearLocal = function clearLocal() {
 
         proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
         return saveobject;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"converttodriformat"});
+            var finalobject = createfinalobject({"result":"converttodriformat"}, {}, "converttodriformat", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     };
 
     exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var outobject = {};
         var db = "data";
         if (command && command.db) {
@@ -2305,7 +2675,37 @@ exports.clearLocal = clearLocal = function clearLocal() {
         //     }
         // }
         return outobject;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"convertfromdriformat"});
+            var finalobject = createfinalobject({"result":"convertfromdriformat"}, {}, "convertfromdriformat", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
+    exports.createfinalobject = createfinalobject = function createfinalobject(outobject, command, nameoffn, errorobject,  initialparameters) {
+        proxyprinttodiv('createfinalobject input errorobject', errorobject, 99);
+        proxyprinttodiv('createfinalobject input outobject', outobject, 99);
+        console.log("final_error: " + JSON.stringify(errorobject, '-', 4));
+        console.log("final_outobject: " + JSON.stringify(outobject, '-', 4));
+        
+        //[{fn: fnname, error : [{errobject1},{errorobject2}], parameters: {}}]
+        var errobj={}
+        var finalobject = {};
+        finalobject.err = [];
+        errobj['fn']=nameoffn;
+        errobj['error']=[];
+        errobj['error'].push(errorobject)
+        errobj['parameters']=initialparameters
+        finalobject["err"] = errobj;
+        if (Object.keys(outobject).length === 0) {
+            finalobject["res"] = errobj;
+            }
+        else {
+            finalobject["res"] = outobject;
+            }
+
+        return finalobject;
+    }   
 })();
 
 

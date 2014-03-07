@@ -3,6 +3,7 @@
 // *** GetWid ***
 // Purpose: Converts data to and from dri standards
 exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
+    try {
     var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
     authcall(inputWidgetObject, function (err, ret) {
@@ -22,11 +23,18 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
             });
         }
     });
+    }
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getwid"});        
+        var finalobject = createfinalobject({"result":"getwid"}, {}, "getwid", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }  
 };
 
 // *** GetWidMaster ***
 // Purpose: splits wid and command parameters
 exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback) {
+    try{
     var inbound_parameters = JSON.parse(JSON.stringify(arguments));
     var command;
     proxyprinttodiv('getwidmaster start parameters', parameters, 38);
@@ -48,6 +56,11 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
     proxyprinttodiv('GetWidMaster parameters.wid right before getwidmongo', parameters.wid, 38);
 
     getWidMongo(parameters.wid, command, "", 20, {}, function (err, res) { // recurse up to 20 levels, excludeset empty
+        // If error, bounce out
+        if (err && Object.keys(err).length > 0) {
+            callback(err, results);
+        } 
+        //
         proxyprinttodiv('getwidmaster command II', command, 38);
         // if ((res) && (res.command) && (Object.keys(res.command).length !== 0)) {
         //     delete res.command;
@@ -66,6 +79,11 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
             proxyprinttodiv('GetWidMaster res from getWidMongo right before getClean', res, 38);
 
             getclean(res, command, function (err, res) {
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, results);
+                } 
+                //
                 proxyprinttodiv("GetWidMaster after getclean before packed", res, 38);
                 res = pack_up_params(res, command, "getwidmaster");
                 proxyprinttodiv("GetWidMaster after getclean after packed", res, 38);
@@ -130,12 +148,19 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
             }  
         }
     }); // end get wid mongo
+    }
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getwidmaster"}); 
+        var finalobject = createfinalobject({"result":"getwidmaster"}, {}, "getwidmaster", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }   
 };
 
 
 // *** GetDTOObject ***
 // Purpose: Pulls the schema for objects
 exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callback) {
+    try {
     proxyprinttodiv("getdtoobject input obj: ", obj, 38);
     var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -298,6 +323,11 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
             "wid":dtotype, 
             "command.getwidmaster.convertmethod":"dto",
             "command.getwidmaster.execute":"ConvertFromDOTdri"}, function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, results);
+            } 
+            //
             proxyprinttodiv("getdtoobject input res[0] ", res, 38);
             if (res && (Object.keys(res[0]).length !== 0)) {dtoobject=res[0]}
 
@@ -317,12 +347,19 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
 
         callback({}, dtoobject);
     } // end else
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getdtoobject"}); 
+        var finalobject = createfinalobject({"result":"getdtoobject"}, {}, "getdtoobject", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }    
 };
 
 // *** GetWidMongo ***
 // Purpose: Builds a base object built up from relationships
 // Notes: returns a made up dto base on maximum number of relationships, etc
 exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, preamble, level, excludeset, callback) {
+    try {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -395,6 +432,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
             executeobject['executethis'] = 'getwid';
             
             execute(executeobject, function (err, res) { // getwid
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, results);
+                } 
+                //
                 proxyprinttodiv('Function getwidmongo getwid res', res, 38);
                 res=res[0];
                 
@@ -429,6 +471,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             executeobject["dtotype"] = "";
                             executeobject["executethis"] = 'querywid';
                             execute(executeobject, function (err, res) {
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    callback(err, results);
+                                } 
+                                //
                                 proxyprinttodiv('Function getwidmongo query', res, 38);
                                 if (Object.keys(res).length !== 0) {
                                     moreDTOParameters = res;
@@ -439,6 +486,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                         } // end step1n2
                     ],
                     function (err, res) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, results);
+                        } 
+                        //
                         if (err) {
                             throw err;
                         }
@@ -559,6 +611,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                             debugindent++;
                             //getWidMongo(key, convertmethod, accesstoken, dtotype, rightparameters["metadata"]["method"], level, function (err, params) { 
                             getWidMongo(key, command, rightparameters["metadata"]["method"], level, excludeset, function (err, params) { 
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    callback(err, results);
+                                } 
+                                //
                                 proxyprinttodiv('Function getwidmongo params', params, 38);
                                 //proxyprinttodiv('Function getwidmongo rightparameters inside II ', rightparameters, 38);
                                 debugcolor--;
@@ -641,6 +698,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                     }); // added for nexttick
                 },
                 function (err, res) {
+                    // If error, bounce out
+                    if (err && Object.keys(err).length > 0) {
+                        callback(err, results);
+                    } 
+                    //
                     if (err) {
                         throw err;
                     }
@@ -762,6 +824,11 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
         }
     ],
     function (err, results) {
+        // If error, bounce out
+        if (err && Object.keys(err).length > 0) {
+            callback(err, results);
+        } 
+        //
         if (Object.keys(parameterobject.command).length ===0) {delete parameterobject.command}
         debugfn("getWidMongo code generator", "getWidMongo", "get", "code", 2, 1, {
             0: inbound_parameters,
@@ -770,9 +837,16 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
 
         callback(err, parameterobject);
     });
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getWidMongo"});
+        var finalobject = createfinalobject({"result":"getWidMongo"}, {}, "getWidMongo", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 exports.getclean = getclean = function getclean(resultObj, command, callback) {
+    try {
     var inbound_parameters = {};
     inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -790,6 +864,11 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             proxyprinttodiv('In __getclean__ resultObj: ', resultObj, 38);
 
             getdtoobject(resultObj, command, function (err, res) {
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, results);
+                } 
+                //
                 proxyprinttodiv('In __getclean__ step1 with res: ', res, 38);
                 proxyprinttodiv('In __getclean__ step1 command: ', command, 38);
                 dtoobject = res;
@@ -1002,6 +1081,12 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
         }
     ); // end series
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getclean"});
+        var finalobject = createfinalobject({"result":"getclean"}, {}, "getclean", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 }
 
 })(typeof window === "undefined" ? global : window);//

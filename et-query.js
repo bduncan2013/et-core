@@ -15,6 +15,7 @@
     //Starting of querywid function...formerly MongoDataQuery
     //exports.querywid = querywid = function (parameters,target,callback) {
     exports.querywid = querywid = function querywid(parameters, callback) { // can change to call back
+        try {
         var inbound_parameters = {};
         inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
@@ -191,8 +192,6 @@
             callback(undefined, []);
         } else {
             async.series([
-
-
                     function step01(cb) {
                         debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
                         // Use single to set up a query with the params of 1 wid
@@ -203,6 +202,11 @@
                                 'executethis': 'getwid',
                                 'wid': wid
                             }, function (err, res) {
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    callback(err, results);
+                                } 
+                                //
                                 var widObject = res;
                                 delete widObject['wid'];
                                 delete widObject['metadata.method'];
@@ -211,6 +215,11 @@
                                 //mQueryString = output.substring(0, output.length - 1);
                                 // if (validParams(mQueryString)) {
                                 mongoquery(mQueryString, function (err, res) {
+                                    // If error, bounce out
+                                    if (err && Object.keys(err).length > 0) {
+                                        callback(err, res);
+                                    } 
+                                    //
                                     output = res;
                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                     cb(null, "step01");
@@ -230,6 +239,11 @@
                                 'executethis': 'getwid',
                                 'wid': wid
                             }, function (err, res) {
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    callback(err, res);
+                                }
+                                // 
                                 var listOfWids = res;
                                 delete listOfWids["wid"];
                                 delete listOfWids["metadata.method"];
@@ -247,6 +261,11 @@
                                         getwid({
                                             'wid': w
                                         }, function (err, res) {
+                                            // If error, bounce out
+                                            if (err && Object.keys(err).length > 0) {
+                                                callback(err, res);
+                                            }
+                                            // 
                                             var tempwid = res;
                                             delete tempwid["wid"];
                                             delete tempwid["metadata.method"];
@@ -288,7 +307,11 @@
                                     //             cbMap(null, "map");
                                     //         });
                                 }, function (err, res) {
-
+                                    // If error, bounce out
+                                    if (err && Object.keys(err).length > 0) {
+                                        callback(err, res);
+                                    }
+                                    // 
                                     if (xtrParams) {
                                         ListOfLists.push(xtrParams);
                                     }
@@ -297,6 +320,11 @@
 
                                     // if (validParams(mQueryString)) {
                                     mongoquery(mQueryString, function (err, res) {
+                                         // If error, bounce out
+                                        if (err && Object.keys(err).length > 0) {
+                                            callback(err, res);
+                                        }
+                                        //                                        
                                         output = res;
                                         //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                         cb(null, 'step01');
@@ -318,6 +346,11 @@
 
                             // if (validParams(mQueryString)) {
                             mongoquery(mQueryString, function (err, res) {
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    callback(err, res);
+                                }
+                                // 
                                 output = res;
                                 //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                 console.log(' *** get primary wids *** ' + JSON.stringify(output));
@@ -379,6 +412,11 @@
 
                             if (Object.keys(JSON.parse(mQueryString)).length > 0) {
                                 mongoquery(mQueryString, function (err, res) {
+                                    // If error, bounce out
+                                    if (err && Object.keys(err).length > 0) {
+                                        callback(err, res);
+                                    }
+                                    // 
                                     // console.log(" result from step03 " + JSON.stringify(res));
                                     output = res;
                                     debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([4]));
@@ -432,6 +470,11 @@
 
                             if (Object.keys(JSON.parse(mQueryString)).length > 0) {
                                 mongoquery(mQueryString, function (err, res) {
+                                    // If error, bounce out
+                                    if (err && Object.keys(err).length > 0) {
+                                        callback(err, res);
+                                    }
+                                    // 
                                     output = res;
                                     debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([4]));
                                     cb(null, "step04");
@@ -449,6 +492,11 @@
                 ],
 
                 function (err, res) {
+                    // If error, bounce out
+                    if (err && Object.keys(err).length > 0) {
+                        callback(err, res);
+                    }
+                    // 
                     console.log('completed tasks asynchronously in querywid ');
                     console.log('output is ' + JSON.stringify(output));
                     debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
@@ -456,6 +504,11 @@
                     proxyprinttodiv('querywid before output', output, 28);
 
                     formatListFinal(output, environmentdb, convertmethod, extraparameters, aggParams, function (err, output) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, res);
+                        }
+                        // 
                         proxyprinttodiv('querywid after output', output, 28);
 
                         // ToDot -- should remove "data"
@@ -469,6 +522,11 @@
                         callback(err, output);
                     });
                 });
+        }
+        } // end try
+        catch (err) {
+            var finalobject = createfinalobject({"result":"getwid"}, {}, "getwid", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
         }
     };
 
@@ -542,6 +600,7 @@
     //     if parmnamein = "" then entire envrionendb (entire record will be sent)
 
     function copylist(inlist, parmnamein, parmnameout, environmentdb) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var widvalue;
@@ -588,9 +647,15 @@
 
             return obj;
         }
+        } // end try
+        catch (err) {
+        var finalobject = createfinalobject({"result":"copylist"}, {}, "copylist", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+        }
     }
 
-    function formatlist(inlist, parmnamein, parmnameout, environmentdb) {
+    function formatlist(inlist, parmnamein, parmnameout, environmentdb) {  
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var output = [];
@@ -650,12 +715,18 @@
 
             return output
         }
+        } // end try
+        catch (err) {
+            var finalobject = createfinalobject({"result":"formatlist"}, {}, "formatlist", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }       
     }
 
     // takes inlist, looks for wid, then goes to main database to get a get clean complete converted copy of that wid
     // also looks in extra paramters, append information found about that wid to results also
 
     function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, aggParams, callback) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var output = [];
@@ -691,6 +762,11 @@
                         'executethis': 'getwid',
                         'wid': wid
                     }, function (err, widrecord) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, res);
+                        }
+                        // 
                         //widrecord = keydatabase[wid];
 
 
@@ -725,16 +801,28 @@
                     })
                 }); // next tick
             }, function (err, res) {
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, res);
+                }
+                // 
                 proxyprinttodiv('querywid finalformatlist output', output, 28);
                 callback({}, output)
             }); // mapseries
         } // if
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"formatListFinal"});        
+            var finalobject = createfinalobject({"result":"formatListFinal"}, {}, "formatListFinal", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     }
 
     //in: key, value, preamble 
     //out STRING: {preamble.key: value}
 
     function BuildSimpleQuery(key, value, preamble) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var result;
@@ -749,6 +837,11 @@
         }, 6);
 
         return result;
+        } // end try
+        catch (err) {
+            var finalobject = createfinalobject({"result":"BuildSimpleQuery"}, {}, "BuildSimpleQuery", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     }
 
 
@@ -758,6 +851,7 @@
     // will create a string query based on outerquerytype
 
     function BuildSingleQuery(parameters, outerquerytype, preamble) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         if (!(parameters instanceof Array)) {
@@ -837,12 +931,18 @@
         }, 6);
 
         return returnString;
+        } // end try
+        catch (err) {
+            var finalobject = createfinalobject({"result":"BuildSingleQuery"}, {}, "BuildSingleQuery", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     }
 
     // in list of parameters, outerquerytype, innerquerytype, preamble
     // will create a string query based on outerquerytype
 
     function BuildMultipleQuery(listofparameters, outerquerytype, innerquerytype, preamble) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         //buildmultiplequery (listofparameters, outerquerytype, innerquerytype, preamble)
@@ -902,6 +1002,12 @@
         }, 6);
 
         return returnString;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"buildmultiplequery"});        
+            var finalobject = createfinalobject({"result":"buildmultiplequery"}, {}, "buildmultiplequery", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     }
 
     // Similar to BuildSingleQuery, but different...let it be please.
@@ -941,6 +1047,7 @@
     // }
 
     function queryafterrelationship(parameters, set2) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var set1 = [];
@@ -962,10 +1069,17 @@
         }, 6);
 
         return result;
+        }
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"queryafterrelationship"});        
+            var finalobject = createfinalobject({"result":"queryafterrelationship"}, {}, "queryafterrelationship", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     }
     // Starting of relationShipQuery function
 
     function relationShipQuery(inputParameters, input, environmentdb) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         proxyprinttodiv('Function relationShipQuery() Constant input : ', parameters);
@@ -1051,6 +1165,12 @@
         }, 6);
 
         return querystring;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"relationShipQuery"});        
+            var finalobject = createfinalobject({"result":"relationShipQuery"}, {}, "relationShipQuery", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }  
     }
 
     //     var parametersCount = countKeys(input);
@@ -1135,6 +1255,7 @@
 
 
     function aggregationQuery(parameters) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var mongoAggregation = ""; // String
@@ -1175,6 +1296,12 @@
         }, 6);
 
         return pipelineQuery;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"aggregationQuery"});        
+            var finalobject = createfinalobject({"result":"aggregationQuery"}, {}, "aggregationQuery", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     }
 
     // Addon Section **********
@@ -1185,6 +1312,7 @@
     // is a result of implenting DRI type functions in stages to apply to mongo.
 
     function addonQuery(parameters) {
+        try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var returnValues = {};
@@ -1400,9 +1528,16 @@
         }
         proxyprinttodiv('Function Add On Query() output : ', returnValues);
         return returnValues;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"addonQuery"});        
+            var finalobject = createfinalobject({"result":"addonQuery"}, {}, "addonQuery", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }       
     } //End of addOnQuery function
 
     function fishOut(parameters) {
+        try {
         var p = [];
         var filter_data = {};
         var left_overs = {};
@@ -1495,5 +1630,11 @@
         p[6] = filter_data.filteredobject;
 
         return p;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"fishout"});        
+            var finalobject = createfinalobject({"result":"fishout"}, {}, "fishout", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     }
 })(typeof window == "undefined" ? global : window);

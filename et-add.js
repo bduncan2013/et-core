@@ -1,6 +1,7 @@
 (function (window) {
 
 exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
+    try {
     // var originalarguments=arguments;
     // var executionid = new Date();
     var originalarguments = {};
@@ -8,6 +9,11 @@ exports.updatewid = window.updatewid = updatewid = function updatewid(inputObjec
 
     // convert to dri format before saving
     addtomongo(converttodriformat(inputObject), function (err, results) {
+        // If error, bounce out
+        if (err && Object.keys(err).length > 0) {
+            callback(err, results);
+        }   
+
         proxyprinttodiv('Function updatewid in : x', results, 10);
 
         debugfn("updatewid code generator", "updatewid", "", "code", 2, 1, {
@@ -18,10 +24,17 @@ exports.updatewid = window.updatewid = updatewid = function updatewid(inputObjec
         callback({}, results);
 
     });
+    }
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"try":"was caught"});        
+        var finalobject = createfinalobject({"result":"updatewid"}, {}, "updatewid", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 
 exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {     
+    try {
     object = ConvertFromDOTdri(object);
     var filter_data = tolowerparameters(object, {}, {"command":""}, true);
     proxyprinttodiv("addwidmaster filter_data", filter_data, 17);
@@ -31,15 +44,32 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
 
     proxyprinttodiv("addwidmaster _object", _object, 17);
     cleanadd (_object, _dto_object, command, function (err, res) {
+
+        // If error, bounce out
+        if (err && Object.keys(err).length > 0) {
+            callback(err, res);
+        } 
+        
         _object = res.obj;
         _dto_object = res.dtoobj;
         proxyprinttodiv("addwidmaster after clean obj", _object, 17);
         proxyprinttodiv("addwidmaster after clean dto", _dto_object, 17);
         addwidobject(_object, _dto_object, null, null, null, command, function (err, res) {
+            
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            } 
+
             res = pack_up_params(res, command, "addwidmaster");
             callback(err, res);
         });
     });
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"addwidmaster"}, {}, "addwidmaster", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 // exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
@@ -83,7 +113,7 @@ exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
 
 
 exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, callback) {
-
+    try {
     getdtoobject(object, command, function (err, res) {
         dtoobject = res;
         proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 99);
@@ -103,6 +133,11 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
                 "command.getwidmaster.execute":"ConvertFromDOTdri",
                 "command.getwidmaster.convertmethod":"dto"
                 }, function (err, res) {
+                    // If error, bounce out
+                    if (err && Object.keys(err).length > 0) {
+                        callback(err, res);
+                    } 
+                    //
                     proxyprinttodiv("cleanadd after execute", res, 17);
 
                     big_dto = res[0]; 
@@ -113,6 +148,11 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
                     if (!command.deepfilter) {command.deepfilter={};}
                     if (!command.deepfilter.convert) {command.deepfilter.convert=false;}
                     deepfilter(result_obj, dtoobject, command, function (err, result_obj) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, res);
+                        } 
+                        //
                         proxyprinttodiv("cleanadd after insertbydtotype after", result_obj, 17);
                         output.obj=result_obj;
                         output.dtoobj = dtoobject;
@@ -125,10 +165,16 @@ exports.cleanadd = cleanadd = function cleanadd(object, dtoobject, command, call
             callback(err, output);
             }
     });
+    }
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"cleanadd"});        
+        var finalobject = createfinalobject({"result":"cleanadd"}, {}, "cleanadd", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 exports.addwidobject = addwidobject = function addwidobject(input, inputdto, parentwid, parentmethod, relationshiptype, command, callback ) {
-
+    try {
     proxyprinttodiv("addwidobject input input :- ", input, 17);
     proxyprinttodiv("addwidobject input inputdto :- ", inputdto, 17);
     proxyprinttodiv("addwidobject input command :- ", command, 17);
@@ -200,7 +246,11 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
 
     // send the parent object and dto to addrecord
     addrecord(_parent_object, _parent_dto, parentwid, parentmethod, relationshiptype, command, function (err, res) {
-
+        // If error, bounce out
+        if (err && Object.keys(err).length > 0) {
+            callback(err, res);
+        } 
+        //
         proxyprinttodiv("addrecord parentobj result :- ", res, 17);
         
         _parent_object = res;
@@ -248,6 +298,11 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
                                 if (!_child_object["metadata"]["method"]) {_child_object["metadata"]["method"]=eachchild.dtoname}
 
                                 addwidobject(_child_object, _child_dto,  _parent_wid, _parent_method, eachchild.dtotype, command, function (err, res) {
+                                    // If error, bounce out
+                                    if (err && Object.keys(err).length > 0) {
+                                        callback(err, res);
+                                    } 
+                                    //    
                                     cbMap2(null);
                                 });
                             }
@@ -257,6 +312,11 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
                         //    }
                         })
                     }, function (err, res) {
+                    // If error, bounce out
+                    if (err && Object.keys(err).length > 0) {
+                        callback(err, res);
+                    } 
+
                     cbMap(null);
                     });
 
@@ -278,9 +338,19 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
 
             });
         }, function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            } 
+            //
             // I'm guessing here but if we have left over children in the children collection then we recurse
             if (Object.keys(_children_object_collection).length!==0) {
                 addwidobject(_children_object_collection, _children_dto_collection, command, function (err, res) {
+                    // If error, bounce out
+                    if (err && Object.keys(err).length > 0) {
+                        callback(err, res);
+                    } 
+                    //
                     _parent_object = res;
                     callback(err, _parent_object);
                 });
@@ -290,10 +360,18 @@ exports.addwidobject = addwidobject = function addwidobject(input, inputdto, par
             }
         }); // End async map series
     });
+    }
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"addwidobject"});       
+        var finalobject = createfinalobject({"result":"addwidobject"}, {}, "addwidobject", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 
 exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, parentwid, parentmethod, relationshiptype, command, callback) {
+    try {
+    var inbound_parameters = JSON.parse(JSON.stringify(arguments));
     proxyprinttodiv("addrecord input inputrecord :- ", inputrecord, 17 );
     proxyprinttodiv("addrecord input dtoobject :- ", dtoobject, 17);
     proxyprinttodiv("addrecord input parentwid :- ", parentwid, 17 );
@@ -331,6 +409,12 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                 }   
 
                 execute(executeobject, function (err, widset) {
+                    // If error, bounce out
+                    if (err && Object.keys(err).length > 0) {
+                        alert('error');
+                        callback(err, widset);
+                    } 
+                    //
                     var widrecord;
                     if ((widset.length > 0) && (relationshiptype === "onetoone")) {
                         for (var wid in widset[0]) {
@@ -339,11 +423,11 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                         relobj['wid'] = wid ;
                         inputrecord['wid'] = widrecord["secondarywid"] ;
                     }
-                    step1_callback(null);
+                    step1_callback(null); // LM: Leave this null or break add
                 });
             }
             else {
-                step1_callback(null);
+                step1_callback(null); // LM: Leave this null or break add
             }
 
         },
@@ -358,6 +442,11 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
             //proxyprinttodiv("parentrelationshiptype: ", parentrelationshiptype, 17);
 
             addwid(inputrecord, dtoobject, command, function (err, addobject) {
+                 // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, addobject);
+                }               
+                //
                 addobject = addobject[0];
                 proxyprinttodiv("addrecord input addobject :- ", addobject, 17);
 
@@ -401,6 +490,11 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                         proxyprinttodiv("addrecord input relobj ", relobj, 17);
 
                         addwid(relobj, reldto, command, function (err, added_relation) {
+                            // If error, bounce out
+                            if (err && Object.keys(err).length > 0) {
+                                callback(err, added_relation);
+                            }                            
+                            //
                             proxyprinttodiv("addrecord input added_relation :- ", added_relation, 17);
                             step2_callback(null, addobject);
                          });                   
@@ -412,16 +506,35 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
         }
         ], 
         function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            }             
+            //
             // res[1] is addobject from step2
             callback({}, res[1]);
         });
+    }
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"addrecord"}); 
+        var finalobject = createfinalobject({"result":"addrecord"}, {}, "addrecord", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
     };
 
 exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
+    try {
+    var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
     function addwid5() { 
         object["executethis"] = "updatewid";
         proxyprinttodiv("addwid before updatewid ", object, 17);
         execute(object, function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            }
+            // 
             proxyprinttodiv("this was added", res, 17);
             callback(err, res);
         });
@@ -465,6 +578,11 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         proxyprinttodiv("addwid step3 check for wid id object ", object, 17);
         if  (!object["wid"]) {
             getnewwid({}, function (err, res) {
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, res);
+                }
+                // 
                 proxyprinttodiv("addwid getnewwid", res, 17);
                 object["wid"]=res;
                 addwid4();
@@ -474,6 +592,11 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
             object["wid"] = object["wid"].toLowerCase();
             proxyprinttodiv("addwid wid id existed", object, 17);
             execute({"executethis":"getwid","wid":object["wid"]}, function (err, res) {
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, res);
+                }
+                // 
                 if (Object.keys(res[0]).length !== 0) {
                     currentobject=res[0];
                     }
@@ -492,6 +615,11 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         proxyprinttodiv("addwid step2 before to deepfilter object ", object, 17);  
         proxyprinttodiv("addwid to deepfilter dto", dtoobject,17);     
         deepfilter(object, dtoobject, command, function (err, resultobject) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            }
+            // 
             object=resultobject;
             proxyprinttodiv("addwid result deepfilter object", object,17); 
             addwid3();
@@ -519,6 +647,11 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                 execute({"executethis":"getwidmaster","wid":eachobject, 
                     "command.getwidmaster.execute":"ConvertFromDOTdri","command.getwidmaster.inheritflag":"false", 
                     "command.getwidmaster.convertmethod":"nowid"}, function (err, res) {
+                    // If error, bounce out
+                    if (err && Object.keys(err).length > 0) {
+                        callback(err, res);
+                    } 
+                    //
                     proxyprinttodiv("getwidmaster wid : " + inheritwid  + " -- res -- " ,  res, 17);
                     // if (Object.keys(res).length !== 0) {
                     //     for (var eachprop in res) {
@@ -542,6 +675,12 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         }, addwid2); // mapseries
     } else { // if no inheritwid
         addwid2();
+    }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"addwid"});        
+        var finalobject = createfinalobject({"result":"addwid"}, {}, "addwid", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
     }
 }; // end of addwid
 
