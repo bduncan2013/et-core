@@ -478,7 +478,8 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
             execute(executeobject, function (err, res) { // getwid
                 // If error, bounce out
                 if (err && Object.keys(err).length > 0) {
-                    callback(err, results);
+                    // callback(err, results);
+                    // callback(err, results);
                 } 
                 //
                 proxyprinttodiv('Function getwidmongo getwid res', res, 38);

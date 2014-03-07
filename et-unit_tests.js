@@ -2437,6 +2437,8 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
             "wid": "sounddto"
         }],
         function (err, res) {
+            proxyprinttodiv("**Error - Ag1 error result ", err, 99);
+            
             proxyprinttodiv('Function ag1 result ', res, 99);
             res = logverify("ettestag1_result", res[1], [{
                 "note": "string",

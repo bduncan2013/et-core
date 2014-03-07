@@ -104,6 +104,7 @@ exports.bootprocess = bootprocess = function bootprocess() {
 
 // *********** EVENTS ************
 exports.etappinstall = etappinstall = function etappinstall() { // exeucte only the first time app is installed -- once per lifetime
+    try {
     //clearLocalStorage();
     setdefaultparm();
     if (exports.environment === 'local') {
@@ -118,6 +119,12 @@ exports.etappinstall = etappinstall = function etappinstall() { // exeucte only 
                 "initialwid": "for key hello from bootprocess"
             }
         });
+    }
+    }
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"try":"was caught"});        
+        var finalobject = createfinalobject({"result":"etappinstall"}, {}, "etappinstall", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
     }
 };
 
@@ -396,15 +403,13 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
                 0: inbound_parameters,
                 1: ConvertFromDOTdri(convertedobject),
             }, 6);
-            callback({}, ConvertFromDOTdri(convertedobject))
+            callback(null, ConvertFromDOTdri(convertedobject))
         } else {
             debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
                 0: inbound_parameters,
                 1: convertedobject,
             }, 6);
-            callback({
-                "found": "error"
-            }, convertedobject);
+            callback(null, convertedobject);
         }
     });
 };
