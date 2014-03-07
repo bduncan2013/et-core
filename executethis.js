@@ -43,7 +43,7 @@
             incomingparams = incomingparams["executethis"];
             delete incomingparams.command;
         }
-
+ 
         if ((incomingparams instanceof Array)) {
             proxyprinttodiv("execute - array params received ", incomingparams, 11);
             executethismultiple(incomingparams, {}, callback);
@@ -502,7 +502,8 @@
                     if (params.hasOwnProperty('preexecute') && params.preexecute === undefined) { delete params['preexecute']; }
                     if (params.hasOwnProperty('midexecute') && params.midexecute === undefined) { delete params['midexecute']; }
                     if (params.hasOwnProperty('postexecute') && params.postexecute === undefined) { delete params['postexecute']; }
-
+                    // err = {"Error": "here it is"};
+                    proxyprinttodiv("**Error - dothisprocessor ", err, 99);
                     callback(err, params);
                 }
             } // else not test4
@@ -807,8 +808,11 @@
                                     proxyprinttodiv("executelist executeobject.targetfn: ", String(executeobject.targetfn), 11);
                                     if (typeof executeobject.targetfn === 'function') { // there was a chance of a none function getting in here -- Joe
                                         authcall(executeobject.params, function (err, securitycheck) {
+                                            err = null; // Do not leave in the code
                                             if (securitycheck) {
                                                 executeobject.targetfn(executeobject.params, function (err, res) {
+
+                                                    proxyprinttodiv("executelist err from execution ", err, 99);
                                                     proxyprinttodiv("executelist result from execution ", res, 11);
 
                                                     // This section helps control the iteration -- Joe
@@ -827,12 +831,14 @@
                                                         execute(res, function (err, res) {
                                                             // if executegetwid then execute with the results
                                                             outputResultsArr.push(res);
-                                                            cbMapW(null, "What Iteration");
+                                                            // cbMapW(null, "What Iteration");
+                                                            cbMapW(err, "What Iteration");
                                                         });
                                                     } else {
                                                         // executeflag=false
                                                         outputResultsArr.push(res);
-                                                        cbMapW(null, "What Iteration");
+                                                        // cbMapW(null, "What Iteration");
+                                                        cbMapW(err, "What Iteration");
                                                     }
                                                 });
                                             } else {
@@ -859,20 +865,23 @@
                                         // All wids include their wid as group.  They should also return their dto (metadata.method) as a group    
                                     } // if executeobject.targetfn
                                     else {
-                                        cbMapW(null, "What Iteration");
+                                        // cbMapW(null, "What Iteration");
+                                        cbMapW(err, "What Iteration");
                                     }
 
                                     // else ((howallowexecute) && (whatallowexecute))  ... do something else
                                 }); //executeobject callback
                         } else {
                             cbMapW(null, "What Iteration");
+                            // cbMapW(err, "What Iteration");
                         }
                     });
                 },
                 function (err, res) {
                     proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 11);
 
-                    cbMapH(null, "How Iteration");
+                    // cbMapH(null, "How Iteration");
+                    cbMapH(err, "How Iteration");
                     //console.log(' completed whatToDoList iteration in sync fashion.');
                 });
 
@@ -983,7 +992,8 @@
         // }
 
         //proxyprinttodiv("getexecuteobject result targetfunction ", String(targetfn), 11);
-        callback({}, {
+        // callback({}, {
+        callback(null, {
             targetfn: targetfn,
             params: params,
             executeflag: executeflag

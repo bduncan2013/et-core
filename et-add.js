@@ -9,6 +9,7 @@ exports.updatewid = window.updatewid = updatewid = function updatewid(inputObjec
 
     // convert to dri format before saving
     addtomongo(converttodriformat(inputObject), function (err, results) {
+
         // If error, bounce out
         if (err && Object.keys(err).length > 0) {
             callback(err, results);
@@ -21,7 +22,8 @@ exports.updatewid = window.updatewid = updatewid = function updatewid(inputObjec
                 1: results
                 // 2: executionid
             }, 6);
-        callback({}, results);
+        // callback({}, results);
+        callback(null, results);
 
     });
     }
