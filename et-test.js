@@ -6446,55 +6446,57 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		then get it
 		system will also get defaultauthroactions and include it as part of the results as  long as it passes deepfilter
 	*/
-	exports.ettestinherittest1 = ettestinherittest1 = function ettestinherittest1(params, callback) {
-		etappinstall();
-		debuglevel = 0;
+
+    // test is out of date
+	// exports.ettestinherittest1 = ettestinherittest1 = function ettestinherittest1(params, callback) {
+	// 	etappinstall();
+	// 	debuglevel = 0;
 		
-		execute([{
-                    "executethis": "addwidmaster",
-					"wid": "bookdtoextra",
-					"metadata.method": "bookdtoextra",
-					"title": "string", // changed by joe
-					"pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-					"wid": "bookdefaultdto",
-					"metadata.method": "bookdtoextra",
-					"title":"X title", // changed by joe
-					"pages":"300"
-                },{
-                    "executethis": "addwidmaster",
-					"wid": "bookdto",
-                    "metadata.method": "bookdto",
-					"metadata.inherit": "bookdefaultdto",
-					"title": "string",
-					"pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-					"wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-					"title": "Book Title1"
-                    // notice no pages
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookdtowid111",
-                }
-			], function (err, res) {
-				proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+	// 	execute([{
+ //                    "executethis": "addwidmaster",
+	// 				"wid": "bookdtoextra",
+	// 				"metadata.method": "bookdtoextra",
+	// 				"title": "string", // changed by joe
+	// 				"pages": "string"
+ //                },{
+ //                    "executethis": "addwidmaster",
+	// 				"wid": "bookdefaultdto",
+	// 				"metadata.method": "bookdtoextra",
+	// 				"title":"X title", // changed by joe
+	// 				"pages":"300"
+ //                },{
+ //                    "executethis": "addwidmaster",
+	// 				"wid": "bookdto",
+ //                    "metadata.method": "bookdto",
+	// 				"metadata.inherit": "bookdefaultdto",
+	// 				"title": "string",
+	// 				"pages": "string"
+ //                },{
+ //                    "executethis": "addwidmaster",
+	// 				"wid": "bookdtowid111",
+ //                    "metadata.method":"bookdto",
+	// 				"title": "Book Title1"
+ //                    // notice no pages
+ //                },{
+ //                    "executethis": "getwidmaster",
+ //                    "wid": "bookdtowid111",
+ //                }
+	// 		], function (err, res) {
+	// 			proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
 				
-				proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+	// 			proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
 				
-				var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
-				proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+	// 			var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+	// 			proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
 				
-				res = logverify("bookdtowid111_result", res[4], expectedResult);
-				debuglevel=0;
-				execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-					proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
-					callback(err, res); 
-				})
-        });
-	}
+	// 			res = logverify("bookdtowid111_result", res[4], expectedResult);
+	// 			debuglevel=0;
+	// 			execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+	// 				proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+	// 				callback(err, res); 
+	// 			})
+ //        });
+	// }
 
     exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
         etappinstall();
@@ -7041,3 +7043,246 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
             callback(params);   
         });             
     }
+
+    /*
+        To add dtos and data for manytoonetest
+    */
+    function manytoonetestadd(callback){
+        async.series([
+            function (cb1) {
+                var executeList = [
+                {       //authordto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "authordto",
+                    "wid": "authordto",
+                    "name": "string"
+                }, {    //bookdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "bookdto",
+                    "wid": "bookdto",
+                    "title": "string"
+                }, {    //authordto - bookdto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_author_book",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "onetomany",
+                    "primarywid": "authordto",
+                    "primarymethod": "authordto",
+                    "secondarywid": "bookdto",
+                    "secondarymethod": "bookdto"
+                }, {    //pubhousedto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "pubhousedto",
+                    "wid": "pubhousedto",
+                    "coname": "string"
+                }, {    //bookdto - pubhousedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_book_pubhouse",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "manytoone",    
+                    //"linktype": "onetomany",  
+                    "primarywid": "bookdto",
+                    "primarymethod": "bookdto",
+                    "secondarywid": "pubhousedto",
+                    "secondarymethod": "pubhousedto"
+                },{     //addressdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "addressdto",
+                    "wid": "addressdto",
+                    "city": "string"
+                }, {    //pubhousedto - addressdto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_pubhouse_address",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "onetomany",
+                    "primarywid": "pubhousedto",
+                    "primarymethod": "pubhousedto",
+                    "secondarywid": "addressdto",
+                    "secondarymethod": "addressdto"
+                }
+                ];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonetest addwidmaster dto res -- ", res, 99);
+                    cb1(null);
+                });
+            },
+            function (cb2) {
+                var executeList = [
+                    {   //author wid
+                        "executethis": "addwidmaster",
+                        "metadata.method": "authordto",
+                        "wid": "author1",
+                        "name": "devang"
+                    }, {    //book wid
+                        "executethis": "addwidmaster",
+                        "metadata.method": "bookdto",
+                        "wid": "book1",
+                        "title": "book1"
+                    }, {    //pubhouse wid
+                        "executethis": "addwidmaster",
+                        "metadata.method": "pubhousedto",
+                        "wid": "pubhouse1",
+                        "coname": "Pub House Company"
+                    }, {    //address wid
+                        "executethis": "addwidmaster",
+                        "metadata.method": "addressdto",
+                        "wid": "address1",
+                        "city": "City"
+                    }, {    //author+book wid
+                        "executethis": "addwidmaster",
+                        "metadata.method": "authordto",
+                        "wid": "authorbook1",
+                        "name": "devang",
+                        "bookdto.title": "Author Book 1"
+                    }, {    //author+book+pubhouse wid
+                        "executethis": "addwidmaster",
+                        "metadata.method": "authordto",
+                        "wid": "authorbookpubhouse1",
+                        "name": "devang",
+                        "bookdto.title": "Author Book 1",
+                        "bookdto.pubhousedto.coname": "Author Book1 PubHouse1 "
+                    }, { //author+book+pubhouse+address wid
+                        "executethis": "addwidmaster",
+                        "metadata.method": "authordto",
+                        "wid": "authorbookpubhouseaddress1",
+                        "name": "devang",
+                        "bookdto.wid":"book1", 
+                        "bookdto.title": "Author Book 1",
+                        "bookdto.pubhousedto.wid":"pubhouse1", 
+                        "bookdto.pubhousedto.coname": "Author Book1 PubHouse1 ",                
+                        "bookdto.pubhousedto.addressdto.wid":"address1",
+                        "bookdto.pubhousedto.addressdto.city": "Author Book1 PubHouse1 City"    
+                    }
+                ];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonetest addwidmaster data res -- ", res, 99);
+                    cb2(null);
+                });
+            }
+        ], function (err, res) {
+            callback(err, res);
+        });             
+    }
+
+    /*
+        1) one to show there should be no 0 between bookdto.pubhouse
+        build a test where we get authordto and we expect bookdto.pubhouse (no 0)
+    */
+    exports.manytoonetest1 = manytoonetest1 = function manytoonetest1(params, callback) {
+        etappinstall();
+        async.series([
+            function (cb1) {
+                manytoonetestadd(function(err,res){
+                    cb1(err, res);
+                });
+            },
+            function (cb2) {
+                var executeList = [{
+                    "executethis": "getwidmaster",
+                    "wid": "authordto",
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonetest1  getwidmaster res -- ", res, 99);
+                    cb2(err, res);
+                });
+            }
+        ], function (err, res) {
+            proxyprinttodiv('Function manytoonetest1 result Full res', res, 99);
+            proxyprinttodiv('Function manytoonetest1 result res[1][0]', res[1][0], 99);
+            
+            var expectedResult = [{"name":"string","wid":"authordto","metadata.method":"authordto","metadata.bookdto.type":"onetomany","bookdto.0.title":"string","bookdto.0.wid":"bookdto","bookdto.0.metadata.method":"bookdto","bookdto.metadata.pubhousedto.type":"manytoone","bookdto.pubhousedto.coname":"string","bookdto.pubhousedto.wid":"pubhousedto","bookdto.pubhousedto.metadata.method":"pubhousedto","bookdto.pubhousedto.metadata.addressdto.type":"onetomany","bookdto.pubhousedto.addressdto.0.city":"string","bookdto.pubhousedto.addressdto.0.wid":"addressdto","bookdto.pubhousedto.addressdto.0.metadata.method":"addressdto"}];
+            proxyprinttodiv("Function manytoonetest1 expectedResult ", expectedResult, 99);
+            
+            res = logverify("manytoonetest1_result", res[1][0], expectedResult);
+            callback(err, res); 
+        });                         
+    }
+    
+    /*
+        2) get did not get pubhouse, manytoone on data get broken, authorbookpubhouseaddress1 
+    */
+    exports.manytoonetest2 = manytoonetest2 = function manytoonetest2(params, callback) {
+        etappinstall();
+        async.series([
+            function (cb1) {
+                manytoonetestadd(function(err,res){
+                    cb1(err, res);
+                });
+            },
+            function (cb2) {
+                var executeList = [{
+                    "executethis": "getwidmaster",
+                    "wid": "authorbookpubhouseaddress1",
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonetest2  getwidmaster res -- ", res, 99);
+                    cb2(err, res);
+                });
+            }
+        ], function (err, res) {
+            proxyprinttodiv('Function manytoonetest2 result Full res', res, 99);
+            proxyprinttodiv('Function manytoonetest2 result res[1][0]', res[1][0], 99);
+            
+            var expectedResult = [{"name":"devang","wid":"authorbookpubhouseaddress1","metadata.method":"authordto","metadata.bookdto.type":"onetomany","bookdto.0.title":"Author Book 1","bookdto.0.wid":"book1","bookdto.0.metadata.method":"bookdto", "bookdto.pubhousedto.coname":"Author Book1 PubHouse1", "bookdto.pubhousedto.wid":"pubhouse1","bookdto.pubhousedto.metadata.method":"pubhousedto","bookdto.pubhousedto.metadata.bookdto.type":"manytoone","bookdto.pubhousedto.metadata.addressdto.type":"onetomany","bookdto.pubhousedto.addressdto.0.city":"Author Book1 PubHouse1 City","bookdto.pubhousedto.addressdto.0.wid":"address1","bookdto.pubhousedto.addressdto.0.metadata.method":"addressdto"}];
+            proxyprinttodiv("Function manytoonetest2 expectedResult ", expectedResult, 99);
+            
+            res = logverify("manytoonetest2_result", res[1][0], expectedResult);
+            callback(err, res); 
+        });                         
+    }
+    
+    /*
+        3) similar book1
+    */
+    exports.manytoonetest3 = manytoonetest3 = function manytoonetest3(params, callback) {
+        etappinstall();
+        async.series([
+            function (cb1) {
+                manytoonetestadd(function(err,res){
+                    cb1(err, res);
+                });
+            },
+            function (cb2) {
+                var executeList = [{
+                    "executethis": "getwidmaster",
+                    "wid": "book1",
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonetest3  getwidmaster res -- ", res, 99);
+                    cb2(err, res);
+                });
+            }
+        ], function (err, res) {
+            proxyprinttodiv('Function manytoonetest3 result Full res', res, 99);
+            proxyprinttodiv('Function manytoonetest3 result res[1][0]', res[1][0], 99);
+            
+            var expectedResult = [{"title":"Author Book 1","wid":"book1","metadata.method":"bookdto","pubhousedto.coname":"Author Book1 PubHouse1", "pubhousedto.wid":"pubhouse1","pubhousedto.metadata.method":"pubhousedto","pubhousedto.metadata.type":"manytoone","pubhousedto.metadata.addressdto.type":"onetomany","pubhousedto.addressdto.0.city":"Author Book1 PubHouse1 City","pubhousedto.addressdto.0.wid":"address1","pubhousedto.addressdto.0.metadata.method":"addressdto"}];
+            proxyprinttodiv("Function manytoonetest2 expectedResult ", expectedResult, 99);
+            
+            res = logverify("manytoonetest3_result", res[1][0], expectedResult);
+            callback(err, res); 
+        });                         
+    }
+    
+    /*
+        4)
+        write a few tests for inherit, we changed the spec a little you enter them this way:
+        inherit.default=[array of wids]
+        inherit.override = [array of wids]
+        default puts values if not there (like old inherit)
+        override (makes those values win)
+    
+        5)
+        test inherit…metadata.dtoname.inherit=wid5 … look at examples in test.js
+        first create a wid "defaultauthordtoactions"
+        then create a dto , mention the inherit as you show
+        "metadata": {
+            "inherit": "defaultauthordtoactions"
+        }
+        then add some data using the dto
+        then get it
+        system will also get defaultauthroactions and include it as part of the results as  long as it passes deepfilter
+    */

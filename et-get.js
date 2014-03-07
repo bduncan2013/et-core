@@ -54,6 +54,8 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
     proxyprinttodiv('getwidmaster command I', command, 38);
 
     proxyprinttodiv('GetWidMaster parameters.wid right before getwidmongo', parameters.wid, 38);
+    proxyprinttodiv('GetWidMaster parameters right before getwidmongo', parameters, 99);
+    proxyprinttodiv('getwidmaster command right before getwidmongo', command, 99);
 
     getWidMongo(parameters.wid, command, "", 20, {}, function (err, res) { // recurse up to 20 levels, excludeset empty
         // If error, bounce out
@@ -65,18 +67,17 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
         // if ((res) && (res.command) && (Object.keys(res.command).length !== 0)) {
         //     delete res.command;
         //  } 
-        proxyprinttodiv('getwidmaster command II-2', command, 38);
-        proxyprinttodiv('getwidmaster res from getWidMongo', res, 38);
+        proxyprinttodiv('getwidmaster after get wid mongo command', command, 99);
+        proxyprinttodiv('getwidmaster res from getWidMongo', res, 99);
         // if ((res) && (Object.keys(res).length !== 0) && (res['metadata']) && 
         //     (res['wid'] !== res['metadata']['method']) && (command) && (command.getwidmaster) && 
         //     (command.getwidmaster.convertmethod!=="dto") && (command.getwidmaster.inheritflag !== "false")) {
-        if (((res) && (Object.keys(res).length !== 0) && (res['metadata']) && 
-            (res['wid'] !== res['metadata']['method'])) || ((command) && (command.getwidmaster) && 
-            (command.getwidmaster.convertmethod!=="dto") && (command.getwidmaster.inheritflag !== "false"))) {
+        if ((res) && (Object.keys(res).length !== 0)){ //&& (res['metadata']) && (res['wid'] !== res['metadata']['method'])) {
+            if (((command) && (command.getwidmaster)) && ((command.getwidmaster.convertmethod !== "dto") || (command.getwidmaster.inheritflag === "true"))) {
             
             // getclean(res, parameters.command, function (err, res) {
             proxyprinttodiv('getwidmaster command II-3', command, 38);
-            proxyprinttodiv('GetWidMaster res from getWidMongo right before getClean', res, 38);
+            proxyprinttodiv('GetWidMaster res from getWidMongo right before getClean', res, 99);
 
             getclean(res, command, function (err, res) {
                 // If error, bounce out
@@ -116,6 +117,37 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
                     callback(err, res);  
                 }
             });
+            } else {
+                proxyprinttodiv('getwidmaster command III-5', command, 99);
+                res = pack_up_params(res, command, "getwidmaster");
+                proxyprinttodiv('getwidmaster packed parameters', res, 38);
+                proxyprinttodiv('getwidmaster command III', command, 38);
+                // if (parameters && parameters.command && parameters.command.execute === "ConvertFromDOTdri") {
+                if (command && command.getwidmaster && command.getwidmaster.execute === "ConvertFromDOTdri") {
+                        //res = ConvertFromDOTdri(res);
+                                            
+                    console.log("??? command callback 3 \n" + JSON.stringify(command, '-', 4));
+                    proxyprinttodiv("??? getwidmaster command callback 3 ", command, 38);
+                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: res
+                    }, 6);
+                    
+                    callback(err, res);
+                }
+                else { // the detault is to return dot notation...so old code does not break
+                    res = ConvertToDOTdri(res);
+                                        
+                    console.log("??? command callback 4 \n" + JSON.stringify(command, '-', 4));
+                    proxyprinttodiv("??? getwidmaster command callback 4 ", command, 38);
+                    debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
+                        0: inbound_parameters,
+                        1: res
+                    }, 6);
+                    
+                    callback(err, res);  
+                }
+            }
         } else {
             proxyprinttodiv('getwidmaster command III-5', command, 38);
             res = pack_up_params(res, command, "getwidmaster");
@@ -183,7 +215,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
 
         //if we get an array in (usally happens on the recurse)
         if (inobj instanceof Array) {
-            proxyprinttodiv("inobj instanceof array", inobj, 99);
+            proxyprinttodiv("inobj instanceof array", inobj, 38);
             var mergedObj = {};
             var tempArray = [];
 
@@ -192,6 +224,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
                 // if our array is just a list of strings
                 if (typeof inobj[i] === 'string') {
                     tempArray.push("string");
+                    //tempArray.push(inobj[i]);
                 } else {
                     extend(true, mergedObj, recurseobj(inobj[i]));
                 }
@@ -227,7 +260,7 @@ exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callba
                                 if ((metadata[eachitem]['type']==="onetomany" || 
                                     metadata[eachitem]['type']==="jsononetomany") &&
                                     (!isArray(inobj[eachitem]))) {
-                                        tempArray=[]
+                                        tempArray=[];
                                         tempArray.push(inobj[eachitem]);
                                         delete inobj[eachitem];
                                         inobj[eachitem]=tempArray;
@@ -449,7 +482,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                 } 
                 //
                 proxyprinttodiv('Function getwidmongo getwid res', res, 38);
-                res=res[0];
+                res = res[0];
                 
                 if (Object.keys(res).length != 0) {
                     parameterobject = res;
@@ -670,9 +703,10 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                         if ((rightparameters) && (rightparameters["linktype"])) {
                                             if ((rightparameters["linktype"] === "onetomany") || 
                                                 (rightparameters["linktype"] === "jsononetomany")) {
-                                                if (Object.prototype.toString.call(parameterobject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
+                                                //if (Object.prototype.toString.call(parameterobject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
+                                                if(!isArray(parameterobject[rightparameters["metadata"]["method"]])) {
                                                     parameterobject[rightparameters["metadata"]["method"]]=[]; 
-                                                    }
+                                                }
                                                     parameterobject[rightparameters["metadata"]["method"]].push(params); 
                                                 }
                                             else 
@@ -872,7 +906,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
     async.series([
         function step1(cb) { // getdto
-            proxyprinttodiv('In __getclean__ resultObj: ', resultObj, 38);
+            proxyprinttodiv('In __getclean__ resultObj: ', resultObj, 99);
 
             getdtoobject(resultObj, command, function (err, res) {
                 // If error, bounce out
@@ -883,15 +917,15 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                 proxyprinttodiv('In __getclean__ step1 with res: ', res, 38);
                 proxyprinttodiv('In __getclean__ step1 command: ', command, 38);
                 dtoobject = res;
-                proxyprinttodiv('In __getclean__ step1 with dtoobject: ', dtoobject, 38);
+                proxyprinttodiv('In __getclean__ step1 with dtoobject: ', dtoobject, 99);
                 cb(null);
             });
         },
         function step2(cb) { // getaggressivedto
-            proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 38);
+            proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 99);
             // if we have the root dto do not go off and get it again
             if (resultObj.wid !== resultObj.metadata.method) {
-                proxyprinttodiv('In __getclean__ step2 with before getWidMongo: ', resultObj, 38);
+                proxyprinttodiv('In __getclean__ step2 with before getWidMongo: ', resultObj, 99);
             
                 // add logic to look for dtotype
                 var dtoToGet = resultObj.metadata.method;
@@ -902,17 +936,18 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                     //"command.inheritflag":"false"
                     }, function (err, res) {
                         bigdto = res[0]; 
-                        proxyprinttodiv('In __getclean__ bigdto ', bigdto, 38);
+                        proxyprinttodiv('In __getclean__ bigdto ', bigdto, 99);
                         cb(null);
                 });
             } else {
+                proxyprinttodiv('In __getclean__ step2 else bigdto: ', bigdto, 99);
                 // in the case of having a root dto
                 bigdto = dtoobject;
                 cb(null);
             }
         },
         function step3(cb) { // process inherit, override, default
-            proxyprinttodiv('<<< Get_Clean step3 resultObj >>', resultObj, 38);
+            proxyprinttodiv('<<< Get_Clean step3 resultObj >>', resultObj, 99);
             var listToDo = [];
             var inheritobject;
 
@@ -922,7 +957,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
 
                 // added by joe, built for dealing with diffrent cases of inherit
                 // handel override
-                proxyprinttodiv('<<< bigdto.command.inherit.override >>', bigdto.command.inherit.override, 38);
+                proxyprinttodiv('<<< bigdto.command.inherit.override >>', bigdto.command.inherit.override, 99);
                 
                 // we have overrides go ahead and load them up
                 if (bigdto.command.inherit.override) {
@@ -1036,9 +1071,19 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             // } // end fn recurse
 
             function find_and_replace_addthis(obj) {
-                var _in_obj = {};
 
-                extend(true, _in_obj, obj);
+                proxyprinttodiv('<<< Get_Clean find_and_replace_addthis obj >>>', obj, 38);
+                    var _in_obj;
+
+                if (obj instanceof Array) {
+                    _in_obj = [];
+                    extend(true, _in_obj, obj);
+                } else {
+                    _in_obj = {};
+                    extend(true, _in_obj, obj);
+                }
+
+                proxyprinttodiv('<<< Get_Clean find_and_replace_addthis _in_obj >>>', _in_obj, 38);
 
                 if(_in_obj.hasOwnProperty("addthis")) {
                     var _add_this = _in_obj["addthis"];
@@ -1056,15 +1101,15 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                             _in_obj[each_param] = find_and_replace_addthis(_in_obj[each_param]);
                         }
                     }
-                    } // for each_param
+                } // for each_param
 
                 return _in_obj;
             } // end fn recurse
 
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 99);
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 99);
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 99);
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 99);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 38);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 38);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 38);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 38);
 
             if (!command) {command={}}
             if (!command.deepfilter) {command.deepfilter={}}
@@ -1073,7 +1118,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             deepfilter(resultObj, dtoobject, command, function (err, resultObj){ // changed by joe
             //deepfilter(resultObj, bigdto, command, function (err, resultObj){
                 delete command.deepfilter;
-                proxyprinttodiv('<<< Get_Clean before call back afterdeepfilter resultObj >>>', resultObj, 99);                 
+                proxyprinttodiv('<<< Get_Clean before call back afterdeepfilter resultObj >>>', resultObj, 38);                 
                 debugfn("getclean code generator", "getclean", "get", "code", 2, 1, {
                     0: inbound_parameters,
                     1: resultObj
@@ -1083,8 +1128,9 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                     // empty by design
                 }
                 else { // if = true or !=false -- remove addthis.
+                    proxyprinttodiv('<<< Get_Clean before find and replace resultObj >>>', resultObj, 38);
                     resultObj = find_and_replace_addthis(resultObj);
-                    proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>', resultObj, 99);
+                    proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>', resultObj, 38);
                 }
                 
                 callback(err, resultObj);
