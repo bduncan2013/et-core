@@ -16,7 +16,6 @@
 
     exports.executethis = window.executethis = executethis = function executethis(incomingparams, overallError, callback) {
         execute(incomingparams, function (err, res) {
-
             overallError.push(err)
             callback(err, overallError)
             })
@@ -32,10 +31,9 @@
     if (isString(incomingparams)) {
             var temp={};
             temp['executethis'] = incomingparams;
-            proxyprinttodiv("execute - array params received I", temp, 99);
+            proxyprinttodiv("execute - array params received I", temp, 38);
             incomingparams=temp;
-            proxyprinttodiv("execute - array params received I", incomingparams, 99);
-
+            proxyprinttodiv("execute - array params received I", incomingparams, 38);
         }
     
 
@@ -62,7 +60,7 @@
 
             proxyprinttodiv("execute - inboundparms", incomingparams, 11);
             proxyprinttodiv("execute - callback fn ", String(callback), 11);
-
+//            console.log(' *** test2  ' + JSON.stringify(incomingparams));
 
             // fix incoming param
             // if(incomingparams){
@@ -73,7 +71,7 @@
 
             incomingparams['midexecute'] = incomingparams['executethis'];
             delete incomingparams['executethis'];
-
+//            console.log('starting preexecute ' + nonCircularStringify(incomingparams));
             dothisprocessor(incomingparams, 'preexecute', function (err, preResults) {
                 preError = err;
 
@@ -91,7 +89,6 @@
                 dothisprocessor(preResults, 'midexecute', function (err, midResults) {
 
                     midError = err;
-
 //                    console.log(' after midexecute >> ' + nonCircularStringify(midResults));
 //                    console.log(' after midexecute II >> \n' + JSON.stringify(midResults, '-', 4));
 
@@ -506,7 +503,7 @@
                     if (params.hasOwnProperty('midexecute') && params.midexecute === undefined) { delete params['midexecute']; }
                     if (params.hasOwnProperty('postexecute') && params.postexecute === undefined) { delete params['postexecute']; }
                     // err = {"Error": "here it is"};
-                    proxyprinttodiv("**Error - dothisprocessor ", err, 99);
+                    proxyprinttodiv("**Error - dothisprocessor ", err,11);
                     callback(err, params);
                 }
             } // else not test4
@@ -815,7 +812,7 @@
                                             if (securitycheck) {
                                                 executeobject.targetfn(executeobject.params, function (err, res) {
 
-                                                    proxyprinttodiv("executelist err from execution ", err, 99);
+                                                    proxyprinttodiv("executelist err from execution ", err, 11);
                                                     proxyprinttodiv("executelist result from execution ", res, 11);
 
                                                     // This section helps control the iteration -- Joe
