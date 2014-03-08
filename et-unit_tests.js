@@ -2560,7 +2560,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 // This is a 2 level test of the dtos...instantiate song1 with a sonddto, and some sounddto values
 // failing due to a command object being sent back
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
-    clearLocalStorage();
+    //clearLocalStorage();
 
     debuglevel = 17;
     //debugname = "";

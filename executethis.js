@@ -503,7 +503,7 @@
                     if (params.hasOwnProperty('midexecute') && params.midexecute === undefined) { delete params['midexecute']; }
                     if (params.hasOwnProperty('postexecute') && params.postexecute === undefined) { delete params['postexecute']; }
                     // err = {"Error": "here it is"};
-                    proxyprinttodiv("**Error - dothisprocessor ", err, 99);
+                    proxyprinttodiv("**Error - dothisprocessor ", err,11);
                     callback(err, params);
                 }
             } // else not test4
@@ -812,7 +812,7 @@
                                             if (securitycheck) {
                                                 executeobject.targetfn(executeobject.params, function (err, res) {
 
-                                                    proxyprinttodiv("executelist err from execution ", err, 99);
+                                                    proxyprinttodiv("executelist err from execution ", err, 11);
                                                     proxyprinttodiv("executelist result from execution ", res, 11);
 
                                                     // This section helps control the iteration -- Joe
@@ -1032,7 +1032,7 @@
     }
 
     // call bootprocess() for the first time after all dependencies have been loaded
-    bootprocess();
+    //bootprocess();
 
 
 

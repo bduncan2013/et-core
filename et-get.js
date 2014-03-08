@@ -87,7 +87,7 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
                 //
                 proxyprinttodiv("GetWidMaster after getclean before packed", res, 38);
                 res = pack_up_params(res, command, "getwidmaster");
-                proxyprinttodiv("GetWidMaster after getclean after packed", res, 38);
+                proxyprinttodiv("GetWidMaster after getclean after packed", res, 99);
 
                 proxyprinttodiv('getwidmaster command II-4', command, 38);
                 proxyprinttodiv('getwidmaster after getclean ', res, 38);
@@ -106,7 +106,7 @@ exports.getwidmaster = getwidmaster = function getwidmaster(parameters, callback
                 }
                 else { // the detault is to return dot notation...so old code does not break
                     res = ConvertToDOTdri(res);
-                                        
+                    proxyprinttodiv('getwidmaster packed parameters after convert', res, 99);              
                     console.log("??? command callback 2 \n" + JSON.stringify(command, '-', 4));
                     proxyprinttodiv("??? getwidmaster command callback 2 ", command, 38);
                     debugfn("getwidmaster code generator", "getwidmaster", "get", "code", 2, 1, {
@@ -521,7 +521,7 @@ exports.getWidMongo = getWidMongo = function getWidMongo(widInput, command, prea
                                     callback(err, results);
                                 } 
                                 //
-                                proxyprinttodiv('Function getwidmongo query', res, 38);
+                                proxyprinttodiv('Function getwidmongo query', res, 99);
                                 if (Object.keys(res).length !== 0) {
                                     moreDTOParameters = res;
                                     }
@@ -1107,7 +1107,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                 return _in_obj;
             } // end fn recurse
 
-            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 38);
+            proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 99);
             proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 38);
             proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 38);
             proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 38);
@@ -1119,7 +1119,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
             deepfilter(resultObj, dtoobject, command, function (err, resultObj){ // changed by joe
             //deepfilter(resultObj, bigdto, command, function (err, resultObj){
                 delete command.deepfilter;
-                proxyprinttodiv('<<< Get_Clean before call back afterdeepfilter resultObj >>>', resultObj, 38);                 
+                proxyprinttodiv('<<< Get_Clean before call back afterdeepfilter resultObj >>>', resultObj, 99);                 
                 debugfn("getclean code generator", "getclean", "get", "code", 2, 1, {
                     0: inbound_parameters,
                     1: resultObj
@@ -1133,7 +1133,7 @@ exports.getclean = getclean = function getclean(resultObj, command, callback) {
                     resultObj = find_and_replace_addthis(resultObj);
                     proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>', resultObj, 38);
                 }
-                
+                    proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>II', resultObj, 99);                
                 callback(err, resultObj);
             });
 
