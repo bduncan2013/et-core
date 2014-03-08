@@ -383,8 +383,7 @@
     }
 
 
-    exports.addgrouptowid = addgrouptowid = function addgrouptowid(wid, widmethod, groupname, callback) {
-
+    exports.addgrouptowid = addgrouptowid = function addgrouptowid(wid, widmethod, groupname, grouptype, callback) {
         proxyprinttodiv('Function addgrouptowid done --starting ' + groupname + ' for wid ' + wid + " >>>> ", wid, 39);
 
         execute([{
@@ -392,6 +391,7 @@
                 "wid": wid,
                 "metadata.method": widmethod,
                 "systemdto.groupdto.groupname": groupname,
+                "systemdto.groupdto.grouptype": grouptype
             }],
             function (err, res) {
                 // proxyprinttodiv('Function addgrouptowid done --added group ' + groupname + ' for wid ' + wid + " >>>> ", wid, 39);
@@ -401,7 +401,7 @@
                 callback(err, res)
             });
     }
-    
+
     exports.addpermission = addpermission = function addpermission(userwid, granteegroup, actiongroup, actiontypegroup, dbgroup, levelgroup, callback) {
         execute([{
                 // add permissions as per given information 
@@ -414,9 +414,9 @@
                 "systemdto.permissiondto.actiontypegroup": actiontypegroup,
                 "systemdto.permissiondto.dbgroup": dbgroup,
                 "systemdto.permissiondto.levelgroup": levelgroup
-            // }, {
-            //     "executethis": "getwidmaster",
-            //     "wid": userwid
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": userwid
             }],
             function (err, res) {
                 // proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userwid, res, 39);

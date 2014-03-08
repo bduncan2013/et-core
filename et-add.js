@@ -394,11 +394,11 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
     try {
 	    var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-        proxyprinttodiv("addrecord input inputrecord :- ", inputrecord,99 );
-        proxyprinttodiv("addrecord input dtoobject :- ", dtoobject,99);
-        proxyprinttodiv("addrecord input parentwid :- ", parentwid,99 );
-        proxyprinttodiv("addrecord input parentmethod :- ", parentmethod,99 );
-        proxyprinttodiv("addrecord input relationshiptype :- ", relationshiptype,99);
+        proxyprinttodiv("addrecord input inputrecord :- ", inputrecord,17 );
+        proxyprinttodiv("addrecord input dtoobject :- ", dtoobject,17);
+        proxyprinttodiv("addrecord input parentwid :- ", parentwid,17 );
+        proxyprinttodiv("addrecord input parentmethod :- ", parentmethod,17 );
+        proxyprinttodiv("addrecord input relationshiptype :- ", relationshiptype,17);
 
         var relobj={};
         var reldto={};
@@ -410,7 +410,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
         async.series([
             function step1(step1_callback) {
                 if (relationshiptype === "onetoone") {
-                    proxyprinttodiv("addrecord async.series fired with relationshiptype -- ", relationshiptype, 99);
+                    proxyprinttodiv("addrecord async.series fired with relationshiptype -- ", relationshiptype, 17);
 
                     executeobject["executethis"] = "querywid";
                     executeobject["mongorawquery"] = {
@@ -463,7 +463,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                     } 
 
                     addobject = addobject[0];
-                    proxyprinttodiv("addrecord input addobject :- ", addobject, 99);
+                    proxyprinttodiv("addrecord input addobject :- ", addobject, 17);
 
                     if (relationshiptype==="onetoone" || relationshiptype==="onetomany") {
 
@@ -479,8 +479,8 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                         relobj["primarywid"] = parentwid;
                         relobj["secondarywid"] = addobject['wid'];
 
-                        proxyprinttodiv("addrecord input addobject :-II ", addobject, 99);
-                        proxyprinttodiv("addrecord input addobject['wid'] :- ", addobject['wid'], 99);
+                        proxyprinttodiv("addrecord input addobject :-II ", addobject, 17);
+                        proxyprinttodiv("addrecord input addobject['wid'] :- ", addobject['wid'], 17);
 
                         relobj["relationshiptype"] = "attributes";
                         relobj["metadata"]= {};
@@ -493,7 +493,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                         if (addobject["metadata"])
                             relobj["secondarymethod"] = addobject["metadata"]["method"];
 
-                        proxyprinttodiv("addrecord input relobj ", relobj, 99);
+                        proxyprinttodiv("addrecord input relobj ", relobj, 17);
 
             			addwid(relobj, reldto, command, function (err, added_relation) {
                             
@@ -502,7 +502,7 @@ exports.addrecord = addrecord = function addrecord(inputrecord, dtoobject, paren
                                 callback(err, added_relation);
                             } 
 
-                            proxyprinttodiv("addrecord input added_relation :- ", added_relation, 99);
+                            proxyprinttodiv("addrecord input added_relation :- ", added_relation, 17);
                             // step2_callback(null, addobject);
                             step2_callback(null, addobject);
                          });

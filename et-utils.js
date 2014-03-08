@@ -4,6 +4,9 @@ if (!exports) {
 }
 // (function (window) {
 
+
+
+
 exports.localStore = localStore = function () {
 
     var json = {};
@@ -35,6 +38,80 @@ exports.localStore = localStore = function () {
 
 }();
 localStore.clear();
+
+exports.getglobal = getglobal = function getglobal(varname) {
+    localStore.get(varname);
+}
+
+exports.saveglobal = saveglobal = function saveglobal(varname, varvalue) {
+    localStore.push(varname, varvalue);
+}
+
+// logic to add things to localStore object
+exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
+    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        if (!widobject) {
+            widobject = {}
+        }
+        if (widName) {
+            localStore.push(widMasterKey + widName, widobject);
+        }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"addtolocal"});        
+        var finalobject = createfinalobject({"result":"addtolocal"}, {}, "addtolocal", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
+};
+
+// logic to get things from localStore object
+exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
+    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
+        var output = {};
+        if (inputWidgetObject["wid"]) {
+            inputWidgetObject = toLowerKeys(inputWidgetObject);
+            var widKey = inputWidgetObject["wid"].toLowerCase();
+            output = localStore.get(widMasterKey + widKey);
+            if (output == null) {
+                output = {};
+            }
+        }
+        proxyprinttodiv('getfromlocal output', output, 38);
+        //var x = localStore.get(inputWidgetObject);
+        //if (!x) {x={}};
+        return output;
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getfromlocal"});        
+        var finalobject = createfinalobject({"result":"getfromlocal"}, {}, "getfromlocal", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
+};
+
+exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
+    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
+        widMasterKey = "widmaster_";
+        localStorage.clear();
+        potentialwid = 0;
+            addToLocal("DRI", [{
+                "wid": "initialwid",
+                "initialwid": "hello from bootprocess"
+            }]);
+            addToLocal("DRIKEY", {
+                "initialwid": {
+                    "wid": "initialwid",
+                    "initialwid": "for key hello from bootprocess"
+                }
+            });
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"clearLocal"});        
+        var finalobject = createfinalobject({"result":"clearLocal"}, {}, "clearLocal", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
+};
+
+
 
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
     try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
@@ -461,81 +538,6 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     }
 }
 
-
-// logic to add things to localStore object
-exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
-    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
-        if (!widobject) {
-            widobject = {}
-        }
-        if (widName) {
-            localStore.push(widMasterKey + widName, widobject);
-        }
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"addtolocal"});        
-		var finalobject = createfinalobject({"result":"addtolocal"}, {}, "addtolocal", err, inbound_parameters);
-		callback(finalobject.err, finalobject.res);
-    }
-};
-
-// logic to get things from localStore object
-exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
-    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
-        var output = {};
-        if (inputWidgetObject["wid"]) {
-            inputWidgetObject = toLowerKeys(inputWidgetObject);
-            var widKey = inputWidgetObject["wid"].toLowerCase();
-            output = localStore.get(widMasterKey + widKey);
-            if (output == null) {
-                output = {};
-            }
-        }
-        proxyprinttodiv('getfromlocal output', output, 38);
-        //var x = localStore.get(inputWidgetObject);
-        //if (!x) {x={}};
-        return output;
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"getfromlocal"});        
-		var finalobject = createfinalobject({"result":"getfromlocal"}, {}, "getfromlocal", err, inbound_parameters);
-		callback(finalobject.err, finalobject.res);		
-    }
-};
-
-exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
-    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
-        widMasterKey = "widmaster_";
-        localStorage.clear();
-        potentialwid = 0;
-            addToLocal("DRI", [{
-                "wid": "initialwid",
-                "initialwid": "hello from bootprocess"
-            }]);
-            addToLocal("DRIKEY", {
-                "initialwid": {
-                    "wid": "initialwid",
-                    "initialwid": "for key hello from bootprocess"
-                }
-            });
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"clearLocal"});        
-		var finalobject = createfinalobject({"result":"clearLocal"}, {}, "clearLocal", err, inbound_parameters);
-		callback(finalobject.err, finalobject.res);		
-    }
-};
-
-// logic to clear things from Local storage
-// exports.testclearstorage = testclearstorage = function testclearstorage() {
-//     widMasterKey = "widmaster_";
-//     potentialwid = 0;
-//     //localStore.clear();
-//     localStorage.clear();
-//     // clearLocalStorage();
-//     // addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-//     // addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
-// };
 
 (function (window) {
 
@@ -2355,8 +2357,6 @@ exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
             _queryParser.traversable[key] = true;
         }
     }
-
-
     //node.js?
     if ((typeof module != 'undefined') && (typeof module.exports != 'undefined')) {
 
@@ -2369,6 +2369,7 @@ exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
 
         window.sift = sift;
     }
+
 
     exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify(testname, parameters, assert, database, command, callback) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));

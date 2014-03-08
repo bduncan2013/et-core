@@ -1,26 +1,29 @@
+
+
 if (!exports) {
     var exports = {};
 }
-if (!config) {
+if (!config) { // used in executethis
     var config = {};
 }
-if (!environment) {
+if (!environment) { // try to only use the one in configuration
     var environment = 'local';
 }
-if (!widMasterKey) {
+if (!widMasterKey) { // used here and untils maybe
     var widMasterKey = 'widmaster_';
 }
-if (!potentialwid) {
+
+if (!potentialwid) { // should not be neeeded
     var potentialwid = 0;
 }
 
-if (!Debug) {
+if (!Debug) { // printdiv
     var Debug = 'false';
 }
-if (!debuglevel) {
+if (!debuglevel) { // printdiv
     var debuglevel = 0;
 }
-if (!debugon) {
+if (!debugon) { // debugfn
     var debugon = false;
 }
 
@@ -52,11 +55,11 @@ if (!debuglog) {
     var debuglog = {};
 }
 
-if (!test_results) {
+if (!test_results) { // should not be neededd any more
     var test_results = {};
 }
 
-// *********** TRIGGERS ************
+// *********** EVENTS ************
 exports.bootprocess = bootprocess = function bootprocess() {
     if (Object.keys(config).length === 0) {
         setdefaultparm();
@@ -131,6 +134,51 @@ exports.etappnewpage = etappnewpage = function etappnewpage() {
 
 }; // execute each time we go to new page
 
+// etappinstall - run onces in life time, clears memory, resets defaults, runs createdtos
+//           clears memory, resets defaults, 
+// deviceready
+// newpage
+// online
+// offline    
+// 1min
+// 10min
+// daily
+// monthly
+// logineventsucess
+// logineventfail
+// outboundevent
+// deletewidevent
+// getwidevent
+// updatewidevent
+// addwidevent
+// executeevent
+// executeeachend
+// executeend
+
+// appinstall exports.x = x = function x() {
+// deviceready exports.x = x = function x() {
+// newpage exports.x = x = function x() {
+// online exports.x = x = function x() {
+// offline exports.x = x = function x() {
+// onemin exports.x = x = function x() {
+// tenmin exports.x = x = function x() {
+// daily exports.x = x = function x() {
+// monthly exports.x = x = function x() {
+// logineventsucess exports.x = x = function x() {
+// logineventfail exports.x = x = function x() {
+// outboundevent exports.x = x = function x() {
+// deletewidevent exports.x = x = function x() {
+// getwidevent exports.x = x = function x() {
+// updatewidevent exports.x = x = function x() {
+// addwidevent exports.x = x = function x() {
+// executeevent exports.x = x = function x() {
+// executeeachend exports.x = x = function x() {
+// executeend exports.x = x = function x() {
+
+
+
+// function getglobal(property)
+// function saveglobal(property, value)
 
 function setdefaultparm() {
 
