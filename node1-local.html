@@ -76,7 +76,7 @@
 <body>
     <!-- 
 <div id='storageSpaceBar'>
-   	<div id='storageSpaceValue'>
+    <div id='storageSpaceValue'>
       <div id='storageSpaceText'></div>
    </div>
 </div>
@@ -99,9 +99,10 @@
                 <label>Function:</label>
                 <input id='function_to_run' size='20' value=''>
                 <input id='reload_page' class='btn btn-danger' type='button' value='Reload Page' />
-
+                <label>Clean local storage?</label>
+                <input type='checkbox' id='localStorageClean' checked="true">
                 <!--
-			<label>Server call ? </label><input type='checkbox' id='server_caller'>
+            <label>Server call ? </label><input type='checkbox' id='server_caller'>
 -->
                 <label id='test_result_message' style='padding-left: 6em;'></label>
                 <!-- <input id='mybutton' class='btn btn-warning' type='button' value='Show/Hide Local Storage'/>  -->
@@ -116,8 +117,12 @@
                 <div class="col-md-12">
                     <span class="label label-default well_hider">Debug</span>
                     <div class="well" style='display: none;'>
+<<<<<<< HEAD
                         <label>Clean local storage?</label>
                         <input type='checkbox' id='localStorageClean'>
+=======
+
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                         <label>Debug?</label>
                         <input type='checkbox' id='debugon'>
                         <label>Destination: Print?</label>
@@ -290,14 +295,14 @@
 
         // check to make sure the test string is in the right format
         // if(function_to_execute.indexOf("ettest") === -1) {
-        // 	function_to_execute = "ettest" + function_to_execute;
+        //  function_to_execute = "ettest" + function_to_execute;
         // }
 
         var my_execute_object = {
             "executethis": function_to_execute
         };
 
-        // if ($('#server_caller').prop('checked')) {		
+        // if ($('#server_caller').prop('checked')) {       
         if (isServer) {
             my_execute_object['configuration'] = {
                 "midexecute": [{
@@ -308,6 +313,8 @@
                 }]
             };
         }
+        // Change the Clean local storage checkbox to 'unchecked'
+        $("#localStorageClean").prop('checked', false);
         // ******** This actually executes the function and show the output ********
         execute(my_execute_object, show_function_output3);
     }
@@ -525,7 +532,7 @@
             }
         }
 
-        // The ultimate pass/fail	
+        // The ultimate pass/fail   
         if (testfailflag == 'false') {
             return {
                 "resultwid": 'PASS'
@@ -693,8 +700,8 @@
         // var db = JSON.parse(localStorage['DRIKEY']);
         var db = JSON.stringify(JSON.parse(localStorage['DRIKEY']), "-", 4);
         // for (var i in db) {
-        // 	html += "<label style='color: red; font-size: 85%;'>" + db[i].wid + "</label>   ";
-        // 	html += "<label style='color: purple; font-size: 85%;'>" + JSON.stringify(db[i].data) + "</label><br><br>";
+        //  html += "<label style='color: red; font-size: 85%;'>" + db[i].wid + "</label>   ";
+        //  html += "<label style='color: purple; font-size: 85%;'>" + JSON.stringify(db[i].data) + "</label><br><br>";
         // }
         document.getElementById("local_data").innerHTML = db;
     }

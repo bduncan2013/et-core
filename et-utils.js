@@ -40,11 +40,19 @@ exports.localStore = localStore = function () {
 localStore.clear();
 
 exports.getglobal = getglobal = function getglobal(varname) {
+<<<<<<< HEAD
     localStore.get(varname);
 }
 
 exports.saveglobal = saveglobal = function saveglobal(varname, varvalue) {
     localStore.push(varname, varvalue);
+=======
+    return localStore.get(varname);
+}
+
+exports.saveglobal = saveglobal = function saveglobal(varname, varvalue) {
+    return localStore.push(varname, varvalue);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 }
 
 // logic to add things to localStore object
@@ -75,6 +83,8 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
             if (output == null) {
                 output = {};
             }
+<<<<<<< HEAD
+=======
         }
         proxyprinttodiv('getfromlocal output', output, 38);
         //var x = localStore.get(inputWidgetObject);
@@ -108,6 +118,66 @@ exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
         //callback ({"status":"there was an error"}, {"function":"clearLocal"});        
         var finalobject = createfinalobject({"result":"clearLocal"}, {}, "clearLocal", err, inbound_parameters);
         callback(finalobject.err, finalobject.res);     
+    }
+};
+
+
+
+exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
+    try {
+    if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+        printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+        // console.log(text);
+        // console.log(obj);
+        if (document.getElementById('divprint')) {
+            document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
+        }
+        proxyprinttodiv('getfromlocal output', output, 38);
+        //var x = localStore.get(inputWidgetObject);
+        //if (!x) {x={}};
+        return output;
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getfromlocal"});        
+        var finalobject = createfinalobject({"result":"getfromlocal"}, {}, "getfromlocal", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"printToDiv"});  
+        var finalobject = createfinalobject({"result":"printToDiv"}, {}, "printToDiv", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
+};
+
+<<<<<<< HEAD
+exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
+    try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
+        widMasterKey = "widmaster_";
+        localStorage.clear();
+        potentialwid = 0;
+            addToLocal("DRI", [{
+                "wid": "initialwid",
+                "initialwid": "hello from bootprocess"
+            }]);
+            addToLocal("DRIKEY", {
+                "initialwid": {
+                    "wid": "initialwid",
+                    "initialwid": "for key hello from bootprocess"
+                }
+            });
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"clearLocal"});        
+        var finalobject = createfinalobject({"result":"clearLocal"}, {}, "clearLocal", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+=======
+exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
+    try {
+    if (!debugone) {
+        debugone = -1;
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     }
 };
 
@@ -157,10 +227,17 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
 		var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
 		callback(finalobject.err, finalobject.res);
     }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"proxyprinttodiv"});        
+        var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }   
 }
 
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
+<<<<<<< HEAD
     try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 38);
         proxyprinttodiv("insertbydtotype input bigdto :- ", bigdto, 38);
@@ -204,6 +281,65 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
                 proxyprinttodiv("insertbydtotype setbyindex  inputobj:- ", inputobj, 38);
                 inputobj = ConvertFromDOTdri(inputobj);
             }
+=======
+    try {
+    proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 38);
+    proxyprinttodiv("insertbydtotype input bigdto :- ", bigdto, 38);
+    proxyprinttodiv("insertbydtotype input insertobj :- ", insertobj, 38);
+    proxyprinttodiv("insertbydtotype input command :- ", command, 38);
+
+    var dtoname;
+    var dtonameobj;
+    var dtoindex;
+    if (bigdto.metadata && bigdto["metadata"]["method"]) {
+        dtoname = bigdto["metadata"]["method"];
+    }
+    if (insertobj.metadata && insertobj["metadata"]["method"]) {
+        dtoname = insertobj["metadata"]["method"];
+    }
+    if (command && command.dtotype) {
+        dtoname = command.dtotype;
+    }
+    proxyprinttodiv("insertbydtotype dtoname :- ", dtoname, 38);
+    if (dtoname) {
+        dtoindex = getindex(bigdto, dtoname, null);
+        proxyprinttodiv("insertbydtotype dtoindex:- ", dtoindex, 38);
+        if (!insertobj.metadata) {
+            insertobj.metadata = {};
+        }
+        delete insertobj.wid;
+        insertobj["metadata"]["method"] = dtoname;
+        proxyprinttodiv("insertbydtotype setbyindex  insertobj:- ", insertobj, 38);
+        proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- I", inputobj, 38);
+        if (dtoindex === null) { // create outside wrapper
+            // Changed by joe to fix a nesting issue
+            // dtoname = inputobj["metadata"]["method"];
+            // insertobj[dtoname] = {};
+            // extend(true, insertobj[dtoname], inputobj)
+            // extend(true, insertobj[dtoname], inputobj)
+            // inputobj = insertobj;
+            proxyprinttodiv("insertbydtotype setbyindex  null insertobj:- II", insertobj, 38);
+            // inputobj = ConvertFromDOTdri(inputobj);
+            proxyprinttodiv("insertbydtotype setbyindex  null inputobj:- II", inputobj, 38);
+            proxyprinttodiv("insertbydtotype setbyindex  null command.inherit:- II", command.inherit, 38);
+            
+            // this section handels the inherit types
+            if (command.inherit === "default") {
+                // default
+                inputobj = extend(true, insertobj, inputobj);
+            } 
+            else if (command.inherit === "override") {
+                // override
+                inputobj = extend(true, inputobj, insertobj);  // notice the inputs are fliped
+            }
+            // clean up the command object
+            delete command.inherit 
+
+        } else {
+            setbyindex(inputobj, dtoindex, insertobj);
+            proxyprinttodiv("insertbydtotype setbyindex  inputobj:- ", inputobj, 38);
+            inputobj = ConvertFromDOTdri(inputobj);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
         proxyprinttodiv("insertbydtotype result :- ", inputobj, 38);
         return inputobj;
@@ -213,10 +349,22 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
 		var finalobject = createfinalobject({"result":"insertbydtotype"}, {}, "insertbydtotype", err, inbound_parameters);
 		callback(finalobject.err, finalobject.res);
     }
+<<<<<<< HEAD
+=======
+    proxyprinttodiv("insertbydtotype result :- ", inputobj, 38);
+    return inputobj;
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"insertbydtotype"});        
+        var finalobject = createfinalobject({"result":"insertbydtotype"}, {}, "insertbydtotype", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 }
 
 
 function getindex(parameterobject, dtoname, indexstring) {
+<<<<<<< HEAD
     try{
         var inbound_parameters = {};
         inbound_parameters = JSON.parse(JSON.stringify(arguments));
@@ -236,6 +384,24 @@ function getindex(parameterobject, dtoname, indexstring) {
                     }
                     proxyprinttodiv('Function indexstring FOUND', indexstring, 23);
                     break;
+=======
+    try {
+    var inbound_parameters = {};
+    inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
+    var match;
+    var potentialmap;
+    if (parameterobject["metadata"] && parameterobject["metadata"]["method"] && parameterobject["metadata"]["method"] === dtoname) {
+        return ""
+    } else {
+        for (eachelement in parameterobject) {
+            proxyprinttodiv('Function getindex eachelement', eachelement, 23);
+            if (eachelement === dtoname) {
+                if (indexstring) {
+                    indexstring = indexstring + '.' + eachelement
+                } else {
+                    indexstring = eachelement
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                 }
 
                 if (parameterobject[eachelement] instanceof Object) {
@@ -255,6 +421,7 @@ function getindex(parameterobject, dtoname, indexstring) {
         }
         proxyprinttodiv('Function indexstring ', indexstring, 23);
 
+<<<<<<< HEAD
         debugfn("getindex code generator", "getindex", "get", "code", 2, 1, {
             0: inbound_parameters,
             1: indexstring
@@ -266,10 +433,19 @@ function getindex(parameterobject, dtoname, indexstring) {
         //callback ({"status":"there was an error"}, {"function":"getindex"});        
 		var finalobject = createfinalobject({"result":"getindex"}, {}, "getindex", err, inbound_parameters);
 		callback(finalobject.err, finalobject.res);
+=======
+    return indexstring;
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"getindex"});        
+        var finalobject = createfinalobject({"result":"getindex"}, {}, "getindex", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     }
 }
 
 function setbyindex(obj, str, val) {
+<<<<<<< HEAD
     try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var keys, key;
         //make sure str is a string with length
@@ -279,6 +455,24 @@ function setbyindex(obj, str, val) {
             if (!str || !str.length || Object.prototype.toString.call(str) !== "[object String]") {
                 return false;
             }
+=======
+    try {
+    var keys, key;
+    //make sure str is a string with length
+    if (str === "") {
+        extend(true, obj, val)
+    } else {
+        if (!str || !str.length || Object.prototype.toString.call(str) !== "[object String]") {
+            return false;
+        }
+        if (obj !== Object(obj)) {
+            //if it's not an object, make it one
+            obj = {};
+        }
+        keys = str.split(".");
+        while (keys.length > 1) {
+            key = keys.shift();
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
             if (obj !== Object(obj)) {
                 //if it's not an object, make it one
                 obj = {};
@@ -305,11 +499,18 @@ function setbyindex(obj, str, val) {
 		var finalobject = createfinalobject({"result":"setbyindex"}, {}, "setbyindex", err, inbound_parameters);
 		callback(finalobject.err, finalobject.res);		
     }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"setbyindex"});        
+        var finalobject = createfinalobject({"result":"setbyindex"}, {}, "setbyindex", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
 };
 
 
 
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
+<<<<<<< HEAD
     try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         console.log("<< in deepfilter >>");
         var modifiedObj = {};
@@ -337,10 +538,38 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
         //callback ({"status":"there was an error"}, {"function":"deepfilter"});
 		var finalobject = createfinalobject({"result":"deepfilter"}, {}, "deepfilter", err, inbound_parameters);
 		callback(finalobject.err, finalobject.res);        
+=======
+    try {
+    console.log("<< in deepfilter >>");
+    var modifiedObj = {};
+    extend(true, modifiedObj, inputObj);
+    console.log("<< extend >>" + JSON.stringify(modifiedObj));
+    proxyprinttodiv("deepfilter inputObj", inputObj, 41);
+    proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
+    if (dtoObjOpt) {
+        recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
+           // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            }
+            proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
+            callback(null, res);
+        });
+    } else {
+        proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
+        callback(null, inputObj);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
+    }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"deepfilter"});
+        var finalobject = createfinalobject({"result":"deepfilter"}, {}, "deepfilter", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);        
     }
 }
 
 function recurseModObj(inputObject, dtoObject, command, callback) {
+<<<<<<< HEAD
     try { var inbound_parameters = JSON.parse(JSON.stringify(arguments)); 
         if (command && !command["command.deepfilter.convert"]) { //command undefined
             command["command.deepfilter.convert"] = false; //default value
@@ -452,6 +681,76 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                             }
                         }
                         proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
+=======
+    try {
+    if (command && !command["command.deepfilter.convert"]) { //command undefined
+        command["command.deepfilter.convert"] = false; //default value
+    }
+
+    var temparray=[];
+    var modifiedObj = {};
+    var todolist = [];
+    Object.keys(inputObject).forEach(function (inpKey) {
+        //for (eachkey in inputObject) {
+        todolist.push(inpKey);
+        //}
+    });
+    proxyprinttodiv("recurseModObj - todolist ", todolist, 41);
+
+    async.mapSeries(todolist, function (inpKey, cbMap) {
+        proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
+        async.nextTick(function () {
+            var inpVal = inputObject[inpKey];
+            proxyprinttodiv("recurseModObj - inpKey ", inpKey, 41);
+            proxyprinttodiv("recurseModObj - inpVal ", inpVal, 41);
+
+            if (dtoObject.hasOwnProperty(inpKey)) {
+                var dataType = dtoObject[inpKey];
+                proxyprinttodiv("recurseModObj - dataType ", dataType, 41);
+
+                //if (inpVal instanceof Array) {
+                if ((isArray(inpVal)) || (isArray(dataType))) {
+                    if (!isArray(inpVal)) {
+                        temparray=[];
+                        temparray.push(inpVal)
+                        inpVal=temparray;
+                        }
+                    if (isArray(dataType)) {
+                        dataType = dataType[0]
+                        }
+                    if (!modifiedObj[inpKey]) {
+                        modifiedObj[inpKey] = []
+                        }
+                    proxyprinttodiv("recurseModObj - before mapseries inpVal ", inpVal, 41);
+                    proxyprinttodiv("recurseModObj - before mapseries inpVal isArray", isArray(inpVal), 41);
+                    proxyprinttodiv("recurseModObj - before mapseries dataType ", dataType, 41);
+                    async.mapSeries(inpVal, function (eachinputval, cb1) { // step through each inpVal
+                        async.nextTick(function () {
+                            proxyprinttodiv("recurseModObj - in mapseries eachinputval ", eachinputval, 41);
+                            recurseModObj(eachinputval, dataType, command, function (err, result) {
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    callback(err, result);
+                                } 
+                                proxyprinttodiv("recurseModObj - in mapseries result ", result, 41);
+                                if (Object.keys(result).length !== 0) {
+                                    modifiedObj[inpKey].push(result)
+                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] ", modifiedObj[inpKey], 41);
+                                    proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
+                                    };
+                                proxyprinttodiv("recurseModObj - after if ", modifiedObj[inpKey], 41);
+                                cb1(null)
+                            }) // recurse
+                            proxyprinttodiv("recurseModObj - between ", modifiedObj[inpKey], 41);
+                        }) // next tick
+                        proxyprinttodiv("recurseModObj - between II ", modifiedObj[inpKey], 41);
+                    }, function (err, res) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, result);
+                        } 
+                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] end nextTick ", modifiedObj[inpKey], 41);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                         cbMap(null);
                         //} else if(typeof inpVal === "object" &&  dataType === "object") {
                         //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
@@ -488,16 +787,42 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                             proxyprinttodiv("recurseModObj - modifiedObj[inpKey] IV", modifiedObj[inpKey], 41);
                             cbMap(null);
                         }
+<<<<<<< HEAD
                     } else {
                         // to read wid obj via getwidmaster
                         execute({
                             "executethis": dataType
                         }, function (err, result) {
                             
+=======
+                    }
+                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
+                    cbMap(null);
+                    //} else if(typeof inpVal === "object" &&  dataType === "object") {
+                    //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
+                    // } else if(inpVal instanceof Array) {
+                    //     async.mapSeries(inpVal, function (eachinputval, cb1) {
+                    //         async.nextTick(function () { 
+                    //             recurseModObj(eachinputval, dataType, command, function (err, result) {
+                    //                 modifiedObj[inpKey] = inpVal;
+                    //                 cb1(null) 
+                    //                 }) // recurse
+                    //             }) // next tick
+                    //         }, // mapseries
+                    //         cbMap(null);
+                    //         ) // mapseries
+
+                } else if ((typeof inpVal === "object")) {
+                    proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
+                    if (inpKey !== "metadata") {
+                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
+                        recurseModObj(inpVal, dataType, command, function (err, result) {
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                             // If error, bounce out
                             if (err && Object.keys(err).length > 0) {
                                 callback(err, result);
                             } 
+<<<<<<< HEAD
 
                             //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
                             var widObj = result[0][0];
@@ -507,18 +832,44 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                                 }
                             }
                             proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);
+=======
+                            //var modObj = recurseModObj(inpVal,dataType,command);
+                            modifiedObj[inpKey] = result;
+                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                             cbMap(null);
                         });
                     }
+<<<<<<< HEAD
                     /*else {
                         //Doesn't match with dto -- Nullifying the param
                         modifiedObj[inpKey] = null;
+=======
+                } else {
+                    // to read wid obj via getwidmaster
+                    execute({
+                        "executethis": dataType
+                    }, function (err, result) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, result);
+                        } 
+                        //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
+                        var widObj = result[0][0];
+                        if (widObj) {
+                            if (widObj.hasOwnProperty(inpVal)) {
+                                modifiedObj[inpKey] = inpVal;
+                            }
+                        }
+                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                         cbMap(null);
                     }*/
                 } else {
                     delete modifiedObj[inpKey];
                     proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
                     cbMap(null);
+<<<<<<< HEAD
                 }
             });
         }, function (err, res) {
@@ -537,12 +888,84 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 		callback(finalobject.err, finalobject.res);		
     }
 }
+=======
+                }*/
+            } else {
+                delete modifiedObj[inpKey];
+                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
+                cbMap(null);
+            }
+        });
+    }, function (err, res) {
+        // If error, bounce out
+        if (err && Object.keys(err).length > 0) {
+            callback(err, result);
+        } 
+        callback(err, modifiedObj);
+    });
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"recurseModObj"});        
+        var finalobject = createfinalobject({"result":"recurseModObj"}, {}, "recurseModObj", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);     
+    }
+}
+
+
+// logic to add things to localStore object
+exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
+    if (!widobject) {
+        widobject = {}
+    }
+    if (widName) {
+        localStore.push(widMasterKey + widName, widobject);
+    }
+};
+
+// // logic to get things from localStore object
+// exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
+//     var output = {};
+//     if (inputWidgetObject["wid"]) {
+//         inputWidgetObject = toLowerKeys(inputWidgetObject);
+//         var widKey = inputWidgetObject["wid"].toLowerCase();
+//         output = localStore.get(widMasterKey + widKey);
+//         if (output == null) {
+//             output = {};
+//         }
+//     }
+//     proxyprinttodiv('getfromlocal output', output, 38);
+//     //var x = localStore.get(inputWidgetObject);
+//     //if (!x) {x={}};
+//     return output
+// };
+
+// exports.clearLocal = clearLocal = function clearLocal() {
+//     widMasterKey = "widmaster_";
+//     localStorage.clear();
+//     potentialwid = 0;
+//         addToLocal("DRI", [{
+//             "wid": "initialwid",
+//             "initialwid": "hello from bootprocess"
+//         }]);
+//         addToLocal("DRIKEY", {
+//             "initialwid": {
+//                 "wid": "initialwid",
+//                 "initialwid": "for key hello from bootprocess"
+//             }
+//         });
+// };
+
+
+
+
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
 
 (function (window) {
 
     // Utility function to return json with all keys in lowercase
     exports.toLowerKeys = toLowerKeys = function toLowerKeys(obj) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
             if (obj && obj instanceof Object) {
                 var key, keys = Object.keys(obj);
@@ -555,6 +978,16 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 return newobj;
             } else {
                 return obj;
+=======
+        try {
+        if (obj && obj instanceof Object) {
+            var key, keys = Object.keys(obj);
+            var n = keys.length;
+            var newobj = {}
+            while (n--) {
+                key = keys[n];
+                newobj[key.toLowerCase()] = obj[key];
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
             }
         } // end try
         catch (err) {
@@ -562,10 +995,17 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"toLowerKeys"}, {}, "toLowerKeys", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"toLowerKeys"});        
+            var finalobject = createfinalobject({"result":"toLowerKeys"}, {}, "toLowerKeys", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     // Utility function to return json attr count
     exports.jsonLength = jsonLength = function jsonLength(obj) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             return Object.keys(obj).length;
         } // end try
@@ -574,12 +1014,23 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"jsonLength"}, {}, "jsonLength", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);
         }
+=======
+        try {
+        return Object.keys(obj).length;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"jsonLength"});        
+            var finalobject = createfinalobject({"result":"jsonLength"}, {}, "jsonLength", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }        
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     };
 
 
     /* lib.js functions */
 
     var recurFunc = function (arr, val) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             // stop condition
             if (arr.length <= 0) {
@@ -605,6 +1056,33 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"recurFunc"}, {}, "recurFunc", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+=======
+        try {
+        // stop condition
+        if (arr.length <= 0) {
+            return val;
+        }
+        // check if array
+        // pop the first item of the array;
+        var first = arr[0];
+        var rest = arr.slice(1);
+
+        var result = {};
+        //if (_.isUndefined(result[first]) ) {
+        if (isUndefined(result[first])) {
+            result[first] = {};
+        }
+
+        var temp = recurFunc(rest, val);
+        result[first] = temp;
+        return result;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"recurFunc"});        
+            var finalobject = createfinalobject({"result":"recurFunc"}, {}, "recurFunc", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     }
 
     // exports.converttojson = converttojson = function converttojson(data) {
@@ -631,6 +1109,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     var toString = Object.prototype.toString;
 
     function isPlainObject(obj) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
             if (!obj || toString.call(obj) !== '[object Object]' || obj.nodeType || obj.setInterval)
                 return false;
@@ -652,10 +1131,34 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"isPlainObject"});        
 			var finalobject = createfinalobject({"result":"isPlainObject"}, {}, "isPlainObject", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
+=======
+        try {
+        if (!obj || toString.call(obj) !== '[object Object]' || obj.nodeType || obj.setInterval)
+            return false;
+
+        var has_own_constructor = hasOwn.call(obj, 'constructor');
+        var has_is_property_of_method = hasOwn.call(obj.constructor.prototype, 'isPrototypeOf');
+        // Not own constructor property must be Object
+        if (obj.constructor && !has_own_constructor && !has_is_property_of_method)
+            return false;
+
+        // Own properties are enumerated firstly, so to speed up,
+        // if last one is own, then all properties are own.
+        var key;
+        for (key in obj) {}
+
+        return key === undefined || hasOwn.call(obj, key);
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isPlainObject"});        
+            var finalobject = createfinalobject({"result":"isPlainObject"}, {}, "isPlainObject", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     };
 
     exports.extend = extend = function extend() { // similar to jquery exetend()
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var options, name, src, copy, copyIsArray, clone,
                 target = arguments[0] || {},
@@ -670,6 +1173,23 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 // skip the boolean and the target
                 i = 2;
             }
+=======
+        try {
+            var inbound_parameters = JSON.parse(JSON.stringify(arguments)); 
+            var options, name, src, copy, copyIsArray, clone,
+            target = arguments[0] || {},
+            i = 1,
+            length = arguments.length,
+            deep = false;
+
+        // Handle a deep copy situation
+        if (typeof target === "boolean") {
+            deep = target;
+            target = arguments[1] || {};
+            // skip the boolean and the target
+            i = 2;
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
             // Handle case when target is a string or something (possible in deep copy)
             if (typeof target !== "object" && typeof target !== "function") {
@@ -717,12 +1237,24 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"extend"}, {}, "extend", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+<<<<<<< HEAD
+=======
+        // Return the modified object
+        return target;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"extend"});        
+            var finalobject = createfinalobject({"result":"extend"}, {}, "extend", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     };
 
 
     // Deconstructs the dot.notation string into an object that has properties.
     exports.ConvertFromDOTdri = ConvertFromDOTdri = function ConvertFromDOTdri(data) { //Expands to Real javascript object
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
+<<<<<<< HEAD
             if (Object(data) !== data || Array.isArray(data))
                 return data;
             var result = {}, cur, prop, idx, last, temp;
@@ -744,6 +1276,29 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"ConvertFromDOTdri"}, {}, "ConvertFromDOTdri", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+=======
+        if (Object(data) !== data || Array.isArray(data))
+            return data;
+        var result = {}, cur, prop, idx, last, temp;
+        for (var p in data) {
+            cur = result, prop = "", last = 0;
+            do {
+                idx = p.indexOf(".", last);
+                temp = p.substring(last, idx !== -1 ? idx : undefined);
+                cur = cur[prop] || (cur[prop] = (!isNaN(parseInt(temp)) ? [] : {}));
+                prop = temp;
+                last = idx + 1;
+            } while (idx >= 0);
+            cur[prop] = data[p];
+        }
+        return result[""];
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"ConvertFromDOTdri"});        
+            var finalobject = createfinalobject({"result":"ConvertFromDOTdri"}, {}, "ConvertFromDOTdri", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     }
 
 
@@ -752,6 +1307,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     // from ConvertFrom DOT, so you can see it part of the process of deconstructing the dot.notaion string.
     exports.createObjects = createObjects = function createObjects(parent, chainArray, value) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
+<<<<<<< HEAD
             //proxyprinttodiv('createobject parent',  parent,38);
             //proxyprinttodiv('createobject chainArray',  chainArray,38);
             if (chainArray.length == 1) {
@@ -766,6 +1322,22 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"createObjects"});        
 			var finalobject = createfinalobject({"result":"createObjects"}, {}, "createObjects", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
+=======
+        //proxyprinttodiv('createobject parent',  parent,38);
+        //proxyprinttodiv('createobject chainArray',  chainArray,38);
+        if (chainArray.length == 1) {
+            parent[chainArray[0]] = value;
+            return parent;
+        } else {
+            parent[chainArray[0]] = parent[chainArray[0]] || {};
+            return createObjects(parent[chainArray[0]], chainArray.slice(1, chainArray.length), value);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
+        }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"createObjects"});        
+            var finalobject = createfinalobject({"result":"createObjects"}, {}, "createObjects", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
         }
     };
 
@@ -787,6 +1359,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     // };
 
     exports.ConvertToDOTdri = ConvertToDOTdri = function ConvertToDOTdri(data) { //dotize
+<<<<<<< HEAD
             try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
                 var result = {};
 
@@ -807,6 +1380,25 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                         if (isEmpty)
                             result[prop] = {};
                     }
+=======
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var result = {};
+
+        function recurse(cur, prop) {
+            if (Object(cur) !== cur) {
+                result[prop] = cur;
+            } else if (Array.isArray(cur)) {
+                for (var i = 0, l = cur.length; i < l; i++)
+                    recurse(cur[i], prop ? prop + "." + i : "" + i);
+                if (l == 0)
+                    result[prop] = [];
+            } else {
+                var isEmpty = true;
+                for (var p in cur) {
+                    isEmpty = false;
+                    recurse(cur[p], prop ? prop + "." + p : p);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                 }
                 recurse(data, "");
                 return result;
@@ -816,10 +1408,22 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"ConvertToDOTdri"}, {}, "ConvertToDOTdri", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+<<<<<<< HEAD
+=======
+        recurse(data, "");
+        return result;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"ConvertToDOTdri"});        
+            var finalobject = createfinalobject({"result":"ConvertToDOTdri"}, {}, "ConvertToDOTdri", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     };
 
 
     exports.getnewwid = getnewwid = function getnewwid(parameters, callback) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             //potentialwid++;
             //return String(potentialwid);
@@ -830,9 +1434,34 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             var widvalue = 1;
             if (parameters && parameters['widvalue']) {
                 widvalue = parseInt(parameters['widvalue'])
+=======
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        //potentialwid++;
+        //return String(potentialwid);
+        var executeobject = {
+            "executethis": "getwid",
+            "wid": "currentwid"
+        };
+        var widvalue = 1;
+        if (parameters && parameters['widvalue']) {
+            widvalue = parseInt(parameters['widvalue'])
+        }
+
+        execute(executeobject, function (err, result) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, result);
+            } 
+            executeobject = result[0];
+            if (Object.keys(executeobject).length !== 0) {
+                widvalue = parseInt(executeobject['widvalue'])
+                widvalue++;
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
             }
 
             execute(executeobject, function (err, result) {
+<<<<<<< HEAD
                 
                 // If error, bounce out
                 if (err && Object.keys(err).length > 0) {
@@ -864,6 +1493,16 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"getnewwid"});        
 			var finalobject = createfinalobject({"result":"getnewwid"}, {}, "getnewwid", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
+=======
+                callback(null, executeobject['widvalue']);
+            });
+        })
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"getnewwid"});        
+            var finalobject = createfinalobject({"result":"getnewwid"}, {}, "getnewwid", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     };
 
@@ -922,6 +1561,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
     // Returns true if the parameter is lower case
     exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             //function isParameterLower(parameters, str) {
             // getObjectSize(parameters);
@@ -930,6 +1570,21 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 length = Object.keys(parameters).length;
             } else {
                 length = parameters.length
+=======
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        //function isParameterLower(parameters, str) {
+        // getObjectSize(parameters);
+        var length;
+        if (parameters.length === undefined) {
+            length = Object.keys(parameters).length;
+        } else {
+            length = parameters.length
+        }
+        for (key in parameters) { //rewritten
+            if (key.toLowerCase() == str) {
+                return true;
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
             }
             for (key in parameters) { //rewritten
                 if (key.toLowerCase() == str) {
@@ -942,11 +1597,18 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"isParameterLower"}, {}, "isParameterLower", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isParameterLower"});        
+            var finalobject = createfinalobject({"result":"isParameterLower"}, {}, "isParameterLower", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     // Deletes a hash from an object    
     exports.remove = remove = function remove(parameters, str) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             //function remove(parameters, str){
             var length;
             if (parameters.length === undefined) {
@@ -955,6 +1617,15 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                     if (key.toLowerCase() == str) {
                         delete parameters[key];
                     }
+=======
+        //function remove(parameters, str){
+        var length;
+        if (parameters.length === undefined) {
+            length = Object.keys(parameters).length;
+            for (key in parameters) { //rewritten
+                if (key.toLowerCase() == str) {
+                    delete parameters[key];
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                 }
             } else {
                 length = parameters.length
@@ -965,11 +1636,18 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"remove"}, {}, "remove", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"remove"});
+            var finalobject = createfinalobject({"result":"remove"}, {}, "remove", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     };
 
     // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
     exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, defaults_object, filter_object, deleteflag) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));       
             proxyprinttodiv("tolowerparameters parameters", parameters, 88);
             proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
@@ -982,6 +1660,21 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             if (!filter_object) {
                 filter_object = default_object
             }
+=======
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));       
+        proxyprinttodiv("tolowerparameters parameters", parameters, 88);
+        proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
+        proxyprinttodiv("tolowerparameters filter_object", filter_object, 88);
+        proxyprinttodiv("tolowerparameters deleteflag", deleteflag, 88);
+        var val;
+        var filteredobject = {};
+        var output = {};
+        var eachparm;
+        if (!filter_object) {
+            filter_object = default_object
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
             for (eachparm in parameters) {
                 output[eachparm.toLowerCase()] = parameters[eachparm]; // first lower case each parameter
@@ -1021,6 +1714,12 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"tolowerparameters"});        
 			var finalobject = createfinalobject({"result":"tolowerparameters"}, {}, "tolowerparameters", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
+        }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"tolowerparameters"});        
+            var finalobject = createfinalobject({"result":"tolowerparameters"}, {}, "tolowerparameters", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
         }
     }
 
@@ -1083,6 +1782,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     // }
 
     exports.filter_params = filter_params = function filter_params(parameters, filter_object) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var output = {};
             var target_value = "";
@@ -1105,6 +1805,30 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                         } else {
                             output[p] = parameters[p];
                         }
+=======
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var output = {};
+        var target_value = "";
+        // Get just the keys from the filter_object
+        var filter_by_keys = [];
+        for (f in filter_object) {
+            filter_by_keys.push(f.toLowerCase());
+        }
+        // Walk throught the data, 1 key at a time
+        for (var p in parameters) {
+            // Look at the filter and apply it to the data
+            for (var v in filter_by_keys) {
+                // If a parameterkey equals the filterkey we are looking at, 
+                // put the parameterkey in the output with the lowercase value of the parameter
+                if (p.toLowerCase() === filter_by_keys[v]) {
+                    // Assign the data, but only lowercase strings, not other data types
+                    if (typeof parameters[p] === 'string') {
+                        // output[p.toLowerCase()] = parameters[p].toLowerCase();
+                        output[p.toLowerCase()] = parameters[p];
+                    } else {
+                        output[p] = parameters[p];
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                     }
                 }
             }
@@ -1115,10 +1839,21 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"filter_params"}, {}, "filter_params", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+<<<<<<< HEAD
+=======
+        return output;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"filter_params"});        
+            var finalobject = createfinalobject({"result":"filter_params"}, {}, "filter_params", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     }
 
     // This is to lower keys of objects only.
     exports.just_lower_parameters = just_lower_parameters = function just_lower_parameters(data) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var data_out = {};
             for (d in data) {
@@ -1139,6 +1874,29 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             if (command) {
                 extend(true, command_object, command)
             }
+=======
+        try { 
+        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var data_out = {};
+        for (d in data) {
+            data_out[d.toLowerCase()] = data[d];
+        }
+        return data_out;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"just_lower_parameters"});        
+            var finalobject = createfinalobject({"result":"just_lower_parameters"}, {}, "just_lower_parameters", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+    }
+
+    exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command, com_user) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments)); 
+        var command_object = {};
+        if (command) {
+            extend(true, command_object, command)
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
             proxyprinttodiv('pack_up_params parameters', parameters, 97);
             proxyprinttodiv('pack_up_params command_object', command_object, 97);
@@ -1152,6 +1910,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             if (Object.keys(parameters.command).length === 0) {
                 delete parameters.command
             }
+<<<<<<< HEAD
 
             proxyprinttodiv('pack_up_params parameters END', parameters, 97);
             return parameters;
@@ -1160,6 +1919,16 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"pack_up_params"});        
 			var finalobject = createfinalobject({"result":"pack_up_params"}, {}, "pack_up_params", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
+=======
+        }
+        proxyprinttodiv('pack_up_params parameters END', parameters, 97);
+        return parameters;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"pack_up_params"});        
+            var finalobject = createfinalobject({"result":"pack_up_params"}, {}, "pack_up_params", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     }
 
@@ -1228,9 +1997,15 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
     // Adds the key of object2 to object 1
     exports.jsonConcat = jsonConcat = function jsonConcat(o1, o2) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var clonedObject = {};
             extend(true, clonedObject, o1); // clone received params
+=======
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments)); 
+        var clonedObject = {};
+        extend(true, clonedObject, o1); // clone received params
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
             for (var key in o2) {
                 if ((clonedObject[key] === undefined) || (clonedObject[key] == "")) {
@@ -1244,11 +2019,22 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"jsonConcat"}, {}, "jsonConcat", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+<<<<<<< HEAD
+=======
+        return clonedObject;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"jsonConcat"});        
+            var finalobject = createfinalobject({"result":"jsonConcat"}, {}, "jsonConcat", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     };
 
     // Returns if o is a string or not
     exports.isString = isString = function isString(o) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             return typeof o == "string" || (typeof o == "object" && o.constructor === String);
         } // end try
         catch (err) {
@@ -1256,22 +2042,41 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"isString"}, {}, "isString", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }        
+=======
+        return typeof o == "string" || (typeof o == "object" && o.constructor === String);
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isString"});        
+            var finalobject = createfinalobject({"result":"isString"}, {}, "isString", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }   
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     };
 
     // Returns true if the val is an int, or false
     exports.isInteger = isInteger = function isInteger(val) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             return val.match(/^[0-9]$/);
         } // end try
         catch (err) {
             //callback ({"status":"there was an error"}, {"function":"jsonConcat"});        
 			var finalobject = createfinalobject({"result":"jsonConcat"}, {}, "jsonConcat", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);
+=======
+        return val.match(/^[0-9]$/);
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"jsonConcat"});        
+            var finalobject = createfinalobject({"result":"jsonConcat"}, {}, "jsonConcat", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     };
 
     exports.isSet = isSet = function isSet(val) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));    
+<<<<<<< HEAD
             if ((val != undefined) && (val != null)) {
                 return true;
             }
@@ -1282,6 +2087,18 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"isSet"}, {}, "isSet", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+=======
+        if ((val != undefined) && (val != null)) {
+            return true;
+        }
+        return false;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isSet"});        
+            var finalobject = createfinalobject({"result":"isSet"}, {}, "isSet", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     };
 
     // exports.isUndefined = isUndefined = function isUndefined(obj) {
@@ -1290,16 +2107,26 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
     exports.isArray = isArray = function isArray(obj) { //nativeIsArray
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));   
+<<<<<<< HEAD
             return toString.call(obj) == '[object Array]';        
         } // end try
         catch (err) {
             //callback ({"status":"there was an error"}, {"function":"isArray"});
 			var finalobject = createfinalobject({"result":"isArray"}, {}, "isArray", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);				
+=======
+        return toString.call(obj) == '[object Array]';
+                } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isArray"});
+            var finalobject = createfinalobject({"result":"isArray"}, {}, "isArray", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);             
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     };
 
     exports.isObject = isObject = function isObject(obj) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             return obj === Object(obj);
         } // end try
@@ -1307,10 +2134,20 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"isObject"});
 			var finalobject = createfinalobject({"result":"isObject"}, {}, "isObject", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);				
+=======
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));   
+        return obj === Object(obj);
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isObject"});
+            var finalobject = createfinalobject({"result":"isObject"}, {}, "isObject", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);             
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     };
 
     exports.isFunction = isFunction = function isFunction(obj) {
+<<<<<<< HEAD
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             return typeof obj === 'function';
         } // end try
@@ -1335,6 +2172,32 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"isJson"}, {}, "isJson", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+=======
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));   
+        return typeof obj === 'function';
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isFunction"});
+            var finalobject = createfinalobject({"result":"isFunction"}, {}, "isFunction", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);             
+        }
+    };
+
+    exports.isJson = isJson = function isJson(str) {
+        try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));   
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"isJson"});
+            var finalobject = createfinalobject({"result":"isJson"}, {}, "isJson", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
     };
 
 
@@ -1352,6 +2215,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
     exports.logverify = logverify = function logverify(test_name, data_object, assertion_object) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             if (test_name === undefined) test_name = "defaulttest";
 
             var result = deepDiffMapper.map(data_object, assertion_object);
@@ -1376,11 +2240,38 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"logverify"});
 			var finalobject = createfinalobject({"result":"logverify"}, {}, "logverify", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
+=======
+        if (test_name === undefined) test_name = "defaulttest";
+
+        var result = deepDiffMapper.map(data_object, assertion_object);
+        // Assume UNKNOWN...
+        var test_results = "UNKNOWN";
+        var temp_string = JSON.stringify(result);
+        // If there is a value of 'unchanged', there IS data that has passed,
+        // so for now, set the 'test_results' to PASS.
+        if (temp_string.indexOf("unchanged") !== -1) test_results = "PASS";
+        // If there are any of 'created', 'updated', 'deleted', the tests now fails, even if
+        // it passed before...if none of the 4 strings are found, the test_results will 
+        // remain 'UNKNOWN'
+        if (temp_string.indexOf("created") !== -1 || temp_string.indexOf("deleted") !== -1 || temp_string.indexOf("updated") !== -1) test_results = "FAIL";
+
+        var data = {};
+        data[test_name] = test_results;
+        data["test_name"] = test_name;
+        data[test_name + '_diff'] = result;
+        return data;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"logverify"});
+            var finalobject = createfinalobject({"result":"logverify"}, {}, "logverify", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }   
     }
 
     exports.debugfn = debugfn = function debugfn() {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             if (exports.environment !== 'local') {
                 return
             };
@@ -1441,6 +2332,68 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 indebugdest = debugdestination
             }
             proxyprinttodiv('arrived debugname', debugname, 44);
+=======
+        if (exports.environment !== 'local') {
+            return
+        };
+        var processdebug = false;
+        var color_list = [
+            "black",
+            "red",
+            "green",
+            "maroon",
+            "olive",
+            "teal",
+            "blue",
+            "fuchsia",
+            "purple",
+            "lime",
+            "green",
+            "MediumBlue"
+        ]
+
+        var indebugdesc = String(arguments[0]) || ""; // 
+        var indebugname = String(arguments[1]) || ""; // main fn
+        var indebugcat = String(arguments[2]) || ""; // add/get
+        var indebugsubcat = String(arguments[3]) || ""; // sub fn
+        var indebugcolor = color_list[arguments[4]] || ""; // level
+        var indebugindent = arguments[5] || ""; // level
+        var debugobjectlist = (arguments[6]) ? arguments[6] : {
+            "data": "none"
+        };
+        //var debugobjectlist = JSON.parse(JSON.stringify(tempdebugobjectlist));
+        var indebugdest = arguments[7] || ""; // level
+        var displaycolor = indebugcolor;
+        var tempdebugname = (debugname != "") ? debugname : indebugname;
+        var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
+        var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
+
+        proxyprinttodiv('arrived debugfn', arguments, 44);
+        proxyprinttodiv('arrived debugname', debugname, 44);
+        proxyprinttodiv('arrived debugcat', debugcat, 44);
+        proxyprinttodiv('arrived debugsubcat', debugsubcat, 44);
+        proxyprinttodiv('arrived indebugname', indebugname, 44);
+        proxyprinttodiv('arrived indebugcat', indebugcat, 44);
+        proxyprinttodiv('arrived indebugsubcat', indebugsubcat, 44);
+        proxyprinttodiv('arrived indebugdest', indebugdest, 44);
+        proxyprinttodiv('arrived tempdebugname', tempdebugname, 44);
+        proxyprinttodiv('arrived tempdebugcat', tempdebugcat, 44);
+        proxyprinttodiv('arrived tempdebugsubcat', tempdebugsubcat, 44);
+
+        if (indebugname == tempdebugname && indebugcat == tempdebugcat && indebugsubcat == tempdebugsubcat) {
+            processdebug = true
+        } else {
+            processdebug = false
+        };
+        if (debugname + debugcat + debugsubcat == "") {
+            processdebug = false
+        }
+        if (!processdebug) return;
+        if (!indebugdest) {
+            indebugdest = debugdestination
+        }
+        proxyprinttodiv('arrived debugname', debugname, 44);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
             // If the color goes over 10, turn it back to black
             if (displaycolor > 10) displaycolor = 0;
@@ -1683,6 +2636,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
             // print:   proxyprinttodiv('logverify - parmwid1', parmwid1, 38);
 
+<<<<<<< HEAD
             // google: storetogoogle
             // file: outobject["testtest":"testtest"]
             //      addtolocalostore
@@ -1691,11 +2645,22 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"debugfn"});
 			var finalobject = createfinalobject({"result":"debugfn"}, {}, "debugfn", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
+=======
+        // google: storetogoogle
+        // file: outobject["testtest":"testtest"]
+        //      addtolocalostore
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"debugfn"});
+            var finalobject = createfinalobject({"result":"debugfn"}, {}, "debugfn", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     } // End of debugfn
 
     function store_to_google(indebugname, google_object) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             if (exports.environment === "local") {
                 $('#name').val(indebugname);
                 $('#comment').val(JSON.stringify(google_object));
@@ -1706,6 +2671,18 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"store_to_google"});
 			var finalobject = createfinalobject({"result":"store_to_google"}, {}, "store_to_google", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);
+=======
+        if (exports.environment === "local") {
+            $('#name').val(indebugname);
+            $('#comment').val(JSON.stringify(google_object));
+            document.getElementById('theForm').submit();
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
+        }
+        }
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"store_to_google"});
+            var finalobject = createfinalobject({"result":"store_to_google"}, {}, "store_to_google", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
         }
     }
 
@@ -1720,6 +2697,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
     var deepDiffMapper = function () {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             return {
                 VALUE_CREATED: 'created',
                 VALUE_UPDATED: 'updated',
@@ -1728,6 +2706,27 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 map: function (obj1, obj2) {
                     if (this.isFunction(obj1) || this.isFunction(obj2)) {
                         throw 'Invalid argument. Function given, object expected.';
+=======
+        return {
+            VALUE_CREATED: 'created',
+            VALUE_UPDATED: 'updated',
+            VALUE_DELETED: 'deleted',
+            VALUE_UNCHANGED: 'unchanged',
+            map: function (obj1, obj2) {
+                if (this.isFunction(obj1) || this.isFunction(obj2)) {
+                    throw 'Invalid argument. Function given, object expected.';
+                }
+                if (this.isValue(obj1) || this.isValue(obj2)) {
+                    return {
+                        type: this.compareValues(obj1, obj2),
+                        data: obj1 || obj2
+                    };
+                }
+                var diff = {};
+                for (var key in obj1) {
+                    if (this.isFunction(obj1[key])) {
+                        continue;
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                     }
                     if (this.isValue(obj1) || this.isValue(obj2)) {
                         return {
@@ -1785,10 +2784,17 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"deepDiffMapper"}, {}, "deepDiffMapper", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
         }
+        }
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"deepDiffMapper"});
+            var finalobject = createfinalobject({"result":"deepDiffMapper"}, {}, "deepDiffMapper", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
     }();
 
     exports.syntaxHighlight = syntaxHighlight = function syntaxHighlight(json) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
                 var cls = 'number';
@@ -1810,6 +2816,29 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"syntaxHighlight"});
 			var finalobject = createfinalobject({"result":"syntaxHighlight"}, {}, "syntaxHighlight", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);			
+=======
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"syntaxHighlight"});
+            var finalobject = createfinalobject({"result":"syntaxHighlight"}, {}, "syntaxHighlight", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     }
 
@@ -2373,6 +3402,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
     exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify(testname, parameters, assert, database, command, callback) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             var err;
             var results = [];
             var temp_config = {};
@@ -2393,6 +3423,38 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                     callback(err, res);
                 }
 
+=======
+        var err;
+        var results = [];
+        var temp_config = {};
+        var c_assert = {};
+        var c_parameters = {};
+
+        // Take a snapshot of the default config
+        extend(true, temp_config, config);
+        // Make copies of the original parameters and assert
+        extend(true, c_parameters, parameters);
+        extend(true, c_assert, assert);
+
+        // Call test_and_verify with the config parameters in the parameters
+        test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
+            // Add res to return data
+            results.push(res);
+
+            // Add the config parameters to the default config
+            extend(true, config.configuration, parameters["configuration"]);
+
+            // Reload c_parameters and delete the config
+            c_parameters = extend(true, {}, parameters);
+            delete c_parameters["configuration"];
+
+            // Reload the assertion and delete the config
+            c_assert = extend(true, {}, assert);
+            delete c_assert[0]["configuration"];
+
+            // Call test_and_verify with c_ verion -- actual config changed
+            test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                 // Add res to return data
                 results.push(res);
 
@@ -2422,16 +3484,26 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                     callback(err, results);
                 });
             });
+<<<<<<< HEAD
         } // end try
         catch (err) {
             //callback ({"status":"there was an error"}, {"function":"master_test_and_verify"});
 			var finalobject = createfinalobject({"result":"master_test_and_verify"}, {}, "master_test_and_verify", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);
+=======
+        });
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"master_test_and_verify"});
+            var finalobject = createfinalobject({"result":"master_test_and_verify"}, {}, "master_test_and_verify", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     }
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             if (database && JSON.stringify(database) !== "{}") {
                 addToLocalStorage("DRIKEY", database);
                 var this_string = "[";
@@ -2440,6 +3512,13 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 }
                 this_string = this_string.substring(0, this_string.length - 1) + ']';
                 addToLocalStorage("DRI", JSON.parse(this_string));
+=======
+        if (database && JSON.stringify(database) !== "{}") {
+            addToLocalStorage("DRIKEY", database);
+            var this_string = "[";
+            for (var d in database) {
+                this_string += JSON.stringify(database[d]) + ',';
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
             }
             if (parameters instanceof Array) {
                 parameters.push(function (err, res) {
@@ -2473,10 +3552,17 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 			var finalobject = createfinalobject({"result":"test_and_verify"}, {}, "test_and_verify", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);
         }
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"test_and_verify"});
+            var finalobject = createfinalobject({"result":"test_and_verify"}, {}, "test_and_verify", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+        }
     };
 
     exports.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
             delete inputWidgetObject['executethis'];
             proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
@@ -2488,6 +3574,19 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             if (command && command.db) {
                 db = command.db
             }
+=======
+        var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
+        delete inputWidgetObject['executethis'];
+        proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
+        var saveobject = {};
+        var db = "data";
+        var wid;
+        var metadata;
+        var date;
+        if (command && command.db) {
+            db = command.db
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
             inputWidgetObject['metadata.date'] = new Date();
 
@@ -2502,6 +3601,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             }
 
 
+<<<<<<< HEAD
             // for (eachwid in inputWidgetObject) {
             //     if ((inputWidgetObject[eachwid] == "onetomany") (inputWidgetObject[eachwid]=="onetoone")) {
             //         inputWidgetObject['metadata'][eachwid]['type']=inputWidgetObject[eachwid]
@@ -2556,16 +3656,80 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             //callback ({"status":"there was an error"}, {"function":"converttodriformat"});
 			var finalobject = createfinalobject({"result":"converttodriformat"}, {}, "converttodriformat", err, inbound_parameters);
 			callback(finalobject.err, finalobject.res);
+=======
+        // for (eachwid in inputWidgetObject) {
+        //     if ((inputWidgetObject[eachwid] == "onetomany") (inputWidgetObject[eachwid]=="onetoone")) {
+        //         inputWidgetObject['metadata'][eachwid]['type']=inputWidgetObject[eachwid]
+        //         delete inputWidgetObject[eachwid];
+        //         }
+        //     }
+        saveobject[db] = inputWidgetObject;
+        saveobject['wid'] = wid;
+        saveobject['metadata'] = metadata;
+        //saveobject = ConvertFromDOTdri(saveobject); // in case command.db = x.y.z nested was sent in
+
+        // saveobject['wid']=wid;
+        // saveobject['metadata.method']=method;
+        // if (inputWidgetObject) {
+        //     saveobject['data'] = inputWidgetObject;
+        //     }
+        // saveobject = ConvertFromDOTdri(inputWidgetObject);
+
+
+        // if (inputWidgetObject['wid']) {
+        //     saveobject['wid'] = inputWidgetObject['wid'].toLowerCase();
+        // } else {
+        //     saveobject['wid'] = "";
+        // }
+        // proxyprinttodiv('Function updatewid in : saveobject 0', saveobject, 1);
+        // delete inputWidgetObject['wid'];
+
+        // saveobject['metadata'] = {};
+        // if (inputWidgetObject['metadata.method']) {
+        //     saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
+        // } else {
+        //     saveobject['metadata']['method'] = "";
+        // }
+        // saveobject['metadata']['date'] = new Date();
+        // proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
+        // proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
+
+        // proxyprinttodiv('Function updatewid in : saveobject I', saveobject, 1);
+
+        // // saveobject['metadata'] = inputWidgetObject['metadata'] ;
+        // delete inputWidgetObject['metadata.method'];
+        // if (inputWidgetObject) {
+        //     saveobject['data'] = inputWidgetObject;
+        // } else {
+        //     saveobject['data'] = "";
+        // }
+
+        proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
+        return saveobject;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"converttodriformat"});
+            var finalobject = createfinalobject({"result":"converttodriformat"}, {}, "converttodriformat", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         }
     };
 
     exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
         try { var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+<<<<<<< HEAD
             var outobject = {};
             var db = "data";
             if (command && command.db) {
                 db = command.db
             }
+=======
+        var outobject = {};
+        var db = "data";
+        if (command && command.db) {
+            db = command.db
+        }
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
             //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
 
@@ -2601,6 +3765,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 //outobject = ConvertToDOTdri(outobject);
             }
 
+<<<<<<< HEAD
             // if ((widobject) && (Object.keys(widobject).length > 0)) {
             //     if (widobject["data"]) {
             //         outobject = widobject["data"];
@@ -2638,18 +3803,68 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         //[{fn: fnname, error : [{errobject1},{errorobject2}], parameters: {}}]
         var errobj={}
 		var finalobject = {};
+=======
+        // if ((widobject) && (Object.keys(widobject).length > 0)) {
+        //     if (widobject["data"]) {
+        //         outobject = widobject["data"];
+        //     }
+
+        //     if (widobject['wid']) {
+        //         outobject['wid'] = widobject['wid'];
+        //     } else {
+        //         outobject['wid'] = "";
+        //     }
+
+        //     if (widobject['metadata']) {
+        //         outobject['metadata.method'] = widobject['metadata']['method'];
+        //         //&& added
+
+        //     } else {
+        //         outobject['metadata.method'] = "";
+        //     }
+        // }
+        return outobject;
+        } // end try
+        catch (err) {
+            //callback ({"status":"there was an error"}, {"function":"convertfromdriformat"});
+            var finalobject = createfinalobject({"result":"convertfromdriformat"}, {}, "convertfromdriformat", err, inbound_parameters);
+            callback(finalobject.err, finalobject.res);         
+        }
+    };
+    exports.createfinalobject = createfinalobject = function createfinalobject(outobject, command, nameoffn, errorobject,  initialparameters) {
+        proxyprinttodiv('createfinalobject input errorobject', errorobject, 99);
+        proxyprinttodiv('createfinalobject input outobject', outobject, 99);
+        console.log("final_error: " + JSON.stringify(errorobject, '-', 4));
+        console.log("final_outobject: " + JSON.stringify(outobject, '-', 4));
+        
+        //[{fn: fnname, error : [{errobject1},{errorobject2}], parameters: {}}]
+        var errobj={}
+        var finalobject = {};
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         finalobject.err = [];
         errobj['fn']=nameoffn;
         errobj['error']=[];
         errobj['error'].push(errorobject)
         errobj['parameters']=initialparameters
+<<<<<<< HEAD
 		finalobject["err"] = errobj;
+=======
+        finalobject["err"] = errobj;
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
         if (Object.keys(outobject).length === 0) {
             finalobject["res"] = errobj;
             }
         else {
             finalobject["res"] = outobject;
             }
+<<<<<<< HEAD
+=======
+
+        return finalobject;
+    }   
+})();
+
+>>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
 
 		return finalobject;
 	}
