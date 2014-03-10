@@ -251,23 +251,21 @@
     //clearLocalStorage()
     $(document).ready(function() {
         // page loaded, on ready  >>     function etappstarted()
-        etappstarted();
+        eventdeviceready();
         Debug = 'false';
-        bootprocess();
+        //bootprocess();
         $('#function_to_run').focus();
         // $('dest_print').prop("checked", true);
     });
 
     function execute_stuff(isTest, isServer) {
         // at the beginning of each >>     function etappnewpage() {
-        etappinstall();
+        //etappinstall();
         if ($("#localStorageClean").is(':checked')) {
             // and the clearlocalstoraget ...check box >>  function etappinstall()
-            etappinstall();
+            eventappinstall();
         }
-        etappstarted();
-        etappnewpage();
-
+        eventnewpage();
 
         //bootprocess();
         // clearLocalStorage();

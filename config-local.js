@@ -1,26 +1,28 @@
+
 if (!exports) {
     var exports = {};
 }
-if (!config) {
+if (!config) { // used in executethis
     var config = {};
 }
-if (!environment) {
+if (!environment) { // try to only use the one in configuration
     var environment = 'local';
 }
-if (!widMasterKey) {
+if (!widMasterKey) { // used here and untils maybe
     var widMasterKey = 'widmaster_';
 }
-if (!potentialwid) {
+
+if (!potentialwid) { // should not be neeeded
     var potentialwid = 0;
 }
 
-if (!Debug) {
+if (!Debug) { // printdiv
     var Debug = 'false';
 }
-if (!debuglevel) {
+if (!debuglevel) { // printdiv
     var debuglevel = 0;
 }
-if (!debugon) {
+if (!debugon) { // debugfn
     var debugon = false;
 }
 
@@ -51,22 +53,51 @@ if (!debuglinenum) {
 if (!debuglog) {
     var debuglog = {};
 }
-
-if (!test_results) {
+if (!test_results) { // should not be neededd any more
     var test_results = {};
 }
 
-// *********** TRIGGERS ************
-exports.bootprocess = bootprocess = function bootprocess() {
+
+
+// *********** EVENTS **************************************************
+exports.eventappinstall = eventappinstall = function eventappinstall() {
+    setdefaultparm();
+    if (exports.environment === 'local') {clearLocalStorage()}
+}
+exports.eventdeviceready  = eventdeviceready  = function eventdeviceready () {
     if (Object.keys(config).length === 0) {
-        setdefaultparm();
-//        clearLocalStorage();
+        eventappinstall()
     }
-    proxyprinttodiv('Function bootprocess config', config, 38);
-    if (!getFromLocalStorage('DRIKEY')) {
-        etappinstall();
-    }
-};
+    // start eventonemin, etc
+}
+exports.eventnewpage  = eventnewpage  = function eventnewpage () {}
+exports.eventonline  = eventonline  = function eventonline () {}
+exports.eventoffline  = eventoffline  = function eventoffline () {}
+exports.eventonemin  = eventonemin  = function eventonemin () {}
+exports.eventtenmin  = eventtenmin  = function eventtenmin () {}
+exports.eventdaily  = eventdaily = function eventdaily () {}
+exports.eventmonthly  = eventmonthly  = function eventmonthly () {}
+exports.eventlogineventsucess = eventlogineventsucess = function eventlogineventsucess() {}
+exports.eventlogineventfail  = eventlogineventfail  = function eventlogineventfail () {}
+exports.eventoutboundevent  = eventoutboundevent  = function eventoutboundevent () {}
+exports.eventdeletewidevent  = eventdeletewidevent  = function eventdeletewidevent () {}
+exports.eventgetwidevent  = eventgetwidevent  = function eventgetwidevent () {}
+exports.eventupdatewidevent  = eventupdatewidevent  = function eventupdatewidevent () {}
+exports.eventaddwidevent  = eventaddwidevent  = function eventaddwidevent () {}
+exports.eventexecuteevent  = eventexecuteevent  = function eventexecuteevent () {}
+exports.eventexecuteeachend  = eventexecuteeachend= function eventexecuteeachend () {}
+exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {}
+
+// exports.bootprocess = bootprocess = function bootprocess() {
+//     if (Object.keys(config).length === 0) {
+//         setdefaultparm();
+// //        clearLocalStorage();
+//     }
+//     proxyprinttodiv('Function bootprocess config', config, 38);
+//     if (!getFromLocalStorage('DRIKEY')) {
+//         etappinstall();
+//     }
+// };
 
 //    execute({
 //        "executethis": "getwid",
@@ -103,41 +134,6 @@ exports.bootprocess = bootprocess = function bootprocess() {
 // proxyprinttodiv('Function END bootprocess config', config, 1);
 
 // *********** EVENTS ************
-exports.etappinstall = etappinstall = function etappinstall() { // exeucte only the first time app is installed -- once per lifetime
-    try {
-    //clearLocalStorage();
-    setdefaultparm();
-    if (exports.environment === 'local') {
-        clearLocalStorage();
-        addToLocalStorage("DRI", [{
-            "wid": "initialwid",
-            "initialwid": "hello from bootprocess"
-        }]);
-        addToLocalStorage("DRIKEY", {
-            "initialwid": {
-                "wid": "initialwid",
-                "initialwid": "for key hello from bootprocess"
-            }
-        });
-    }
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"etappinstall"}, {}, "etappinstall", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
-};
-
-exports.etappstarted = etappstarted = function etappstarted() {
-
-
-} ;// execute only once per day when app is started
-
-exports.etappnewpage = etappnewpage = function etappnewpage() {
-
-
-}; // execute each time we go to new page
-
-
 function setdefaultparm() {
 
     exports.config = config = config123();
@@ -273,33 +269,19 @@ function config123() {
     }
 }
 
-//exports.config = config = config123();
-
-
 exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
-    try { return JSON.parse(localStorage.getItem(key));
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"getFromLocalStorage"}, {}, "getFromLocalStorage", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
+    return JSON.parse(localStorage.getItem(key));
 };
 
 exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = function addToLocalStorage(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value));
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"addToLocalStorage"}, {}, "addToLocalStorage", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
+    localStorage.setItem(key, JSON.stringify(value));
 };
 
 exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
-    try {
     proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
-    widMasterKey = "widmaster_";
+    //widMasterKey = "widmaster_";
     localStorage.clear();
-    potentialwid = 0;
+    //potentialwid = 0;
             addToLocalStorage("DRI", [{
             "wid": "initialwid",
             "initialwid": "hello from bootprocess"
@@ -310,30 +292,16 @@ exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = funct
                 "initialwid": "for key hello from bootprocess"
             }
         });
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"clearLocalStorage"}, {}, "clearLocalStorage", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }        
 };
 
 exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
-    try { localStorage.removeItem(key);
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"removeFromLocalStorage"}, {}, "removeFromLocalStorage", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    } 
+    localStorage.removeItem(key);
 };
 
-
-
-//function addtomongo(inputWidgetObject) {
 exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
-    try {
     var collection = "DRI";
     var keycollection = "DRIKEY";
-    var err = {};
+    var err = null;
     var widobject = {};
     var database = {};
     var keydatabase = {};
@@ -372,21 +340,17 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
         //return widobject;
         callback(err, widobject);
     } else { // if no widName
-        callback({}, {}); // should have better error here
+        callback(null, {}); // should have better error here
     }
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"offlineaddtomongo"}, {}, "offlineaddtomongo", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
+
 };
 
 //function getfrommongo(inputWidgetObject) {
 exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
-    try {
+
     var collection = "DRI";
     var keycollection = "DRIKEY";
-    var err = {};
+    var err = null;
     var output = {};
     var keydatabase = {};
     var record;
@@ -405,17 +369,12 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
     } else { // if no widname
         err = {};
     }
+
     callback(err, output);
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"offlinegetfrommongo"}, {}, "offlinegetfrommongo", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
 }; //End of getfrommongo function
 
 
 exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
-    try {
     var inbound_parameters = {};
     extend(true, inbound_parameters, inputWidgetObject);
     var convertedobject = {};
@@ -442,15 +401,9 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
             callback(null, convertedobject);
         }
     });
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"offlinegetwid"}, {}, "offlinegetwid", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
 };
 
 exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
-    try {
     // var originalarguments=arguments;
     // var executionid = new Date();
     var originalarguments = {};
@@ -465,31 +418,13 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
             1: results
             // 2: executionid
         }, 6);
-        callback({}, results);
+        callback(null, results);
+
     });
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"offlineupdatewid"}, {}, "offlineupdatewid", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
 };
 
 
-function resetMasterKey() {
-    try {
-    widMasterKey = "widmaster_";
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"resetMasterKey"}, {}, "resetMasterKey", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
-}
-
-
-
-
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
-    try {
     var result;
     var success = false;
     result = "";
@@ -526,23 +461,17 @@ function executeAjax(allConfig, executeItem, callback, returnCallback) {
             callback(data, allConfig, 'html', returnCallback);
         }
     });
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"executeAjax"}, {}, "executeAjax", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
 }
 
 // Primary execute function called after dothis
 
 function test2(params, callback) {
-    callback({
+    callback(null,{
         "test": "test2 on local called"
     });
 }
 
 exports.server = window.server = server = function server(params, callback) {
-    try {
     console.log('execute server called with ' + JSON.stringify(params));
     // delete params['configuration'];
     params = toLowerKeys(params);
@@ -564,13 +493,8 @@ exports.server = window.server = server = function server(params, callback) {
     executeAjax("", params, function (data) {
         console.log("Return from server: " + JSON.stringify(data));
         var err;
-        callback(err, data);
+        callback(null, data);
     });
-    }
-    catch (err) {
-        var finalobject = createfinalobject({"result":"server"}, {}, "server", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }   
 };
 
 exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
@@ -675,4 +599,3 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 //         }
 //     }
 //     return set;
-// }

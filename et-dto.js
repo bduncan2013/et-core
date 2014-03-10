@@ -7,6 +7,232 @@
     // this test shall result in an unauthorized access error
     // we create testdata stuff1 and provide access to it to only staff group memners
     // however we try to access it (using getwidmaster) using admin group user
+
+
+    exports.createsystemdtos2 = createsystemdtos2 = function createsystemdtos2(params, callback) {
+        //debuglevel = 17;
+        // create dtos  
+        var executeList =
+
+
+        // CREATE DTOS
+        //Create the systemdto
+        [{
+                "executethis": "addwidmaster",
+                "wid": "systemdto",
+                "metadata.method": "systemdto",
+                "creator": "string",
+                "creationdate": "string",
+                "expirationtimer": "string",
+                "expirationdate": "string",
+                "db": "string",
+                "collection": "string"
+            }, {
+                // viewdto
+                "executethis": "addwidmaster",
+                "wid": "viewdto",
+                "metadata.method": "viewdto",
+                "html": "string",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // basedto
+                "executethis": "addwidmaster",
+                "wid": "basedto",
+                "metadata.method": "basedto",
+                "html": "string",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // backdto
+                "executethis": "addwidmaster",
+                "wid": "backdto",
+                "metadata.method": "backdto",
+                "html": "string",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // interfacedto
+                "executethis": "addwidmaster",
+                "wid": "interfacedto",
+                "metadata.method": "interfacedto",
+                "html": "string",
+                "metadata.systemdto.type": "jsononetoone"
+            },
+            // Create the errorobjectdto
+            {
+                "executethis": "addwidmaster",
+                "wid": "errorobjectdto",
+                "metadata.method": "errorobjectdto",
+                "evalerror": "string",
+                "rangeerror": "string",
+                "referenceerror": "string",
+                "syntaxerror": "string",
+                "typeerror": "string",
+                "urlerror": "string",
+                "metadata.systemdto.type": "jsononetoone"
+            },
+            // create the validatedto
+            {
+                "executethis": "addwidmaster",
+                "wid": "validatedto",
+                "metadata.method": "validatedto",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // create the resultto
+
+                "executethis": "addwidmaster",
+                "wid": "resultdto",
+                "metadata.method": "resultto",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // create the errordto
+                "executethis": "addwidmaster",
+                "wid": "errordto",
+                "metadata.method": "errordto",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // create the beforedto
+                "executethis": "addwidmaster",
+                "wid": "beforedto",
+                "metadata.method": "beforedto",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // create the afterdto
+                "executethis": "addwidmaster",
+                "wid": "afterdto",
+                "metadata.method": "afterdto",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // create the executedto
+                "executethis": "addwidmaster",
+                "wid": "executedto",
+                "metadata.method": "executedto",
+                "logpass": "string",
+                "logerror": "string",
+                "logresult": "string",
+                "executeid": "string",
+                "metadata.actiondto.type": "onetomany",
+                "metadata.validatedto.type": "onetoone",
+                "metadata.resultdto.type": "onetoone",
+                "metadata.errordto.type": "onetoone",
+                "metadata.beforedto.type": "manytoone",
+                "metadata.afterdto.type": "manytoone"
+            }, {
+                // create the gettypedto
+                "executethis": "addwidmaster",
+                "wid": "gettypedto",
+                "metadata.method": "gettypedto",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // create the addtypedto
+                "executethis": "addwidmaster",
+                "wid": "addtypedto",
+                "metadata.method": "addtypedto",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // create the actiondto
+                "executethis": "addwidmaster",
+                "wid": "actiondto",
+                "metadata.method": "actiondto",
+                "actionname": "string",
+                "actiontype": "string",
+                "dothis": "string",
+                "parameters": "string",
+                "offlineonline": "string",
+                "localserver": "string",
+                "oncreate": "string",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // Create the actionsetdto & a default actionset
+                "executethis": "addwidmaster",
+                "wid": "actionsetdto",
+                "metadata.method": "actionsetdto",
+                "executetype": "string",
+                "gettype": "string",
+                "addtype": "string",
+                "edittype": "string",
+                "deletetype": "string",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // Create the permissiondto     
+                "executethis": "addwidmaster",
+                "wid": "permissiondto",
+                "metadata.method": "permissiondto",
+                "action": "string",
+                "actiontype": "string",
+                "granteegroup": "string",
+                "db": "string",
+                "collection": "string",
+                "level": "string",
+                "metadata.interfacedto.type": "manytoone",
+                "metadata.actionset.type": "manytoone",
+                "metadata.systemdto.type": "jsononetoone",
+                "metadata.inherit.default": "actionsetdefaults"
+            }, {
+                // Create the environmentdto
+                "executethis": "addwidmaster",
+                "metadata.method": "environmentdto",
+                "wid": "environmentdto",
+                "ac": "string",
+                "gps": "string",
+                "account": "string",
+                "db": "string",
+                "collection": "collection",
+                "metadata.systemdto.type": "onetoone"
+            }, {
+                // Create the securitydto
+                "executethis": "addwidmaster",
+                "metadata.method": "securitydto",
+                "wid": "securitydto",
+                "accesstoken": "string",
+                //"status": "integer"
+                "status": "string",
+                "metadata.systemdto.type": "jsononetoone"
+            }, {
+                // Create the groupdto      
+                "executethis": "addwidmaster",
+                "wid": "groupdto",
+                "metadata.method": "groupdto",
+                "groupname": "string",
+                "metadata.securitydto.type": "onetoone",
+                "metadata.environmentdto.type": "onetoone",
+                "metadata.permissiondto.type": "onetomany",
+                "metadata.groupdto.type": "onetomany",
+                "metadata.interfacedto.type": "manytoone",
+                "metadata.systemdto.type": "jsononetoone",
+                //"metadata.inherit.default":"actionsetdefaults"
+            }, {
+                // Create the userdto
+                "executethis": "addwidmaster",
+                "metadata.method": "userdto",
+                "wid": "userdto",
+                "widname": "wid",
+                "fname": "string",
+                "lname": "string",
+                "phone": "string",
+                "email": "string",
+                "address": "string",
+                "address2": "string",
+                "city": "string",
+                "state": "string",
+                "zip": "string",
+                "country": "string",
+                "metadata.securitydto.type": "onetoone",
+                "metadata.environmentdto.type": "onetoone",
+                "metadata.permissiondto.type": "onetomany",
+                "metadata.groupdto.type": "onetomany",
+                "metadata.interfacedto.type": "manytoone",
+                "metadata.actionset.type": "manytoone",
+                "metadata.systemdto.type": "jsononetoone"
+            }
+        ];
+
+
+        execute(executeList, function (err, res) {
+            // proxyprinttodiv('Function createsystemdtos4 -- added all this -- ', res, 99);
+            callback(err, res);
+
+        });
+    }
+
     exports.csd = csd = function csd(params, callback) {
         var executeList = [
 
@@ -46,6 +272,7 @@
 
         });
     }
+
 
     exports.createsystemdtos = createsystemdtos = function createsystemdtos(params, callback) {
         //debuglevel = 17;
@@ -370,7 +597,6 @@
 
 
 
-
     exports.creategroup = creategroup = function creategroup(groupname, callback) {
         execute([{
             "executethis": "addwidmaster",
@@ -401,7 +627,7 @@
                 callback(err, res)
             });
     }
-    
+
     exports.addpermission = addpermission = function addpermission(userwid, granteegroup, actiongroup, actiontypegroup, dbgroup, levelgroup, callback) {
         execute([{
                 // add permissions as per given information 
@@ -414,9 +640,9 @@
                 "systemdto.permissiondto.actiontypegroup": actiontypegroup,
                 "systemdto.permissiondto.dbgroup": dbgroup,
                 "systemdto.permissiondto.levelgroup": levelgroup
-            // }, {
-            //     "executethis": "getwidmaster",
-            //     "wid": userwid
+                // }, {
+                //     "executethis": "getwidmaster",
+                //     "wid": userwid
             }],
             function (err, res) {
                 // proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userwid, res, 39);

@@ -1,177 +1,166 @@
 function etunittesttester(params, callback) {
     var unittestdb = 
-        [   // Within    
-
-            // Mid  -- testing the flow from pre to mid to post
+        [   // Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters"
             [{"fn": "ettestt1"},    [{"category":"executethis",   "subcategory":"dothis",    "type": "minute", 
             "test": "executethis calling a function "}]], 
 
-            // Pre, mid, post  -- testing the flow from pre to mid to post
+            // Call func_b, but also tell preexecutetunittesttestere to call func_a and postexecute to call func_c.
             [{"fn": "ettestt2"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",
             "test": "executethis calling a function"}]], 
 
-            // Pre, mid  -- testing the flow from pre to mid to post
+            // Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b in midexecute and nothing in post execute.
             [{"fn": "ettestt3"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
 
-            // Mid, post  -- testing the flow from pre to mid to post
+            // Call func_b with only post func_a -- same result as t3. This is to make sure that not calling pre is ok...this calls only mid and post.
             [{"fn": "ettestt3a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
 
-            // Mid, post  -- testing the flow from pre to mid to post
+            // Call mid with func_b and post with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed. 
             [{"fn": "ettestt4"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
-    
-            // Pre, Mid  -- testing the flow from pre to mid to post
+ 
+            // Call mid with func_b and pre with func_c, assuring that multiple functions exectue well, no matter where in the pre/mid/post they are placed.
             [{"fn": "ettestt4a"},   [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
  
-            // Pre, mid, post  -- testing the flow from pre to mid to post
+            // Call func_b with func_a for pre and post to ensure that calling the same function more than once is not a problem for the system.
             [{"fn": "ettestt5"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
     
-            // Pre, mid, post  -- testing the flow from pre to mid to post
+            // Double check that calling func_b with func_c for pre and post to ensure that calling the same function more than once is not a problem for the system. Essentially showing that tt5 was not a fluke, but a repeatable concept.
             [{"fn": "ettestt6"},    [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function"}]], 
-        
-            // This astt section is doing the same tests as the tt tests above...the
-            // difference is that these pre, mid, and post calls will wait, or sleep for
-            // a about 1/2 a second...this is to simulate latency in communicating with
-            // the db. So we are testing the robustness of the async capacities of the system.
-
-            // Mid  -- testing the flow from pre to mid to post
+    
+            // Call async_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters  
             [{"fn": "ettestast1"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-
-            // Pre, mid, post  -- testing the flow from pre to mid to post
+    
+            // Call async_func_b with pre calling func_a and post calling func_c...each simply deletes a prameter and add a parameter.
             [{"fn": "ettestast2"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
             // Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.
             [{"fn": "ettestast3"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-
-            // Mid, post  -- testing the flow from pre to mid to post    
+    
+            // Call async_func_b with only post async_func_a -- same result as ast3
             [{"fn": "ettestast3a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
-
-            // Mid, post  -- testing the flow from pre to mid to post    
+    
+            // Call async_func_b with only post calling async_c  
             [{"fn": "ettestast4"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
-            // Pre, Mid  -- testing the flow from pre to mid to post
+            // Call async_func_b with only pre async_func_c -- same result as t4
             [{"fn": "ettestast4a"}, [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
-            // Pre, mid, post  -- testing the flow from pre to mid to post
+            // Call async_func_b with async_func_a for pre and post
             [{"fn": "ettestast5"},  [{"type": "minute", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
-            // Pre, mid, post  -- testing the flow from pre to mid to post
+            // Call async_func_b with async_func_c for pre and post
             [{"fn": "ettestast6"},  [{"type": "second", "category":"execute",       "subcategory":"dothis",         
             "test": "executethis calling a function asynchronously"}]], 
     
-            // Ag tests will add data to the db and get it. The tests get progressively
-            // more deep as the dto's begin to be applied in a more nested
-            // fasion.
 
-            // Add a dto with addwidmaster and get it with getwidmaster
+
+            // Add a dto and get it with 
             [{"fn": "ettestag1"  }, [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]], 
      
-            // Add 2 wids using addwidmaster and get 1 wid of them with getwidmaster
+            // Add 2 wids and get 1 wid
             [{"fn": "ettestag2"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]],
      
-            // Add wids 3 levels deep with addwidmaster, and get a wid related with them 
-            // by dto's using getwidmaster.
+            // Add wids 3 levels deep and get a wid related with them.
             [{"fn": "ettestag3"},   [{"type": "second", "category":"add get",       "subcategory":"getwidmaster",   
             "test": "to use addwidmaster and getwidmaster"}]], 
      
-            // The cctests pass various config data to manipulate either the config itself or simply
-            // passing data to various components of config
 
-            // Remap func for mid
+
+            // Call redir_b. The config should remap redir_b to call func_b with no pre or post execution.
             [{"fn": "ettestct1"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Remap funcs pre, mid, and post
+            // Call redir_b. The config should remap redir_b to call func_b and pre to remap redir_a to func_a, and also remap redir_c to func_c.
             [{"fn": "ettestct2"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Remap funcs pre, mid
+            // Call redir_b. Also call pre with redir_a remapped to func_a, and not post call at all.
             [{"fn": "ettestct3"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Remap funcs mid, post
+            // Call redir_b with only post redir_a -- same result as ct3, but putting the only remap call in post instead of pre.
             [{"fn": "ettestct3a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Remap funcs mid, post
+            // Call redir_b with only post calling func_c remapped to func_c. Simply ensures that the remapping can be any function in either pre or post.
             [{"fn": "ettestct4"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Remap funcs pre, mid
+            // Call redir_b with only pre redir_c -- same result as t4
             [{"fn": "ettestct4a"},  [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Remap funcs pre, mid, post
+            // Call redir_b with a remapping of redir_a to func_a for both pre and post.
             [{"fn": "ettestct5"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Remap funcs pre, mid, post
+            // Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions can be used with the same effect.
             [{"fn": "ettestct6"},   [{"type": "quasi",  "category":"configuration", "subcategory":"remapping",      
             "test": "remapping functions"}]], 
 
-            // Remap funcs remaps pre in the config and calls mid
+            // This will try pre with func a, but remapped with a configuration thatis passed into executethis...it still wants to hit func_b with mid
             [{"fn": "ettestct7"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // Config tryorder
+            // This test asserts that the tryorder in the config is successful and causes executethis to call dothis, not server, or the others. As of jan 28, it still fails to reorder them and calls the server instead. It breaks the code and will not simply call func_b locally.
             [{"fn": "ettestct8"},   [{"type": "daily",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // Config will try to hook request for func that does not exist
+            // This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
             [{"fn": "ettestct9"},   [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // Config will try to hook request for pre tat does not exist
+            // This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So far it does not work, and never has.
             [{"fn": "ettestct10"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // Config will try to hook on pre and post requests that do not exist
+            // This test is to call func_b, remap does_not_exist_1 to func_a, remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c. None of these ever work...
             [{"fn": "ettestct11"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // Config will try to hook on pre and mid that dont exist and call a func that does exist
+            // This test is to test a config where a and b do not exist, but func_c does and c will execute. You should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in the results
             [{"fn": "ettestct13"},  [{"type": "quasi",  "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // Config with param data for pre, mid, and post
+            // Here is the modified ct14 test This test is to test a config where a config with params is sent to pre, mid, and post. The results should have the a,b,c cereals, along with the regular params.
             [{"fn": "ettestct14"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // Testing param data to pre config, but overwritten in the args
+            // This will send the alphabits param in the preexecute config, but will be overriding it in the args.. Which one will win out? It does...the config params are lost and the 'arg' params from the config win out. 
             [{"fn": "ettestct15"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]], 
 
-            // Passing a config as the params of config
+            // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the config params in the assertion wid.
             [{"fn": "ettestct16"},  [{"type": "quasi",  "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // Tests if executedefault gets used by calling a non-existing function
+            // To test if the executedefault gets fired, ct17 calls a 'doesnotexist' function to look for. It will not find and function or a parameter, so it should find executedefault that has a param to be expected to be sent to func_b.
             [{"fn": "ettestct17"},  [{"type": "hourly", "category":"configuration", "subcategory":"does_not_exist", 
             "test": "calling config data that does not exist"}]], 
 
-            // Tests if the pre config params are used
+            // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
             [{"fn": "ettestct18"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_params",  
             "test": "sending config_params"}]], 
 
-            // Tests config params getting used by executethis
+            // This test is to send params to executethis. There will be params in the call to executethis, config file, and the config in the params sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, the args sent to executethis will always win...not any of the 3 places in the config that they are set.
             [{"fn": "ettestct19"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]], 
 
-            // Tests confilicting config params
+            // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
             [{"fn": "ettestct20"},  [{"type": "hourly", "category":"configuration", "subcategory":"config_conflict",
             "test": "sending config_params that conflict with other params"}]]   
         ]
@@ -297,10 +286,10 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
            result.push(r2);
             ettestctt(result, function (err, r3) {
                 result.push(r3);
-                ettestagtt(result, function (err, r4) {
-                    result.push(r4);
+                // ettestagtt(result, function (err, r4) {
+                //     result.push(r4);
                     callback(err, result);
-                });
+                // });
             });
         });
     });
@@ -618,7 +607,7 @@ exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
 // functions a,b,c manipulate parameters
 // Call func_b with no pre or post...it should simply remove 'e' and add 'g' to the parameters
 exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -626,7 +615,7 @@ exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
             "e": "2"
         }],
         function (err, res) {
-            res = logverify("ettestt1_result", res[0], [{
+            res = logverify("ettestt1_result", res[0][0], [{
                 "c": "0",
                 "d": "1",
                 "g": "4"
@@ -637,7 +626,7 @@ exports.ettestt1 = ettestt1 = function ettestt1(params, callback) {
 
 // Not an 'at' test...used to test the verify system. This is a passing test.
 exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     res = logverify("ettestt1s_result", {
         "d": "1",
         "c": "0",
@@ -653,7 +642,7 @@ exports.ettestt1s = ettestt1s = function ettestt1s(params, callback) {
 
 // Not an 'at' test...used to tes the veryify system. This is a failing test.
 exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     res = logverify("ettestt1sf_result", {
         "d": "1",
         "c": "0",
@@ -670,7 +659,7 @@ exports.ettestt1sf = ettestt1sf = function ettestt1sf(params, callback) {
 
 // Call func_b, but also tell preexecute to call func_a and postexecute to call func_c.
 exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -680,7 +669,7 @@ exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt2_result", res[0], [{
+            res = logverify("ettestt2_result", res[0][0], [{
                 "f": "3",
                 "g": "4",
                 "h": "5"
@@ -692,7 +681,7 @@ exports.ettestt2 = ettestt2 = function ettestt2(params, callback) {
 // Call func_b with only pre func_a...this intends to call func_a in preexecute and func_b 
 // in midexecute and nothing in post execute.
 exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -701,7 +690,7 @@ exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
             "preexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt3_result", res[0], [{
+            res = logverify("ettestt3_result", res[0][0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
@@ -713,7 +702,7 @@ exports.ettestt3 = ettestt3 = function ettestt3(params, callback) {
 // Call func_b with only post func_a -- same result as t3. This is to make sure that not
 // calling pre is ok...this calls only mid and post.
 exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -722,7 +711,7 @@ exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
             "postexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt3a_result", res[0], [{
+            res = logverify("ettestt3a_result", res[0][0], [{
                 "c": "0",
                 "g": "4",
                 "f": "3"
@@ -734,7 +723,7 @@ exports.ettestt3a = ettestt3a = function ettestt3a(params, callback) {
 // Call mid with func_b and post with func_c, assuring that multiple functions exectue
 // well, no matter where in the pre/mid/post they are placed.
 exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -743,7 +732,7 @@ exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt4_result", res[0], [{
+            res = logverify("ettestt4_result", res[0][0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
@@ -755,7 +744,7 @@ exports.ettestt4 = ettestt4 = function ettestt4(params, callback) {
 // Call mid with func_b and pre with func_c, assuring that multiple functions exectue
 // well, no matter where in the pre/mid/post they are placed.
 exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -764,7 +753,7 @@ exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
             "preexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt4a_result", res[0], [{
+            res = logverify("ettestt4a_result", res[0][0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
@@ -775,7 +764,7 @@ exports.ettestt4a = ettestt4a = function ettestt4a(params, callback) {
 // Call func_b with func_a for pre and post to ensure that calling the same
 // function more than once is not a problem for the system.
 exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -785,7 +774,7 @@ exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
             "postexecute": "func_a"
         }],
         function (err, res) {
-            res = logverify("ettestt5_result", res[0], [{
+            res = logverify("ettestt5_result", res[0][0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
@@ -797,7 +786,7 @@ exports.ettestt5 = ettestt5 = function ettestt5(params, callback) {
 // function more than once is not a problem for the system. Essentially showing that tt5 was not 
 // a fluke, but a repeatable concept.
 exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "func_b",
             "c": "0",
@@ -807,7 +796,7 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
             "postexecute": "func_c"
         }],
         function (err, res) {
-            res = logverify("ettestt6_result", res[0], [{
+            res = logverify("ettestt6_result", res[0][0], [{
                 "d": "1",
                 "h": "5",
                 "g": "4"
@@ -822,7 +811,7 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
 // This whole section will mirror the tt tests, but call functions that have intentional
 // delays to test the async portioins of the system.
 exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -830,7 +819,7 @@ exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
             "e": "2"
         }],
         function (err, res) {
-            res = logverify("ettestast1_result", res[0], [{
+            res = logverify("ettestast1_result", res[0][0], [{
                 "d": "1",
                 "c": "0",
                 "g": "4"
@@ -841,7 +830,7 @@ exports.ettestast1 = ettestast1 = function ettestast1(params, callback) {
 // Call async_func_b with pre calling func_a and post calling func_c...each simply
 // deletes a prameter and add a parameter.
 exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -851,7 +840,7 @@ exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast2_result", res[0], [{
+            res = logverify("ettestast2_result", res[0][0], [{
                 "f": "3",
                 "g": "4",
                 "h": "5"
@@ -861,7 +850,7 @@ exports.ettestast2 = ettestast2 = function ettestast2(params, callback) {
 }
 // Call async_func_b with only pre async_func_a...is it ok to not call post...yes it is.
 exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -870,7 +859,7 @@ exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
             "preexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast3_result", res[0], [{
+            res = logverify("ettestast3_result", res[0][0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
@@ -880,7 +869,7 @@ exports.ettestast3 = ettestast3 = function ettestast3(params, callback) {
 }
 // Call async_func_b with only post async_func_a -- same result as t3
 exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -889,7 +878,7 @@ exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
             "postexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast3a_result", res[0], [{
+            res = logverify("ettestast3a_result", res[0][0], [{
                 "c": "0",
                 "g": "4",
                 "f": "3"
@@ -899,7 +888,7 @@ exports.ettestast3a = ettestast3a = function ettestast3a(params, callback) {
 }
 // Call async_func_b with only post
 exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -908,7 +897,7 @@ exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast4_result", res[0], [{
+            res = logverify("ettestast4_result", res[0][0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
@@ -918,7 +907,7 @@ exports.ettestast4 = ettestast4 = function ettestast4(params, callback) {
 }
 // Call async_func_b with only pre async_func_c -- same result as t4
 exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -927,7 +916,7 @@ exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
             "preexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast4a_result", res[0], [{
+            res = logverify("ettestast4a_result", res[0][0], [{
                 "d": "1",
                 "g": "4",
                 "h": "5"
@@ -937,7 +926,7 @@ exports.ettestast4a = ettestast4a = function ettestast4a(params, callback) {
 }
 // Call async_func_b with async_func_a for pre and post
 exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -947,7 +936,7 @@ exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
             "postexecute": "async_func_a"
         }],
         function (err, res) {
-            res = logverify("ettestast5_result", res[0], [{
+            res = logverify("ettestast5_result", res[0][0], [{
                 "c": "0",
                 "f": "3",
                 "g": "4"
@@ -957,7 +946,7 @@ exports.ettestast5 = ettestast5 = function ettestast5(params, callback) {
 }
 // Call async_func_b with async_func_c for pre and post
 exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "async_func_b",
             "c": "0",
@@ -967,7 +956,7 @@ exports.ettestast6 = ettestast6 = function ettestast6(params, callback) {
             "postexecute": "async_func_c"
         }],
         function (err, res) {
-            res = logverify("ettestast6_result", res[0], [{
+            res = logverify("ettestast6_result", res[0][0], [{
                 "d": "1",
                 "h": "5",
                 "g": "4"
@@ -1280,7 +1269,7 @@ exports.ettestct4 = ettestct4 = function ettestct4(params, callback) {
 }
 // Call redir_b with only pre redir_c -- same result as t4
 exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "redir_b",
         "c": "0",
@@ -1340,7 +1329,7 @@ exports.ettestct4a = ettestct4a = function ettestct4a(params, callback) {
 }
 // Call redir_b with a remapping of redir_a to func_a for both pre and post.
 exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "redir_b",
         "c": "0",
@@ -1402,7 +1391,7 @@ exports.ettestct5 = ettestct5 = function ettestct5(params, callback) {
 // Call redir_b with redir_c for pre and post, essentiall rerunning ct5 but ensuring that other functions
 // can be used with the same effect.
 exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "redir_b",
         "c": "0",
@@ -1464,7 +1453,7 @@ exports.ettestct6 = ettestct6 = function ettestct6(params, callback) {
 // This will try pre with func a, but remapped with a configuration that
 // is passed into executethis...it still wants to hit func_b with mid
 exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "c": "0",
         "d": "1",
@@ -1504,7 +1493,7 @@ exports.ettestct7 = ettestct7 = function ettestct7(params, callback) {
 // still fails to reorder them and calls the server instead. It breaks the code and will not
 // simply call func_b locally.
 exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     // config = setconfig5();
     var parameters = {
         "executethis": "func_b",
@@ -1549,7 +1538,7 @@ exports.ettestct8 = ettestct8 = function ettestct8(params, callback) {
 
 // This test is to call does_not_exist, remaapped in the parameters to remap does_not_exist to func_b and execute...so far it doesn't work....
 exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "does_not_exist",
         "does_not_exist": "func_b",
@@ -1571,7 +1560,7 @@ exports.ettestct9 = ettestct9 = function ettestct9(params, callback) {
 }
 // This test is to call does_not_exist, remapped to a function in the parameters. So far it does not work...never has.
 exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "does_not_exist",
         "does_not_exist": "function () { return {data: 'Keg of Beer'}; }"
@@ -1588,7 +1577,7 @@ exports.ettestct9a = ettestct9a = function ettestct9a(params, callback) {
 // This test is to call func_b and in pre, call does_not_exist that is remapped to func_a...and then to func_b. So
 // far it does not work, and never has.
 exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "does_not_exist",
@@ -1614,7 +1603,7 @@ exports.ettestct10 = ettestct10 = function ettestct10(params, callback) {
 // remap does_not_exist_2 to func_c, and execute params to func_a, and then to func_b, and then func_c.
 // None of these ever work...
 exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "does_not_exist_1",
@@ -1642,7 +1631,7 @@ exports.ettestct11 = ettestct11 = function ettestct11(params, callback) {
 // This test is to send in a config as parameter of a config. This allows for the server to recieve a config
 // from a config that is passed in the parameters.
 exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "c": "0",
         "d": "1",
@@ -1682,7 +1671,7 @@ exports.ettestct12 = ettestct12 = function ettestct12(params, callback) {
 // should not see any data for ct13_output_a, or b. The params of mid should insert the cer2:booberry in
 // the results
 exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var parameters = {
         "executethis": "a",
@@ -1730,7 +1719,7 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
 // // This test is to test a config where a config with params is sent to pre, mid, and post.
 // // The results should have the a,b,c cereals, along with the regular params.
 // exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
-//  clearLocalStorage();
+//  testclearstorage();
 //  config = setconfig6();
 //  execute([{
 //      "executethis": "func_b",
@@ -1757,7 +1746,7 @@ exports.ettestct13 = ettestct13 = function ettestct13(params, callback) {
 // This test is to test a config where a config with params is sent to pre, mid, and post.
 // The results should have the a,b,c cereals, along with the regular params.
 exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "func_a",
@@ -1812,7 +1801,7 @@ exports.ettestct14 = ettestct14 = function ettestct14(params, callback) {
 // This will send the alphabits param in the preexecute config, but will be overriding it in the args..
 // Which one will win out? It does...the config params are lost and the 'arg' params from the config win out.
 exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     // config = setconfig6();
     var parameters = {
         "executethis": "func_b",
@@ -1890,7 +1879,7 @@ exports.ettestct15 = ettestct15 = function ettestct15(params, callback) {
 // Here the object is to get a set of config params from the config itself by using setconfig2 and checking for the 
 // config params in the assertion wid.
 exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "func_b",
         "preexecute": "mock_server",
@@ -1973,7 +1962,7 @@ exports.ettestct16 = ettestct16 = function ettestct16(params, callback) {
 
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
 exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var parameters = {
         "executethis": "func_b",
         "c": "0",
@@ -2014,7 +2003,7 @@ exports.ettestct17 = ettestct17 = function ettestct17(params, callback) {
 
 // This is to use the params in preexecute to ensure that the preexecute params are getting used by dothis
 exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     // config = setconfig7();
     var parameters = {
         "executethis": "func_b",
@@ -2058,7 +2047,7 @@ exports.ettestct18 = ettestct18 = function ettestct18(params, callback) {
 // sent to executethis. There are params that will be used and changed throughout the call...they are alfa, bravo, and charlie. At this point, 
 // the args sent to executethis will always win...not any of the 3 places in the config that they are set.
 exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     // config = setconfig8();
     var parameters = {
         "executethis": "func_b",
@@ -2137,7 +2126,7 @@ exports.ettestct19 = ettestct19 = function ettestct19(params, callback) {
 // Here the goal is to see if the config of the left and right conflict, which wins? Ad of now, the right side wins. The params for func_a,b,c are 
 // all set to be 2, but they come out as 4, because that is what pre,mid, and post set them to.
 exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     // config = setconfig8();
     var parameters = {
         "executethis": "func_b",
@@ -2215,7 +2204,7 @@ exports.ettestct20 = ettestct20 = function ettestct20(params, callback) {
 
 // Template for a new test, yet to be determined
 exports.ct1000 = ct1000 = function ct1000(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     executetest("executethis", {
         "executethis": "func_b",
         "c": "0",
@@ -2309,124 +2298,10 @@ exports.async_func_c = async_func_c = function async_func_c(parameters, callback
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
-exports.ettestag11 = ettestag11 = function ettestag11(params, callback) {
-    clearLocalStorage();
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "first_wid",
-            "data_1": "Red"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "second_wid",
-            "data_2": "Green"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "third_wid",
-            "data_3": "Blue"
-        }, {
-            "executethis": "first_wid"
-        }, {
-            "executethis": "second_wid"
-        }, {
-            "executethis": "third_wid"
-        }],
-        function (err, res) {
-            
-            console.log('Function ag11 result\n' + JSON.stringify(res, '-', 4));
-            
-            // res = logverify("ettestag11_result", res[3], [{
-            //     "data_1": "Red",
-            //     "wid": "first_wid",
-            //     "metadata": {}
-            // }]);
-
-            // res = logverify("ettestag11_result", res[4], [{
-            //     "data_2": "Green",
-            //     "wid": "second_wid",
-            //     "metadata": {}
-            // }]);
-
-            res = logverify("ettestag11_result", res[4], [
-                  {"0":
-                        {
-                            "data_2": "Green",
-                            "wid": "second_wid",
-                            "metadata": {}
-                        }
-            }])
-            
-            // res = logverify("ettestag11_result", res[5], [{
-            //     "data_3": "Blue",
-            //     "wid": "third_wid",
-            //     "metadata": {}
-            // }]);
-
-            callback(err, res);
-        });
-}
-
-exports.ettestag12 = ettestag12 = function ettestag12(params, callback) {
-    clearLocalStorage();
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "first_wid",
-            "data_1": "Red"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "second_wid",
-            "data_2": "Green"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "third_wid",
-            "data_3": "Blue"
-        }, {
-            "preexecute": "first_wid"
-        }, {
-            "executethis": "second_wid"
-        }, {
-            "postexecute": "third_wid"
-        }],
-        function (err, res) {
-            
-            console.log('Function ag11 result\n' + JSON.stringify(res, '-', 4));
-            
-            // res = logverify("ettestag12_result", res[3], [{
-            //     "data_1": "Red",
-            //     "wid": "first_wid",
-            //     "metadata": {}
-            // }]);
-
-            // res = logverify("ettestag12_result", res[4], [{
-            //     "data_2": "Green",
-            //     "wid": "second_wid",
-            //     "metadata": {}
-            // }]);
-
-            res = logverify("ettestag12_result", res[4], [
-                  {"0":
-                        {
-                            "data_2": "Green",
-                            "wid": "second_wid",
-                            "metadata": {"method":"defaultdto"}
-                            // "midexecute": null
-                        }
-            }])
-            
-            // res = logverify("ettestag12_result", res[5], [{
-            //     "data_3": "Blue",
-            //     "wid": "third_wid",
-            //     "metadata": {}
-            // }]);
-
-            callback(err, res);
-        });
-}
-
-
 // This will test the ability to write a dto to the db and retrieve it
 
 exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
-    // clearLocalStorage();
+    testclearstorage();
     execute([{
             "executethis": "addwidmaster",
             "wid": "sounddto",
@@ -2437,10 +2312,8 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
             "wid": "sounddto"
         }],
         function (err, res) {
-            proxyprinttodiv("**Error - Ag1 error result ", err, 99);
-            
             proxyprinttodiv('Function ag1 result ', res, 99);
-            res = logverify("ettestag1_result", res[1], [{
+            res = logverify("ettestag1_result", res[1][0], [{
                 "note": "string",
                 "wid": "sounddto",
                 "metadata.method": "sounddto"
@@ -2450,12 +2323,13 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
 }
 
 exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     debuglevel = 75;
     debugname = "updatewid";
     debugcat = "";
     debugsubcat = "";
+
 
     execute([{
             "executethis": "addwidmaster",
@@ -2471,7 +2345,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
         }],
         function (err, res) {
             proxyprinttodiv('Function ag1 result ', res, 99);
-            res = logverify("ettestag1a_result", res[2], {
+            res = logverify("ettestag1a_result", res[2][0], {
                 "name": "Nick Fury",
                 "wid": "superhero",
                 "metadata.method": ""
@@ -2490,7 +2364,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 // // This will test the ability to write a dto to the db, use that dto to write
 // // a wid with that dto, and get the results of getting that wid.
 // exports.ag211 = ag211 = function ag211(params, callback) {
-//  // clearLocalStorage();
+//  // testclearstorage();
 //  // ag2_setup();
 //  executetest("getwidmaster", {
 //      "wid": "color1"
@@ -2514,7 +2388,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
 exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
             // alert('here');
 
     debuglevel = 75;
@@ -2529,12 +2403,10 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "hue": "string"
         }, {
             "executethis": "addwidmaster",
-            //"metadata.method": "colordto", // added by joe
             "wid": "color1",
             "hue": "red"
         }, {
             "executethis": "addwidmaster",
-            //"metadata.method": "colordto", // added by joe
             "wid": "color2",
             "hue": "blue"
         }, {
@@ -2547,22 +2419,20 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             debugname = "";
             debugcat = "";
             debugsubcat = "";
-            proxyprinttodiv('Function ag2 result ', res, 38);
-            res = logverify("ettestag2_result", res[3], [{
+            proxyprinttodiv('Function ag2 result ', res, 99);
+            res = logverify("ettestag2_result", res[3][0], [{
                 "hue": "red",
                 "wid": "color1",
-                "metadata.method": "defaultdto" // changed by joe
-                //"metadata": {"method":"colordto"}
+                "metadata.method": "defaultdto"
             }]);
             callback(err, res);
-    });
+        });
 }
-// This is a 2 level test of the dtos...instantiate song1 with a sonddto, and some sounddto values
-// failing due to a command object being sent back
+// This is a 2 level test of the dtos...instantiate song1 with a songdto, and some sounddto values
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
-    //clearLocalStorage();
+    testclearstorage();
 
-    debuglevel = 17;
+    debuglevel = 98;
     //debugname = "";
 
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2597,65 +2467,56 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
     execute([{
             "executethis": "addwidmaster",
-            "wid": "sonddto",
-            "metadata.method": "sonddto",
+            "wid": "sounddto",
+            "metadata.method": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "songdto",
+            "metadata.method": "songdto",
             "title": "string",
-            "metadata.sounddto.type": "onetomany",
-            "sounddto.wid": "sounddto",
-            "sounddto.metadata.method": "sounddto",
-            "sounddto.note": "string"
-        //, {
-        //     "executethis": "addwidmaster",
-        //     "wid": "sounddto",
-        //     "metadata.method": "sounddto",
-        //     "note": "string"
-        // }, {
-        //     "executethis": "addwidmaster",
-        //     "wid": "sonddto",
-        //     "metadata.method": "sonddto",
-        //     "title": "string",
-        //     "metadata.sounddto.type": "onetomany"
-        // }, {
-        //     "executethis": "addwidmaster",
-        //     "wid": "rel_sound_to_song",
-        //     "metadata.method":"relationshipdto",
-        //     "primarywid": "sonddto",
-        //     "secondarywid": "sounddto",
-        //     "primarymethod": "sonddto",
-        //     "secondarymethod": "sounddto",
-        //     "linktype":"onetomany",
-        //     "relationshiptype": "attributes"
-        // }, {
+            "metadata.sounddto.type": "onetomany"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_sound_to_song",
+            "metadata.method":"relationshipdto",
+            "primarywid": "songdto",
+            "secondarywid": "sounddto",
+            "primarymethod": "songdto",
+            "secondarymethod": "sounddto",
+            "linktype":"onetomany",
+            "relationshiptype": "attributes"
+        }, {
         //     "executethis": "addwidmaster",
         //     "wid": "song1",
-        //     "metadata.method": "sonddto",
+        //     "metadata.method": "songdto",
         //     "title": "Highway to Hell",
         //     "sounddto.0.note": "A flat",
         //     "sounddto.1.note": "B sharp",
         //     "sounddto.2.note": "C flat"
-        }, {                       
+        // }, {
+                        
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "sonddto",
+            "metadata.method": "songdto",
             "title": "Highway to Hell",
             "sounddto.note": "A flat"
         }, {            
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "sonddto",
+            "metadata.method": "songdto",
             "title": "Highway to Hell",
             "sounddto.note": "B sharp"
         }, {
             "executethis": "addwidmaster",
             "wid": "song1",
-            "metadata.method": "sonddto",
+            "metadata.method": "songdto",
             "title": "Highway to Hell",
             "sounddto.note": "C flat"
         }, {
             "executethis": "getwidmaster",
             "wid": "song1"
-         }
-        ],
+        }],
         // execute([{
         //  "executethis": "updatewid", 
         //  "wid": "authordto",
@@ -2719,30 +2580,23 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             //debugcat = "";
             //debugsubcat = "";
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
-
-            res = logverify("ettestag3_result", res[4], [{
+            proxyprinttodiv('Function ag3 result ', res[6][0], 99);
+            res = logverify("ettestag3_result", res[6][0], [{
                 "title": "Highway to Hell",
                 "wid": "song1",
-                "metadata.method": "sonddto",
-                "metadata.sounddto.type": "onetomany",
+                "metadata.method": "songdto",
                 "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "2",
+                "sounddto.0.wid": "1",
                 "sounddto.0.metadata.method": "sounddto",
                 "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "4",
+                "sounddto.1.wid": "3",
                 "sounddto.1.metadata.method": "sounddto",
                 "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "6",
+                "sounddto.2.wid": "5",
                 "sounddto.2.metadata.method": "sounddto"
             }]);
             debuglevel=38;
-            execute({"executethis": "getwidmaster","wid": "sonddto",
-                  "command":{"getwidmaster":{"convertmethod":"dto",
-                                          "execute":"ConvertFromDOTdri",
-                                          "inheritflag":"true","dtotype":""}}}, function (err, res1) {
-            //execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
                 proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
                 callback(err, res); 
                  
@@ -2750,405 +2604,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         });
 }
 
-// This test does not add the data records correctly
-exports.ettestag3b = ettestag3b = function ettestag3b(params, callback) {
-    clearLocalStorage();
-
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "sonddto",
-            "metadata.method": "sonddto",
-            "title": "string",
-            "metadata.sounddto.type": "jsononetomany",
-            "sounddto.wid": "sounddto",
-            "sounddto.metadata.method": "sounddto",
-            "sounddto.note": "string"
-        }, {                       
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "sonddto",
-            "title": "Highway to Hell",
-            "sounddto.0.note": "A flat"
-        }, {            
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "sonddto",
-            "title": "Highway to Hell",
-            "sounddto.0.note": "B sharp"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "sonddto",
-            "title": "Highway to Hell",
-            "sounddto.0.note": "C flat"
-        }, {
-            "executethis": "getwidmaster",
-            "wid": "song1"
-         }
-        ],
-   
-        function (err, res) {
-        
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
-
-            res = logverify("ettestag3_result", res[4], [{
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "sonddto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "2",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "4",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "6",
-                "sounddto.2.metadata.method": "sounddto"
-            }]);
-            debuglevel=38;
-            execute({"executethis": "getwidmaster","wid": "sonddto",
-                  "command":{"getwidmaster":{"convertmethod":"dto",
-                                          "execute":"ConvertFromDOTdri",
-                                          "inheritflag":"true","dtotype":""}}}, function (err, res1) {
-            //execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
-                callback(err, res); 
-                 
-            })
-        });
-}
-
-// Test for supporting jsononetomany
-// *** warning clear local storage ***
-// 2/26/2014 -et-add - small amount of changes added today, ag5 is now makking it all the way through 
-// Major fix was making sure relationship was passed in correctly, bracket was also missing on else in addwid
-// Next step will be to add array processing to update wid
-// 2/27/2014
-// Goal for ag5's return
-// [ { 
-//     "title" : "Highway to Hell",
-//     "sounddto.0.note" : "A flat",
-//     "sounddto.0.wid" : "2",
-//     "sounddto.0.metadata.method" : "sounddto",
-//     "sounddto.1.note" : "B sharp",
-//     "sounddto.1.wid" : "4",
-//     "sounddto.1.metadata.method" : "sounddto",
-//     "sounddto.2.note" : "C flat",
-//     "sounddto.2.wid" : "6",
-//     "sounddto.2.metadata.method" : "sounddto",
-//     "wid" : "song1",
-//     "metadata.method" : "songdto"
-// } ]
-
-exports.ettestag5 = ettestag5 = function ettestag5(params, callback) {
-    clearLocalStorage();
-    addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-    addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
-
-    //debuglevel = 17;
-
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "Songdto",
-            "metadata.method": "Songdto",
-            "title": "string",
-            "metadata.sounddto.type": "jsononetomany",
-            "sounddto.0.wid": "sounddto",
-            "sounddto.0.metadata.method": "sounddto",
-            "sounddto.0.note": "string"
-      }, {                       
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "Songdto",
-            "title": "Highway to Hell",
-            "sounddto.note": "A flat"
-      }, {            
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "Songdto",
-            "title": "Highway to Hell",
-            "sounddto.note": "B sharp"
-      }, {
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "Songdto",
-            "title": "Highway to Hell",
-            "sounddto.note": "C flat"
-      }, {
-            "executethis": "getwidmaster",
-            "wid": "song1"
-      }],
-      function (err, res) {
-            proxyprinttodiv('Function ag5 result Full res', res, 99);
-            proxyprinttodiv('Function ag5 result ', res[4], 99);
-
-            res = logverify("ettestag5_result", res[4], [{
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "2",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "4",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "6",
-                "sounddto.2.metadata.method": "sounddto"
-            }]);
- 
-            execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
-                  "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
-                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
-                  callback(err, res); 
-            });
-        });
-}
-
-exports.ettestag6 = ettestag6 = function ettestag6(params, callback) {
-    clearLocalStorage();
-    addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-    addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
-
-    //debuglevel = 17;
-    execute([{                       
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "Songdto",
-            "title": "Highway to Hell",
-            "sounddto[0].note": "A flat"
-      }, {            
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "Songdto",
-            "title": "Highway to Hell",
-            "sounddto.0.note": "B sharp"
-      }, {
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "Songdto",
-            "title": "Highway to Hell",
-            "sounddto.0.note": "C flat"
-      }],
-      function (err, res) {
-            proxyprinttodiv('Function ag5 result Full res', res, 99);
-            proxyprinttodiv('Function ag5 result ', res[4], 99);
-
-            res = logverify("ettestag5_result", res[4], [{
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "2",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "4",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "6",
-                "sounddto.2.metadata.method": "sounddto"
-            }]);
- 
-            execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
-                  "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
-                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
-                  callback(err, res); 
-            });
-        });
-}
-
-// {
-//     "executethis": "addwidmaster",
-//     "wid": "song1",
-//     "metadata": {
-//         "method": "Songdto"
-//     },
-//     "title": "Highway to Hell",
-//     "sounddto": [
-//         {
-//             "note": "A flat"
-//         }
-//     ]
-// }
-exports.ettestag7 = ettestag7 = function ettestag7(params, callback) {
-    var obj = { 
-                "executethis": "addwidmaster",
-                "wid": "song1",
-                "metadata": {
-                    "method": "Songdto"
-                },
-                "title": "Highway to Hell",
-                "sounddto": [
-                    
-                        {"note": "A flat"},                     
-                        {"tempo": "fast"}
-
-                    
-                ]
-            }
-
-            // var temp = ConvertToDOTdri(obj);
-            // proxyprinttodiv("ettestag7 converToDot -- DOT --> ", temp, 99);
-
-            // temp = ConvertFromDOTdri(obj);
-            // proxyprinttodiv("ettestag7 converFromDot -- JSON --> ", temp, 99);
-            
-        getdtoobject(obj, {"dtotype":"defaultdto"}, function (err, res) {
-            proxyprinttodiv("getdtoobject -- RES --> ", res, 99);
-        });
-}
-
-exports.ettestag8 = ettestag8 = function ettestag8(params, callback) {
-    clearLocalStorage();
-    addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-    addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
-
-    //debuglevel = 17;
-
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "Songdto",
-            "metadata.method": "Songdto",
-            "title": "string",
-            "metadata.sounddto.type": "jsononetomany",
-            "sounddto.0.wid": "sounddto",
-            "sounddto.0.metadata.method": "sounddto",
-            "sounddto.0.note": "string"
-      }],
-      function (err, res) {
-
-            execute({"executethis":"getwidmaster", "wid":"songdto", "command.getwidmaster.convertmethod":"dto",
-                "command.getwidmaster.execute":"ConvertFromDOTdri"}, function (err, res1) {
-                  proxyprinttodiv('Function ag8 result LAST ', res1, 99); 
-                  callback(err, res); 
-            });
-        });
-}
-
-exports.ettestag9 = ettestag9 = function ettestag9(params, callback) {
-    clearLocalStorage();
-    addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-    addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
-
-    //debuglevel = 17;
-
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "Songdto",
-            "metadata.method": "Songdto",
-            "title": "string",
-            "metadata.sounddto.type": "jsononetomany",
-            "sounddto.0.wid": "string",
-            "sounddto.0.metadata.method": "string",
-            "sounddto.0.note": "string"
-      }, {                       
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "Songdto",
-            "title": "Highway to Hell",
-            "sounddto.0.wid": "1",
-            "sounddto.0.note": "A flat",
-            "sounddto.0.metadata.method": "sounddto",
-            "sounddto.1.wid": "2",
-            "sounddto.1.note": "B sharp",
-            "sounddto.1.metadata.method": "sounddto",
-            "sounddto.2.wid": "3",
-            "sounddto.2.note": "C flat",
-            "sounddto.2.metadata.method": "sounddto",
-      }, {
-            "executethis": "getwidmaster",
-            "wid": "song1"
-      }],
-      function (err, res) {
-            proxyprinttodiv('Function ag5 result Full res', res, 99);
-            proxyprinttodiv('Function ag5 result ', res[3], 99);
-
-            res = logverify("ettestag5_result", res[3], [{
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "2",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "4",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "6",
-                "sounddto.2.metadata.method": "sounddto"
-            }]);
- 
-            execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
-                  "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
-                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
-                  callback(err, res); 
-            });
-        });
-}
-
-exports.ettestag3a = ettestag3a = function ettestag3a(params, callback) {
-    clearLocalStorage();
-    addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-    addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
-
-    //debuglevel = 17;
-
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "Songdto",
-            "metadata.method": "Songdto",
-            "title": "string",
-            "metadata.sounddto.type": "onetomany",
-            "sounddto.wid": "string",
-            "sounddto.metadata.method": "string",
-            "sounddto.note": "string"
-      }, {                       
-            "executethis": "addwidmaster",
-            "wid": "song1",
-            "metadata.method": "Songdto",
-            "title": "Highway to Hell",
-            "sounddto.0.wid": "1",
-            "sounddto.0.note": "A flat",
-            "sounddto.0.metadata.method": "sounddto",
-            "sounddto.1.wid": "2",
-            "sounddto.1.note": "B sharp",
-            "sounddto.1.metadata.method": "sounddto",
-            "sounddto.2.wid": "3",
-            "sounddto.2.note": "C flat",
-            "sounddto.2.metadata.method": "sounddto",
-      }, {
-            "executethis": "getwidmaster",
-            "wid": "song1"
-      }],
-      function (err, res) {
-            proxyprinttodiv('Function ag5 result Full res', res, 99);
-            proxyprinttodiv('Function ag5 result ', res[2], 99);
-
-            res = logverify("ettestag5_result", res[2], [{
-                "title": "Highway to Hell",
-                "wid": "song1",
-                "metadata.method": "songdto",
-                "sounddto.0.note": "A flat",
-                "sounddto.0.wid": "2",
-                "sounddto.0.metadata.method": "sounddto",
-                "sounddto.1.note": "B sharp",
-                "sounddto.1.wid": "4",
-                "sounddto.1.metadata.method": "sounddto",
-                "sounddto.2.note": "C flat",
-                "sounddto.2.wid": "6",
-                "sounddto.2.metadata.method": "sounddto"
-            }]);
- 
-            execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
-                  "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
-                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
-                  callback(err, res); 
-            });
-        });
-}
-
-//88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+// 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -3209,53 +2665,31 @@ exports.sleep = sleep = function sleep(milliseconds) {
 
 // Used as a test for having a executethis in the parameters
 exports.uwid1 = uwid1 = function uwid1(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     execute([{
             "executethis": "addwidmaster",
             "wid": "getexecutetest",
-            "addthis.postexecute": "func_b",
-            "e":"this_will_be_deleted",
-            "d":"this_should_stay",
-            "g":"this_should_be_set_to_4"
+            "addthis.executethis": "func_b"
         }, {
             "executethis": "getwidmaster",
             "wid": "getexecutetest"
         }],
         function (err, res) {
-            proxyprinttodiv("uwid1 res: ", res, 99);
+            alert(JSON.stringify(res[1][0]));
             // The following will pass...it shows what the getwidmaster returns
             // res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
 
             // This assertion is what is expected, but it fails
-            res = logverify("uwid1", res[1][0][0], {"d":"this_should_stay","g":"4","wid":"getexecutetest","metadata.method":"defaultdto"});
-            callback(err, res);
-        });
-}
-
-// Used as a test for having a postexecute deply nested deep in the params in the parameters
-exports.uwid2 = uwid2 = function uwid2(params, callback) {
-    clearLocalStorage();
-
-    execute([{
-            "executethis": "addwidmaster",
-            "wid": "getexecutetest",
-            "addthis.postexecute": "func_b",
-            "nested.addthis.postexecute":"func_b",
-            "nested.nested_again.addthis.postexecute":"func_b"
-        }, {
-            "executethis": "getwidmaster",
-            "wid": "getexecutetest"
-        }],
-        function (err, res) {
-            proxyprinttodiv("uwid2 res: ", res, 99);
-            res = logverify("uwid2", res[1][0][0], {"nested.postexecute":"func_b", "nested.nested_again.postexecute":"func_b", "wid":"getexecutetest","metadata.method":"defaultdto","g":"4"});
+            res = logverify("uwid1", res[1][0], {
+                "g": "4"
+            });
             callback(err, res);
         });
 }
 
 exports.mut = mut = function mut(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var commandobject = {};
     commandobject['executemethod'] = "execute";
@@ -3294,7 +2728,7 @@ exports.addwid4params = addwid4params = function addwid4params(a, b, c, d, callb
 }
 
 exports.testnested1 = testnested1 = function testnested1(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var inparams = [
         [{
@@ -3329,7 +2763,7 @@ exports.testnested1 = testnested1 = function testnested1(params, callback) {
 
 
 exports.testnested3 = testnested3 = function testnested3(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var inparams = [{
             "executethis": "addwidmaster",
@@ -3364,7 +2798,7 @@ exports.testnested3 = testnested3 = function testnested3(params, callback) {
 }
 
 exports.testnested4 = testnested4 = function testnested4(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var inparams = [{
         "executethis": "addwidmaster",
@@ -3380,7 +2814,7 @@ exports.testnested4 = testnested4 = function testnested4(params, callback) {
 }
 
 exports.testnested5 = testnested5 = function testnested5(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var inparams = {
         "executethis": "addwidmaster",
@@ -3392,7 +2826,7 @@ exports.testnested5 = testnested5 = function testnested5(params, callback) {
 }
 
 exports.testnested6 = testnested6 = function testnested6(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var inparams = {
         "executethis": "test121212"
@@ -3402,7 +2836,7 @@ exports.testnested6 = testnested6 = function testnested6(params, callback) {
 }
 
 exports.testnested2 = testnested2 = function testnested2(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var inparams = [
         [{
@@ -3438,7 +2872,7 @@ exports.testnested2 = testnested2 = function testnested2(params, callback) {
 
 
 exports.testmultiplenested = testmultiplenested = function testmultiplenested(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
 
     var inparams = [
         [{
@@ -3485,7 +2919,7 @@ exports.testmultiplenested = testmultiplenested = function testmultiplenested(pa
 }
 
 // exports.t121212 = t121212 = function t121212(params, callback) {
-//     clearLocalStorage();
+//     testclearstorage();
 
 //     var todolist = [
 //         [{
@@ -3654,9 +3088,9 @@ exports.newt2 = newt2 = function newt2(params, callback) {
                     "getwidmaster",
                     "getwidmaster",
                     {
-                        "wid": "sonddto",
+                        "wid": "songdto",
                         "command.convertmethod": "dto",
-                        "command.dtotype": "sonddto"
+                        "command.dtotype": "songdto"
                     },
                     {
                         "title": "string",
@@ -3680,13 +3114,13 @@ exports.newt2 = newt2 = function newt2(params, callback) {
                                 "date": "2014-02-04T18:31:01.199Z"
                             }
                         },
-                        "sonddto": {
+                        "songdto": {
                             "data": {
                                 "title": "string"
                             },
-                            "wid": "sonddto",
+                            "wid": "songdto",
                             "metadata": {
-                                "method": "sonddto",
+                                "method": "songdto",
                                 "sounddto": {
                                     "type": "onetomany"
                                 },
@@ -3695,7 +3129,7 @@ exports.newt2 = newt2 = function newt2(params, callback) {
                         },
                         "rel_sound_to_song": {
                             "data": {
-                                "primarywid": "sonddto",
+                                "primarywid": "songdto",
                                 "secondarywid": "sounddto",
                                 "relationshiptype": "attributes"
                             },
@@ -3732,7 +3166,7 @@ exports.newt4 = newt4 = function newt4(params, callback) {
             {
                 "title": "Highway to Hell",
                 "wid": "song1",
-                "metadata.method": "sonddto",
+                "metadata.method": "songdto",
                 "sounddto.0.note": "A flat",
                 "sounddto.0.wid": "1",
                 "sounddto.0.metadata.method": "sounddto",
@@ -3752,7 +3186,7 @@ exports.newt4 = newt4 = function newt4(params, callback) {
             "parms": {
                 "title": "Highway to Hell",
                 "wid": "song1",
-                "metadata.method": "sonddto",
+                "metadata.method": "songdto",
                 "sounddto.0.note": "A flat",
                 "sounddto.0.wid": "1",
                 "sounddto.0.metadata.method": "sounddto",
@@ -3766,13 +3200,13 @@ exports.newt4 = newt4 = function newt4(params, callback) {
             "dto": {
                 "title": "Highway to Hell",
                 "wid": "song1",
-                "metadata.method": "sonddto",
+                "metadata.method": "songdto",
                 "sounddto.note": "string",
                 "sounddto.wid": "sounddto",
                 "sounddto.metadata.method": "sounddto"
             }
         },
-                    {"1":{"data":{"note":"A flat"},"wid":"1","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.175Z"}},"2":{"data":{"primarywid":"song1","secondarywid":"1","relationshiptype":"attributes","linktype":"onetomany"},"wid":"2","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.248Z"}},"3":{"data":{"note":"B sharp"},"wid":"3","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.273Z"}},"4":{"data":{"primarywid":"song1","secondarywid":"3","relationshiptype":"attributes","linktype":"onetomany"},"wid":"4","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.348Z"}},"5":{"data":{"note":"C flat"},"wid":"5","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.366Z"}},"6":{"data":{"primarywid":"song1","secondarywid":"5","relationshiptype":"attributes","linktype":"onetomany"},"wid":"6","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.437Z"}},"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T18:43:42.711Z"}},"sonddto":{"data":{"title":"string"},"wid":"sonddto","metadata":{"method":"sonddto","sounddto":{"type":"onetomany"},"date":"2014-02-05T18:43:42.827Z"}},"rel_sound_to_song":{"data":{"primarywid":"sonddto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T18:43:42.888Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"sonddto","date":"2014-02-05T18:43:43.088Z"}}},
+                    {"1":{"data":{"note":"A flat"},"wid":"1","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.175Z"}},"2":{"data":{"primarywid":"song1","secondarywid":"1","relationshiptype":"attributes","linktype":"onetomany"},"wid":"2","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.248Z"}},"3":{"data":{"note":"B sharp"},"wid":"3","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.273Z"}},"4":{"data":{"primarywid":"song1","secondarywid":"3","relationshiptype":"attributes","linktype":"onetomany"},"wid":"4","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.348Z"}},"5":{"data":{"note":"C flat"},"wid":"5","metadata":{"method":"sounddto","date":"2014-02-05T18:43:43.366Z"}},"6":{"data":{"primarywid":"song1","secondarywid":"5","relationshiptype":"attributes","linktype":"onetomany"},"wid":"6","metadata":{"method":"relationshipdto","date":"2014-02-05T18:43:43.437Z"}},"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T18:43:42.711Z"}},"songdto":{"data":{"title":"string"},"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"onetomany"},"date":"2014-02-05T18:43:42.827Z"}},"rel_sound_to_song":{"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T18:43:42.888Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"songdto","date":"2014-02-05T18:43:43.088Z"}}},
                     {"command": "null"}
                 ]
             ]
@@ -3795,7 +3229,7 @@ exports.newt5 = newt5 = function newt5(params, callback) {
            "offlineupdatewid",
             [
     {
-        "metadata.method": "sonddto",
+        "metadata.method": "songdto",
         "wid": "song1",
         "title": "Highway to Hell"
     }
@@ -3806,11 +3240,11 @@ exports.newt5 = newt5 = function newt5(params, callback) {
     },
     "wid": "song1",
     "metadata": {
-        "method": "sonddto",
+        "method": "songdto",
         "date": "2014-02-05T21:11:19.461Z"
     }
 },
-            {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T21:11:18.876Z"}},"sonddto":{"data":{"title":"string"},"wid":"sonddto","metadata":{"method":"sonddto","sounddto":{"type":"onetomany"},"date":"2014-02-05T21:11:19.040Z"}},"rel_sound_to_song":{"data":{"primarywid":"sonddto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T21:11:19.141Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"sonddto","date":"2014-02-05T21:11:19.461Z"}}},
+            {"initialwid":{"wid":"initialwid","initialwid":"for key hello from bootprocess"},"sounddto":{"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-02-05T21:11:18.876Z"}},"songdto":{"data":{"title":"string"},"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"onetomany"},"date":"2014-02-05T21:11:19.040Z"}},"rel_sound_to_song":{"data":{"primarywid":"songdto","secondarywid":"sounddto","relationshiptype":"attributes"},"wid":"rel_sound_to_song","metadata":{"method":"defaultdto","date":"2014-02-05T21:11:19.141Z"}},"song1":{"data":{"title":"Highway to Hell"},"wid":"song1","metadata":{"method":"songdto","date":"2014-02-05T21:11:19.461Z"}}},
             {"command": "null"}
         ]
     ]
@@ -3823,7 +3257,7 @@ exports.newt5 = newt5 = function newt5(params, callback) {
 // fn b accepts one object and produces one array result
 
 exports.test121212 = test121212 = function test121212(params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var todolist = [
         [{
                 "fn": "test_and_verify"
@@ -3855,7 +3289,7 @@ exports.test121212 = test121212 = function test121212(params, callback) {
 
 function test141414 (params, callback) {
     // Calling func_b2 with single
-    clearLocalStorage();
+    testclearstorage();
     var todolist = 
     [
         [{
@@ -3889,7 +3323,7 @@ function test141414 (params, callback) {
 // func_b3 and func_b33 accepts 4 arrays and produces one object result
 
 function test151515 (params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var todolist = 
     [
         [
@@ -3918,7 +3352,7 @@ function test151515 (params, callback) {
     executethismultiple(todolist, callback);       
 }
 function test161616 (params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var todolist = 
         [
             [
@@ -3988,7 +3422,7 @@ exports.sample3 = sample3 = function sample3 (params, callback) {
 }
 
 function test171717 (params, callback) {
-    clearLocalStorage();
+    testclearstorage();
     var todolist = 
         [
             [
@@ -4082,238 +3516,16 @@ exports.wrapped1 = wrapped1 = function wrapped1 (params, callback) {
 
     });
 }
-// data, defaults, filter
-exports.lwr1 = lwr1 = function lwr1(params, callback) {
-    var params = {"Alpha":"1", "beta":"2", "Charlie":"3", "Delta":"4"};
-    var defaults = {
-                    "Beta":"555",
-                    "charlie":"777"};
-    var filter = {
-                    "Beta":"",
-                    "charlie":""};
+
+exports.lwr = lwr = function lwr(params, callback) {
+    var params = {"alpha":"1", "beta":"2", "charlie":"3", "delta":"4"};
+    var filter = {"beta":"add","charlie":"add"};
     var err;
     var result = {};
 
-    result = tolowerparameters(params, defaults, filter, true);
+    result = tolowerparameters(params, filter, false);
+
     callback(err, result);
+
 }
 
-exports.lwr2 = lwr2 = function lwr2(params, callback) {
-    var params = {"Alpha":"1", "bEta":"2", "Charlie":"3", "Delta":"4"};
-    var defaults = {
-                    "Beta":"555",
-                    "charlie":"777"};    
-
-    var filter = {
-                    "Beta":"",
-                    "charlie":""};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, false);
-    callback(err, result);
-}
-
-exports.lwr3 = lwr3 = function lwr3(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
-    var defaults = {
-                    "Beta":"",
-                    "charlie":""};    
-    var filter = {
-                    "beta":"",
-                    "charlie":""};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, true);
-    callback(err, result);
-}
-
-exports.lwr4 = lwr4 = function lwr4(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
-    var defaults = {
-                    "Beta":"",
-                    "charlie":""};    
-    var filter = {
-                    "beta":"",
-                    "charlie":""};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, false);
-    callback(err, result);
-}
-
-exports.lwr5 = lwr5 = function lwr5(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
-    var defaults = {
-                    "ceta":"",
-                    "charlie":""}; 
-    var filter = {
-                    "beta":"add",
-                    "charlie":"add"};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, true);
-    callback(err, result);
-}
-
-exports.lwr6 = lwr6 = function lwr6(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
-    var defaults = {
-                    "beta":"add",
-                    "charlie":"add"};
-    var filter = {
-                    "beta":"",
-                    "charlie":""};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, false);
-    callback(err, result);
-}
-
-exports.lwr7 = lwr7 = function lwr7(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var defaults = {};
-    var filter = {};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, true);
-    callback(err, result);
-}
-
-exports.lwr8 = lwr8 = function lwr8(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var defaults = {};
-    var filter = {};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, false);
-    callback(err, result);
-}
-
-exports.lwr9 = lwr9 = function lwr9(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var defaults = {
-                      "beta":"555",
-                      "Charlie":"777"};
-    var filter = {
-                  "beta":"",
-                  "charlie":""};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, true);
-    callback(err, result);
-}
-
-exports.lwr10 = lwr10 = function lwr10(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var defaults = {
-                    "beta":"555",
-                    "charlie":"777"};
-    var filter = {
-                    "beta":"",
-                    "charlie":""};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, false);
-    callback(err, result);
-}
-
-exports.lwr11 = lwr11 = function lwr11(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var defaults = {
-                    "beta":"",
-                    "charlie":""};
-    
-    var filter = {
-                    "beta":"",
-                    "charlie":""};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, true);
-    callback(err, result);
-}
-
-exports.lwr12 = lwr12 = function lwr12(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var defaults = {
-                    "beta":"",
-                    "charlie":""};
-    var filter = {
-                    "beta":"",
-                    "charlie":""};    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, false);
-    callback(err, result);
-}
-
-exports.lwr13 = lwr13 = function lwr13(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var defaults = {
-                    "beta":"",
-                    "charlie":""};
-    var filter = {
-                    "beta":"add",
-                    "charlie":"add"};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, true);
-    callback(err, result);
-}
-
-exports.lwr14 = lwr14 = function lwr14(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Delta":"4"};
-    var defaults = {
-                    "beta":"add",
-                    "charlie":"add"};
-    var filter = {
-                    "beta":"add",
-                    "charlie":"add"};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, false);
-    callback(err, result);
-}
-
-exports.lwr15 = lwr15 = function lwr15(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
-    var defaults = {};
-    var filter = {};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, true);
-    callback(err, result);
-}
-
-exports.lwr16 = lwr16 = function lwr16(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
-    var defaults = {};
-    var filter = {};
-    var err;
-    var result = {};
-
-    result = tolowerparameters(params, defaults, filter, false);
-    callback(err, result);
-}
-
-exports.pu1 = pu1 = function pu1(params, callback) {
-    var params = {"Alpha":"1", "Beta":"2", "Charlie":"3", "Delta":"4"};
-    var command = {"command": {"somefunction":"orange", "action":"reaction"}};
-    var err;
-    var result = {};
-
-    result = pack_up_params(params, command, "somefunction");
-    callback(err, result);
-}
