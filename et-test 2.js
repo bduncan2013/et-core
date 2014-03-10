@@ -2,7 +2,7 @@
     // this one inserts same amount of data but does not fail
 
     exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
-    eventappinstall();
+    etappinstall();
      // config = setconfig1();
     var recModObj = recurseModObj({
                                     "metadata":{"method":"wid2"},
@@ -1168,7 +1168,7 @@
     }
 
     exports.add1 = add1 = function add1(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1238,7 +1238,7 @@
     }
 
     exports.add11 = add11 = function add11(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1312,7 +1312,7 @@
     this should insert {a:b} at the bookdto level
 */
     exports.get4 = get4 = function get4(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1383,7 +1383,7 @@
     }
 
     exports.get4 = get4 = function get22(parameters, callback) { //add clean test
-        eventappinstall();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1457,7 +1457,7 @@
     do not specify command.dto...should put it at root/author level
 */
     exports.get5 = get5 = function get5(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1529,7 +1529,7 @@
     specify command.dtotype = x should wrap result in {x: {.....}}
 */
     exports.get6 = get6 = function get6(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1603,7 +1603,7 @@
     specify command.dtotype.x.y.z should wrap result in {x:{y:z{......}}}
 */
     exports.get7 = get7 = function get7(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1681,7 +1681,7 @@
     get8 - to get the dtoname
 */
     exports.get8 = get8 = function get8(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1756,7 +1756,7 @@
     addwid with out inherit ... should add inputobject
 */
     exports.addwidtest = addwidtest = function addwidtest(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1812,7 +1812,7 @@
     addwid without inherit .. should add the input record
 */
     exports.addwidtest2 = addwidtest2 = function addwidtest2(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1856,7 +1856,7 @@
     addwid - with record alreayd exists ... should update name, leave all else the same
 */
     exports.addwidtest3 = addwidtest3 = function addwidtest3(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var executeList = [
             //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
             {
@@ -1903,7 +1903,7 @@
     addwid with inherit that DOES matter ... should return name of roger
 */
     exports.addwidtest4 = addwidtest4 = function addwidtest4(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1959,7 +1959,7 @@
     addwid - with record .. but dto fliters age
 */
     exports.addwidtest5 = addwidtest5 = function addwidtest5(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var executeList = [
             //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
             {
@@ -2007,7 +2007,7 @@
     addwid with inherit that DOES matter ... deep should return name of roger + more
 */
     exports.addwidtest6 = addwidtest6 = function addwidtest6(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -2068,7 +2068,7 @@
     addwid without inherit  ... should add inputobject -- test of deep filter string, number, boolean, date -- did it convert it?
 */
     exports.addwidtest7 = addwidtest7 = function addwidtest7(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -2178,7 +2178,7 @@
 
 
     exports.get1 = get1 = function get1(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         // debuglevel=10;
         var executeList = [{
                 "executethis": "updatewid",
@@ -2272,7 +2272,7 @@
     }
 
     exports.get3 = get3 = function get3(parameters, callback) {
-        eventappinstall();
+        etappinstall();
         debuglevel = 38;
         var executeList = [{
             "executethis": "updatewid",
@@ -2358,7 +2358,7 @@
 
     exports.get2 = get2 = function get2(parameters, callback) {
         // Setup test
-        eventappinstall();
+        etappinstall();
         // debuglevel = 10;
 
         var executeList = [
@@ -2476,7 +2476,7 @@
 
     exports.get11 = get11 = function get11(parameters, callback) {
         // Setup test
-        eventappinstall();
+        etappinstall();
         // debuglevel = 10;
 
         var executeList = [
@@ -2947,7 +2947,7 @@
         }
         //debuglevel=17;
         /* adding wids */
-        eventappinstall();
+        etappinstall();
         debugname = "updatewid";
         debugsubcat = "code";
         debugcat = "add";
@@ -3459,7 +3459,7 @@
         }
 
         /* adding wids */
-        eventappinstall();
+        etappinstall();
         var executeList = [];
         executeList = addmttestdata(callback);
         execute(executeList, function (err, res) {
@@ -3745,7 +3745,7 @@
 
 
     exports.t1example = t1example = function t1example(params, callback) {
-        eventappinstall();
+        etappinstall();
         config = setconfig1();
         execute([{
                 "executethis": "func_b",
@@ -3771,7 +3771,7 @@
     exports.mttest2 = mttest2 = function mttest2(params, callback) {
         console.log("<< mongoquery_two_test >>");
 
-        eventappinstall();
+        etappinstall();
 
         //To add wid data
         var executeList = [];
@@ -3858,7 +3858,7 @@
     exports.mttest3 = mttest3 = function mttest3(params, callback) {
         console.log("<< mttest3 >>");
 
-        eventappinstall();
+        etappinstall();
 
         //To add wid data
         var executeList = [{
@@ -4017,7 +4017,7 @@
 
     exports.mttest333 = mttest333 = function mttest333(params, callback) {
         console.log("<< mttest3 >>");
-        eventappinstall();
+        etappinstall();
 
         // Add List
         var addlist = [{
@@ -4468,7 +4468,7 @@
         }
 
 
-        eventappinstall();
+        etappinstall();
 
         // debugcolor = 0;
         // debugon = true;
@@ -5265,7 +5265,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 
 // DTO 1, dot > object 3, dot
 exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5336,7 +5336,7 @@ exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5421,7 +5421,7 @@ exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5496,9 +5496,9 @@ exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callback) {
-    eventappinstall();
+    etappinstall();
 
-    debuglevel = 0;
+    debuglevel = 17;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5560,7 +5560,7 @@ exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callba
 /* jsononetomany tests */
 // DTO 1, dot > object , dot,, jsononetomany
 exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3dotjsonmany(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5627,7 +5627,7 @@ exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3dotjsonmany(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5684,6 +5684,7 @@ exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3do
             res = logverify("ettestagag3_result", res[6], [{
 				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
             }]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -5698,7 +5699,7 @@ exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1dotjsonmany(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5745,6 +5746,7 @@ exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1do
             res = logverify("ettestagag3_result", res[4], [{
 				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
             }]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -5759,7 +5761,7 @@ exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1dotjsonmany(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5793,6 +5795,7 @@ exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1do
 
             res = logverify("ettestagag3_result", res[2], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
                 "sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -5808,7 +5811,7 @@ exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1do
 /* jsononetoone tests */
 // DTO 1, dot > object , dot,, jsononetoone
 exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotjsonone(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5859,6 +5862,8 @@ exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotj
 				"wid":"song1",
 				"metadata.method":"songdto"
             }]);
+
+            debuglevel=38;
             //execute({"executethis": "getwidmaster","wid": "songdto",
             //      "command":{"getwidmaster":{"convertmethod":"dto",
             //                              "execute":"ConvertFromDOTdri",
@@ -5873,7 +5878,7 @@ exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotjsonone(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5930,6 +5935,7 @@ exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotj
             res = logverify("ettestagag3_result", res[6], [{
 				"title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
 			}]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -5944,7 +5950,7 @@ exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotjsonone(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -5996,6 +6002,7 @@ exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotj
 				"wid":"song1",
 				"metadata.method":"songdto"
             }]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6010,7 +6017,7 @@ exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotjsonone(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 17;
 
@@ -6048,6 +6055,7 @@ exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotj
 				"wid":"song1",
 				"metadata.method":"songdto"
             }]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6063,7 +6071,7 @@ exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotj
 /* object tests */
 // DTO 1, dot > object , dot,, object
 exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobject(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -6112,6 +6120,7 @@ exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobj
                 "title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
             }]);
 
+            debuglevel=38;
             //execute({"executethis": "getwidmaster","wid": "songdto",
             //      "command":{"getwidmaster":{"convertmethod":"dto",
             //                              "execute":"ConvertFromDOTdri",
@@ -6126,7 +6135,7 @@ exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobject(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -6186,6 +6195,7 @@ exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobj
                 "wid":"song1",
                 "metadata.method":"songdto"
             }]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6200,7 +6210,7 @@ exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobject(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -6249,6 +6259,7 @@ exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobj
                 "wid":"song1",
                 "metadata.method":"songdto"
             }]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6263,7 +6274,7 @@ exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobject(params, callback) {
-    eventappinstall();
+    etappinstall();
 
     debuglevel = 0;
 
@@ -6303,6 +6314,7 @@ exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobj
                 "wid":"song1",
                 "metadata.method":"songdto"
             }]);
+            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6421,9 +6433,71 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		});
 	}
 	
+	
+	/*
+		5)
+		test inherit…metadata.dtoname.inherit=wid5 … look at examples in test.js
+		first create a wid "defaultauthordtoactions"
+		then create a dto , mention the inherit as you show
+		"metadata": {
+			"inherit": "defaultauthordtoactions"
+		}
+		then add some data using the dto
+		then get it
+		system will also get defaultauthroactions and include it as part of the results as  long as it passes deepfilter
+	*/
+	exports.ettestinherittest1 = ettestinherittest1 = function ettestinherittest1(params, callback) {
+		etappinstall();
+		debuglevel = 0;
+		
+		execute([{
+                    "executethis": "addwidmaster",
+					"wid": "bookdtoextra",
+					"metadata.method": "bookdtoextra",
+					"title": "string", // changed by joe
+					"pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdefaultdto",
+					"metadata.method": "bookdtoextra",
+					"title":"X title", // changed by joe
+					"pages":"300"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdto",
+                    "metadata.method": "bookdto",
+					"metadata.inherit": "bookdefaultdto",
+					"title": "string",
+					"pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdtowid111",
+                    "metadata.method":"bookdto",
+					"title": "Book Title1"
+                    // notice no pages
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "bookdtowid111",
+                }
+			], function (err, res) {
+				proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+				
+				proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+				
+				var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+				proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+				
+				res = logverify("bookdtowid111_result", res[4], expectedResult);
+				debuglevel=0;
+				execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+					proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+					callback(err, res); 
+				})
+        });
+	}
 
-    exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
-        eventappinstall();
+    exports.ettestinherittest2 = ettestinherittest2 = function ettestinherittest2(params, callback) {
+        etappinstall();
         debuglevel = 0;
         
         execute([{
@@ -6444,145 +6518,6 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
                     "metadata.method": "bookdto",
                     "metadata.inherit.override.0": "bookdefaultdto",
                     "metadata.inherit.override.1": "bookdefaultdto2",
-                    "title": "string",
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-                    "title": "Book Title1"
-                    // notice no pages
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookdtowid111",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
-                
-                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
-                
-                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdtoextra","pages":"300"}];
-                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
-                
-                res = logverify("bookdtowid111_result", res[4], expectedResult);
-                debuglevel=0;
-                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
-
-    exports.ettestinheritoverride2 = ettestinheritoverride2 = function ettestinheritoverride2(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
-        
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookoverride",
-                    "metadata.method": "bookdto",
-                    "title":"X title", 
-                    "pages":"300"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "title": "string",
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-                    "metadata.inherit.override.0": "bookoverride",
-                    "title": "Book Title1",
-                    "pages":"10"
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookdtowid111",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
-                
-                proxyprinttodiv('Function bookdtowid111 res[4] ', res[3], 99);
-                
-                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
-                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
-                
-                res = logverify("bookdtowid111_result", res[3], expectedResult);
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
-
-    exports.ettestinheritoverride3 = ettestinheritoverride3 = function ettestinheritoverride3(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
-        
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookoverride",
-                    "metadata.method": "bookdto",
-                    "title":"X title", 
-                    "pages":"300"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "title": "string",
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-                    "metadata.inherit.override.0": "bookoverride",
-                    "title": "Book Title1",
-                    "pages":"10"
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookdtowid111",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
-                
-                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
-                
-                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdtoextra","pages":"300"}];
-                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
-                
-                res = logverify("bookdtowid111_result", res[4], expectedResult);
-                debuglevel=0;
-                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
-
-    exports.ettestinheritdefault = ettestinheritdefault = function ettestinheritdefault(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
-        
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtoextra",
-                    "metadata.method": "bookdtoextra",
-                    "title": "string", // changed by joe
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdefaultdto",
-                    "metadata.method": "bookdtoextra",
-                    "title":"X title", // changed by joe
-                    "pages":"300"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "metadata.inherit.default.0": "bookdefaultdto",
-                    "metadata.inherit.default.1": "bookdefaultdto2",
                     "title": "string",
                     "pages": "string"
                 },{
@@ -6677,12 +6612,12 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
         });				
 	}
 	
-	/*
+/*
 		manytoone test
 		author ----onetomany -->  book(s)   ---- manytoone --> publishing houses ---- onetomany --> addresses
 	*/
 	exports.manytoonetest = manytoonetest = function manytoonetest(params, callback) {
-		eventappinstall();
+		etappinstall();
 		async.series([
 			function (cb1) {
 				manytoonetestadd(function(err,res){
@@ -6867,7 +6802,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		build a test where we get authordto and we expect bookdto.pubhouse (no 0)
 	*/
 	exports.manytoonetest1 = manytoonetest1 = function manytoonetest1(params, callback) {
-		eventappinstall();
+		etappinstall();
 		async.series([
 			function (cb1) {
 				manytoonetestadd(function(err,res){
@@ -6900,7 +6835,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		2) get did not get pubhouse, manytoone on data get broken, authorbookpubhouseaddress1 
 	*/
 	exports.manytoonetest2 = manytoonetest2 = function manytoonetest2(params, callback) {
-		eventappinstall();
+		etappinstall();
 		async.series([
 			function (cb1) {
 				manytoonetestadd(function(err,res){
@@ -6933,7 +6868,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		3) similar book1
 	*/
 	exports.manytoonetest3 = manytoonetest3 = function manytoonetest3(params, callback) {
-		eventappinstall();
+		etappinstall();
 		async.series([
 			function (cb1) {
 				manytoonetestadd(function(err,res){
@@ -6960,4 +6895,74 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 			res = logverify("manytoonetest3_result", res[1][0], expectedResult);
 			callback(err, res); 
         });							
+	}
+	
+	/*
+		4)
+		write a few tests for inherit, we changed the spec a little you enter them this way:
+		inherit.default=[array of wids]
+		inherit.override = [array of wids]
+		default puts values if not there (like old inherit)
+		override (makes those values win)
+	
+		5)
+		test inherit…metadata.dtoname.inherit=wid5 … look at examples in test.js
+		first create a wid "defaultauthordtoactions"
+		then create a dto , mention the inherit as you show
+		"metadata": {
+			"inherit": "defaultauthordtoactions"
+		}
+		then add some data using the dto
+		then get it
+		system will also get defaultauthroactions and include it as part of the results as  long as it passes deepfilter
+	*/
+	exports.inherittest1 = inherittest1 = function inherittest1(params, callback) {
+		etappinstall();
+		debuglevel = 0;
+		
+		execute([{
+                    "executethis": "addwidmaster",
+					"wid": "bookdtoextra",
+					"metadata.method": "bookdtoextra",
+					"title": "string", 
+					"pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdefaultdto",
+					"metadata.method": "bookdtoextra",
+					"metadata.inherit.override": "bookdtoextra",
+					"title":"X title", 
+					"pages":"300"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdto",
+                    "metadata.method": "bookdto",
+					"metadata.inherit.default": "bookdefaultdto",
+					"title": "string",
+					"pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+					"wid": "bookdtowid111",
+                    "metadata.method":"bookdto",
+					"title": "Book Title1"
+                    // notice no pages
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "bookdtowid111",
+                }
+			], function (err, res) {
+				proxyprinttodiv('Function inherittest1 result Full res', res, 17);
+				
+				proxyprinttodiv('Function inherittest1 res[4] ', res[4], 99);
+				
+				var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+				proxyprinttodiv('Function inherittest1 expectedResult ', expectedResult, 17);
+				
+				res = logverify("bookdtowid111_result", res[4], expectedResult);
+				debuglevel=0;
+				execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+					proxyprinttodiv('Function inherittest1 result LAST ', res1, 17); 
+					callback(err, res); 
+				})
+        });
 	}
