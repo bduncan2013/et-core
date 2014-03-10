@@ -206,6 +206,9 @@ if (typeof angular !== 'undefined') {
 
     widApp.controller('widCtrl', ['$scope', '$compile', 'dataService', 'executeService',
         function($scope, $compile, dataService, executeService) {
+            //call device ready event in config-local
+            eventdeviceready();
+
             $scope.data = {};
             $scope.ajax = {};
             var querystring = window.location.search,
@@ -592,7 +595,16 @@ if (typeof angular !== 'undefined') {
                 if (screenWid.command.htmltargetid) { targetElement = $('#' + screenWid.command.htmltargetid); }
 
                 // clear html from element if specified
-                if (screenWid.command.htmlcleartargetid) { $('#' + screenWid.command.htmlcleartargetid).html(''); }
+                if (screenWid.command.htmlcleartargetid) {
+                    if (screenWid.command.htmlcleartargetid === 'body' ) {
+                        $('body').html('');
+
+                        // fire new page event in config-local
+                        eventnewpage();
+                    }
+
+                    $('#' + screenWid.command.htmlcleartargetid).html('');
+                }
             }
 
             scope.$apply(function() {
