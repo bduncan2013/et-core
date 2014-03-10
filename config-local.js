@@ -122,7 +122,6 @@ exports.etappinstall = etappinstall = function etappinstall() { // exeucte only 
     }
     }
     catch (err) {
-        //callback ({"status":"there was an error"}, {"try":"was caught"});        
         var finalobject = createfinalobject({"result":"etappinstall"}, {}, "etappinstall", err, inbound_parameters);
         callback(finalobject.err, finalobject.res);
     }
@@ -278,14 +277,25 @@ function config123() {
 
 
 exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
-    return JSON.parse(localStorage.getItem(key));
+    try { return JSON.parse(localStorage.getItem(key));
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"getFromLocalStorage"}, {}, "getFromLocalStorage", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = function addToLocalStorage(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+    try { localStorage.setItem(key, JSON.stringify(value));
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"addToLocalStorage"}, {}, "addToLocalStorage", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
+    try {
     proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
     widMasterKey = "widmaster_";
     localStorage.clear();
@@ -300,16 +310,27 @@ exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = funct
                 "initialwid": "for key hello from bootprocess"
             }
         });
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"clearLocalStorage"}, {}, "clearLocalStorage", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }        
 };
 
 exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
-    localStorage.removeItem(key);
+    try { localStorage.removeItem(key);
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"removeFromLocalStorage"}, {}, "removeFromLocalStorage", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    } 
 };
 
 
 
 //function addtomongo(inputWidgetObject) {
 exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
+    try {
     var collection = "DRI";
     var keycollection = "DRIKEY";
     var err = {};
@@ -353,12 +374,16 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
     } else { // if no widName
         callback({}, {}); // should have better error here
     }
-
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"offlineaddtomongo"}, {}, "offlineaddtomongo", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 //function getfrommongo(inputWidgetObject) {
 exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
-
+    try {
     var collection = "DRI";
     var keycollection = "DRIKEY";
     var err = {};
@@ -380,12 +405,17 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
     } else { // if no widname
         err = {};
     }
-
     callback(err, output);
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"offlinegetfrommongo"}, {}, "offlinegetfrommongo", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 }; //End of getfrommongo function
 
 
 exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
+    try {
     var inbound_parameters = {};
     extend(true, inbound_parameters, inputWidgetObject);
     var convertedobject = {};
@@ -412,9 +442,15 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
             callback(null, convertedobject);
         }
     });
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"offlinegetwid"}, {}, "offlinegetwid", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
+    try {
     // var originalarguments=arguments;
     // var executionid = new Date();
     var originalarguments = {};
@@ -430,19 +466,30 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
             // 2: executionid
         }, 6);
         callback({}, results);
-
     });
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"offlineupdatewid"}, {}, "offlineupdatewid", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
 
 function resetMasterKey() {
+    try {
     widMasterKey = "widmaster_";
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"resetMasterKey"}, {}, "resetMasterKey", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 }
 
 
 
 
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
+    try {
     var result;
     var success = false;
     result = "";
@@ -479,6 +526,11 @@ function executeAjax(allConfig, executeItem, callback, returnCallback) {
             callback(data, allConfig, 'html', returnCallback);
         }
     });
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"executeAjax"}, {}, "executeAjax", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 }
 
 // Primary execute function called after dothis
@@ -490,6 +542,7 @@ function test2(params, callback) {
 }
 
 exports.server = window.server = server = function server(params, callback) {
+    try {
     console.log('execute server called with ' + JSON.stringify(params));
     // delete params['configuration'];
     params = toLowerKeys(params);
@@ -513,6 +566,11 @@ exports.server = window.server = server = function server(params, callback) {
         var err;
         callback(err, data);
     });
+    }
+    catch (err) {
+        var finalobject = createfinalobject({"result":"server"}, {}, "server", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }   
 };
 
 exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
