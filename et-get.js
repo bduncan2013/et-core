@@ -545,13 +545,11 @@
                                                 cb1(err, 'step2n1');
                                             }else{
                                                 //
-                                                proxyprinttodiv('Function getwidmongo query', res, 99);
+                                                proxyprinttodiv('Function getwidmongo query res', res, 38);
                                                 if (Object.keys(res).length !== 0) {
                                                     moreDTOParameters = res;
                                                 }
-                                                cb1(null, 'step2n1');
-                                                // TODO: figure out the return here
-                                                
+                                                cb1(null, 'step2n1');                                                
                                             }
                                         });
                                     } // end step1n2
@@ -561,6 +559,7 @@
                                     if (err && Object.keys(err).length > 0) {
                                         cb(err, res);
                                     }else{
+                                        proxyprinttodiv('Function getwidmongo query part 2', res, 38);
                                         cb(null, 'two');
                                     }
                                 });
@@ -777,8 +776,11 @@
                                 },
                                 function (err, res) {
                                     // If error, bounce out
+                                    proxyprinttodiv('Function getwidmongo end of paramerterobject mapSeries res', res, 38);
                                     if (err && Object.keys(err).length > 0) {
                                         cb(err, res);
+                                        // cb(null, 'three');
+                                    } else {
                                         cb(null, 'three');
                                     }
                                 }); // mapseries
@@ -790,7 +792,7 @@
                         }
                     },
                     function step4(cb) {
-
+                        proxyprinttodiv('Function getwidmongo step4', parameterobject, 38);
                         //if (!parameterobject.command.dtolist) { // create dtolist
 
                         if ((parameterobject["metadata"]) && (command) && (command.getwidmaster) &&
