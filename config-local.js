@@ -65,10 +65,8 @@ exports.eventappinstall = eventappinstall = function eventappinstall() {
 };
 exports.eventdeviceready  = eventdeviceready  = function eventdeviceready () {
     setdefaultparm();
-    if (Object.keys(config).length === 0) {
-        if (!getFromLocalStorage('DRIKEY')) {
-            eventappinstall();
-        }
+    if (!getFromLocalStorage('DRIKEY')) {
+        eventappinstall();
     }
     // start eventonemin, etc
 };
