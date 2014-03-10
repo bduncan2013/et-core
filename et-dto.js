@@ -8,14 +8,196 @@
     // we create testdata stuff1 and provide access to it to only staff group memners
     // however we try to access it (using getwidmaster) using admin group user
 
+
     exports.createsystemdtos2 = createsystemdtos2 = function createsystemdtos2(params, callback) {
         //debuglevel = 17;
         // create dtos  
         var executeList = [
 
 
-            {
-                //create userdto
+            // CREATE DTOS
+
+//Create the systemdto
+execute([{"executethis":"addwidmaster",
+            "wid":"systemdto",
+            "metadata.method":"systemdto",
+            "creator":"string",
+            "creationdate":"string",
+            "expirationtimer":"string",
+            "expirationdate":"string",
+            "db":"string",
+            "collection":"string"           
+            },{
+// viewdto
+            "executethis":"addwidmaster",
+            "wid":"viewdto",
+            "metadata.method":"viewdto",
+            "html":"string",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// basedto
+            "executethis":"addwidmaster",
+            "wid":"basedto",
+            "metadata.method":"basedto",
+            "html":"string",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// backdto
+            "executethis":"addwidmaster",
+            "wid":"backdto",
+            "metadata.method":"backdto",
+            "html":"string",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// interfacedto
+            "executethis":"addwidmaster",
+            "wid":"interfacedto",
+            "metadata.method":"interfacedto",
+            "html":"string",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// Create the errorobjectdto
+            {"executethis":"addwidmaster",
+            "wid":"errorobjectdto",
+            "metadata.method":"errorobjectdto",
+            "evalerror":"string",
+            "rangeerror":"string",
+            "referenceerror":"string",
+            "syntaxerror":"string",
+            "typeerror":"string",
+            "urlerror":"string",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// create the validatedto
+            {"executethis":"addwidmaster",
+            "wid":"validatedto",
+            "metadata.method":"validatedto",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// create the resultto
+            {"executethis":"addwidmaster",
+            "wid":"resultdto",
+            "metadata.method":"resultto",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// create the errordto
+            "executethis":"addwidmaster",
+            "wid":"errordto",
+            "metadata.method":"errordto",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// create the beforedto
+            "executethis":"addwidmaster",
+            "wid":"beforedto",
+            "metadata.method":"beforedto",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// create the afterdto
+            "executethis":"addwidmaster",
+            "wid":"afterdto",
+            "metadata.method":"afterdto",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// create the executedto
+            "executethis":"addwidmaster",
+            "wid":"executedto",
+            "metadata.method":"executedto",
+            "logpass":"string",
+            "logerror":"string",
+            "logresult":"string",
+            "executeid":"string",
+            "metadata.actiondto.type":"onetomany"
+            "metadata.validatedto.type":"onetoone",
+            "metadata.resultdto.type":"onetoone",
+            "metadata.errordto.type":"onetoone",
+            "metadata.beforedto.type":"manytoone",
+            "metadata.afterdto.type":"manytoone"
+            },{
+// create the gettypedto
+            "executethis":"addwidmaster",
+            "wid":"gettypedto",
+            "metadata.method":"gettypedto",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// create the addtypedto
+            "executethis":"addwidmaster",
+            "wid":"addtypedto",
+            "metadata.method":"addtypedto",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// create the actiondto
+            "executethis":"addwidmaster",
+            "wid":"actiondto",
+            "metadata.method":"actiondto",
+            "actionname":"string",
+            "actiontype":"string",
+            "dothis":"string",
+            "parameters":"string",
+            "offlineonline":"string",
+            "localserver":"string",
+            "oncreate":"string",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// Create the actionsetdto & a default actionset
+            "executethis":"addwidmaster",
+            "wid":"actionsetdto",
+            "metadata.method":"actionsetdto",
+            "executetype":"string",
+            "gettype":"string",
+            "addtype":"string",
+            "edittype":"string",
+            "deletetype":"string",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// Create the permissiondto     
+            "executethis":"addwidmaster",
+            "wid":"permissiondto",
+            "metadata.method":"permissiondto",          
+            "action":"string",
+            "actiontype":"string",
+            "granteegroup":"string",
+            "db":"string",
+            "collection":"string",
+            "level":"string",
+            "metadata.interfacedto.type":"manytoone",
+            "metadata.actionset.type":"manytoone",
+            "metadata.systemdto.type":"jsononetoone",
+            "metadata.inherit.default":"actionsetdefaults"
+            },{
+// Create the environmentdto
+            "executethis": "addwidmaster",
+            "metadata.method": "environmentdto",
+            "wid": "environmentdto",
+            "ac": "string",
+            "gps": "string",
+            "account": "string",
+            "db": "string",
+            "collection": "collection",
+            "metadata.systemdto.type": "onetoone"
+            },{ 
+// Create the securitydto
+            "executethis": "addwidmaster",
+            "metadata.method": "securitydto",
+            "wid": "securitydto",
+            "accesstoken": "string",
+            //"status": "integer"
+            "status": "string",
+            "metadata.systemdto.type":"jsononetoone"
+            },{
+// Create the groupdto      
+            "executethis":"addwidmaster",
+            "wid":"groupdto",
+            "metadata.method":"groupdto",
+            "groupname":"string",
+            "metadata.securitydto.type":"onetoone",         
+            "metadata.environmentdto.type":"onetoone",
+            "metadata.permissiondto.type":"onetomany",
+            "metadata.groupdto.type":"onetomany",
+            "metadata.interfacedto.type":"manytoone",
+            "metadata.systemdto.type":"jsononetoone",
+            //"metadata.inherit.default":"actionsetdefaults"
+            },{
+// Create the userdto
                 "executethis": "addwidmaster",
                 "metadata.method": "userdto",
                 "wid": "userdto",
@@ -30,296 +212,13 @@
                 "state": "string",
                 "zip": "string",
                 "country": "string",
-                "metadata.systemdto.creator": "string",
-                "metadata.systemdto.creationdate": "string",
-                "metadata.systemdto.expirationtimer": "string",
-                "metadata.systemdto.expirationdate": "string",
-                "metadata.systemdto.db": "string",
-                "metadata.systemdto.collection": "string",
-//
-                "metadata.actionset.executetype.actiondto.actionname":"string"
-                "metadata.actionset.gettype.actiondto.actionname":"string"
-                "metadata.actionset.addtype.actiondto.actionname":"string"
-                "metadata.actionset.edittype.actiondto.actionname":"string"
-                "metadata.actionset.deletetype.actiondto.actionname":"string"
-//
-                "metadata.securitydto.type": "onetoone",
-                "metadata.balancedto.type": "onetoone",
-                "metadata.envrionmentdto.type": "onetoone",
-                "metadata.groupdto.type": "onetomany",
-                "metadata.permissiondto.type": "onetomany"
-            }, {
-                //create systemdto
-                "executethis": "addwidmaster",
-                "metadata.method": "systemdto",
-                "wid": "systemdto",
-                "creator": "string", //"accounttype",
-                "expiration": "string", //"datetime",
-                "offlinerule": "string",
-                "onlinerule": "string",
-                "metadata.securitydto.type": "onetoone",
-                "metadata.balancedto.type": "onetoone",
-                "metadata.categorydto.type": "onetoone",
-                "metadata.groupdto.type": "onetoone",
-                "metadata.permissiondto.type": "onetoone"
-            }, {
-                // create groupdto
-                "executethis": "addwidmaster",
-                "metadata.method": "groupdto",
-                "wid": "groupdto",
-                "grouptype": "string",
-                "groupwid": "string",
-                "groupname": "string"
-            }, {
-                // create securitydto
-                // securitydto holds accesstoken, status
-                "executethis": "addwidmaster",
-                "metadata.method": "securitydto",
-                "wid": "securitydto",
-                "accesstoken": "string",
-                //"status": "integer"
-                "status": "string"
-            }, {
-                // create permissiondto
-                "executethis": "addwidmaster",
-                "metadata.method": "permissiondto",
-                "wid": "permissiondto",
-                "granteegroup": "string",
-                "actiongroup": "string",
-                "actiontypegroup": "string",
-                "dbgroup": "string",
-                "levelgroup": "string"
-            }, {
-                //create categorydto
-                "executethis": "addwidmaster",
-                "metadata.method": "categorydto",
-                "wid": "categorydto",
-                "categorytype": "string",
-                "categoryname": "string"
-                //"categoryname": "categorytype"
-            }, {
-                // create balancedto
-                "executethis": "addwidmaster",
-                "metadata.method": "balancedto",
-                "wid": "balancedto",
-                "currencywid": "string", // wid 
-                "balance": "string" // integer
-            }, {
-                // create system user data
-                "executethis": "addwidmaster",
-                "metadata.method": "systemuserdto",
-                "wid": "systemuserdto",
-                "startwid": "string"
-
-            }, {
-                // create useradddto
-                "executethis": "addwidmaster",
-                "metadata.method": "useradddto",
-                "wid": "useradddto"
-            }, {
-                //testdto
-                "executethis": "addwidmaster",
-                "metadata.method": "testdto",
-                "wid": "testdto",
-                "a": "string",
-                "b": "string",
-                "metadata.systemdto.type": "onetoone"
-            },
-
-            {
-                // add categorynamedto 
-                "executethis": "addwidmaster",
-                "wid": "categorynamedto",
-                "metadata.method": "categorynamedto",
-                "categoryname": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                // add groupnamedto 
-                "executethis": "addwidmaster",
-                "wid": "groupnamedto",
-                "metadata.method": "groupnamedto",
-                "groupname": "string",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                // link from user to other dto to show how done
-                // it would have own sych rules
-                "executethis": "addwidmaster",
-                "metadata.method": "environmentdto",
-                "wid": "environmentdto",
-                "ac": "string",
-                "gps": "string",
-                "account": "string",
-                "db": "string",
-                "collection": "collection",
-                "metadata.systemdto.type": "onetoone"
-            }, {
-                // create relationships user >> useradddto
-                "executethis": "addwidmaster",
-                "wid": "rel_user_to_useradddto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "userdto",
-                "primarymethod": "userdto",
-                "secondarywid": "useradddto",
-                "secondarymethod": "useradddto"
-            }, {
-                // create relationships environmentdto >> systemdto
-                "executethis": "addwidmaster",
-                "wid": "rel_environmentdto_to_systemdto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "environmentdto",
-                "primarymethod": "environmentdto",
-                "secondarywid": "systemdto",
-                "secondarymethod": "systemdto"
-            }, {
-                // create relationships test >>  systemdto
-                "executethis": "addwidmaster",
-                "wid": "rel_test_to_systemdto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "testdto",
-                "primarymethod": "testdto",
-                "secondarywid": "systemdto",
-                "secondarymethod": "systemdto"
-            }, {
-                // create relationships systemdto >> groupdto
-                "executethis": "addwidmaster",
-                "wid": "rel_system_to_groupdto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "systemdto",
-                "primarymethod": "systemdto",
-                "secondarywid": "groupdto",
-                "secondarymethod": "groupdto"
-            }, {
-                // create relationships systemdto >> permissiondto
-                "executethis": "addwidmaster",
-                "wid": "rel_system_to_permissiondto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "systemdto",
-                "primarymethod": "systemdto",
-                "secondarywid": "permissiondto",
-                "secondarymethod": "permissiondto"
-            }, {
-                // create relationships systemdto >> balancedto
-                "executethis": "addwidmaster",
-                "wid": "rel_system_to_balancedto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "systemdto",
-                "primarymethod": "systemdto",
-                "secondarywid": "balancedto",
-                "secondarymethod": "balancedto"
-            }, {
-                // create relationships user >> systemdto
-                "executethis": "addwidmaster",
-                "wid": "rel_user_to_systemdto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "userdto",
-                "primarymethod": "userdto",
-                "secondarywid": "systemdto",
-                "secondarymethod": "systemdto"
-            }, {
-                // create relationships systemdto >> securitydto
-                "executethis": "addwidmaster",
-                "wid": "rel_system_to_securitydto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "systemdto",
-                "primarymethod": "systemdto",
-                "secondarywid": "securitydto",
-                "secondarymethod": "securitydto"
-            }, {
-                // create relationships systemdto >> categorydto
-                "executethis": "addwidmaster",
-                "wid": "rel_system_to_categorydto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "systemdto",
-                "primarymethod": "systemdto",
-                "secondarywid": "categorydto",
-                "secondarymethod": "categorydto"
-            }, {
-                // create relationships systemdto
-                "executethis": "addwidmaster",
-                "wid": "rel_categorynamedto_to_systemdto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "categorynamedto",
-                "primarymethod": "categorynamedto",
-                "secondarywid": "systemdto",
-                "secondarymethod": "systemdto"
-            }, {
-                // create relationships systemdto
-                "executethis": "addwidmaster",
-                "wid": "rel_groupnamedto_to_systemdto",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetoone",
-                "primarywid": "groupnamedto",
-                "primarymethod": "groupnamedto",
-                "secondarywid": "systemdto",
-                "secondarymethod": "systemdto"
-
-                // },
-                // {
-                // create test data
-                // "executethis": "addwidmaster",
-                // "metadata.method": "userdto",
-                // "wid":"someuser", // 
-                // "widname": "wid1",
-                // "fname": "string1",
-                // "lname": "string1",
-                // "phone": "phone1",
-                // "email": "string1",
-                // "address": "string1",
-                // "address2": "string1",
-                // "city": "string1",
-                // "state": "string1",
-                // "zip": "string1",
-                // "country": "string1",
-                // "systemdto.creator": "string", //"accounttype",
-                // "systemdto.expiration": "string", //"datetime",
-                // "systemdto.offlinerule": "string",
-                // "systemdto.onlinerule": "string",
-                // "systemdto.securitydto.accesstoken": "ac1",
-                // "systemdto.securitydto.status": "status1"
-            }, {
-                "executethis": "getwidmaster",
-                "wid": "userdto",
-                // }, {
-                //     "executethis": "getwidmaster",
-                //     "wid": "testdto",
-                // }, {
-                //     "executethis": "getwidmaster",
-                //     "wid": "systemdto",
-                // }, {
-                //     "executethis": "getwidmaster",
-                //     "wid": "securitydto",
-                // }, {
-                //     "executethis": "getwidmaster",
-                //     "wid": "permissiondto",
-                // }, {
-                //     "executethis": "getwidmaster",
-                //     "wid": "categorydto"
-                // }, {
-                // "executethis": "getwidmaster",
-                // "wid": "someuser"
-            }
-        ];
+                "metadata.securitydto.type":"onetoone",         
+                "metadata.environmentdto.type":"onetoone",
+                "metadata.permissiondto.type":"onetomany",
+                "metadata.groupdto.type":"onetomany",
+                "metadata.interfacedto.type":"manytoone",
+                "metadata.actionset.type":"manytoone",
+                "metadata.systemdto.type":"jsononetoone"}]);
 
 
         execute(executeList, function (err, res) {

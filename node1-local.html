@@ -117,12 +117,7 @@
                 <div class="col-md-12">
                     <span class="label label-default well_hider">Debug</span>
                     <div class="well" style='display: none;'>
-<<<<<<< HEAD
-                        <label>Clean local storage?</label>
-                        <input type='checkbox' id='localStorageClean'>
-=======
 
->>>>>>> be7bc257743d4a699cbbc4fa081cfce9ecfa577e
                         <label>Debug?</label>
                         <input type='checkbox' id='debugon'>
                         <label>Destination: Print?</label>
@@ -256,23 +251,21 @@
     //clearLocalStorage()
     $(document).ready(function() {
         // page loaded, on ready  >>     function etappstarted()
-        etappstarted();
+        eventdeviceready();
         Debug = 'false';
-        bootprocess();
+        //bootprocess();
         $('#function_to_run').focus();
         // $('dest_print').prop("checked", true);
     });
 
     function execute_stuff(isTest, isServer) {
         // at the beginning of each >>     function etappnewpage() {
-        etappinstall();
+        //etappinstall();
         if ($("#localStorageClean").is(':checked')) {
             // and the clearlocalstoraget ...check box >>  function etappinstall()
-            etappinstall();
+            eventappinstall();
         }
-        etappstarted();
-        etappnewpage();
-
+        eventnewpage();
 
         //bootprocess();
         // clearLocalStorage();
@@ -607,7 +600,7 @@
             alert("JSON Parsing error:", e);
             return;
         }
-        execute(widParameters, show_function_output3);
+        execute(widParameters, show_function_output2);
     }
 
     function testconverttodot() {

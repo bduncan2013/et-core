@@ -1032,7 +1032,7 @@
     }
 
     // call bootprocess() for the first time after all dependencies have been loaded
-    bootprocess();
+    //bootprocess();
 
 
 
