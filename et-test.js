@@ -2,7 +2,7 @@
     // this one inserts same amount of data but does not fail
 
     exports.test_recurseModObj = test_recurseModObj = function test_recurseModObj(params, callback) {
-    etappinstall();
+    eventappinstall();
      // config = setconfig1();
     var recModObj = recurseModObj({
                                     "metadata":{"method":"wid2"},
@@ -1168,7 +1168,7 @@
     }
 
     exports.add1 = add1 = function add1(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1238,7 +1238,7 @@
     }
 
     exports.add11 = add11 = function add11(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1312,7 +1312,7 @@
     this should insert {a:b} at the bookdto level
 */
     exports.get4 = get4 = function get4(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1383,7 +1383,7 @@
     }
 
     exports.get4 = get4 = function get22(parameters, callback) { //add clean test
-        etappinstall();
+        eventappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1457,7 +1457,7 @@
     do not specify command.dto...should put it at root/author level
 */
     exports.get5 = get5 = function get5(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1529,7 +1529,7 @@
     specify command.dtotype = x should wrap result in {x: {.....}}
 */
     exports.get6 = get6 = function get6(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1603,7 +1603,7 @@
     specify command.dtotype.x.y.z should wrap result in {x:{y:z{......}}}
 */
     exports.get7 = get7 = function get7(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1681,7 +1681,7 @@
     get8 - to get the dtoname
 */
     exports.get8 = get8 = function get8(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -1756,7 +1756,7 @@
     addwid with out inherit ... should add inputobject
 */
     exports.addwidtest = addwidtest = function addwidtest(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1812,7 +1812,7 @@
     addwid without inherit .. should add the input record
 */
     exports.addwidtest2 = addwidtest2 = function addwidtest2(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1856,7 +1856,7 @@
     addwid - with record alreayd exists ... should update name, leave all else the same
 */
     exports.addwidtest3 = addwidtest3 = function addwidtest3(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var executeList = [
             //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
             {
@@ -1903,7 +1903,7 @@
     addwid with inherit that DOES matter ... should return name of roger
 */
     exports.addwidtest4 = addwidtest4 = function addwidtest4(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -1959,7 +1959,7 @@
     addwid - with record .. but dto fliters age
 */
     exports.addwidtest5 = addwidtest5 = function addwidtest5(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var executeList = [
             //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
             {
@@ -2007,7 +2007,7 @@
     addwid with inherit that DOES matter ... deep should return name of roger + more
 */
     exports.addwidtest6 = addwidtest6 = function addwidtest6(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -2068,7 +2068,7 @@
     addwid without inherit  ... should add inputobject -- test of deep filter string, number, boolean, date -- did it convert it?
 */
     exports.addwidtest7 = addwidtest7 = function addwidtest7(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -2178,7 +2178,7 @@
 
 
     exports.get1 = get1 = function get1(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         // debuglevel=10;
         var executeList = [{
                 "executethis": "updatewid",
@@ -2272,7 +2272,7 @@
     }
 
     exports.get3 = get3 = function get3(parameters, callback) {
-        etappinstall();
+        eventappinstall();
         debuglevel = 38;
         var executeList = [{
             "executethis": "updatewid",
@@ -2358,7 +2358,7 @@
 
     exports.get2 = get2 = function get2(parameters, callback) {
         // Setup test
-        etappinstall();
+        eventappinstall();
         // debuglevel = 10;
 
         var executeList = [
@@ -2476,7 +2476,7 @@
 
     exports.get11 = get11 = function get11(parameters, callback) {
         // Setup test
-        etappinstall();
+        eventappinstall();
         // debuglevel = 10;
 
         var executeList = [
@@ -2947,7 +2947,7 @@
         }
         //debuglevel=17;
         /* adding wids */
-        etappinstall();
+        eventappinstall();
         debugname = "updatewid";
         debugsubcat = "code";
         debugcat = "add";
@@ -3459,7 +3459,7 @@
         }
 
         /* adding wids */
-        etappinstall();
+        eventappinstall();
         var executeList = [];
         executeList = addmttestdata(callback);
         execute(executeList, function (err, res) {
@@ -3745,7 +3745,7 @@
 
 
     exports.t1example = t1example = function t1example(params, callback) {
-        etappinstall();
+        eventappinstall();
         config = setconfig1();
         execute([{
                 "executethis": "func_b",
@@ -3771,7 +3771,7 @@
     exports.mttest2 = mttest2 = function mttest2(params, callback) {
         console.log("<< mongoquery_two_test >>");
 
-        etappinstall();
+        eventappinstall();
 
         //To add wid data
         var executeList = [];
@@ -3858,7 +3858,7 @@
     exports.mttest3 = mttest3 = function mttest3(params, callback) {
         console.log("<< mttest3 >>");
 
-        etappinstall();
+        eventappinstall();
 
         //To add wid data
         var executeList = [{
@@ -4017,7 +4017,7 @@
 
     exports.mttest333 = mttest333 = function mttest333(params, callback) {
         console.log("<< mttest3 >>");
-        etappinstall();
+        eventappinstall();
 
         // Add List
         var addlist = [{
@@ -4468,7 +4468,7 @@
         }
 
 
-        etappinstall();
+        eventappinstall();
 
         // debugcolor = 0;
         // debugon = true;
@@ -5265,7 +5265,7 @@ exports.d10b = d10b = function d10b(params, callback) {
 
 // DTO 1, dot > object 3, dot
 exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5336,7 +5336,7 @@ exports.ettest1dot3dot = ettest1dot3dot = function ettest1dot3dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5421,7 +5421,7 @@ exports.ettest3dot3dot = ettest3dot3dot = function ettest3dot3dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5496,9 +5496,9 @@ exports.ettest3dot1dot = ettest3dot1dot = function ettest3dot1dot(params, callba
 
 // DTO 3, dot > object 3, dot
 exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callback) {
-    etappinstall();
+    eventappinstall();
 
-    debuglevel = 17;
+    debuglevel = 0;
 
     execute([{
             "executethis": "addwidmaster",
@@ -5560,7 +5560,7 @@ exports.ettest1dot1dot = ettest1dot1dot = function ettest1dot1dot(params, callba
 /* jsononetomany tests */
 // DTO 1, dot > object , dot,, jsononetomany
 exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3dotjsonmany(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5627,7 +5627,7 @@ exports.ettest1dot3dotjsonmany = ettest1dot3dotjsonmany = function ettest1dot3do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3dotjsonmany(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5684,7 +5684,6 @@ exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3do
             res = logverify("ettestagag3_result", res[6], [{
 				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -5699,7 +5698,7 @@ exports.ettest3dot3dotjsonmany = ettest3dot3dotjsonmany = function ettest3dot3do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1dotjsonmany(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5746,7 +5745,6 @@ exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1do
             res = logverify("ettestagag3_result", res[4], [{
 				"sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -5761,7 +5759,7 @@ exports.ettest3dot1dotjsonmany = ettest3dot1dotjsonmany = function ettest3dot1do
 
 // DTO 3, dot > object 3, dot,, jsononetomany
 exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1dotjsonmany(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5795,7 +5793,6 @@ exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1do
 
             res = logverify("ettestagag3_result", res[2], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
                 "sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -5811,7 +5808,7 @@ exports.ettest1dot1dotjsonmany = ettest1dot1dotjsonmany = function ettest1dot1do
 /* jsononetoone tests */
 // DTO 1, dot > object , dot,, jsononetoone
 exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotjsonone(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5862,8 +5859,6 @@ exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotj
 				"wid":"song1",
 				"metadata.method":"songdto"
             }]);
-
-            debuglevel=38;
             //execute({"executethis": "getwidmaster","wid": "songdto",
             //      "command":{"getwidmaster":{"convertmethod":"dto",
             //                              "execute":"ConvertFromDOTdri",
@@ -5878,7 +5873,7 @@ exports.ettest1dot3dotjsonone = ettest1dot3dotjsonone = function ettest1dot3dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotjsonone(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -5935,7 +5930,6 @@ exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotj
             res = logverify("ettestagag3_result", res[6], [{
 				"title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
 			}]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -5950,7 +5944,7 @@ exports.ettest3dot3dotjsonone = ettest3dot3dotjsonone = function ettest3dot3dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotjsonone(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -6002,7 +5996,6 @@ exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotj
 				"wid":"song1",
 				"metadata.method":"songdto"
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6017,7 +6010,7 @@ exports.ettest3dot1dotjsonone = ettest3dot1dotjsonone = function ettest3dot1dotj
 
 // DTO 3, dot > object 3, dot,, jsononetoone
 exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotjsonone(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 17;
 
@@ -6055,7 +6048,6 @@ exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotj
 				"wid":"song1",
 				"metadata.method":"songdto"
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6071,7 +6063,7 @@ exports.ettest1dot1dotjsonone = ettest1dot1dotjsonone = function ettest1dot1dotj
 /* object tests */
 // DTO 1, dot > object , dot,, object
 exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobject(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -6120,7 +6112,6 @@ exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobj
                 "title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
             }]);
 
-            debuglevel=38;
             //execute({"executethis": "getwidmaster","wid": "songdto",
             //      "command":{"getwidmaster":{"convertmethod":"dto",
             //                              "execute":"ConvertFromDOTdri",
@@ -6135,7 +6126,7 @@ exports.ettest1dot3dotobject = ettest1dot3dotobject = function ettest1dot3dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobject(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -6195,7 +6186,6 @@ exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobj
                 "wid":"song1",
                 "metadata.method":"songdto"
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6210,7 +6200,7 @@ exports.ettest3dot3dotobject = ettest3dot3dotobject = function ettest3dot3dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobject(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -6259,7 +6249,6 @@ exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobj
                 "wid":"song1",
                 "metadata.method":"songdto"
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6274,7 +6263,7 @@ exports.ettest3dot1dotobject = ettest3dot1dotobject = function ettest3dot1dotobj
 
 // DTO 3, dot > object 3, dot,, object
 exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobject(params, callback) {
-    etappinstall();
+    eventappinstall();
 
     debuglevel = 0;
 
@@ -6314,7 +6303,6 @@ exports.ettest1dot1dotobject = ettest1dot1dotobject = function ettest1dot1dotobj
                 "wid":"song1",
                 "metadata.method":"songdto"
             }]);
-            debuglevel=38;
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
@@ -6435,7 +6423,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 	
 
     exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
-        etappinstall();
+        eventappinstall();
         debuglevel = 0;
         
         execute([{
@@ -6486,7 +6474,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
     }
 
     exports.ettestinheritdefault = ettestinheritdefault = function ettestinheritdefault(params, callback) {
-        etappinstall();
+        eventappinstall();
         debuglevel = 0;
         
         execute([{
@@ -6606,7 +6594,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		author ----onetomany -->  book(s)   ---- manytoone --> publishing houses ---- onetomany --> addresses
 	*/
 	exports.manytoonetest = manytoonetest = function manytoonetest(params, callback) {
-		etappinstall();
+		eventappinstall();
 		async.series([
 			function (cb1) {
 				manytoonetestadd(function(err,res){
@@ -6791,7 +6779,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		build a test where we get authordto and we expect bookdto.pubhouse (no 0)
 	*/
 	exports.manytoonetest1 = manytoonetest1 = function manytoonetest1(params, callback) {
-		etappinstall();
+		eventappinstall();
 		async.series([
 			function (cb1) {
 				manytoonetestadd(function(err,res){
@@ -6824,7 +6812,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		2) get did not get pubhouse, manytoone on data get broken, authorbookpubhouseaddress1 
 	*/
 	exports.manytoonetest2 = manytoonetest2 = function manytoonetest2(params, callback) {
-		etappinstall();
+		eventappinstall();
 		async.series([
 			function (cb1) {
 				manytoonetestadd(function(err,res){
@@ -6857,7 +6845,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		3) similar book1
 	*/
 	exports.manytoonetest3 = manytoonetest3 = function manytoonetest3(params, callback) {
-		etappinstall();
+		eventappinstall();
 		async.series([
 			function (cb1) {
 				manytoonetestadd(function(err,res){
