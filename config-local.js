@@ -270,15 +270,26 @@ function config123() {
 }
 
 exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
-    return JSON.parse(localStorage.getItem(key));
+    try { return JSON.parse(localStorage.getItem(key));
+        } catch (err) {
+            var finalobject = createfinalobject({
+                "result": "getFromLocalStorage"
+            }, {}, "getFromLocalStorage", err, key);
+            return (finalobject.err, finalobject.res);
+        }
 };
 
 exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = function addToLocalStorage(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+    try { localStorage.setItem(key, JSON.stringify(value));
+        } catch (err) {
+            var finalobject = createfinalobject({
+                "result": "addToLocalStorage"
+            }, {}, "addToLocalStorage", err, {key:value});
+        }       
 };
 
 exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
-    proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
+    try { proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
     //widMasterKey = "widmaster_";
     localStorage.clear();
     //potentialwid = 0;
@@ -292,13 +303,27 @@ exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = funct
                 "initialwid": "for key hello from bootprocess"
             }
         });
+        } catch (err) {
+            var finalobject = createfinalobject({
+                "result": "clearLocalStorage"
+            }, {}, "clearLocalStorage", err, {});
+        } 
 };
 
 exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
-    localStorage.removeItem(key);
+    try { localStorage.removeItem(key);
+        } catch (err) {
+            var finalobject = createfinalobject({
+                "result": "clearLocalStorage"
+            }, {}, "clearLocalStorage", err, key);
+        }         
 };
 
 exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
+    try {
+    var originalarguments = {};
+    extend(true, originalarguments, inputWidgetObject);
+
     var collection = "DRI";
     var keycollection = "DRIKEY";
     var err = null;
@@ -342,11 +367,19 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
     } else { // if no widName
         callback(null, {}); // should have better error here
     }
-
+    } // end try
+    catch (err) {
+        var finalobject = 
+            createfinalobject({"result": "offlineaddtomongo"}, {}, "offlineaddtomongo", err, originalarguments);
+        callback (finalobject.err, finalobject.res);
+    }
 };
 
 //function getfrommongo(inputWidgetObject) {
 exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
+    try {
+    var originalarguments = {};
+    extend(true, originalarguments, inputWidgetObject);
 
     var collection = "DRI";
     var keycollection = "DRIKEY";
@@ -369,8 +402,13 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
     } else { // if no widname
         err = {};
     }
-
     callback(err, output);
+    } // end try
+    catch (err) {
+        var finalobject = 
+            createfinalobject({"result": "offlineaddtomongo"}, {}, "offlineaddtomongo", err, originalarguments);
+        callback (finalobject.err, finalobject.res);
+    }
 }; //End of getfrommongo function
 
 
