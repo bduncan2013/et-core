@@ -62,31 +62,33 @@ if (!test_results) { // should not be neededd any more
 // *********** EVENTS **************************************************
 exports.eventappinstall = eventappinstall = function eventappinstall() {
     setdefaultparm();
-    if (exports.environment === 'local') {clearLocalStorage()}
-}
+    if (exports.environment === 'local') {clearLocalStorage();}
+};
 exports.eventdeviceready  = eventdeviceready  = function eventdeviceready () {
     if (Object.keys(config).length === 0) {
-        eventappinstall()
+        if (!getFromLocalStorage('DRIKEY')) {
+            eventappinstall();
+        }
     }
     // start eventonemin, etc
-}
-exports.eventnewpage  = eventnewpage  = function eventnewpage () {}
-exports.eventonline  = eventonline  = function eventonline () {}
-exports.eventoffline  = eventoffline  = function eventoffline () {}
-exports.eventonemin  = eventonemin  = function eventonemin () {}
-exports.eventtenmin  = eventtenmin  = function eventtenmin () {}
-exports.eventdaily  = eventdaily = function eventdaily () {}
-exports.eventmonthly  = eventmonthly  = function eventmonthly () {}
-exports.eventlogineventsucess = eventlogineventsucess = function eventlogineventsucess() {}
-exports.eventlogineventfail  = eventlogineventfail  = function eventlogineventfail () {}
-exports.eventoutboundevent  = eventoutboundevent  = function eventoutboundevent () {}
-exports.eventdeletewidevent  = eventdeletewidevent  = function eventdeletewidevent () {}
-exports.eventgetwidevent  = eventgetwidevent  = function eventgetwidevent () {}
-exports.eventupdatewidevent  = eventupdatewidevent  = function eventupdatewidevent () {}
-exports.eventaddwidevent  = eventaddwidevent  = function eventaddwidevent () {}
-exports.eventexecuteevent  = eventexecuteevent  = function eventexecuteevent () {}
-exports.eventexecuteeachend  = eventexecuteeachend= function eventexecuteeachend () {}
-exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {}
+};
+exports.eventnewpage  = eventnewpage  = function eventnewpage () {};
+exports.eventonline  = eventonline  = function eventonline () {};
+exports.eventoffline  = eventoffline  = function eventoffline () {};
+exports.eventonemin  = eventonemin  = function eventonemin () {};
+exports.eventtenmin  = eventtenmin  = function eventtenmin () {};
+exports.eventdaily  = eventdaily = function eventdaily () {};
+exports.eventmonthly  = eventmonthly  = function eventmonthly () {};
+exports.eventlogineventsucess = eventlogineventsucess = function eventlogineventsucess() {};
+exports.eventlogineventfail  = eventlogineventfail  = function eventlogineventfail () {};
+exports.eventoutboundevent  = eventoutboundevent  = function eventoutboundevent () {};
+exports.eventdeletewidevent  = eventdeletewidevent  = function eventdeletewidevent () {};
+exports.eventgetwidevent  = eventgetwidevent  = function eventgetwidevent () {};
+exports.eventupdatewidevent  = eventupdatewidevent  = function eventupdatewidevent () {};
+exports.eventaddwidevent  = eventaddwidevent  = function eventaddwidevent () {};
+exports.eventexecuteevent  = eventexecuteevent  = function eventexecuteevent () {};
+exports.eventexecuteeachend  = eventexecuteeachend= function eventexecuteeachend () {};
+exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {};
 
 // exports.bootprocess = bootprocess = function bootprocess() {
 //     if (Object.keys(config).length === 0) {
