@@ -90,7 +90,7 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     }
 };
 
-exports.clearLocal = window.clearLocal = clearLocal = function clearLocal() {
+exports.clearLocal = clearLocal = function clearLocal() {
     try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         widMasterKey = "widmaster_";
