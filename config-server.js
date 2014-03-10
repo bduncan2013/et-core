@@ -5,7 +5,7 @@ if (!config) {
     var config = {};
 }
 if (!environment) {
-    var environment='server';
+    var environment = 'server';
 }
 if (!widMasterKey) {
     var widMasterKey = 'widmaster_';
@@ -49,7 +49,7 @@ if (!debuglinenum) {
     var debuglinenum = 1;
 }
 if (!debuglog) {
-    var debuglog ={};
+    var debuglog = {};
 }
 
 if (!test_results) {
@@ -59,31 +59,33 @@ if (!test_results) {
 // *********** EVENTS **************************************************
 exports.eventappinstall = eventappinstall = function eventappinstall() {
     setdefaultparm();
-    if (exports.environment === 'local') {clearLocalStorage()}
+    if (exports.environment === 'local') {
+        clearLocalStorage()
+    }
 }
-exports.eventdeviceready  = eventdeviceready  = function eventdeviceready () {
+exports.eventdeviceready = eventdeviceready = function eventdeviceready() {
     if (Object.keys(config).length === 0) {
         eventappinstall()
     }
     // start eventonemin, etc
 }
-exports.eventnewpage  = eventnewpage  = function eventnewpage () {}
-exports.eventonline  = eventonline  = function eventonline () {}
-exports.eventoffline  = eventoffline  = function eventoffline () {}
-exports.eventonemin  = eventonemin  = function eventonemin () {}
-exports.eventtenmin  = eventtenmin  = function eventtenmin () {}
-exports.eventdaily  = eventdaily = function eventdaily () {}
-exports.eventmonthly  = eventmonthly  = function eventmonthly () {}
+exports.eventnewpage = eventnewpage = function eventnewpage() {}
+exports.eventonline = eventonline = function eventonline() {}
+exports.eventoffline = eventoffline = function eventoffline() {}
+exports.eventonemin = eventonemin = function eventonemin() {}
+exports.eventtenmin = eventtenmin = function eventtenmin() {}
+exports.eventdaily = eventdaily = function eventdaily() {}
+exports.eventmonthly = eventmonthly = function eventmonthly() {}
 exports.eventlogineventsucess = eventlogineventsucess = function eventlogineventsucess() {}
-exports.eventlogineventfail  = eventlogineventfail  = function eventlogineventfail () {}
-exports.eventoutboundevent  = eventoutboundevent  = function eventoutboundevent () {}
-exports.eventdeletewidevent  = eventdeletewidevent  = function eventdeletewidevent () {}
-exports.eventgetwidevent  = eventgetwidevent  = function eventgetwidevent () {}
-exports.eventupdatewidevent  = eventupdatewidevent  = function eventupdatewidevent () {}
-exports.eventaddwidevent  = eventaddwidevent  = function eventaddwidevent () {}
-exports.eventexecuteevent  = eventexecuteevent  = function eventexecuteevent () {}
-exports.eventexecuteeachend  = eventexecuteeachend= function eventexecuteeachend () {}
-exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {}
+exports.eventlogineventfail = eventlogineventfail = function eventlogineventfail() {}
+exports.eventoutboundevent = eventoutboundevent = function eventoutboundevent() {}
+exports.eventdeletewidevent = eventdeletewidevent = function eventdeletewidevent() {}
+exports.eventgetwidevent = eventgetwidevent = function eventgetwidevent() {}
+exports.eventupdatewidevent = eventupdatewidevent = function eventupdatewidevent() {}
+exports.eventaddwidevent = eventaddwidevent = function eventaddwidevent() {}
+exports.eventexecuteevent = eventexecuteevent = function eventexecuteevent() {}
+exports.eventexecuteeachend = eventexecuteeachend = function eventexecuteeachend() {}
+exports.eventexecuteend = eventexecuteend = function eventexecuteend() {}
 
 
 // exports.bootprocess = bootprocess = function bootprocess() {
@@ -151,8 +153,8 @@ exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {}
 // function setappinstallparm() {}
 
 function setdefaultparm() {
-//    testclearstorage();  // commented by Jason, please don't clear local storage everytime.
-//    clearLocalStorage();  // as it severely hinders testing
+    //    testclearstorage();  // commented by Jason, please don't clear local storage everytime.
+    //    clearLocalStorage();  // as it severely hinders testing
     exports.config = config = config123();
     Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
     debuglevel = 0;
@@ -168,7 +170,7 @@ function setdefaultparm() {
     debugcolor = 0;
     debugindent = 0;
     debuglinenum = 1;
-    environment="server";
+    environment = "server";
     exports.environment = environment;
     test_results = {}; // can take out
     debuglog = {};
@@ -213,11 +215,13 @@ function config123() {
     configuration.preExecute[2].tryorder = 3;
     configuration.preExecute[2].dothis = 'executegetwid';
     configuration.preExecute[2].params = {};
-   configuration.preExecute[3] = {};
-   configuration.preExecute[3].executeorder = 1;
-   configuration.preExecute[3].tryorder = 4;
-   configuration.preExecute[3].dothis = 'server';
-   configuration.preExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
+    configuration.preExecute[3] = {};
+    configuration.preExecute[3].executeorder = 1;
+    configuration.preExecute[3].tryorder = 4;
+    configuration.preExecute[3].dothis = 'server';
+    configuration.preExecute[3].params = {
+        "command.server.url": "http://dri.drillar.com/node/executethis"
+    };
 
     configuration.midExecute = [];
     configuration.midExecute[0] = {};
@@ -235,11 +239,13 @@ function config123() {
     configuration.midExecute[2].tryorder = 3;
     configuration.midExecute[2].dothis = 'executegetwid';
     configuration.midExecute[2].params = {};
-   configuration.midExecute[3] = {};
-   configuration.midExecute[3].executeorder = 1;
-   configuration.midExecute[3].tryorder = 4;
-   configuration.midExecute[3].dothis = 'server';
-   configuration.midExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
+    configuration.midExecute[3] = {};
+    configuration.midExecute[3].executeorder = 1;
+    configuration.midExecute[3].tryorder = 4;
+    configuration.midExecute[3].dothis = 'server';
+    configuration.midExecute[3].params = {
+        "command.server.url": "http://dri.drillar.com/node/executethis"
+    };
 
     configuration.postExecute = [];
     configuration.postExecute[0] = {};
@@ -257,11 +263,13 @@ function config123() {
     configuration.postExecute[2].tryorder = 3;
     configuration.postExecute[2].dothis = 'executegetwid';
     configuration.postExecute[2].params = {};
-   configuration.postExecute[3] = {};
-   configuration.postExecute[3].executeorder = 1;
-   configuration.postExecute[3].tryorder = 4;
-   configuration.postExecute[3].dothis = 'server';
-   configuration.postExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
+    configuration.postExecute[3] = {};
+    configuration.postExecute[3].executeorder = 1;
+    configuration.postExecute[3].tryorder = 4;
+    configuration.postExecute[3].dothis = 'server';
+    configuration.postExecute[3].params = {
+        "command.server.url": "http://dri.drillar.com/node/executethis"
+    };
 
     // configuration.getwid = [];
     // configuration.getwid[0] = {};
@@ -342,7 +350,7 @@ function config123() {
 
 //         keydatabase = getFromLocalStorage(keycollection);
 //         keydatabase[widName]=inputWidgetObject;
-     
+
 //         addToLocalStorage(collection, database);
 //         addToLocalStorage(keycollection, keydatabase);
 //         //******
@@ -494,24 +502,24 @@ function test2(params, callback) {
     });
 }
 
-exports.updatebalance = updatebalance = function updatebalance (params, callback) {
-    params['date']=new Date();
+exports.updatebalance = updatebalance = function updatebalance(params, callback) {
+    params['date'] = new Date();
     callback(null, params);
 }
-exports.updatewiddata= updatewiddata = function updatewiddata(params, callback) {
-    params['date']=new Date();
+exports.updatewiddata = updatewiddata = function updatewiddata(params, callback) {
+    params['date'] = new Date();
     callback(null, params);
 }
 exports.uupdateofferdata = updateofferdata = function updateofferdata(params, callback) {
-    params['date']=new Date();
+    params['date'] = new Date();
     callback(null, params);
 }
-exports.updateofferobject = updateofferobject = function updateofferobject (params, callback) {
-    params['date']=new Date();
+exports.updateofferobject = updateofferobject = function updateofferobject(params, callback) {
+    params['date'] = new Date();
     callback(null, params);
 }
-exports.updatesecurity = updatesecurity = function updatesecurity (params, callback) {
-    params['date']=new Date();
+exports.updatesecurity = updatesecurity = function updatesecurity(params, callback) {
+    params['date'] = new Date();
     callback(null, params);
 }
 
