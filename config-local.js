@@ -61,10 +61,10 @@ if (!test_results) { // should not be neededd any more
 
 // *********** EVENTS **************************************************
 exports.eventappinstall = eventappinstall = function eventappinstall() {
-    setdefaultparm();
     if (exports.environment === 'local') {clearLocalStorage();}
 };
 exports.eventdeviceready  = eventdeviceready  = function eventdeviceready () {
+    setdefaultparm();
     if (Object.keys(config).length === 0) {
         if (!getFromLocalStorage('DRIKEY')) {
             eventappinstall();
