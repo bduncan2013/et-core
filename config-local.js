@@ -301,7 +301,7 @@ exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocal
 exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
     var collection = "DRI";
     var keycollection = "DRIKEY";
-    var err = {};
+    var err = null;
     var widobject = {};
     var database = {};
     var keydatabase = {};
@@ -340,7 +340,7 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
         //return widobject;
         callback(err, widobject);
     } else { // if no widName
-        callback({}, {}); // should have better error here
+        callback(null, {}); // should have better error here
     }
 
 };
@@ -350,7 +350,7 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
 
     var collection = "DRI";
     var keycollection = "DRIKEY";
-    var err = {};
+    var err = null;
     var output = {};
     var keydatabase = {};
     var record;
@@ -392,15 +392,13 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
                 0: inbound_parameters,
                 1: ConvertFromDOTdri(convertedobject),
             }, 6);
-            callback({}, ConvertFromDOTdri(convertedobject))
+            callback(null, ConvertFromDOTdri(convertedobject))
         } else {
             debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
                 0: inbound_parameters,
                 1: convertedobject,
             }, 6);
-            callback({
-                "found": "error"
-            }, convertedobject);
+            callback(null, convertedobject);
         }
     });
 };
@@ -420,7 +418,7 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
             1: results
             // 2: executionid
         }, 6);
-        callback({}, results);
+        callback(null, results);
 
     });
 };
@@ -468,7 +466,7 @@ function executeAjax(allConfig, executeItem, callback, returnCallback) {
 // Primary execute function called after dothis
 
 function test2(params, callback) {
-    callback({
+    callback(null,{
         "test": "test2 on local called"
     });
 }
@@ -495,7 +493,7 @@ exports.server = window.server = server = function server(params, callback) {
     executeAjax("", params, function (data) {
         console.log("Return from server: " + JSON.stringify(data));
         var err;
-        callback(err, data);
+        callback(null, data);
     });
 };
 
