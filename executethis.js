@@ -771,11 +771,14 @@
                 whatallowexecute = howallowexecute;
                 whatexecuteorder = 1;
 
+                proxyprinttodiv("executelist howToDoList ", howToDoList, 11);
+                proxyprinttodiv("executelist whatToDoList ", whatToDoList, 11);
+
                 async.mapSeries(whatToDoList, function (w, cbMapW) {
                     async.nextTick(function() {
                         proxyprinttodiv("execute - I howallowexecute", howallowexecute, 11);
                         proxyprinttodiv("execute - I whatexecuteorder", whatallowexecute, 11);
-                        proxyprinttodiv("execute - w", w, 18);
+                        proxyprinttodiv("execute - w", w, 11);
                         if (w[howToDo]) {
                             whatToDo = w[howToDo]; // try to get specific config for whatToDo
                         } else {
@@ -788,6 +791,7 @@
                             whatToDoParams = {};
                         }
                         proxyprinttodiv("execute - whatToDo", whatToDo, 11);
+                        proxyprinttodiv("execute - w.executeorder", w.execute, 11);
 
                         if (whatexecuteorder !== w.executeorder) {
                             // executeorder changed, reset whatallowexecute, other allow it to remain
@@ -806,7 +810,7 @@
                                     proxyprinttodiv("executelist executeobject: ", executeobject, 11);
                                     proxyprinttodiv("executelist executeobject.params: ", executeobject.params, 11);
                                     proxyprinttodiv("executelist executeobject.targetfn: ", String(executeobject.targetfn), 11);
-                                    if (typeof executeobject.targetfn === 'function') { // there was a chance of a none function getting in here -- Joe
+                                    if (typeof executeobject.targetfn === 'function') { // there was a chance of a non function getting in here -- Joe
                                         authcall(executeobject.params, function (err, securitycheck) {
                                             err = null; // Do not leave in the code
                                             if (securitycheck) {
@@ -830,6 +834,7 @@
                                                     }
                                                     // ************************************************
 
+                                                    // for an addthis situation 
                                                     if (executeobject.executeflag === true) {
                                                         execute(res, function (err, res) {
                                                             // if executegetwid then execute with the results
