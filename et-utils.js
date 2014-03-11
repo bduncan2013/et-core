@@ -183,7 +183,7 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
 
 
 function getindex(parameterobject, dtoname, indexstring) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = arguments;
 
         var match;
         var potentialmap;
@@ -758,7 +758,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
 
     exports.getnewwid = getnewwid = function getnewwid(parameters, callback) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = arguments;
         try {
             //potentialwid++;
             //return String(potentialwid);
@@ -873,7 +873,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     // Deletes a hash from an object    
     exports.remove = remove = function remove(parameters, str) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = arguments;
         try {
             //function remove(parameters, str){
             var length;
@@ -901,7 +901,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
     exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, defaults_object, filter_object, deleteflag) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = arguments;
         // try {
             proxyprinttodiv("tolowerparameters parameters", parameters, 88);
             proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
