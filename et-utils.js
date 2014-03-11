@@ -779,27 +779,30 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
                 if (err && Object.keys(err).length > 0) {
                     callback(err, result);
                 } else {
-                    executeobject = result[0];
-                    if (Object.keys(executeobject).length !== 0) {
-                        widvalue = parseInt(executeobject['widvalue']);
-                        widvalue++;
+                    try {
+                        executeobject = result[0];
+                        if (Object.keys(executeobject).length !== 0) {
+                            widvalue = parseInt(executeobject['widvalue']);
+                            widvalue++;
+                        }
+                        proxyprinttodiv("deepfilter getnewwid", widvalue, 17);
+                        executeobject['widvalue'] = String(widvalue);
+                        executeobject['wid'] = "currentwid";
+                        executeobject['executethis'] = 'updatewid';
+                        proxyprinttodiv("deepfilter getnewwid", executeobject, 17);
+                        execute(executeobject, function (err, result) {
+                            callback(null, executeobject['widvalue']);
+                        });
                     }
-                    proxyprinttodiv("deepfilter getnewwid", widvalue, 17);
-                    executeobject['widvalue'] = String(widvalue);
-                    executeobject['wid'] = "currentwid";
-                    executeobject['executethis'] = 'updatewid';
-                    proxyprinttodiv("deepfilter getnewwid", executeobject, 17);
-                    execute(executeobject, function (err, result) {
-                        callback(null, executeobject['widvalue']);
-                    });
+                    catch (err) {
+                        var finalobject = createfinalobject({"result": "getnewwid_execute"}, {}, "getnewwid_execute", err, result);
+                        callback(finalobject.err, finalobject.res);
+                    }
                 }
             })
         } // end try
         catch (err) {
-            //callback ({"status":"there was an error"}, {"function":"getnewwid"});        
-            var finalobject = createfinalobject({
-                "result": "getnewwid"
-            }, {}, "getnewwid", err, inbound_parameters);
+            var finalobject = createfinalobject({"result": "getnewwid"}, {}, "getnewwid", err, result);
             callback(finalobject.err, finalobject.res);
         }
     };
