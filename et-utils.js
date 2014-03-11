@@ -74,9 +74,8 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
 };
 
 exports.clearLocal = clearLocal = function clearLocal() {
-    var inbound_parameters = JSON.parse(JSON.stringify(arguments));
     widMasterKey = "widmaster_";
-    localStorage.clear();
+    localStore.clear();
     potentialwid = 0;
     addToLocal("DRI", [{
         "wid": "initialwid",
@@ -90,23 +89,33 @@ exports.clearLocal = clearLocal = function clearLocal() {
     });
 };
 
-exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
+exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
+    try {
+
     if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
         printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+        if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>'};
         // console.log(text);
         // console.log(obj);
         if (document.getElementById('divprint')) {
             document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
         }
     }
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"printToDiv"});  
+        var finalobject = createfinalobject({"result":"printToDiv"}, {}, "printToDiv", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }
 };
 
-exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
+exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone, pretty) { // **** making code node compatible
+    try {
     if (!debugone) {
         debugone = -1;
     }
     if (exports.environment === "local") {
-        printToDiv(text, obj, debugone);
+        printToDiv(text, obj, debugone, pretty);
     } else {
         // if (true) {
         if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
@@ -118,7 +127,13 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
             addtolocal(debuglinenum, tempobj)
         }
     }
-};
+    } // end try
+    catch (err) {
+        //callback ({"status":"there was an error"}, {"function":"proxyprinttodiv"});        
+        var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }   
+}
 
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
