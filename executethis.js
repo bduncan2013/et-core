@@ -820,17 +820,14 @@
                                                     whatallowexecute = false;
                                                     howallowexecute = false;
 
-                                                    if ((res === undefined) || (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) { // may be issues with empty object
-                                                        whatallowexecute = true;
-                                                        howallowexecute = true;
-                                                        executeobject.executeflag = false;
+                                                    if (executeobject.executeflag === true) {
+                                                        if ((res === undefined)
+                                                            || (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) { // may be issues with empty object
+                                                            whatallowexecute = true;
+                                                            howallowexecute = true;
+                                                            executeobject.executeflag = false;
+                                                        }
                                                     }
-
-//                                                    if ((res === undefined) || (res === {})) { // may be issues with empty object
-//                                                        whatallowexecute = true;
-//                                                        howallowexecute = true;
-//                                                        executeobject.executeflag = false;
-//                                                    }
                                                     // ************************************************
 
                                                     if (executeobject.executeflag === true) {
