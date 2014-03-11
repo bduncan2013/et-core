@@ -1202,7 +1202,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     };
 
     exports.isObject = isObject = function isObject(obj) {
-        return obj === Object(obj);
+        return obj !== null && typeof obj === 'object';
     };
 
     exports.isFunction = isFunction = function isFunction(obj) {
