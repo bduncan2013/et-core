@@ -6473,6 +6473,94 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
         });
     }
 
+    exports.ettestinheritoverride2 = ettestinheritoverride2 = function ettestinheritoverride2(params, callback) {
+        eventappinstall();
+        debuglevel = 0;
+        
+        execute([{
+                    "executethis": "addwidmaster",
+                    "wid": "bookoverride",
+                    "metadata.method": "bookdto",
+                    "title":"X title", 
+                    "pages":"300"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdto",
+                    "metadata.method": "bookdto",
+                    "title": "string",
+                    "pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdtowid111",
+                    "metadata.method":"bookdto",
+                    "metadata.inherit.override.0": "bookoverride",
+                    "title": "Book Title1",
+                    "pages":"10"
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "bookdtowid111",
+                }
+            ], function (err, res) {
+                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+                
+                proxyprinttodiv('Function bookdtowid111 res[4] ', res[3], 99);
+                
+                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+                
+                res = logverify("bookdtowid111_result", res[3], expectedResult);
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+                    callback(err, res); 
+                })
+        });
+    }
+
+    exports.ettestinheritoverride3 = ettestinheritoverride3 = function ettestinheritoverride3(params, callback) {
+        eventappinstall();
+        debuglevel = 0;
+        
+        execute([{
+                    "executethis": "addwidmaster",
+                    "wid": "bookoverride",
+                    "metadata.method": "bookdto",
+                    "title":"X title", 
+                    "pages":"300"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdto",
+                    "metadata.method": "bookdto",
+                    "title": "string",
+                    "pages": "string"
+                },{
+                    "executethis": "addwidmaster",
+                    "wid": "bookdtowid111",
+                    "metadata.method":"bookdto",
+                    "metadata.inherit.override.0": "bookoverride",
+                    "title": "Book Title1",
+                    "pages":"10"
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "bookdtowid111",
+                }
+            ], function (err, res) {
+                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+                
+                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+                
+                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdtoextra","pages":"300"}];
+                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+                
+                res = logverify("bookdtowid111_result", res[4], expectedResult);
+                debuglevel=0;
+                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+                    callback(err, res); 
+                })
+        });
+    }
+
     exports.ettestinheritdefault = ettestinheritdefault = function ettestinheritdefault(params, callback) {
         eventappinstall();
         debuglevel = 0;

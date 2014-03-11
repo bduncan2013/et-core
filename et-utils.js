@@ -90,8 +90,6 @@ exports.clearLocal = clearLocal = function clearLocal() {
 };
 
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
-    try {
-
     if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
         printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
         if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>'};
@@ -101,16 +99,9 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
             document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
         }
     }
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"printToDiv"});  
-        var finalobject = createfinalobject({"result":"printToDiv"}, {}, "printToDiv", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
 };
 
 exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone, pretty) { // **** making code node compatible
-    try {
     if (!debugone) {
         debugone = -1;
     }
@@ -127,17 +118,10 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
             addtolocal(debuglinenum, tempobj)
         }
     }
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"proxyprinttodiv"});        
-        var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }   
 }
 
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
-    try {
         proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 38);
         proxyprinttodiv("insertbydtotype input bigdto :- ", bigdto, 38);
         proxyprinttodiv("insertbydtotype input insertobj :- ", insertobj, 38);
@@ -197,20 +181,10 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
         }
         proxyprinttodiv("insertbydtotype result :- ", inputobj, 38);
         return inputobj;
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"insertbydtotype"});        
-        var finalobject = createfinalobject({
-            "result": "insertbydtotype"
-        }, {}, "insertbydtotype", err, inbound_parameters);
-        return finalobject;
-        //callback(finalobject.err, finalobject.res);
-    }
 };
 
 
 function getindex(parameterobject, dtoname, indexstring) {
-    try {
         var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
         var match;
@@ -253,19 +227,9 @@ function getindex(parameterobject, dtoname, indexstring) {
         }, 6);
 
         return indexstring;
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"getindex"});        
-        var finalobject = createfinalobject({
-            "result": "getindex"
-        }, {}, "getindex", err, inbound_parameters);
-        return finalobject;
-        //callback(finalobject.err, finalobject.res);
-    }
 }
 
 function setbyindex(obj, str, val) {
-    try {
         var keys, key;
         //make sure str is a string with length
         if (str === "") {
@@ -294,21 +258,11 @@ function setbyindex(obj, str, val) {
             // return obj[keys[0]] = val;
             return extend(true, obj[keys[0]], val); // we want to add data not overwrite data
         }
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"setbyindex"});        
-        var finalobject = createfinalobject({
-            "result": "setbyindex"
-        }, {}, "setbyindex", err, inbound_parameters);
-        return finalobject;
-        //callback(finalobject.err, finalobject.res);     
-    }
 };
 
 
 
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
-    try {
         console.log("<< in deepfilter >>");
         var modifiedObj = {};
         extend(true, modifiedObj, inputObj);
@@ -329,18 +283,9 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
             proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
             callback(null, inputObj);
         }
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"deepfilter"});
-        var finalobject = createfinalobject({
-            "result": "deepfilter"
-        }, {}, "deepfilter", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
 }
 
 function recurseModObj(inputObject, dtoObject, command, callback) {
-    try {
         if (command && !command["command.deepfilter.convert"]) { //command undefined
             command["command.deepfilter.convert"] = false; //default value
         }
@@ -527,14 +472,6 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                     callback(null, modifiedObj);
                 }
             });
-    } // end try
-    catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"recurseModObj"});        
-        var finalobject = createfinalobject({
-            "result": "recurseModObj"
-        }, {}, "recurseModObj", err, inbound_parameters);
-        callback(finalobject.err, finalobject.res);
-    }
 }
 
 
@@ -745,7 +682,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     // Deconstructs the dot.notation string into an object that has properties.
     exports.ConvertFromDOTdri = ConvertFromDOTdri = function ConvertFromDOTdri(data) { //Expands to Real javascript object
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if (Object(data) !== data || Array.isArray(data))
             return data;
         var result = {}, cur, prop, idx, last, temp;
@@ -770,7 +706,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // recurse until there is only 1 chain so you get chain:value returned. This is called only 
     // from ConvertFrom DOT, so you can see it part of the process of deconstructing the dot.notaion string.
     exports.createObjects = createObjects = function createObjects(parent, chainArray, value) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         //proxyprinttodiv('createobject parent',  parent,38);
         //proxyprinttodiv('createobject chainArray',  chainArray,38);
         if (chainArray.length == 1) {
@@ -800,7 +735,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // };
 
     exports.ConvertToDOTdri = ConvertToDOTdri = function ConvertToDOTdri(data) { //dotize
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var result = {};
 
         function recurse(cur, prop) {
@@ -1101,7 +1035,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // }
 
     exports.filter_params = filter_params = function filter_params(parameters, filter_object) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var output = {};
         var target_value = "";
         // Get just the keys from the filter_object
@@ -1131,7 +1064,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     // This is to lower keys of objects only.
     exports.just_lower_parameters = just_lower_parameters = function just_lower_parameters(data) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var data_out = {};
         for (var d in data) {
             data_out[d.toLowerCase()] = data[d];
@@ -1140,7 +1072,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     };
 
     exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command, com_user) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var command_object = {};
         if (command) {
             extend(true, command_object, command)
@@ -1237,7 +1168,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     // Adds the key of object2 to object 1
     exports.jsonConcat = jsonConcat = function jsonConcat(o1, o2) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var clonedObject = {};
         extend(true, clonedObject, o1); // clone received params
 
@@ -1251,18 +1181,15 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     // Returns if o is a string or not
     exports.isString = isString = function isString(o) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return typeof o == "string" || (typeof o == "object" && o.constructor === String);
     };
 
     // Returns true if the val is an int, or false
     exports.isInteger = isInteger = function isInteger(val) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return val.match(/^[0-9]$/);
     };
 
     exports.isSet = isSet = function isSet(val) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if ((val != undefined) && (val != null)) {
             return true;
         }
@@ -1275,22 +1202,18 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // }
 
     exports.isArray = isArray = function isArray(obj) { //nativeIsArray
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return toString.call(obj) == '[object Array]';
     };
 
     exports.isObject = isObject = function isObject(obj) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return obj === Object(obj);
     };
 
     exports.isFunction = isFunction = function isFunction(obj) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return typeof obj === 'function';
     };
 
     exports.isJson = isJson = function isJson(str) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         try {
             JSON.parse(str);
         } catch (e) {
@@ -1313,7 +1236,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // };
 
     exports.logverify = logverify = function logverify(test_name, data_object, assertion_object) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if (test_name === undefined) test_name = "defaulttest";
 
         var result = deepDiffMapper.map(data_object, assertion_object);
@@ -2301,8 +2223,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     }
 
     exports.master_test_and_verify = master_test_and_verify = function master_test_and_verify(testname, parameters, assert, database, command, callback) {
-        try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var err;
             var results = [];
             var temp_config = {};
@@ -2340,18 +2260,9 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
                     callback(null, results);
                 });
             });
-        } // end try
-        catch (err) {
-            //callback ({"status":"there was an error"}, {"function":"master_test_and_verify"});
-            var finalobject = createfinalobject({
-                "result": "master_test_and_verify"
-            }, {}, "master_test_and_verify", err, inbound_parameters);
-            callback(finalobject.err, finalobject.res);
-        }
     };
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
-        try {
             var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             if (database && JSON.stringify(database) !== "{}") {
                 addToLocalStorage("DRIKEY", database);
@@ -2376,18 +2287,9 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
                         callback(null, res);
                     });
             }
-        } // end try
-        catch (err) {
-            //callback ({"status":"there was an error"}, {"function":"test_and_verify"});
-            var finalobject = createfinalobject({
-                "result": "test_and_verify"
-            }, {}, "test_and_verify", err, inbound_parameters);
-            callback(finalobject.err, finalobject.res);
-        }
     };
 
     exports.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
-        try {
             var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
             delete inputWidgetObject['executethis'];
@@ -2463,19 +2365,9 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
             proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
             return saveobject;
-        } // end try
-        catch (err) {
-            //callback ({"status":"there was an error"}, {"function":"converttodriformat"});
-            var finalobject = createfinalobject({
-                "result": "converttodriformat"
-            }, {}, "converttodriformat", err, inbound_parameters);
-            return finalobject;
-            //callback(finalobject.err, finalobject.res);
-        }
     };
 
     exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
-        try {
             var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var outobject = {};
             var db = "data";
@@ -2536,15 +2428,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
             //     }
             // }
             return outobject;
-        } // end try
-        catch (err) {
-            //callback ({"status":"there was an error"}, {"function":"convertfromdriformat"});
-            var finalobject = createfinalobject({
-                "result": "convertfromdriformat"
-            }, {}, "convertfromdriformat", err, inbound_parameters);
-            return finalobject;
-            //callback(finalobject.err, finalobject.res);         
-        }
     };
     exports.createfinalobject = createfinalobject = function createfinalobject(outobject, command, nameoffn, errorobject, initialparameters) {
         proxyprinttodiv('createfinalobject input errorobject', errorobject, 99);

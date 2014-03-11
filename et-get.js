@@ -478,6 +478,7 @@
             excludeset[widInput] = widInput; // keep track of what we have done so we do not do it again
 
             async.series([
+                    // getwid
                     function step1(cb) {
                         proxyprinttodiv('Function getwidmongo step 1 hit with widInput:', widInput, 38);
                         proxyprinttodiv('Function getwidmongo step 1 hit with command:', command, 38);
@@ -505,7 +506,7 @@
                                 callback(err, res);
                             }else{
                                 //
-                                proxyprinttodiv('Function getwidmongo getwid res', res, 38);
+                                proxyprinttodiv('Function getwidmongo getwid res', res, 99);
                                 res = res[0];
 
                                 if (Object.keys(res).length != 0) {
@@ -522,7 +523,51 @@
                             }
                         }); // end execute                      
                     }, // end step1
-
+                    // *** Override ***
+                    // Date: 10 MAR 14
+                    // Purpose: Looks at the current object and determines if we need to grab new data and override values on properties
+                    function processOverride(cb){
+                        if(command.getwidmaster.convertmethod !== "donotoverride" && Object.keys(parameterobject).length != 0 &&
+                            parameterobject.metadata && parameterobject.metadata.inherit && parameterobject.metadata.inherit.override) {
+                                
+                            proxyprinttodiv("GetWidMongo start processOverride", parameterobject, 99);
+                            // list of overrides to get
+                            var overrides = parameterobject.metadata.inherit.override;
+                            delete parameterobject.metadata.inherit;
+                            var overrideData = [];
+                            
+                            // make a seperate getwidmaster call for each override to collect all the override data                        
+                            async.mapSeries(overrides, function (overrideToGet, cbMap) {
+                                // next tick?
+                                execute({
+                                    "executethis": "getwidmaster",
+                                    "wid": overrideToGet,
+                                    "command.getwidmaster.convertmethod":"nowid",
+                                    "command.getwidmaster.dtotype":""
+                                }, function (err, res) {
+                                    proxyprinttodiv('In process override got additional override data', res, 99);
+                                    // need 0 check on res
+                                    overrideData.push(res[0]);
+                                    // extend?
+                                    cbMap(null);
+                                });
+                            }, function (err, res) {
+                                // iterate over the override data and override the parameterobject with it
+                                overrideData.forEach(function (element, index, array) {
+                                    proxyprinttodiv("GetWidMongo -- override! --", element, 99);
+                                    // TODO remove these
+                                    delete element.metadata;
+                                    delete element.wid;
+                                    extend(true, parameterobject, element);
+                                });
+                                proxyprinttodiv("GetWidMongo override processing done", parameterobject, 99);
+                                cb(null);
+                            }); // end async
+                        } else {
+                            proxyprinttodiv("GetWidMongo no override to process", parameterobject, 99);
+                            cb(null);
+                        }
+                    },
                     function step2(cb) {
                         if (targetwid != "") {
                             async.series([ // asynch step1n2
@@ -697,7 +742,7 @@
                                                     debugindent--;
                                                     if (Object.keys(params).length !== 0) {
                                                         // added by roger
-                                                        if (command && command.convertmethod === "nowid") {
+                                                        if (command && command.getwidmaster && command.getwidmaster.convertmethod === "nowid") {
                                                             delete params.wid;
                                                             delete params.metadata.method;
                                                         }
@@ -994,20 +1039,17 @@
                             proxyprinttodiv('<<< bigdto.command.inherit.override >>', bigdto.command.inherit.override, 99);
 
                             // we have overrides go ahead and load them up
-                            if (bigdto.command.inherit.override) {
-                                for (var eachkey in bigdto.command.inherit.override) {
+                            // if (bigdto.command.inherit.override) {
+                            //     for (var eachkey in bigdto.command.inherit.override) {
+                            //         listToDo.push({
+                            //             "override": bigdto.command.inherit.override[eachkey]
+                            //         });
+                            //     }
+                            // }
+                            if (bigdto.command.inherit.default) {
+                                for (var eachkey in bigdto.command.inherit.default) {
                                     listToDo.push({
-                                        "override": bigdto.command.inherit.override[eachkey]
-                                    });
-                                }
-                            }
-                            if (bigdto.command.inherit.
-                                default) {
-                                for (var eachkey in bigdto.command.inherit.
-                                    default) {
-                                    listToDo.push({
-                                        "default": bigdto.command.inherit.
-                                        default [eachkey]
+                                        "default": bigdto.command.inherit.default [eachkey]
                                     });
                                 }
                             }
