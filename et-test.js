@@ -6421,57 +6421,57 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 		});
 	}
 	
-
-    exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
+    // out of date
+    // exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
+    //     eventappinstall();
+    //     debuglevel = 0;
         
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtoextra",
-                    "metadata.method": "bookdtoextra",
-                    "title": "string", // changed by joe
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdefaultdto",
-                    "metadata.method": "bookdtoextra",
-                    "title":"X title", // changed by joe
-                    "pages":"300"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "metadata.inherit.override.0": "bookdefaultdto",
-                    "metadata.inherit.override.1": "bookdefaultdto2",
-                    "title": "string",
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-                    "title": "Book Title1"
-                    // notice no pages
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookdtowid111",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+    //     execute([{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdtoextra",
+    //                 "metadata.method": "bookdtoextra",
+    //                 "title": "string", // changed by joe
+    //                 "pages": "string"
+    //             },{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdefaultdto",
+    //                 "metadata.method": "bookdtoextra",
+    //                 "title":"X title", // changed by joe
+    //                 "pages":"300"
+    //             },{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdto",
+    //                 "metadata.method": "bookdto",
+    //                 "metadata.inherit.override.0": "bookdefaultdto",
+    //                 "metadata.inherit.override.1": "bookdefaultdto2",
+    //                 "title": "string",
+    //                 "pages": "string"
+    //             },{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdtowid111",
+    //                 "metadata.method":"bookdto",
+    //                 "title": "Book Title1"
+    //                 // notice no pages
+    //             },{
+    //                 "executethis": "getwidmaster",
+    //                 "wid": "bookdtowid111",
+    //             }
+    //         ], function (err, res) {
+    //             proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
                 
-                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+    //             proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
                 
-                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdtoextra","pages":"300"}];
-                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+    //             var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdtoextra","pages":"300"}];
+    //             proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
                 
-                res = logverify("bookdtowid111_result", res[4], expectedResult);
-                debuglevel=0;
-                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
+    //             res = logverify("bookdtowid111_result", res[4], expectedResult);
+    //             debuglevel=0;
+    //             execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+    //                 proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+    //                 callback(err, res); 
+    //             })
+    //     });
+    // }
 
     exports.ettestinheritoverride2 = ettestinheritoverride2 = function ettestinheritoverride2(params, callback) {
         eventappinstall();
@@ -6588,7 +6588,7 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
                 },{
                     "executethis": "addwidmaster",
                     "wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
+                    //"metadata.method":"bookdto",
                     "title": "Book Title1"
                     // notice no pages
                 },{
@@ -6961,3 +6961,259 @@ exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(pa
 			callback(err, res); 
         });							
 	}
+    /*
+        To add dtos, relationships for manytoonetest
+    */
+    function manytoonesetupdto(callback){
+        async.series([
+            function (cb1) {
+                var executeList = [
+                {       //authordto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "authordto",
+                    "wid": "authordto",
+                    "name": "string",
+                    "age": "string"
+                }, {    //spousedto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "spousedto",
+                    "wid": "spousedto",
+                    "datemarried": "date"
+                }, {    //housedto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "housedto",
+                    "wid": "housedto",
+                    "color": "string"
+                },{     //bookdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "bookdto",
+                    "wid": "bookdto",
+                    "title": "string",
+                    "pages": "string"
+                }, {    //pubhousedto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "pubhousedto",
+                    "wid": "pubhousedto",
+                    "coname": "string",
+                    "establishdate": "date"
+                }, {    //addressdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "addressdto",
+                    "wid": "addressdto",
+                    "city": "string",
+                    "add1": "string",
+                    "add2": "string"
+                }, {    //statedto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "statedto",
+                    "wid": "statedto",
+                    "statename": "string",
+                    "zipcode": "string"
+                }, {    //ownerdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "ownerdto",
+                    "wid": "ownerdto",
+                    "name": "string"
+                }, {    //authordto - spousedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_author_spouse",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "jsononetoone",
+                    "primarywid": "authordto",
+                    "primarymethod": "authordto",
+                    "secondarywid": "spousedto",
+                    "secondarymethod": "spousedto"
+                }, {    //authordto - housedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_author_house",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    //"linktype": "onetomany",
+                    "linktype": "onetoone",
+                    "primarywid": "authordto",
+                    "primarymethod": "authordto",
+                    "secondarywid": "housedto",
+                    "secondarymethod": "housedto"
+                }, {    //authordto - bookdto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_author_book",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "onetomany",
+                    "primarywid": "authordto",
+                    "primarymethod": "authordto",
+                    "secondarywid": "bookdto",
+                    "secondarymethod": "bookdto"
+                }, {    //bookdto - pubhousedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_book_pubhouse",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "manytoone",    
+                    "primarywid": "bookdto",
+                    "primarymethod": "bookdto",
+                    "secondarywid": "pubhousedto",
+                    "secondarymethod": "pubhousedto"
+                }, {    //pubhousedto - addressdto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_pubhouse_address",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "onetomany",
+                    "primarywid": "pubhousedto",
+                    "primarymethod": "pubhousedto",
+                    "secondarywid": "addressdto",
+                    "secondarymethod": "addressdto"
+                }, {    //pubhousedto - statedto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_pubhouse_state",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "manytoone",
+                    "primarywid": "pubhousedto",
+                    "primarymethod": "pubhousedto",
+                    "secondarywid": "statedto",
+                    "secondarymethod": "statedto"
+                }, {    //pubhousedto - ownerdto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_pubhouse_owner",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "onetoone",
+                    "primarywid": "pubhousedto",
+                    "primarymethod": "pubhousedto",
+                    "secondarywid": "ownerdto",
+                    "secondarymethod": "ownerdto"
+                }       
+                ];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonesetupdto addwidmaster dto res -- ", res, 99);
+                    cb1(err, res);
+                });
+            },
+            function (cb2){
+                var executeList = [{
+                    "executethis": "getwidmaster",
+                    "wid": "authordto",
+                }];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonesetupdto getwidmaster authordto", res, 99);
+                    cb2(err, res);
+                });
+            }
+        ], function (err, res) {
+            callback(err, res);
+        });             
+    }
+    // authordto, bookdto, spousedto, housedto, pubhousedto, addressdto, statedto, ownerdto
+
+    function manytoonedata(params, d, callback){
+        async.series([
+            function (cb2) {
+                var executeobj = //[]
+                    {
+                        "executethis":"addwidmaster",
+                        "metadata.method": "authordto",
+                        "wid": "wid1",
+                        "name": "somedata222" + d,
+                        "age": "somedata"  + d,
+                        
+                        "spousedto.datemarried": "03/10/2014",
+                        
+                        "housedto.color": "purple"  + d,    
+                        
+                        "bookdto.title": "Book 1"  + d,
+                        "bookdto.pages": "300"  + d,
+
+                        "bookdto.pubhousedto.coname": "Company Name"  + d,
+                        "bookdto.pubhousedto.establishdate": "03/10/2014",
+
+                        "bookdto.pubhousedto.addressdto.0.city": "City Name" + d,
+                        "bookdto.pubhousedto.addressdto.0.add1": "Address1" + d,
+                        "bookdto.pubhousedto.addressdto.0.add2": "Address2" + d,
+
+                        "bookdto.pubhousedto.statedto.0.statename": "State Name + d",
+                        "bookdto.pubhousedto.statedto.0.zipcode": "Z 123456" + d,
+
+                        "bookdto.pubhousedto.ownerdto.0.name": "Owner Name" + d
+                    }
+                //];
+                if (params) {
+                     executeobj=extend(true, executeobj, params)
+                }
+                var executeList=[];
+                executeList.push(executeobj)
+
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("manytoonetest addwidmaster data res -- ", res, 99);
+                    cb2(err, res);
+                });
+            }
+        ], function (err, res) {
+            callback(err, res);
+        });             
+    }
+    exports.manytoonetest005 = manytoonetest005 = function manytoonetest005(params, callback) {
+        async.series([
+            function (cb1) {
+                manytoonesetupdto(function (err, res){
+                    manytoonedata(null, "a", function (err, res){
+                        //manytoonedata(null, "b", function (err, res){
+                            //manytoonedata(null, "c", function (err, res){
+                                //execute({"getwidmaster", "wid":"wid1"}, function (err, res){
+                                    //proxyprinttodiv("result from 3 adds ", res, 99);
+                                    cb1(err, res);
+                                //})
+                            //});
+                        //});
+                    });
+                });     
+            },
+            function (cb2) {
+                var executeList = [
+                {
+                    "executethis": "getwidmaster",
+                    "wid": "authordto",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "spousedto",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "housedto",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "bookdto",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "pubhousedto",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "addressdto",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "statedto",
+                }, {
+                    "executethis": "getwidmaster",
+                    "wid": "ownerdto",
+                }, {
+                    "executethis": "getwidmaster", // "command.dtotype":""
+                    "wid": "wid1",
+                }
+                ];
+                execute(executeList, function (err, res) {
+                    proxyprinttodiv("result from getwidmaster *** ", res, 99, true);
+                    cb2(err, res);
+                });
+            }
+        ], function (err, res) {
+            proxyprinttodiv('Function manytoonetest4 result Full res', res, 99);
+            proxyprinttodiv('Function manytoonetest4 result res[2][0]', res[1][0], 99);
+            
+            var expectedResult = [];
+            proxyprinttodiv("Function manytoonetest4 expectedResult ", expectedResult, 99);
+            
+            res = logverify("manytoonetest4_result", res[1][0], expectedResult);
+            callback(err, res); 
+        });                         
+    }
