@@ -63,13 +63,22 @@ if (!test_results) { // should not be neededd any more
 exports.eventappinstall = eventappinstall = function eventappinstall() {
     if (exports.environment === 'local') {clearLocalStorage();}
 };
+exports.everyMinuteInterval = 0;
+exports.everyTenMinuteInterval = 0;
 exports.eventdeviceready  = eventdeviceready  = function eventdeviceready () {
     setdefaultparm();
     if (!getFromLocalStorage('DRIKEY')) {
         eventappinstall();
     }
-    // start eventonemin, etc
+
+    // start eventonemin, eventtenmin and save the interval value so 
+    // you can use "clearInterval" in the future if desired to stop things
+    var minutes = 60 * 1000;
+    exports.everyMinuteInterval = setInterval(exports.eventonemin, 1*minutes);
+    exports.everyTenMinuteInterval = setInterval(exports.eventtenmin, 10*minutes);
+
 };
+
 exports.eventnewpage  = eventnewpage  = function eventnewpage () {};
 exports.eventonline  = eventonline  = function eventonline () {};
 exports.eventoffline  = eventoffline  = function eventoffline () {};
