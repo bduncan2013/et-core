@@ -111,9 +111,9 @@
                         if ((postResults.command) && (postResults.command.execute)) {
                             var executeobject;
                             if (postResults.command.execute.parameters) {
-                                executeobject = postResults.command.execute.parameters
+                                executeobject = postResults.command.execute.parameters;
+                                delete postResults.command.execute.parameters;
                             }
-                            delete postResults.command.execute.parameters;
                             if (isObject(postResults.command.execute)) {
                                 extend(true, executeobject, postResults.command.execute)
                             } else {

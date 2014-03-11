@@ -46,7 +46,6 @@ exports.saveglobal = saveglobal = function saveglobal(varname, varvalue) {
 
 // logic to add things to localStore object
 exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
-    var inbound_parameters = JSON.parse(JSON.stringify(arguments));
     if (!widobject) {
         widobject = {}
     }
@@ -57,7 +56,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
 // logic to get things from localStore object
 exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
-    var inbound_parameters = JSON.parse(JSON.stringify(arguments));
     var output = {};
     if (inputWidgetObject["wid"]) {
         inputWidgetObject = toLowerKeys(inputWidgetObject);
@@ -185,7 +183,7 @@ exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, b
 
 
 function getindex(parameterobject, dtoname, indexstring) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        var inbound_parameters = arguments;
 
         var match;
         var potentialmap;
@@ -622,7 +620,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     }
 
     exports.extend = extend = function extend() { // similar to jquery exetend()
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         var options, src, copy, copyIsArray, clone,
             target = arguments[0] || {},
             i = 1,
@@ -761,8 +758,8 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
 
     exports.getnewwid = getnewwid = function getnewwid(parameters, callback) {
+        var inbound_parameters = arguments;
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             //potentialwid++;
             //return String(potentialwid);
             var executeobject = {
@@ -862,7 +859,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     // Returns true if the parameter is lower case
     exports.isParameterLower = isParameterLower = function isParameterLower(parameters, str) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         //function isParameterLower(parameters, str) {
         // getObjectSize(parameters);
         var length;
@@ -880,8 +876,8 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     // Deletes a hash from an object    
     exports.remove = remove = function remove(parameters, str) {
+        var inbound_parameters = arguments;
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             //function remove(parameters, str){
             var length;
             if (parameters.length === undefined) {
@@ -908,8 +904,8 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
     // the key is missing in the data, but found in the rightparameters
     exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, defaults_object, filter_object, deleteflag) {
+        var inbound_parameters = arguments;
         // try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             proxyprinttodiv("tolowerparameters parameters", parameters, 88);
             proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
             proxyprinttodiv("tolowerparameters filter_object", filter_object, 88);
@@ -1209,7 +1205,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     };
 
     exports.isObject = isObject = function isObject(obj) {
-        return obj === Object(obj);
+        return obj !== null && typeof obj === 'object';
     };
 
     exports.isFunction = isFunction = function isFunction(obj) {
@@ -1261,7 +1257,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     };
 
     exports.debugfn = debugfn = function debugfn() {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if (exports.environment !== 'local') {
             return;
         }
@@ -1568,7 +1563,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     }; // End of debugfn
 
     function store_to_google(indebugname, google_object) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         if (exports.environment === "local") {
             $('#name').val(indebugname);
             $('#comment').val(JSON.stringify(google_object));
@@ -1584,7 +1578,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     }
 
     var deepDiffMapper = function () {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         return {
             VALUE_CREATED: 'created',
             VALUE_UPDATED: 'updated',
@@ -1647,7 +1640,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     }();
 
     exports.syntaxHighlight = syntaxHighlight = function syntaxHighlight(json) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
             var cls = 'number';
@@ -2266,7 +2258,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     };
 
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             if (database && JSON.stringify(database) !== "{}") {
                 addToLocalStorage("DRIKEY", database);
                 var this_string = "[";
@@ -2293,7 +2284,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     };
 
     exports.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
             delete inputWidgetObject['executethis'];
             proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
@@ -2371,7 +2361,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     };
 
     exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var outobject = {};
             var db = "data";
             if (command && command.db) {
