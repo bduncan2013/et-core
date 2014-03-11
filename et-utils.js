@@ -1388,7 +1388,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // Adds the key of object2 to object 1
     exports.jsonConcat = jsonConcat = function jsonConcat(o1, o2) {
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             var clonedObject = {};
             extend(true, clonedObject, o1); // clone received params
 
@@ -1412,7 +1411,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // Returns if o is a string or not
     exports.isString = isString = function isString(o) {
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             return typeof o == "string" || (typeof o == "object" && o.constructor === String);
         } // end try
         catch (err) {
@@ -1428,7 +1426,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     // Returns true if the val is an int, or false
     exports.isInteger = isInteger = function isInteger(val) {
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             return val.match(/^[0-9]$/);
         } // end try
         catch (err) {
@@ -1443,7 +1440,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     exports.isSet = isSet = function isSet(val) {
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             if ((val != undefined) && (val != null)) {
                 return true;
             }
@@ -1466,7 +1462,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     exports.isArray = isArray = function isArray(obj) { //nativeIsArray
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             return toString.call(obj) == '[object Array]';
         } // end try
         catch (err) {
@@ -1481,7 +1476,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     exports.isObject = isObject = function isObject(obj) {
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             return obj === Object(obj);
         } // end try
         catch (err) {
@@ -1496,7 +1490,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     exports.isFunction = isFunction = function isFunction(obj) {
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             return typeof obj === 'function';
         } // end try
         catch (err) {
@@ -1511,7 +1504,6 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
 
     exports.isJson = isJson = function isJson(str) {
         try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             try {
                 JSON.parse(str);
             } catch (e) {
