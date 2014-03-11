@@ -458,14 +458,25 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
 
     // convert to dri format before saving
     offlineaddtomongo(converttodriformat(inputObject), command, function (err, results) {
-        proxyprinttodiv('Function updatewid in : x', results, 10);
-
-        debugfn("updatewid code generator", "offlineupdatewid", "", "code", 2, 1, {
-            0: originalarguments,
-            1: results
-            // 2: executionid
-        }, 6);
-        callback(null, results);
+        // If error, bounce out
+        if (err && Object.keys(err).length > 0) {
+            callback(err, results);
+        } else {
+            try {
+                proxyprinttodiv('Function updatewid in : x', results, 10);
+                debugfn("updatewid code generator", "offlineupdatewid", "", "code", 2, 1, {
+                    0: originalarguments,
+                    1: results
+                    // 2: executionid
+                }, 6);
+                callback(null, results);
+            } // end try
+            catch (err) {
+                var finalobject = 
+                    createfinalobject({"result": "offlineaddtomongo"}, {}, "offlineaddtomongo", err, inbound_parameters);
+                callback (finalobject.err, finalobject.res);
+            }
+        } // end else
     });
     } // end try
     catch (err) {
