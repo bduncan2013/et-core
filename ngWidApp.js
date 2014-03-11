@@ -1,5 +1,9 @@
 if(!exports){ var exports = {}; }
 
+// call eventdeviceready from config to see if app needs to be installed
+// call outside controller so it happens first
+eventdeviceready();
+
 //<editor-fold desc="App, Factories, and Directives">
 
 if (typeof angular !== 'undefined') {
@@ -592,7 +596,16 @@ if (typeof angular !== 'undefined') {
                 if (screenWid.command.htmltargetid) { targetElement = $('#' + screenWid.command.htmltargetid); }
 
                 // clear html from element if specified
-                if (screenWid.command.htmlcleartargetid) { $('#' + screenWid.command.htmlcleartargetid).html(''); }
+                if (screenWid.command.htmlcleartargetid) {
+                    if (screenWid.command.htmlcleartargetid === 'body') {
+                        $('body').html('');
+
+                        // call new page event in config-local
+                        eventnewpage();
+                    } else {
+                        $('#' + screenWid.command.htmlcleartargetid).html('');
+                    }
+                }
             }
 
             scope.$apply(function() {
