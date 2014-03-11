@@ -533,7 +533,8 @@
                             proxyprinttodiv("GetWidMongo start processOverride", parameterobject, 99);
                             // list of overrides to get
                             var overrides = parameterobject.metadata.inherit.override;
-                            delete parameterobject.metadata.inherit;
+                            // TODO determine if this needs to be deleted
+                            delete parameterobject.metadata.inherit.override;
                             var overrideData = [];
                             
                             // make a seperate getwidmaster call for each override to collect all the override data                        
@@ -556,8 +557,8 @@
                                 overrideData.forEach(function (element, index, array) {
                                     proxyprinttodiv("GetWidMongo -- override! --", element, 99);
                                     // TODO remove these
-                                    delete element.metadata;
-                                    delete element.wid;
+                                    // delete element.metadata;
+                                    // delete element.wid;
                                     extend(true, parameterobject, element);
                                 });
                                 proxyprinttodiv("GetWidMongo override processing done", parameterobject, 99);
@@ -565,6 +566,51 @@
                             }); // end async
                         } else {
                             proxyprinttodiv("GetWidMongo no override to process", parameterobject, 99);
+                            cb(null);
+                        }
+                    },
+                    // *** Default ***
+                    // Date: 11 MAR 14
+                    // Purpose: Looks at the current object and determines if we need to grab new data and add additional properties
+                    function processDefault(cb){
+                        if(command.getwidmaster.convertmethod !== "dto" && Object.keys(parameterobject).length != 0 &&
+                            parameterobject.metadata && parameterobject.metadata.inherit && parameterobject.metadata.inherit.default) {
+                                
+                            proxyprinttodiv("GetWidMongo start processDefault", parameterobject, 99);
+                            // list of defaults to get
+                            var defaults = parameterobject.metadata.inherit.default;
+                            // delete parameterobject.metadata.inherit;
+                            var defaultData = [];
+                            
+                            // make a seperate getwidmaster call for each defaultwid to collect all the default data                        
+                            async.mapSeries(defaults, function (defaultToGet, cbMap) {
+                                // next tick?
+                                execute({
+                                    "executethis": "getwidmaster",
+                                    "wid": defaultToGet,
+                                    "command.getwidmaster.convertmethod":"nowid",
+                                    "command.getwidmaster.dtotype":""
+                                }, function (err, res) {
+                                    proxyprinttodiv('In process default got additional default data', res, 99);
+                                    // need 0 check on res
+                                    defaultData.push(res[0]);
+                                    // extend?
+                                    cbMap(null);
+                                });
+                            }, function (err, res) {
+                                // iterate over the default data and default the parameterobject with it
+                                defaultData.forEach(function (element, index, array) {
+                                    proxyprinttodiv("GetWidMongo -- default! --", element, 99);
+                                    // TODO remove these
+                                    delete element.metadata;
+                                    delete element.wid;
+                                    parameterobject = extend(true, element, parameterobject);
+                                });
+                                proxyprinttodiv("GetWidMongo default processing done", parameterobject, 99);
+                                cb(null);
+                            }); // end async
+                        } else {
+                            proxyprinttodiv("GetWidMongo no default to process", parameterobject, 99);
                             cb(null);
                         }
                     },
