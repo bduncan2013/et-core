@@ -753,8 +753,8 @@
 
         async.mapSeries(howToDoList, function (h, cbMapH) {
             async.nextTick(function() {
-                proxyprinttodiv("executelist begin how howallowexecute ", howallowexecute, 99);
-                proxyprinttodiv("dothis - h ", h, 99);
+                proxyprinttodiv("executelist begin how howallowexecute ", howallowexecute, 11);
+                proxyprinttodiv("dothis - h ", h, 11);
                 howToDo = h['dothis']; // get specific howToDo from list
                 howToDoParams = h['params']; // get params that were stored
                 if ((howToDoParams === undefined) || (howToDoParams === "")) {
@@ -778,7 +778,7 @@
                     async.nextTick(function() {
                         proxyprinttodiv("execute - I howallowexecute", howallowexecute, 11);
                         proxyprinttodiv("execute - I whatexecuteorder", whatallowexecute, 11);
-                        proxyprinttodiv("execute - w", w, 99);
+                        proxyprinttodiv("execute - w", w, 11);
                         if (w[howToDo]) {
                             whatToDo = w[howToDo]; // try to get specific config for whatToDo
                         } else {
@@ -799,17 +799,17 @@
                         }
                         whatexecuteorder = w.executeorder;
 
-                        proxyprinttodiv("executelist end what howallowexecute ", howallowexecute, 99);
-                        proxyprinttodiv("executelist end what whatallowexecute ", whatallowexecute, 99);
+                        proxyprinttodiv("executelist end what howallowexecute ", howallowexecute, 11);
+                        proxyprinttodiv("executelist end what whatallowexecute ", whatallowexecute, 11);
                         //debugfn("executelist", "executelist", "execute", "mid", debugcolor, debugindent, debugvars([1, 2, 3]));
 
                         if ((howallowexecute) && (whatallowexecute)) { //if both allowed to execute
                             getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn,
                                 function (err, executeobject) {
                                     // always will get something back, even if errorfn...so always execute and store resutls
-                                    proxyprinttodiv("executelist executeobject: ", executeobject, 99);
-                                    proxyprinttodiv("executelist executeobject.params: ", executeobject.params, 99);
-                                    proxyprinttodiv("executelist executeobject.targetfn: ", String(executeobject.targetfn), 99);
+                                    proxyprinttodiv("executelist executeobject: ", executeobject, 11);
+                                    proxyprinttodiv("executelist executeobject.params: ", executeobject.params, 11);
+                                    proxyprinttodiv("executelist executeobject.targetfn: ", String(executeobject.targetfn), 11);
                                     if (typeof executeobject.targetfn === 'function') { // there was a chance of a non function getting in here -- Joe
                                         authcall(executeobject.params, function (err, securitycheck) {
                                             err = null; // Do not leave in the code
@@ -817,8 +817,8 @@
                                                 executeobject.targetfn(executeobject.params, function (err, res) {
 
                                                     proxyprinttodiv("executelist err from execution ", err, 11);
-                                                    proxyprinttodiv("executelist result from execution ", res, 99);
-                                                    proxyprinttodiv("executelist result from execution executeobject", executeobject.executeflag, 99);
+                                                    proxyprinttodiv("executelist result from execution ", res, 11);
+                                                    proxyprinttodiv("executelist result from execution executeobject", executeobject.executeflag, 11);
 
                                                     // This section helps control the iteration -- Joe
                                                     // ***********************************************
@@ -828,7 +828,7 @@
                                                     if (executeobject.executeflag === true) {
                                                         if ((res === undefined)
                                                             || (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
-                                                            proxyprinttodiv("Try again hit wit res", res, 99);
+                                                            proxyprinttodiv("Try again hit wit res", res, 11);
                                                             whatallowexecute = true;
                                                             howallowexecute = true;
                                                             executeobject.executeflag = false;
@@ -980,7 +980,7 @@
 
 
             case "server":
-                proxyprinttodiv("execute server hit!", params, 99);
+                proxyprinttodiv("execute server hit!", params, 11);
                 targetfn = window["server"];
                 params['executethis'] = whatToDo;
                 break;
