@@ -552,16 +552,41 @@
                                     cbMap(null);
                                 });
                             }, function (err, res) {
-                                // iterate over the override data and override the parameterobject with it
-                                overrideData.forEach(function (element, index, array) {
-                                    proxyprinttodiv("GetWidMongo -- override! --", element, 38);
-                                    // TODO remove these
-                                    delete element.metadata;
-                                    delete element.wid;
-                                    extend(true, parameterobject, element);
-                                });
-                                proxyprinttodiv("GetWidMongo override processing done", parameterobject, 38);
-                                cb(null);
+// <<<<<<< HEAD
+//                                 // iterate over the override data and override the parameterobject with it
+//                                 overrideData.forEach(function (element, index, array) {
+//                                     proxyprinttodiv("GetWidMongo -- override! --", element, 38);
+//                                     // TODO remove these
+//                                     delete element.metadata;
+//                                     delete element.wid;
+//                                     extend(true, parameterobject, element);
+//                                 });
+//                                 proxyprinttodiv("GetWidMongo override processing done", parameterobject, 38);
+//                                 cb(null);
+// =======
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    // callback(err, results);
+                                    callback(err, res);
+                                } else {
+                                    try {
+                                        // iterate over the override data and override the parameterobject with it
+                                        overrideData.forEach(function (element, index, array) {
+                                            proxyprinttodiv("GetWidMongo -- override! --", element, 99);
+                                            // TODO remove these
+                                            delete element.metadata;
+                                            delete element.wid;
+                                            extend(true, parameterobject, element);
+                                        });
+                                        proxyprinttodiv("GetWidMongo override processing done", parameterobject, 99);
+                                        cb(null);
+                                    }
+                                    catch (err) {
+                                        var finalobject = createfinalobject({"result": "getWidMongo_processoverride_execute_II"}, {}, "getWidMongo_processoverride_execute_II", err, res);
+                                        callback(finalobject.err, finalobject.res);
+                                    }
+                                }
+// >>>>>>> eea290576466c63cb256fdebc4de5dc73ef0836d
                             }); // end async
                         } else {
                             proxyprinttodiv("GetWidMongo no override to process", parameterobject, 38);
