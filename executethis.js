@@ -754,7 +754,7 @@
         async.mapSeries(howToDoList, function (h, cbMapH) {
             async.nextTick(function() {
                 proxyprinttodiv("executelist begin how howallowexecute ", howallowexecute, 11);
-                proxyprinttodiv("dothis - h ", h, 18);
+                proxyprinttodiv("dothis - h ", h, 11);
                 howToDo = h['dothis']; // get specific howToDo from list
                 howToDoParams = h['params']; // get params that were stored
                 if ((howToDoParams === undefined) || (howToDoParams === "")) {
@@ -818,6 +818,7 @@
 
                                                     proxyprinttodiv("executelist err from execution ", err, 11);
                                                     proxyprinttodiv("executelist result from execution ", res, 11);
+                                                    proxyprinttodiv("executelist result from execution executeobject", executeobject.executeflag, 11);
 
                                                     // This section helps control the iteration -- Joe
                                                     // ***********************************************
@@ -826,7 +827,8 @@
 
                                                     if (executeobject.executeflag === true) {
                                                         if ((res === undefined)
-                                                            || (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) { // may be issues with empty object
+                                                            || (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
+                                                            proxyprinttodiv("Try again hit wit res", res, 11);
                                                             whatallowexecute = true;
                                                             howallowexecute = true;
                                                             executeobject.executeflag = false;
@@ -839,14 +841,14 @@
                                                         execute(res, function (err, res) {
                                                             // if executegetwid then execute with the results
                                                             outputResultsArr.push(res);
-                                                            // cbMapW(null, "What Iteration");
-                                                            cbMapW(err, "What Iteration");
+                                                            cbMapW(null, "What Iteration");
+                                                            // cbMapW(err, "What Iteration");
                                                         });
                                                     } else {
                                                         // executeflag=false
                                                         outputResultsArr.push(res);
-                                                        // cbMapW(null, "What Iteration");
-                                                        cbMapW(err, "What Iteration");
+                                                        cbMapW(null, "What Iteration");
+                                                        //cbMapW(err, "What Iteration");
                                                     }
                                                 });
                                             } else {
@@ -854,6 +856,7 @@
                                                 callback(err, {
                                                     'etstatus': 'unauthorized call.'
                                                 });
+                                                cbMapW(null, "What Iteration");
                                             }
                                         });
 
@@ -888,8 +891,8 @@
                 function (err, res) {
                     proxyprinttodiv("executelist end of what outputResultsArr ", outputResultsArr, 11);
 
-                    // cbMapH(null, "How Iteration");
-                    cbMapH(err, "How Iteration");
+                    cbMapH(null, "How Iteration");
+                    // cbMapH(err, "How Iteration");
                     //console.log(' completed whatToDoList iteration in sync fashion.');
                 });
 
@@ -977,6 +980,7 @@
 
 
             case "server":
+                proxyprinttodiv("execute server hit!", params, 11);
                 targetfn = window["server"];
                 params['executethis'] = whatToDo;
                 break;
