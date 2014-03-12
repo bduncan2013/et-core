@@ -139,72 +139,72 @@
 
             getdtoobject(object, command, function (err, res) {
 // <<<<<<< HEAD
-                dtoobject = res;
-                proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
+//                 dtoobject = res;
+//                 proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
 
-                var dto_to_get;
-                var big_dto = {};
-                var result_obj = {};
-                var output = {};
+//                 var dto_to_get;
+//                 var big_dto = {};
+//                 var result_obj = {};
+//                 var output = {};
 
-                output.obj = object;
-                output.dtoobj = dtoobject;
-                dto_to_get = res['metadata']['method'];
-                if (dto_to_get !== "string") {
-                    proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 17);
-                    execute({
-                        "executethis": "getwidmaster",
-                        "wid": dto_to_get,
-                        "command.getwidmaster.execute": "ConvertFromDOTdri",
-                        "command.getwidmaster.convertmethod": "dto"
-                    }, function (err, res) {
-                        // If error, bounce out
-                        if (err && Object.keys(err).length > 0) {
-                            callback(err, res);
-                        } else {
-                            //
-                            proxyprinttodiv("cleanadd after execute", res, 17);
+//                 output.obj = object;
+//                 output.dtoobj = dtoobject;
+//                 dto_to_get = res['metadata']['method'];
+//                 if (dto_to_get !== "string") {
+//                     proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 17);
+//                     execute({
+//                         "executethis": "getwidmaster",
+//                         "wid": dto_to_get,
+//                         "command.getwidmaster.execute": "ConvertFromDOTdri",
+//                         "command.getwidmaster.convertmethod": "dto"
+//                     }, function (err, res) {
+//                         // If error, bounce out
+//                         if (err && Object.keys(err).length > 0) {
+//                             callback(err, res);
+//                         } else {
+//                             //
+//                             proxyprinttodiv("cleanadd after execute", res, 17);
 
-                            big_dto = res[0];
-                            result_obj = insertbydtotype(object, big_dto, {}, command); // this fn in et-get
-                            proxyprinttodiv("cleanadd after insertbydtotype", result_obj, 17);
-                            //command.deepfilter.convert="fromstring"; not needed since done in addwid anyway
-                            if (!command) {
-                                command = {};
-                            }
-                            if (!command.deepfilter) {
-                                command.deepfilter = {};
-                            }
-                            if (!command.deepfilter.convert) {
-                                command.deepfilter.convert = false;
-                            }
-                            deepfilter(result_obj, dtoobject, command, function (err, result_obj) {
+//                             big_dto = res[0];
+//                             result_obj = insertbydtotype(object, big_dto, {}, command); // this fn in et-get
+//                             proxyprinttodiv("cleanadd after insertbydtotype", result_obj, 17);
+//                             //command.deepfilter.convert="fromstring"; not needed since done in addwid anyway
+//                             if (!command) {
+//                                 command = {};
+//                             }
+//                             if (!command.deepfilter) {
+//                                 command.deepfilter = {};
+//                             }
+//                             if (!command.deepfilter.convert) {
+//                                 command.deepfilter.convert = false;
+//                             }
+//                             deepfilter(result_obj, dtoobject, command, function (err, result_obj) {
 // =======
 
-//                 // If error, bounce out
-//                 if (err && Object.keys(err).length > 0) {
-//                     callback(err, res);
-//                 } else {
-//                     try {
-//                         dtoobject = res;
-//                         proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 99);
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, res);
+                } else {
+                    try {
+                        dtoobject = res;
+                        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 99);
 
-//                         var dto_to_get;
-//                         var big_dto = {};
-//                         var result_obj = {};
-//                         var output = {};
+                        var dto_to_get;
+                        var big_dto = {};
+                        var result_obj = {};
+                        var output = {};
 
-//                         output.obj = object;
-//                         output.dtoobj = dtoobject;
-//                         dto_to_get = res['metadata']['method'];
-//                         if (dto_to_get !== "string") {
-//                             proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 17);
-//                             execute({
-//                                 "executethis": "getwidmaster",
-//                                 "wid": dto_to_get,
-//                                 "command.getwidmaster.execute": "ConvertFromDOTdri",
-//                                 "command.getwidmaster.convertmethod": "dto"
-//                             }, function (err, res) {
+                        output.obj = object;
+                        output.dtoobj = dtoobject;
+                        dto_to_get = res['metadata']['method'];
+                        if (dto_to_get !== "string") {
+                            proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 17);
+                            execute({
+                                "executethis": "getwidmaster",
+                                "wid": dto_to_get,
+                                "command.getwidmaster.execute": "ConvertFromDOTdri",
+                                "command.getwidmaster.convertmethod": "dto"
+                            }, function (err, res) {
 // >>>>>>> eea290576466c63cb256fdebc4de5dc73ef0836d
                                 // If error, bounce out
                                 if (err && Object.keys(err).length > 0) {
