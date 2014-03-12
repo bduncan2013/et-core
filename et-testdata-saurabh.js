@@ -12,6 +12,141 @@
 
 
 (function (window) {
+    // takes in needed details and does a security check on the basis of data received against the DB data received
+    // user is identified by the access token
+    // db says which DB to be used
+    // actiongroup says the type of wid the action is being tried upon
+    // targetaction is the action being executed on the wid
+    exports.testsecurity = testsecurity = function testsecurity(_accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel, callback) {
+        securitycheck(_accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel, function (err, res) {
+            proxyprinttodiv('Function testsecurity done --  >>>>>>  >>>>>  for  securitycheck response -- ', res, 35);
+            callback(err, res)
+        });
+    }
+
+    // receive an array of arrays -- each inner array contains permission data
+    // create permissions for each
+    // array passed in will be of format 
+    // [
+    //     ["cody", "driemployee", "getwidmaster", "execute", "data", 99],
+    //     ["cody", "drimanager", "addwidmaster", "execute", "data", 99],
+    //     ["roger", "drimanager", "addwidmaster", "execute", "data", 99],
+    //     ["cody", "cody", "getwidmaster", "execute", "data", 99]
+    // ]
+
+    function createpermissiondata(arr, cb) {
+        async.mapSeries(arr, function (item, cbMap) {
+            async.nextTick(function () {
+                // addpermission -- add permission --- 
+                // "execute" actiontype  ,for group "driemployee", for action "getwidmaster", for "data"
+                addpermission(item[0], item[1], item[2], item[3], item[4], item[5], function (err, res) {
+                    proxyprinttodiv('Function createpermissiondata addpermission --  ' + item[0] + ' user  ,' + item[3] + ' actiontype  ,for group ' + item[1] + ', for action ' + item[2] + ', for ' + item[4] + ' db  ,' + item[5] + ' loginlevel  ,', res, 39);
+                    cbMap(null);
+                });
+            });
+        }, function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                cb(err, res);
+            } else {
+                cb(null, res);
+            }
+        });
+    }
+
+
+
+    // receive an array of arrays -- each inner array contains user data
+    // create userdto for each
+    // array passed in will be of format 
+    // [
+    // ["roger", "rogerac", 99],
+    // ["cody", "codyac", 99]
+    // ]
+
+    function createuserdata(arr, cb) {
+        async.mapSeries(arr, function (item, cbMap) {
+            async.nextTick(function () {
+
+                // create users -- create user 
+                createtestuser(item[0], item[1], item[2], function (err, res) {
+                    proxyprinttodiv('Function createuserdata creategroup -- ' + item[0], res, 39);
+                    cbMap(null);
+                });
+            });
+        }, function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                cb(err, res);
+            } else {
+                cb(null, res);
+            }
+        });
+    }
+
+    // receive an array of arrays -- each inner array contains group data
+    // create groups for each, and create associations for each item received
+    // arrays passed in will be of following format 
+    // grouparr
+    // var arrGroups = [
+    //     ["driemployee"], //group
+    //     ["drimanager"], //group
+    //     ["execute"], //actiontype
+    //     ["clean"], //actiontype
+    //     ["getwidmaster"], // action
+    //     ["addwidmaster"] // action
+    // ];
+    // // associationarr
+    // var arrAssociations = [
+    //     ["addwidmaster", "addwidmaster", "action"],
+    //     ["getwidmaster", "getwidmaster", "action"],
+    //     ["roger", "drimanager", "group"],
+    //     ["roger", "driemployee", "group"],
+    //     ["cody", "driemployee", "group"]
+    // ];
+
+    function creategroupdata(arrGroups, arrAssociations, cb) {
+        async.mapSeries(arrGroups, function (item, cbMap) {
+            async.nextTick(function () {
+                // create groups 
+                creategroup(item[0], function (err, res) {
+                    proxyprinttodiv('Function creategroupdata -- ' + item[0], res, 39);
+                    cbMap(null);
+                });
+            });
+        }, function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                cb(err, res);
+            } else {
+                // create group asociations
+                async.mapSeries(arrAssociations, function (item, cbMap1) {
+                    async.nextTick(function () {
+                        // add group to wid -- groupname to widname wid
+                        // wid,  groupname,grouptype, 
+                        addgrouptowid(item[0], item[1], item[2], function (err, res) {
+                            proxyprinttodiv('Function creategroupdata --  addgrouptowid added  group to wid -- ' + item[0] + ' to ' + item[1], res, 39);
+                            cbMap1(null);
+                        });
+                    });
+                }, function (err, res) {
+                    // If error, bounce out
+                    if (err && Object.keys(err).length > 0) {
+                        cb(err, res);
+                    } else {
+                        cb(null, res);
+                    }
+                });
+            }
+        });
+    }
+
+
+
+
+
+
+
     exports.freshgroups1 = freshgroups1 = function freshgroups1(parm, callback) {
         debuglevel = 39;
 
@@ -80,217 +215,165 @@
             });
     };
 
-    function createuserdata(cb) {
-        async.series([
-            function (cb1) {
-                // create users -- create user roger
-                createtestuser("roger", "rogerac", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- roger', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create users -- create user cody
-                createtestuser("cody", "codyac", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 createtestuser -- cody', res, 39);
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {
-            cb(err, res);
-        });
-    }
 
-    function creategroupdata(cb) {
-        async.series([
-            function (cb1) {
-                // create groups driemployee
-                creategroup("driemployee", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- driemployee', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create groups drimanager
-                creategroup("drimanager", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- group -- drimanager', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create groups  "execute"
-                creategroup("execute", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- actiontype -- execute', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create groups  "clean"
-                creategroup("clean", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- actiontype -- clean', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create groups action --  default_dto_read
-                creategroup("addwidmaster", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- addwidmaster', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create groups action --  getwidmaster
-                creategroup("getwidmaster", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- getwidmaster', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create groups db --  data
-                creategroup("data", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- data', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // add group to wid -- addwidmaster to addwidmaster wid
-                // wid, widmethod, groupname,grouptype, 
-                addgrouptowid("addwidmaster", "groupdto", "addwidmaster", "action", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addgrouptowid added  group to wid -- addwidmaster to addwidmaster', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // add group to wid -- getwidmaster to getwidmaster wid
-                addgrouptowid("getwidmaster", "groupdto", "getwidmaster", "action", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addgrouptowid added  group to wid -- getwidmaster to getwidmaster', res, 39);
-                    cb1(null);
-                });
-            },
 
-            function (cb1) {
-                // add group to wid -- drimanager to roger wid
-                addgrouptowid("roger", "userdto", "drimanager", "group", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addgrouptowid added  group to wid -- drimanager to roger', res, 39);
-                    cb1(null);
-                });
-            },
 
-            function (cb1) {
-                // add group to wid -- driemployee to roger wid
-                addgrouptowid("roger", "userdto", "driemployee", "group", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addgrouptowid added  group to wid --  driemployee  to roger', res, 39);
-                    cb1(null);
-                });
-            },
+    // create systemdtos
+    // create users
+    // creates wids
+    // we put users and put wids into groups
 
-            function (cb1) {
-                // add group to wid -- driemployee to cody wid
-                addgrouptowid("cody", "userdto", "driemployee", "group", function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addgrouptowid added  group to wid --  driemployee  to  cody', res, 39);
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {
-            cb(err, res);
-        })
-    }
+    // we create actiongroups, targetgroups,
 
-    function createpermissiondata(cb) {
-        async.series([
-            function (cb1) {
-                // addpermission -- add permission --- 
-                // "execute" actiontype  ,for group "driemployee", for action "getwidmaster", for "data"
-                addpermission("cody", "driemployee", "getwidmaster", "execute", "data", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addpermission --  "execute" actiontype  ,for group "driemployee", for action "getwidmaster", for "db" ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // addpermission -- add permission --- 
-                // "execute" actiontype  ,for group "drimanager", for action "addwidmaster", for "data"
-                //userwid, granteegroup, actiongroup, actiontypegroup, dbgroup, levelgroup, 
-                addpermission("cody", "drimanager", "addwidmaster", "execute", "data", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addpermission --  "execute" actiontype  ,for group "drimanager", for action "addwidmaster", for "db"', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // addpermission -- add permission --- 
-                // "execute" actiontype  ,for group "drimanager", for action "addwidmaster", for "data"
-                addpermission("roger", "drimanager", "addwidmaster", "execute", "data", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addpermission --  "execute" actiontype  ,for group "drimanager", for action "addwidmaster", for "data" ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // addpermission -- add permission --- 
-                // "execute" actiontype  ,for group "driemployee", for action "getwidmaster", for "data"
-                addpermission("cody", "cody", "getwidmaster", "execute", "data", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 addpermission --  "execute" actiontype  ,for group "driemployee", for action "getwidmaster", for "db" ', res, 39);
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {
-            cb(err, res);
-        });
-    }
+    // we put groups insdie of groups
+    // we add permissions
+    // we test
+    // var status = false;
+    exports.ettestsec1 = ettestsec1 = function ettestsec1(parm, callback) {
 
-    exports.st2 = st2 = function st2(parm, callback) {
-
-        // create users
-        // creates wids
-        // we put users and put wids into groups
-
-        // we create actiongroups, targetgroups,
-
-        // we put groups insdie of groups
-        // we add permissions
-        // we test
-        // var status = false;
         debuglevel = 39;
+        // users data
+        var arrUsers = [
+            ["roger", "rogerac", 99],
+            ["cody", "codyac", 99]
+        ];
+        // groups data
+        var arrGroups = [
+            ["driemployee"], //group
+            ["drimanager"], //group
+            ["execute"], //actiontype
+            ["clean"], //actiontype
+            ["getwidmaster"], // action
+            ["addwidmaster"] // action
+        ];
+        // group associations data
+        var arrAssociations = [
+            ["addwidmaster", "addwidmaster", "action"],
+            ["getwidmaster", "getwidmaster", "action"],
+            ["roger", "drimanager", "group"],
+            ["roger", "driemployee", "group"],
+            ["cody", "driemployee", "group"]
+        ];
+        // permissions data
+        var arrPermissions = [
+            ["cody", "driemployee", "getwidmaster", "execute", "data", 99],
+            ["cody", "drimanager", "addwidmaster", "execute", "data", 99],
+            ["roger", "drimanager", "addwidmaster", "execute", "data", 99],
+            ["cody", "cody", "getwidmaster", "execute", "data", 99]
+        ];
+
+        /// CHANGE VALUES ABOVE FOR TESTING SECURITY. DO NOT EDIT THE BELOW PARTS OF THIS FUNCTIONS
+
+
+        // user details
+        userObj = {};
+        userObj['userAc'] = "codyac";
+        userObj['userGroup'] = undefined;
+        userObj['actiongroup'] = "addwidmaster";
+        userObj['actiontypegroup'] = "execute";
+        userObj['dbgroup'] = "data";
+        userObj['loginlevel'] = 99;
+
+        /// CHANGE VALUES ABOVE FOR TESTING SECURITY. DO NOT EDIT THE BELOW PARTS OF THIS FUNCTIONS
+
+        checkSecurityForUser(arrUsers, arrAssociations, arrGroups, arrPermissions, userObj, callback);
+    }
+
+
+
+     exports.ettestsec2 = ettestsec2 = function ettestsec2(parm, callback) {
+
+        debuglevel = 39;
+        // users data
+        var arrUsers = [
+            ["saurabh", "saurabhac", 50],
+            ["cody", "codyac", 99]
+        ];
+        // groups data
+        var arrGroups = [
+            ["driemployee"], //group
+            ["lessergroup"], //group
+            ["execute"], //actiontype
+            ["clean"], //actiontype
+            ["getwidmaster"], // action
+            ["addwidmaster"] // action
+        ];
+        // group associations data
+        var arrAssociations = [
+            ["addwidmaster", "addwidmaster", "action"],
+            ["getwidmaster", "getwidmaster", "action"],
+            ["saurabh", "lessergroup", "group"],
+            // ["saurabh", "driemployee", "group"],
+            ["cody", "driemployee", "group"]
+        ];
+        // permissions data
+        var arrPermissions = [
+            ["cody", "driemployee", "getwidmaster", "execute", "data", 99],
+            ["cody", "lessergroup", "addwidmaster", "execute", "data", 99],
+            ["saurabh", "lessergroup", "addwidmaster", "execute", "data", 50],
+            ["cody", "cody", "getwidmaster", "execute", "data", 99]
+        ];
+
+        /// CHANGE VALUES ABOVE FOR TESTING SECURITY. DO NOT EDIT THE BELOW PARTS OF THIS FUNCTIONS
+
+
+        // user details
+        userObj = {};
+        userObj['userAc'] = "saurabhac";
+        userObj['userGroup'] = undefined;
+        userObj['actiongroup'] = "addwidmaster";
+        userObj['actiontypegroup'] = "execute";
+        userObj['dbgroup'] = "data";
+        userObj['loginlevel'] = 50;
+
+        /// CHANGE VALUES ABOVE FOR TESTING SECURITY. DO NOT EDIT THE BELOW PARTS OF THIS FUNCTIONS
+
+        checkSecurityForUser(arrUsers, arrAssociations, arrGroups, arrPermissions, userObj, callback);
+    }
+
+
+
+
+
+
+
+    function checkSecurityForUser(arrUsers, arrAssociations, arrGroups, arrPermissions, userObj, callback) {
+
 
         async.series([
                 function (cb1) {
                     // creste schema data
                     createsystemdtos({}, function (err, res) {
-                        proxyprinttodiv('Function  st2  added schema dtos ', res, 39);
+                        proxyprinttodiv('Function  ettestsec1  added schema dtos ', res, 39);
                         cb1(null);
                     });
                 },
                 function (cb1) {
                     // setup user data
-                    createuserdata(function (err, res) {
-                        proxyprinttodiv('Function  st2  added user data ', res, 39);
+
+                    createuserdata(arrUsers, function (err, res) {
+                        proxyprinttodiv('Function  ettestsec1  added user data ', res, 39);
                         cb1(null);
                     });
                 },
                 function (cb1) {
                     // setup groups data
-                    creategroupdata(function (err, res) {
-                        proxyprinttodiv('Function  st2  added groups ', res, 39);
+                    creategroupdata(arrGroups, arrAssociations, function (err, res) {
+                        proxyprinttodiv('Function  ettestsec1  added groups ', res, 39);
                         cb1(null);
                     });
                 },
                 function (cb1) {
                     // setup permission data
-                    createpermissiondata(function (err, res) {
-                        proxyprinttodiv('Function  st2  added permissions ', res, 39);
+                    createpermissiondata(arrPermissions, function (err, res) {
+                        proxyprinttodiv('Function  ettestsec1  added permissions ', res, 39);
                         cb1(null);
                     });
                 },
-                // function (cb1) {
-                //     // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
-                //     testsecurity("codyac", undefined, "getwidmaster", "execute", "data", 99, function (err, res) {
-                //         proxyprinttodiv('Function  st2 fresh1 testsecurity --  "codyac" execute actiontype  , for action "getwidmaster", for "db"', res, 39);
-                //         status = res;
-                //         cb1(null);
-                //     });
-                // },
                 function (cb1) {
                     // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
-                    testsecurity("rogerac", undefined, "addwidmaster", "execute", "data", 99, function (err, res) {
-                        proxyprinttodiv('Function  st2 fresh1 testsecurity --  "rogerac" execute actiontype  , for action "addwidmaster", for "db"', res, 39);
+                    testsecurity(userObj['userAc'], userObj['userGroup'], userObj['actiongroup'], userObj['actiontypegroup'], userObj['dbgroup'], userObj['loginlevel'], function (err, res) {
+                        proxyprinttodiv('Function  ettestsec1 testsecurity --  '+userObj['userAc']+' execute '+userObj['actiontypegroup']+'   , for action '+userObj['actiongroup']+' , for '+userObj['dbgroup']+' ', res, 39);
                         status = res;
                         cb1(null);
                     });
@@ -298,11 +381,18 @@
             ],
 
             function (err, res) {
-                console.log('Function st2 fresh 1 -- add data and test --  ' + JSON.stringify(res));
-
-                callback(err, res === "true");
+                console.log('Function ettestsec1 -- add data and test --  ' + JSON.stringify(res));
+                callback(err, status === "true");
             });
+
+
     }
+
+
+
+
+
+
 
 
 
@@ -321,8 +411,7 @@
     // metadata.inherit.default    [defaultactionset, ]
 
     function initialize(cb) {
-        var elementaryDtosSetup = [
-         {
+        var elementaryDtosSetup = [{
             //viewdto
             "executethis": "addwidmaster",
             "metadata.method": "viewdto",
@@ -343,7 +432,7 @@
             "inherit.override": "dtooverride",
             "inherit.default": "dtodefault",
             "html": ""
-        },{
+        }, {
             //interfacedto
             "executethis": "addwidmaster",
             "metadata.method": "interfacedto",
@@ -352,8 +441,7 @@
             "manytoone": "viewdto",
             "manytoone": "basedto",
             "manytoone": "backdto"
-        },
-        {
+        }, {
             //dtodefault
             "executethis": "addwidmaster",
             "metadata.method": "dtodefault",
@@ -390,26 +478,52 @@
         }];
     }
 
-    function createuserdata(cb) {
-        async.series([
-            function (cb1) {
-                // create users -- create user roger
-                createtestuser("roger", "rogerac", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- roger', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create users -- create user cody
-                createtestuser("cody", "codyac", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 createtestuser -- cody', res, 39);
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {
-            cb(err, res);
-        });
+    // creates test data for different tests to be run :: generates data and adds a new user 
+    exports.createtestuser = createtestuser = function createtestuser(userwid, ac, loginlevel, cb2) {
+
+        execute([{
+                // add user 
+                "executethis": "addwidmaster",
+                "metadata.method": "userdto",
+                // "metadata.owner": "system",
+                "wid": userwid,
+                "fname": "john",
+                "lname": "doe",
+                "email": "jj@gmail.com",
+                "email2": "",
+                "address": "123 pleasant lane",
+                "address2": "apt 101",
+                "city": "Pleasantville",
+                "state": "Florida",
+                "zip": "26539",
+                // security data
+                "systemdto.securitydto.logged_id": "true",
+                "systemdto.securitydto.accesstoken": ac,
+                "systemdto.securitydto.level": loginlevel,
+                // category data
+                "systemdto.categorydto.categorytype": "categorytype",
+                "systemdto.categorydto.categoryname": "categoryname",
+
+            }],
+            function (err, res) {
+                proxyprinttodiv('Function createtestuser done --  >>>>>> added user >>>>>  for  -- ' + userwid, res, 35);
+                // addsecurity(userwid, true, ac, loginlevel, function (err, res1) {
+                //     proxyprinttodiv('Function addsecurity done --  >>>>>> added security >>>>>  for  -- ' + userwid, res1, 35);
+                //     addcategory(userwid, true, "categoryname", function (err, res2) {
+                //         proxyprinttodiv('Function addcategory --  >>>>>> added category >>>>> for   -- ' + userwid, res2, 35);
+
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": userwid
+                }, function (err, res3) {
+                    proxyprinttodiv('Function createtestuser --  >>>>>> FINAL USER >>>>>    -- ' + userwid, res3, 35);
+                    cb2(err, res3);
+                })
+                //     });
+                // });
+            });
     }
+
 
 
     // data 

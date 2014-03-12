@@ -63,6 +63,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
     }
 };
 
+
 // logic to get things from localStore object
 exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     try {
@@ -116,54 +117,51 @@ exports.clearLocal = clearLocal = function clearLocal() {
 };
 
 
-
-exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone) {
+exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
     try {
-        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
-            printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
-            // console.log(text);
-            // console.log(obj);
-            if (document.getElementById('divprint')) {
-                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
-            }
+
+    if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+        printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+        if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>'};
+        // console.log(text);
+        // console.log(obj);
+        if (document.getElementById('divprint')) {
+            document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
         }
+    }
     } // end try
     catch (err) {
         //callback ({"status":"there was an error"}, {"function":"printToDiv"});  
-        var finalobject = createfinalobject({
-            "result": "printToDiv"
-        }, {}, "printToDiv", err, inbound_parameters);
-        //callback(finalobject.err, finalobject.res);
+        var finalobject = createfinalobject({"result":"printToDiv"}, {}, "printToDiv", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
     }
 };
 
-exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone) { // **** making code node compatible
+exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone, pretty) { // **** making code node compatible
     try {
-        if (!debugone) {
-            debugone = -1;
+    if (!debugone) {
+        debugone = -1;
+    }
+    if (exports.environment === "local") {
+        printToDiv(text, obj, debugone, pretty);
+    } else {
+        // if (true) {
+        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            debuglinenum++;
+            var tempobj = {};
+            tempobj["text"] = text;
+            tempobj["obj"] = obj;
+            tempobj["executethis"] = "printdiv";
+            addtolocal(debuglinenum, tempobj)
         }
-        if (exports.environment === "local") {
-            printToDiv(text, obj, debugone);
-        } else {
-            // if (true) {
-            if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
-                debuglinenum++;
-                var tempobj = {};
-                tempobj["text"] = text;
-                tempobj["obj"] = obj;
-                tempobj["executethis"] = "printdiv";
-                addtolocal(debuglinenum, tempobj)
-            }
-        }
+    }
     } // end try
     catch (err) {
         //callback ({"status":"there was an error"}, {"function":"proxyprinttodiv"});        
-        var finalobject = createfinalobject({
-            "result": "proxyprinttodiv"
-        }, {}, "proxyprinttodiv", err, inbound_parameters);
-        //callback(finalobject.err, finalobject.res);
-    }
-};
+        var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
+        callback(finalobject.err, finalobject.res);
+    }   
+}
 
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
@@ -568,15 +566,6 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 }
 
 
-// logic to add things to localStore object
-exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
-    if (!widobject) {
-        widobject = {}
-    }
-    if (widName) {
-        localStore.push(widMasterKey + widName, widobject);
-    }
-};
 
 // // logic to get things from localStore object
 // exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
@@ -2840,6 +2829,12 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
         }
 
         return finalobject;
+    }
+
+    exports.convertdto2 = convertdto2 = function convertdto2(param, incomingkey, outgoingkey, incomingvalue, outgoingvalue) {
+        
+        // var dotformatjson = convertfromdriformat
+
     }
 })();
 

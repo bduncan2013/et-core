@@ -132,7 +132,7 @@
         try {
             getdtoobject(object, command, function (err, res) {
                 dtoobject = res;
-                proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 99);
+                proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
 
                 var dto_to_get;
                 var big_dto = {};

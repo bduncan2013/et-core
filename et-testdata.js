@@ -48,7 +48,26 @@
             callback(null);
         });
     }
-
+	
+exports.authortest1 = authortest1 = function authortest1(){
+	execute([{"executethis":"addwidmaster",
+			"wid":"bookdto",
+			"metadata.method":"bookdto",
+			"title":"string"},
+			
+			{"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"metadata.bookdto.type":"onetomany"},
+			
+			{"executethis":"addwidmaster",
+			"wid":"daniel",
+			"metadata.method":"authordto",
+			"name":"Daniel",
+			"bookdto.title":"House of Horrors"}]);
+}
+	
     exports.createactiondto = createactiondto = function createactiondto() {
         execute([{
             "executethis": "addwidmaster",
