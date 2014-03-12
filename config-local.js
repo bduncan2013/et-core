@@ -429,13 +429,13 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
                 if (inputWidgetObject['command.convertmethod'] === 'toobject') {
                     debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
                         0: inbound_parameters,
-                        1: ConvertFromDOTdri(convertedobject),
+                        1: ConvertFromDOTdri(convertedobject)
                     }, 6);
                     callback(null, ConvertFromDOTdri(convertedobject))
                 } else {
                     debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
                         0: inbound_parameters,
-                        1: convertedobject,
+                        1: convertedobject
                     }, 6);
                     callback(null, convertedobject);
                 }
