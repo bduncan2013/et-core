@@ -579,8 +579,21 @@ exports.server = window.server = server = function server(params, callback) {
     }
 };
 
-exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
-    params.actionQueryString = action;
+exports.getDriApiData = getDriApiData = function getDriApiData(params, callback) {
+    // set up object in syntax that driApi is expecting
+    // also get getdata/<action> action from params object
+    var driExecuteObj = {
+        actionQueryString:params.dri_action,
+        parameterDTOs:[]
+    };
+
+    // convert passed in object to parameterdto list
+    for (var prop in params) {
+        if (params.hasOwnProperty(prop)) {
+            driExecuteObj.parameterDTOs.push({ParameterName:prop,ParameterValue:params[prop]});
+        }
+    }
+
     $.ajax({
         url: '/getdata',
         type: 'PUT',
@@ -590,9 +603,15 @@ exports.getDriApiData = getDriApiData = function getDriApiData(action, params, c
         cache: false,
         async: false,
         dataType: 'json',
-        data: JSON.stringify(params),
+        data: JSON.stringify(driExecuteObj),
         success: function (results) {
-            callback(null, results);
+            // convert returned list of DataModelDTOs to an object
+            var resultsObj = {};
+            for (var i = 0; i < results.length; i++) {
+                resultsObj[results[i].Key] = results[i].Value;
+            }
+
+            callback(null, resultsObj);
         },
         error: function (err) {
             callback(err.responseText, null);

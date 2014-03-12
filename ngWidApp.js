@@ -83,17 +83,22 @@ if (typeof angular !== 'undefined') {
                 },
 
                 getInfo: function(accessToken, callback) {
-                    var parameters = {parameterDTOs:[]};
-                    parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:accessToken});
+//                    var parameters = {parameterDTOs:[]};
+//                    parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:accessToken});
 
-                    return getDriApiData('getuserinfo?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff', parameters, function (err, results) {
+                    var parameters = {
+                        dri_action: 'getuserinfo?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff',
+                        accesstoken: accessToken
+                    };
+
+                    return getDriApiData(parameters, function (err, results) {
                         if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
                         else { callback(results); }
                     });
                 },
 
                 getNewAt: function(callback) {
-                    return getDriApiData('getnewaccesstoken', {}, function (err, results) {
+                    return getDriApiData({dri_action:'getnewaccesstoken'}, function (err, results) {
                         if (err && Object.size(err) > 0) { console.log('execute error => ' + JSON.stringify(err)); }
                         else { callback(results); }
                     });
@@ -110,6 +115,24 @@ if (typeof angular !== 'undefined') {
                     //TODO: change this to add the login screenwid and then redirecting to dripoing.com?wid=loginwid
                     window.location = 'http://dripoint.com/login.html?returnUrl=' + window.location.href;
                 }
+            }
+
+            // if command.angularexecute exists then set up an angularExecute call based on it's value
+            if (typeof result['command']['angularexecute'] !== 'undefined') {
+                var executeObj = {};
+
+                if (result.command.angularexecute.parameters) {
+                    executeObj = result.command.angularexecute.parameters;
+                    delete result.command.angularexecute.parameters;
+                }
+
+                if (typeof result.command.angularexecute === 'object') {
+                    extend(true, executeObj, result.command.angularexecute);
+                } else {
+                    executeObj.executethis = result.command.angularexecute;
+                }
+
+                angularExecute(executeObj, function (err, returnArray) { });
             }
 
             dataService.storeData(result, scope, undefined, function (dataset) {
@@ -140,8 +163,9 @@ if (typeof angular !== 'undefined') {
 
             executeOffer: function(parameters, callback) {
                 //            parameters.parameterDTOs.push({ParameterName:'apikey',ParameterValue:'2FFA4085C7994016913F8589B765D4E5'});
+                parameters.dri_action = 'executeofferid?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff';
 
-                return getDriApiData('executeofferid?at=f52a89ed-7163-47de-901c-e8bd0b96b7ff', parameters, function(err, results) {
+                return getDriApiData(parameters, function(err, results) {
                     if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
                     else { callback(results); }
                 });
@@ -256,7 +280,7 @@ if (typeof angular !== 'undefined') {
             // package current users info into the model
             if (currentUser && currentUser.loggedin) {
                 dataService.user.getInfo(currentUser.at, function (results) {
-                    var info = JSON.parse(results[0].Value);
+                    var info = JSON.parse(results.userinfo);
                     $scope.userinfo = info;
                     console.log('**ngModelData** data for current userinfo :');
                     console.log($scope.userinfo);
@@ -308,26 +332,30 @@ if (typeof angular !== 'undefined') {
             $scope.login1 = function() {
                 $scope.clearlogs();
                 var at = ''
-                    , parameters = {parameterDTOs:[]}
-                    , user = dataService.user.getLocal();
+//                    , parameters = {parameterDTOs:[]}
+                    , user = dataService.user.getLocal()
+                    , parameters = {
+                        dri_action: 'login1',
+                        phonenumber: $('#phonenumber').val()
+                    };
 
-                parameters.parameterDTOs.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
+//                parameters.parameterDTOs.push({ParameterName:'phonenumber',ParameterValue:$('#phonenumber').val()});
 
                 if (user) { at = user.at; }
                 else {
-                    dataService.user.getNewAt(function(results) { at = results[0].Value; });
+                    dataService.user.getNewAt(function(results) { at = results.accesstoken; });
                     dataService.user.putLocal('', at, false);
                 }
 
                 $scope.ajax.loading = true;
 
-                getDriApiData('login1', parameters, function (err, results) {
+                getDriApiData(parameters, function (err, results) {
                     if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
                     else {
                         $('#pin,#pingrp').show();
                         $('#phonegrp').hide();
 
-                        $scope.loginGuid = results[0].Value;
+                        $scope.loginGuid = results.guid;
                         $scope.ajax.loading = false;
                     }
                 });
@@ -336,21 +364,28 @@ if (typeof angular !== 'undefined') {
             $scope.login2 = function() {
                 $scope.clearlogs();
                 var user = dataService.user.getLocal();
-                var parameters = {parameterDTOs:[]};
-                parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:user.at},
-                    {ParameterName:'pin',ParameterValue:$('#pin').val()},
-                    {ParameterName:'guid',ParameterValue:$scope.loginGuid});
+//                var parameters = {parameterDTOs:[]};
+//                parameters.parameterDTOs.push({ParameterName:'accesstoken',ParameterValue:user.at},
+//                    {ParameterName:'pin',ParameterValue:$('#pin').val()},
+//                    {ParameterName:'guid',ParameterValue:$scope.loginGuid});
+
+                var getDriDataObj = {
+                    dri_action: 'login2',
+                    accesstoken: user.at,
+                    pin: $('#pin').val(),
+                    guid: $scope.loginGuid
+                };
 
                 $scope.ajax.loading = true;
 
-                getDriApiData('login2', parameters, function(err, results) {
+                getDriApiData(getDriDataObj, function(err, results) {
                     if (err && Object.size(err) > 0) { console.log('getDriApiData error => ' + JSON.stringify(err)); }
                     else {
-                        if (results[0].Value === 'True') {
+                        if (results.Succeeded === 'True') {
                             dataService.user.putLocal('', user.at, true);
                             $('#successlog').html("Thank you for logging into DRI!");
                         } else {
-                            var error = results[7].Value !== '' ? results[7].Value : 'An error has occurred.';
+                            var error = results.Message !== '' ? results.Message : 'An error has occurred.';
                             $('#errorlog').html(error);
                         }
 
@@ -482,13 +517,13 @@ if (typeof angular !== 'undefined') {
 
         // create rows and inputs for each property in wid
         async.series([
-                function(cb) {
-                    execute({executethis:$scope.wid},
-                        function (err, resultsArr) {
-                            cb(null, resultsArr);
-                        });
-                }
-            ],
+            function(cb) {
+                execute({executethis:$scope.wid},
+                    function (err, resultsArr) {
+                        cb(null, resultsArr);
+                    });
+            }
+        ],
             function(err, resultsArray) {
                 for (var x = 0; x < resultsArray.length; x++) {
                     for (var y = 0; y < resultsArray[x].length; y++) {
@@ -830,7 +865,7 @@ if (typeof angular !== 'undefined') {
     };
 
     // call executeService.executeThis from legacy (non angularJS) code
-    exports.angularExecuteThis = angularExecuteThis = function angularExecuteThis(parameters, callback) {
+    exports.angularExecute = angularExecute = function angularExecute(parameters, callback) {
         var scope = $('body').scope();
         angular.injector(['ng', 'widApp'])
             .get('executeService')

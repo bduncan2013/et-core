@@ -60,30 +60,30 @@ if (!test_results) {
 exports.eventappinstall = eventappinstall = function eventappinstall() {
     setdefaultparm();
     if (exports.environment === 'local') {clearLocalStorage()}
-}
+};
 exports.eventdeviceready  = eventdeviceready  = function eventdeviceready () {
     if (Object.keys(config).length === 0) {
         eventappinstall()
     }
     // start eventonemin, etc
-}
-exports.eventnewpage  = eventnewpage  = function eventnewpage () {}
-exports.eventonline  = eventonline  = function eventonline () {}
-exports.eventoffline  = eventoffline  = function eventoffline () {}
-exports.eventonemin  = eventonemin  = function eventonemin () {}
-exports.eventtenmin  = eventtenmin  = function eventtenmin () {}
-exports.eventdaily  = eventdaily = function eventdaily () {}
-exports.eventmonthly  = eventmonthly  = function eventmonthly () {}
-exports.eventlogineventsucess = eventlogineventsucess = function eventlogineventsucess() {}
-exports.eventlogineventfail  = eventlogineventfail  = function eventlogineventfail () {}
-exports.eventoutboundevent  = eventoutboundevent  = function eventoutboundevent () {}
-exports.eventdeletewidevent  = eventdeletewidevent  = function eventdeletewidevent () {}
-exports.eventgetwidevent  = eventgetwidevent  = function eventgetwidevent () {}
-exports.eventupdatewidevent  = eventupdatewidevent  = function eventupdatewidevent () {}
-exports.eventaddwidevent  = eventaddwidevent  = function eventaddwidevent () {}
-exports.eventexecuteevent  = eventexecuteevent  = function eventexecuteevent () {}
-exports.eventexecuteeachend  = eventexecuteeachend= function eventexecuteeachend () {}
-exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {}
+};
+exports.eventnewpage  = eventnewpage  = function eventnewpage () {};
+exports.eventonline  = eventonline  = function eventonline () {};
+exports.eventoffline  = eventoffline  = function eventoffline () {};
+exports.eventonemin  = eventonemin  = function eventonemin () {};
+exports.eventtenmin  = eventtenmin  = function eventtenmin () {};
+exports.eventdaily  = eventdaily = function eventdaily () {};
+exports.eventmonthly  = eventmonthly  = function eventmonthly () {};
+exports.eventlogineventsucess = eventlogineventsucess = function eventlogineventsucess() {};
+exports.eventlogineventfail  = eventlogineventfail  = function eventlogineventfail () {};
+exports.eventoutboundevent  = eventoutboundevent  = function eventoutboundevent () {};
+exports.eventdeletewidevent  = eventdeletewidevent  = function eventdeletewidevent () {};
+exports.eventgetwidevent  = eventgetwidevent  = function eventgetwidevent () {};
+exports.eventupdatewidevent  = eventupdatewidevent  = function eventupdatewidevent () {};
+exports.eventaddwidevent  = eventaddwidevent  = function eventaddwidevent () {};
+exports.eventexecuteevent  = eventexecuteevent  = function eventexecuteevent () {};
+exports.eventexecuteeachend  = eventexecuteeachend= function eventexecuteeachend () {};
+exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {};
 
 
 // exports.bootprocess = bootprocess = function bootprocess() {
@@ -170,9 +170,8 @@ function setdefaultparm() {
     debuglinenum = 1;
     environment="server";
     exports.environment = environment;
-    test_results = {}; // can take out
     debuglog = {};
-    exports.debuglog = debuglog = debuglog;
+    exports.debuglog = debuglog;
 
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
@@ -216,8 +215,8 @@ function config123() {
    configuration.preExecute[3] = {};
    configuration.preExecute[3].executeorder = 1;
    configuration.preExecute[3].tryorder = 4;
-   configuration.preExecute[3].dothis = 'server';
-   configuration.preExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
+   configuration.preExecute[3].dothis = 'getDriApiData';
+//   configuration.preExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
 
     configuration.midExecute = [];
     configuration.midExecute[0] = {};
@@ -238,8 +237,8 @@ function config123() {
    configuration.midExecute[3] = {};
    configuration.midExecute[3].executeorder = 1;
    configuration.midExecute[3].tryorder = 4;
-   configuration.midExecute[3].dothis = 'server';
-   configuration.midExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
+   configuration.midExecute[3].dothis = 'getDriApiData';
+//   configuration.midExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
 
     configuration.postExecute = [];
     configuration.postExecute[0] = {};
@@ -260,8 +259,8 @@ function config123() {
    configuration.postExecute[3] = {};
    configuration.postExecute[3].executeorder = 1;
    configuration.postExecute[3].tryorder = 4;
-   configuration.postExecute[3].dothis = 'server';
-   configuration.postExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
+   configuration.postExecute[3].dothis = 'getDriApiData';
+//   configuration.postExecute[3].params = {"command.server.url":"http://dri.drillar.com/node/executethis"};
 
     // configuration.getwid = [];
     // configuration.getwid[0] = {};
@@ -497,52 +496,64 @@ function test2(params, callback) {
 exports.updatebalance = updatebalance = function updatebalance (params, callback) {
     params['date']=new Date();
     callback(null, params);
-}
+};
 exports.updatewiddata= updatewiddata = function updatewiddata(params, callback) {
     params['date']=new Date();
     callback(null, params);
-}
+};
 exports.uupdateofferdata = updateofferdata = function updateofferdata(params, callback) {
     params['date']=new Date();
     callback(null, params);
-}
+};
 exports.updateofferobject = updateofferobject = function updateofferobject (params, callback) {
     params['date']=new Date();
     callback(null, params);
-}
+};
 exports.updatesecurity = updatesecurity = function updatesecurity (params, callback) {
     params['date']=new Date();
     callback(null, params);
-}
-
-
-exports.server = server = function server(params, callback) {
-    // fish out url from config ****
-    //
-    // *******
-    //
-    params.actionQueryString = action;
-    $.ajax({
-        url: '/getdata',
-        type: 'PUT',
-        headers: {
-            'content-type': 'application/json'
-        },
-        cache: false,
-        async: false,
-        dataType: 'json',
-        data: JSON.stringify(params),
-        success: function (results) {
-            callback(null, results);
-        },
-        error: function (err) {
-            callback(err.responseText, null);
-        }
-    });
 };
 
-exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
-    params.actionQueryString = action;
+
+//exports.server = server = function server(params, callback) {
+//    // fish out url from config ****
+//    //
+//    // *******
+//    //
+//    $.ajax({
+//        url: '/getdata',
+//        type: 'PUT',
+//        headers: {
+//            'content-type': 'application/json'
+//        },
+//        cache: false,
+//        async: false,
+//        dataType: 'json',
+//        data: JSON.stringify(params),
+//        success: function (results) {
+//            callback(null, results);
+//        },
+//        error: function (err) {
+//            callback(err.responseText, null);
+//        }
+//    });
+//};
+
+exports.getDriApiData = getDriApiData = function getDriApiData(params, callback) {
+    // set up object in syntax that driApi is expecting
+    // also get getdata/<action> action from params object
+    var driExecuteObj = {
+        actionQueryString:params.dri_action,
+        parameterDTOs:[]
+    };
+
+    // convert passed in object to parameterdto list
+    for (var prop in params) {
+        if (params.hasOwnProperty(prop)) {
+            driExecuteObj.parameterDTOs.push({ParameterName:prop,ParameterValue:params[prop]});
+        }
+    }
+
     $.ajax({
         url: '/getdata',
         type: 'PUT',
@@ -552,9 +563,15 @@ exports.getDriApiData = getDriApiData = function getDriApiData(action, params, c
         cache: false,
         async: false,
         dataType: 'json',
-        data: JSON.stringify(params),
+        data: JSON.stringify(driExecuteObj),
         success: function (results) {
-            callback(null, results);
+            // convert returned list of DataModelDTOs to an object
+            var resultsObj = {};
+            for (var i = 0; i < results.length; i++) {
+                resultsObj[results[i].Key] = results[i].Value;
+            }
+
+            callback(null, resultsObj);
         },
         error: function (err) {
             callback(err.responseText, null);
