@@ -2449,7 +2449,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             if (isArray(widobject[db])) {
                 outobject = widobject[db][0];
             } else {
-                outobject = widobject[db];
+                outobject = widobject[db] || {};
             }
 
             if (widobject['wid']) {
