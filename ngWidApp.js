@@ -517,13 +517,13 @@ if (typeof angular !== 'undefined') {
 
         // create rows and inputs for each property in wid
         async.series([
-            function(cb) {
-                execute({executethis:$scope.wid},
-                    function (err, resultsArr) {
-                        cb(null, resultsArr);
-                    });
-            }
-        ],
+                function(cb) {
+                    execute({executethis:$scope.wid},
+                        function (err, resultsArr) {
+                            cb(null, resultsArr);
+                        });
+                }
+            ],
             function(err, resultsArray) {
                 for (var x = 0; x < resultsArray.length; x++) {
                     for (var y = 0; y < resultsArray[x].length; y++) {
@@ -802,11 +802,21 @@ if (typeof angular !== 'undefined') {
             if (widAppHelper.isJsonStr(links[i].executethis)) { eventParams = JSON.parse(links[i].executethis); }
             else { eventParams.executethis = links[i].executethis; }
 
-            // add event attributes to element
-            $(identifier).attr('etparams', JSON.stringify(eventParams));
+            if (links[i].id) {
+                // add event attributes to element
+                $(identifier).attr('etparams', JSON.stringify(eventParams));
 
-            // add event listener to element
-            $(identifier).attr('on' + links[i].trigger, 'callExecute(this)');
+                // add event listener to element
+                $(identifier).attr('on' + links[i].trigger, 'callExecute(this)');
+            } else if (links[i].class) {  // if class was passed in, apply links logic to all elemenets with class
+                $(identifier).each(function (i, ele) {
+                    // add event attributes to element
+                    $(ele).attr('etparams', JSON.stringify(eventParams));
+
+                    // add event listener to element
+                    $(ele).attr('on' + links[i].trigger, 'callExecute(this)');
+                });
+            }
         }
 
         if (parameters.dataforview) {

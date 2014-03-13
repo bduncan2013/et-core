@@ -102,11 +102,12 @@
                 <input id='function_to_run' size='20' value=''>
                 <input id='reload_page' class='btn btn-danger' type='button' value='Reload Page' />
                 <label>Clean local storage?</label>
-                <input type='checkbox' id='localStorageClean' checked="true">
+                <input type='checkbox' id='localStorageClean' checked="true">&nbsp&nbsp
+                <input id='domain_switch' class='btn btn-primary' type='button' value='Server View' />
                 <!--
             <label>Server call ? </label><input type='checkbox' id='server_caller'>
 -->
-                <label id='test_result_message' style='padding-left: 6em;'></label>
+                <label id='test_result_message' style='padding-left: 3em;'>--------</label>
                 <!-- <input id='mybutton' class='btn btn-warning' type='button' value='Show/Hide Local Storage'/>  -->
             </div>
             <!-- end of col-md-12> -->
@@ -248,6 +249,16 @@
         }
     })
 
+    $("#domain_switch").click(function() {
+        var here = document.URL;
+        var path = "";
+        if (here.substring(0,4) === "http") {
+            alert ('You are already viewing the server version.');
+        } else {
+            path = "http://dripoint.com/" + here.substring(here.indexOf('Staff'));
+            window.location.replace(path);
+        }
+    })
 
     //This defines how data is stored and retrieved with local storage.
     //clearLocalStorage()
@@ -258,6 +269,7 @@
         //bootprocess();
         $('#function_to_run').focus();
         // $('dest_print').prop("checked", true);
+        // alert(document.URL);
     });
 
     function execute_stuff(isTest, isServer) {

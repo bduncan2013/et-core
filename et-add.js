@@ -276,18 +276,11 @@
 
     exports.addwidobject = addwidobject = function addwidobject(input, inputdto, parentwid, parentmethod, relationshiptype, command, callback) {
         try {
-            var inbound_parameters_100 = {};
-            inbound_parameters_100['input'] = JSON.parse(JSON.stringify(input));
-            inbound_parameters_100['inputdto'] = JSON.parse(JSON.stringify(inputdto));
-            inbound_parameters_100['parentwid'] = JSON.parse(JSON.stringify(parentwid));
-            inbound_parameters_100['parentmethod'] = JSON.parse(JSON.stringify(parentmethod));
-            inbound_parameters_100['relationshiptype'] = JSON.parse(JSON.stringify(relationshiptype));
-            inbound_parameters_100['command'] = command;
+            var inbound_parameters_100 = arguments;
 
             proxyprinttodiv("addwidobject input input :- ", input, 17);
             proxyprinttodiv("addwidobject input inputdto :- ", inputdto, 17);
             proxyprinttodiv("addwidobject input command :- ", command, 17);
-
 
             var _parent_object = {};
             var _parent_dto = {};
@@ -549,7 +542,7 @@
                                     }
                                     catch (err) {
                                         var finalobject = createfinalobject({"result": "addrecord_execute"}, {}, "addrecord_execute", err, widset);
-                                        callback(finalobject.err, finalobject.res);
+                                        step1_callback(finalobject.err, finalobject.res);
                                     }
                                 }
                             });
@@ -636,7 +629,7 @@
                                 } // end try 
                                 catch (err) {
                                     var finalobject = createfinalobject({"result": "addrecord"}, {}, "addrecord", err, addobject);
-                                    callback(finalobject.err, finalobject.res);
+                                    step2_callback(finalobject.err, finalobject.res);
                                 }
                             } // end else
                         });
@@ -835,7 +828,7 @@
                                 catch (err) {
                                     //callback ({"status":"there was an error"}, {"function":"addwid"});        
                                     var finalobject = createfinalobject({"result": "addwid_execute"}, {}, "addwid_execute", err, res);
-                                    callback(finalobject.err, finalobject.res);
+                                    cbMap(finalobject.err, finalobject.res);
                                 }
                             } // end if
                         }); // execute
