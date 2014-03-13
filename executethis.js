@@ -152,11 +152,11 @@
 
                                                     } else {
 
-                                                        if ((postResults.command) && (postResults.command.result)) { // if command.result then wrap results
+                                                        if ((postResults.command) && (postResults.command.execute) && (postResults.command.execute.result)) { // if command.result then wrap results
                                                             var resultWrapperObj = {};
-                                                            resultWrapperObj[postResults.command.result] = postResults;
+                                                            resultWrapperObj[postResults.command.execute.result] = postResults;
                                                             postResults = resultWrapperObj;
-                                                            delete postResults.command.result;
+                                                            delete postResults.command.execute.result;
                                                         }
 
                                                         if (Object.prototype.toString.call(postResults) !== '[object Array]') {
@@ -947,7 +947,8 @@
                                                                                 howallowexecute = false;
 
                                                                                 if (executeobject.executeflag === true) {
-                                                                                    if ((res === undefined)
+                                                                                    if ((res === undefined) || (isArray(res) &&  res[0]['metadata'] && 
+                                                                                        res[0]['metadata']['expirationdate'] && new Date(res[0]['metadata']['expirationdate']) < new Date())
                                                                                         || (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
                                                                                         proxyprinttodiv("Try again hit wit res", res, 11);
                                                                                         whatallowexecute = true;
@@ -1127,6 +1128,8 @@
                     executeflag = true; // so caller gets wid and then executes with the results
                     //params = {};
                     params["executethis"] = "getwid";
+                    //params["executethis"] = "getwidmaster";
+                    //params["command.convertmethod"] = "nowid";
                     params["wid"] = whatToDo;
 
                     // execute({"executethis":"getwid", "wid":whatToDo}, function (err, res) {

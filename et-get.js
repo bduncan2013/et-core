@@ -17,8 +17,10 @@
                     proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
 
                     getfrommongo(inputWidgetObject, function (err, resultobject) {
+                         if (!resultobject)
+                            {resultobject={};}
                         // convert the object from dri standard before returnning it
-                        callback({}, convertfromdriformat(resultobject));
+                        callback(null, convertfromdriformat(resultobject));
                     });
                 }
             });

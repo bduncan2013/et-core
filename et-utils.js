@@ -2387,6 +2387,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             delete inputWidgetObject['metadata'];
         }
 
+        if (!metadata['expirationdate']) {metadata['expirationdate'] = new Date()};
 
         // for (eachwid in inputWidgetObject) {
         //     if ((inputWidgetObject[eachwid] == "onetomany") (inputWidgetObject[eachwid]=="onetoone")) {
