@@ -89,16 +89,17 @@ exports.clearLocal = clearLocal = function clearLocal() {
 };
 
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
+    var inbound_parameters = arguments;
     try {
-    if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
-        printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
-        if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>'};
-        // console.log(text);
-        // console.log(obj);
-        if (document.getElementById('divprint')) {
-            document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+            if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
+            // console.log(text);
+            // console.log(obj);
+            if (document.getElementById('divprint')) {
+                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+            }
         }
-    }
     } // end try
     catch (err) {
         //callback ({"status":"there was an error"}, {"function":"printToDiv"});  
@@ -108,23 +109,24 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
 };
 
 exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone, pretty) { // **** making code node compatible
+    var inbound_parameters = arguments;
     try {
-    if (!debugone) {
-        debugone = -1;
-    }
-    if (exports.environment === "local") {
-        printToDiv(text, obj, debugone, pretty);
-    } else {
-        // if (true) {
-        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
-            debuglinenum++;
-            var tempobj = {};
-            tempobj["text"] = text;
-            tempobj["obj"] = obj;
-            tempobj["executethis"] = "printdiv";
-            addtolocal(debuglinenum, tempobj)
+        if (!debugone) {
+            debugone = -1;
         }
-    }
+        if (exports.environment === "local") {
+            printToDiv(text, obj, debugone, pretty);
+        } else {
+            // if (true) {
+            if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+                debuglinenum++;
+                var tempobj = {};
+                tempobj["text"] = text;
+                tempobj["obj"] = obj;
+                tempobj["executethis"] = "printdiv";
+                addtolocal(debuglinenum, tempobj)
+            }
+        }
     } // end try
     catch (err) {
         //callback ({"status":"there was an error"}, {"function":"proxyprinttodiv"});        

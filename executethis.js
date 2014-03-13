@@ -110,6 +110,8 @@
                                         midError = err;
                     //                    console.log(' after midexecute >> ' + nonCircularStringify(midResults));
                     //                    console.log(' after midexecute II >> \n' + JSON.stringify(midResults, '-', 4));
+                    
+                    proxyprinttodiv("post midexecute -- midResults", midResults, 11);
 
                                         if (!midResults)
                                             midResults = {};
@@ -121,6 +123,8 @@
                                                 midResults = {};
                                             }
                                         }
+
+                    proxyprinttodiv("end midexecute -- midResults", midResults, 11);
 
                                         dothisprocessor(midResults, 'postexecute', function (err, postResults) {
                                             // If error, bounce out
@@ -163,7 +167,9 @@
                                                         }
 
                                                         overallError = extend(true, preError, midError, err);
+                            proxyprinttodiv("end postexecute -- postResults", postResults, 11);
                                                         callback(overallError, postResults);
+
                                                     }
                                                 } // end try
                                                 catch (err) {
@@ -960,6 +966,7 @@
                                                                                         } else {
                                                                                             try {
                                                                                                 // if executegetwid then execute with the results
+                                                            proxyprinttodiv("Return from nested execution: ", res, 11);
                                                                                                 outputResultsArr.push(res);
                                                                                                 cbMapW(null, "What Iteration");
                                                                                                 // cbMapW(err, "What Iteration");
@@ -973,8 +980,14 @@
                                                                                     });
                                                                                 } else {
                                                                                     // executeflag=false
-                                                                                    outputResultsArr.push(res);
-                                                                                    cbMapW(null, "What Iteration");
+                                                        // temp answer for a bug, if empty do not push onto ouputresultarray - joe
+                                                        if ((isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
+                                                            cbMapW(null, "What Iteration");
+                                                        } else {
+                                                            outputResultsArr.push(res);
+                                                            cbMapW(null, "What Iteration");
+                                                        }
+                                                        
                                                                                     //cbMapW(err, "What Iteration");
                                                                                 }
                                                                             } // end try
