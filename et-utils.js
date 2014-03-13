@@ -500,7 +500,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             function (err, res) {
                 // If error, bounce out
                 if (err && Object.keys(err).length > 0) {
-                    callback(err, result);
+                    callback(err, res);
                 } else {
                     callback(null, modifiedObj);
                 }
