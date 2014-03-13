@@ -118,7 +118,7 @@ if (typeof angular !== 'undefined') {
             }
 
             // if command.angularexecute exists then set up an angularExecute call based on it's value
-            if (typeof result['command']['angularexecute'] !== 'undefined') {
+            if (result.command && result.command.angularexecute) {
                 var executeObj = {};
 
                 if (result.command.angularexecute.parameters) {
