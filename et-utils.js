@@ -102,7 +102,6 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
         }
     } // end try
     catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"printToDiv"});  
         var finalobject = createfinalobject({"result":"printToDiv"}, {}, "printToDiv", err, inbound_parameters);
         callback(finalobject.err, finalobject.res);
     }
@@ -129,7 +128,6 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
         }
     } // end try
     catch (err) {
-        //callback ({"status":"there was an error"}, {"function":"proxyprinttodiv"});        
         var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
         callback(finalobject.err, finalobject.res);
     }   
@@ -364,7 +362,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                                                 }
                                                 catch (err) {
                                                     var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj"}, {}, "recurseModObj_recurseModObj", err, result);
-                                                    callback(finalobject.err, finalobject.res);
+                                                    cb1(finalobject.err, finalobject.res);
                                                 }
                                             }
                                         }) // recurse
@@ -450,7 +448,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                                         }
                                         catch (err) {
                                             var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II"}, {}, "recurseModObj_recurseModObj_II", err, result);
-                                            callback(finalobject.err, finalobject.res);
+                                            cbMap(finalobject.err, finalobject.res);
                                         }
                                     }
                                 });
@@ -481,7 +479,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                                     }
                                     catch (err) {
                                         var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II_execute"}, {}, "recurseModObj_recurseModObj_II_execute", err, result);
-                                        callback(finalobject.err, finalobject.res);
+                                        cbMap(finalobject.err, finalobject.res);
                                     }
                                 }
                             });
@@ -513,8 +511,6 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         callback(finalobject.err, finalobject.res);
     }
 }
-
-
 
 // // logic to get things from localStore object
 // exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
@@ -925,12 +921,8 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             }
         } // end try
         catch (err) {
-            //callback ({"status":"there was an error"}, {"function":"remove"});
-            var finalobject = createfinalobject({
-                "result": "remove"
-            }, {}, "remove", err, inbound_parameters);
+            var finalobject = createfinalobject({"result": "remove"}, {}, "remove", err, inbound_parameters);
             return finalobject;
-            //callback(finalobject.err, finalobject.res);         
         }
     };
 
@@ -2268,7 +2260,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             test_and_verify(testname, "execute", c_parameters, c_assert, database, command, function (err, res) {
                 // If error, bounce out
                 if (err && Object.keys(err).length > 0) {
-                    cbMap(err, result);
+                    callback(err, result);
                 } else {
                     try {
                         // Add res to return data

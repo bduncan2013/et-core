@@ -161,7 +161,7 @@
                                         }
                                         catch (err) {
                                             var finalobject = createfinalobject({"result": "getwid_executethis"}, {}, "getwid_executethis", err, inbound_parameters_107);
-                                            callback(finalobject.err, finalobject.res);
+                                            cb(finalobject.err, finalobject.res);
                                         }
                                     }
                                 })
@@ -201,9 +201,6 @@
                                                             cbMap(err, res);
                                                         } else {
                                                             try {
-
-
-
                                                                 var tempwid = res;
                                                                 delete tempwid["wid"];
                                                                 delete tempwid["metadata.method"];
@@ -217,7 +214,7 @@
                                                             }
                                                             catch (err) {
                                                                 var finalobject = createfinalobject({"result": "getwid_executethis_async_getwid"}, {}, "getwid_executethis_async_getwid", err, res);
-                                                                callback(finalobject.err, finalobject.res);
+                                                                cbMap(finalobject.err, finalobject.res);
                                                             }
                                                         }
                                                     });
@@ -284,14 +281,14 @@
                                                         }
                                                         catch (err) {
                                                             var finalobject = createfinalobject({"result": "getwid_executethis_async"}, {}, "getwid_executethis_async", err, res);
-                                                            callback(finalobject.err, finalobject.res);
+                                                            cb(finalobject.err, finalobject.res);
                                                         }
                                                     }
                                                 });
                                         } // end try
                                         catch (err) {
                                             var finalobject = createfinalobject({"result": "getwid_executethis_step1"}, {}, "getwid_executethis_step1", err, res);
-                                            callback(finalobject.err, finalobject.res);
+                                            cb(finalobject.err, finalobject.res);
                                         }
                                     } // end else
                                 });
@@ -1528,10 +1525,7 @@
             return p;
         } // end try
         catch (err) {
-            //callback ({"status":"there was an error"}, {"function":"fishout"});        
-            var finalobject = createfinalobject({
-                "result": "fishout"
-            }, {}, "fishout", err, inbound_parameters);
+            var finalobject = createfinalobject({"result": "fishout"}, {}, "fishout", err, inbound_parameters);
             return finalobject;
         }
     }

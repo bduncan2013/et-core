@@ -108,10 +108,10 @@
                                 } else {
                                     try {
                                         midError = err;
-                    //                    console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-                    //                    console.log(' after midexecute II >> \n' + JSON.stringify(midResults, '-', 4));
-                    
-                    proxyprinttodiv("post midexecute -- midResults", midResults, 11);
+                                        //                    console.log(' after midexecute >> ' + nonCircularStringify(midResults));
+                                        //                    console.log(' after midexecute II >> \n' + JSON.stringify(midResults, '-', 4));
+                                        
+                                        proxyprinttodiv("post midexecute -- midResults", midResults, 11);
 
                                         if (!midResults)
                                             midResults = {};
@@ -124,7 +124,7 @@
                                             }
                                         }
 
-                    proxyprinttodiv("end midexecute -- midResults", midResults, 11);
+                                        proxyprinttodiv("end midexecute -- midResults", midResults, 11);
 
                                         dothisprocessor(midResults, 'postexecute', function (err, postResults) {
                                             // If error, bounce out
@@ -357,7 +357,7 @@
                                             }
                                             catch (err) {
                                                 var finalobject = createfinalobject({"result": "executethismultiple_executethismultiple"}, {}, "executethismultiple_executethismultiple", err, res);
-                                                callback(finalobject.err, finalobject.res);
+                                                cbMap(finalobject.err, finalobject.res);
                                             }
                                         }
                                     });
@@ -786,8 +786,6 @@
             proxyprinttodiv("executelist - howToDoList ", howToDoList, 11);
             proxyprinttodiv("executelist - whatToDoList ", whatToDoList, 11);
 
-
-
             function debugvars(varlist) {
                 var allvars = {
                     1: {
@@ -974,26 +972,26 @@
                                                                                             } // end try
                                                                                             catch (err) {
                                                                                                 var finalobject = createfinalobject({"result": "executelist_executeobject.executeflag"}, {}, "executelist_executeobject.executeflag", err, res);
-                                                                                                callback(finalobject.err, finalobject.res);
+                                                                                                cbMapW(finalobject.err, finalobject.res);
                                                                                             }
                                                                                         } // end else
                                                                                     });
                                                                                 } else {
                                                                                     // executeflag=false
-                                                        // temp answer for a bug, if empty do not push onto ouputresultarray - joe
-                                                        if ((isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
-                                                            cbMapW(null, "What Iteration");
-                                                        } else {
-                                                            outputResultsArr.push(res);
-                                                            cbMapW(null, "What Iteration");
-                                                        }
+                                                                                    // temp answer for a bug, if empty do not push onto ouputresultarray - joe
+                                                                                    if ((isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
+                                                                                        cbMapW(null, "What Iteration");
+                                                                                    } else {
+                                                                                        outputResultsArr.push(res);
+                                                                                        cbMapW(null, "What Iteration");
+                                                                                    }
                                                         
                                                                                     //cbMapW(err, "What Iteration");
                                                                                 }
                                                                             } // end try
                                                                             catch (err) {
                                                                                 var finalobject = createfinalobject({"result": "executelist_executeobject.targetfn"}, {}, "executelist_executeobject.targetfn", err, res);
-                                                                                callback(finalobject.err, finalobject.res);
+                                                                                cbMapW(finalobject.err, finalobject.res);
                                                                             }
                                                                         } // end else
                                                                     });
@@ -1007,7 +1005,7 @@
                                                             } // end try
                                                             catch (err) {
                                                                 var finalobject = createfinalobject({"result": "executelist_authcall"}, {}, "executelist_authcall", err, securitycheck);
-                                                                callback(finalobject.err, finalobject.res);
+                                                                cbMapW(finalobject.err, finalobject.res);
                                                             }
                                                         } // end else
                                                     }); // end authcall
@@ -1033,7 +1031,7 @@
                                             } // end try
                                             catch (err) {
                                                 var finalobject = createfinalobject({"result": "executelist_getexecuteobject(jsonConcat"}, {}, "executelist_getexecuteobject(jsonConcat", err, executeobject);
-                                                callback(finalobject.err, finalobject.res);
+                                                cbMapW(finalobject.err, finalobject.res);
                                             }
                                         } // end else
                                         // else ((howallowexecute) && (whatallowexecute))  ... do something else
@@ -1182,8 +1180,6 @@
         }
     } // fn
 
-
-
     exports.executeerror = window.executeerror = executeerror = function executeerror(params, callback) {
         try {
             var inboundparms_118 = arguments;  
@@ -1223,7 +1219,5 @@
 
     // call bootprocess() for the first time after all dependencies have been loaded
     //bootprocess();
-
-
 
 })(typeof window == "undefined" ? global : window);
