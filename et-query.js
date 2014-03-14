@@ -16,8 +16,7 @@
     //exports.querywid = querywid = function (parameters,target,callback) {
     exports.querywid = querywid = function querywid(parameters, callback) { // can change to call back
         try {
-            var inbound_parameters_107 = {};
-            inbound_parameters_107 = JSON.parse(JSON.stringify(arguments));
+            var inbound_parameters_107 = arguments;
 
             delete parameters['executethis']; //** added 11/2
 
@@ -41,6 +40,11 @@
             // Fish out params
             proxyprinttodiv('querywid parameters I', parameters, 28);
             var p = fishOut(parameters);
+            // check for err on the 'return' of an object
+            if (p.err) {
+                throw (p.err.error);
+            }
+
             console.log('object that came back from fishOut => ' + JSON.stringify(p));
             proxyprinttodiv('querywid parameters', parameters, 28);
             proxyprinttodiv('querywid p ', p, 28);
@@ -64,7 +68,6 @@
             } else {
                 environmentdb = "data";
             }
-
 
             function debugvars(varlist) {
                 var allvars = {
@@ -121,7 +124,11 @@
             } else {
                 async.series([
                         function step01(cb) {
+                            
+                            // throw ({'Sample_error': 'querywid_async_step01'});
+
                             debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
+                            
                             // Use single to set up a query with the params of 1 wid
                             if (Object.keys(queParams).length > 0 && queParams['mongosinglequery'] != undefined && Object.keys(xtrParams).length === 0) {
                                 console.log('singlemongoquery => ' + queParams['mongosinglequery']);
@@ -293,6 +300,9 @@
                                     } // end else
                                 });
                             } else if (queParams && queParams['mongorawquery'] !== undefined) {
+                                
+                                // throw ({'Sample_error': 'querywid_async_step01_else if'});
+
                                 console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
                                 mQueryString = queParams['mongorawquery'];
                                 console.log('mQueryString at step01 => ' + JSON.stringify(mQueryString));
@@ -327,6 +337,9 @@
                         },
 
                         function step02(cb) {
+                            
+                            // throw ({'Sample_error': 'querywid_async_step02'});
+
                             // Primary Wid Section **********
                             if (Object.keys(queParams).length > 0 && queParams && queParams['mongowid'] !== undefined) {
                                 console.log('mongowid = > ' + JSON.stringify(queParams['mongowid']));
@@ -352,6 +365,9 @@
                         },
 
                         function step03(cb) {
+                            
+                            // throw ({'Sample_error': 'querywid_async_step03'});
+
                             // Relationship Section **********
                             // Skip if there are no relParams
 
@@ -392,6 +408,9 @@
                         },
 
                         function step04(cb) {
+                            
+                            // throw ({'Sample_error': 'querywid_async_step04'});
+
                             // Relationship Section **********
                             // Skip if there are no relParams
 
@@ -454,7 +473,9 @@
                         if (err && Object.keys(err).length > 0) {
                             callback(err, res);
                         } else {
-                            // 
+                            
+                            // throw ({'Sample_error': 'querywid_async_final'});
+
                             console.log('completed tasks asynchronously in querywid ');
                             console.log('output is ' + JSON.stringify(output));
                             debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
@@ -485,7 +506,7 @@
             }
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({"result": "getwid"}, {}, "getwid", err, inbound_parameters_107);
+            var finalobject = createfinalobject({"result": "querywid"}, {}, "querywid", err, inbound_parameters_107);
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -672,90 +693,106 @@
     // also looks in extra paramters, append information found about that wid to results also
 
     function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, aggParams, callback) {
-        var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+        try {
+            var inbound_parameters_120 = JSON.parse(JSON.stringify(arguments));
 
-        var output = [];
-        var keycollection = "DRIKEY";
-        var keydatabase = {};
-        var database = {};
-        var record;
-        var widrecord;
-        var extrarecord = {};
-        var todolist = [];
-        var excludeset = {};
-        if (aggParams["mongosetfieldsexclude"] && Object.keys(aggParams["mongosetfieldsexclude"]).length === 0) {
-            excludeset = aggParams["mongosetfieldsexclude"]
-        }
-
-        if (inlist === undefined || inlist.length === 0) {
-            callback(null, []);
-        } else {
-
-            //keydatabase = getFromLocalStorage(keycollection);
-
-            proxyprinttodiv('querywid finalformatlist inlist ', inlist, 28);
-            proxyprinttodiv('querywid finalformatlist extraparameters ', extraparameters, 28);
-            for (var eachresult in inlist) {
-                todolist.push(inlist[eachresult]["wid"])
+            var output = [];
+            var keycollection = "DRIKEY";
+            var keydatabase = {};
+            var database = {};
+            var record;
+            var widrecord;
+            var extrarecord = {};
+            var todolist = [];
+            var excludeset = {};
+            if (aggParams["mongosetfieldsexclude"] && Object.keys(aggParams["mongosetfieldsexclude"]).length === 0) {
+                excludeset = aggParams["mongosetfieldsexclude"]
             }
 
-            async.mapSeries(todolist, function (wid, cbMap) {
-                    async.nextTick(function () {
-                        record = {};
-                        proxyprinttodiv('querywid finalformatlist wid ', wid, 28);
-                        execute({
-                            'executethis': 'getwid',
-                            'wid': wid
-                        }, function (err, widrecord) {
-                            // If error, bounce out
-                            if (err && Object.keys(err).length > 0) {
-                                cbMap(err, widrecord);
+            if (inlist === undefined || inlist.length === 0) {
+                callback(null, []);
+            } else {
 
-                            } else {
-                                // 
-                                //widrecord = keydatabase[wid];
-                                // ***** fix widrecord here
-                                proxyprinttodiv('querywid finalformatlist widrecord ', widrecord, 28);
-                                var widrecordFixed = {};
-                                widrecordFixed['data'] = widrecord[0];
-                                widrecordFixed['metadata'] = widrecord[0]['metadata'];
-                                widrecordFixed['wid'] = widrecord[0]['wid'];
-                                extrarecord[environmentdb] = extraparameters[wid];
-                                delete widrecord[0]['wid'];
-                                delete widrecord[0]['metadata'];
-                                widrecord = widrecordFixed;
+                //keydatabase = getFromLocalStorage(keycollection);
 
-                                proxyprinttodiv('querywid finalformatlist widrecord', convertfromdriformat(widrecord), 28);
-                                proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
-                                widrecord = extend(true, widrecord, extrarecord);
-                                proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 28);
+                // throw ({'Sample_error': 'formastListFinal'});
 
-                                if (convertmethod === "toobject") {
-                                    record[wid] = widrecord;
+                proxyprinttodiv('querywid finalformatlist inlist ', inlist, 28);
+                proxyprinttodiv('querywid finalformatlist extraparameters ', extraparameters, 28);
+                for (var eachresult in inlist) {
+                    todolist.push(inlist[eachresult]["wid"])
+                }
+
+                async.mapSeries(todolist, function (wid, cbMap) {
+                        async.nextTick(function () {
+                            record = {};
+                            proxyprinttodiv('querywid finalformatlist wid ', wid, 28);
+                            execute({
+                                'executethis': 'getwid',
+                                'wid': wid
+                            }, function (err, widrecord) {
+                                // If error, bounce out
+                                if (err && Object.keys(err).length > 0) {
+                                    cbMap(err, widrecord);
+
                                 } else {
-                                    record[wid] = convertfromdriformat(widrecord);
-                                }
+                                    try {
+                                        
+                                        // throw ({'Sample_error': 'formastListFinal_async'});
 
-                                if (!excludeset[wid]) {
-                                    output.push(record);
-                                }
+                                        //widrecord = keydatabase[wid];
+                                        // ***** fix widrecord here
+                                        proxyprinttodiv('querywid finalformatlist widrecord ', widrecord, 28);
+                                        var widrecordFixed = {};
+                                        widrecordFixed['data'] = widrecord[0];
+                                        widrecordFixed['metadata'] = widrecord[0]['metadata'];
+                                        widrecordFixed['wid'] = widrecord[0]['wid'];
+                                        extrarecord[environmentdb] = extraparameters[wid];
+                                        delete widrecord[0]['wid'];
+                                        delete widrecord[0]['metadata'];
+                                        widrecord = widrecordFixed;
 
-                                cbMap(null)
-                            }
-                        })
-                    }); // next tick
-                },
-                function (err, res) {
-                    // If error, bounce out
-                    if (err && Object.keys(err).length > 0) {
-                        callback(err, res);
-                    } else {
-                        // 
-                        proxyprinttodiv('querywid finalformatlist output', output, 28);
-                        callback(null, output)
-                    }
-                }); // mapseries
-        } // if
+                                        proxyprinttodiv('querywid finalformatlist widrecord', convertfromdriformat(widrecord), 28);
+                                        proxyprinttodiv('querywid finalformatlist extraparameters[wid]', extrarecord, 28);
+                                        widrecord = extend(true, widrecord, extrarecord);
+                                        proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 28);
+
+                                        if (convertmethod === "toobject") {
+                                            record[wid] = widrecord;
+                                        } else {
+                                            record[wid] = convertfromdriformat(widrecord);
+                                        }
+
+                                        if (!excludeset[wid]) {
+                                            output.push(record);
+                                        }
+
+                                        cbMap(null);
+                                    } // end try
+                                    catch (err) {
+                                        var finalobject = createfinalobject({"result": "getwid"}, {}, "getwid", err, inbound_parameters_120);
+                                        cbMap(finalobject.err, finalobject.res);
+                                    }
+                                }
+                            })
+                        }); // next tick
+                    },
+                    function (err, res) {
+                        // If error, bounce out
+                        if (err && Object.keys(err).length > 0) {
+                            callback(err, res);
+                        } else {
+                            // 
+                            proxyprinttodiv('querywid finalformatlist output', output, 28);
+                            callback(null, output)
+                        }
+                    }); // mapseries
+            } // if
+        } // end try
+        catch (err) {
+            var finalobject = createfinalobject({"result": "formatListFinal"}, {}, "formatListFinal", err, inbound_parameters_120);
+            callback(finalobject.err, finalobject.res);
+        }
     }
 
     //in: key, value, preamble 
@@ -777,9 +814,6 @@
 
         return result;
     }
-
-
-
 
     // in parameters, preamble, outerquerytype
     // will create a string query based on outerquerytype
@@ -1431,9 +1465,12 @@
 
     function fishOut(parameters) {
         try {
+            var inbound_parameters_121 = arguments;
+
             var p = [];
             var filter_data = {};
             var left_overs = {};
+            // throw ({'Sample_error': 'fishout'});
 
 
             filter_data = tolowerparameters(parameters, {}, { // queParams
@@ -1525,7 +1562,7 @@
             return p;
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({"result": "fishout"}, {}, "fishout", err, inbound_parameters);
+            var finalobject = createfinalobject({"result": "fishout"}, {}, "fishout", err, inbound_parameters_121);
             return finalobject;
         }
     }
