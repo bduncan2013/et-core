@@ -889,7 +889,8 @@
                                                                 } else {
                                                                     if ((rightparameters["linktype"] === "onetoone") ||
                                                                         (rightparameters["linktype"] === "manytoone") ||
-                                                                        (rightparameters["linktype"] === "jsononetoone")) {
+                                                                        (rightparameters["linktype"] === "jsononetoone") ||
+                                                                        (rightparameters["linktype"] === "manytomany")) {
                                                                         parameterobject[rightparameters["metadata"]["method"]] = params;
                                                                     } else {
                                                                         if ((rightparameters["linktype"] === "jsononetoone") ||
@@ -1007,7 +1008,8 @@
                                                 (parameterobject['metadata'][eachmetadata]['type'] === "onetoone") ||
                                                 (parameterobject['metadata'][eachmetadata]['type'] === "jsononetomany") ||
                                                 (parameterobject['metadata'][eachmetadata]['type'] === "jsononetoone") ||
-                                                (parameterobject['metadata'][eachmetadata]['type'] === "manytoone")
+                                                (parameterobject['metadata'][eachmetadata]['type'] === "manytoone") ||
+                                                (parameterobject['metadata'][eachmetadata]['type'] === "manytomany")
                                             )
                                         ) {
                                             proxyprinttodiv('Function getwidmongo parameterobject III', parameterobject, 38);

@@ -241,9 +241,9 @@
         try {
             var inbound_parameters_100 = arguments;
 
-            proxyprinttodiv("addwidobject input input :- ", input, 99);
-            proxyprinttodiv("addwidobject input inputdto :- ", inputdto, 99);
-            proxyprinttodiv("addwidobject input command :- ", command, 99);
+            proxyprinttodiv("addwidobject input input :- ", input, 17);
+            proxyprinttodiv("addwidobject input inputdto :- ", inputdto, 17);
+            proxyprinttodiv("addwidobject input command :- ", command, 17);
 
             var _parent_object = {};
             var _parent_dto = {};
@@ -272,12 +272,12 @@
 
             // create parent by deleting all children in parent, create children adding
             if (inputdto.command && inputdto.command.dtolist) {
-                proxyprinttodiv("addwidobject inputdto.command :- ", inputdto.command, 99);
-                proxyprinttodiv("addwidobject inputdto.command.dtolist :- ", inputdto.command.dtolist, 99);
+                proxyprinttodiv("addwidobject inputdto.command :- ", inputdto.command, 17);
+                proxyprinttodiv("addwidobject inputdto.command.dtolist :- ", inputdto.command.dtolist, 17);
 
                 for (var each_property in inputdto.command.dtolist) { // go through list of children
                     if (inputdto.command.dtolist.hasOwnProperty(each_property)) {
-                        proxyprinttodiv("each_property :- ", each_property, 99);
+                        proxyprinttodiv("each_property :- ", each_property, 17);
 
                         _dto = {};
                         _dto["dtoname"] = each_property;
@@ -293,14 +293,14 @@
                             delete _parent_dto[each_property];
 
                             if (input[each_property]) {
-                                proxyprinttodiv("addwidobject found input[each_property] :- ", input[each_property], 99);
+                                proxyprinttodiv("addwidobject found input[each_property] :- ", input[each_property], 17);
                                 //_children_object_collection[each_property] = {};
                                 //extend(true, _children_object_collection[each_property], input[each_property]);
                                 _children_object_collection[each_property] = JSON.parse(JSON.stringify(input[each_property]));
                             }
 
                             if (inputdto[each_property]) {
-                                proxyprinttodiv("addwidobject found inputdto[each_property] :- ", inputdto[each_property], 99);
+                                proxyprinttodiv("addwidobject found inputdto[each_property] :- ", inputdto[each_property], 17);
                                 //_children_dto_collection[each_property] = {};
                                 //extend(true, _children_dto_collection[each_property], inputdto[each_property]);
                                 _children_dto_collection[each_property] = JSON.parse(JSON.stringify(inputdto[each_property]));
@@ -312,9 +312,9 @@
                 }
             }
 
-            proxyprinttodiv("_children_object_collection :- after ", _children_object_collection, 99);
-            proxyprinttodiv("_child_dto_list after", _children_dto_list, 99);
-            proxyprinttodiv(" _children_dto_collection after",  _children_dto_collection, 99);
+            proxyprinttodiv("_children_object_collection :- after ", _children_object_collection, 17);
+            proxyprinttodiv("_child_dto_list after", _children_dto_list, 17);
+            proxyprinttodiv(" _children_dto_collection after",  _children_dto_collection, 17);
 
             // send the parent object and dto to addrecord
             addrecord(_parent_object, _parent_dto, parentwid, parentmethod, relationshiptype, command, function (err, res) {
@@ -323,7 +323,7 @@
                     callback(err, res);
                 } else {
                     // try {
-                        proxyprinttodiv("addrecord parentobj result :- ", res, 99);
+                        proxyprinttodiv("addrecord parentobj result :- ", res, 17);
 
                         _parent_object = res;
                         _parent_wid = res['wid'];
@@ -337,8 +337,8 @@
                                 // new _child_object_map up, if not we can mess thing up
                                 var _child_object_map = [];
 
-                                proxyprinttodiv("_children_object_collection :- ", _children_object_collection, 99);
-                                proxyprinttodiv("_children_dto_list eachchild :- ", eachchild, 99);
+                                proxyprinttodiv("_children_object_collection :- ", _children_object_collection, 17);
+                                proxyprinttodiv("_children_dto_list eachchild :- ", eachchild, 17);
 
                                 // look up child object and dto
                                 // if ((eachchild.dtotype==="onetomany" || (eachchild.dtotype==="jsononetomany")) {
@@ -350,8 +350,8 @@
 
                                 delete _children_object_collection[eachchild.dtoname];
                                 delete _children_dto_collection[eachchild.dtoname];
-                                proxyprinttodiv("_child_dto :- ", _child_dto, 99);
-                                proxyprinttodiv("_child_object :- ", _child_object, 99);
+                                proxyprinttodiv("_child_dto :- ", _child_dto, 17);
+                                proxyprinttodiv("_child_object :- ", _child_object, 17);
 
                                 if (!isArray(_child_object)) {
                                     _child_object_map.push(_child_object);
@@ -362,13 +362,13 @@
                                     _child_dto = _child_dto[0]
                                 }
                                 
-                                proxyprinttodiv("_child_object map :- ", _child_object_map, 99);
-                                proxyprinttodiv("_child_object map :- ", _child_object_map, 99);
+                                proxyprinttodiv("_child_object map :- ", _child_object_map, 17);
+                                proxyprinttodiv("_child_object map :- ", _child_object_map, 17);
                                 // only do this if we have a child object map - joe
                                 if(_child_object_map) {
                                     async.mapSeries(_child_object_map, function (_child_object, cbMap2) {
                                         async.nextTick(function () {
-                                            proxyprinttodiv("_child_object loop :- ", _child_object, 99);
+                                            proxyprinttodiv("_child_object loop :- ", _child_object, 17);
                                             //if (isArray(_child_dto)) && 
                                             //    ((eachchild.dtotype==="jsononetomany") || (eachchild.dtotype==="onetomany")) {
                                             if (_child_object && Object.keys(_child_object).length !== 0 &&
@@ -424,7 +424,7 @@
                                 try {
                                     // I'm guessing here but if we have left over children in the children collection then we recurse
                                     if (Object.keys(_children_object_collection).length !== 0) {
-                                        proxyprinttodiv("addwidobject left over children -- _children_object_collection: ", _children_object_collection, 99);
+                                        proxyprinttodiv("addwidobject left over children -- _children_object_collection: ", _children_object_collection, 17);
                                         addwidobject(_children_object_collection, _children_dto_collection, command, function (err, res) {
                                             // If error, bounce out
                                             if (err && Object.keys(err).length > 0) {
@@ -480,10 +480,10 @@
             // if the incoming relationship is one to one 
             async.series([
                     function step1(step1_callback) {
-                        if ((relationshiptype === "onetoone") || (relationshiptype === "manytoone")) {
+                        if ((relationshiptype === "onetoone") || (relationshiptype === "manytoone") || (relationshiptype === "manytomany")) {
                             proxyprinttodiv("addrecord async.series fired with relationshiptype -- ", relationshiptype, 17);
 
-                            if (relationshiptype === "onetoone") {
+                            if ((relationshiptype === "onetoone") || (relationshiptype === "manytomany")) {
                                 executeobject["executethis"] = "querywid";
                                 executeobject["mongorawquery"] = {
                                     "$and": [{
@@ -510,7 +510,7 @@
                                 } else {
                                     try { 
                                         var widrecord;
-                                        if ((widset.length > 0) && (relationshiptype === "onetoone")) {
+                                        if ((widset.length > 0) && (relationshiptype === "onetoone") || (relationshiptype === "manytomany")) {
                                             for (var wid in widset[0]) {
                                                 widrecord = widset[0][wid];
                                             }
@@ -566,8 +566,8 @@
                                     relobj["metadata"]["method"] = "relationshipdto";
                                     relobj["linktype"] = relationshiptype;
 
-                                    if (relationshiptype === "onetoone" || relationshiptype === "onetomany" || relationshiptype === "manytoone") {
-                                        if (relationshiptype === "onetoone" || relationshiptype === "onetomany") {
+                                    if (relationshiptype === "onetoone" || relationshiptype === "onetomany" || relationshiptype === "manytoone" || (relationshiptype === "manytomany")) {
+                                        if (relationshiptype === "onetoone" || relationshiptype === "onetomany" || (relationshiptype === "manytomany")) {
                                             relobj["primarywid"] = parentwid;
                                             relobj["secondarywid"] = addobject['wid'];
 
