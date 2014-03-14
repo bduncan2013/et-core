@@ -24,15 +24,25 @@ if (typeof angular !== 'undefined') {
                 console.log('********************************************');
 
                 scope[thisWid] = obj;
+
+                // sync up storage by calling offlineaddtomongo
+                var mongoObj = extend(true, {wid:objName}, obj);
+                offlineaddtomongo(mongoObj, {}, function (err, results) {
+                    if (err && Object.size(err) > 0) {
+                        console.log('error adding ' + mongoObj.wid + ' using offlineaddtomongo.  error => ' + JSON.stringify(err));
+                    }
+                });
             }
 
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
                     if (obj[prop] instanceof Object) {
-                        console.log('********************************************');
-                        console.log('**ngModelData** bind-able data for ' + prop + ' :');
-                        console.log(obj[prop]);
-                        console.log('********************************************');
+                        if (typeof scope[prop] === 'undefined' || prop === 'data') {
+                            console.log('********************************************');
+                            console.log('**ngModelData** bind-able data for ' + prop + ' :');
+                            console.log(obj[prop]);
+                            console.log('********************************************');
+                        }
 
                         scope[prop] = obj[prop];
 
@@ -49,13 +59,13 @@ if (typeof angular !== 'undefined') {
             storeData: function(results, scope, modelKey, callback) {
                 if (results !== null && results instanceof Object) {
                     storeAllData(results, scope, modelKey, function () {
-                        if (callback instanceof Function) { callback(results); }
+                        if (callback instanceof Function) { callback(null, results); }
                     });
                 } else if (Array.isArray(results)) {
                     for (var i = 0; i < results.length; i++) {
                         if (results[i] !== null && results[i] instanceof Object) {
                             storeAllData(results[i], scope, modelKey, function () {
-                                if (callback instanceof Function) { callback(results); }
+                                if (callback instanceof Function) { callback(null, results); }
                             });
                         }
                     }
@@ -135,7 +145,7 @@ if (typeof angular !== 'undefined') {
                 angularExecute(executeObj, function (err, returnArray) { });
             }
 
-            dataService.storeData(result, scope, undefined, function (dataset) {
+            dataService.storeData(result, scope, undefined, function (err, dataset) {
                 // check if this is a screenwid and needs to be displayed
                 if (dataset.html) {
                     etProcessScreenWid(dataset, scope, function () {
@@ -253,23 +263,33 @@ if (typeof angular !== 'undefined') {
             // get urlparams and inwid parameters and call executeThis with them
             // executeThis will check for screenwids to display
             executeService.executeThis(urlExecuteObj, $scope, function (err, urlResultArr) {
-                var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
-                extend(true, processParams, urlResultObj.data);
-
-                executeService.executeThis({executethis:'inwid'}, $scope, function (err, inwidResultArr) {
-                    extend(true, processParams, widAppHelper.mergeNestedArray(inwidResultArr));
-
-                    if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
-
-                    if (processParams.wid) {
-                        processParams.executethis = processParams.wid;
-                        delete processParams['wid'];
+                if (err && Object.size(err) > 0) {
+                    for (var i in err.error) {
+                        console.log('Failure during urlparams addwidmaster => ' + err.error[i]);
                     }
+                } else {
+                    var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
+                    extend(true, processParams, urlResultObj.data, urlResultObj.metadata || {});
 
-                    if (processParams.metadata) { delete processParams['metadata']; }
+                    executeService.executeThis({executethis:'inwid'}, $scope, function (errors, inwidResultArr) {
+                        if (err && Object.size(errors) > 0) {
+                            for (var i in errors.error) {
+                                console.log('Failure getting inwid => ' + errors.error[i]);
+                            }
+                        } else {
+                            extend(true, processParams, widAppHelper.mergeNestedArray(inwidResultArr));
 
-                    executeService.executeThis(processParams, $scope);
-                });
+                            if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
+
+                            if (processParams.wid) {
+                                processParams.executethis = processParams.wid;
+                                delete processParams['wid'];
+                            }
+
+                            executeService.executeThis(processParams, $scope);
+                        }
+                    });
+                }
             });
 
             // package url parameters into model
@@ -431,155 +451,6 @@ if (typeof angular !== 'undefined') {
             //</editor-fold>
         }
     ]);
-
-    widApp.controller('scaffoldCtrl', ['$scope', 'dataService', 'executeService', function($scope, dataService, executeService) {
-        var allowedAttrs = [
-                ['ng-model'],
-                ['onclick'],
-                ['ng-show'],
-                ['ng-hide'],
-                ['id'],
-                ['style'],
-                ['ng-click']
-            ],
-            cleanOpts = {
-                format: true,
-                formatIndent: -20,
-                allowedAttributes: allowedAttrs,
-                allowEmpty: ['script'],
-                bodyOnly: false
-            };
-
-        $scope.sDOM = $(document.createElement('html'));
-        $scope.wid = widAppHelper.getUrlParam('wid');
-
-        // set up head and body elements
-        var head = $(document.createElement('head'));
-        head.append('<meta name="viewport" content="width=device-width, initial-scale=1.0">'+
-            '<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"/>'+
-            '<script src="../js/async.js"></script>'+
-            '<script src="../js/et-utils.js"></script>'+
-            '<script src="../js/config-local.js"></script>'+
-            '<script src="../js/et-get.js"></script>'+
-            '<script src="../js/et-add.js"></script>'+
-            '<script src="../js/et-query.js"></script>'+
-            '<script src="../js/et-test.js"></script>'+
-            '<script src="../js/et-unit_tests.js"></script>'+
-            '<script src="../js/et-security.js"></script>'+
-            '<script src="../js/executethis.js"></script>'+
-            '<script src="../js/et-dto.js"></script>'+
-            '<script src="http://code.jquery.com/jquery-latest.min.js"></script>'+
-            '<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>'+
-            '<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>'+
-            '<script src="js/ngWidApp.js"></script>'+
-            '<script src="js/et-converttoscreenwid.js"></script>'+
-            '<script>var widforview = "' + $scope.wid + '", ' +
-            'links = [{class:"updatewidbtn",trigger:"click",action:"commitchangestowid"},' +
-            '{class:"delbtn",trigger:"click",action:"toggledelete"}]; </script>' +
-            '<style>.input-group { padding: 3px; }</style>');
-
-        var body = $(document.createElement('body'));
-
-        $scope.sDOM.append(head);
-        $scope.sDOM.append(body);
-
-        // set up container div
-        var containerdiv = $(document.createElement('div'));
-        containerdiv.addClass('container');
-
-        // set up header
-        var jumbotron = $(document.createElement('div'));
-        jumbotron.addClass('jumbotron');
-        jumbotron.append('<h1>Edit the ' + $scope.wid + ' wid.</h1>');
-        containerdiv.append(jumbotron);
-
-        // set up a commit changes script block that will update the current wid
-        var commitChangesEle = $(document.createElement('script'));
-        commitChangesEle.html("function commitchangestowid() { " +
-            "var executeobj = {executethis:addwidmaster,wid:'" + $scope.wid + "'}, pNames = $('.pname'), pValues = $('.pvalue'), actiontaken = 'updated'; " +
-            " for (var i = 0; i < pNames.length; i++) { executeobj[pNames[i].value] = pValues[i].value; } " +
-            "if ($('.delbtn').hasClass('btn-danger')) { if (!executeobj.metadata) { executeobj.metadata = {}; } executeobj.metadata.status = 5; actiontaken = 'deleted'; toggledelete(); } " +
-            "execute(executeobj, function(err, resultsArr) { " +
-            "if(err && Object.size(err) > 0) { $('#errorlog').html(JSON.stringify(err)); } " +
-            "else { $('#successlog').html('" + $scope.wid + " was successfully ' + actiontaken + '.'); $('.delrowbtn').remove(); } });}");
-
-        var deleteCheckEle = $(document.createElement('script'));
-        deleteCheckEle.html("function toggledelete() { $('.delbtn').toggleClass('btn-danger'); " +
-            "if ($('.delbtn').hasClass('btn-danger')) { $('.deletemessage').show(); } else { $('.deletemessage').hide(); } }");
-
-        $scope.sDOM.find('body').append(containerdiv);
-        $scope.sDOM.find('body').append(commitChangesEle);
-        $scope.sDOM.find('body').append(deleteCheckEle);
-
-        var proplist = $(document.createElement('div'));
-        proplist.addClass('row well');
-        proplist.attr('id', 'propertyList');
-
-        // create rows and inputs for each property in wid
-        async.series([
-                function(cb) {
-                    execute({executethis:$scope.wid},
-                        function (err, resultsArr) {
-                            cb(null, resultsArr);
-                        });
-                }
-            ],
-            function(err, resultsArray) {
-                for (var x = 0; x < resultsArray.length; x++) {
-                    for (var y = 0; y < resultsArray[x].length; y++) {
-                        for (var i = 0; i < resultsArray[x][y].length; i++) {
-                            if (resultsArray[x][y][i] instanceof Object) {
-                                for (var propName in resultsArray[x][y][i]) {
-                                    proplist.append("<span><div class='input-group col-md-6'> <span class='input-group-addon'>Key</span>" +
-                                        "<input type='text' value='" + propName + "' class='pname form-control'>" +
-                                        "</div><div class='input-group col-md-6'> <span class='input-group-addon'>Value</span>" +
-                                        "<input type='text' ng-model='" + $scope.wid + "." + propName + "' class='pvalue form-control'></div></span>");
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-        $scope.sDOM.find('.container').append(proplist);
-
-        // set up buttons
-        var updateWidBtn = $(document.createElement('button'));
-        updateWidBtn.addClass('btn btn-primary updatewidbtn');
-        updateWidBtn.text('Update ' + $scope.wid);
-
-        var addbtn = $(document.createElement('button'));
-        addbtn.addClass('btn btn-info');
-        addbtn.text('Add Property');
-        addbtn.attr('ng-click', 'newPropRow()');
-
-        var delbtn = $(document.createElement('button'));
-        delbtn.addClass('btn delbtn');
-        delbtn.text('Delete');
-
-        var delmessage = $(document.createElement('span'));
-        delmessage.addClass('label label-danger deletemessage');
-        delmessage.attr('style', 'display:none;');
-        delmessage.text('click update to delete ' + $scope.wid);
-
-        var btndiv = $(document.createElement('div'));
-        btndiv.addClass('row');
-        btndiv.append(updateWidBtn);
-        btndiv.append(addbtn);
-        btndiv.append(delbtn);
-        btndiv.append(delmessage);
-
-        // set up log div
-        var logdiv = $(document.createElement('div'));
-        logdiv.addClass('container');
-        logdiv.append(['<p id="errorlogo" class="row"></p>','<p id="successlog" class="row"></p>']);
-
-        $scope.sDOM.find('.container').append([btndiv, logdiv]);
-
-        var domOuterHtml = $scope.sDOM.clone().wrap('<p>').parent().html();
-
-        $('#htmlview').text($.htmlClean(domOuterHtml, cleanOpts));
-    }]);
 
     //</editor-fold>
 
@@ -862,8 +733,19 @@ if (typeof angular !== 'undefined') {
     };
 
     // get an object or function from the current angularJS scope based on passed in property name
-    exports.getFromAngular = getFromAngular = function getFromAngular(propName) {
-        return $('body').scope()[propName];
+    exports.getFromAngular = getFromAngular = function getFromAngular(parameters, callback) {
+        var propName = parameters.wid || '',
+            scope = $('body').scope(),
+            modelObj;
+
+        if (scope) { modelObj = scope[propName]; }
+
+        if (modelObj) { callback(null, modelObj); }
+        else {
+            offlinegetfrommongo(parameters, {}, function (err, resultObj) {
+                callback(err, resultObj);
+            });
+        }
     };
 
     // adds the passed in object to the current angularJS scope (model) under the passed in name
