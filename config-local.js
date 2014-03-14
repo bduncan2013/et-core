@@ -5,9 +5,9 @@ if (!exports) {
 if (!config) { // used in executethis
     var config = {};
 }
-if (!environment) { // try to only use the one in configuration
-    var environment = 'local';
-}
+// if (!environment) { // try to only use the one in configuration
+//     var environment = 'local';
+// }
 if (!widMasterKey) { // used here and untils maybe
     var widMasterKey = 'widmaster_';
 }
@@ -160,8 +160,9 @@ function setdefaultparm() {
     debugcolor = 0;
     debugindent = 0;
     debuglinenum = 1;
-    environment = "local";
-    exports.environment = environment;
+    // environment = "local";
+    // exports.environment = environment;
+    exports.environment = "local";
     test_results = {}; // can take out
     debuglog = {};
     exports.debuglog = debuglog;

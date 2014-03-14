@@ -469,13 +469,24 @@
         return indexes;
     }
 
-    function show_function_output3(err, result_array) {
+    function show_function_output3(err, res) {
         // console.log("+++\n" + JSON.stringify(result_array, "-", 4));
         console.log("err object\n" + JSON.stringify(err, "-", 4));
+        console.log("result_array object\n" + JSON.stringify(res, "-", 4));
+
+        var result_array = [];
+        if (!res instanceof Array) {
+            result_array.push = res;
+        } else {
+            result_array = extend(true, result_array, res);
+        }
          
         if (Object.keys(err).length > 0) {
+            
+
             result_array.push(err)
         }
+
         proxyprinttodiv("result_array", result_array, 99);
 
         var server_output = [];
