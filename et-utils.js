@@ -2394,6 +2394,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             delete inputWidgetObject['metadata'];
         }
 
+        if (!metadata['expirationdate']) {metadata['expirationdate'] = new Date()};
 
         // for (eachwid in inputWidgetObject) {
         //     if ((inputWidgetObject[eachwid] == "onetomany") (inputWidgetObject[eachwid]=="onetoone")) {
@@ -2463,7 +2464,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             if (isArray(widobject[db])) {
                 outobject = widobject[db][0];
             } else {
-                outobject = widobject[db];
+                outobject = widobject[db] || {};
             }
 
             if (widobject['wid']) {

@@ -13,24 +13,31 @@
                     });
                 } else {
                     try {
-                            delete inputWidgetObject['executethis']; // ** added by Saurabh 38/9
+                        delete inputWidgetObject['executethis']; // ** added by Saurabh 38/9
 
-                            proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
+                        proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 1);
 
-                            getfrommongo(inputWidgetObject, function (err, resultobject) {
-                                // convert the object from dri standard before returnning it
-                                callback({}, convertfromdriformat(resultobject));
-                            });
+                        getfrommongo(inputWidgetObject, function (err, resultobject) {
+                            if (!resultobject) {
+                                resultobject = {};
+                            }
+                            // convert the object from dri standard before returnning it
+                            callback(null, convertfromdriformat(resultobject));
+                        });
                     } // end try
                     catch (err) {
-                        var finalobject = createfinalobject({"result": "getwid_authcall"}, {}, "getwid_authcall", err, inbound_parameters);
+                        var finalobject = createfinalobject({
+                            "result": "getwid_authcall"
+                        }, {}, "getwid_authcall", err, inbound_parameters);
                         callback(finalobject.err, finalobject.res);
                     }
                 }
             });
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({"result": "getwid"}, {}, "getwid", err, inbound_parameters);
+            var finalobject = createfinalobject({
+                "result": "getwid"
+            }, {}, "getwid", err, inbound_parameters);
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -131,9 +138,11 @@
                                         } // end try 
                                         catch (err) {
                                             //callback ({"status":"there was an error"}, {"function":"getwidmaster"}); 
-                                            var finalobject = createfinalobject({"result": "getwidmaster_getclean"}, {}, "getwidmaster_getclean", err, res);
+                                            var finalobject = createfinalobject({
+                                                "result": "getwidmaster_getclean"
+                                            }, {}, "getwidmaster_getclean", err, res);
                                             callback(finalobject.err, finalobject.res);
-                                        } 
+                                        }
                                     }
                                 });
                             } else {
@@ -199,15 +208,19 @@
                     } // end try 
                     catch (err) {
                         //callback ({"status":"there was an error"}, {"function":"getwidmaster"}); 
-                        var finalobject = createfinalobject({"result": "getwidmaster_getwidmongo"}, {}, "getwidmaster_getwidmongo", err, res);
+                        var finalobject = createfinalobject({
+                            "result": "getwidmaster_getwidmongo"
+                        }, {}, "getwidmaster_getwidmongo", err, res);
                         callback(finalobject.err, finalobject.res);
-                    } 
+                    }
                 }
             }); // end get wid mongo
         } // end try 
         catch (err) {
             //callback ({"status":"there was an error"}, {"function":"getwidmaster"}); 
-            var finalobject = createfinalobject({"result": "getwidmaster"}, {}, "getwidmaster", err, inbound_parameters);
+            var finalobject = createfinalobject({
+                "result": "getwidmaster"
+            }, {}, "getwidmaster", err, inbound_parameters);
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -403,7 +416,7 @@
                     if (err && Object.keys(err).length > 0) {
                         callback(err, res);
                     } else {
-                        try {                        
+                        try {
                             proxyprinttodiv("getdtoobject input res[0] ", res, 38);
                             if (res && (Object.keys(res[0]).length !== 0)) {
                                 dtoobject = res[0]
@@ -419,7 +432,9 @@
                         } // end try
                         catch (err) {
                             //callback ({"status":"there was an error"}, {"function":"getdtoobject"}); 
-                            var finalobject = createfinalobject({"result": "getdtoobject"}, {}, "getdtoobject", err, res);
+                            var finalobject = createfinalobject({
+                                "result": "getdtoobject"
+                            }, {}, "getdtoobject", err, res);
                             callback(finalobject.err, finalobject.res);
                         }
                     }
@@ -435,7 +450,9 @@
         } // end try
         catch (err) {
             //callback ({"status":"there was an error"}, {"function":"getdtoobject"}); 
-            var finalobject = createfinalobject({"result": "getdtoobject"}, {}, "getdtoobject", err, inbound_parameters);
+            var finalobject = createfinalobject({
+                "result": "getdtoobject"
+            }, {}, "getdtoobject", err, inbound_parameters);
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -541,7 +558,9 @@
                                         }
                                     } // end try
                                     catch (err) {
-                                        var finalobject = createfinalobject({"result": "getWidMongo_execute(executeobject"}, {}, "getWidMongo_execute(executeobject", err, res);
+                                    var finalobject = createfinalobject({
+                                        "result": "getWidMongo_execute(executeobject"
+                                    }, {}, "getWidMongo_execute(executeobject", err, res);
                                         cb(finalobject.err, finalobject.res);
                                     }
                                 }
@@ -556,28 +575,28 @@
                     // *** Override ***
                     // Date: 10 MAR 14
                     // Purpose: Looks at the current object and determines if we need to grab new data and override values on properties
-                    function processOverride(cb){
+                    function processOverride(cb) {
 
                         // Sample error  
                         // throw({'Emeralds': 'make cities'});
 
-                        if(command.getwidmaster.convertmethod !== "donotoverride" && Object.keys(parameterobject).length != 0 &&
+                        if (command.getwidmaster.convertmethod !== "donotoverride" && Object.keys(parameterobject).length != 0 &&
                             parameterobject.metadata && parameterobject.metadata.inherit && parameterobject.metadata.inherit.override) {
-                                
+
                             proxyprinttodiv("GetWidMongo start processOverride", parameterobject, 38);
                             // list of overrides to get
                             var overrides = parameterobject.metadata.inherit.override;
                             delete parameterobject.metadata.inherit;
                             var overrideData = [];
-                            
+
                             // make a seperate getwidmaster call for each override to collect all the override data                        
                             async.mapSeries(overrides, function (overrideToGet, cbMap) {
                                 // next tick?
                                 execute({
                                     "executethis": "getwidmaster",
                                     "wid": overrideToGet,
-                                    "command.getwidmaster.convertmethod":"nowid",
-                                    "command.getwidmaster.dtotype":""
+                                    "command.getwidmaster.convertmethod": "nowid",
+                                    "command.getwidmaster.dtotype": ""
                                 }, function (err, res) {
                                     // If error, bounce out
                                     if (err && Object.keys(err).length > 0) {
@@ -592,12 +611,26 @@
                                             cbMap(null);
                                         } // end try
                                         catch (err) {
-                                            var finalobject = createfinalobject({"result": "getWidMongo_execute_getwidmaster"}, {}, "getWidMongo_execute_getwidmaster", err, res);
+                                            var finalobject = createfinalobject({
+                                                "result": "getWidMongo_execute_getwidmaster"
+                                            }, {}, "getWidMongo_execute_getwidmaster", err, res);
                                             cbMap(finalobject.err, finalobject.res);
                                         }
                                     } // end else
                                 });
                             }, function (err, res) {
+                                // <<<<<<< HEAD
+                                //                                 // iterate over the override data and override the parameterobject with it
+                                //                                 overrideData.forEach(function (element, index, array) {
+                                //                                     proxyprinttodiv("GetWidMongo -- override! --", element, 38);
+                                //                                     // TODO remove these
+                                //                                     delete element.metadata;
+                                //                                     delete element.wid;
+                                //                                     extend(true, parameterobject, element);
+                                //                                 });
+                                //                                 proxyprinttodiv("GetWidMongo override processing done", parameterobject, 38);
+                                //                                 cb(null);
+                                // =======
                                 // If error, bounce out
                                 if (err && Object.keys(err).length > 0) {
                                     // callback(err, results);
@@ -614,12 +647,14 @@
                                         });
                                         proxyprinttodiv("GetWidMongo override processing done", parameterobject, 99);
                                         cb(null);
-                                    }
-                                    catch (err) {
-                                        var finalobject = createfinalobject({"result": "getWidMongo_processoverride_execute_II"}, {}, "getWidMongo_processoverride_execute_II", err, res);
+                                    } catch (err) {
+                                        var finalobject = createfinalobject({
+                                            "result": "getWidMongo_processoverride_execute_II"
+                                        }, {}, "getWidMongo_processoverride_execute_II", err, res);
                                         cb(finalobject.err, finalobject.res);
                                     }
                                 }
+                                // >>>>>>> eea290576466c63cb256fdebc4de5dc73ef0836d
                             }); // end async
                         } else {
                             proxyprinttodiv("GetWidMongo no override to process", parameterobject, 38);
@@ -647,15 +682,16 @@
                                             if (err && Object.keys(err).length > 0) {
                                                 cb1(err, 'step2n1');
                                             } else {
-                                                try {   
+                                                try {
                                                     proxyprinttodiv('Function getwidmongo query res', res, 38);
                                                     if (Object.keys(res).length !== 0) {
                                                         moreDTOParameters = res;
                                                     }
-                                                    cb1(null, 'step2n1');                                                
-                                                }
-                                                catch (err) {
-                                                    var finalobject = createfinalobject({"result": "getWidMongo_processoverride_execute_II"}, {}, "getWidMongo_processoverride_execute_II", err, 'step2n1');
+                                                    cb1(null, 'step2n1');
+                                                } catch (err) {
+                                                    var finalobject = createfinalobject({
+                                                        "result": "getWidMongo_processoverride_execute_II"
+                                                    }, {}, "getWidMongo_processoverride_execute_II", err, 'step2n1');
                                                     cb1(finalobject.err, finalobject.res);
                                                 }
                                             }
@@ -666,7 +702,7 @@
                                     // If error, bounce out
                                     if (err && Object.keys(err).length > 0) {
                                         cb(err, res);
-                                    }else{
+                                    } else {
                                         proxyprinttodiv('Function getwidmongo query part 2', res, 38);
                                         cb(null, 'two');
                                     }
@@ -884,7 +920,9 @@
                                                             //}
                                                         } // end try
                                                         catch (err) {
-                                                            var finalobject = createfinalobject({"result": "getWidMongo_getWidMongo"}, {}, "getWidMongo_getWidMongo", err, params);
+                                                        var finalobject = createfinalobject({
+                                                            "result": "getWidMongo_getWidMongo"
+                                                        }, {}, "getWidMongo_getWidMongo", err, params);
                                                             cbMap(finalobject.err, finalobject.res);
                                                         }
                                                     } // end else
@@ -1031,7 +1069,7 @@
                     if (err && Object.keys(err).length > 0) {
                         callback(err, results);
                     } else {
-                        try {        
+                        try {
                             if (Object.keys(parameterobject.command).length === 0) {
                                 delete parameterobject.command
                             }
@@ -1043,14 +1081,18 @@
                             callback(null, parameterobject);
                         } // end try
                         catch (err) {
-                            var finalobject = createfinalobject({"result": "getWidMongo_end_async"}, {}, "getWidMongo_end_async", err, results);
+                            var finalobject = createfinalobject({
+                                "result": "getWidMongo_end_async"
+                            }, {}, "getWidMongo_end_async", err, results);
                             callback(finalobject.err, finalobject.res);
                         }
                     }
                 });
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({"result": "getWidMongo"}, {}, "getWidMongo", err, inbound_parameters);
+            var finalobject = createfinalobject({
+                "result": "getWidMongo"
+            }, {}, "getWidMongo", err, inbound_parameters);
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -1140,10 +1182,13 @@
                             //         });
                             //     }
                             // }
-                            if (bigdto.command.inherit.default) {
-                                for (var eachkey in bigdto.command.inherit.default) {
+                            if (bigdto.command.inherit.
+                                default) {
+                                for (var eachkey in bigdto.command.inherit.
+                                    default) {
                                     listToDo.push({
-                                        "default": bigdto.command.inherit.default [eachkey]
+                                        "default": bigdto.command.inherit.
+                                        default [eachkey]
                                     });
                                 }
                             }
@@ -1184,7 +1229,7 @@
                                             }, function (err, res) {
                                                 if (err && Object.keys(err).length > 0) {
                                                     cbMap(err, res);
-                                                } else {   
+                                            } else {
                                                     try {
                                                         if ((res.length > 0) && (Object.keys(res[0]).length > 0)) {
 
@@ -1207,7 +1252,9 @@
                                                     } // end try
                                                     catch (err) {
                                                         //callback ({"status":"there was an error"}, {"function":"getclean"});
-                                                        var finalobject = createfinalobject({"result": "getclean_execute_getwidmaster"}, {}, "getclean_execute_getwidmaster", err, res);
+                                                    var finalobject = createfinalobject({
+                                                        "result": "getclean_execute_getwidmaster"
+                                                    }, {}, "getclean_execute_getwidmaster", err, res);
                                                         cbMap(finalobject.err, finalobject.res);
                                                     }
                                                 }
@@ -1221,7 +1268,7 @@
                                 }, function (err, res) {
                                     if (err && Object.keys(err).length > 0) {
                                         cb(err, res);
-                                    }else{   
+                                    } else {
                                         cb(null);
                                     }
                                 }); //end mapseries
@@ -1327,7 +1374,7 @@
                         // If error, bounce out
                         if (err && Object.keys(err).length > 0) {
                             callback(err, resultObj);
-                        } else {    
+                        } else {
                             try {
                                 //deepfilter(resultObj, bigdto, command, function (err, resultObj){
                                 delete command.deepfilter;
@@ -1350,7 +1397,9 @@
                             } // end try
                             catch (err) {
                                 //callback ({"status":"there was an error"}, {"function":"getclean"});
-                                var finalobject = createfinalobject({"result": "getclean_deepfilter"}, {}, "getclean_deepfilter", err, resultObj);
+                                var finalobject = createfinalobject({
+                                    "result": "getclean_deepfilter"
+                                }, {}, "getclean_deepfilter", err, resultObj);
                                 callback(finalobject.err, finalobject.res);
                             }
                         }
@@ -1360,7 +1409,9 @@
         } // end try
         catch (err) {
             //callback ({"status":"there was an error"}, {"function":"getclean"});
-            var finalobject = createfinalobject({"result": "getclean"}, {}, "getclean", err, inbound_parameters);
+            var finalobject = createfinalobject({
+                "result": "getclean"
+            }, {}, "getclean", err, inbound_parameters);
             callback(finalobject.err, finalobject.res);
         }
     }
