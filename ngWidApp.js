@@ -885,6 +885,20 @@ if (typeof angular !== 'undefined') {
     };
 }
 
+exports.gethtmlbyid = gethtmlbyid = function gethtmlbyid(params, callback) {
+    execute({executethis:'getwidmaster',wid:params.fromwid},
+        function (err, resultsArray) {
+            var results = widAppHelper.mergeNestedArray(resultsArray),
+                html = result.html || '',
+                foundHtml = $('<div>' + html + '</div>').find('#' + results.fromid)[0].outerHTML;
+
+            execute({executethis:'addwidmaster',wid:results.towid,html:foundHtml},
+                function (err, returnArray) {
+                    callback(null, foundHtml);
+                });
+        });
+};
+
 // passed in html and parameters become a screenWid with the passed in name
 // and saved as a screenWid object using addWidMaster
 exports.htmlToScreenwid = htmlToScreenwid = function htmlToScreenwid(screenWidName, html, params, callback) {
