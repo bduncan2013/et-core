@@ -298,7 +298,8 @@
                                         tempobj[eachitem] = metadata[eachitem]['type'];
                                         extend(true, dtolist, tempobj);
                                         // eachitem would be a child
-                                        if ((metadata[eachitem]['type'] === "onetomany" ||
+                                        if ((metadata[eachitem]['type'] === "onetomany" || 
+                                                metadata[eachitem]['type'] === "manytomany" ||
                                                 metadata[eachitem]['type'] === "jsononetomany") &&
                                             (!isArray(inobj[eachitem]))) {
                                             tempArray = [];
@@ -886,6 +887,7 @@
                                                                 //                                    else { // if not dto, i.e most of time
                                                                 if ((rightparameters) && (rightparameters["linktype"])) {
                                                                     if ((rightparameters["linktype"] === "onetomany") ||
+                                                                        (rightparameters["linktype"] === "manytomany") ||
                                                                         (rightparameters["linktype"] === "jsononetomany")) {
                                                                         //if (Object.prototype.toString.call(parameterobject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
                                                                         if (!isArray(parameterobject[rightparameters["metadata"]["method"]])) {
@@ -895,8 +897,9 @@
                                                                     } else {
                                                                         if ((rightparameters["linktype"] === "onetoone") ||
                                                                             (rightparameters["linktype"] === "manytoone") ||
-                                                                        (rightparameters["linktype"] === "jsononetoone") ||
-                                                                        (rightparameters["linktype"] === "manytomany")) {
+                                                                        (rightparameters["linktype"] === "jsononetoone") 
+                                                                        // || (rightparameters["linktype"] === "manytomany")
+                                                                        ) {
                                                                             parameterobject[rightparameters["metadata"]["method"]] = params;
                                                                         } else {
                                                                             if ((rightparameters["linktype"] === "jsononetoone") ||

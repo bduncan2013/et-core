@@ -504,10 +504,10 @@
             async.series([
                     function step1(step1_callback) {
                         try {                   
-                        if ((relationshiptype === "onetoone") || (relationshiptype === "manytoone") || (relationshiptype === "manytomany")) {
+                        if ((relationshiptype === "onetoone") || (relationshiptype === "manytoone")) { //|| (relationshiptype === "manytomany")
 
                                 proxyprinttodiv("addrecord async.series fired with relationshiptype -- ", relationshiptype, 17);
-                            if ((relationshiptype === "onetoone") || (relationshiptype === "manytomany")) {
+                            if ((relationshiptype === "onetoone")) { //|| (relationshiptype === "manytomany")
                                     executeobject["executethis"] = "querywid";
                                     executeobject["mongorawquery"] = {
                                         "$and": [{
@@ -536,7 +536,7 @@
                                     } else {
                                         try { 
                                             var widrecord;
-                                        if ((widset.length > 0) && (relationshiptype === "onetoone") || (relationshiptype === "manytomany")) {
+                                        if ((widset.length > 0) && (relationshiptype === "onetoone")) { //|| (relationshiptype === "manytomany")
                                                 for (var wid in widset[0]) {
                                                     widrecord = widset[0][wid];
                                                 }
