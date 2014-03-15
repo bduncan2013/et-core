@@ -43,7 +43,7 @@
             "metadata.editactiondto.type": "manytoone",
             "metadata.deleteactiondto.type": "manytoone",
             "metadata.addactiondto.type": "manytoone",
-            "metadata.groupdto.type": "manytoone",
+            "metadata.groupdto.type": "manytoone"
         }, {
             // Create a default actionset
             "executethis": "addwidmaster",
@@ -301,7 +301,7 @@
             //"metadata.dbdto.type":"manytomany",
             //"metadata.collectiondto.type":"manytomany",
             "metadata.inherit.override": "dtooverride",
-            "metadata.inherit.default": "dtodefault",
+            "metadata.inherit.default": "dtodefault"
         }, {
             // Create the environmentdto
             "executethis": "addwidmaster",
@@ -432,7 +432,8 @@
                 "executethis": "addwidmaster",
                 "wid": "managers_grp",
                 "metadata.method": "groupdto",
-                "groupname": "managers")
+                "groupname": "managers"
+            }
         ]);
     }
 
@@ -624,7 +625,7 @@
                 "metadata.permissiondto.type": "onetomany",
                 "metadata.groupdto.type": "onetomany",
                 "metadata.interfacedto.type": "manytoone",
-                "metadata.systemdto.type": "jsononetoone",
+                "metadata.systemdto.type": "jsononetoone"
                 //"metadata.inherit.default":"actionsetdefaults"
             }, {
                 // Create the userdto
@@ -676,7 +677,7 @@
                 "executethis": "addwidmaster",
                 "metadata.method": "childdto",
                 "wid": "childdto",
-                "phonechild": "string",
+                "phonechild": "string"
             }, {
                 //create grandchilddto
                 "executethis": "addwidmaster",
@@ -991,7 +992,7 @@
                 // "systemdto.securitydto.status": "status1"
             }, {
                 "executethis": "getwidmaster",
-                "wid": "userdto",
+                "wid": "userdto"
                 // }, {
                 //     "executethis": "getwidmaster",
                 //     "wid": "testdto",
@@ -1060,7 +1061,7 @@
                 "executethis": "addwidmaster",
                 "wid": wid,
                 "metadata.method": widmethod,
-                "systemdto.groupdto.groupname": groupname,
+                "systemdto.groupdto.groupname": groupname
             }],
             function (err, res) {
                 // proxyprinttodiv('Function addgrouptowid done --added group ' + groupname + ' for wid ' + wid + " >>>> ", wid, 39);
@@ -1121,7 +1122,7 @@
                 // security data
                 "metadata.method": "userdto",
                 "systemdto.securitydto.accesstoken": accesstoken,
-                "systemdto.securitydto.level": loginlevel,
+                "systemdto.securitydto.level": loginlevel
             }],
             function (err, res) {
                 proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + wid, res, 39);
