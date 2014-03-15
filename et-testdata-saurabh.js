@@ -343,7 +343,11 @@
         async.series([
                 function (cb1) {
                     // creste schema data
-                    createsystemdtos({}, function (err, res) {
+                    // createsystemdtos({}, function (err, res) {
+                    //     proxyprinttodiv('Function  ettestsec1  added schema dtos ', res, 39);
+                    //     cb1(null);
+                    // });
+                    createalldtos({}, function (err, res) {
                         proxyprinttodiv('Function  ettestsec1  added schema dtos ', res, 39);
                         cb1(null);
                     });
@@ -523,7 +527,6 @@
                 // });
             });
     }
-
 
 
     // data 
