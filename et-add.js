@@ -15,9 +15,7 @@
                     callback(err, results);
                 } else {
                     try {
-
                         proxyprinttodiv('Function updatewid in : x', results, 10);
-
                         debugfn("updatewid code generator", "updatewid", "", "code", 2, 1, {
                             0: originalarguments,
                             1: results
@@ -138,65 +136,33 @@
             extend (true, inbound_parameters, dtoobject);
 
             getdtoobject(object, command, function (err, res) {
-// <<<<<<< HEAD
-//                 dtoobject = res;
-//                 proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
 
-//                 var dto_to_get;
-//                 var big_dto = {};
-//                 var result_obj = {};
-//                 var output = {};
-
-//                 output.obj = object;
-//                 output.dtoobj = dtoobject;
-//                 dto_to_get = res['metadata']['method'];
-//                 if (dto_to_get !== "string") {
-//                     proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 17);
-//                     execute({
-//                         "executethis": "getwidmaster",
-//                         "wid": dto_to_get,
-//                         "command.getwidmaster.execute": "ConvertFromDOTdri",
-//                         "command.getwidmaster.convertmethod": "dto"
-//                     }, function (err, res) {
-//                         // If error, bounce out
-//                         if (err && Object.keys(err).length > 0) {
-//                             callback(err, res);
-//                         } else {
-//                             //
-//                             proxyprinttodiv("cleanadd after execute", res, 17);
-
-//                             big_dto = res[0];
-//                             result_obj = insertbydtotype(object, big_dto, {}, command); // this fn in et-get
-//                             proxyprinttodiv("cleanadd after insertbydtotype", result_obj, 17);
-//                             //command.deepfilter.convert="fromstring"; not needed since done in addwid anyway
-//                             if (!command) {
-//                                 command = {};
-//                             }
-//                             if (!command.deepfilter) {
-//                                 command.deepfilter = {};
-//                             }
-//                             if (!command.deepfilter.convert) {
-//                                 command.deepfilter.convert = false;
-//                             }
-//                             deepfilter(result_obj, dtoobject, command, function (err, result_obj) {
-// =======
-
-                // If error, bounce out
                 if (err && Object.keys(err).length > 0) {
                     callback(err, res);
                 } else {
                     try {
                         dtoobject = res;
-                        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 99);
+                        proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
 
                         var dto_to_get;
                         var big_dto = {};
                         var result_obj = {};
                         var output = {};
 
+                        if (!command) {
+                            command = {};
+                        }
+                        if (!command.deepfilter) {
+                            command.deepfilter = {};
+                        }
+                        if (!command.deepfilter.convert) {
+                            command.deepfilter.convert = false;
+                        }
+
                         output.obj = object;
                         output.dtoobj = dtoobject;
-                        dto_to_get = res['metadata']['method'];
+                        dto_to_get = dtoobject['metadata']['method'];
+                        
                         if (dto_to_get !== "string") {
                             proxyprinttodiv("cleanadd dto_to_get", dto_to_get, 17);
                             execute({
@@ -205,8 +171,7 @@
                                 "command.getwidmaster.execute": "ConvertFromDOTdri",
                                 "command.getwidmaster.convertmethod": "dto"
                             }, function (err, res) {
-// >>>>>>> eea290576466c63cb256fdebc4de5dc73ef0836d
-                                // If error, bounce out
+
                                 if (err && Object.keys(err).length > 0) {
                                     callback(err, res);
                                 } else {
@@ -217,15 +182,7 @@
                                         result_obj = insertbydtotype(object, big_dto, {}, command); // this fn in et-get
                                         proxyprinttodiv("cleanadd after insertbydtotype", result_obj, 17);
                                         //command.deepfilter.convert="fromstring"; not needed since done in addwid anyway
-                                        if (!command) {
-                                            command = {};
-                                        }
-                                        if (!command.deepfilter) {
-                                            command.deepfilter = {};
-                                        }
-                                        if (!command.deepfilter.convert) {
-                                            command.deepfilter.convert = false;
-                                        }
+
                                         deepfilter(result_obj, dtoobject, command, function (err, result_obj) {
                                             // If error, bounce out
                                             if (err && Object.keys(err).length > 0) {
@@ -254,7 +211,11 @@
                                 } // end else
                             });// end execute
                         } else { // if ==string
-                            callback(err, output);
+                            deepfilter(object, dtoobject, command, function (err, result_obj) {
+                                output.obj = result_obj;
+                                output.dtoobj = dtoobject;
+                                callback(null, output);
+                            });
                         } //  end if (dto_to_get !== "string") 
                     } // end try
                     catch (err) {
@@ -292,7 +253,6 @@
             var _children_dto_list = [];
             var _parent_wid;
             var _parent_method;
-            var _child_object_map = [];
 
             // clone input and inputdto to parent object and child object
 
@@ -310,6 +270,9 @@
 
             // create parent by deleting all children in parent, create children adding
             if (inputdto.command && inputdto.command.dtolist) {
+                proxyprinttodiv("addwidobject inputdto.command :- ", inputdto.command, 17);
+                proxyprinttodiv("addwidobject inputdto.command.dtolist :- ", inputdto.command.dtolist, 17);
+
                 for (var each_property in inputdto.command.dtolist) { // go through list of children
                     if (inputdto.command.dtolist.hasOwnProperty(each_property)) {
                         proxyprinttodiv("each_property :- ", each_property, 17);
@@ -328,16 +291,20 @@
                             delete _parent_dto[each_property];
 
                             if (input[each_property]) {
+                                proxyprinttodiv("addwidobject found input[each_property] :- ", input[each_property], 17);
                                 //_children_object_collection[each_property] = {};
                                 //extend(true, _children_object_collection[each_property], input[each_property]);
                                 _children_object_collection[each_property] = JSON.parse(JSON.stringify(input[each_property]));
                             }
 
                             if (inputdto[each_property]) {
+                                proxyprinttodiv("addwidobject found inputdto[each_property] :- ", inputdto[each_property], 17);
                                 //_children_dto_collection[each_property] = {};
                                 //extend(true, _children_dto_collection[each_property], inputdto[each_property]);
                                 _children_dto_collection[each_property] = JSON.parse(JSON.stringify(inputdto[each_property]));
                             }
+                        } else {
+
                         }
                     }
                 }
@@ -345,6 +312,7 @@
 
             proxyprinttodiv("_children_object_collection :- after ", _children_object_collection, 17);
             proxyprinttodiv("_child_dto_list after", _children_dto_list, 17);
+            proxyprinttodiv(" _children_dto_collection after",  _children_dto_collection, 17);
 
             // send the parent object and dto to addrecord
             addrecord(_parent_object, _parent_dto, parentwid, parentmethod, relationshiptype, command, function (err, res) {
@@ -352,7 +320,7 @@
                 if (err && Object.keys(err).length > 0) {
                     callback(err, res);
                 } else {
-                    // try {
+                    try {
                         proxyprinttodiv("addrecord parentobj result :- ", res, 17);
 
                         _parent_object = res;
@@ -361,72 +329,98 @@
                             _parent_method = res['metadata']['method'];
                         }
 
+                    // Sample error
+                    // throw ({'my error': 'red'});
+
                         // iterate over the list of dto's, loading up each child and sending them to addrecord
                         async.mapSeries(_children_dto_list, function (eachchild, cbMap) {
                             async.nextTick(function () {
+                                try {
+
+                                // new _child_object_map up, if not we can mess thing up
+                                var _child_object_map = [];
+
                                 proxyprinttodiv("_children_object_collection :- ", _children_object_collection, 17);
                                 proxyprinttodiv("_children_dto_list eachchild :- ", eachchild, 17);
 
-                                // look up child object and dto
-                                // if ((eachchild.dtotype==="onetomany" || (eachchild.dtotype==="jsononetomany")) {
-                                //     _child_dto.push(_child_dto)
-                                //     }
+                                    // look up child object and dto
+                                    // if ((eachchild.dtotype==="onetomany" || (eachchild.dtotype==="jsononetomany")) {
+                                    //     _child_dto.push(_child_dto)
+                                    //     }
 
-                                _child_object = _children_object_collection[eachchild.dtoname];
-                                _child_dto = _children_dto_collection[eachchild.dtoname];
+                                    _child_object = _children_object_collection[eachchild.dtoname];
+                                    _child_dto = _children_dto_collection[eachchild.dtoname];
 
-                                delete _children_object_collection[eachchild.dtoname];
-                                delete _children_dto_collection[eachchild.dtoname];
+                        // throw ({'my_error': 'orange'});
+
+
+                                    delete _children_object_collection[eachchild.dtoname];
+                                    delete _children_dto_collection[eachchild.dtoname];
                                 proxyprinttodiv("_child_dto :- ", _child_dto, 17);
                                 proxyprinttodiv("_child_object :- ", _child_object, 17);
 
-                                if (!isArray(_child_object)) {
-                                    _child_object_map.push(_child_object);
-                                } else {
-                                    _child_object_map = _child_object;
+                                    if (!isArray(_child_object)) {
+                                        _child_object_map.push(_child_object);
+                                    } else {
+                                        _child_object_map = _child_object;
+                                    }
+                                    if (isArray(_child_dto)) {
+                                        _child_dto = _child_dto[0]
+                                    }
+                                
+                                } // end try
+                                catch (err) {
+                                    var finalobject = createfinalobject({"result": "addwidobject_async1"}, {}, "addwidobject_async1", err, eachchild);
+                                    cbMap(finalobject.err, finalobject.res);
+                                // only do this if we have a child object map - joe
                                 }
-                                if (isArray(_child_dto)) {
-                                    _child_dto = _child_dto[0]
-                                }
-                                proxyprinttodiv("_child_object map :- ", _child_object_map, 17);
-                                async.mapSeries(_child_object_map, function (_child_object, cbMap2) {
-                                    async.nextTick(function () {
-                                        proxyprinttodiv("_child_object loop :- ", _child_object, 17);
-                                        //if (isArray(_child_dto)) && 
-                                        //    ((eachchild.dtotype==="jsononetomany") || (eachchild.dtotype==="onetomany")) {
-                                        if (_child_object && Object.keys(_child_object).length !== 0 &&
-                                            _child_dto && Object.keys(_child_dto).length !== 0) {
+                                if(_child_object_map) {
 
-                                            if (!_child_object["metadata"]) {
-                                                _child_object["metadata"] = {}
-                                            }
-                                            if (!_child_object["metadata"]["method"]) {
-                                                _child_object["metadata"]["method"] = eachchild.dtoname
-                                            }
+                                    async.mapSeries(_child_object_map, function (_child_object, cbMap2) {
+                                        async.nextTick(function () {
+                                        try {
+                        // Sample error
+                        // throw ({'my_error': 'chartruese'});
 
-                                            addwidobject(_child_object, _child_dto, _parent_wid, _parent_method, eachchild.dtotype, command, function (err, res) {
-                                                // If error, bounce out
-                                                if (err && Object.keys(err).length > 0) {
-                                                    cbMap2(err);
-                                                }else{
+                                                //if (isArray(_child_dto)) && 
+                                                //    ((eachchild.dtotype==="jsononetomany") || (eachchild.dtotype==="onetomany")) {
+                                                if (_child_object && Object.keys(_child_object).length !== 0 &&
+                                                    _child_dto && Object.keys(_child_dto).length !== 0) {
+
+                                                    if (!_child_object["metadata"]) {
+                                                        _child_object["metadata"] = {}
+                                                    }
+                                                    if (!_child_object["metadata"]["method"]) {
+                                                        _child_object["metadata"]["method"] = eachchild.dtoname
+                                                    }
+
+                                                    addwidobject(_child_object, _child_dto, _parent_wid, _parent_method, eachchild.dtotype, command, function (err, res) {
+                                                        // If error, bounce out
+                                                        if (err && Object.keys(err).length > 0) {
+                                                            cbMap2(err);
+                                                        }else{
+                                                            cbMap2(null);
+                                                        }
+                                                    });
+                                                } else {
                                                     cbMap2(null);
                                                 }
-                                            });
-                                        } else {
-                                            cbMap2(null);
+                                                //    }
+                                        } // end try
+                                        catch (err) {
+                                            var finalobject = createfinalobject({"result": "addwidobject_async2"}, {}, "addwidobject_async2", err, _child_object);
+                                            cbMap2(finalobject.err, finalobject.res);
                                         }
-                                        //    }
-                                    })
-                                }, function (err, res) {
-                                    // If error, bounce out
-                                    if (err && Object.keys(err).length > 0) {
-                                        cbMap(err);
-                                    }else{
-                                        cbMap(null);
-                                        
-                                    }
-                                    
-                                });
+                                        })
+                                    }, function (err, res) {
+                                        // If error, bounce out
+                                        if (err && Object.keys(err).length > 0) {
+                                            cbMap(err);
+                                        }else{
+                                            cbMap(null);
+                                        }
+                                    }); //end asyc.map
+                                }
                                 // if (_child_object && Object.keys(_child_object).length!==0) {
                                 //     if (!_child_object["metadata"]) {_child_object["metadata"]={}}
                                 //     if (!_child_object["metadata"]["method"]) {_child_object["metadata"]["method"]=eachchild.dtoname}
@@ -441,11 +435,15 @@
                         }, function (err, res) {
                             // If error, bounce out
                             if (err && Object.keys(err).length > 0) {
+
+                                        // alert("Hi" + JSON.stringify(err));
+                                
                                 callback(err, res);
                             } else {
                                 try {
                                     // I'm guessing here but if we have left over children in the children collection then we recurse
                                     if (Object.keys(_children_object_collection).length !== 0) {
+                                        proxyprinttodiv("addwidobject left over children -- _children_object_collection: ", _children_object_collection, 17);
                                         addwidobject(_children_object_collection, _children_dto_collection, command, function (err, res) {
                                             // If error, bounce out
                                             if (err && Object.keys(err).length > 0) {
@@ -471,7 +469,11 @@
                                 }
                             } // end else
                         }); // End async map series
-                    // } // end try
+                    } // end try
+                    catch (err) {
+                        var finalobject = createfinalobject({"result": "addwidobject_addrecord_parentobj"}, {}, "addwidobject_addrecord_parentobj", err, res);
+                        callback(finalobject.err, finalobject.res);
+                    }
                 } // end else
             });
         } // end try
@@ -501,54 +503,64 @@
             // if the incoming relationship is one to one 
             async.series([
                     function step1(step1_callback) {
-                        if ((relationshiptype === "onetoone") || (relationshiptype === "manytoone")) {
-                            proxyprinttodiv("addrecord async.series fired with relationshiptype -- ", relationshiptype, 17);
+                        try {                   
+                        if ((relationshiptype === "onetoone") || (relationshiptype === "manytoone") || (relationshiptype === "manytomany")) {
 
-                            if (relationshiptype === "onetoone") {
-                                executeobject["executethis"] = "querywid";
-                                executeobject["mongorawquery"] = {
-                                    "$and": [{
-                                        "data.primarywid": parentwid,
-                                        "data.secondarymethod": inputrecord["metadata"]["method"]
-                                    }]
-                                };
-                            }
-
-                            if (relationshiptype === "manytoone") {
-                                executeobject["executethis"] = "querywid";
-                                executeobject["mongorawquery"] = {
-                                    "$and": [{
-                                        "data.primarywid": inputrecord["metadata"]["method"],
-                                        "data.secondarymethod": parentwid
-                                    }]
-                                };
-                            }
-
-                            execute(executeobject, function (err, widset) {
-                                // If error, bounce out
-                                if (err && Object.keys(err).length > 0) {
-                                    step1_callback(err, widset);
-                                } else {
-                                    try { 
-                                        var widrecord;
-                                        if ((widset.length > 0) && (relationshiptype === "onetoone")) {
-                                            for (var wid in widset[0]) {
-                                                widrecord = widset[0][wid];
-                                            }
-                                            relobj['wid'] = wid;
-                                            inputrecord['wid'] = widrecord["secondarywid"];
-                                        }
-                                        step1_callback(null); // LM: Leave this null or break add
-                                    }
-                                    catch (err) {
-                                        var finalobject = createfinalobject({"result": "addrecord_execute"}, {}, "addrecord_execute", err, widset);
-                                        step1_callback(finalobject.err, finalobject.res);
-                                    }
+                                proxyprinttodiv("addrecord async.series fired with relationshiptype -- ", relationshiptype, 17);
+                            if ((relationshiptype === "onetoone") || (relationshiptype === "manytomany")) {
+                                    executeobject["executethis"] = "querywid";
+                                    executeobject["mongorawquery"] = {
+                                        "$and": [{
+                                            "data.primarywid": parentwid,
+                                            "data.secondarymethod": inputrecord["metadata"]["method"]
+                                        }]
+                                    };
                                 }
-                            });
-                        } else {
-                            step1_callback(null); // LM: Leave this null or break add
+
+                        // Sample error
+                        throw ({'my_error': 'potatoes'});
+
+                                if (relationshiptype === "manytoone") {
+                                    executeobject["executethis"] = "querywid";
+                                    executeobject["mongorawquery"] = {
+                                        "$and": [{
+                                            "data.primarywid": inputrecord["metadata"]["method"],
+                                            "data.secondarymethod": parentwid
+                                        }]
+                                    };
+                                }
+                                execute(executeobject, function (err, widset) {
+                                    // If error, bounce out
+                                    if (err && Object.keys(err).length > 0) {
+                                        step1_callback(err, widset);
+                                    } else {
+                                        try { 
+                                            var widrecord;
+                                        if ((widset.length > 0) && (relationshiptype === "onetoone") || (relationshiptype === "manytomany")) {
+                                                for (var wid in widset[0]) {
+                                                    widrecord = widset[0][wid];
+                                                }
+                                                relobj['wid'] = wid;
+                                                inputrecord['wid'] = widrecord["secondarywid"];
+                                            }
+                                            step1_callback(null); // LM: Leave this null or break add
+                                        }
+                                        catch (err) {
+                                            var finalobject = createfinalobject({"result": "addrecord_execute"}, {}, "addrecord_execute", err, widset);
+                                            step1_callback(finalobject.err, finalobject.res);
+                                        }
+                                    }
+                                });
+                            } else {
+                                step1_callback(null); // LM: Leave this null or break add
+                            }
+
                         }
+                        catch (err) {
+                            var finalobject = createfinalobject({"result": "addrecord_execute_async_step1"}, {}, "addrecord_execute_async_step1", err, widset);
+                            step1_callback(finalobject.err, finalobject.res);
+                        }
+
 
                     },
                     function step2(step2_callback) {
@@ -587,8 +599,8 @@
                                     relobj["metadata"]["method"] = "relationshipdto";
                                     relobj["linktype"] = relationshiptype;
 
-                                    if (relationshiptype === "onetoone" || relationshiptype === "onetomany" || relationshiptype === "manytoone") {
-                                        if (relationshiptype === "onetoone" || relationshiptype === "onetomany") {
+                                    if (relationshiptype === "onetoone" || relationshiptype === "onetomany" || relationshiptype === "manytoone" || (relationshiptype === "manytomany")) {
+                                        if (relationshiptype === "onetoone" || relationshiptype === "onetomany" || (relationshiptype === "manytomany")) {
                                             relobj["primarywid"] = parentwid;
                                             relobj["secondarywid"] = addobject['wid'];
 
@@ -628,7 +640,7 @@
                                     }
                                 } // end try 
                                 catch (err) {
-                                    var finalobject = createfinalobject({"result": "addrecord"}, {}, "addrecord", err, addobject);
+                                    var finalobject = createfinalobject({"result": "addrecord$$$"}, {}, "addrecord$$$", err, addobject);
                                     step2_callback(finalobject.err, finalobject.res);
                                 }
                             } // end else
@@ -790,7 +802,7 @@
             if (inheritwidlist) { // do not save if in inherit
                 async.mapSeries(inheritwidlist, function (inheritwid, cbMap) {
                     async.nextTick(function () {
-                        for (var eachobject in inheritwid) {} // to get left side
+                        for (var eachobject in inheritwid) {} // to get left side or Object.keys
                         execute({
                             "executethis": "getwidmaster",
                             "wid": eachobject,

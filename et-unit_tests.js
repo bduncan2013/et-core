@@ -2688,6 +2688,9 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
         // }],
 
         function (err, res) {
+            // alert('err' + JSON.stringify(err, '-', 4));
+
+            
             // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
             // 
             // These will create the code on the screen from the logged data
@@ -2738,15 +2741,15 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
                 "sounddto.2.metadata.method": "sounddto"
             }]);
             debuglevel=38;
-            execute({"executethis": "getwidmaster","wid": "sonddto",
-                  "command":{"getwidmaster":{"convertmethod":"dto",
-                                          "execute":"ConvertFromDOTdri",
-                                          "inheritflag":"true","dtotype":""}}}, function (err, res1) {
-            //execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+            // execute({"executethis": "getwidmaster","wid": "sonddto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            // //execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+            //     proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
                 callback(err, res); 
                  
-            })
+            // })
         });
 }
 
