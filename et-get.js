@@ -1134,7 +1134,7 @@
                     },
                     function step2(cb) { // getaggressivedto
 
-                        throw ({'Saphires': 'blue errors'});
+//                        throw ({'Saphires': 'blue errors'});
 
                         proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 38);
                         // if we have the root dto do not go off and get it again

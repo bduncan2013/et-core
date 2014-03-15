@@ -518,7 +518,7 @@
                                 }
 
                         // Sample error
-                        throw ({'my_error': 'potatoes'});
+//                        throw ({'my_error': 'potatoes'});
 
                                 if (relationshiptype === "manytoone") {
                                     executeobject["executethis"] = "querywid";

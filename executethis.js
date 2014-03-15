@@ -980,15 +980,15 @@
                                                                                     howallowexecute = false;
 
                                                                                     if (executeobject.executeflag === true) {
-                                                                                    if ((res === undefined) || (isArray(res) &&  res[0]['metadata'] && 
-                                                                                        res[0]['metadata']['expirationdate'] && new Date(res[0]['metadata']['expirationdate']) < new Date())
-                                                                                            || (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
-                                                                                            proxyprinttodiv("Try again hit wit res", res, 11);
-                                                                                            whatallowexecute = true;
-                                                                                            howallowexecute = true;
-                                                                                            executeobject.executeflag = false;
+                                                                                        if ((res === undefined) || (isArray(res) &&  res[0]['metadata'] &&
+                                                                                            res[0]['metadata']['expirationdate'] && new Date(res[0]['metadata']['expirationdate']) < new Date())
+                                                                                                || (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
+                                                                                                proxyprinttodiv("Try again hit wit res", res, 11);
+                                                                                                whatallowexecute = true;
+                                                                                                howallowexecute = true;
+                                                                                                executeobject.executeflag = false;
+                                                                                        }
                                                                                     }
-
                                                                                     if (isArray(res) && (res.length === 1) && (Object.keys(res[0]).length === 0) && 
                                                                                         (res[0]['metadata']) && (res[0]['metadata']['expirationdate'])) {
                                                                                         delete res[0]['metadata']['expirationdate'];
@@ -1004,7 +1004,7 @@
                                                                                             } else {
                                                                                                 try {
                                                                                                     // if executegetwid then execute with the results
-                                                                proxyprinttodiv("Return from nested execution: ", res, 11);
+                                                                                                    proxyprinttodiv("Return from nested execution: ", res, 11);
                                                                                                     outputResultsArr.push(res);
                                                                                                     cbMapW(null, "What Iteration");
                                                                                                     // cbMapW(err, "What Iteration");
