@@ -200,8 +200,9 @@
 
                                             async.mapSeries(todolist, function (w, cbMap) {
                                                 async.nextTick(function () {
-                                                    getwid({
-                                                        'wid': w
+                                                    execute({'executethis':'getwid', 'wid': w
+                                                    //getwid({
+                                                    //    'wid': w
                                                     }, function (err, res) {
                                                         // If error, bounce out
                                                         if (err && Object.keys(err).length > 0) {
