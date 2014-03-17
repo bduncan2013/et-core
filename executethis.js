@@ -979,6 +979,7 @@
                                                                                     whatallowexecute = false;
                                                                                     howallowexecute = false;
 
+                                                                                    // if we come back with [{}] go to the next case,usally server
                                                                                     if (executeobject.executeflag === true) {
                                                                                         if ((res === undefined) || (isArray(res) &&  res[0]['metadata'] &&
                                                                                             res[0]['metadata']['expirationdate'] && new Date(res[0]['metadata']['expirationdate']) < new Date())
@@ -989,9 +990,12 @@
                                                                                                 executeobject.executeflag = false;
                                                                                         }
                                                                                     }
-                                                                                    if (isArray(res) && (res.length === 1) && (Object.keys(res[0]).length === 0) && 
-                                                                                        (res[0]['metadata']) && (res[0]['metadata']['expirationdate'])) {
-                                                                                        delete res[0]['metadata']['expirationdate'];
+
+                                                                                    // Remove expiration date on return
+                                                                                    // --------------------------------
+                                                                                    // AG1 example res: {"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-03-17T13:55:26.832Z","expirationdate":"2014-03-17T13:55:26.832Z"}}
+                                                                                    if ((res) && (Object.keys(res).length > 0) && (res['metadata']) && (res['metadata']['expirationdate'])) {
+                                                                                        delete res['metadata']['expirationdate'];
                                                                                     }
                                                                                     // ************************************************
 
