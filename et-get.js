@@ -298,7 +298,8 @@
                                         tempobj[eachitem] = metadata[eachitem]['type'];
                                         extend(true, dtolist, tempobj);
                                         // eachitem would be a child
-                                        if ((metadata[eachitem]['type'] === "onetomany" ||
+                                        if ((metadata[eachitem]['type'] === "onetomany" || 
+                                                metadata[eachitem]['type'] === "manytomany" ||
                                                 metadata[eachitem]['type'] === "jsononetomany") &&
                                             (!isArray(inobj[eachitem]))) {
                                             tempArray = [];
@@ -886,6 +887,7 @@
                                                                 //                                    else { // if not dto, i.e most of time
                                                                 if ((rightparameters) && (rightparameters["linktype"])) {
                                                                     if ((rightparameters["linktype"] === "onetomany") ||
+                                                                        (rightparameters["linktype"] === "manytomany") ||
                                                                         (rightparameters["linktype"] === "jsononetomany")) {
                                                                         //if (Object.prototype.toString.call(parameterobject[rightparameters["metadata"]["method"]]) !== '[object Array]') { 
                                                                         if (!isArray(parameterobject[rightparameters["metadata"]["method"]])) {
@@ -895,7 +897,9 @@
                                                                     } else {
                                                                         if ((rightparameters["linktype"] === "onetoone") ||
                                                                             (rightparameters["linktype"] === "manytoone") ||
-                                                                            (rightparameters["linktype"] === "jsononetoone")) {
+                                                                        (rightparameters["linktype"] === "jsononetoone") 
+                                                                        // || (rightparameters["linktype"] === "manytomany")
+                                                                        ) {
                                                                             parameterobject[rightparameters["metadata"]["method"]] = params;
                                                                         } else {
                                                                             if ((rightparameters["linktype"] === "jsononetoone") ||
@@ -1021,7 +1025,8 @@
                                                 (parameterobject['metadata'][eachmetadata]['type'] === "onetoone") ||
                                                 (parameterobject['metadata'][eachmetadata]['type'] === "jsononetomany") ||
                                                 (parameterobject['metadata'][eachmetadata]['type'] === "jsononetoone") ||
-                                                (parameterobject['metadata'][eachmetadata]['type'] === "manytoone")
+                                                (parameterobject['metadata'][eachmetadata]['type'] === "manytoone") ||
+                                                (parameterobject['metadata'][eachmetadata]['type'] === "manytomany")
                                             )
                                         ) {
                                             proxyprinttodiv('Function getwidmongo parameterobject III', parameterobject, 38);
@@ -1129,7 +1134,7 @@
                     },
                     function step2(cb) { // getaggressivedto
 
-                        throw ({'Saphires': 'blue errors'});
+//                        throw ({'Saphires': 'blue errors'});
 
                         proxyprinttodiv('In __getclean__ step2 with before if stament getWidMongo: ', resultObj, 38);
                         // if we have the root dto do not go off and get it again

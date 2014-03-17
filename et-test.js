@@ -783,3 +783,231 @@
             }); 
         });
      }
+
+      function printlistmany(printlist, callback){
+        var executeobj = {};
+        async.mapSeries(printlist, function (eachprint, cbMap) {
+            executeobj={};
+            executeobj["executethis"]= "getwidmaster";
+            executeobj["wid"]=eachprint["wid"];
+            executeobj["command.dtotype"]=eachprint["command.dtotype"];
+            execute(executeobj, function (err, res) {
+                proxyprinttodiv( eachprint["wid"] + " with command.dtotype="+eachprint["command.dtotype"], res, 99, true);
+                callback(err, res);
+            }); 
+        });
+    }
+
+    function addauthorrecord(parentparmkey, c, childparmkey, d, relativepreamble, relativedtotype, relgetlist, callback){
+        var parent=[{"metadata.method": "authordto","wid": "wid1"+c}];
+        var child=[
+                {"name":"somedata222"+d, "age":"somedata"+d},
+                {"datemarried": "03/10/2014"+d},
+                {"color": "blue"+d},
+                {"title": "Book 1"+d,"pages":"300"+d},
+                {"coname": "Company Name"+d, "establishdate":"03/10/2014"+d},
+                {"city":"City Name"+d,"add1":"Address1"+d, "add2":"Address2"+d},
+                {"statename":"State Name"+d, "zipcode": "Z 123456"+d},
+                {"name":"Owner Name"+d},
+                {"name":"somedata222"+d, "age":"somedata"+d, "wid":"wid1A"+d},
+                {"datemarried": "03/10/2014"+d, "wid":"wid1S"+d},
+                {"color": "blue"+d, "wid":"wid1H"+d},
+                {"title": "Book 1"+d,"pages":"300"+d, "wid":"wid1B"+d},
+                {"coname": "Company Name"+d, "establishdate":"03/10/2014", "wid":"wid1P"+d},
+                {"city":"City Name"+d,"add1":"Address1"+d, "add2":"Address2", "wid":"wid1Add"+d},
+                {"statename":"State Name"+d, "zipcode": "Z 123456"+d, "wid":"wid1S"+d},
+                {"name":"Owner Name"+d, "wid":"wid1O"+d}
+            ];
+        
+        var preamble=["spousedto", "housedto", "bookdto", "bookdto.pubhousedto", "bookdto.pubhousedto.addressdto.0", "bookdto.pubhousedto.statedto.0", "bookdto.pubhousedto.ownerdto.0"];
+        
+        var dtotype=["authordto","spousedto", "housedto", "bookdto",  "pubhousedto","addressdto", "statedto", "ownerdto"];
+        
+        var printlist=[
+            [
+                {"wid":"wid1"+c, "command.dtotype":"authordto"},
+                {"wid":"wid1"+c, "command.dtotype":"spousedto"},
+                {"wid":"wid1"+c, "command.dtotype":"housedto"},
+                {"wid":"wid1"+c, "command.dtotype":"bookdto"},
+                {"wid":"wid1"+c, "command.dtotype":"pubhousedto"},
+                {"wid":"wid1"+c, "command.dtotype":"addressdto"},
+                {"wid":"wid1"+c, "command.dtotype":"statedto"},
+                {"wid":"wid1"+c, "command.dtotype":"ownerdto"},
+            ],
+            [
+                {"wid":"wid1A"+c, "command.dtotype":"authordto"},
+                {"wid":"wid1S"+c, "command.dtotype":"spousedto"},
+                {"wid":"wid1H"+c, "command.dtotype":"housedto"},
+                {"wid":"wid1B"+c, "command.dtotype":"bookdto"},
+                {"wid":"wid1P"+c, "command.dtotype":"pubhousedto"},
+                {"wid":"wid1Add"+c, "command.dtotype":"addressdto"},
+                {"wid":"wid1S"+c, "command.dtotype":"statedto"},
+                {"wid":"wid1O"+c, "command.dtotype":"ownerdto"},
+            ],
+            [
+                {"wid":"wid1A"+c, "command.dtotype":""},
+                {"wid":"wid1S"+c, "command.dtotype":""},
+                {"wid":"wid1H"+c, "command.dtotype":""},
+                {"wid":"wid1B"+c, "command.dtotype":""},
+                {"wid":"wid1P"+c, "command.dtotype":""},
+                {"wid":"wid1Add"+c, "command.dtotype":""},
+                {"wid":"wid1S"+c, "command.dtotype":""},
+                {"wid":"wid1O"+c, "command.dtotype":""},
+            ],
+        ];
+        
+        var executeobj=child[childparmkey];
+        proxyprinttodiv("Function addauthorrecord executeobj after child ", executeobj, 99, true);
+
+        proxyprinttodiv("Function addauthorrecord executeobj relativepreamble ", relativepreamble, 99, true);
+        proxyprinttodiv("Function addauthorrecord executeobj preamble[relativepreamble] ", preamble[relativepreamble], 99, true);
+        if(relativepreamble>=0 && preamble[relativepreamble]){
+            for(key in executeobj){
+                var preamblekey = preamble[relativepreamble]+"."+key;   
+                proxyprinttodiv("Function addauthorrecord executeobj preamblekey ", preamblekey, 99, true);
+                executeobj[preamblekey]=executeobj[key];
+                delete executeobj[key];
+            }
+        }
+        proxyprinttodiv("Function addauthorrecord executeobj after preamble ", executeobj, 99, true);
+                
+        if (parentparmkey>=0) {
+            executeobj=extend(true, executeobj, parent[parentparmkey])
+        }
+        proxyprinttodiv("Function addauthorrecord executeobj after parent ", executeobj, 99, true);
+        
+        if (relativedtotype>=0){
+            executeobj["command.dtotype"]=dtotype[relativedtotype];
+        }
+        proxyprinttodiv("Function addauthorrecord executeobj after dtotype ", executeobj, 99, true);
+                
+        executeobj["executethis"]="addwidmaster";
+        execute(executeobj, function (err, res) {
+            proxyprinttodiv("record added", res, 99, true);
+            printlistmany(printlist[relgetlist], function (err, res) {
+                callback(err, res);
+            });
+        });
+    }
+    
+    //
+    exports.authoradd1 = authoradd1 = function authoradd1(c,d, callback) {
+        //(parentparmkey, c, childparmkey, d, relativepreamble, relativedtotype, relgetlist, callback){
+        manytoonesetupdto(function (err, res) {
+            addauthorrecord(0, c, 0, d, -1, -1, 0, function (err, res){
+                addauthorrecord(0, c, 1, d, 0, -1, 0, function (err, res){
+                    addauthorrecord(0, c, 2, d, 1, -1, 0, function (err, res){
+                       addauthorrecord(0, c, 3, d, 2, -1, 0, function (err, res){
+                            addauthorrecord(0, c, 4, d, 3, -1, 0, function (err, res){
+                               addauthorrecord(0, c, 5, d, 4, -1, 0, function (err, res){
+                                    addauthorrecord(0, c, 6, d, 5, -1, 0, function (err, res){
+                                        addauthorrecord(0, c, 7, d, 6, -1, 0, function (err, res){
+                                            
+                                        });
+                                    }); 
+                                });
+                            });
+                        }); 
+                    });
+                });
+            });
+        });
+    }
+
+    exports.authoradd2 = authoradd2 = function authoradd2(c,d, callback) {
+//(parentparmkey, c, childparmkey, d, relativepreamble, relativedtotype, relgetlist, callback){
+        manytoonesetupdto(function (err, res) {
+            addauthorrecord(0, c, 0, d, null, 0, 0, function (err, res){
+                addauthorrecord(0, c, 1, d, 0, 1, 0, function (err, res){
+                    addauthorrecord(0, c, 2, d, 1, 2, 0, function (err, res){
+                       addauthorrecord(0, c, 3, d, 2, 3, 0, function (err, res){
+                            addauthorrecord(0, c, 4, d, 3, 4, 0, function (err, res){
+                               addauthorrecord(0, c, 5, d, 4, 5, 0, function (err, res){
+                                    addauthorrecord(0, c, 6, d, 5, 6, 0, function (err, res){
+                                        addauthorrecord(0, c, 7, d, 6, 7, 0, function (err, res){
+                                            callback(err, res); 
+                                        });
+                                    }); 
+                                });
+                            });
+                        }); 
+                    });
+                });
+            });
+        });
+    }
+
+
+    exports.authoradd3 = authoradd3 = function authoradd3(c,d, callback) { 
+        //(parentparmkey, c, childparmkey, d, relativepreamble, relativedtotype, relgetlist, callback){
+        manytoonesetupdto(function (err, res) {   
+            addauthorrecord(0, c, 8, d, -1, -1, 1, function (err, res){
+                addauthorrecord(0, c, 9, d, 0, -1, 1, function (err, res){
+                    addauthorrecord(0, c, 10, d, 1, -1, 1, function (err, res){
+                       addauthorrecord(0, c, 11, d, 2, -1, 1, function (err, res){
+                            addauthorrecord(0, c, 12, d, 3, -1, 1, function (err, res){
+                               addauthorrecord(0, c, 13, d, 4, -1, 1, function (err, res){
+                                    addauthorrecord(0, c, 14, d, 5, -1, 1, function (err, res){
+                                        addauthorrecord(0, c, 15, d, 6, -1, 1, function (err, res){
+                                            callback(err, res);
+                                        }); 
+                                    });
+                                });
+                            }); 
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+
+    // add1bigpreamble
+    // add3bigpreamble
+    // add1bigdtotype
+    // add3bigdtotype
+    // add1bigpreamble-
+    exports.add999 = add999 = function add999(params, callback) {
+        var d="";
+        var executeobj = //[]
+            {
+                "executethis":"addwidmaster",
+                "metadata.method": "authordto",
+                "wid": "wid1",
+                "name": "somedata222" + d,
+                "age": "somedata"  + d,
+                
+                "spousedto.datemarried": "03/10/2014",
+                
+                "housedto.color": "purple"  + d,    
+                
+                "bookdto.title": "Book 1"  + d,
+                "bookdto.pages": "300"  + d,
+
+                "bookdto.pubhousedto.coname": "Company Name"  + d,
+                "bookdto.pubhousedto.establishdate": "03/10/2014",
+
+                "bookdto.pubhousedto.addressdto.0.city": "City Name" + d,
+                "bookdto.pubhousedto.addressdto.0.add1": "Address1" + d,
+                "bookdto.pubhousedto.addressdto.0.add2": "Address2" + d,
+
+                "bookdto.pubhousedto.statedto.0.statename": "State Name"+d,
+                "bookdto.pubhousedto.statedto.0.zipcode": "Z 123456" + d,
+
+                "bookdto.pubhousedto.ownerdto.0.name": "Owner Name" + d
+            }
+
+        if (params) {
+             executeobj=extend(true, executeobj, params)
+        }
+
+        manytoonesetupdto(function (cb2) {
+            debuglevel=17;
+            execute(executeobj, function (err, res) {
+                proxyprinttodiv("end of author add", res, 99, true);
+                    printlistmany([{"wid":"wid1", "dtotype":""}], function (err, res) { 
+                        callback(err, res);
+                    })
+                });
+            });
+    }
