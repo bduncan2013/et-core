@@ -913,7 +913,7 @@ exports.testb = testb = function testb(params, callback) {
 	debugname = "addwid";
 	debugcat = debugcat = "add";
 	debugsubcat = debugsubcat = "core";
-	debugfilter = debugfilter = "all";
+	setglobal("debugfilter", "all");
 	setglobal("debugdestination", "print");
 
 	params = logverify("alphagetwidmaster_unit_tests", "testb_result", "get_sounddto_result", "", "", {

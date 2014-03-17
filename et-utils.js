@@ -1400,8 +1400,14 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         // if (indebugsubcat==debugsubcat) {processdebug=true};
 
         // if processdebug {
-        debugfilter = 0;
-        switch (debugfilter) {
+        
+        // debugfilter = 0;
+        // switch (debugfilter) {
+
+        saveglobal("debugfilter", 0);
+        var zed = getglobal("debugfilter");
+        switch (zed) {   
+
         case 0:
             outobject = debugobjectlist;
             break;

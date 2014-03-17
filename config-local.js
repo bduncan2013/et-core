@@ -41,9 +41,9 @@ if (!debugcat) {
 if (!debugsubcat) {
     var debugsubcat = '';
 }
-if (!debugfilter) {
-    var debugfilter = '';
-}
+// if (!debugfilter) {
+//     var debugfilter = '';
+// }
 // if (!debugdestination) {
 //     var debugdestination = 1;
 // }
@@ -191,7 +191,7 @@ function setdefaultparm() {
     exports.debugname = debugname;
     exports.debugsubcat = debugsubcat;
     exports.debugcat = debugcat;
-    exports.debugfilter = debugfilter;
+    exports.debugfilter = getglobal("debugfilter");
     exports.debugdestination = getglobal("debugdestination");
     exports.debugcolor = debugcolor;
     exports.debugindent = debugindent;
