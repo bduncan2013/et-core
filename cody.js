@@ -653,7 +653,7 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
     debugsubcat = "";
     debugcat = "";
     debugfilter = "";
-    debugdestination = 1;
+    saveglobal("debugdestination", 1);
     //debuglevel=15;
 
 
@@ -730,7 +730,9 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
     debugsubcat = "";
     debugcat = "";
     debugfilter = "";
-    debugdestination = 1;
+    // debugdestination = 1;
+    saveglobal("debugdestination", 1);
+
     //debuglevel=15;
     executetest("addwidmaster", {
         "metadata.method": "adddto",
@@ -7300,7 +7302,9 @@ exports.mttest2 = mttest2 = function mttest2(params, callback) {
         debugsubcat = "";
         debugcat = "query";
         debugfilter = "";
-        debugdestination = 1;
+        // debugdestination = 1;
+    	saveglobal("debugdestination", 1);
+
     }
 
     testclearstorage();

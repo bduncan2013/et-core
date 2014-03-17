@@ -291,9 +291,9 @@ copyright (c) 2014 DRI
         debugfilter = $('#dbug_filter').val();
         if ($('#dbug_level').val() != "") debuglevel = parseInt($('#dbug_level').val());
 
-        if ($('#dest_print').is(':checked') && !$('#dest_google').is(':checked')) debugdestination = 1;
-        if (!$('#dest_print').is(':checked') && $('#dest_google').is(':checked')) debugdestination = 2;
-        if ($('#dest_print').is(':checked') && $('#dest_google').is(':checked')) debugdestination = 3;
+        if ($('#dest_print').is(':checked') && !$('#dest_google').is(':checked')) saveglobal("debugdestination", 1);
+        if (!$('#dest_print').is(':checked') && $('#dest_google').is(':checked')) saveglobal("debugdestination", 2);
+        if ($('#dest_print').is(':checked') && $('#dest_google').is(':checked')) saveglobal("debugdestination", 3);
 
         // localStorage.clear();
         $('#resultDiv').text("");

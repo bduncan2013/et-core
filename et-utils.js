@@ -1378,7 +1378,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         }
         if (!processdebug) return;
         if (!indebugdest) {
-            indebugdest = debugdestination;
+            indebugdest = getglobal(debugdestination);
         }
         proxyprinttodiv('arrived debugname', debugname, 44);
 

@@ -914,7 +914,7 @@ exports.testb = testb = function testb(params, callback) {
 	debugcat = debugcat = "add";
 	debugsubcat = debugsubcat = "core";
 	debugfilter = debugfilter = "all";
-	debugdestination = debugdestination = "print";
+	setglobal("debugdestination", "print");
 
 	params = logverify("alphagetwidmaster_unit_tests", "testb_result", "get_sounddto_result", "", "", {
 		"note": "string",
