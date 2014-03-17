@@ -212,18 +212,19 @@ $('#runAllTests').click(function () {
 $('#debugon').change(function () {
 	//alert('The checkbox changed');
 	if($('#debugon').is(':checked')) {	
-		//alert('true');
-		Debug = 'true';
+		// Debug = 'true';
+		saveglobal("Debug", 'true');
 	} else {
-		//alert('false');
-		Debug = 'false';
+		// Debug = 'false';
+		saveglobal("Debug"), 'false');
 	}
 })
 
 //This defines how data is stored and retrieved with local storage.
 //clearLocalStorage()
 $(document).ready(function () {
-	Debug = 'false';
+	// Debug = 'false';
+	saveglobal("Debug", 'false');
 	bootprocess();
 	$('#function_to_run').focus();
 	// $('dest_print').prop("checked", true);

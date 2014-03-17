@@ -47,12 +47,12 @@ if (!debugfilter) {
 if (!debugdestination) {
     var debugdestination = 1;
 }
-if (!debuglinenum) {
-    var debuglinenum = 1;
-}
-if (!debuglog) {
-    var debuglog = {};
-}
+// if (!debuglinenum) {
+//     var debuglinenum = 1;
+// }
+// if (!debuglog) {
+//     var debuglog = {};
+// }
 // if (!test_results) { // should not be neededd any more
 //     var test_results = {};
 // }
@@ -161,25 +161,25 @@ function setdefaultparm() {
     // debugindent = 0;
     // debuglinenum = 1;
 
-    saveglobal(debuglevel, 0);
-    saveglobal(Debug, 'false');
-    saveglobal(debugon ,false);
-    saveglobal(debugname, "");
-    saveglobal(debugsubcat, "");
-    saveglobal(debugcat, "");
-    saveglobal(debugfilter, "");
-    saveglobal(debugdestination, 1);
-    saveglobal(debugcolor, 0);
-    saveglobal(debugindent, 0);
-    saveglobal(debuglinenum, 1);
+    saveglobal("debuglevel", 0);
+    saveglobal("Debug", 'false');
+    saveglobal("debugon", false);
+    saveglobal("debugname", "");
+    saveglobal("debugsubcat", "");
+    saveglobal("debugcat", "");
+    saveglobal("debugfilter", "");
+    saveglobal("debugdestination", 1);
+    saveglobal("debugcolor", 0);
+    saveglobal("debugindent", 0);
+    saveglobal("debuglinenum", 1);
 
 
     // environment = "local";
     // exports.environment = environment;
     exports.environment = "local";
-    test_results = {}; // can take out
-    debuglog = {};
-    exports.debuglog = debuglog;
+    // test_results = {}; // can take out
+    // debuglog = {};
+    // exports.debuglog = debuglog;
 
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
@@ -195,7 +195,7 @@ function setdefaultparm() {
     exports.debugdestination = debugdestination;
     exports.debugcolor = debugcolor;
     exports.debugindent = debugindent;
-    exports.debuglinenum = debuglinenum;
+    exports.debuglinenum = getglobal("debuglinenum");
 }
 
 
