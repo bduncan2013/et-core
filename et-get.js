@@ -298,6 +298,8 @@
                                         tempobj[eachitem] = metadata[eachitem]['type'];
                                         extend(true, dtolist, tempobj);
                                         // eachitem would be a child
+                                        // this changes the inobj[eachparam] to an array if
+                                        // it is a type of "many" relationship
                                         if ((metadata[eachitem]['type'] === "onetomany" || 
                                                 metadata[eachitem]['type'] === "manytomany" ||
                                                 metadata[eachitem]['type'] === "jsononetomany") &&
