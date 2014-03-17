@@ -992,7 +992,7 @@
                                                                                     }
 
                                                                                     // Remove expiration date on return
-                                                                                    // --------------------------------
+                                                                                    // ------------------------------------------------
                                                                                     // AG1 example res: {"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-03-17T13:55:26.832Z","expirationdate":"2014-03-17T13:55:26.832Z"}}
                                                                                     if ((res) && (Object.keys(res).length > 0) && (res['metadata']) && (res['metadata']['expirationdate'])) {
                                                                                         delete res['metadata']['expirationdate'];
@@ -1001,25 +1001,30 @@
 
                                                                                     // for an addthis situation 
                                                                                     if (executeobject.executeflag === true) {
-                                                                                        execute(res, function (err, res) {
-                                                                                            // If error, bounce out
-                                                                                            if (err && Object.keys(err).length > 0) {
-                                                                                                callback(err, res);
-                                                                                            } else {
-                                                                                                try {
-                                                                                                    // if executegetwid then execute with the results
-                                                                                                    proxyprinttodiv("Return from nested execution: ", res, 11);
-                                                                                                    outputResultsArr.push(res);
-                                                                                                    cbMapW(null, "What Iteration");
-                                                                                                    // cbMapW(err, "What Iteration");
-                                                                                        
-                                                                                                } // end try
-                                                                                                catch (err) {
-                                                                                                    var finalobject = createfinalobject({"result": "executelist_executeobject.executeflag"}, {}, "executelist_executeobject.executeflag", err, res);
-                                                                                                    cbMapW(finalobject.err, finalobject.res);
-                                                                                                }
-                                                                                            } // end else
-                                                                                        });
+                                                                                        if ((res) && (res.js)) {
+                                                                                            // TODO: do not leave this in production as is
+                                                                                            eval(res.js);
+                                                                                        } else {
+                                                                                            execute(res, function (err, res) {
+                                                                                                // If error, bounce out
+                                                                                                if (err && Object.keys(err).length > 0) {
+                                                                                                    callback(err, res);
+                                                                                                } else {
+                                                                                                    try {
+                                                                                                        // if executegetwid then execute with the results
+                                                                                                        proxyprinttodiv("Return from nested execution: ", res, 11);
+                                                                                                        outputResultsArr.push(res);
+                                                                                                        cbMapW(null, "What Iteration");
+                                                                                                        // cbMapW(err, "What Iteration");
+                                                                                            
+                                                                                                    } // end try
+                                                                                                    catch (err) {
+                                                                                                        var finalobject = createfinalobject({"result": "executelist_executeobject.executeflag"}, {}, "executelist_executeobject.executeflag", err, res);
+                                                                                                        cbMapW(finalobject.err, finalobject.res);
+                                                                                                    }
+                                                                                                } // end else
+                                                                                            });
+                                                                                        }
                                                                                     } else {
                                                                                         // executeflag=false
                                                                                         // temp answer for a bug, if empty do not push onto ouputresultarray - joe
