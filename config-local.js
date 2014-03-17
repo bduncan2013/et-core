@@ -146,20 +146,34 @@ exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {};
 function setdefaultparm() {
 
     exports.config = config = config123();
-    Debug = 'false';
-    debuglevel = 0;
     widMasterKey = "widmaster_";
     test_results = {};
     potentialwid = 0;
-    debugon = false;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
-    debugcolor = 0;
-    debugindent = 0;
-    debuglinenum = 1;
+    
+    // debuglevel = 0;
+    // debugon = false;
+    // debugname = "";
+    // debugsubcat = "";
+    // debugcat = "";
+    // debugfilter = "";
+    // debugdestination = 1;
+    // debugcolor = 0;
+    // debugindent = 0;
+    // debuglinenum = 1;
+
+    saveglobal(debuglevel, 0);
+    saveglobal(Debug, 'false');
+    saveglobal(debugon ,false);
+    saveglobal(debugname, "");
+    saveglobal(debugsubcat, "");
+    saveglobal(debugcat, "");
+    saveglobal(debugfilter, "");
+    saveglobal(debugdestination, 1);
+    saveglobal(debugcolor, 0);
+    saveglobal(debugindent, 0);
+    saveglobal(debuglinenum, 1);
+
+
     // environment = "local";
     // exports.environment = environment;
     exports.environment = "local";

@@ -89,16 +89,40 @@ exports.clearLocal = clearLocal = function clearLocal() {
 };
 
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
-    var inbound_parameters = arguments;
     try {
-        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+        
+        var g_debuglevel        = getglobal(debuglevel, 0);
+        var g_Debug             = getglobal(Debug);
+        var g_debugon           = getglobal(debugon);
+        var g_debugname         = getglobal(debugname);
+        var g_debugsubcat       = getglobal(debugsubcat);
+        var g_debugcat          = getglobal(debugcat);
+        var g_debugfilter       = getglobal(debugfilter);
+        var g_debugdestination  = getglobal(debugdestination);
+        var g_debugcolor        = getglobal(debugcolor);
+        var g_debugindent       = getglobal(debugindent);
+        var g_debuglinenum      = getglobal(debuglinenum);
+
+
+
+
+        var inbound_parameters = arguments;
+        if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 99)) {
             printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
             if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
-            // console.log(text);
-            // console.log(obj);
             if (document.getElementById('divprint')) {
                 document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
             }
+
+        // if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+        //     printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+        //     if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
+        //     // console.log(text);
+        //     // console.log(obj);
+        //     if (document.getElementById('divprint')) {
+        //         document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+        //     }
+             
         }
     } // end try
     catch (err) {
@@ -108,22 +132,21 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
 };
 
 exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone, pretty) { // **** making code node compatible
-    var inbound_parameters = arguments;
     try {
+        var inbound_parameters = arguments;
         if (!debugone) {
             debugone = -1;
         }
         if (exports.environment === "local") {
             printToDiv(text, obj, debugone, pretty);
         } else {
-            // if (true) {
             if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
                 debuglinenum++;
                 var tempobj = {};
                 tempobj["text"] = text;
                 tempobj["obj"] = obj;
                 tempobj["executethis"] = "printdiv";
-                addtolocal(debuglinenum, tempobj)
+                addtolocal(debuglinenum, tempobj);
             }
         }
     } // end try
