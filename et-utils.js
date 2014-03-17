@@ -91,7 +91,7 @@ exports.clearLocal = clearLocal = function clearLocal() {
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
     try {
         
-        var g_debuglevel        = getglobal(debuglevel, 0);
+        var g_debuglevel        = getglobal(debuglevel);
         var g_Debug             = getglobal(Debug);
         var g_debugon           = getglobal(debugon);
         var g_debugname         = getglobal(debugname);
@@ -102,9 +102,6 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
         var g_debugcolor        = getglobal(debugcolor);
         var g_debugindent       = getglobal(debugindent);
         var g_debuglinenum      = getglobal(debuglinenum);
-
-
-
 
         var inbound_parameters = arguments;
         if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 99)) {
@@ -134,19 +131,24 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
 exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone, pretty) { // **** making code node compatible
     try {
         var inbound_parameters = arguments;
+
+        var g_Debug             = getglobal(Debug);
+        var g_debuglevel        = getglobal(debuglevel);
+        var g_debuglinenum      = getglobal(debuglinenum);
+
         if (!debugone) {
             debugone = -1;
         }
         if (exports.environment === "local") {
             printToDiv(text, obj, debugone, pretty);
         } else {
-            if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 99)) {
                 debuglinenum++;
                 var tempobj = {};
                 tempobj["text"] = text;
                 tempobj["obj"] = obj;
                 tempobj["executethis"] = "printdiv";
-                addtolocal(debuglinenum, tempobj);
+                addtolocal(g_debuglinenum, tempobj);
             }
         }
     } // end try
@@ -1406,8 +1408,6 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         case 2:
             // only the 1,2 var
             break;
-
-
         }
 
         switch (indebugdest) // 1 for print, 2 for googlespreadsheets, 3 for both
