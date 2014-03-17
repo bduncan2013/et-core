@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 //make sure these functions work--copy to cody.js and test from node...create proof it works
 //create commented future actions
 

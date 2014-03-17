@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 exports.etdocsimpledto = etdocsimpledto = function etdocsimpledto(params, callback){
 	testclearstorage();
 	

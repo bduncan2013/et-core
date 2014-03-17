@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 // This test uses a gojs
 exports.rt1 = rt1 = function rt1(params, callback) {
 	testclearstorage();

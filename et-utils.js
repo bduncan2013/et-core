@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 // if(typeof localStorage === "undefined"){
 if (!exports) {
     var exports = {};
@@ -50,7 +51,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
         widobject = {}
     }
     if (widName) {
-        localStore.push(widMasterKey + widName, widobject);
+        localStore.push("widmaster_" + widName, widobject);
     }
 };
 
@@ -73,7 +74,7 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
 };
 
 exports.clearLocal = clearLocal = function clearLocal() {
-    widMasterKey = "widmaster_";
+    // widMasterKey = "widmaster_";
     localStore.clear();
     potentialwid = 0;
     addToLocal("DRI", [{

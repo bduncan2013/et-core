@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 // execute is the asynchronous version  has an etbypass option
 // executelist executes list (howToDoList and whatToDoList).  It accepts a structure as in config
 // 

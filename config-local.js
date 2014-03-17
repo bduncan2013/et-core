@@ -1,4 +1,4 @@
-
+// copyright (c) 2014 DRI 
 if (!exports) {
     var exports = {};
 }
@@ -8,9 +8,9 @@ if (!config) { // used in executethis
 // if (!environment) { // try to only use the one in configuration
 //     var environment = 'local';
 // }
-if (!widMasterKey) { // used here and untils maybe
-    var widMasterKey = 'widmaster_';
-}
+// if (!widMasterKey) { // used here and untils maybe
+//     var widMasterKey = 'widmaster_';
+// }
 
 if (!potentialwid) { // should not be neeeded
     var potentialwid = 0;
@@ -53,9 +53,9 @@ if (!debuglinenum) {
 if (!debuglog) {
     var debuglog = {};
 }
-if (!test_results) { // should not be neededd any more
-    var test_results = {};
-}
+// if (!test_results) { // should not be neededd any more
+//     var test_results = {};
+// }
 
 
 
@@ -146,7 +146,7 @@ exports.eventexecuteend  = eventexecuteend  = function eventexecuteend () {};
 function setdefaultparm() {
 
     exports.config = config = config123();
-    widMasterKey = "widmaster_";
+    // widMasterKey = "widmaster_";
     test_results = {};
     potentialwid = 0;
     
@@ -183,7 +183,7 @@ function setdefaultparm() {
 
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
-    exports.widMasterKey = widMasterKey;
+    exports.widMasterKey = "widmaster_";
     exports.test_results = test_results;
     exports.potentialwid = potentialwid;
 
@@ -362,7 +362,7 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
         addToLocalStorage(keycollection, keydatabase);
         //******
         widobject = inputWidgetObject;
-        addToLocalStorage(widMasterKey + widName, widobject);
+        addToLocalStorage("widmaster_" + widName, widobject);
         //******
         //widobject['wid'] = widName;
         //return widobject;
@@ -394,7 +394,7 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
     if (widName) {
         keydatabase = getFromLocalStorage(keycollection);
         output = keydatabase[widName];
-        //output = getFromLocalStorage(widMasterKey + widKey);
+        //output = getFromLocalStorage("widmaster_" + widKey);
         //database = getFromLocalStorage(collection);
         // for (record in database) {
         //     if (database[record]["wid"]==widName) {
@@ -652,7 +652,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     }
 
     // for (var eachwid in localStorage) {
-    //     if (eachwid.indexOf(widMasterKey) == 0) {
+    //     if (eachwid.indexOf("widmaster_") == 0) {
     //         var widObj = JSON.parse(localStorage[eachwid]);
     //         inlist.push(widObj);
     //     }
@@ -716,9 +716,9 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
 //     var resultobject = {};
 //     var wid = "";
 //     for (var key in localStorage) {
-//         if (key.indexOf(widMasterKey) == 0) {
+//         if (key.indexOf("widmaster_") == 0) {
 //             key = key.substring(10);
-//             resultobject = getFromLocalStorage(widMasterKey + key);
+//             resultobject = getFromLocalStorage("widmaster_" + key);
 //             wid = resultobject['wid'];
 //             set[wid] = resultobject;
 //             // $$$$$

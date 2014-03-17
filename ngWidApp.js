@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 if(!exports){ var exports = {}; }
 
 // call eventdeviceready from config to see if app needs to be installed

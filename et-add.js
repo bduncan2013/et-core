@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 (function (window) {
 
     exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {

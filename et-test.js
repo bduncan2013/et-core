@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 	// out of date
     // exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
     //     eventappinstall();

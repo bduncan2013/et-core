@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 exports.secdata = secdata = function secdata(params, callback) {
     // create dtos  
     var executeList = [

@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 // {"query":{"$eq":{"type":"minute"}}}
 exports.filter1 = filter1 = function filter1(params, callback) {
     debuglevel = 37;

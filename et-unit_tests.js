@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 function etunittesttester(params, callback) {
     var unittestdb = 
         [   // Within    
