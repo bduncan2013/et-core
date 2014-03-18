@@ -511,6 +511,8 @@ if (typeof angular !== 'undefined') {
         processExecute: function(ele, scope, compile) {
             var executeObj = NNMtoObj(ele.attributes);
 
+            if (executeObj.etparams) { executeObj = JSON.parse(executeObj.etparams); }
+
             execute(executeObj, function(err, resultArr) {
                 var results = widAppHelper.mergeNestedArray(resultArr);
                 angular.injector(['ng', 'widApp'])
@@ -524,13 +526,6 @@ if (typeof angular !== 'undefined') {
 
                             scope.$apply(function() {
                                 $(ele).append(compile(results.html)(scope));
-//                                var nodesToAdd = compile(results.html)(scope);
-//
-//                                for (var i = 0; i < nodesToAdd.length; i++) {
-//                                    if (nodesToAdd[i].outerHTML !== undefined) {
-//                                        ele.innerHTML += nodesToAdd[i].outerHTML;
-//                                    }
-//                                }
                             });
                         }
                     });
