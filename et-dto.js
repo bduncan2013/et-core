@@ -671,13 +671,13 @@
         execute([{
             // create defaultdto data
             "executethis": "addwidmaster",
-            "systemdto.method": "defaultdto",
-            "systemdto.system.creator": creatorwid,
-            "systemdto.system.creationdate": creationdate,
-            "systemdto.system.expirationtimer": expirationtimer,
-            "systemdto.system.expiratondate": expirationdate,
-            "systemdto.system.db": db,
-            "systemdto.system.collection": collectionname
+            "metadata.method": "defaultdto",
+            "system.creator": creatorwid,
+            "system.creationdate": creationdate,
+            "system.expirationtimer": expirationtimer,
+            "system.expiratondate": expirationdate,
+            "system.db": db,
+            "system.collection": collectionname
 
 
             // TODO :: ADD systemdto/overridedto data add logic below
@@ -751,11 +751,11 @@
         execute({
             "executethis": "addwidmaster",
             "metadata.method": userobj.wid,
-            "systemdto.environmentdto.ac": environmentobj.ac,
-            "systemdto.environmentdto.gps": environmentobj.gps,
-            "systemdto.environmentdto.account": environmentobj.account,
-            "systemdto.environmentdto.db": environmentobj.db,
-            "systemdto.environmentdto.collection": environmentobj.collection
+            "environmentdto.ac": environmentobj.ac,
+            "environmentdto.gps": environmentobj.gps,
+            "environmentdto.account": environmentobj.account,
+            "environmentdto.db": environmentobj.db,
+            "environmentdto.collection": environmentobj.collection
         }, function (err, res) {
             proxyprinttodiv('Function addenvironment -- added environment to user  -- ' + userobj.wid, res, 13);
             callback(null, "environmentdto");
@@ -841,10 +841,10 @@
                     "wid": userobj.wid,
                     // permissions data 
                     "metadata.method": "userdto",
-                    "systemdto.permissiondto.usergroup.usergroupname": permissionobj.usergroup,
-                    "systemdto.permissiondto.actiongroup.actiongroupname": permissionobj.actiongroup,
-                    "systemdto.permissiondto.dbgroup": permissionobj.dbgroup,
-                    "systemdto.permissiondto.levelgroup": permissionobj.levelgroup
+                    "permissiondto.usergroup.usergroupname": permissionobj.usergroup,
+                    "permissiondto.actiongroup.actiongroupname": permissionobj.actiongroup,
+                    "permissiondto.dbgroup": permissionobj.dbgroup,
+                    "permissiondto.levelgroup": permissionobj.levelgroup
 
                 }],
                 function (err, res) {
@@ -865,7 +865,7 @@
                 "wid": userobj.wid,
                 // security data
                 "metadata.method": "userdto",
-                "systemdto.securitydto.accesstoken": securityobj.ac
+                "securitydto.accesstoken": securityobj.ac
             }],
             function (err, res) {
                 proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + userobj.wid, res, 13);
@@ -887,7 +887,7 @@
                 "metadata.method": "permissiondto"
             }],
             function (err, res) {
-                proxyprinttodiv('Function getusergroups >>>>>  for  -- ' + userwid, res, 39);
+                proxyprinttodiv('Function getusergroups >>>>>  for  -- ' + userwid, res, 13);
                 callback(err, res)
             });
     }
@@ -896,7 +896,7 @@
     // 1st test for new security stuff
     exports.asap = asap = function asap(parm, callback) {
 
-        debuglevel = 13;
+        debuglevel = 39;
 
         // roger user data
         var userobj = {};
@@ -959,7 +959,7 @@
 
                 function (cb) {
                     createuserdata(userobj, securityobj, overrideobj, defaultobj, function (err, res) {
-                        proxyprinttodiv('Function asap >>>>>  res', res, 39);
+                        proxyprinttodiv('Function asap >>>>>  res', res, 13);
                         cb(null, "userdata");
                     });
                 },
@@ -972,31 +972,31 @@
                 },
                 function (cb) {
                     addenvironment(userobj, environmentobj, function (err, res) {
-                        proxyprinttodiv('Function asap >>>>> added environment >>> res', res, 39);
+                        proxyprinttodiv('Function asap >>>>> added environment >>> res', res, 13);
                         cb(null, "userdata");
                     });
                 },
-                //// adding usergroups
-                // function (cb) {
-                //     var usergroup1 = {
-                //         "usergroupname": "driusers"
-                //     };
+                // adding usergroups
+                function (cb) {
+                    var usergroup1 = {
+                        "usergroupname": "driusers"
+                    };
 
-                //     createusergroup(usergroup1, function (err, res) {
-                //         proxyprinttodiv('Function asap >>>>> added group for >>> ' + usergroup1, res, 39);
-                //         cb(null, "usergroup1");
-                //     });
-                // },
-                // function (cb) {
-                //     var usergroup2 = {
-                //         "usergroupname": "drimanagers"
-                //     };
+                    createusergroup(usergroup1, function (err, res) {
+                        proxyprinttodiv('Function asap >>>>> added group for >>> ' + usergroup1, res, 13);
+                        cb(null, "usergroup1");
+                    });
+                },
+                function (cb) {
+                    var usergroup2 = {
+                        "usergroupname": "drimanagers"
+                    };
 
-                //     createusergroup(usergroup2, function (err, res) {
-                //         proxyprinttodiv('Function asap >>>>> added group for >>> ' + usergroup2, res, 39);
-                //         cb(null, "usergroup2");
-                //     });
-                // },
+                    createusergroup(usergroup2, function (err, res) {
+                        proxyprinttodiv('Function asap >>>>> added group for >>> ' + usergroup2, res, 13);
+                        cb(null, "usergroup2");
+                    });
+                },
 
                 // // adding actiongroups
                 function (cb) {
@@ -1005,7 +1005,7 @@
                     };
 
                     createactiongroup(actiongroup1, function (err, res) {
-                        proxyprinttodiv('Function asap >>>>> added group for >>> ' + actiongroup1, res, 39);
+                        proxyprinttodiv('Function asap >>>>> added group for >>> ' + actiongroup1, res, 13);
                         cb(null, "actiongroup1");
                     });
                 },
@@ -1016,7 +1016,7 @@
                     };
 
                     createactiongroup(actiongroup2, function (err, res) {
-                        proxyprinttodiv('Function asap >>>>> added group for >>> ' + actiongroup2, res, 39);
+                        proxyprinttodiv('Function asap >>>>> added group for >>> ' + actiongroup2, res, 13);
                         cb(null, "actiongroup2");
                     });
                 },
@@ -1028,14 +1028,14 @@
                         "wid": "rogeruser"
                     };
                     addpermission(userjson1, permissionsobjarr1, function (err, res) {
-                        proxyprinttodiv('Function asap >>>>> added permissions for >>> ' + userjson1.wid, res, 39);
+                        proxyprinttodiv('Function asap >>>>> added permissions for >>> ' + userjson1.wid, res, 13);
                         cb(null, "userdata");
                     });
                 }
             ],
 
             function (err, res) {
-                proxyprinttodiv('Function asap >>>>> finally done >>> res', res, 39);
+                proxyprinttodiv('Function asap >>>>> finally done >>> res', res, 13);
                 execute({
                     "executethis": "getwidmaster",
                     "wid": userobj.wid
@@ -1047,4 +1047,52 @@
 
 
     }
+
+
+    exports.csd = csd = function csd(params, callback) {
+        var executeList = [
+
+            {
+                // parentdto
+                "executethis": "addwidmaster",
+                "metadata.method": "parentdto",
+                "wid": "parentdto",
+                "phone": "string",
+                //"metadata.childdto.type": "onetoone",
+                //"metadata.childdto.grandchilddto.type": "onetoone"
+            }, {
+                //create childdto
+                "executethis": "addwidmaster",
+                "metadata.method": "childdto",
+                "wid": "childdto",
+                "phonechild": "string",
+            }, {
+                //create grandchilddto
+                "executethis": "addwidmaster",
+                "metadata.method": "grandchilddto",
+                "wid": "grandchilddto",
+                "phonegrandchild": "string"
+            },
+        ];
+
+        execute(executeList, function (err, res) {
+            createrelationship("parentdto", "childdto", "onetomany", function (err, res) {
+                createrelationship("childdto", "grandchilddto", "onetomany", function (err, res) {
+                    execute({
+                        // create data 
+                        "executethis": "addwidmaster",
+                        "metadata.method": "parentdto",
+                        "phone": "9812121212",
+                        "childdto.phonechild": "999988887777",
+                        "childdto.grandchilddto.phonegrandchild": "11112222233333"
+                    }, function (err, res) {
+                        // proxyprinttodiv('Function csd -- added all this -- ', res, 99);
+                        callback(err, res);
+                    });
+                });
+            });
+        });
+    }
+
+
 })(typeof window == "undefined" ? global : window);
