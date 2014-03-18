@@ -229,7 +229,7 @@ exports.wv = wv = function wv(params, callback) { //widviewer
             //debuglevel=10;
             //debugname="getwidmongo"
             //debugcat="add";
-            //debugsubcat="sub"
+            //saveglobal("debugsubcat", sub");
             debugcolor=1
             execute(executeList, function (err, res) {
                 console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
@@ -686,7 +686,7 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
     //debugname = "addwidparameters";
     // debuglevel=20;
     // debugcat = "add";
-    //debugsubcat = "core";
+    // saveglobal("debugsubcat", "core");
     debugname = "AddMongoRelationship";
     //debuglevel = 10;
     executetest("getwidmaster", {
@@ -786,7 +786,7 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
     }, "", "");
 
 
-    debugsubcat = "core";
+    saveglobal("debugsubcat", "core");
     debugname = "addmaster";
 
     executetest("addwidmaster", {
@@ -799,18 +799,18 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
         "booksdto.pages": "00"
     }, "", "");
 
-    //  //debugsubcat = "add";
+    //  // saveglobal("debugsubcat", "add");
     //      executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
     //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
     // // these added later
     // debuglevel=10;
-    // debugsubcat = "get";
+    // saveglobal("debugsubcat", "get");
     //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
     //  //executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 
 
-    // //debugsubcat = "get";
+    // // saveglobal("debugsubcat", "get");
     executetest("getwidmaster", {
         "wid": "startwid"
     }, "startwid_get_result", "");

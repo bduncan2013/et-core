@@ -1360,12 +1360,15 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         var displaycolor = indebugcolor;
         var tempdebugname = (debugname != "") ? debugname : indebugname;
         var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
-        var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
+
+        // var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
+        var zed1 = getglobal("debugsubcat");
+        var tempdebugsubcat = (zed1 != "") ? zed1 : indebugsubcat;
 
         proxyprinttodiv('arrived debugfn', arguments, 44);
         proxyprinttodiv('arrived debugname', debugname, 44);
         proxyprinttodiv('arrived debugcat', debugcat, 44);
-        proxyprinttodiv('arrived debugsubcat', debugsubcat, 44);
+        proxyprinttodiv('arrived debugsubcat', getglobal("debugsubcat"), 44);
         proxyprinttodiv('arrived indebugname', indebugname, 44);
         proxyprinttodiv('arrived indebugcat', indebugcat, 44);
         proxyprinttodiv('arrived indebugsubcat', indebugsubcat, 44);
@@ -1379,7 +1382,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         } else {
             processdebug = false;
         }
-        if (debugname + debugcat + debugsubcat == "") {
+        if (debugname + debugcat + getglobal("debugsubcat") == "") {
             processdebug = false;
         }
         if (!processdebug) return;
@@ -1403,7 +1406,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         //  1) determine if we should play...missing "and"
         //  if global debugname = incoming debugname the process this object (or subcat or cat)
         // if (indebugcat==debugcat) {processdebug=true};
-        // if (indebugsubcat==debugsubcat) {processdebug=true};
+        // if (indebugsubcat == getglobal("debugsubcat")) {processdebug = true};
 
         // if processdebug {
         

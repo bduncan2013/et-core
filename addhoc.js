@@ -68,7 +68,7 @@ exports.system_actions = system_actions = function system_actions(params, callba
 exports.createdtos = createdtos = function createdtos(params, callback) {
     // create dtos  
     //debuglevel=75;
-    //debugsubcat="add"
+    saveglobal("debugsubcat", "add");
     //debugname="getwidmaster"
     var executeList = [ 
         {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","metadata.booksdto.type":"onetomany","metadata.adddto.type":"onetoone", "metadata.inherit":"defaultmasteractions"},

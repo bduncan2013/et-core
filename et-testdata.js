@@ -18,7 +18,7 @@
         debuglevel = 37;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
 
         // create dtos  
@@ -300,7 +300,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         // debugname = "";
         // debugcat = "";
-        // debugsubcat = "code";
+        // saveglobal("debugsubcat", "code");
         async.series([
             function (cb1) {
                 createsystemdtos({}, function (err, res) {
@@ -377,7 +377,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 35;
         // debugname = "";
         // debugcat = "";
-        // debugsubcat = "code";
+        // saveglobal("debugsubcat", "code");
         async.series([
             function (cb1) {
                 createsystemdtos({}, function (err, res) {
@@ -453,7 +453,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 35;
         // debugname = "";
         // debugcat = "";
-        // debugsubcat = "code";
+        // saveglobal("debugsubcat", "code");
         async.series([
                 function (cb1) {
                     // setup schema data
@@ -533,7 +533,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
         async.series([
                 function (cb1) {
@@ -569,7 +569,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
         async.series([
                 function (cb1) {
@@ -608,7 +608,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
         async.series([
                 function (cb1) {
@@ -650,7 +650,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
         async.series([
                 function (cb1) {
@@ -712,7 +712,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
         async.series([
                 function (cb1) {
@@ -754,7 +754,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
         async.series([
                 function (cb1) {
@@ -811,7 +811,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
 
         async.series([
@@ -864,7 +864,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         debugname = "";
         debugcat = "";
-        debugsubcat = "code";
+        saveglobal("debugsubcat", "code");
         var status = false;
         async.series([
                 function (cb1) {
@@ -1264,7 +1264,7 @@ exports.authortest1 = authortest1 = function authortest1(){
         debuglevel = 39;
         // debugname = "";
         // debugcat = "";
-        // debugsubcat = "code";
+        // saveglobal("debugsubcat", "code");
         async.series([
                 function (cb1) {
                     createtestuser("rogeruser0", "rogerac0", 99, function (err, res) {

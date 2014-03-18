@@ -4,7 +4,7 @@ exports.filter1 = filter1 = function filter1(params, callback) {
     debuglevel = 37;
     debugname = "";
     debugcat = "";
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     var status = false;
 
     // create dtos  
@@ -2274,7 +2274,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
     debuglevel = 75;
     debugname = "";
     debugcat = "";
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
 
     execute([{
             "executethis": "addwidmaster",
@@ -2342,7 +2342,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     //%%%%%%%%%%%%%%%%%%%%%
 
     //debugcat = "";
-    //debugsubcat = "code";
+    //saveglobal("debugsubcat", "code");
 
     debuglevel = 17;
     execute([
@@ -3456,7 +3456,7 @@ function test161616(params, callback) {
 }
 
 exports.sample1 = sample1 = function sample1(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     offlineupdatewid({
         "wid": "wid1",
         "a": "b"
@@ -3465,7 +3465,7 @@ exports.sample1 = sample1 = function sample1(params, callback) {
 }
 
 exports.sample2 = sample2 = function sample2(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     merge_options({
         "wid": "wid1",
         "a": "b"
@@ -3479,7 +3479,7 @@ exports.sample2 = sample2 = function sample2(params, callback) {
 // getclean(resultObj, command, callback)
 
 exports.sample3 = sample3 = function sample3(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     getclean({
         "wid": "wid1",
         "a": "b",
@@ -3590,7 +3590,7 @@ function func_b33(params, callback) {
 
 
 exports.err1 = err1 = function err1(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     execute({
         "executethis": "getwidmaster",
         "wid": "1",
@@ -3607,7 +3607,7 @@ exports.err1 = err1 = function err1(params, callback) {
 }
 
 exports.wrapped1 = wrapped1 = function wrapped1(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     execute([{
         "executethis": "addwidmaster",
         "wid": "1",

@@ -38,9 +38,9 @@ if (!debugname) {
 if (!debugcat) {
     var debugcat = '';
 }
-if (!debugsubcat) {
-    var debugsubcat = '';
-}
+// if (!debugsubcat) {
+//     var debugsubcat = '';
+// }
 // if (!debugfilter) {
 //     var debugfilter = '';
 // }
@@ -150,17 +150,6 @@ function setdefaultparm() {
     test_results = {};
     potentialwid = 0;
     
-    // debuglevel = 0;
-    // debugon = false;
-    // debugname = "";
-    // debugsubcat = "";
-    // debugcat = "";
-    // debugfilter = "";
-    // debugdestination = 1;
-    // debugcolor = 0;
-    // debugindent = 0;
-    // debuglinenum = 1;
-
     saveglobal("debuglevel", 0);
     saveglobal("Debug", 'false');
     saveglobal("debugon", false);
@@ -172,7 +161,6 @@ function setdefaultparm() {
     saveglobal("debugcolor", 0);
     saveglobal("debugindent", 0);
     saveglobal("debuglinenum", 1);
-
 
     // environment = "local";
     // exports.environment = environment;
@@ -189,7 +177,7 @@ function setdefaultparm() {
 
     exports.debugon = debugon;
     exports.debugname = debugname;
-    exports.debugsubcat = debugsubcat;
+    exports.debugsubcat = getglobal("debugsubcat");
     exports.debugcat = debugcat;
     exports.debugfilter = getglobal("debugfilter");
     exports.debugdestination = getglobal("debugdestination");

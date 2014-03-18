@@ -2522,7 +2522,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
     debuglevel = 75;
     debugname = "";
     debugcat = "";
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
 
     execute([{
             "executethis": "addwidmaster",
@@ -2594,7 +2594,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     //debugcat = "";
-    //debugsubcat = "code";
+    //saveglobal("debugsubcat", "code");
 
 
     execute([{
@@ -3973,13 +3973,13 @@ function test161616 (params, callback) {
 }
 
 exports.sample1 = sample1 = function sample1 (params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     offlineupdatewid( {"wid":"wid1", "a":"b"}, callback );
     debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
 }
 
 exports.sample2 = sample2 = function sample2 (params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     merge_options( {"wid":"wid1", "a":"b"}, {"wid":"wid2", "y":"z"} );
     debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
 }
@@ -3987,7 +3987,7 @@ exports.sample2 = sample2 = function sample2 (params, callback) {
 // getclean(resultObj, command, callback)
 
 exports.sample3 = sample3 = function sample3 (params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     getclean( {"wid":"wid1", "a":"b", "metadata":{"method": "DOT"}}, "DOT" );
     debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
 }
@@ -4072,7 +4072,7 @@ function func_b33(params, callback) {
 
 
 exports.err1 = err1 = function err1 (params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     execute({"executethis":"getwidmaster","wid":"1","command":{"parameters":{"test1":"1"},"status":"fail"}}, function(err, result){
         proxyprinttodiv('Function err1 result ', result, 99);
         // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
@@ -4080,7 +4080,7 @@ exports.err1 = err1 = function err1 (params, callback) {
 }
 
 exports.wrapped1 = wrapped1 = function wrapped1 (params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     execute([{"executethis":"addwidmaster","wid":"1","a":"b"}, {"executethis":"getwidmaster","wid":"1","command":{"executeresult":"outer"}}], function(err, result){
         proxyprinttodiv('Function wrapped1 result ', result, 99)
         // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
@@ -4380,7 +4380,7 @@ exports.ettss1 = ettss1 = function ettss1(params, callback) {
       debuglevel = 17;
       // debugname = "";
       // debugcat = "";
-      // debugsubcat = "code";
+      // saveglobal("debugsubcat", "code");
       var status = false;
 
 
@@ -4524,7 +4524,7 @@ exports.t1 = t1 = function t1(params, callback) {
       debuglvel = 34;
       debugname = "";
       debugcat = "";
-      debugsubcat = "code";
+      saveglobal("debugsubcat", "code");
       var status = false;
 
       async.series([
@@ -4587,7 +4587,7 @@ exports.t2 = t2 = function t2(params, callback) {
       debuglevel = 34;
       debugname = "";
       debugcat = "";
-      debugsubcat = "code";
+      saveglobal("debugsubcat", "code");
       var status = false;
 
       async.series([
@@ -4650,7 +4650,7 @@ exports.t3 = t3 = function t2(params, callback) {
       debuglevel = 34;
       debugname = "";
       debugcat = "";
-      debugsubcat = "code";
+      saveglobal("debugsubcat", "code");
       var status = false;
 
       async.series([
@@ -4711,7 +4711,7 @@ exports.tss2 = tss2 = function tss2(params, callback) {
       debuglevel = 34;
       debugname = "";
       debugcat = "";
-      debugsubcat = "code";
+      saveglobal("debugsubcat", "code");
       var status = false;
 
 
@@ -4875,7 +4875,7 @@ exports.tss3 = tss3 = function tss3(params, callback) {
       debuglevel = 34;
       debugname = "";
       debugcat = "";
-      debugsubcat = "code";
+      saveglobal("debugsubcat", "code");
       var status = false;
 
 
@@ -5179,7 +5179,7 @@ exports.tsa1 = tsa1 = function tsa1(params, callback) {
       // debuglevel = 34;
       // debugname = "";
       // debugcat = "";
-      // debugsubcat = "code";
+      // saveglobal("debugsubcat", "code");
       // var status = false;
 
       async.series([
@@ -5214,7 +5214,7 @@ exports.ttsa4 = ttsa4 = function (params, callback) {
       debuglevel = 34;
       debugname = "";
       debugcat = "";
-      debugsubcat = "code";
+      saveglobal("debugsubcat", "code");
       getGroupRecursive("rogeruser", 99, function (err, res) {
             proxyprinttodiv('Function ttsa4() in : res', res, 34);
             callback(err, res);
@@ -7156,7 +7156,7 @@ exports.mttest4 = mttest4 = function mttest4(params, callback) {
       /* adding wids */
       eventappinstall();
       debugname = "updatewid";
-      debugsubcat = "code";
+      saveglobal("debugsubcat", "code");
       debugcat = "add";
       var addList = [{
             "executethis": "updatewid",

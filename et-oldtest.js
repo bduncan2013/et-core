@@ -912,7 +912,7 @@ exports.testb = testb = function testb(params, callback) {
 
 	debugname = "addwid";
 	debugcat = debugcat = "add";
-	debugsubcat = debugsubcat = "core";
+	setglobal("debugsubcat", "core");
 	setglobal("debugfilter", "all");
 	setglobal("debugdestination", "print");
 

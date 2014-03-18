@@ -1181,7 +1181,12 @@
                         if (bigdto!==dtoobject && command.dtotype && command.dtotype!==dtoToGet) {
                             proxyprinttodiv('<<< Get_Clean step3 resultObj before', resultObj, 38);
                             proxyprinttodiv('<<< Get_Clean step3 command before', command, 38);
-                            resultObj=getdeepproperty(resultObj, command.dtotype)
+
+                            resultObj = getdeepproperty(resultObj, command.dtotype)
+                            if (isArray(resultObj)) {
+                                resultObj = resultObj[0];
+                            }
+
                             proxyprinttodiv('<<< Get_Clean step3 resultObj after', resultObj, 38);
                         }
 
