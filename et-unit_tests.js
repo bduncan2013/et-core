@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 function etunittesttester(params, callback) {
     var unittestdb = 
         [   // Within    
@@ -2426,6 +2427,7 @@ exports.ettestag12 = ettestag12 = function ettestag12(params, callback) {
 // This will test the ability to write a dto to the db and retrieve it
 
 exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
+      debuglevel = 0;
     // eventappinstall();
     execute([{
             "executethis": "addwidmaster",
@@ -2562,7 +2564,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     //eventappinstall();
 
-    debuglevel = 17;
+    //debuglevel = 17;
     //debugname = "";
 
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

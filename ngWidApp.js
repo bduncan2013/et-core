@@ -523,8 +523,14 @@ if (typeof angular !== 'undefined') {
                             });
 
                             scope.$apply(function() {
-//                               $('#' + eleId).html(compile(results.html)(scope));
-                                $(ele).replaceWith(compile(results.html)(scope));
+                                $(ele).append(compile(results.html)(scope));
+//                                var nodesToAdd = compile(results.html)(scope);
+//
+//                                for (var i = 0; i < nodesToAdd.length; i++) {
+//                                    if (nodesToAdd[i].outerHTML !== undefined) {
+//                                        ele.innerHTML += nodesToAdd[i].outerHTML;
+//                                    }
+//                                }
                             });
                         }
                     });
@@ -575,7 +581,7 @@ if (typeof angular !== 'undefined') {
             scope = $('body').scope();
 
         // send calling element and any additional info into the execute process
-        parameters.command.parameters.eventdata.elementindex = ele;
+        parameters.command.parameters.eventdata.element = $('<div>' + ele + '</div>').html();
         parameters.command.parameters.eventdata.originatingscreen = widAppHelper.getUrlParam('wid');
 
         angular.injector(['ng', 'widApp'])

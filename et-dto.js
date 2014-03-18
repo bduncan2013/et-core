@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 (function (window) {
     // Creating groupdto, securitydto, statusdto and balanceddto
     // securitydto holds accesstoken, status

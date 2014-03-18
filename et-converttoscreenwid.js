@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 $(document).ready(function () {
     var fileName = window.location.href.split('/').pop(),
         widName = fileName.substr(0, fileName.indexOf('.')),

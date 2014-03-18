@@ -1,3 +1,6 @@
+<!-- 
+copyright (c) 2014 DRI
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -285,12 +288,13 @@
         debugname = $('#dbug_name').val();
         debugcat = $('#dbug_category').val();
         debugsubcat = $('#dbug_subcategory').val();
-        debugfilter = $('#dbug_filter').val();
+        // debugfilter = $('#dbug_filter').val();
+        saveglobal("debugfilter", $('#dbug_filter').val());
         if ($('#dbug_level').val() != "") debuglevel = parseInt($('#dbug_level').val());
 
-        if ($('#dest_print').is(':checked') && !$('#dest_google').is(':checked')) debugdestination = 1;
-        if (!$('#dest_print').is(':checked') && $('#dest_google').is(':checked')) debugdestination = 2;
-        if ($('#dest_print').is(':checked') && $('#dest_google').is(':checked')) debugdestination = 3;
+        if ($('#dest_print').is(':checked') && !$('#dest_google').is(':checked')) saveglobal("debugdestination", 1);
+        if (!$('#dest_print').is(':checked') && $('#dest_google').is(':checked')) saveglobal("debugdestination", 2);
+        if ($('#dest_print').is(':checked') && $('#dest_google').is(':checked')) saveglobal("debugdestination", 3);
 
         // localStorage.clear();
         $('#resultDiv').text("");
@@ -643,7 +647,7 @@
         document.getElementById("divwidsdisplay_from_local_storage").innerHTML = "";
         var html = "";
         for (var key in localStorage) {
-            //if(key.indexOf(widMasterKey) == 0){
+            //if(key.indexOf("widmaster_") == 0){
             html += document.getElementById("divwidsdisplay_from_local_storage").innerHTML;
             html += "<label style='color: red; font-size: 85%;'>" + key + "</label>   ";
             // html += "<label style='color: purple; font-size: 85%;'>" + JSON.stringify(getFromLocalStorage(key)) + "</label><br>";
@@ -689,7 +693,7 @@
         document.getElementById("local_data").innerHTML = "";
         var html = "";
         for (var key in localStorage) {
-            //if(key.indexOf(widMasterKey) == 0){
+            //if(key.indexOf("widmaster_") == 0){
             html += document.getElementById("local_data").innerHTML;
             html += "<label style='color: red; font-size: 85%;'>" + key + "</label>   ";
             html += "<label style='color: purple; font-size: 85%;'>" + localStorage.getItem(key) + "</label><br>";

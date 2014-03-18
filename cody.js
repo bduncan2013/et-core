@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 exports.etdocsimpledto = etdocsimpledto = function etdocsimpledto(params, callback){
 	testclearstorage();
 	
@@ -646,13 +647,13 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
 
     testclearstorage();
 
-    debugcolor = 0;
-    debugon = true;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
+    saveglobal("debugcolor", 0);
+    saveglobal("debugon", true);
+    saveglobal("debugname", "");
+    saveglobal("debugsubcat", "");
+    saveglobal("debugcat", "");
+    saveglobal("debugfilter" = "");
+    saveglobal("debugdestination", 1);
     //debuglevel=15;
 
 
@@ -724,12 +725,14 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
 
     testclearstorage();
 
-    debugon = true;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
+    saveglobal("debugon", true);
+    saveglobal("debugname", "");
+    saveglobal("debugsubcat", "");
+    saveglobal("debugcat", "");
+    saveglobal("debugfilter", "");
+    // debugdestination = 1;
+    saveglobal("debugdestination", 1);
+
     //debuglevel=15;
     executetest("addwidmaster", {
         "metadata.method": "adddto",
@@ -7293,13 +7296,15 @@ exports.mttest2 = mttest2 = function mttest2(params, callback) {
 
     var codedebug = false;
     if (codedebug) {
-        debugcolor = 0;
-        debugon = true;
-        debugname = "";
-        debugsubcat = "";
-        debugcat = "query";
-        debugfilter = "";
-        debugdestination = 1;
+        saveglobal("debugcolor", 0);
+        saveglobal("debugon", true);
+        saveglobal("debugname", "");
+        saveglobal("debugsubcat", "");
+        saveglobal("debugcat", "query");
+        saveglobal("debugfilter", "");
+        // debugdestination = 1;
+    	saveglobal("debugdestination", 1);
+
     }
 
     testclearstorage();
