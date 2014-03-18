@@ -228,7 +228,7 @@ exports.wv = wv = function wv(params, callback) { //widviewer
             ];
             //debuglevel=10;
             //debugname="getwidmongo"
-            //debugcat="add";
+            //saveglobal("debugcat", "add");
             //saveglobal("debugsubcat", sub");
             debugcolor=1
             execute(executeList, function (err, res) {
@@ -685,7 +685,7 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
 
     //debugname = "addwidparameters";
     // debuglevel=20;
-    // debugcat = "add";
+    // saveglobal("debugcat", "add");
     // saveglobal("debugsubcat", "core");
     debugname = "AddMongoRelationship";
     //debuglevel = 10;

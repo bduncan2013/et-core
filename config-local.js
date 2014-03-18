@@ -35,9 +35,9 @@ if (!debugcolor) {
 if (!debugname) {
     var debugname = '';
 }
-if (!debugcat) {
-    var debugcat = '';
-}
+// if (!debugcat) {
+//     var debugcat = '';
+// }
 // if (!debugsubcat) {
 //     var debugsubcat = '';
 // }
@@ -175,15 +175,15 @@ function setdefaultparm() {
     exports.test_results = test_results;
     exports.potentialwid = potentialwid;
 
-    exports.debugon = debugon;
-    exports.debugname = debugname;
-    exports.debugsubcat = getglobal("debugsubcat");
-    exports.debugcat = debugcat;
-    exports.debugfilter = getglobal("debugfilter");
-    exports.debugdestination = getglobal("debugdestination");
-    exports.debugcolor = debugcolor;
-    exports.debugindent = debugindent;
-    exports.debuglinenum = getglobal("debuglinenum");
+    exports.debugon             = debugon;
+    exports.debugname           = debugname;
+    exports.debugsubcat         = getglobal("debugsubcat");
+    exports.debugcat            = getglobal("debugcat");
+    exports.debugfilter         = getglobal("debugfilter");
+    exports.debugdestination    = getglobal("debugdestination");
+    exports.debugcolor          = debugcolor;
+    exports.debugindent         = debugindent;
+    exports.debuglinenum        = getglobal("debuglinenum");
 }
 
 

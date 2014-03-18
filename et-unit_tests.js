@@ -2456,7 +2456,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 
     debuglevel = 75;
     debugname = "updatewid";
-    debugcat = "";
+    saveglobal("debugcat", "");
     debugsubcat = "";
 
     execute([{
@@ -2482,7 +2482,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 
             debugfn("updatewid code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
             debugname = "";
-            debugcat = "";
+            saveglobal("debugcat", "");
             debugsubcat = "";
 
             callback(err, res);
@@ -2521,7 +2521,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 
     debuglevel = 75;
     debugname = "";
-    debugcat = "";
+    saveglobal("debugcat", "");
     saveglobal("debugsubcat", "code");
 
     execute([{
@@ -2547,7 +2547,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
 
             debugname = "";
-            debugcat = "";
+            saveglobal("debugcat", "");
             debugsubcat = "";
             proxyprinttodiv('Function ag2 result ', res, 38);
             res = logverify("ettestag2_result", res[3], [{
@@ -2593,7 +2593,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     // debugname = "getcleanparameters";
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    //debugcat = "";
+    //saveglobal("debugcat", "");
     //saveglobal("debugsubcat", "code");
 
 
@@ -2721,7 +2721,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             //debugname = "";
-            //debugcat = "";
+            //saveglobal("debugcat", "");
             //debugsubcat = "";
 
             proxyprinttodiv('Function ag3 result Full res', res, 99);
@@ -4379,7 +4379,7 @@ exports.ettest_recurseModObj = ettest_recurseModObj = function ettest_recurseMod
 exports.ettss1 = ettss1 = function ettss1(params, callback) {
       debuglevel = 17;
       // debugname = "";
-      // debugcat = "";
+      // saveglobal("debugcat", "");
       // saveglobal("debugsubcat", "code");
       var status = false;
 
@@ -4523,7 +4523,7 @@ exports.ettss1 = ettss1 = function ettss1(params, callback) {
 exports.t1 = t1 = function t1(params, callback) {
       debuglvel = 34;
       debugname = "";
-      debugcat = "";
+      saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
       var status = false;
 
@@ -4586,7 +4586,7 @@ now add many with addwidmaster with x dto
 exports.t2 = t2 = function t2(params, callback) {
       debuglevel = 34;
       debugname = "";
-      debugcat = "";
+      saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
       var status = false;
 
@@ -4649,7 +4649,7 @@ now add many with addwidmaster with x dto
 exports.t3 = t3 = function t2(params, callback) {
       debuglevel = 34;
       debugname = "";
-      debugcat = "";
+      saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
       var status = false;
 
@@ -4710,7 +4710,7 @@ exports.t3 = t3 = function t2(params, callback) {
 exports.tss2 = tss2 = function tss2(params, callback) {
       debuglevel = 34;
       debugname = "";
-      debugcat = "";
+      saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
       var status = false;
 
@@ -4874,7 +4874,7 @@ exports.tss2 = tss2 = function tss2(params, callback) {
 exports.tss3 = tss3 = function tss3(params, callback) {
       debuglevel = 34;
       debugname = "";
-      debugcat = "";
+      saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
       var status = false;
 
@@ -5178,7 +5178,7 @@ exports.sectest1 = sectest1 = function sectest1(parm, callback) {
 exports.tsa1 = tsa1 = function tsa1(params, callback) {
       // debuglevel = 34;
       // debugname = "";
-      // debugcat = "";
+      // saveglobal("debugcat", "");
       // saveglobal("debugsubcat", "code");
       // var status = false;
 
@@ -5213,7 +5213,7 @@ exports.ttsa3 = ttsa3 = function (params, callback) {
 exports.ttsa4 = ttsa4 = function (params, callback) {
       debuglevel = 34;
       debugname = "";
-      debugcat = "";
+      saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
       getGroupRecursive("rogeruser", 99, function (err, res) {
             proxyprinttodiv('Function ttsa4() in : res', res, 34);
@@ -7147,7 +7147,7 @@ exports.mttest4 = mttest4 = function mttest4(params, callback) {
             debugon = true;
             debugname = "";
             debugsubcat = "";
-            debugcat = "mongoquerycode";
+            saveglobal("debugcat", "mongoquerycode");
             debugfilter = "";
             debugdestination = 1;
             debuglevel = 30;
@@ -7157,7 +7157,7 @@ exports.mttest4 = mttest4 = function mttest4(params, callback) {
       eventappinstall();
       debugname = "updatewid";
       saveglobal("debugsubcat", "code");
-      debugcat = "add";
+      saveglobal("debugcat", "add");
       var addList = [{
             "executethis": "updatewid",
             "metadata.method": "colordto",
@@ -7275,7 +7275,7 @@ exports.mttest4 = mttest4 = function mttest4(params, callback) {
       debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
       debugname = "";
       debugsubcat = "";
-      debugcat = "";
+      saveglobal("debugcat", "");
 
 
 
@@ -7561,7 +7561,7 @@ exports.mts1 = mts1 = function mts1(params, callback) {
             colorTrace('res after executerray: ' + JSON.stringify(res), "blue");
 
             // build query
-            debugcat = "mongoquery";
+            saveglobal("debugcat", "mongoquery");
             debugcolor = 1;
             debuglevel = 30;
             //mongorawquery = '{"$and":{"data.primarywid":"song1","data.secondarywid":"2"}}';
@@ -7659,7 +7659,7 @@ exports.mttest1 = mttest1 = function mttest1(params, callback) {
             debugon = true;
             debugname = "";
             debugsubcat = "";
-            debugcat = "mongoquery";
+            saveglobal("debugcat", "mongoquery");
             debugfilter = "";
             debugdestination = 1;
             debuglevel = 30;
@@ -8681,7 +8681,7 @@ exports.mt3 = mt3 = function mt3(params, callback) {
       // debugon = true;
       // debugname = "processquery";
       // debugsubcat = "";
-      // debugcat = "";
+      // saveglobal("debugcat", "");
       // debugfilter = "";
       // debugdestination = 1;
       // //debuglevel=15;

@@ -3,7 +3,7 @@
 exports.filter1 = filter1 = function filter1(params, callback) {
     debuglevel = 37;
     debugname = "";
-    debugcat = "";
+    saveglobal("debugcat", "");
     saveglobal("debugsubcat", "code");
     var status = false;
 
@@ -2207,7 +2207,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 
     debuglevel = 75;
     debugname = "updatewid";
-    debugcat = "";
+    saveglobal("debugcat", "");
     debugsubcat = "";
 
 
@@ -2234,7 +2234,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 
             debugfn("updatewid code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
             debugname = "";
-            debugcat = "";
+            saveglobal("debugcat", "");
             debugsubcat = "";
 
             callback(err, res);
@@ -2273,7 +2273,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
 
     debuglevel = 75;
     debugname = "";
-    debugcat = "";
+    saveglobal("debugcat", "");
     saveglobal("debugsubcat", "code");
 
     execute([{
@@ -2297,7 +2297,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
 
             debugname = "";
-            debugcat = "";
+            saveglobal("debugcat", "");
             debugsubcat = "";
             proxyprinttodiv('Function ag2 result ', res, 99);
             res = logverify("ettestag2_result", res[3][0], [{
@@ -2341,7 +2341,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     // debugname = "getcleanparameters";
     //%%%%%%%%%%%%%%%%%%%%%
 
-    //debugcat = "";
+    //saveglobal("debugcat", "");
     //saveglobal("debugsubcat", "code");
 
     debuglevel = 17;
@@ -2433,7 +2433,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
             //%%%%%%%%%%%%%%%%%%%%%
             //debugname = "";
-            //debugcat = "";
+            //saveglobal("debugcat", "");
             //debugsubcat = "";
 
             proxyprinttodiv('Function ag3 result ', res[4], 99);
