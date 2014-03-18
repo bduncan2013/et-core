@@ -1593,11 +1593,11 @@
 
     // we will create dtos with wid2 as default - the name of the top wid will be wid2default
     // then we get wid1 to see if defaults there
-    exports.etcreatedefaultdto1 = etcreatedefaultdto1 = function etcreatedefaultdto1(params, callback) {
+	exports.etcreatedefaultdto1 = etcreatedefaultdto1 = function etcreatedefaultdto1(params, callback) {
         var c="default";
         var d="d";
 
-        var inheritparms = 
+        var inheritparams = 
                {"authordtodefault":[{"wid2default":""}],
                 "spousedto":[],
                 "housedto":[],
@@ -1615,31 +1615,32 @@
                 "statedtooverride":[],
                 "ownerdtooverride":[]
                 }
-                        
+				
         manytoonesetupdto(inheritparams, 0, function (err, res) {
 
                     //parent,   c,   child, d, preamble, dto, getlist
-        addauthorrecord(1,      c,      8,  d,   -1,     -1,     3, function (err, res){
-        //addauthorrecord(0,      c,      9,  d,   0,      -1,     0, function (err, res){
-        addauthorrecord(1,      c,      10, d,   1,      -1,     3, function (err, res){
-        //addauthorrecord(0,      c,      11, d,   2,      -1,     0, function (err, res){
-        addauthorrecord(1,      c,      12, d,   3,      -1,     3, function (err, res){
-        //addauthorrecord(0,      c,      13, d,   4,      -1,     0, function (err, res){
-        addauthorrecord(1,      c,      14, d,   5,      -1,     3, function (err, res){
-        //addauthorrecord(0,      c,      15, d,   6,      -1,     0, function (err, res){
-        printlist([{"wid":"wid1"+c, "command.dtotype":""}], function (err, res){
-        callback(err, res);
+			addauthorrecord(1,      c,      8,  d,   -1,     -1,     3, function (err, res){
+			//addauthorrecord(0,      c,      9,  d,   0,      -1,     0, function (err, res){
+			addauthorrecord(1,      c,      10, d,   1,      -1,     3, function (err, res){
+			//addauthorrecord(0,      c,      11, d,   2,      -1,     0, function (err, res){
+			addauthorrecord(1,      c,      12, d,   3,      -1,     3, function (err, res){
+			//addauthorrecord(0,      c,      13, d,   4,      -1,     0, function (err, res){
+			addauthorrecord(1,      c,      14, d,   5,      -1,     3, function (err, res){
+			//addauthorrecord(0,      c,      15, d,   6,      -1,     0, function (err, res){
+			printlistmany([{"wid":"wid1"+c, "command.dtotype":""}], function (err, res){
+			callback(err, res);
+			});
+											   
+			//                                });
+			//                            }); 
+			//                        });
+			//                    });
+							}); 
+						});
+					});
+				});
         });
-                                           
-        //                                });
-        //                            }); 
-        //                        });
-        //                    });
-                        }); 
-                    });
-                });
-            });
-        });
+
     }
     
 	
@@ -1650,7 +1651,7 @@
         var c="override";
         var d="d";
 
-        var inheritparms = 
+        var inheritparams = 
                {"authordtodefault":[],
                 "spousedto":[{"wid2override":""}],
                 "housedto":[],
@@ -1680,7 +1681,7 @@
 		//addauthorrecord(0,      c,      13, d,   4,      -1,     0, function (err, res){
 		addauthorrecord(2,      c,      14, d,   5,      -1,     4, function (err, res){
 		//addauthorrecord(0,      c,      15, d,   6,      -1,     0, function (err, res){
-        printlist([{"wid":"wid1"+c, "command.dtotype":""}], function (err, res){
+        printlistmany([{"wid":"wid1"+c, "command.dtotype":""}], function (err, res){
         callback(err, res);
         });
 		//});
@@ -1694,6 +1695,27 @@
         });
     }
 
+	/*
+	1) etaddautoselectwid,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
+
+	2) etaddmanualselectwid,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
+
+	3) etaddwithdtotype,,,  not able to get full wid with  command.dtotype=authordto
+
+	4) etadddtoandpreamble,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
+
+	5) etaddwithdtotype,,  It does not add as expected.. because we are adding housedto data.. and it adds other data
+
+	6) etadddtoandpreamble,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
+
+	7) etcreatedefaultdto1,, with get,, command.dtotype="", complete author data
+
+	8) etcreateinheritdefault1,, with get,, command.dtotype="", complete author data
+	*/
+	
+	
+	
+	
     // test manytomany = manytomanytest() line 97
     // test default = inheritdefault1() line 118
     // test override = inheritoverride1() line 140
@@ -1703,3 +1725,69 @@
 	exports.t123 = t123 = function t123(params, callback) {
 		callback({},{})
 	}
+	
+	/*
+		to test createalldtos
+	*/
+    exports.testcreatealldtos = testcreatealldtos = function testcreatealldtos(params, callback) {
+        var executeobj = {
+			"executethis":"addwidmaster",
+			"metadata.method": "userdto",
+			"wid": "wid1",
+			
+			"widname": "user widname",			//HERE, we need to specify value as datatype "wid"
+			"fname": "user fname1",
+			"lname": "user lname1",
+			"phone": "user phone",
+			"email": "user@test.com",
+			"address": "user address",
+			"address2": "user address2",
+			"city": "user city",
+			"state": "user state",
+			"zip": "user zip 123456",
+			"country": "user country",
+			
+			"securitydto.accesstoken": "user security accesstoken",
+			"securitydto.status": "user security status",
+			
+			"environmentdto.ac": "user environment ac",
+			"environmentdto.gps": "user environment gps",
+			"environmentdto.account": "user environment account",
+			"environmentdto.db": "user environment db",
+			"environmentdto.collection": "user environment collection",
+
+			"permissiondto.0.level": "user permission level",
+			"permissiondto.0.metadata.db": "user permission db",
+			"permissiondto.0.metadata.collection": "user permission collection",
+			
+			"usergroupdto.0.groupname": "user usergroup name"
+		};
+
+        createalldtos(params, function (cb2) {
+			var executeList = [];
+			
+			var executeObjForGet = {
+				"executethis":"getwidmaster",
+				"wid": "userdto",
+			};
+			//executeList.push(executeObjForGet);
+			executeList.push(executeobj);
+		
+			execute(executeList, function (err, res) {
+				proxyprinttodiv("result from data add ", res, 99, true);
+					 
+				var printlist=[
+					//{"wid":"wid1", "command.dtotype":""},
+					
+					{"wid":"wid1", "command.dtotype":"userdto"},
+					//{"wid":"wid1", "command.dtotype":"securitydto"},
+					//{"wid":"wid1", "command.dtotype":"environmentdto"},
+					//{"wid":"wid1", "command.dtotype":"permissiondto"}
+				];
+				
+				printlistmany(printlist, function (err, res) { 
+					callback(err, res);
+				})
+			});
+		});
+    }
