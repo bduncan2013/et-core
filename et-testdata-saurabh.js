@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 // create users
 // creates wids
 // we put users and put wids into groups

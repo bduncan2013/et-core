@@ -511,6 +511,8 @@ if (typeof angular !== 'undefined') {
         processExecute: function(ele, scope, compile) {
             var executeObj = NNMtoObj(ele.attributes);
 
+            if (executeObj.etparams) { executeObj = JSON.parse(executeObj.etparams); }
+
             execute(executeObj, function(err, resultArr) {
                 var results = widAppHelper.mergeNestedArray(resultArr);
                 angular.injector(['ng', 'widApp'])
@@ -523,8 +525,7 @@ if (typeof angular !== 'undefined') {
                             });
 
                             scope.$apply(function() {
-//                               $('#' + eleId).html(compile(results.html)(scope));
-                                $(ele).replaceWith(compile(results.html)(scope));
+                                $(ele).append(compile(results.html)(scope));
                             });
                         }
                     });
@@ -575,7 +576,7 @@ if (typeof angular !== 'undefined') {
             scope = $('body').scope();
 
         // send calling element and any additional info into the execute process
-        parameters.command.parameters.eventdata.elementindex = ele;
+        parameters.command.parameters.eventdata.element = $('<div>' + ele + '</div>').html();
         parameters.command.parameters.eventdata.originatingscreen = widAppHelper.getUrlParam('wid');
 
         angular.injector(['ng', 'widApp'])

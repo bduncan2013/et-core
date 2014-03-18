@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 (function (window) {
     // copyright (c) 2014 DRI 
     // *** GetWid ***
@@ -11,7 +12,7 @@
                     callback(err, {
                         "etstatus": "unauthorized"
                     });
-                } else {
+                } else { 
                     try {
                         delete inputWidgetObject['executethis']; // ** added by Saurabh 38/9
 
@@ -1043,6 +1044,7 @@
         }
     };
 
+
     exports.getclean = getclean = function getclean(resultObj, command, callback) {
         try {
             var inbound_parameters = {};
@@ -1054,12 +1056,14 @@
             var err = {};
             var dtoname;
             var index;
+            var dtoToGet;
 
             proxyprinttodiv('In __getclean__ start: ', command, 38);
 
             async.series([
                     function step1(cb) { // getdto
                         proxyprinttodiv('In __getclean__ resultObj: ', resultObj, 38);
+                        proxyprinttodiv('In __getclean__ just before getdtoobject', command, 38);
                         getdtoobject(resultObj, command, function (err, res) {
                             // If error, bounce out
                             if (err && Object.keys(err).length > 0) {
@@ -1083,7 +1087,7 @@
                             proxyprinttodiv('In __getclean__ step2 with before getWidMongo: ', resultObj, 38);
 
                             // add logic to look for dtotype
-                            var dtoToGet = resultObj.metadata.method;
+                            dtoToGet = resultObj.metadata.method;
                             execute({
                                 "executethis": "getwidmaster",
                                 "wid": dtoToGet,
@@ -1108,11 +1112,29 @@
                         }
                     },
                     function step3(cb) { // process inherit, override, default
+                            proxyprinttodiv('<<< Get_Clean step3 bigdto before', bigdto, 38);
+                            proxyprinttodiv('<<< Get_Clean step3 dtoobject ', dtoobject, 38);
+                            proxyprinttodiv('<<< Get_Clean step3 command', command, 38);
+
+                        // find command.dtotype inside of resultObj
+                        if (bigdto!==dtoobject && command.dtotype && command.dtotype!==dtoToGet) {
+                            proxyprinttodiv('<<< Get_Clean step3 resultObj before', resultObj, 38);
+                            proxyprinttodiv('<<< Get_Clean step3 command before', command, 38);
+
+                            resultObj = getdeepproperty(resultObj, command.dtotype)
+                            if (isArray(resultObj)) {
+                                resultObj = resultObj[0];
+                            }
+
+                            proxyprinttodiv('<<< Get_Clean step3 resultObj after', resultObj, 38);
+                        }
+
                         proxyprinttodiv('<<< Get_Clean step3 resultObj >>', resultObj, 38);
                         var listToDo = [];
                         var inheritobject;
 
                         // if inherit
+                        proxyprinttodiv('In __getclean__ step3 with dtoobject: ', dtoobject, 38);
                         proxyprinttodiv('<<< Get_Clean step3 bigdto >>', bigdto, 38);
                         if (bigdto && bigdto.command && bigdto.command.inherit) {
 
@@ -1128,13 +1150,10 @@
                             //         });
                             //     }
                             // }
-                            if (bigdto.command.inherit.
-                                default) {
-                                for (var eachkey in bigdto.command.inherit.
-                                    default) {
+                            if (bigdto.command.inherit.default) {
+                                for (var eachkey in bigdto.command.inherit.default) {
                                     listToDo.push({
-                                        "default": bigdto.command.inherit.
-                                        default [eachkey]
+                                        "default": bigdto.command.inherit.default [eachkey]
                                     });
                                 }
                             }
@@ -1268,10 +1287,10 @@
                         return _in_obj;
                     } // end fn recurse
 
-                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 38);
-                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 38);
-                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 38);
-                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 38);
+                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 99);
+                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 99);
+                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 99);
+                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 99);
 
                     if (!command) {
                         command = {}

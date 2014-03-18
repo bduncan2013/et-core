@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 (function (window) {
 
     // authcall looks at incoming paramters and creates call to security check

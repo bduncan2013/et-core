@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 // This test uses a gojs
 exports.rt1 = rt1 = function rt1(params, callback) {
 	testclearstorage();
@@ -455,8 +456,8 @@ exports.other_func = other_func = function other_func(params, callback) {
 }
 
 exports.ag1_setup = ag1_setup = function ag1_setup(params, callback) {
-	// debugname = "get";
-	// debugcat = "get";
+	// saveglobal("debugname", "get");
+	// saveglobal("debugcat", "get");
 	executetest("addwidmaster", {
 		"wid": "sounddto",
 		"metadata.method": "sounddto",
@@ -485,8 +486,8 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 		"wid": "color2",
 		"hue": "blue"
 	}, "", "");
-	//debugcat = 'get';
-	debugname = 'getwidmongo'; //
+	// saveglobal("debugcat", 'get');
+	saveglobal("debugname", "getwidmongo"); //
 	executetest("getwidmaster", {
 		"wid": "color1"
 	}, "get_color1_result", "");
@@ -909,11 +910,11 @@ exports.testb = testb = function testb(params, callback) {
 	testclearstorage();
 	testb_setup();
 
-	debugname = "addwid";
-	debugcat = debugcat = "add";
-	debugsubcat = debugsubcat = "core";
-	debugfilter = debugfilter = "all";
-	debugdestination = debugdestination = "print";
+	saveglobal("debugname", "addwid");
+	saveglobal("debugcat", "add");
+	saveglobal("debugsubcat", "core");
+	saveglobal("debugfilter", "all");
+	saveglobal("debugdestination", "print");
 
 	params = logverify("alphagetwidmaster_unit_tests", "testb_result", "get_sounddto_result", "", "", {
 		"note": "string",
@@ -1762,8 +1763,8 @@ exports.rogeri = rogeri = function rogeri(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
-	// debugname = "get";
-	// debugcat = "get";
+	// saveglobal("debugname", "get");
+	// saveglobal("debugcat", "get");
 
 	execute([{
 		"executethis": "addwidmaster",
@@ -2366,7 +2367,7 @@ exports.ag15b = ag15b = function ag15b(params, callback) {
 
 // 5x updatewid that calls execute() and is properly nested
 exports.ag91a = ag91a = function ag91a(params, callback) {
-	//debugcat = 'get';
+	//saveglobal("debugcat", "get");
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 	var widId3 = Math.random() + "3";
@@ -2453,7 +2454,7 @@ exports.ag91a = ag91a = function ag91a(params, callback) {
 
 // 5x updatewid that calls execute() and is properly nested
 exports.ag91b = ag91b = function ag91b(params, callback) {
-	//debugcat = 'get';
+	//saveglobal("debugcat", "get");
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 	var widId3 = Math.random() + "3";
@@ -2537,7 +2538,7 @@ exports.ag91b = ag91b = function ag91b(params, callback) {
 
 // 5x updatewid that calls execute() and is properly nested
 exports.ag91c = ag91c = function ag91c(params, callback) {
-	//debugcat = 'get';
+	//saveglobal("debugcat", "get");
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 	var widId3 = Math.random() + "3";
@@ -2623,7 +2624,7 @@ exports.ag91c = ag91c = function ag91c(params, callback) {
 
 // 5x addwidmaster that calls execute() and is property nested
 exports.ag92a = ag92a = function ag92a(params, callback) {
-	//debugcat = 'get';
+	//saveglobal("debugcat", "get");
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 	var widId3 = Math.random() + "3";
@@ -2706,7 +2707,7 @@ exports.ag92a = ag92a = function ag92a(params, callback) {
 
 // 5x addwidmaster that calls execute() and is property nested
 exports.ag92b = ag92b = function ag92b(params, callback) {
-	//debugcat = 'get';
+	//saveglobal("debugcat", "get");
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 	var widId3 = Math.random() + "3";
@@ -2787,7 +2788,7 @@ exports.ag92b = ag92b = function ag92b(params, callback) {
 
 // 5x addwidmaster that calls execute() and is property nested
 exports.ag92c = ag92c = function ag92c(params, callback) {
-	//debugcat = 'get';
+	//saveglobal("debugcat", "get");
 	var widId1 = Math.random() + "1";
 	var widId2 = Math.random() + "2";
 	var widId3 = Math.random() + "3";

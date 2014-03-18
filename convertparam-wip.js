@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 // Code goes here
 
 var original = [{

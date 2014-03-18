@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 exports.etdocsimpledto = etdocsimpledto = function etdocsimpledto(params, callback){
 	testclearstorage();
 	
@@ -226,13 +227,13 @@ exports.wv = wv = function wv(params, callback) { //widviewer
 
             ];
             //debuglevel=10;
-            //debugname="getwidmongo"
-            //debugcat="add";
-            //debugsubcat="sub"
-            debugcolor=1
+            //saveglobal("debugname", "getwidmongo");
+            //saveglobal("debugcat", "add");
+            //saveglobal("debugsubcat", sub");
+            saveglobal("debugcolor", 1);
             execute(executeList, function (err, res) {
                 console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
-                //debugname="aggressivedto";
+                //saveglobal("debugname", "aggressivedto");
                 //debuglevel=10;
                 //aggressivedto("authordto", "", 10, function (err, res) {
                 //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
@@ -646,13 +647,13 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
 
     testclearstorage();
 
-    debugcolor = 0;
-    debugon = true;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
+    saveglobal("debugcolor", 0);
+    saveglobal("debugon", true);
+    saveglobal("debugname", "");
+    saveglobal("debugsubcat", "");
+    saveglobal("debugcat", "");
+    saveglobal("debugfilter" = "");
+    saveglobal("debugdestination", 1);
     //debuglevel=15;
 
 
@@ -682,11 +683,11 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
         "secondarywid": "booksdto"
     }, "", "");
 
-    //debugname = "addwidparameters";
+    // saveglobal("debugname", "addwidparameters");
     // debuglevel=20;
-    // debugcat = "add";
-    //debugsubcat = "core";
-    debugname = "AddMongoRelationship";
+    // saveglobal("debugcat", "add");
+    // saveglobal("debugsubcat", "core");
+    saveglobal("debugname", "AddMongoRelationship");
     //debuglevel = 10;
     executetest("getwidmaster", {
         "wid": "authordto",
@@ -724,12 +725,14 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
 
     testclearstorage();
 
-    debugon = true;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
+    saveglobal("debugon", true);
+    saveglobal("debugname", "");
+    saveglobal("debugsubcat", "");
+    saveglobal("debugcat", "");
+    saveglobal("debugfilter", "");
+    // debugdestination = 1;
+    saveglobal("debugdestination", 1);
+
     //debuglevel=15;
     executetest("addwidmaster", {
         "metadata.method": "adddto",
@@ -783,8 +786,8 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
     }, "", "");
 
 
-    debugsubcat = "core";
-    debugname = "addmaster";
+    saveglobal("debugsubcat", "core");
+    saveglobal("debugname", "addmaster");
 
     executetest("addwidmaster", {
         "metadata.method": "authordto",
@@ -796,18 +799,18 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
         "booksdto.pages": "00"
     }, "", "");
 
-    //  //debugsubcat = "add";
+    //  // saveglobal("debugsubcat", "add");
     //      executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"4Open As Wid","adddto.actiondto.actiondescription":"desc4", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o4","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
     //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","adddto.actiondto.displayname":"5Open As Wid","adddto.actiondto.actiondescription":"desc5", "adddto.actiondto.category":"button","adddto.actiondto.subcategory":"o5","adddto.actiondto.addthis.preexecute":"setdtoforwid","adddto.actiondto.addthis.executethis":"getwidmaster","adddto.actiondto.addthis.postexecute":"getwidmaster"});
 
     // // these added later
     // debuglevel=10;
-    // debugsubcat = "get";
+    // saveglobal("debugsubcat", "get");
     //  executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"2Open As Wid","actiondescription":"desc2", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
     //  //executetest("addwidmaster",{"wid":"startwid","metadata.method":"authordto","command.dtotype":"actiondto","displayname":"3Open As Wid","actiondescription":"desc3", "category":"button","subcategory":"o1","addthis.preexecute":"setdtoforwid","addthis.executethis":"getwidmaster","addthis.postexecute":"getwidmaster"});
 
 
-    // //debugsubcat = "get";
+    // // saveglobal("debugsubcat", "get");
     executetest("getwidmaster", {
         "wid": "startwid"
     }, "startwid_get_result", "");
@@ -7293,13 +7296,15 @@ exports.mttest2 = mttest2 = function mttest2(params, callback) {
 
     var codedebug = false;
     if (codedebug) {
-        debugcolor = 0;
-        debugon = true;
-        debugname = "";
-        debugsubcat = "";
-        debugcat = "query";
-        debugfilter = "";
-        debugdestination = 1;
+        saveglobal("debugcolor", 0);
+        saveglobal("debugon", true);
+        saveglobal("debugname", "");
+        saveglobal("debugsubcat", "");
+        saveglobal("debugcat", "query");
+        saveglobal("debugfilter", "");
+        // debugdestination = 1;
+    	saveglobal("debugdestination", 1);
+
     }
 
     testclearstorage();

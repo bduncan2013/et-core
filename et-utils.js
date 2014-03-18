@@ -1,3 +1,4 @@
+// copyright (c) 2014 DRI
 // if(typeof localStorage === "undefined"){
 if (!exports) {
     var exports = {};
@@ -50,7 +51,7 @@ exports.addtolocal = addtolocal = function addtolocal(widName, widobject) {
         widobject = {}
     }
     if (widName) {
-        localStore.push(widMasterKey + widName, widobject);
+        localStore.push("widmaster_" + widName, widobject);
     }
 };
 
@@ -73,7 +74,7 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
 };
 
 exports.clearLocal = clearLocal = function clearLocal() {
-    widMasterKey = "widmaster_";
+    // widMasterKey = "widmaster_";
     localStore.clear();
     potentialwid = 0;
     addToLocal("DRI", [{
@@ -89,8 +90,16 @@ exports.clearLocal = clearLocal = function clearLocal() {
 };
 
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
-    var inbound_parameters = arguments;
     try {
+
+        var inbound_parameters = arguments;
+        // if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 99)) {
+        //     printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+        //     if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
+        //     if (document.getElementById('divprint')) {
+        //         document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+        //     }
+
         if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
             printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
             if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
@@ -99,6 +108,7 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
             if (document.getElementById('divprint')) {
                 document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
             }
+             
         }
     } // end try
     catch (err) {
@@ -108,22 +118,27 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
 };
 
 exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone, pretty) { // **** making code node compatible
-    var inbound_parameters = arguments;
     try {
+        var inbound_parameters = arguments;
+        var g_debuglinenum      = getglobal("debuglinenum");
+
         if (!debugone) {
             debugone = -1;
         }
         if (exports.environment === "local") {
             printToDiv(text, obj, debugone, pretty);
         } else {
-            // if (true) {
             if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
-                debuglinenum++;
+                // debuglinenum++;
+                var z = getglobal('debuglinenum');
+                z++;
+                saveglobal('debuglinenum', z);
+                
                 var tempobj = {};
                 tempobj["text"] = text;
                 tempobj["obj"] = obj;
                 tempobj["executethis"] = "printdiv";
-                addtolocal(debuglinenum, tempobj)
+                addtolocal(g_debuglinenum, tempobj);
             }
         }
     } // end try
@@ -133,6 +148,12 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
     }   
 }
 
+// 
+//   this will command.dtotype inisde bigdto
+//   this will give an address for dtotype inside bigdto
+//   then it uses that address to insert insertobjc into inputobj
+//
+//
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
         proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 38);
@@ -1322,14 +1343,22 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         //var debugobjectlist = JSON.parse(JSON.stringify(tempdebugobjectlist));
         var indebugdest = arguments[7] || ""; // level
         var displaycolor = indebugcolor;
-        var tempdebugname = (debugname != "") ? debugname : indebugname;
-        var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
-        var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
+
+        var zed2 = getglobal("debugname");
+        var tempdebugname = (zed2 != "") ? zed2 : indebugname;
+
+        // var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
+        var zed0 = getglobal("debugcat");
+        var tempdebugcat = (zed0 != "") ? zed0 : indebugcat;
+
+        // var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
+        var zed1 = getglobal("debugsubcat");
+        var tempdebugsubcat = (zed1 != "") ? zed1 : indebugsubcat;
 
         proxyprinttodiv('arrived debugfn', arguments, 44);
-        proxyprinttodiv('arrived debugname', debugname, 44);
-        proxyprinttodiv('arrived debugcat', debugcat, 44);
-        proxyprinttodiv('arrived debugsubcat', debugsubcat, 44);
+        proxyprinttodiv('arrived debugname', getglobal("debugname"), 44);
+        proxyprinttodiv('arrived debugcat', getglobal("debugcat"), 44);
+        proxyprinttodiv('arrived debugsubcat', getglobal("debugsubcat"), 44);
         proxyprinttodiv('arrived indebugname', indebugname, 44);
         proxyprinttodiv('arrived indebugcat', indebugcat, 44);
         proxyprinttodiv('arrived indebugsubcat', indebugsubcat, 44);
@@ -1343,14 +1372,14 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         } else {
             processdebug = false;
         }
-        if (debugname + debugcat + debugsubcat == "") {
+        if (getglobal("debugname") + getglobal("debugcat") + getglobal("debugsubcat") == "") {
             processdebug = false;
         }
         if (!processdebug) return;
         if (!indebugdest) {
-            indebugdest = debugdestination;
+            indebugdest = getglobal(debugdestination);
         }
-        proxyprinttodiv('arrived debugname', debugname, 44);
+        proxyprinttodiv('arrived debugname', getglobal("debugname"), 44);
 
         // If the color goes over 10, turn it back to black
         if (displaycolor > 10) displaycolor = 0;
@@ -1366,12 +1395,18 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
         //  1) determine if we should play...missing "and"
         //  if global debugname = incoming debugname the process this object (or subcat or cat)
-        // if (indebugcat==debugcat) {processdebug=true};
-        // if (indebugsubcat==debugsubcat) {processdebug=true};
+        // if (indebugcat == getglobal("debugcat")) {processdebug=true};
+        // if (indebugsubcat == getglobal("debugsubcat")) {processdebug = true};
 
         // if processdebug {
-        debugfilter = 0;
-        switch (debugfilter) {
+        
+        // debugfilter = 0;
+        // switch (debugfilter) {
+
+        saveglobal("debugfilter", 0);
+        var zed = getglobal("debugfilter");
+        switch (zed) {   
+
         case 0:
             outobject = debugobjectlist;
             break;
@@ -1383,8 +1418,6 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         case 2:
             // only the 1,2 var
             break;
-
-
         }
 
         switch (indebugdest) // 1 for print, 2 for googlespreadsheets, 3 for both
@@ -1424,7 +1457,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
         function etlogresults(indebugname, outobject) {
             // alert('logging' + JSON.stringify(outobject, "-", 4));
-            proxyprinttodiv('arrived debuglog', debuglog, 44);
+            // proxyprinttodiv('arrived debuglog', debuglog, 44);
 
             if (!outobject) {
                 outobject = {};
@@ -1458,14 +1491,14 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             temparray.push(outobject[1]);
             temparray.push(outobject[3]);
             temparray.push(outobject[4]);
-            if (!debuglog[outobject[2]]) {
-                debuglog[outobject[2]] = [];
-            }
+            // if (!debuglog[outobject[2]]) {
+            //     debuglog[outobject[2]] = [];
+            // }
             //proxyprinttodiv('arrived debuglog[outobject[2]]', debuglog[outobject[2]], 38);
             //proxyprinttodiv('arrived temparray', temparray, 38);
-            debuglog[outobject[2]].push(temparray);
+            // debuglog[outobject[2]].push(temparray);
             // debuglog.push(temparray);
-            proxyprinttodiv('arrived debuglog end', debuglog, 44);
+            // proxyprinttodiv('arrived debuglog end', debuglog, 44);
         }
 
         function create_string() {
@@ -1473,60 +1506,60 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             // $('#divprint').append('############' + JSON.stringify(debuglog, "-", 4) + '\n');
             $('#divprint').append('####################  debug output  #########################\n');
 
-            for (var eachtest in debuglog) {
-                testresults = debuglog[eachtest];
-                var test_to_print = "";
-                var name = testresults[0][0]['command']['executemethod'];
+            // for (var eachtest in debuglog) {
+            //     testresults = debuglog[eachtest];
+            //     var test_to_print = "";
+            //     var name = testresults[0][0]['command']['executemethod'];
 
-                // var parameters  = JSON.stringify(testresults['0'][1]['0'], "-", 4);
-                // console.log('testresults[0][1]: ' + JSON.stringify(testresults[0][1]));
-                // console.log('parameters: ' + parameters);
+            //     // var parameters  = JSON.stringify(testresults['0'][1]['0'], "-", 4);
+            //     // console.log('testresults[0][1]: ' + JSON.stringify(testresults[0][1]));
+            //     // console.log('parameters: ' + parameters);
 
-                // Pull out the parameters
-                var raw_parameters = testresults[0][1];
-                var parameters = [];
+            //     // Pull out the parameters
+            //     var raw_parameters = testresults[0][1];
+            //     var parameters = [];
 
-                // Look in parameters to see if it is an 'array' inside
-                // the object...if you don't see a zero, just add the data to
-                // the array...if you do see a zero, iterate throught the object and
-                // just add the values of the hash to the array...the array does not
-                // need to know about the nubmers 0,1,2, etc...just the data
-                if (!raw_parameters.hasOwnProperty("0")) {
-                    console.log('object');
-                    parameters.push(raw_parameters);
-                    parameters = JSON.stringify(parameters, "-", 4);
-                } else {
-                    console.log('array');
-                    for (var j in raw_parameters) {
-                        parameters.push(raw_parameters[j]);
-                    }
-                    parameters = JSON.stringify(parameters, "-", 4);
-                }
+            //     // Look in parameters to see if it is an 'array' inside
+            //     // the object...if you don't see a zero, just add the data to
+            //     // the array...if you do see a zero, iterate throught the object and
+            //     // just add the values of the hash to the array...the array does not
+            //     // need to know about the nubmers 0,1,2, etc...just the data
+            //     if (!raw_parameters.hasOwnProperty("0")) {
+            //         console.log('object');
+            //         parameters.push(raw_parameters);
+            //         parameters = JSON.stringify(parameters, "-", 4);
+            //     } else {
+            //         console.log('array');
+            //         for (var j in raw_parameters) {
+            //             parameters.push(raw_parameters[j]);
+            //         }
+            //         parameters = JSON.stringify(parameters, "-", 4);
+            //     }
 
-                // var raw_parameters = [];
-                // for (var i in testresults[0][1]) {
-                //     raw_parameters.push(testresults[0][i]);
-                // }
-                // var parameters = JSON.stringify(raw_parameters, "-", 4);
+            //     // var raw_parameters = [];
+            //     // for (var i in testresults[0][1]) {
+            //     //     raw_parameters.push(testresults[0][i]);
+            //     // }
+            //     // var parameters = JSON.stringify(raw_parameters, "-", 4);
 
 
 
-                var assert = JSON.stringify(testresults[0][2], "-", 4);
-                var database = JSON.stringify(testresults[0][3]);
-                var command = '{"command": "null"}';
+            //     var assert = JSON.stringify(testresults[0][2], "-", 4);
+            //     var database = JSON.stringify(testresults[0][3]);
+            //     var command = '{"command": "null"}';
 
-                test_to_print = '[\n    [\n' +
-                    '        {"fn": "test_and_verify"},\n        [\n' +
-                    '           "' + name + '",\n' +
-                    '           "' + name + '",\n' +
-                    '            ' + parameters + ',\n' +
-                    '            ' + assert + ',\n' +
-                    '            ' + database + ',\n' +
-                    '            ' + command + '\n        ]\n' +
-                    '    ]\n],\n';
+            //     test_to_print = '[\n    [\n' +
+            //         '        {"fn": "test_and_verify"},\n        [\n' +
+            //         '           "' + name + '",\n' +
+            //         '           "' + name + '",\n' +
+            //         '            ' + parameters + ',\n' +
+            //         '            ' + assert + ',\n' +
+            //         '            ' + database + ',\n' +
+            //         '            ' + command + '\n        ]\n' +
+            //         '    ]\n],\n';
 
-                $('#divprint').append(test_to_print);
-            }
+            //     $('#divprint').append(test_to_print);
+            // }
             $('#divprint').append('####################  debug output end ######################');
         }
 
@@ -1536,21 +1569,21 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             var testresults;
             var subtest;
 
-            for (var eachtest in debuglog) {
-                testresults = debuglog[eachtest];
-                //proxyprinttodiv('debugfn testresults', testresults, 38);
-                for (var eachsubtest in testresults) {
-                    subtest = testresults[eachsubtest];
-                    resultlog.push(subtest);
-                    // proxyprinttodiv('debugfn subtest', subtest, 38);
-                    // proxyprinttodiv('   debugfn subtest[0]', subtest[0], 38);
-                    // proxyprinttodiv('   debugfn subtest[1]', subtest[1], 38);
-                    // proxyprinttodiv('   debugfn subtest[2]', subtest[2], 38);
-                }
-                if (testresults[3]) {}
-                if (testresults[4]) {}
-                // }
-            }
+            // for (var eachtest in debuglog) {
+            //     testresults = debuglog[eachtest];
+            //     //proxyprinttodiv('debugfn testresults', testresults, 38);
+            //     for (var eachsubtest in testresults) {
+            //         subtest = testresults[eachsubtest];
+            //         resultlog.push(subtest);
+            //         // proxyprinttodiv('debugfn subtest', subtest, 38);
+            //         // proxyprinttodiv('   debugfn subtest[0]', subtest[0], 38);
+            //         // proxyprinttodiv('   debugfn subtest[1]', subtest[1], 38);
+            //         // proxyprinttodiv('   debugfn subtest[2]', subtest[2], 38);
+            //     }
+            //     if (testresults[3]) {}
+            //     if (testresults[4]) {}
+            //     // }
+            // }
 
             var jsonPretty = JSON.stringify(resultlog, "-", 4);
             var temp_HTML = "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indebugindent) + "em'>" +
@@ -1576,11 +1609,16 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 displaycolor = "brown";
             }
             var jsonPretty = JSON.stringify(outobject, "-", 4);
-            debuglinenum++;
+            // debuglinenum++;
+                var z = getglobal('debuglinenum');
+                z++;
+                saveglobal('debuglinenum', z);
             if (indent > 0) {
-                var temp_HTML = debuglinenum + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+                // var temp_HTML = debuglinenum + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+                var temp_HTML = z + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "; padding-left:" + (8 * indent) + "em'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
             } else {
-                var temp_HTML = debuglinenum + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+                // var temp_HTML = debuglinenum + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
+                var temp_HTML = z + " " + indebugdesc + "<br>" + "<div style='color:" + displaycolor + "'>" + syntaxHighlight(jsonPretty) + displaycolor + "</div>";
             }
             console.log("jsonpretty: " + jsonPretty);
             if (exports.environment === "local") {
@@ -2510,8 +2548,8 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     };
     
     exports.createfinalobject = createfinalobject = function createfinalobject(outobject, command, nameoffn, errorobject, initialparameters) {
-        proxyprinttodiv('createfinalobject input errorobject', errorobject, 99);
-        proxyprinttodiv('createfinalobject input outobject', outobject, 99);
+        proxyprinttodiv('createfinalobject input errorobject', errorobject, 98);
+        proxyprinttodiv('createfinalobject input outobject', outobject, 98);
         // console.log("final_error: " + JSON.stringify(errorobject, '-', 4));
         // console.log("final_outobject: " + JSON.stringify(outobject, '-', 4));
 
@@ -2541,6 +2579,29 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         
         // var dotformatjson = convertfromdriformat
 
+    }
+
+    exports.getdeepproperty = getdeepproperty = function getdeepproperty(obj, prop) {
+        var found=null;
+        var eachprop;
+        for (eachprop in obj) { // try to find match top level
+            if (eachprop===prop) { 
+                found = obj[eachprop]
+            }
+        }
+        if (found) {
+            return found;
+            } 
+        else // else try next level
+            {
+                for (eachprop in obj) {
+                    if (isObject(obj[eachprop])) {
+                        found = getdeepproperty(obj[eachprop], prop)
+                        if (found) {break}
+                    }
+                }
+            }
+        return found;
     }
 })();
 

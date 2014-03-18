@@ -1,4 +1,4 @@
-
+// copyright (c) 2014 DRI
 
 // Returns an array made from an object
 exports.objectToList = objectToList = function objectToList(object) {
