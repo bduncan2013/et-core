@@ -768,7 +768,7 @@
         execute([{
             "executethis": "addwidmaster",
             "wid": "groupdto",
-            "groupname": groupname
+            "usergroupname": groupname
         }], function (err, res) {
             proxyprinttodiv('Function creategroup -- added group  -- ', groupname, 13);
 
@@ -783,7 +783,7 @@
         execute([{
             "executethis": "addwidmaster",
             "wid": "usergroupdto",
-            "groupname": groupname
+            "usergroupname": groupname
         }], function (err, res) {
             proxyprinttodiv('Function createusergroup -- added user group  -- ', groupname, 13);
 
@@ -799,7 +799,7 @@
         execute([{
             "executethis": "addwidmaster",
             "wid": "actiongroupdto",
-            "groupname": groupname
+            "actiongroupname": groupname
         }], function (err, res) {
             proxyprinttodiv('Function createactiongroup -- added actiongroup  -- ', groupname, 13);
 
@@ -945,16 +945,17 @@
         securityobj['ac'] = "rogerac";
 
         async.series([
-                // function (cb) {
-                //     createalldtos(null, function (err, res) {
-                //         cb(null, "system dtos created")
-                //     });
-                // },
-                // function (cb) {
-                //     noncriticaldtos(function (err, res) {
-                //         cb(null, "non critical dtos created")
-                //     });
-                // },
+                function (cb) {
+                    createalldtos(null, function (err, res) {
+                        cb(null, "system dtos created")
+                    });
+                },
+
+                function (cb) {
+                    noncriticaldtos(function (err, res) {
+                        cb(null, "non critical dtos created")
+                    });
+                },
 
                 function (cb) {
                     createuserdata(userobj, securityobj, overrideobj, defaultobj, function (err, res) {
@@ -998,38 +999,41 @@
                 // },
 
                 // // adding actiongroups
-                // function (cb) {
-                //     var actiongroup1 = {
-                //         "actiongroupname": "getwidmaster"
-                //     };
+                function (cb) {
+                    var actiongroup1 = {
+                        "actiongroupname": "getwidmaster"
+                    };
 
-                //     createusergroup(actiongroup1, function (err, res) {
-                //         proxyprinttodiv('Function asap >>>>> added group for >>> ' + actiongroup1, res, 39);
-                //         cb(null, "actiongroup1");
-                //     });
-                // },
-                // function (cb) {
-                //     var actiongroup2 = {
-                //         "actiongroupname": "addwidmaster"
-                //     };
+                    createactiongroup(actiongroup1, function (err, res) {
+                        proxyprinttodiv('Function asap >>>>> added group for >>> ' + actiongroup1, res, 39);
+                        cb(null, "actiongroup1");
+                    });
+                },
 
-                //     createusergroup(actiongroup2, function (err, res) {
-                //         proxyprinttodiv('Function asap >>>>> added group for >>> ' + actiongroup2, res, 39);
-                //         cb(null, "actiongroup2");
-                //     });
-                // },
+                function (cb) {
+                    var actiongroup2 = {
+                        "actiongroupname": "addwidmaster"
+                    };
 
-                // // add permissions
-                // function (cb) {
-                //     var userjson1 = {
-                //         "wid": "rogeruser"
-                //     };
-                //     addpermission(userjson1, permissionsobjarr1, function (err, res) {
-                //         proxyprinttodiv('Function asap >>>>> added permissions for >>> ' + userjson1.wid, res, 39);
-                //         cb(null, "userdata");
-                //     });
-                // }
+                    createactiongroup(actiongroup2, function (err, res) {
+                        proxyprinttodiv('Function asap >>>>> added group for >>> ' + actiongroup2, res, 39);
+                        cb(null, "actiongroup2");
+                    });
+                },
+
+                // add permissions
+
+                function (cb) {
+                    var userjson1 = {
+                        "wid": "rogeruser"
+                    };
+                    addpermission(userjson1, permissionsobjarr1, function (err, res) {
+                        proxyprinttodiv('Function asap >>>>> added permissions for >>> ' + userjson1.wid, res, 39);
+                        cb(null, "userdata");
+                    });
+                }
             ],
+
             function (err, res) {
                 proxyprinttodiv('Function asap >>>>> finally done >>> res', res, 39);
                 execute({

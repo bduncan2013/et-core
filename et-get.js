@@ -643,13 +643,13 @@
                                     try {
                                         // iterate over the override data and override the parameterobject with it
                                         overrideData.forEach(function (element, index, array) {
-                                            proxyprinttodiv("GetWidMongo -- override! --", element, 99);
+                                            proxyprinttodiv("GetWidMongo -- override! --", element, 38);
                                             // TODO remove these
                                             delete element.metadata;
                                             delete element.wid;
                                             extend(true, parameterobject, element);
                                         });
-                                        proxyprinttodiv("GetWidMongo override processing done", parameterobject, 99);
+                                        proxyprinttodiv("GetWidMongo override processing done", parameterobject, 38);
                                         cb(null);
                                     } catch (err) {
                                         var finalobject = createfinalobject({
