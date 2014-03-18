@@ -227,13 +227,13 @@ exports.wv = wv = function wv(params, callback) { //widviewer
 
             ];
             //debuglevel=10;
-            //debugname="getwidmongo"
+            //saveglobal("debugname", "getwidmongo");
             //saveglobal("debugcat", "add");
             //saveglobal("debugsubcat", sub");
             debugcolor=1
             execute(executeList, function (err, res) {
                 console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
-                //debugname="aggressivedto";
+                //saveglobal("debugname", "aggressivedto");
                 //debuglevel=10;
                 //aggressivedto("authordto", "", 10, function (err, res) {
                 //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
@@ -683,11 +683,11 @@ exports.dtott = dtott = function dtott(params, callback) { //widviewer
         "secondarywid": "booksdto"
     }, "", "");
 
-    //debugname = "addwidparameters";
+    // saveglobal("debugname", "addwidparameters");
     // debuglevel=20;
     // saveglobal("debugcat", "add");
     // saveglobal("debugsubcat", "core");
-    debugname = "AddMongoRelationship";
+    saveglobal("debugname", "AddMongoRelationship");
     //debuglevel = 10;
     executetest("getwidmaster", {
         "wid": "authordto",
@@ -787,7 +787,7 @@ exports.dtotest = dtotest = function dtotest(params, callback) { //widviewer
 
 
     saveglobal("debugsubcat", "core");
-    debugname = "addmaster";
+    saveglobal("debugname", "addmaster");
 
     executetest("addwidmaster", {
         "metadata.method": "authordto",

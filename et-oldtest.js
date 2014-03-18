@@ -456,7 +456,7 @@ exports.other_func = other_func = function other_func(params, callback) {
 }
 
 exports.ag1_setup = ag1_setup = function ag1_setup(params, callback) {
-	// debugname = "get";
+	// saveglobal("debugname", "get");
 	// saveglobal("debugcat", "get");
 	executetest("addwidmaster", {
 		"wid": "sounddto",
@@ -487,7 +487,7 @@ exports.ag2_setup = ag2_setup = function ag2_setup(params, callback) {
 		"hue": "blue"
 	}, "", "");
 	// saveglobal("debugcat", 'get');
-	debugname = 'getwidmongo'; //
+	saveglobal("debugname", "getwidmongo"); //
 	executetest("getwidmaster", {
 		"wid": "color1"
 	}, "get_color1_result", "");
@@ -910,11 +910,11 @@ exports.testb = testb = function testb(params, callback) {
 	testclearstorage();
 	testb_setup();
 
-	debugname = "addwid";
-	debugcat = debugcat = "add";
-	setglobal("debugsubcat", "core");
-	setglobal("debugfilter", "all");
-	setglobal("debugdestination", "print");
+	saveglobal("debugname", "addwid");
+	saveglobal("debugcat", "add");
+	saveglobal("debugsubcat", "core");
+	saveglobal("debugfilter", "all");
+	saveglobal("debugdestination", "print");
 
 	params = logverify("alphagetwidmaster_unit_tests", "testb_result", "get_sounddto_result", "", "", {
 		"note": "string",
@@ -1763,7 +1763,7 @@ exports.rogeri = rogeri = function rogeri(params, callback) {
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 exports.ag5_setup = ag5_setup = function ag5_setup(params, callback) {
-	// debugname = "get";
+	// saveglobal("debugname", "get");
 	// saveglobal("debugcat", "get");
 
 	execute([{

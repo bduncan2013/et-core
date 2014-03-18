@@ -32,9 +32,9 @@ if (!debugindent) {
 if (!debugcolor) {
     var debugcolor = 0;
 }
-if (!debugname) {
-    var debugname = '';
-}
+// if (!debugname) {
+//     var debugname = '';
+// }
 // if (!debugcat) {
 //     var debugcat = '';
 // }
@@ -176,7 +176,7 @@ function setdefaultparm() {
     exports.potentialwid = potentialwid;
 
     exports.debugon             = debugon;
-    exports.debugname           = debugname;
+    exports.debugname           = getglobal("debugname");
     exports.debugsubcat         = getglobal("debugsubcat");
     exports.debugcat            = getglobal("debugcat");
     exports.debugfilter         = getglobal("debugfilter");

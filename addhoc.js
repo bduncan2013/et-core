@@ -69,7 +69,7 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
     // create dtos  
     //debuglevel=75;
     saveglobal("debugsubcat", "add");
-    //debugname="getwidmaster"
+    // saveglobal("debugname", "getwidmaster");
     var executeList = [ 
         {"executethis":"updatewid","metadata.method":"authordto","wid":"authordto","name":"string","age":"string","metadata.booksdto.type":"onetomany","metadata.adddto.type":"onetoone", "metadata.inherit":"defaultmasteractions"},
         {"executethis":"updatewid","metadata.method":"booksdto","wid":"booksdto","title":"string","pages":"string"},  
@@ -107,7 +107,7 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
 
        ];
 
-    // debugname="getwidmongo"
+    // saveglobal("debugname", "getwidmongo");
     // debuglevel=10;
     // debugcolor=1;
     // debugindent=1;
@@ -115,12 +115,12 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
         execute(executeList, function (err, res) {
             proxyprinttodiv("results from add=", res, 99);   
             console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
-            //debugname="aggressivedto";
+            // saveglobal("debugname", "aggressivedto");
             //debuglevel=10;
             //aggressivedto("authordto", "", 10, function (err, res) {
             //aggressivedto("elizabeth_heart", "", 10, function (err, res) {
             //getWidMongo("authordto", "", "", "", "", 10, function (err, res) {
-            //debugname="getwidmongo"
+            // saveglobal("debugname", "getwidmongo");
             getwidmaster({"wid":"authordto", "command.convertmethod":"dto"}, function (err, res) {
                 proxyprinttodiv("results from get=", res, 99);   
             callback({}, res);
@@ -345,7 +345,7 @@ exports.startwidviewer = startwidviewer = function startwidviewer(params, callba
         proxyprinttodiv("startwid=AFTER", "", 99); 
     
     
-        //debugname="getwidmongo"
+        // saveglobal("debugname", "getwidmongo");
         //debuglevel=38;
         execute({"executethis":"getwidmaster","wid":"startwid"}, function (err, res) {
 			proxyprinttodiv("startwid=", res, 99);   

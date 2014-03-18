@@ -16,7 +16,7 @@
     // {"executefilter" : {"query":{"$eq":{"type":"minute"}}}}
     exports.filter1 = filter1 = function filter1(params, callback) {
         debuglevel = 37;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -270,7 +270,7 @@
         // we test
         // var status = false;
         debuglevel = 39;
-        // debugname = "";
+        // saveglobal("debugname", "");
         // saveglobal("debugcat", "");
         // saveglobal("debugsubcat", "code");
         async.series([
@@ -347,7 +347,7 @@
         // we test
         // var status = false;
         debuglevel = 35;
-        // debugname = "";
+        // saveglobal("debugname", "");
         // saveglobal("debugcat", "");
         // saveglobal("debugsubcat", "code");
         async.series([
@@ -423,7 +423,7 @@
         // we test
         // var status = false;
         debuglevel = 35;
-        // debugname = "";
+        // saveglobal("debugname", "");
         // saveglobal("debugcat", "");
         // saveglobal("debugsubcat", "code");
         async.series([
@@ -503,7 +503,7 @@
     // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 99 so this should work.
     exports.test1001 = test1001 = function test1001(params, callback) {
         debuglevel = 39;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -539,7 +539,7 @@
     // roger gives cody permission to create a coupon, minimum security level = 50. cody has a security level of 0 so this should fail.
     exports.test1002 = test1002 = function test1002(params, callback) {
         debuglevel = 39;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -578,7 +578,7 @@
     // cody should be able to create a datawid.
     exports.test1003 = test1003 = function test1003(params, callback) {
         debuglevel = 39;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -620,7 +620,7 @@
     // drimanagers is made a member of driemployees group. Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
     exports.test1004 = test1004 = function test1004(params, callback) {
         debuglevel = 39;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -682,7 +682,7 @@
     // cody is made a member of the dri employees group. roger gives dri employees permission to create data wids. cody should not be able to create a datawid as his security level is too low.
     exports.test1005 = test1005 = function test1005(params, callback) {
         debuglevel = 39;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -724,7 +724,7 @@
     // Cody gives dri managers permission to edit coupons. Bill should be able to edit Cody's coupons.
     exports.test1006 = test1006 = function test1006(params, callback) {
         debuglevel = 39;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -781,7 +781,7 @@
     // driemployees is made a member of usersofdri. roger gives driusers read permission on coupons. cody is made a member of driemployees. cody should be able to read coupons. 
     exports.test1007 = test1007 = function test1007(params, callback) {
         debuglevel = 39;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -834,7 +834,7 @@
     //
     exports.test1008 = test1008 = function test1008(params, callback) {
         debuglevel = 39;
-        debugname = "";
+        saveglobal("debugname", "");
         saveglobal("debugcat", "");
         saveglobal("debugsubcat", "code");
         var status = false;
@@ -1234,7 +1234,7 @@
         // we test
         // var status = false;
         debuglevel = 39;
-        // debugname = "";
+        // saveglobal("debugname", "");
         // saveglobal("debugcat", "");
         // saveglobal("debugsubcat", "code");
         async.series([
@@ -1335,7 +1335,7 @@
         // we test
         // var status = false;
         debuglevel = 39;
-        // debugname = "";
+        // saveglobal("debugname", "");
         // saveglobal("debugcat", "");
         // saveglobal("debugsubcat", "code");
         async.series([
@@ -1481,7 +1481,7 @@
         // we test
         // var status = false;
         debuglevel = 39;
-        // debugname = "";
+        // saveglobal("debugname", "");
         // saveglobal("debugcat", "");
         // saveglobal("debugsubcat", "code");
         async.series([

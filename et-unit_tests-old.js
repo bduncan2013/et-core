@@ -2,7 +2,7 @@
 // {"query":{"$eq":{"type":"minute"}}}
 exports.filter1 = filter1 = function filter1(params, callback) {
     debuglevel = 37;
-    debugname = "";
+    saveglobal("debugname", "");
     saveglobal("debugcat", "");
     saveglobal("debugsubcat", "code");
     var status = false;
@@ -2233,7 +2233,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 
 
             debugfn("updatewid code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
-            debugname = "";
+            saveglobal("debugname", "");
             saveglobal("debugcat", "");
             debugsubcat = "";
 
@@ -2272,7 +2272,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
     // alert('here');
 
     debuglevel = 75;
-    debugname = "";
+    saveglobal("debugname", "");
     saveglobal("debugcat", "");
     saveglobal("debugsubcat", "code");
 
@@ -2296,7 +2296,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
         function (err, res) {
             debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
 
-            debugname = "";
+            saveglobal("debugname", "");
             saveglobal("debugcat", "");
             debugsubcat = "";
             proxyprinttodiv('Function ag2 result ', res, 99);
@@ -2313,7 +2313,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     clearLocalStorage();
 
     debuglevel = 98;
-    //debugname = "";
+    //saveglobal("debugname", "");
 
     //%%%%%%%%%%%%%%%%%%%%%
     // Functions of --- config-local
@@ -2416,25 +2416,25 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
             debugfn("offlinegetwid code generator END", "", "", "code", debugcolor, debugindent, {}, 9);
 
-            //%%%%%%%%%%%%%%%%%%%%%
+            // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- add
 
-            //%%%%%%%%%%%%%%%%%%%%%
+            // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- query
 
             // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
 
-            //%%%%%%%%%%%%%%%%%%%%%
+            // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- get
 
             // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
 
-            //%%%%%%%%%%%%%%%%%%%%%
-            //debugname = "";
-            //saveglobal("debugcat", "");
-            //debugsubcat = "";
+            // %%%%%%%%%%%%%%%%%%%%%
+            // saveglobal("debugname", "");
+            // saveglobal("debugcat", "");
+            // debugsubcat = "";
 
             proxyprinttodiv('Function ag3 result ', res[4], 99);
             res = logverify("ettestag3_result", res[4][0], [{
