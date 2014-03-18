@@ -298,8 +298,6 @@
                             } else if (eachparm instanceof Array) {
                                 dtoObject[eachparm].push(recurseobj[eachparam]);
                             } else { // if not object
-                                // *** new
-                                if (dtotable[inobj.metadata.method][eachparm]) {dtoobj[eachparm]=dtotable[inobj.metadata.method][eachparm]}
                                 dtoobj[eachparm] = "string";
                             }
                         }
@@ -315,9 +313,8 @@
                 } 
             } // end fn recurse
 
-            // *** new
-            // dtoobject = recurseobj(obj);
-            // proxyprinttodiv("getdtoobject after created dtoobject: ", dtoobject, 38);
+            dtoobject = recurseobj(obj);
+            proxyprinttodiv("getdtoobject after created dtoobject: ", dtoobject, 38);
 
             if (command && command.dtotype) {
                 dtotype = command.dtotype;
@@ -341,13 +338,6 @@
                             if (res && (Object.keys(res[0]).length !== 0)) {
                                 dtoobject = res[0]
                             }
-
-                            // *** new
-                            createdtotable(dtotype, dtoobject);
-                            dtoobject={};
-                            dtoobject = recurseobj(obj);
-
-
                             proxyprinttodiv("getdtoobject input dtoobject +++++++ ", dtoobject, 38);
                             callback(null, dtoobject);
                         } // end try
@@ -546,13 +536,13 @@
                                     try {
                                         // iterate over the override data and override the parameterobject with it
                                         overrideData.forEach(function (element, index, array) {
-                                            proxyprinttodiv("GetWidMongo -- override! --", element, 99);
+                                            proxyprinttodiv("GetWidMongo -- override! --", element, 38);
                                             // TODO remove these
                                             delete element.metadata;
                                             delete element.wid;
                                             extend(true, parameterobject, element);
                                         });
-                                        proxyprinttodiv("GetWidMongo override processing done", parameterobject, 99);
+                                        proxyprinttodiv("GetWidMongo override processing done", parameterobject, 38);
                                         cb(null);
                                     } catch (err) {
                                         var finalobject = createfinalobject({

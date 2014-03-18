@@ -2510,8 +2510,8 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     };
     
     exports.createfinalobject = createfinalobject = function createfinalobject(outobject, command, nameoffn, errorobject, initialparameters) {
-        proxyprinttodiv('createfinalobject input errorobject', errorobject, 99);
-        proxyprinttodiv('createfinalobject input outobject', outobject, 99);
+        proxyprinttodiv('createfinalobject input errorobject', errorobject, 98);
+        proxyprinttodiv('createfinalobject input outobject', outobject, 98);
         // console.log("final_error: " + JSON.stringify(errorobject, '-', 4));
         // console.log("final_outobject: " + JSON.stringify(outobject, '-', 4));
 
