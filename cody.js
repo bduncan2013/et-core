@@ -230,7 +230,7 @@ exports.wv = wv = function wv(params, callback) { //widviewer
             //saveglobal("debugname", "getwidmongo");
             //saveglobal("debugcat", "add");
             //saveglobal("debugsubcat", sub");
-            debugcolor=1
+            saveglobal("debugcolor", 1);
             execute(executeList, function (err, res) {
                 console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
                 //saveglobal("debugname", "aggressivedto");

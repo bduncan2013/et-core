@@ -181,7 +181,7 @@ function setdefaultparm() {
     exports.debugcat            = getglobal("debugcat");
     exports.debugfilter         = getglobal("debugfilter");
     exports.debugdestination    = getglobal("debugdestination");
-    exports.debugcolor          = debugcolor;
+    exports.debugcolor          = getglobal("debugcolor");
     exports.debugindent         = debugindent;
     exports.debuglinenum        = getglobal("debuglinenum");
 }

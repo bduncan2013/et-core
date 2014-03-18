@@ -109,9 +109,9 @@ exports.createdtos = createdtos = function createdtos(params, callback) {
 
     // saveglobal("debugname", "getwidmongo");
     // debuglevel=10;
-    // debugcolor=1;
+    // saveglobal("debugcolor", 1);
     // debugindent=1;
-            debugcolor=1
+            saveglobal("debugcolor", 1);
         execute(executeList, function (err, res) {
             proxyprinttodiv("results from add=", res, 99);   
             console.log(' >>> final response after create createsampledata executeList >>> ' + JSON.stringify(res));
