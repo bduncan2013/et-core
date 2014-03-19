@@ -1728,8 +1728,9 @@
 	
 	/*
 		to test createalldtos
+		usergroup <-manytomany-> user ,, here recursion  
 	*/
-    exports.testcreatealldtos = testcreatealldtos = function testcreatealldtos (params, callback) {
+    exports.testcreatealldtos = testcreatealldtos = function testcreatealldtos(params, callback) {
         var executeobj = {
 			"executethis":"addwidmaster",
 			"metadata.method": "userdto",

@@ -1729,7 +1729,7 @@
 	/*
 		to test createalldtos
 	*/
-    exports.testcreatealldtos = testcreatealldtos = function testcreatealldtos (params, callback) {
+    exports.testcreatealldtos = testcreatealldtos = function testcreatealldtos(params, callback) {
         var executeobj = {
 			"executethis":"addwidmaster",
 			"metadata.method": "userdto",

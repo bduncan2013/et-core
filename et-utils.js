@@ -163,6 +163,12 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
     }   
 }
 
+// 
+//   this will command.dtotype inisde bigdto
+//   this will give an address for dtotype inside bigdto
+//   then it uses that address to insert insertobjc into inputobj
+//
+//
 
 exports.insertbydtotype = insertbydtotype = function insertbydtotype(inputobj, bigdto, insertobj, command) {
         proxyprinttodiv("insertbydtotype input inputobj :- ", inputobj, 38);
@@ -2580,6 +2586,29 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         
         // var dotformatjson = convertfromdriformat
 
+    }
+
+    exports.getdeepproperty = getdeepproperty = function getdeepproperty(obj, prop) {
+        var found=null;
+        var eachprop;
+        for (eachprop in obj) { // try to find match top level
+            if (eachprop===prop) { 
+                found = obj[eachprop]
+            }
+        }
+        if (found) {
+            return found;
+            } 
+        else // else try next level
+            {
+                for (eachprop in obj) {
+                    if (isObject(obj[eachprop])) {
+                        found = getdeepproperty(obj[eachprop], prop)
+                        if (found) {break}
+                    }
+                }
+            }
+        return found;
     }
 })();
 

@@ -52,24 +52,24 @@
                         "wid": "securitydatadto",
                         "metadata.method": "securitydatadto",
                         "ac": "string",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // create the offlineactiondto
                         "executethis": "addwidmaster",
                         "wid": "offlineactiondto",
                         "metadata.method": "offlineactiondto",
                         "metadata.executedto.type": "manytoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // create the onlineactiondto
                         "executethis": "addwidmaster",
                         "wid": "onlineactiondto",
                         "metadata.method": "onlineactiondto",
                         "metadata.executedto.type": "manytoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // create the localactiondto
                         "executethis": "addwidmaster",
@@ -77,16 +77,16 @@
                         "metadata.method": "localactiondto",
                         "metadata.onlineaction.type": "manytoone",
                         "metadata.offlineaction.type": "manytoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // create the serveractiondto
                         "executethis": "addwidmaster",
                         "wid": "serveractiondto",
                         "metadata.method": "serveractiondto",
                         "metadata.serveractiondto.type": "manytoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // create the actiondto
                         "executethis": "addwidmaster",
@@ -101,62 +101,62 @@
                         //"offlineonline":"string",
                         //"localserver":"string",
                         //"oncreate":"string",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the executeactiondto
                         "executethis": "addwidmaster",
                         "wid": "executeactiondto",
                         "metadata.method": "executeactiondto",
                         "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the getactiondto
                         "executethis": "addwidmaster",
                         "wid": "getactiondto",
                         "metadata.method": "getactiondto",
                         "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the editactiondto
                         "executethis": "addwidmaster",
                         "wid": "editactiondto",
                         "metadata.method": "editactiondto",
                         "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the addactiondto
                         "executethis": "addwidmaster",
                         "wid": "addactiondto",
                         "metadata.method": "addactiondto",
                         "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the deleteactiondto
                         "executethis": "addwidmaster",
                         "wid": "deleteactiondto",
                         "metadata.method": "deleteactiondto",
                         "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the permissiondto     
                         "executethis": "addwidmaster",
                         "wid": "permissiondto",
                         "metadata.method": "permissiondto",
                         "level": "string",
-                        "metadata.actiongroup.type": "manytomany", // **** NEED TO CHECK :: ADDED BY SAURABH
-                        "metadata.usergroup.type": "manytomany", // **** NEED TO CHECK :: ADDED BY SAURABH
+                        "metadata.actiongroup.type": "manytomany", // **** NEED TO CHECK :: ADDED BY SAURABH,, HERE should be actiongroupdto
+                        "metadata.usergroup.type": "manytomany", // **** NEED TO CHECK :: ADDED BY SAURABH,, HERE should be usergroupdto
                         // "metadata.actiongroup":"string", // **** NEED TO CHECK :: ADDED BY SAURABH
                         // "metadata.usergroup":"string",// **** NEED TO CHECK :: ADDED BY SAURABH
                         "metadata.db": "string", // **** NEED TO CHECK :: ADDED BY SAURABH
                         "metadata.collection": "string", // **** NEED TO CHECK :: ADDED BY SAURABH
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the environmentdto
                         "executethis": "addwidmaster",
@@ -167,8 +167,8 @@
                         "account": "string",
                         "db": "string",
                         "collection": "collection",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the securitydto
                         "executethis": "addwidmaster",
@@ -177,8 +177,8 @@
                         "accesstoken": "string",
                         //"status": "integer"
                         "status": "string",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the groupdto      
                         "executethis": "addwidmaster",
@@ -186,8 +186,8 @@
                         "metadata.method": "groupdto",
                         "groupname": "string",
                         "metadata.groupdto.type": "onetomany",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the actiongroupdto        
                         "executethis": "addwidmaster",
@@ -199,8 +199,8 @@
                         "metadata.editactiondto.type": "manytoone",
                         "metadata.deleteactiondto.type": "manytoone",
                         "metadata.addactiondto.type": "manytoone",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the usergroupdto      
                         "executethis": "addwidmaster",
@@ -208,8 +208,8 @@
                         "metadata.method": "usergroupdto",
                         "groupname": "string",
                         "metadata.userdto.type": "manytomany",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }, {
                         // Create the userdto
                         "executethis": "addwidmaster",
@@ -229,10 +229,10 @@
                         "metadata.securitydto.type": "onetoone",
                         "metadata.environmentdto.type": "onetoone",
                         "metadata.permissiondto.type": "onetomany",
-                        "metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": "dtodefault"
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
                     }], function (err, res) {
-                        proxyprinttodiv('Function createalldtos -- added all schemas  -- ', res, 39);
+                        proxyprinttodiv('Function createalldtos -- added all schemas  -- ', res, 13);
                         cb1(null);
                     });
                 },
@@ -399,7 +399,7 @@
             ],
 
             function (err, res) {
-                proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 39);
+                proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 13);
                 callback(err, res);
             });
     }
@@ -627,7 +627,7 @@
                 }
             ],
             function (err, res) {
-                proxyprinttodiv('Function noncriticaldtos -- added all relationships  -- ', res, 39);
+                proxyprinttodiv('Function noncriticaldtos -- added all relationships  -- ', res, 13);
                 callback(err, res);
             });
     }
@@ -650,7 +650,7 @@
                 "groupname": "managers"
             }
         ], function (err, res) {
-            proxyprinttodiv('Function createdefaultgroups -- added 2 groups  -- ', res, 39);
+            proxyprinttodiv('Function createdefaultgroups -- added 2 groups  -- ', res, 13);
             callback(err, res);
         });
     }
@@ -696,54 +696,51 @@
 
     // ** GENERIC FUNCTION TO CREATE A USER WID ON THE BASIS OF RECEIVED DATA **
     // create createuserdata wid data and associated relationships
-    exports.createuserdata = createuserdata = function createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobjarr, usergroupobjarr, actiongroupobjarr, callback) {
+    exports.createuserdata = createuserdata = function createuserdata(userobj, securityobj, overrideobj, defaultobj, callback) {
 
-
-        // create userdto data
-        execute({
-            "executethis": "addwidmaster",
-            "metadata.method": "userdto",
-            "wid": userobj.wid,
-            "fname": userobj.fname,
-            "lname": userobj.lname,
-            "phone": userobj.phone,
-            "email": userobj.email,
-            "address": userobj.address,
-            "address2": userobj.address2,
-            "city": userobj.city,
-            "state": userobj.state,
-            "zip": userobj.zip,
-            "country": userobj.country
-            ,
-
-
-            // "environmentdto.ac": environmentobj.ac,
-            // "environmentdto.gps": environmentobj.gps,
-            // "environmentdto.account": environmentobj.account,
-            // "environmentdto.db": environmentobj.db,
-            // "environmentdto.collection": environmentobj.collection
-
-            // "permissiondto.0.level": "user permission level",
-            // "permissiondto.0.metadata.db": "user permission db",
-            // "permissiondto.0.metadata.collection": "user permission collection",
-            "permissiondto": permissionobjarr
+        async.series([
+            function (cb1) {
+                // create userdto data
+                execute({
+                    "executethis": "addwidmaster",
+                    "metadata.method": "userdto",
+                    "wid": userobj.wid,
+                    "fname": userobj.fname,
+                    "lname": userobj.lname,
+                    "phone": userobj.phone,
+                    "email": userobj.email,
+                    "address": userobj.address,
+                    "address2": userobj.address2,
+                    "city": userobj.city,
+                    "state": userobj.state,
+                    "zip": userobj.zip,
+                    "country": userobj.country
+                }, function (err, res) {
+                    cb1(null, "userdto");
+                });
+            },
+            // function (cb1) {
+            //     // create environmentdto data
+            //     addenvironment(userobj, environmentobj, function (err, res) {
+            //         cb1(null, "environmentobj");
+            //     });
+            // },
             // ,
-
-            // "usergroupdto.0.groupname": "user usergroup name"
-            // "usergroupdto": usergroupobjarr,
-
-            // "actiongroupdto": actiongroupobjarr
-
-
-        }, function (err, res) {
+            // function (cb1) {
+            //     // add defaultobj and overrideobj associations
+            //     execute({
+            //         "executethis": "addwidmaster",
+            //         "metadata.method": userobj.wid,
+            //         "metadata.inherit.override": overrideobj.wid,
+            //         "metadata.inherit.default": defaultobj.wid
+            //     }, function (err, res) {
+            //         cb1(null, "defaultobj && overrideobj");
+            //     });
+            // }
+        ], function (err, res) {
             // create securitydto data
-            execute({
-                "executethis": "getwidmaster",
-                "wid": userobj.wid
-            }, function (err, resp) {
-                proxyprinttodiv('Function createuserdata -- added getwidmaster on user  -- ' + userobj.wid, res, 39);
-                callback(err, res);
-            });
+            proxyprinttodiv('Function createuserdata -- added getwidmaster on user  -- ' + userobj.wid, res, 13);
+            callback(err, res);
         });
     }
 
@@ -753,14 +750,14 @@
 
         execute({
             "executethis": "addwidmaster",
-            "wid": userobj.wid,
+            "metadata.method": userobj.wid,
             "environmentdto.ac": environmentobj.ac,
             "environmentdto.gps": environmentobj.gps,
             "environmentdto.account": environmentobj.account,
             "environmentdto.db": environmentobj.db,
             "environmentdto.collection": environmentobj.collection
         }, function (err, res) {
-            proxyprinttodiv('Function addenvironment -- added environment to user  -- ' + userobj.wid, res, 39);
+            proxyprinttodiv('Function addenvironment -- added environment to user  -- ' + userobj.wid, res, 13);
             callback(null, "environmentdto");
         });
     }
@@ -770,10 +767,10 @@
     exports.creategroup = creategroup = function creategroup(groupname, callback) {
         execute([{
             "executethis": "addwidmaster",
-            "wid": groupname,
+            "wid": "groupdto",
             "usergroupname": groupname
         }], function (err, res) {
-            proxyprinttodiv('Function creategroup -- added group  -- ', groupname, 39);
+            proxyprinttodiv('Function creategroup -- added group  -- ', groupname, 13);
 
             callback(err, res);
         });
@@ -785,10 +782,10 @@
     exports.createusergroup = createusergroup = function createusergroup(groupname, callback) {
         execute([{
             "executethis": "addwidmaster",
-            "wid": groupname,
+            "wid": "usergroupdto",
             "usergroupname": groupname
         }], function (err, res) {
-            proxyprinttodiv('Function createusergroup -- added user group  -- ', groupname, 39);
+            proxyprinttodiv('Function createusergroup -- added user group  -- ', groupname, 13);
 
             callback(err, res);
         });
@@ -801,11 +798,10 @@
     exports.createactiongroup = createactiongroup = function createactiongroup(groupname, callback) {
         execute([{
             "executethis": "addwidmaster",
-            "metadata.method": "actiongroupdto",
-            "wid": groupname,
+            "wid": "actiongroupdto",
             "actiongroupname": groupname
         }], function (err, res) {
-            proxyprinttodiv('Function createactiongroup -- added actiongroup  -- ', groupname, 39);
+            proxyprinttodiv('Function createactiongroup -- added actiongroup  -- ', groupname, 13);
 
             callback(err, res);
         });
@@ -826,7 +822,7 @@
             "secondarywid": secondarywid,
             "secondarymethod": secondarywid
         }], function (err, res) {
-            proxyprinttodiv('Function createrelationship -- added relationship for  -- ' + primarywid + ' >> ' + secondarywid, linktype, 39);
+            proxyprinttodiv('Function createrelationship -- added relationship for  -- ' + primarywid + ' >> ' + secondarywid, linktype, 13);
             callback(err, res);
         });
 
@@ -855,7 +851,7 @@
                     cbMap(null);
                 });
         }, function (err, res) {
-            proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userobj.wid, res, 39);
+            proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userobj.wid, res, 13);
             callback(err, res);
         });
     }
@@ -872,7 +868,7 @@
                 "securitydto.accesstoken": securityobj.ac
             }],
             function (err, res) {
-                proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + userobj.wid, res, 39);
+                proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + userobj.wid, res, 13);
                 // console.debug('added security for wid ' + wid + " >>>> " + JSON.stringify(res));
                 callback(err, res)
             });
@@ -886,8 +882,7 @@
         execute([{
                 // getwidmaster on passed user
                 "executethis": "getwidmaster",
-                "widname": userobj.wid,
-                "metadata.method": "usergroupsdto",
+                "wid": userwid,
                 // permissions data 
                 "metadata.method": "permissiondto"
             }],
@@ -949,55 +944,33 @@
         var securityobj = {};
         securityobj['ac'] = "rogerac";
 
-        var permissionobjarr = [{
-            "level": 99,
-            "db": "data1",
-            "collection": "maincollection1"
-        }, {
-            "level": 50,
-            "db": "data2",
-            "collection": "maincollection2"
-        }]
-
-        var usergroupobjarr = [{
-            "usergroupname": "drimanagers"
-        }, {
-            "usergroupname": "driemployees"
-        }];
-
-        var actiongroupobjarr = [{
-            "actiongroupname": "getwidmaster"
-        }, {
-            "actiongroupname": "addwidmaster"
-        }];
-
         async.series([
-                // function (cb) {
-                //     createalldtos(null, function (err, res) {
-                //         cb(null, "system dtos created")
-                //     });
-                // },
-
-                // function (cb) {
-                //     noncriticaldtos(function (err, res) {
-                //         cb(null, "non critical dtos created")
-                //     });
-                // },
+                function (cb) {
+                    createalldtos(null, function (err, res) {
+                        cb(null, "system dtos created")
+                    });
+                },
 
                 function (cb) {
-                    createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobjarr, usergroupobjarr, actiongroupobjarr, function (err, res) {
+                    noncriticaldtos(function (err, res) {
+                        cb(null, "non critical dtos created")
+                    });
+                },
+
+                function (cb) {
+                    createuserdata(userobj, securityobj, overrideobj, defaultobj, function (err, res) {
                         proxyprinttodiv('Function asap >>>>>  res', res, 39);
                         cb(null, "userdata");
                     });
+                },
+                //add security data
+                function (cb1) {
+                    // create securitydto data
+                    addsecurity(userobj, securityobj, function (err, res) {
+                        cb1(null, "securitydto");
+                    });
                 }
                 // ,
-                // //add security data
-                // function (cb1) {
-                //     // create securitydto data
-                //     addsecurity(userobj, securityobj, function (err, res) {
-                //         cb1(null, "securitydto");
-                //     });
-                // },
                 // function (cb) {
                 //     addenvironment(userobj, environmentobj, function (err, res) {
                 //         proxyprinttodiv('Function asap >>>>> added environment >>> res', res, 39);
@@ -1068,7 +1041,7 @@
                     "executethis": "getwidmaster",
                     "wid": userobj.wid
                 }, function (err, resp) {
-                    proxyprinttodiv('Function createuserdata -- added getwidmaster on user  -- ' + userobj.wid, resp, 39);
+                    proxyprinttodiv('Function createuserdata -- added getwidmaster on user  -- ' + userobj.wid, resp, 13);
                     callback(err, res);
                 });
             })
@@ -1100,41 +1073,25 @@
                 "metadata.method": "grandchilddto",
                 "wid": "grandchilddto",
                 "phonegrandchild": "string"
-            },
+            }, 
         ];
 
         execute(executeList, function (err, res) {
             createrelationship("parentdto", "childdto", "onetomany", function (err, res) {
-                createrelationship("childdto", "grandchilddto", "onetomany", function (err, res) {
-                    execute({
-                        // create data 
-                        "executethis": "addwidmaster",
-                        "metadata.method": "parentdto",
-                        "wid": "parentwid1",
-                        "phone": "9812121212"
-                    }, function (err, res) {
+                   createrelationship("childdto", "grandchilddto", "onetomany", function (err, res) {
                         execute({
-                            // create data 
-                            "executethis": "addwidmaster",
-                            "metadata.method": "parentdto",
-                            "wid": "parentwid1",
-                            "childdto.phonechild": "999988887777",
-                            "childdto.grandchilddto.phonegrandchild": "11112222233333"
-                        }, function (err, res) {
-                            execute({
-                                // create data 
-                                "executethis": "getwidmaster",
-                                "wid": "parentwid1"
-                            }, function (err, res) {
-                                // proxyprinttodiv('Function csd -- added all this -- ', res, 99);
-                                callback(err, res);
-                            });
-
-                        });
-
+                // create data 
+                "executethis": "addwidmaster",
+                "metadata.method": "parentdto",
+                "phone": "9812121212",
+                "childdto.phonechild": "999988887777",
+                "childdto.grandchilddto.phonegrandchild": "11112222233333"
+            }, function (err, res) {
+            // proxyprinttodiv('Function csd -- added all this -- ', res, 99);
+            callback(err, res);
                     });
                 });
-            });
+           });
         });
     }
 
