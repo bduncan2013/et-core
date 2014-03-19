@@ -2,9 +2,9 @@
 // {"query":{"$eq":{"type":"minute"}}}
 exports.filter1 = filter1 = function filter1(params, callback) {
     debuglevel = 37;
-    debugname = "";
-    debugcat = "";
-    debugsubcat = "code";
+    saveglobal("debugname", "");
+    saveglobal("debugcat", "");
+    saveglobal("debugsubcat", "code");
     var status = false;
 
     // create dtos  
@@ -2207,7 +2207,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 
     debuglevel = 75;
     debugname = "updatewid";
-    debugcat = "";
+    saveglobal("debugcat", "");
     debugsubcat = "";
 
 
@@ -2233,8 +2233,8 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 
 
             debugfn("updatewid code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
-            debugname = "";
-            debugcat = "";
+            saveglobal("debugname", "");
+            saveglobal("debugcat", "");
             debugsubcat = "";
 
             callback(err, res);
@@ -2272,9 +2272,9 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
     // alert('here');
 
     debuglevel = 75;
-    debugname = "";
-    debugcat = "";
-    debugsubcat = "code";
+    saveglobal("debugname", "");
+    saveglobal("debugcat", "");
+    saveglobal("debugsubcat", "code");
 
     execute([{
             "executethis": "addwidmaster",
@@ -2296,8 +2296,8 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
         function (err, res) {
             debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
 
-            debugname = "";
-            debugcat = "";
+            saveglobal("debugname", "");
+            saveglobal("debugcat", "");
             debugsubcat = "";
             proxyprinttodiv('Function ag2 result ', res, 99);
             res = logverify("ettestag2_result", res[3][0], [{
@@ -2313,7 +2313,7 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     clearLocalStorage();
 
     debuglevel = 98;
-    //debugname = "";
+    //saveglobal("debugname", "");
 
     //%%%%%%%%%%%%%%%%%%%%%
     // Functions of --- config-local
@@ -2341,8 +2341,8 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
     // debugname = "getcleanparameters";
     //%%%%%%%%%%%%%%%%%%%%%
 
-    //debugcat = "";
-    //debugsubcat = "code";
+    //saveglobal("debugcat", "");
+    //saveglobal("debugsubcat", "code");
 
     debuglevel = 17;
     execute([
@@ -2416,25 +2416,25 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
             debugfn("offlinegetwid code generator END", "", "", "code", debugcolor, debugindent, {}, 9);
 
-            //%%%%%%%%%%%%%%%%%%%%%
+            // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- add
 
-            //%%%%%%%%%%%%%%%%%%%%%
+            // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- query
 
             // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
 
-            //%%%%%%%%%%%%%%%%%%%%%
+            // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- get
 
             // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", debugcolor, debugindent, {}, 9);
             // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
 
-            //%%%%%%%%%%%%%%%%%%%%%
-            //debugname = "";
-            //debugcat = "";
-            //debugsubcat = "";
+            // %%%%%%%%%%%%%%%%%%%%%
+            // saveglobal("debugname", "");
+            // saveglobal("debugcat", "");
+            // debugsubcat = "";
 
             proxyprinttodiv('Function ag3 result ', res[4], 99);
             res = logverify("ettestag3_result", res[4][0], [{
@@ -3456,7 +3456,7 @@ function test161616(params, callback) {
 }
 
 exports.sample1 = sample1 = function sample1(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     offlineupdatewid({
         "wid": "wid1",
         "a": "b"
@@ -3465,7 +3465,7 @@ exports.sample1 = sample1 = function sample1(params, callback) {
 }
 
 exports.sample2 = sample2 = function sample2(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     merge_options({
         "wid": "wid1",
         "a": "b"
@@ -3479,7 +3479,7 @@ exports.sample2 = sample2 = function sample2(params, callback) {
 // getclean(resultObj, command, callback)
 
 exports.sample3 = sample3 = function sample3(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     getclean({
         "wid": "wid1",
         "a": "b",
@@ -3590,7 +3590,7 @@ function func_b33(params, callback) {
 
 
 exports.err1 = err1 = function err1(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     execute({
         "executethis": "getwidmaster",
         "wid": "1",
@@ -3607,7 +3607,7 @@ exports.err1 = err1 = function err1(params, callback) {
 }
 
 exports.wrapped1 = wrapped1 = function wrapped1(params, callback) {
-    debugsubcat = "code";
+    saveglobal("debugsubcat", "code");
     execute([{
         "executethis": "addwidmaster",
         "wid": "1",

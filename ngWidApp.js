@@ -109,6 +109,8 @@ if (typeof angular !== 'undefined') {
 
     widApp.factory('executeService', function($http, $compile, dataService) {
         var processExecuteResult = function(result, scope) {
+            if (result.addthis) { result = widAppHelper.removeAddThis(result);}
+
             // if not logged in at this point send browser to login.html
             if (result.etstatus) {
                 if (result.etstatus.status && result.etstatus.status === 'unauthorized') {
@@ -484,7 +486,7 @@ if (typeof angular !== 'undefined') {
                 // clear html from element if specified
                 if (screenWid.command.htmlcleartargetid) {
                     if (screenWid.command.htmlcleartargetid === 'body') {
-                        $('body').html('');
+                        $('#default_view_loc').html('');
 
                         // call new page event in config-local
                         eventnewpage();
@@ -501,7 +503,7 @@ if (typeof angular !== 'undefined') {
             // take care of any <execute></execute> elements
             $('execute').each(function (index, ele) {
                 // proceed if execute tag wasn't already processed during server conversion process
-                if ($(ele).attr('processed') !== undefined || $(ele).attr('processed') !== 'true') {
+                if ($(ele).attr('processed') === undefined || $(ele).attr('processed') !== 'true') {
                     widAppHelper.processExecute(ele, scope, compile);
                     $(ele).attr('processed', 'true');
                 }
@@ -510,6 +512,8 @@ if (typeof angular !== 'undefined') {
 
         processExecute: function(ele, scope, compile) {
             var executeObj = NNMtoObj(ele.attributes);
+
+            if (executeObj.etparams) { executeObj = JSON.parse(executeObj.etparams); }
 
             execute(executeObj, function(err, resultArr) {
                 var results = widAppHelper.mergeNestedArray(resultArr);
@@ -524,13 +528,6 @@ if (typeof angular !== 'undefined') {
 
                             scope.$apply(function() {
                                 $(ele).append(compile(results.html)(scope));
-//                                var nodesToAdd = compile(results.html)(scope);
-//
-//                                for (var i = 0; i < nodesToAdd.length; i++) {
-//                                    if (nodesToAdd[i].outerHTML !== undefined) {
-//                                        ele.innerHTML += nodesToAdd[i].outerHTML;
-//                                    }
-//                                }
                             });
                         }
                     });

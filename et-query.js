@@ -51,8 +51,10 @@
             proxyprinttodiv('querywid p ', p, 28);
             var queParams = p[0];
             var relParams = p[1];
-            var aggParams = p[2];
-            var addParams = p[3];
+            var addParams = p[2];
+            var aggParams = p[3];
+            proxyprinttodiv('querywid p aggParams', aggParams, 28);
+            
             var xtrParams = p[4];
             var relafterParams = p[5];
             var commandParams = p[6];
@@ -483,6 +485,7 @@
                             debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
 
                             proxyprinttodiv('querywid before output', output, 28);
+                            proxyprinttodiv('querywid before output aggParams', aggParams, 28);
 
                             formatListFinal(output, environmentdb, convertmethod, extraparameters, aggParams, function (err, output) {
                                 // If error, bounce out
@@ -696,6 +699,7 @@
 
     function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, aggParams, callback) {
         try {
+            proxyprinttodiv('querywid finalformatlist aggParams ', aggParams, 28);
             var inbound_parameters_120 = JSON.parse(JSON.stringify(arguments));
 
             var output = [];
@@ -707,8 +711,9 @@
             var extrarecord = {};
             var todolist = [];
             var excludeset = {};
-            if (aggParams["mongosetfieldsexclude"] && Object.keys(aggParams["mongosetfieldsexclude"]).length === 0) {
+            if (aggParams["mongosetfieldsexclude"] && Object.keys(aggParams["mongosetfieldsexclude"]).length !== 0) {
                 excludeset = aggParams["mongosetfieldsexclude"]
+                proxyprinttodiv('querywid finalformatlist excludeset ', excludeset, 28);
             }
 
             if (inlist === undefined || inlist.length === 0) {
@@ -765,6 +770,7 @@
                                             record[wid] = convertfromdriformat(widrecord);
                                         }
 
+                                        proxyprinttodiv('querywid finalformatlist excludeset ', excludeset, 28);
                                         if (!excludeset[wid]) {
                                             output.push(record);
                                         }

@@ -234,9 +234,9 @@ function execute_stuff(isTest, isServer) {
 	// bootprocess();
 
 	// Pulling values out of the debug area
-	debugname = $('#dbug_name').val(); 
-	debugcat = $('#dbug_category').val();
-	debugsubcat = $('#dbug_subcategory').val();
+	saveglobal("debugname", $('#dbug_name').val()); 
+	saveglobal("debugcat", $('#dbug_category').val());
+	saveglobal("debugsubcat", $('#dbug_subcategory').val());
     saveglobal("debugfilter", $('#dbug_filter').val());
 
 	if ($('#dbug_level').val() != "") debuglevel = parseInt($('#dbug_level').val());

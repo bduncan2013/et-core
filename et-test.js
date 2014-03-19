@@ -1791,3 +1791,53 @@
 			});
 		});
     }
+
+    exports.ettestatoa = ettestatoa = function ettestatoa(params, callback) {
+        eventappinstall();
+        debuglevel = 0;
+        
+        execute([{
+                    "executethis": "addwidmaster",
+                    "wid": "authordto",
+                    "metadata.method": "authordto",
+                    "metadata.authordto.type": "manytomany",
+                    "name":"string"
+                },{ //authordto - authordto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_author_author",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "manytomany",
+                    "primarywid": "authordto",
+                    "primarymethod": "authordto",
+                    "secondarywid": "authordto",
+                    "secondarymethod": "authordto"
+                }, {
+                    "executethis": "addwidmaster",
+                    "wid": "wid1",
+                    "metadata.method": "authordto",
+                    "authordto.0.authordto.0.authordto.name":"sammysample"
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "authordto"
+                },{
+                    "executethis": "getwidmaster",
+                    "wid": "wid1"
+                }
+            ], function (err, res) {
+                proxyprinttodiv('Function authordto result Full res', res, 17);
+                
+                proxyprinttodiv('Function authordto wid1 res[4] ', res[4], 99);
+                proxyprinttodiv('Function authordto wid1 res[4] ', res[4], 99);
+                
+                var expectedResult = [{"wid":"authordto","metadata.method":"authordto","name":"string"}];
+                proxyprinttodiv('Function authordto expectedResult ', expectedResult, 17);
+                
+                res = logverify("authordto_result", res[4], expectedResult);
+                debuglevel=0;
+                execute({"executethis": "getwidmaster","wid": "authordto"}, function (err, res1) {
+                    proxyprinttodiv('Function authordto result LAST ', res1, 17); 
+                    callback(err, res); 
+                })
+        });
+    }

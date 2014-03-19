@@ -91,35 +91,23 @@ exports.clearLocal = clearLocal = function clearLocal() {
 
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
     try {
-        
-        var g_debuglevel        = getglobal("debuglevel");
-        var g_Debug             = getglobal("Debug");
-        var g_debugon           = getglobal("debugon");
-        var g_debugname         = getglobal("debugname");
-        var g_debugsubcat       = getglobal("debugsubcat");
-        var g_debugcat          = getglobal("debugcat");
-        var g_debugfilter       = getglobal("debugfilter");
-        var g_debugdestination  = getglobal("debugdestination");
-        var g_debugcolor        = getglobal("debugcolor");
-        var g_debugindent       = getglobal("debugindent");
-        var g_debuglinenum      = getglobal("debuglinenum");
 
         var inbound_parameters = arguments;
-        if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 99)) {
-            printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
-            if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
-            if (document.getElementById('divprint')) {
-                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
-            }
-
-        // if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+        // if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 99)) {
         //     printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
         //     if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
-        //     // console.log(text);
-        //     // console.log(obj);
         //     if (document.getElementById('divprint')) {
         //         document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
         //     }
+
+        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+            printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
+            if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
+            // console.log(text);
+            // console.log(obj);
+            if (document.getElementById('divprint')) {
+                document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
+            }
              
         }
     } // end try
@@ -132,9 +120,6 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
 exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, debugone, pretty) { // **** making code node compatible
     try {
         var inbound_parameters = arguments;
-
-        var g_Debug             = getglobal("Debug");
-        var g_debuglevel        = getglobal("debuglevel");
         var g_debuglinenum      = getglobal("debuglinenum");
 
         if (!debugone) {
@@ -143,7 +128,7 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
         if (exports.environment === "local") {
             printToDiv(text, obj, debugone, pretty);
         } else {
-            if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 99)) {
+            if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
                 // debuglinenum++;
                 var z = getglobal('debuglinenum');
                 z++;
@@ -1358,14 +1343,22 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         //var debugobjectlist = JSON.parse(JSON.stringify(tempdebugobjectlist));
         var indebugdest = arguments[7] || ""; // level
         var displaycolor = indebugcolor;
-        var tempdebugname = (debugname != "") ? debugname : indebugname;
-        var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
-        var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
+
+        var zed2 = getglobal("debugname");
+        var tempdebugname = (zed2 != "") ? zed2 : indebugname;
+
+        // var tempdebugcat = (debugcat != "") ? debugcat : indebugcat;
+        var zed0 = getglobal("debugcat");
+        var tempdebugcat = (zed0 != "") ? zed0 : indebugcat;
+
+        // var tempdebugsubcat = (debugsubcat != "") ? debugsubcat : indebugsubcat;
+        var zed1 = getglobal("debugsubcat");
+        var tempdebugsubcat = (zed1 != "") ? zed1 : indebugsubcat;
 
         proxyprinttodiv('arrived debugfn', arguments, 44);
-        proxyprinttodiv('arrived debugname', debugname, 44);
-        proxyprinttodiv('arrived debugcat', debugcat, 44);
-        proxyprinttodiv('arrived debugsubcat', debugsubcat, 44);
+        proxyprinttodiv('arrived debugname', getglobal("debugname"), 44);
+        proxyprinttodiv('arrived debugcat', getglobal("debugcat"), 44);
+        proxyprinttodiv('arrived debugsubcat', getglobal("debugsubcat"), 44);
         proxyprinttodiv('arrived indebugname', indebugname, 44);
         proxyprinttodiv('arrived indebugcat', indebugcat, 44);
         proxyprinttodiv('arrived indebugsubcat', indebugsubcat, 44);
@@ -1379,14 +1372,14 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         } else {
             processdebug = false;
         }
-        if (debugname + debugcat + debugsubcat == "") {
+        if (getglobal("debugname") + getglobal("debugcat") + getglobal("debugsubcat") == "") {
             processdebug = false;
         }
         if (!processdebug) return;
         if (!indebugdest) {
             indebugdest = getglobal(debugdestination);
         }
-        proxyprinttodiv('arrived debugname', debugname, 44);
+        proxyprinttodiv('arrived debugname', getglobal("debugname"), 44);
 
         // If the color goes over 10, turn it back to black
         if (displaycolor > 10) displaycolor = 0;
@@ -1402,8 +1395,8 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
 
         //  1) determine if we should play...missing "and"
         //  if global debugname = incoming debugname the process this object (or subcat or cat)
-        // if (indebugcat==debugcat) {processdebug=true};
-        // if (indebugsubcat==debugsubcat) {processdebug=true};
+        // if (indebugcat == getglobal("debugcat")) {processdebug=true};
+        // if (indebugsubcat == getglobal("debugsubcat")) {processdebug = true};
 
         // if processdebug {
         
