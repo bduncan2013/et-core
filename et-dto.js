@@ -972,17 +972,17 @@
         }];
 
         async.series([
-                // function (cb) {
-                //     createalldtos(null, function (err, res) {
-                //         cb(null, "system dtos created")
-                //     });
-                // },
+                function (cb) {
+                    createalldtos(null, function (err, res) {
+                        cb(null, "system dtos created")
+                    });
+                },
 
-                // function (cb) {
-                //     noncriticaldtos(function (err, res) {
-                //         cb(null, "non critical dtos created")
-                //     });
-                // },
+                function (cb) {
+                    noncriticaldtos(function (err, res) {
+                        cb(null, "non critical dtos created")
+                    });
+                },
 
                 function (cb) {
                     createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobjarr, usergroupobjarr, actiongroupobjarr, function (err, res) {

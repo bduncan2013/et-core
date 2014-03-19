@@ -1287,10 +1287,10 @@
                         return _in_obj;
                     } // end fn recurse
 
-                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 99);
-                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 99);
-                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 99);
-                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 99);
+                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 38);
+                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 38);
+                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 38);
+                    proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter command >>>', command, 38);
 
                     if (!command) {
                         command = {}
