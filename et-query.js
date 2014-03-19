@@ -446,7 +446,7 @@
                                 proxyprinttodiv('querywid after queryafterrelationship mQueryString', mQueryString, 28);
                                 // console.log('mQueryString at step04 => ' + mQueryString);
                                 //mongoquery(JSON.parse(mQueryString), function (res) {
-                                debugfn("step04", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                                debugfn("step04", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
 
                                 if (Object.keys(JSON.parse(mQueryString)).length > 0) {
                                     mongoquery(mQueryString, function (err, res) {
@@ -456,7 +456,7 @@
                                         } else {
                                             // 
                                             output = res;
-                                            debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([4]));
+                                            debugfn("post relationship query", "rawmongoquery", "query", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                             cb(null, "step04");
                                         }
                                     });
@@ -482,7 +482,7 @@
 
                             console.log('completed tasks asynchronously in querywid ');
                             console.log('output is ' + JSON.stringify(output));
-                            debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
+                            debugfn("final", "querywid", "query", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([6]));
 
                             proxyprinttodiv('querywid before output', output, 28);
                             proxyprinttodiv('querywid before output aggParams', aggParams, 28);

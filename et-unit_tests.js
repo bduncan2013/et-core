@@ -2480,7 +2480,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
             });
 
 
-            debugfn("updatewid code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+            debugfn("updatewid code generator END", "updatewid", "add", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 5);
             saveglobal("debugname", "");
             saveglobal("debugcat", "");
             debugsubcat = "";
@@ -2544,7 +2544,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "wid": "color1"
         }],
         function (err, res) {
-            debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+            debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
             saveglobal("debugname", "");
             saveglobal("debugcat", "");
@@ -2693,16 +2693,16 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             // alert('err' + JSON.stringify(err, '-', 4));
 
             
-            // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+            // debugfn("update code generator END", "updatewid", "add", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 5);
             // 
             // These will create the code on the screen from the logged data
             
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- config-local
              
-            // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
-            debugfn("offlinegetwid code generator END", "",    "",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            debugfn("offlinegetwid code generator END", "",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
              
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- add
@@ -2710,14 +2710,14 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- query
 
-            // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
+            // debugfn("querywid code generator END",      "querywid",         "query", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
             
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- get
             
-            // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
             
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // saveglobal("debugname", "");
@@ -3975,13 +3975,13 @@ function test161616 (params, callback) {
 exports.sample1 = sample1 = function sample1 (params, callback) {
     saveglobal("debugsubcat", "code");
     offlineupdatewid( {"wid":"wid1", "a":"b"}, callback );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 exports.sample2 = sample2 = function sample2 (params, callback) {
     saveglobal("debugsubcat", "code");
     merge_options( {"wid":"wid1", "a":"b"}, {"wid":"wid2", "y":"z"} );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 // getclean(resultObj, command, callback)
@@ -3989,7 +3989,7 @@ exports.sample2 = sample2 = function sample2 (params, callback) {
 exports.sample3 = sample3 = function sample3 (params, callback) {
     saveglobal("debugsubcat", "code");
     getclean( {"wid":"wid1", "a":"b", "metadata":{"method": "DOT"}}, "DOT" );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 function test171717 (params, callback) {
@@ -4075,7 +4075,7 @@ exports.err1 = err1 = function err1 (params, callback) {
     saveglobal("debugsubcat", "code");
     execute({"executethis":"getwidmaster","wid":"1","command":{"parameters":{"test1":"1"},"status":"fail"}}, function(err, result){
         proxyprinttodiv('Function err1 result ', result, 99);
-        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
     });
 }
 
@@ -4083,7 +4083,7 @@ exports.wrapped1 = wrapped1 = function wrapped1 (params, callback) {
     saveglobal("debugsubcat", "code");
     execute([{"executethis":"addwidmaster","wid":"1","a":"b"}, {"executethis":"getwidmaster","wid":"1","command":{"executeresult":"outer"}}], function(err, result){
         proxyprinttodiv('Function wrapped1 result ', result, 99)
-        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
     });
 }
@@ -7047,9 +7047,9 @@ exports.surveydata = surveydata = function surveydata(params, callback) {
 
       saveglobal("debugname", "addmaster");
       debuglevel = 97;
-      debugcolor = 1;
-      debugindent = 1;
-      debugcolor = 5
+      saveglobal("debugcolor", 1);
+      saveglobal("debugindent", 1);
+      saveglobal("debugcolor", 5);
 
       execute([
 
@@ -7367,7 +7367,7 @@ exports.etmttest4 = etmttest4 = function etmttest4(params, callback) {
 
       var codedebug = false;
       if (codedebug) {
-            debugcolor = 0;
+            saveglobal("debugcolor", 0);
             debugon = true;
             saveglobal("debugname", "");
             debugsubcat = "";
@@ -7496,7 +7496,7 @@ exports.etmttest4 = etmttest4 = function etmttest4(params, callback) {
       var mongomultiplequerytests = false;
       var relationshiptests = false;
 
-      debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+      debugfn("update code generator END", "updatewid", "add", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 5);
       saveglobal("debugname", "");
       debugsubcat = "";
       saveglobal("debugcat", "");
@@ -7801,7 +7801,7 @@ exports.mts1 = mts1 = function mts1(params, callback) {
 
             // build query
             saveglobal("debugcat", "mongoquery");
-            debugcolor = 1;
+            saveglobal("debugcolor", 1);
             debuglevel = 30;
             //mongorawquery = '{"$and":{"data.primarywid":"song1","data.secondarywid":"2"}}';
 
@@ -7894,7 +7894,7 @@ exports.etmttest1 = etmttest1 = function etmttest1(params, callback) {
 
       var codedebug = false;
       if (codedebug) {
-            debugcolor = 0;
+            saveglobal("debugcolor", 0);
             debugon = true;
             saveglobal("debugname", "");
             debugsubcat = "";
@@ -8936,7 +8936,7 @@ exports.mt3 = mt3 = function mt3(params, callback) {
 
       eventappinstall();
 
-      // debugcolor = 0;
+      // saveglobal("debugcolor", 0);
       // debugon = true;
       // saveglobal("debugname", "processquery");
       // debugsubcat = "";
