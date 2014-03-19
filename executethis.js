@@ -945,7 +945,7 @@
 
                                         proxyprinttodiv("executelist end what howallowexecute ", howallowexecute, 11);
                                         proxyprinttodiv("executelist end what whatallowexecute ", whatallowexecute, 11);
-                                        //debugfn("executelist", "executelist", "execute", "mid", getglobal("debugcolor"), debugindent, debugvars([1, 2, 3]));
+                                        //debugfn("executelist", "executelist", "execute", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1, 2, 3]));
 
                                         if ((howallowexecute) && (whatallowexecute)) { //if both allowed to execute
                                             getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn,

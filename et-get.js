@@ -12,7 +12,7 @@
                     callback(err, {
                         "etstatus": "unauthorized"
                     });
-                } else { 
+                } else  {
                     try {
                         delete inputWidgetObject['executethis']; // ** added by Saurabh 38/9
 
@@ -776,12 +776,8 @@
 
                                                 proxyprinttodiv('Function getwidmongo recurse', key, 38);
 
-                                                var x = getglobal("debugcolor");
-                                                var y = getglobal("debugindent");
-                                                debugfn("getwidmongo before recusr", "getwidmongo", "get", "mid", x, y, debugvars([1]));
+                                                debugfn("getwidmongo before recusr", "getwidmongo", "get", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1]));
 
-                                                // debugcolor++;
-                                                // debugindent++;
                                                 var x = getglobal("debugcolor") + 1;
                                                 var y = getglobal("debugindent") + 1;
                                                 saveglobal("debugcolor", x);
@@ -797,8 +793,6 @@
                                                             proxyprinttodiv('Function getwidmongo params', params, 38);
                                                             //proxyprinttodiv('Function getwidmongo rightparameters inside II ', rightparameters, 38);
                                                             
-                                                            // debugcolor--;
-                                                            // debugindent--;
                                                             var x = getglobal("debugcolor") - 1;
                                                             var y = getglobal("debugindent") - 1;
                                                             saveglobal("debugcolor", x);

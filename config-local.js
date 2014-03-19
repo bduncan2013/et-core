@@ -26,9 +26,9 @@ if (!debugon) { // debugfn
     var debugon = false;
 }
 
-if (!debugindent) {
-    var debugindent = 0;
-}
+// if (!debugindent) {
+//     var debugindent = 0;
+// }
 // if (!debugcolor) {
 //     var debugcolor = 0;
 // }
@@ -171,19 +171,19 @@ function setdefaultparm() {
 
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
-    exports.widMasterKey = "widmaster_";
-    exports.test_results = test_results;
-    exports.potentialwid = potentialwid;
+    // exports.widMasterKey = "widmaster_";
+    // exports.test_results = test_results;
+    // exports.potentialwid = potentialwid;
 
-    exports.debugon             = debugon;
-    exports.debugname           = getglobal("debugname");
-    exports.debugsubcat         = getglobal("debugsubcat");
-    exports.debugcat            = getglobal("debugcat");
-    exports.debugfilter         = getglobal("debugfilter");
-    exports.debugdestination    = getglobal("debugdestination");
-    exports.debugcolor          = getglobal("debugcolor");
-    exports.debugindent         = debugindent;
-    exports.debuglinenum        = getglobal("debuglinenum");
+    // exports.debugon             = debugon;
+    // exports.debugname           = getglobal("debugname");
+    // exports.debugsubcat         = getglobal("debugsubcat");
+    // exports.debugcat            = getglobal("debugcat");
+    // exports.debugfilter         = getglobal("debugfilter");
+    // exports.debugdestination    = getglobal("debugdestination");
+    // exports.debugcolor          = getglobal("debugcolor");
+    // exports.debugindent         = getglobal("debugindent");
+    // exports.debuglinenum        = getglobal("debuglinenum");
 }
 
 
