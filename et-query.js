@@ -129,8 +129,8 @@
                         function step01(cb) {
                             
                             // throw ({'Sample_error': 'querywid_async_step01'});
-
-                            debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
+                    
+                            debugfn("querywid start", "querywid", "query", "begin", getglobal("debugcolor"), getglobal("debugindent"), debugvars([3]));
                             
                             // Use single to set up a query with the params of 1 wid
                             if (Object.keys(queParams).length > 0 && queParams['mongosinglequery'] != undefined && Object.keys(xtrParams).length === 0) {
@@ -323,7 +323,7 @@
                                         output = res;
                                         //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                         console.log(' *** get primary wids *** ' + JSON.stringify(output));
-                                        debugfn("move queParams to output", "querywid", "query", "mid", debugcolor, debugindent, debugvars([4]));
+                                        debugfn("move queParams to output", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                         cb(null, "step01");
                                     }
                                 });
@@ -379,7 +379,7 @@
                                 if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
                                     output = formatlist(output, "wid", "wid", environmentdb);
                                 }
-                                debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                                debugfn("querywid step03", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
 
                                 proxyprinttodiv('querywid output before rel', output, 28);
 
