@@ -29,9 +29,9 @@ if (!debugon) { // debugfn
 if (!debugindent) {
     var debugindent = 0;
 }
-if (!debugcolor) {
-    var debugcolor = 0;
-}
+// if (!debugcolor) {
+//     var debugcolor = 0;
+// }
 // if (!debugname) {
 //     var debugname = '';
 // }

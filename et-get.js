@@ -782,10 +782,8 @@
 
                                                 // debugcolor++;
                                                 // debugindent++;
-                                                var x = getglobal("debugcolor");
-                                                var y = getglobal("debugindent");
-                                                x++;
-                                                y++;
+                                                var x = getglobal("debugcolor") + 1;
+                                                var y = getglobal("debugindent") + 1;
                                                 saveglobal("debugcolor", x);
                                                 saveglobal("debugindent", y);
 
@@ -801,10 +799,8 @@
                                                             
                                                             // debugcolor--;
                                                             // debugindent--;
-                                                            var x = getglobal("debugcolor");
-                                                            var y = getglobal("debugindent");
-                                                            x--;
-                                                            y--;
+                                                            var x = getglobal("debugcolor") - 1;
+                                                            var y = getglobal("debugindent") - 1;
                                                             saveglobal("debugcolor", x);
                                                             saveglobal("debugindent", y);
 
@@ -1024,9 +1020,7 @@
 
                         proxyprinttodiv("--- What i'm looking at parameterobject step3 ---", parameterobject, 38);
 
-                        var x = getglobal("debugcolor");
-                        var y = getglobal("debugindent");
-                        debugfn("getwidmongo end step4", "getwidmongo", "get", "end", x, y, debugvars([1]));
+                        debugfn("getwidmongo end step4", "getwidmongo", "get", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1]));
                         cb(null, 'four');
                     }
                 ],

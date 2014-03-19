@@ -310,7 +310,7 @@
                                 console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
                                 mQueryString = queParams['mongorawquery'];
                                 console.log('mQueryString at step01 => ' + JSON.stringify(mQueryString));
-                                debugfn("querywid before mQueryString1", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                                debugfn("querywid before mQueryString1", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
                                 proxyprinttodiv('querywid mQueryString second', mQueryString, 28);
 
                                 // if (validParams(mQueryString)) {
@@ -395,7 +395,7 @@
                                             // 
                                             // console.log(" result from step03 " + JSON.stringify(res));
                                             output = res;
-                                            debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([4]));
+                                            debugfn("relationship", "rawmongoquery", "query", "middle", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                             cb(null, "step03");
                                         }
                                     });
