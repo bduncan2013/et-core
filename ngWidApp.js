@@ -109,6 +109,8 @@ if (typeof angular !== 'undefined') {
 
     widApp.factory('executeService', function($http, $compile, dataService) {
         var processExecuteResult = function(result, scope) {
+            if (result.addthis) { result = widAppHelper.removeAddThis(result);}
+
             // if not logged in at this point send browser to login.html
             if (result.etstatus) {
                 if (result.etstatus.status && result.etstatus.status === 'unauthorized') {
@@ -484,7 +486,7 @@ if (typeof angular !== 'undefined') {
                 // clear html from element if specified
                 if (screenWid.command.htmlcleartargetid) {
                     if (screenWid.command.htmlcleartargetid === 'body') {
-                        $('body').html('');
+                        $('#default_view_loc').html('');
 
                         // call new page event in config-local
                         eventnewpage();
@@ -501,7 +503,7 @@ if (typeof angular !== 'undefined') {
             // take care of any <execute></execute> elements
             $('execute').each(function (index, ele) {
                 // proceed if execute tag wasn't already processed during server conversion process
-                if ($(ele).attr('processed') !== undefined || $(ele).attr('processed') !== 'true') {
+                if ($(ele).attr('processed') === undefined || $(ele).attr('processed') !== 'true') {
                     widAppHelper.processExecute(ele, scope, compile);
                     $(ele).attr('processed', 'true');
                 }
