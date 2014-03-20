@@ -129,8 +129,8 @@
                         function step01(cb) {
                             
                             // throw ({'Sample_error': 'querywid_async_step01'});
-
-                            debugfn("querywid start", "querywid", "query", "begin", debugcolor, debugindent, debugvars([3]));
+                    
+                            debugfn("querywid start", "querywid", "query", "begin", getglobal("debugcolor"), getglobal("debugindent"), debugvars([3]));
                             
                             // Use single to set up a query with the params of 1 wid
                             if (Object.keys(queParams).length > 0 && queParams['mongosinglequery'] != undefined && Object.keys(xtrParams).length === 0) {
@@ -310,7 +310,7 @@
                                 console.log('mongorawquery => ' + JSON.stringify(queParams['mongorawquery']));
                                 mQueryString = queParams['mongorawquery'];
                                 console.log('mQueryString at step01 => ' + JSON.stringify(mQueryString));
-                                debugfn("querywid before mQueryString1", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                                debugfn("querywid before mQueryString1", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
                                 proxyprinttodiv('querywid mQueryString second', mQueryString, 28);
 
                                 // if (validParams(mQueryString)) {
@@ -323,7 +323,7 @@
                                         output = res;
                                         //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                         console.log(' *** get primary wids *** ' + JSON.stringify(output));
-                                        debugfn("move queParams to output", "querywid", "query", "mid", debugcolor, debugindent, debugvars([4]));
+                                        debugfn("move queParams to output", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                         cb(null, "step01");
                                     }
                                 });
@@ -379,7 +379,7 @@
                                 if (queParams['mongowid'] === undefined) { // convert it because it had not been converted yet
                                     output = formatlist(output, "wid", "wid", environmentdb);
                                 }
-                                debugfn("querywid step03", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                                debugfn("querywid step03", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
 
                                 proxyprinttodiv('querywid output before rel', output, 28);
 
@@ -395,7 +395,7 @@
                                             // 
                                             // console.log(" result from step03 " + JSON.stringify(res));
                                             output = res;
-                                            debugfn("relationship", "rawmongoquery", "query", "middle", debugcolor, debugindent, debugvars([4]));
+                                            debugfn("relationship", "rawmongoquery", "query", "middle", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                             cb(null, "step03");
                                         }
                                     });
@@ -446,7 +446,7 @@
                                 proxyprinttodiv('querywid after queryafterrelationship mQueryString', mQueryString, 28);
                                 // console.log('mQueryString at step04 => ' + mQueryString);
                                 //mongoquery(JSON.parse(mQueryString), function (res) {
-                                debugfn("step04", "querywid", "query", "mid", debugcolor, debugindent, debugvars([5]));
+                                debugfn("step04", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
 
                                 if (Object.keys(JSON.parse(mQueryString)).length > 0) {
                                     mongoquery(mQueryString, function (err, res) {
@@ -456,7 +456,7 @@
                                         } else {
                                             // 
                                             output = res;
-                                            debugfn("post relationship query", "rawmongoquery", "query", "end", debugcolor, debugindent, debugvars([4]));
+                                            debugfn("post relationship query", "rawmongoquery", "query", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                             cb(null, "step04");
                                         }
                                     });
@@ -482,7 +482,7 @@
 
                             console.log('completed tasks asynchronously in querywid ');
                             console.log('output is ' + JSON.stringify(output));
-                            debugfn("final", "querywid", "query", "end", debugcolor, debugindent, debugvars([6]));
+                            debugfn("final", "querywid", "query", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([6]));
 
                             proxyprinttodiv('querywid before output', output, 28);
                             proxyprinttodiv('querywid before output aggParams', aggParams, 28);

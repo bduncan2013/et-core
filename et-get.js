@@ -12,7 +12,7 @@
                     callback(err, {
                         "etstatus": "unauthorized"
                     });
-                } else { 
+                } else  {
                     try {
                         delete inputWidgetObject['executethis']; // ** added by Saurabh 38/9
 
@@ -776,10 +776,13 @@
 
                                                 proxyprinttodiv('Function getwidmongo recurse', key, 38);
 
-                                                debugfn("getwidmongo before recusr", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
+                                                debugfn("getwidmongo before recusr", "getwidmongo", "get", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1]));
 
-                                                debugcolor++;
-                                                debugindent++;
+                                                var x = getglobal("debugcolor") + 1;
+                                                var y = getglobal("debugindent") + 1;
+                                                saveglobal("debugcolor", x);
+                                                saveglobal("debugindent", y);
+
                                                 //getWidMongo(key, convertmethod, accesstoken, dtotype, rightparameters["metadata"]["method"], level, function (err, params) { 
                                                 getWidMongo(key, command, rightparameters["metadata"]["method"], level, excludeset, function (err, params) {
                                                     // If error, bounce out
@@ -789,8 +792,12 @@
                                                         try {
                                                             proxyprinttodiv('Function getwidmongo params', params, 38);
                                                             //proxyprinttodiv('Function getwidmongo rightparameters inside II ', rightparameters, 38);
-                                                            debugcolor--;
-                                                            debugindent--;
+                                                            
+                                                            var x = getglobal("debugcolor") - 1;
+                                                            var y = getglobal("debugindent") - 1;
+                                                            saveglobal("debugcolor", x);
+                                                            saveglobal("debugindent", y);
+
                                                             if (Object.keys(params).length !== 0) {
                                                                 // added by roger
                                                                 if (command && command.getwidmaster && command.getwidmaster.convertmethod === "nowid") {
@@ -850,7 +857,7 @@
                                                                             }
                                                                         }
                                                                     } // end of 2nd else
-
+ 
                                                                     proxyprinttodiv('Function getwidmongo parameterobject II-before', parameterobject, 38);
                                                                     parameterobject['metadata'][rightparameters.metadata.method] = {};
                                                                     parameterobject['metadata'][rightparameters.metadata.method]['type'] =
@@ -1007,7 +1014,7 @@
 
                         proxyprinttodiv("--- What i'm looking at parameterobject step3 ---", parameterobject, 38);
 
-                        debugfn("getwidmongo end step4", "getwidmongo", "get", "end", debugcolor, debugindent, debugvars([1]));
+                        debugfn("getwidmongo end step4", "getwidmongo", "get", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1]));
                         cb(null, 'four');
                     }
                 ],

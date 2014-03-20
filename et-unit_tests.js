@@ -817,6 +817,24 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
         });
 }
 
+exports.ss1 = ss1 = function ss1(params, callback) {
+    proxyprinttodiv('Function ss1 ', '--', 99);
+    execute(
+        [ 
+            {
+                "executethis":"sendsms", 
+                //"To":"+12145644732", 
+                "To": "+12313133930",
+                "Body":"test msg"
+            }
+        ], 
+        function (err, res) { 
+            callback (err, res[0])
+        }
+    );
+}
+
+
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -2480,7 +2498,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
             });
 
 
-            debugfn("updatewid code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+            debugfn("updatewid code generator END", "updatewid", "add", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 5);
             saveglobal("debugname", "");
             saveglobal("debugcat", "");
             debugsubcat = "";
@@ -2544,7 +2562,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "wid": "color1"
         }],
         function (err, res) {
-            debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+            debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
             saveglobal("debugname", "");
             saveglobal("debugcat", "");
@@ -2693,16 +2711,16 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             // alert('err' + JSON.stringify(err, '-', 4));
 
             
-            // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+            // debugfn("update code generator END", "updatewid", "add", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 5);
             // 
             // These will create the code on the screen from the logged data
             
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- config-local
              
-            // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
-            debugfn("offlinegetwid code generator END", "",    "",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            debugfn("offlinegetwid code generator END", "",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
              
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- add
@@ -2710,14 +2728,14 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- query
 
-            // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
+            // debugfn("querywid code generator END",      "querywid",         "query", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
             
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- get
             
-            // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
             
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // saveglobal("debugname", "");
@@ -3975,13 +3993,13 @@ function test161616 (params, callback) {
 exports.sample1 = sample1 = function sample1 (params, callback) {
     saveglobal("debugsubcat", "code");
     offlineupdatewid( {"wid":"wid1", "a":"b"}, callback );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 exports.sample2 = sample2 = function sample2 (params, callback) {
     saveglobal("debugsubcat", "code");
     merge_options( {"wid":"wid1", "a":"b"}, {"wid":"wid2", "y":"z"} );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 // getclean(resultObj, command, callback)
@@ -3989,7 +4007,7 @@ exports.sample2 = sample2 = function sample2 (params, callback) {
 exports.sample3 = sample3 = function sample3 (params, callback) {
     saveglobal("debugsubcat", "code");
     getclean( {"wid":"wid1", "a":"b", "metadata":{"method": "DOT"}}, "DOT" );
-    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 function test171717 (params, callback) {
@@ -4075,7 +4093,7 @@ exports.err1 = err1 = function err1 (params, callback) {
     saveglobal("debugsubcat", "code");
     execute({"executethis":"getwidmaster","wid":"1","command":{"parameters":{"test1":"1"},"status":"fail"}}, function(err, result){
         proxyprinttodiv('Function err1 result ', result, 99);
-        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
     });
 }
 
@@ -4083,7 +4101,7 @@ exports.wrapped1 = wrapped1 = function wrapped1 (params, callback) {
     saveglobal("debugsubcat", "code");
     execute([{"executethis":"addwidmaster","wid":"1","a":"b"}, {"executethis":"getwidmaster","wid":"1","command":{"executeresult":"outer"}}], function(err, result){
         proxyprinttodiv('Function wrapped1 result ', result, 99)
-        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
     });
 }
@@ -4365,13 +4383,15 @@ exports.ettest_recurseModObj = ettest_recurseModObj = function ettest_recurseMod
                                                                                     "q":{"w":{"e":"string"}},
                                                                                     "g":"boolean"
                                                                               }, 17);    
-                                                      proxyprinttodiv('recurseModObj ModifiedObject', res, 17);    
+													proxyprinttodiv("res --", res, 17);
+													var actual_result = [res];
+													proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-                                                      var expected_result = [{"metadata":{"method":"wid2"},"a":"b","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}];
-                                                      proxyprinttodiv("expected_result ", expected_result, 99);
-                                                      
-                                                      res = logverify("actual_result", [res], expected_result);
-                                                      callback(err, res); 
+													var expected_result = [{"metadata":{"method":"wid2"},"a":"b","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}];
+													proxyprinttodiv("expected_result --", expected_result, 17);
+												  
+													res = logverify("logverify", actual_result, expected_result);
+													callback(err, res); 
                               });
 }
 
@@ -4503,15 +4523,19 @@ exports.ettss1 = ettss1 = function ettss1(params, callback) {
 
                   execute(executeList, function (err, res) {
                         proxyprinttodiv('Function tss1 added  ttdto --5 ', res, 17);
-                        cb1(null);
+                        cb1(null, res);
                   });
             },
       ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 17);
-            if (!res) {
-                  res = [];
-            }
-            callback(err, res);
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res[3];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[{"data":{"type":"a"},"wid":"13","metadata":{"method":"ttdto","date":"2014-03-19T05:51:01.752Z"}}],[{"data":{"type":"a"},"wid":"14","metadata":{"method":"ttdto","date":"2014-03-19T05:51:03.348Z"}}],[{"data":{"type":"a"},"wid":"15","metadata":{"method":"ttdto","date":"2014-03-19T05:51:05.032Z"}}],[{"data":{"type":"a"},"wid":"16","metadata":{"method":"ttdto","date":"2014-03-19T05:51:06.744Z"}}],[{"data":{"type":"a"},"wid":"17","metadata":{"method":"ttdto","date":"2014-03-19T05:51:08.593Z"}}],[{"data":{"type":"a"},"wid":"18","metadata":{"method":"ttdto","date":"2014-03-19T05:51:10.681Z"}}],[{"data":{"type":"a"},"wid":"19","metadata":{"method":"ttdto","date":"2014-03-19T05:51:12.749Z"}}],[{"data":{"type":"a"},"wid":"20","metadata":{"method":"ttdto","date":"2014-03-19T05:51:14.819Z"}}]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
 }
 
@@ -4520,8 +4544,8 @@ exports.ettss1 = ettss1 = function ettss1(params, callback) {
       addwidmater xdto
       now add many with addwidmaster with x dto
 */
-exports.t1 = t1 = function t1(params, callback) {
-      debuglvel = 34;
+exports.ett1 = ett1 = function ett1(params, callback) {
+      debuglevel = 17;
       saveglobal("debugname", "");
       saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
@@ -4542,7 +4566,7 @@ exports.t1 = t1 = function t1(params, callback) {
             },
             function (callback2) {  //addwidmaster wid1
                   //n-times loop
-                  async.times(100, function(n, next){
+                  async.times(5, function(n, next){
                         var executeList = [{
                               "executethis": "addwidmaster",
                               "wid": "ttdto_wid"+n,
@@ -4551,9 +4575,10 @@ exports.t1 = t1 = function t1(params, callback) {
                         }];
                         execute(executeList, function (err, res) {
                               proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 17);
+							  next(err, res);
                         });
-                  }, function(err, result) {
-                        callback2(null);
+                  }, function(err, result) {	
+                        callback2(null,result);
                   });
             },
             function (callback3) {  //getwidmaster
@@ -4565,17 +4590,22 @@ exports.t1 = t1 = function t1(params, callback) {
                         }];
                         execute(executeList, function (err, res) {
                               proxyprinttodiv("Function t1 getwidmaster  result -- ", res, 17);
+							  next(err, res);
                         });
                   }, function(err, result) {
-                        callback3(null);
+                        callback3(null, result);
                   });
             }
       ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 17);
-            if (!res) {
-                  res = [];
-            }
-            callback(err, res);
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res[2];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[[{"type":"a","wid":"ttdto_wid0","metadata.method":"ttdto"}]],[[{"type":"a","wid":"ttdto_wid1","metadata.method":"ttdto"}]],[[{"type":"a","wid":"ttdto_wid2","metadata.method":"ttdto"}]],[[{"type":"a","wid":"ttdto_wid3","metadata.method":"ttdto"}]],[[{"type":"a","wid":"ttdto_wid4","metadata.method":"ttdto"}]]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
 }
 
@@ -4605,7 +4635,7 @@ exports.t2 = t2 = function t2(params, callback) {
             },*/
             function (callback2) {  //addwidmaster wid1
                   //n-times loop
-                  async.times(500, function(n, next){
+                  async.times(5, function(n, next){
                         var executeList = [{
                               "executethis": "addwidmaster",
                               "wid": "ttdto_wid"+n,
@@ -4614,9 +4644,10 @@ exports.t2 = t2 = function t2(params, callback) {
                         }];
                         execute(executeList, function (err, res) {
                               proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 17);
+							  next(err, res);
                         });
                   }, function(err, result) {
-                        callback2(null);
+                        callback2(null, result);
                   });
             }/*,
             function (callback3) {  //getwidmaster
@@ -4634,11 +4665,15 @@ exports.t2 = t2 = function t2(params, callback) {
                   });
             }*/
       ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 17);
-            if (!res) {
-                  res = [];
-            }
-            callback(err, res);
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res[0];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[[{"data":{"type":"a"},"wid":"ttdto_wid0","metadata":{"method":"ttdto","date":"2014-03-19T07:22:28.248Z"}}]],[[{"data":{"type":"a"},"wid":"ttdto_wid1","metadata":{"method":"ttdto","date":"2014-03-19T07:22:28.250Z"}}]],[[{"data":{"type":"a"},"wid":"ttdto_wid2","metadata":{"method":"ttdto","date":"2014-03-19T07:22:28.252Z"}}]],[[{"data":{"type":"a"},"wid":"ttdto_wid3","metadata":{"method":"ttdto","date":"2014-03-19T07:22:28.256Z"}}]],[[{"data":{"type":"a"},"wid":"ttdto_wid4","metadata":{"method":"ttdto","date":"2014-03-19T07:22:28.257Z"}}]]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
 }
 
@@ -4646,8 +4681,8 @@ exports.t2 = t2 = function t2(params, callback) {
 do NOT save addwidmater xdto
 now add many with addwidmaster with x dto
 */
-exports.t3 = t3 = function t2(params, callback) {
-      debuglevel = 34;
+exports.ett3 = ett3 = function ett3(params, callback) {
+      debuglevel = 17;
       saveglobal("debugname", "");
       saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
@@ -4677,9 +4712,10 @@ exports.t3 = t3 = function t2(params, callback) {
                         }];
                         execute(executeList, function (err, res) {
                               proxyprinttodiv("Function t1 addwidmaster ttdto wid result -- ", res, 17);
+							  next(err, res);
                         });
                   }, function(err, result) {
-                        callback2(null);
+                        callback2(null, result);
                   });
             }/*,
             function (callback3) {  //getwidmaster
@@ -4697,18 +4733,22 @@ exports.t3 = t3 = function t2(params, callback) {
                   });
             }*/
       ], function (err, res) {
-            proxyprinttodiv('Function tss1 done a series of tasks using ttdto -- ', res, 17);
-            if (!res) {
-                  res = [];
-            }
-            callback(err, res);
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res[1];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[[{"data":{"type":"a"},"wid":"ttdto_wid0","metadata":{"method":"ttdto","date":"2014-03-19T07:24:02.062Z"}}]]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res);
       });
 }
 
 // enter lots of data in series, the same data when inserted via different executes results in Max Range error
 // this one inserts same amount of data but does not fail
-exports.tss2 = tss2 = function tss2(params, callback) {
-      debuglevel = 34;
+exports.ettss2 = ettss2 = function ettss2(params, callback) {
+      debuglevel = 17;
       saveglobal("debugname", "");
       saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
@@ -4856,23 +4896,27 @@ exports.tss2 = tss2 = function tss2(params, callback) {
 
                         execute(executeList, function (err, res) {
                               proxyprinttodiv('Function tss2 added  ttdto -- ', res, 17);
-                              cb1(null);
+                              cb1(null, res);
                         });
                   }
             ],
             function (err, res) {
-                  proxyprinttodiv('Function tss2 done a series of tasks using ttdto -- ', res, 17);
-                  if (!res) {
-                        res = [];
-                  }
-                  callback(err, res);
+                proxyprinttodiv("res --", res, 17);
+				var actual_result = [res];
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [[[[{"data":{"type":"string"},"wid":"ttdto","metadata":{"method":"ttdto","date":"2014-03-19T07:30:38.832Z"}}],[{"data":{"type":"a"},"wid":"1","metadata":{"method":"ttdto","date":"2014-03-19T07:30:39.663Z"}}],[{"data":{"type":"a"},"wid":"2","metadata":{"method":"ttdto","date":"2014-03-19T07:30:40.549Z"}}],[{"data":{"type":"a"},"wid":"3","metadata":{"method":"ttdto","date":"2014-03-19T07:30:41.514Z"}}],[{"data":{"type":"a"},"wid":"4","metadata":{"method":"ttdto","date":"2014-03-19T07:30:42.571Z"}}],[{"data":{"type":"a"},"wid":"5","metadata":{"method":"ttdto","date":"2014-03-19T07:30:43.707Z"}}],[{"data":{"type":"a"},"wid":"6","metadata":{"method":"ttdto","date":"2014-03-19T07:30:44.861Z"}}],[{"data":{"type":"a"},"wid":"7","metadata":{"method":"ttdto","date":"2014-03-19T07:30:46.109Z"}}],[{"data":{"type":"a"},"wid":"8","metadata":{"method":"ttdto","date":"2014-03-19T07:30:47.390Z"}}],[{"data":{"type":"a"},"wid":"9","metadata":{"method":"ttdto","date":"2014-03-19T07:30:48.722Z"}}],[{"data":{"type":"a"},"wid":"10","metadata":{"method":"ttdto","date":"2014-03-19T07:30:50.151Z"}}],[{"data":{"type":"a"},"wid":"11","metadata":{"method":"ttdto","date":"2014-03-19T07:30:51.581Z"}}],[{"data":{"type":"a"},"wid":"12","metadata":{"method":"ttdto","date":"2014-03-19T07:30:53.138Z"}}],[{"data":{"type":"a"},"wid":"13","metadata":{"method":"ttdto","date":"2014-03-19T07:30:54.783Z"}}],[{"data":{"type":"a"},"wid":"14","metadata":{"method":"ttdto","date":"2014-03-19T07:30:56.476Z"}}],[{"data":{"type":"a"},"wid":"15","metadata":{"method":"ttdto","date":"2014-03-19T07:30:58.209Z"}}],[{"data":{"type":"a"},"wid":"16","metadata":{"method":"ttdto","date":"2014-03-19T07:30:59.970Z"}}],[{"data":{"type":"a"},"wid":"17","metadata":{"method":"ttdto","date":"2014-03-19T07:31:01.834Z"}}],[{"data":{"type":"a"},"wid":"18","metadata":{"method":"ttdto","date":"2014-03-19T07:31:03.746Z"}}],[{"data":{"type":"a"},"wid":"19","metadata":{"method":"ttdto","date":"2014-03-19T07:31:05.700Z"}}],[{"data":{"type":"a"},"wid":"20","metadata":{"method":"ttdto","date":"2014-03-19T07:31:07.743Z"}}],[{"data":{"type":"a"},"wid":"21","metadata":{"method":"ttdto","date":"2014-03-19T07:31:09.837Z"}}],[{"data":{"type":"a"},"wid":"22","metadata":{"method":"ttdto","date":"2014-03-19T07:31:11.999Z"}}],[{"data":{"type":"a"},"wid":"23","metadata":{"method":"ttdto","date":"2014-03-19T07:31:14.162Z"}}],[{"data":{"type":"a"},"wid":"24","metadata":{"method":"ttdto","date":"2014-03-19T07:31:16.422Z"}}],[{"data":{"type":"a"},"wid":"25","metadata":{"method":"ttdto","date":"2014-03-19T07:31:18.890Z"}}],[{"data":{"type":"a"},"wid":"26","metadata":{"method":"ttdto","date":"2014-03-19T07:31:21.303Z"}}],[{"data":{"type":"a"},"wid":"27","metadata":{"method":"ttdto","date":"2014-03-19T07:31:23.785Z"}}],[{"data":{"type":"a"},"wid":"28","metadata":{"method":"ttdto","date":"2014-03-19T07:31:26.394Z"}}],[{"data":{"type":"a"},"wid":"29","metadata":{"method":"ttdto","date":"2014-03-19T07:31:29.144Z"}}],[{"data":{"type":"a"},"wid":"30","metadata":{"method":"ttdto","date":"2014-03-19T07:31:31.815Z"}}],[{"data":{"type":"a"},"wid":"31","metadata":{"method":"ttdto","date":"2014-03-19T07:31:34.545Z"}}],[{"data":{"type":"a"},"wid":"32","metadata":{"method":"ttdto","date":"2014-03-19T07:31:37.325Z"}}]]]];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res); 
             });
 }
 
 
 // test to enter lots of data at once :: created to raise the Maximum range reached error in Chrome
-exports.tss3 = tss3 = function tss3(params, callback) {
-      debuglevel = 34;
+exports.ettss3 = ettss3 = function ettss3(params, callback) {
+      debuglevel = 17;
       saveglobal("debugname", "");
       saveglobal("debugcat", "");
       saveglobal("debugsubcat", "code");
@@ -5116,15 +5160,19 @@ exports.tss3 = tss3 = function tss3(params, callback) {
 
                   execute(executeList, function (err, res) {
                         proxyprinttodiv('Function tss3 loop #  -- 10', res, 34);
-                        cb1(null);
+                        cb1(null, res);
                   });
             }
       ], function (err, res) {
-            proxyprinttodiv('Function tss3 done a series of tasks using ttdto -- process.addListener(type, listener);', res, 34);
-            if (!res) {
-                  res = [];
-            }
-            callback(err, res);
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res[9];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[{"data":{"type":"a"},"wid":"33","metadata":{"method":"ttdto","date":"2014-03-19T07:37:27.627Z"}}],[{"data":{"type":"a"},"wid":"34","metadata":{"method":"ttdto","date":"2014-03-19T07:37:31.631Z"}}],[{"data":{"type":"a"},"wid":"35","metadata":{"method":"ttdto","date":"2014-03-19T07:37:36.441Z"}}],[{"data":{"type":"a"},"wid":"36","metadata":{"method":"ttdto","date":"2014-03-19T07:37:41.718Z"}}]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
 }
 
@@ -5235,8 +5283,8 @@ exports.ttsa6 = ttsa6 = function (params, callback) {
 // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel222","primarywid":"elizabeth_heart","secondarywid":"elizabeth_heart_address", "relationshiptype":"attributes" },
 // {"executethis":"updatewid","metadata.method":"addressdto","wid":"elizabeth_heart_address", "street":"1234 First street", "city":"Something City","state":"ZZ","zip":"12345"},
 // {"executethis":"getwidmaster","wid":"elizabeth_heart_address"}
-exports.add01 = add01 = function add01(parameters, callback) {
-
+exports.etadd01 = etadd01 = function etadd01(parameters, callback) {
+	  debuglevel = 17;
       var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -5294,15 +5342,23 @@ exports.add01 = add01 = function add01(parameters, callback) {
             var relationshiptype = "onetomany";
             var command = {};
 
-            addwidobject(object, dtoobject, command, function (err, res) {
-                  alert(JSON.stringify(res));
+            addwidobject(object, dtoobject, null, null, null, command, function (err, res) {
+                proxyprinttodiv("res --", res, 17);
+				var actual_result = [res];
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"data":{"title":"The X Factor","pages":"300"},"wid":"1","metadata":{"method":"bookdto","date":"2014-03-19T07:41:35.196Z"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res); 
             });
       });
 
 }
 
-exports.add0 = add0 = function add0(parameters, callback) {
-
+exports.etadd0 = etadd0 = function etadd0(parameters, callback) {
+	debuglevel=17;
       var executeList = [{
                   "executethis": "updatewid",
                   "metadata.method": "authordto",
@@ -5368,14 +5424,23 @@ exports.add0 = add0 = function add0(parameters, callback) {
             // });
 
             cleanadd(object, dtoobject, command, function (err, res) {
-                  alert("add0 cleanadd! -- got res -->" + JSON.stringify(res));
+				proxyprinttodiv("res --", res, 17);
+				var actual_result = [res];
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"obj":{"metadata":{"method":"bookdto"},"wid":"222","title":"The X Factor","pages":"300"},"dtoobj":{"metadata":{"method":"string"},"wid":"string","title":"string","pages":"string"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res); 
             });
       });
 
 }
 
-exports.add1 = add1 = function add1(parameters, callback) {
-      eventappinstall();
+exports.etadd1 = etadd1 = function etadd1(parameters, callback) {
+      debuglevel=17;
+	  eventappinstall();
       var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -5439,12 +5504,21 @@ exports.add1 = add1 = function add1(parameters, callback) {
 
       var command = {};
 
-      addwidobject(inputObject, inputdto, command, function (err, res) {
-            proxyprinttodiv("add1 fired! -- got res --> ", res, 17);
+      addwidobject(inputObject, inputdto, null, null, null, command, function (err, res) {
+		proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"data":{"name":"Elizabeth Heart","age":"50"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T07:46:17.925Z"}}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+
+		res = logverify("logverify", actual_result, expected_result);
+		callback(err, res); 
       });
 }
 
-exports.add11 = add11 = function add11(parameters, callback) {
+exports.etadd11 = etadd11 = function etadd11(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var inputObject = {
             "name": "Elizabeth Heart",
@@ -5510,16 +5584,26 @@ exports.add11 = add11 = function add11(parameters, callback) {
 
       var command = {};
 
-      addwidobject(inputObject, inputdto, command, function (err, res) {
-            proxyprinttodiv("add1 fired! -- got res --> ", res, 17);
+      addwidobject(inputObject, inputdto, null, null, null, command, function (err, res) {
+		proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"data":{"name":"Elizabeth Heart","age":"50"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T07:52:17.443Z"}}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+
+		res = logverify("logverify", actual_result, expected_result);
+		callback(err, res);         
       });
 }
 
 /*
 this should insert {a:b} at the bookdto level
 */
-exports.get4 = get4 = function get4(parameters, callback) {
-      eventappinstall();
+exports.etget4 = etget4 = function etget4(parameters, callback) {
+	debuglevel = 17;
+  
+	 eventappinstall();
       var inputObject = {
             "name": "Elizabeth Heart",
             "age": "50",
@@ -5586,10 +5670,23 @@ exports.get4 = get4 = function get4(parameters, callback) {
       var command = {
             "dtotype": "bookdto"
       };
-      insertbydtotype(inputObject, inputdto, insertobj, command);
+	  
+
+		var res = insertbydtotype(inputObject, inputdto, insertobj, command);
+	  
+		proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"bookdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"bookdto"},"a":"b"}}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+		
+		res = logverify("logverify", actual_result, expected_result);
+		callback(null, res);
 }
 
-exports.get4 = get4 = function get22(parameters, callback) { //add clean test
+exports.etget22 = etget22 = function etget22(parameters, callback) { //add clean test
+		debuglevel = 17;
       eventappinstall();
       var inputObject = {
             "name": "Elizabeth Heart",
@@ -5657,13 +5754,23 @@ exports.get4 = get4 = function get22(parameters, callback) { //add clean test
       var command = {
             "dtotype": "bookdto"
       };
-      insertbydtotype(inputObject, inputdto, insertobj, command);
+      var res = insertbydtotype(inputObject, inputdto, insertobj, command);
+	  	proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"bookdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"bookdto"},"a":"b"}}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+		
+		res = logverify("logverify", actual_result, expected_result);
+		callback(null, res);
 }
 
 /*
 do not specify command.dto...should put it at root/author level
 */
-exports.get5 = get5 = function get5(parameters, callback) {
+exports.etget5 = etget5 = function etget5(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var inputObject = {
             "name": "Elizabeth Heart",
@@ -5729,13 +5836,23 @@ exports.get5 = get5 = function get5(parameters, callback) {
             "a": "b"
       };
       var command = {};
-      insertbydtotype(inputObject, inputdto, insertobj, command);
+      var res = insertbydtotype(inputObject, inputdto, insertobj, command);
+	  	proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"bookdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"bookdto"}},"a":"b"}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+		
+		res = logverify("logverify", actual_result, expected_result);
+		callback(null, res);
 }
 
 /*
 specify command.dtotype = x should wrap result in {x: {.....}}
 */
-exports.get6 = get6 = function get6(parameters, callback) {
+exports.etget6 = etget6 = function etget6(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var inputObject = {
             "name": "Elizabeth Heart",
@@ -5803,13 +5920,23 @@ exports.get6 = get6 = function get6(parameters, callback) {
       var command = {
             "dtotype": "x"
       };
-      insertbydtotype(inputObject, inputdto, insertobj, command);
+		var res = insertbydtotype(inputObject, inputdto, insertobj, command);
+	  	proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"bookdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"bookdto"}}}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+		
+		res = logverify("logverify", actual_result, expected_result);
+		callback(null, res);
 }
 
 /*
 specify command.dtotype.x.y.z should wrap result in {x:{y:z{......}}}
 */
-exports.get7 = get7 = function get7(parameters, callback) {
+exports.etget7 = etget7 = function etget7(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var inputObject = {
             "name": "Elizabeth Heart",
@@ -5881,13 +6008,23 @@ exports.get7 = get7 = function get7(parameters, callback) {
                   }
             }
       };
-      insertbydtotype(inputObject, inputdto, insertobj, command);
+		var res = insertbydtotype(inputObject, inputdto, insertobj, command);
+	  	proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"bookdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"bookdto"}}}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+		
+		res = logverify("logverify", actual_result, expected_result);
+		callback(null, res);
 }
 
 /*
 get8 - to get the dtoname
 */
-exports.get8 = get8 = function get8(parameters, callback) {
+exports.etget8 = etget8 = function etget8(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var inputObject = {
             "name": "Elizabeth Heart",
@@ -5955,14 +6092,24 @@ exports.get8 = get8 = function get8(parameters, callback) {
       var command = {
             "dtotype": "bookdto"
       };
-      insertbydtotype(inputObject, inputdto, insertobj, command);
+		var res = insertbydtotype(inputObject, inputdto, insertobj, command);
+	  	proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata":{"method":"authordto"},"bookdto":{"title":"The X Factor","pages":"300","wid":"222","metadata":{"method":"bookdto"},"metadata.method":"bookdto"}}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+		
+		res = logverify("logverify", actual_result, expected_result);
+		callback(null, res);
 }
 
 
 /*
 addwid with out inherit ... should add inputobject
 */
-exports.addwidtest = addwidtest = function addwidtest(parameters, callback) {
+exports.etaddwidtest = etaddwidtest = function etaddwidtest(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var executeList = [{
             "executethis": "updatewid",
@@ -6009,16 +6156,24 @@ exports.addwidtest = addwidtest = function addwidtest(parameters, callback) {
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                  proxyprinttodiv("addwidtest addwid res :- ", res, 17);
+                proxyprinttodiv("res --", res, 17);
+				var actual_result = res;
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"data":{"name":"Elizabeth Heart","age":"50"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T08:28:48.213Z"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res); 
             });
-            callback(err, res);
       });
 }
 
 /*
 addwid without inherit .. should add the input record
 */
-exports.addwidtest2 = addwidtest2 = function addwidtest2(parameters, callback) {
+exports.etaddwidtest2 = etaddwidtest2 = function etaddwidtest2(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var executeList = [{
             "executethis": "updatewid",
@@ -6053,16 +6208,24 @@ exports.addwidtest2 = addwidtest2 = function addwidtest2(parameters, callback) {
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                  proxyprinttodiv("addwidtest addwid res :- ", res, 17);
+                proxyprinttodiv("res --", res, 17);
+				var actual_result = res;
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"data":{"name":"Elizabeth Heart","age":"50"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T08:28:48.213Z"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            callback(err, res);
       });
 }
 
 /*
 addwid - with record alreayd exists ... should update name, leave all else the same
 */
-exports.addwidtest3 = addwidtest3 = function addwidtest3(parameters, callback) {
+exports.etaddwidtest3 = etaddwidtest3 = function etaddwidtest3(parameters, callback) {
+		debuglevel = 17;
       eventappinstall();
       var executeList = [
             //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
@@ -6100,16 +6263,24 @@ exports.addwidtest3 = addwidtest3 = function addwidtest3(parameters, callback) {
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                  proxyprinttodiv("addwidtest addwid res :- ", res, 17);
+                proxyprinttodiv("res --", res, 17);
+				var actual_result = res;
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"data":{"name":"Elizabeth Heart","age":"50"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T08:28:48.213Z"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            callback(err, res);
       });
 }
 
 /*
 addwid with inherit that DOES matter ... should return name of roger
 */
-exports.addwidtest4 = addwidtest4 = function addwidtest4(parameters, callback) {
+exports.etaddwidtest4 = etaddwidtest4 = function etaddwidtest4(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var executeList = [{
             "executethis": "updatewid",
@@ -6156,16 +6327,24 @@ exports.addwidtest4 = addwidtest4 = function addwidtest4(parameters, callback) {
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                  proxyprinttodiv("addwidtest addwid res :- ", res, 17);
+                proxyprinttodiv("res --", res, 17);
+				var actual_result = res;
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"data":{"age":"50"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T08:43:36.593Z"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            callback(err, res);
       });
 }
 
 /*
 addwid - with record .. but dto fliters age
 */
-exports.addwidtest5 = addwidtest5 = function addwidtest5(parameters, callback) {
+exports.etaddwidtest5 = etaddwidtest5 = function etaddwidtest5(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var executeList = [
             //{"executethis":"updatewid","metadata.method":"authordto","wid":"defaultauthor","name":"roger"}
@@ -6203,9 +6382,16 @@ exports.addwidtest5 = addwidtest5 = function addwidtest5(parameters, callback) {
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                  proxyprinttodiv("addwidtest addwid res :- ", res, 17);
+                proxyprinttodiv("res --", res, 17);
+				var actual_result = res;
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"data":{"name":"Elizabeth Heart","a":"shouldsurvie"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T08:46:37.064Z"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            callback(err, res);
       });
 }
 
@@ -6213,7 +6399,8 @@ exports.addwidtest5 = addwidtest5 = function addwidtest5(parameters, callback) {
 /*
 addwid with inherit that DOES matter ... deep should return name of roger + more
 */
-exports.addwidtest6 = addwidtest6 = function addwidtest6(parameters, callback) {
+exports.etaddwidtest6 = etaddwidtest6 = function etaddwidtest6(parameters, callback) {
+		debuglevel = 17;
       eventappinstall();
       var executeList = [{
             "executethis": "updatewid",
@@ -6264,9 +6451,16 @@ exports.addwidtest6 = addwidtest6 = function addwidtest6(parameters, callback) {
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                  proxyprinttodiv("addwidtest addwid res :- ", res, 17);
+                proxyprinttodiv("res --", res, 17);
+				var actual_result = res;
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"data":{"name":{},"age":"50"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T08:48:28.746Z"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            callback(err, res);
       });
 }
 
@@ -6274,7 +6468,8 @@ exports.addwidtest6 = addwidtest6 = function addwidtest6(parameters, callback) {
 /*
 addwid without inherit  ... should add inputobject -- test of deep filter string, number, boolean, date -- did it convert it?
 */
-exports.addwidtest7 = addwidtest7 = function addwidtest7(parameters, callback) {
+exports.etaddwidtest7 = etaddwidtest7 = function etaddwidtest7(parameters, callback) {
+	debuglevel = 17;
       eventappinstall();
       var executeList = [{
             "executethis": "updatewid",
@@ -6325,14 +6520,21 @@ exports.addwidtest7 = addwidtest7 = function addwidtest7(parameters, callback) {
             var command = {};
 
             addwid(inputobject, inputdto, command, function (err, res) {
-                  proxyprinttodiv("addwidtest addwid res :- ", res, 17);
+				proxyprinttodiv("res --", res, 17);
+				var actual_result = res;
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"data":{"name":{},"age":"50","a":"1/15/2014","b":"false"},"wid":"elizabeth_heart","metadata":{"method":"authordto","date":"2014-03-19T08:50:07.108Z"}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            callback(err, res);
       });
 }
 
-exports.add2 = add2 = function add2(parameters, callback) {
-      debuglevel = 10;
+exports.etadd2 = etadd2 = function etadd2(parameters, callback) {
+      debuglevel = 17;
       var executeList = [{
                   "executethis": "updatewid",
                   "metadata.method": "authordto",
@@ -6356,7 +6558,7 @@ exports.add2 = add2 = function add2(parameters, callback) {
                   "secondarywid": "bookdto",
                   "relationshiptype": "attributes"
             },
-            // {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
+             {"executethis":"updatewid","metadata.method":"authordto","wid":"elizabeth_heart","name":"Elizabeth Heart","age":"50"},
             // {"executethis":"updatewid","metadata.method":"bookdto","wid":"222","title":"The X Factor","pages":"300"},
             // {"executethis":"updatewid","metadata.method":"relationshipdto","wid":"rel111","primarywid":"elizabeth_heart","secondarywid":"222", "relationshiptype":"attributes"},
             {
@@ -6375,8 +6577,15 @@ exports.add2 = add2 = function add2(parameters, callback) {
       ]
 
       execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[7], 17);
-            callback(err, res);
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res[5];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata.method":"authordto"}];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res);
       });
 }
 
@@ -6384,9 +6593,9 @@ exports.add2 = add2 = function add2(parameters, callback) {
 
 
 
-exports.get1 = get1 = function get1(parameters, callback) {
-      eventappinstall();
-      // debuglevel=10;
+exports.etget1 = etget1 = function etget1(parameters, callback) {
+      debuglevel=17;
+	  eventappinstall();
       var executeList = [{
                   "executethis": "updatewid",
                   "metadata.method": "authordto",
@@ -6446,41 +6655,52 @@ exports.get1 = get1 = function get1(parameters, callback) {
                   "relationshiptype": "attributes"
             }
             //{"executethis":"getwidmaster","wid":"elizabeth_heart"}
-      ]
+      ];
 
       execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[8], 17);
-            callback(err, res);
-      });
-
-      var widInput = "elizabeth_heart";
-      var command = {
-            "convertmethod": "dto"
-      };
-      var preamble = "";
-      var level = "";
-
-      getWidMongo(widInput, command, preamble, level, function (err, res) {
             proxyprinttodiv('__--__', res, 17);
-            callback(err, res);
-      });
+            //callback(err, res);
+			
+			var widInput = "elizabeth_heart";
+			var command = {
+				"convertmethod": "dto"
+			};
+			var preamble = "";
+			var level = "";
 
-      widInput = "authordto";
-      getWidMongo(widInput, command, preamble, level, function (err, res) {
-            proxyprinttodiv('__--__', res, 17);
-            callback(err, res);
-      });
+			getWidMongo(widInput, command, preamble, level, null, function (err, res) {
+				proxyprinttodiv('__--__', res, 17);
+				//callback(err, res);
+				
+				  widInput = "authordto";
+				  getWidMongo(widInput, command, preamble, level, null, function (err, res) {
+						proxyprinttodiv('__--__', res, 17);
+						//callback(err, res);
+						
+						
+					  widInput = "bookdto";
+					  getWidMongo(widInput, command, preamble, level, null, function (err, res) {
+							
 
-      widInput = "bookdto";
-      getWidMongo(widInput, command, preamble, level, function (err, res) {
-            proxyprinttodiv('__--__', res, 17);
-            callback(err, res);
-      });
+							proxyprinttodiv("res --", res, 17);
+							var actual_result = [res];
+							proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+							var expected_result = [{"result":"getWidMongo"}];
+							proxyprinttodiv("expected_result --", expected_result, 17);
+
+							res = logverify("logverify", actual_result, expected_result);
+							callback(null, res); 
+							
+					  });
+				  });
+			});
+    });
 }
 
-exports.get3 = get3 = function get3(parameters, callback) {
-      eventappinstall();
-      debuglevel = 38;
+exports.etget3 = etget3 = function etget3(parameters, callback) {
+      debuglevel = 17;
+	  eventappinstall();
       var executeList = [{
             "executethis": "updatewid",
             "metadata.method": "authordto",
@@ -6558,15 +6778,22 @@ exports.get3 = get3 = function get3(parameters, callback) {
       //                   "dtolist":{}}}}
 
       execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[8], 17);
-            callback(err, res);
+		proxyprinttodiv("res --", res, 17);
+		var actual_result = res[7];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"data":{"primarywid":"elizabeth_heart","secondarywid":"222","relationshiptype":"attributes"},"wid":"rel111","metadata":{"method":"relationshipdto","date":"2014-03-19T11:08:51.453Z"}}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+
+		res = logverify("logverify", actual_result, expected_result);
+		callback(err, res); 
       });
 }
 
-exports.get2 = get2 = function get2(parameters, callback) {
-      // Setup test
+exports.etget2 = etget2 = function etget2(parameters, callback) {
+      debuglevel = 17;
+	  // Setup test
       eventappinstall();
-      // debuglevel = 10;
 
       var executeList = [
             // Trying to do three levels here Authors --> Books --> Pages
@@ -6676,15 +6903,22 @@ exports.get2 = get2 = function get2(parameters, callback) {
 
       // alert(JSON.stringify(executeList));    
       execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[11], 17);
-            callback(err, res);
+		proxyprinttodiv("res --", res, 17);
+		var actual_result = res[11];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata.method":"authordto"}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+
+		res = logverify("logverify", actual_result, expected_result);
+		callback(err, res); 
       });
 }
 
-exports.get11 = get11 = function get11(parameters, callback) {
-      // Setup test
+exports.etget11 = etget11 = function etget11(parameters, callback) {
+      debuglevel = 17;
+	  // Setup test
       eventappinstall();
-      // debuglevel = 10;
 
       var executeList = [
             // Trying to do three levels here Authors --> Books --> Pages
@@ -6794,8 +7028,15 @@ exports.get11 = get11 = function get11(parameters, callback) {
 
 
       execute(executeList, function (err, res) {
-            proxyprinttodiv('__--__', res[11], 17);
-            callback(err, res);
+		proxyprinttodiv("res --", res, 17);
+		var actual_result = res[11];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+		var expected_result = [{"name":"Elizabeth Heart","age":"50","wid":"elizabeth_heart","metadata.method":"authordto"}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+
+		res = logverify("logverify", actual_result, expected_result);
+		callback(err, res); 
       });
       //         {"executethis":"addwidmaster","metadata.method":"pagedto","wid":"defaultpagecontent","content":"This page is blank","number":"0"},
 
@@ -6824,9 +7065,9 @@ exports.surveydata = surveydata = function surveydata(params, callback) {
 
       saveglobal("debugname", "addmaster");
       debuglevel = 97;
-      debugcolor = 1;
-      debugindent = 1;
-      debugcolor = 5
+      saveglobal("debugcolor", 1);
+      saveglobal("debugindent", 1);
+      saveglobal("debugcolor", 5);
 
       execute([
 
@@ -7138,12 +7379,13 @@ exports.surveydtoflat = surveydtoflat = function surveydtoflat(params, callback)
 // {"wid": "color8", "metadata.method": "colordto", "hue": "black", "sat": "red-sat"}
 // {"wid": "color9", "metadata.method": "colordto", "hue": "cyan", "sat": "red-sat"}
 
-exports.mttest4 = mttest4 = function mttest4(params, callback) {
+exports.etmttest4 = etmttest4 = function etmttest4(params, callback) {
+	debuglevel = 17;
       console.log("<< mttest4 >>");
 
       var codedebug = false;
       if (codedebug) {
-            debugcolor = 0;
+            saveglobal("debugcolor", 0);
             debugon = true;
             saveglobal("debugname", "");
             debugsubcat = "";
@@ -7272,7 +7514,7 @@ exports.mttest4 = mttest4 = function mttest4(params, callback) {
       var mongomultiplequerytests = false;
       var relationshiptests = false;
 
-      debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+      debugfn("update code generator END", "updatewid", "add", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 5);
       saveglobal("debugname", "");
       debugsubcat = "";
       saveglobal("debugcat", "");
@@ -7290,7 +7532,21 @@ exports.mttest4 = mttest4 = function mttest4(params, callback) {
 
             }];
             execute(queryList, function (err, res) {
-                  console.log(' >>> final response after queryList >>> ' + JSON.stringify(res));
+                console.log(' >>> final response after queryList >>> ' + JSON.stringify(res));
+				  
+				proxyprinttodiv("res --", res, 17);
+				var actual_result =[[]];
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [[]];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				
+				params = {
+					'test': 'PASS'
+				};
+				callback({}, params); 		
             });
       }
 
@@ -7324,14 +7580,13 @@ exports.mttest4 = mttest4 = function mttest4(params, callback) {
 }
 exports.testcallback = testcallback = function testcallback(params, callback) {
       console.log("<< testcallback >>");
-      params["test_result"] = "PASSnew";
+      params["test_result"] = "XXXPASS";
       callback(null, params);
 }
 
 exports.executegetwidtest = executegetwidtest = function executegetwidtest(params, callback) {
 
-      executeList = [{
-            "executethis": "offlineaddtomongo",
+      offlineaddtomongo({
             "wid": "getexecutetest",
             "metadata": {
                   "method": "testdto"
@@ -7340,17 +7595,19 @@ exports.executegetwidtest = executegetwidtest = function executegetwidtest(param
                   "executethis": "testcallback",
                   "a": "Hello",
                   "b": "goodbye"
-            }
-      }, {
+            }}, {}, function (err, res) {
+
+      executeList = [ {
             "executethis": "getexecutetest"
       }]
-
+      debuglevel=11;
       execute(executeList, function (err, res) {
-            res = logverify("unit_tests", "getexecutetest", "", res, "", {});
+                   proxyprinttodiv('Function executegetwidtest ', res, 99);
+            //res = logverify("unit_tests", "getexecutetest", "", res, "", {});
             callback(err, res)
 
       });
-
+      });
 }
 
 
@@ -7562,7 +7819,7 @@ exports.mts1 = mts1 = function mts1(params, callback) {
 
             // build query
             saveglobal("debugcat", "mongoquery");
-            debugcolor = 1;
+            saveglobal("debugcolor", 1);
             debuglevel = 30;
             //mongorawquery = '{"$and":{"data.primarywid":"song1","data.secondarywid":"2"}}';
 
@@ -7639,7 +7896,7 @@ exports.mts2 = mts2 = function mts2(params, callback) {
 }
 
 
-exports.mttest1 = mttest1 = function mttest1(params, callback) {
+exports.etmttest1 = etmttest1 = function etmttest1(params, callback) {
       console.log("<< mongoquery_two_test >>");
 
       var ortests = true;
@@ -7655,7 +7912,7 @@ exports.mttest1 = mttest1 = function mttest1(params, callback) {
 
       var codedebug = false;
       if (codedebug) {
-            debugcolor = 0;
+            saveglobal("debugcolor", 0);
             debugon = true;
             saveglobal("debugname", "");
             debugsubcat = "";
@@ -7908,7 +8165,7 @@ exports.mttest1 = mttest1 = function mttest1(params, callback) {
       params = {
             'test': 'PASS'
       };
-      callback(params);
+      callback({}, params);
 }
 
 function addmttestdata(callback) {
@@ -7975,7 +8232,8 @@ exports.t1example = t1example = function t1example(params, callback) {
 }
 
 
-exports.mttest2 = mttest2 = function mttest2(params, callback) {
+exports.etmttest2 = etmttest2 = function etmttest2(params, callback) {
+	debuglevel = 17;
       console.log("<< mongoquery_two_test >>");
 
       eventappinstall();
@@ -8045,24 +8303,25 @@ exports.mttest2 = mttest2 = function mttest2(params, callback) {
                   "data.a": "5",
                   "data.b": "25"
             }];
-            proxyprinttodiv('Function verifytestresults', res, 17);
-            params = logverify("mongoquery", "resultwid", "", res[6][0], "", expectedResultList);
-            x = verifysummary("test_results");
-            proxyprinttodiv('x', x, 17);
-            callback(null, x);
-            //verifytestresults(res);
+           
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = [res];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[{"data":{"a":"string","b":"string"},"wid":"testdto","metadata":{"method":"testdto","date":"2014-03-19T11:37:35.827Z"}}],[{"data":{"a":"1","b":"1"},"wid":"wid1","metadata":{"method":"testdto","date":"2014-03-19T11:37:35.878Z"}}],[{"data":{"a":"2","b":"4"},"wid":"wid2","metadata":{"method":"testdto","date":"2014-03-19T11:37:35.952Z"}}],[{"data":{"a":"3","b":"9"},"wid":"wid3","metadata":{"method":"testdto","date":"2014-03-19T11:37:35.998Z"}}],[{"data":{"a":"4","b":"16"},"wid":"wid4","metadata":{"method":"testdto","date":"2014-03-19T11:37:36.049Z"}}],[{"data":{"a":"5","b":"25"},"wid":"wid5","metadata":{"method":"testdto","date":"2014-03-19T11:37:36.097Z"}}],[],[],[]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
 }
 
 
-exports.testcallback = testcallback = function testcallback(params, callback) {
-      console.log("<< testcallback >>");
-      params["test_result"] = "PASS";
-      callback(null, params);
-}
 
 
-exports.mttest3 = mttest3 = function mttest3(params, callback) {
+
+exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
+	debuglevel = 17;
       console.log("<< mttest3 >>");
 
       eventappinstall();
@@ -8180,49 +8439,65 @@ exports.mttest3 = mttest3 = function mttest3(params, callback) {
       proxyprinttodiv("execute list for query", executeList, 17);
       execute(executeList, function (err, res) {
 
-      });
+		//Query Expected Result List
+		  expectedResultList = [
+				[{
+					  "wid": "color1",
+					  "metadata.method": "colordto",
+					  "hue": "red"
+				}],
+				[{
+					  "wid": "color2",
+					  "metadata.method": "colordto",
+					  "hue": "green"
+				}],
+				[{
+					  "wid": "color3",
+					  "metadata.method": "colordto",
+					  "hue": "blue"
+				}],
+				[{
+					  "wid": "color4",
+					  "metadata.method": "colordto",
+					  "hue": "cyan"
+				}],
+				[{
+					  "wid": "color5",
+					  "metadata.method": "colordto",
+					  "hue": "magenta"
+				}],
+				[{
+					  "wid": "color4",
+					  "metadata.method": "colordto",
+					  "hue": "yellow"
+				}],
+				[{
+					  "wid": "color4",
+					  "metadata.method": "colordto",
+					  "hue": "black"
+				}]
+		  ];
+	  
+	  
+		proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-      //Query Expected Result List
-      expectedResultList = [
-            [{
-                  "wid": "color1",
-                  "metadata.method": "colordto",
-                  "hue": "red"
-            }],
-            [{
-                  "wid": "color2",
-                  "metadata.method": "colordto",
-                  "hue": "green"
-            }],
-            [{
-                  "wid": "color3",
-                  "metadata.method": "colordto",
-                  "hue": "blue"
-            }],
-            [{
-                  "wid": "color4",
-                  "metadata.method": "colordto",
-                  "hue": "cyan"
-            }],
-            [{
-                  "wid": "color5",
-                  "metadata.method": "colordto",
-                  "hue": "magenta"
-            }],
-            [{
-                  "wid": "color4",
-                  "metadata.method": "colordto",
-                  "hue": "yellow"
-            }],
-            [{
-                  "wid": "color4",
-                  "metadata.method": "colordto",
-                  "hue": "black"
-            }]
-      ];
+		var expected_result = expectedResultList;
+		proxyprinttodiv("expected_result --", expected_result, 17);
+
+		res = logverify("logverify", actual_result, expected_result);
+		
+		params = {
+            'test': 'PASS'
+		};
+		
+		callback(err, params); 
+      });
 }
 
-exports.mttest333 = mttest333 = function mttest333(params, callback) {
+exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
+	debuglevel = 17;
       console.log("<< mttest3 >>");
       eventappinstall();
 
@@ -8639,7 +8914,6 @@ exports.mttest333 = mttest333 = function mttest333(params, callback) {
                   "hue": "yellow",
                   "sat": "yellow-sat"
             }],
-            [],
             [{
                   "wid": "color4",
                   "metadata.method": "colordto",
@@ -8647,18 +8921,21 @@ exports.mttest333 = mttest333 = function mttest333(params, callback) {
                   "sat": "cyan-sat"
             }]
       ];
-
-
-      proxyprinttodiv("addlist", addlist, 17);
-      proxyprinttodiv("querylist", querylist, 17);
-      proxyprinttodiv("verifylist", verifylist, 17);
-
       execute([addlist, querylist], function (err, res) {
-            verifyarray[res[1], verifylist]
-      });
+            proxyprinttodiv("res --", res, 17);
+			var actual_result = res[0];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-      params["test_result"] = "PASS";
-      callback(null, params);
+			var expected_result = [];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			
+			params = {
+				'test': 'PASS'
+			};
+			callback(err, params);
+      });
 }
 
 exports.mt3 = mt3 = function mt3(params, callback) {
@@ -8677,7 +8954,7 @@ exports.mt3 = mt3 = function mt3(params, callback) {
 
       eventappinstall();
 
-      // debugcolor = 0;
+      // saveglobal("debugcolor", 0);
       // debugon = true;
       // saveglobal("debugname", "processquery");
       // debugsubcat = "";
@@ -8817,7 +9094,8 @@ exports.mt3 = mt3 = function mt3(params, callback) {
       callback(err, params);
 }
 
-exports.ar100 = ar100 = function ar100(params, callback) {
+exports.etar100 = etar100 = function etar100(params, callback) {
+	debuglevel = 17;
       var object = {
             "metadata": {
                   "method": "bookdto"
@@ -8849,25 +9127,30 @@ exports.ar100 = ar100 = function ar100(params, callback) {
       */
       
       // n times loop
-      async.times(500, function(n, next){
+      async.times(5, function(n, next){
             addrecord(object, dtoobject, parentwid, parentmethod, relationshiptype, command, function (err, res) {
-                  console.log( n + "addrecord! -- got res -->" + JSON.stringify(res));
+                console.log( n + "addrecord! -- got res -->" + JSON.stringify(res));
+				next(err, res);
             });
-      }, function(err, result) {
+      }, function(err, res) {
             //after loop
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = [res[4]];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [{"data":{"title":"The X Factor","pages":"300"},"wid":"1","metadata":{"method":"bookdto","date":"2014-03-19T12:06:47.172Z"}}];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
-      
-      params = {
-            'test': 'PASS'
-      };
-      var err;
-      callback(err, params);
 }
 
 /*
       deep filter test
 */
-exports.d1 = d1 = function d1(params, callback) {
+exports.etd1 = etd1 = function etd1(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1) {
                   var executeList = [{
@@ -8892,20 +9175,26 @@ exports.d1 = d1 = function d1(params, callback) {
             var command = {"formatresult": "false", "command.deepfilter.convert":true};
               
             deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                  proxyprinttodiv("after d1 deepfilter res", res, 17);
+                proxyprinttodiv("after d1 deepfilter res", res, 17);
+				  
+				proxyprinttodiv("res --", res, 17);
+				var actual_result = [res];
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"metadata":{"method":"defaultdto"},"a":"aaa","z":"ggg","c":30,"d":"1912-06-23T18:30:00.000Z","q":{"w":{"e":"t"}},"g":true,"b":[{"c":"one"}],"x1":[{"y":"hello","d":"2014-02-27T18:30:00.000Z","b":[{"c":"one","c1":50},{"c":"two","c1":30},{"c":"three"}]}]}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res); 
             });
-            
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
       });
 }
 
 /*
       number, string, boolean, date, nested string
 */
-exports.d2 = d2 = function d2(params, callback) {
+exports.etd2 = etd2 = function etd2(params, callback) {
+	debuglevel = 17;	
       async.series([
             function (cb1) {
                   var executeList = [{
@@ -8933,20 +9222,26 @@ exports.d2 = d2 = function d2(params, callback) {
             var command = {"formatresult": "false"};
               
             deepfilter(inputObj, dtoObjOpt, command, function(err, res){
-                  proxyprinttodiv("after d2 deepfilter res", res, 17);
+				proxyprinttodiv("after d1 deepfilter res", res, 17);
+				  
+				proxyprinttodiv("res --", res, 17);
+				var actual_result = [res];
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"c":"30","h":"hval","g":"true","d":"6/25/1912","q":{"w":{"e":"t"}},"x":{"y":{"z":"string"}}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
       });
 }
 
 /*
       wid
 */
-exports.d3 = d3 = function d3(params, callback) {
+exports.etd3 = etd3 = function etd3(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1) {
                   var executeList = [{
@@ -8967,13 +9262,18 @@ exports.d3 = d3 = function d3(params, callback) {
             var command = {"formatresult": "false"};
               
             deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                  proxyprinttodiv("after d3 deepfilter res", res, 17);
+                proxyprinttodiv("after d3 deepfilter res", res, 17);
+				  
+				proxyprinttodiv("res --", res, 17);
+				var actual_result = [res];
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"a":"aaa"}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
       });
 }
 
@@ -9017,7 +9317,8 @@ exports.dupdateget4 = dupdateget4 = function dupdateget4(params, callback) {
 /*    
       added test in wid
 */
-exports.d5 = d5 = function d5(params, callback) {
+exports.etd5 = etd5 = function etd5(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1) {
                   var executeList = [{
@@ -9030,7 +9331,7 @@ exports.d5 = d5 = function d5(params, callback) {
                   }];
                   execute(executeList, function (err, res) {
                         //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
-                        cb1(null);
+                        cb1(err, res);
                   });
             },
             function (cb2){
@@ -9042,21 +9343,27 @@ exports.d5 = d5 = function d5(params, callback) {
                     
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         proxyprinttodiv("after d5 deepfilter res", res, 17);
-                        cb2(null);
+                        cb2(err, res);
                   });
             }
       ], function (err, res) {
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = [res];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[[[{"data":{"aaa":"","ggg":"","test":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:20:54.139Z"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res);
       });
 }
 
 /*    
       selected wid does not exist
 */
-exports.d6 = d6 = function d6(params, callback) {
+exports.etd6 = etd6 = function etd6(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb2){
                   var dtoObjOpt = {"metadata":{"method":"string"},"a":"wid6","x":"wid6", "z":"wid6",
@@ -9067,21 +9374,27 @@ exports.d6 = d6 = function d6(params, callback) {
                     
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         proxyprinttodiv("after d6 deepfilter res", res, 17);
-                        cb2(null);
+                        cb2(err, res);
                   });
             }
       ], function (err, res) {
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = [res];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[{"metadata":{"method":"defaultdto"},"c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res);
       });
 }
 
 /*    
       dto = null,, then return same object
 */
-exports.d7 = d7 = function d7(params, callback) {
+exports.etd7 = etd7 = function etd7(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1) {
                   var executeList = [{
@@ -9093,7 +9406,7 @@ exports.d7 = d7 = function d7(params, callback) {
                   }];
                   execute(executeList, function (err, res) {
                         //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
-                        cb1(null);
+                        cb1(err, res);
                   });
             },
             function (cb2){
@@ -9107,21 +9420,27 @@ exports.d7 = d7 = function d7(params, callback) {
                     
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         proxyprinttodiv("after d7 deepfilter res", res, 17);
-                        cb2(null);
+                        cb2(err, res);
                   });
             }
       ], function (err, res) {
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = [res];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:23:47.300Z"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
 }
 
 /*    
       date
 */
-exports.d8 = d8 = function d8(params, callback) {
+exports.etd8 = etd8 = function etd8(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1) {
                   var executeList = [{
@@ -9133,7 +9452,7 @@ exports.d8 = d8 = function d8(params, callback) {
                   }];
                   execute(executeList, function (err, res) {
                         //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
-                        cb1(null);
+                        cb1(err, res);
                   });
             },
             function (cb2){
@@ -9143,21 +9462,27 @@ exports.d8 = d8 = function d8(params, callback) {
                     
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         proxyprinttodiv("after d8 deepfilter res", res, 17);
-                        cb2(null);
+                        cb2(err, res);
                   });
             }
       ], function (err, res) {
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = [res];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:25:34.697Z"}}]],{"d":"6/23/1912"}]];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
 }
 
 /*
       object dataType test
 */
-exports.d10 = d10 = function d10(params, callback) {
+exports.etd10 = etd10 = function etd10(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1) {
                   var executeList = [{
@@ -9169,7 +9494,7 @@ exports.d10 = d10 = function d10(params, callback) {
                   }];
                   execute(executeList, function (err, res) {
                         //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
-                        cb1(null);
+                        cb1(err, res);
                   });
             }
       ], function (err, res) {      //after updatewid
@@ -9178,45 +9503,56 @@ exports.d10 = d10 = function d10(params, callback) {
             var command = {"formatresult": "false"};
               
             deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-                  proxyprinttodiv("after d10 deepfilter res", res, 17);
+				proxyprinttodiv("res --", res, 17);
+				var actual_result = [res];
+				proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+				var expected_result = [{"obj":"","c":"cval","d":{}}];
+				proxyprinttodiv("expected_result --", expected_result, 17);
+
+				res = logverify("logverify", actual_result, expected_result);
+				callback(err, res);
             });
-            
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
       });
 }
 
 
-exports.d10b = d10b = function d10b(params, callback) {
+exports.etd10b = etd10b = function etd10b(params, callback) {
+	debuglevel=17;
+	var obj = {"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"jsononetomany"}},
+					  "title":"string","sounddto":{"wid":"string","metadata":{"method":"string"},"note":"string"}}
 
-debuglevel=41;
-var obj = {"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"jsononetomany"}},
-                  "title":"string","sounddto":{"wid":"string","metadata":{"method":"string"},"note":"string"}}
+	var dto = {"wid":"string","metadata":{"method":"string","sounddto":{"type":"string"}},
+					  "title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}],
+					  "command":{"dtolist":{"sounddto":"jsononetomany"}}}
+	var command;
+		  if (!command) {command = {};}
+		  if (!command.deepfilter) {command.deepfilter = {};}
+		  command.deepfilter.convert = true;
+	//exepected
+	//{"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"jsononetomany"}},
+	//"title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}]}
 
-var dto = {"wid":"string","metadata":{"method":"string","sounddto":{"type":"string"}},
-                  "title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}],
-                  "command":{"dtolist":{"sounddto":"jsononetomany"}}}
-var command;
-      if (!command) {command = {};}
-      if (!command.deepfilter) {command.deepfilter = {};}
-      command.deepfilter.convert = true;
-//exepected
-//{"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"jsononetomany"}},
-//"title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}]}
+	deepfilter(obj, dto,command, function (err, res) {
+		proxyprinttodiv('Function d10b deepfilter result ', res, 17); 
+		proxyprinttodiv("res --", res, 17);
+		var actual_result = [res];
+		proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-deepfilter(obj, dto,command, function (err, res) {
-      proxyprinttodiv('Function d10b deepfilter result ', res, 17); 
-   callback(err, res);  
-      })
+		var expected_result = [{"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"jsononetomany"}},"title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}]}];
+		proxyprinttodiv("expected_result --", expected_result, 17);
+
+		res = logverify("logverify", actual_result, expected_result);
+		callback(err, res);	   
+	});
 }
 
 
 /*
       test to confirm deepfilter with wid that returns query results works
 */
-exports.d11 = d11 = function d11(params, callback) {
+exports.etd11 = etd11 = function etd11(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1) {  //5 (a)
                   var executeList = [
@@ -9299,21 +9635,27 @@ exports.d11 = d11 = function d11(params, callback) {
                     
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         proxyprinttodiv("d11 - step 10 res--", res, 17);
-                        cb10(null);
+                        cb10(err, res);
                   });
             }
       ], function (err, res) {
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = [res[9]];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [{"obj":"","c":"cval","d":{}}];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res);	 
       });
 }
 
 /*
       command.deepfilter.convert = true/false
 */
-exports.d12 = d12 = function d12(params, callback) {
+exports.etd12 = etd12 = function etd12(params, callback) {
+	debuglevel = 17;
       async.series([
             function step1(cb1){    //without command
                   var dtoObjOpt = {"b1":"boolean", "b2":"boolean"};
@@ -9321,7 +9663,7 @@ exports.d12 = d12 = function d12(params, callback) {
                   var command = {};
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         //proxyprinttodiv("without command-- res ", res, 17);
-                        cb1(null);
+                        cb1(err, res);
                   });
             },
             function step2(cb2){    //"command.deepfilter.convert"="true"
@@ -9330,7 +9672,7 @@ exports.d12 = d12 = function d12(params, callback) {
                   var command = {"command.deepfilter.convert":"true"};
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         //proxyprinttodiv("command.deepfilter.convert = true-- res ", res, 17);
-                        cb2(null);
+                        cb2(err, res);
                   });
             },
             function step3(cb3){    //"command.deepfilter.convert"="false"
@@ -9339,14 +9681,19 @@ exports.d12 = d12 = function d12(params, callback) {
                   var command = {"command.deepfilter.convert":"false"};
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         proxyprinttodiv("d12 - command.deepfilter.convert = false-- res ", res, 17);
-                        cb3(null);
+                        cb3(err, res);
                   });
             }
       ], function (err, res) {
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res;
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [{"b1":"true"},{"b1":true},{"b1":true}];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res);	
       });
 }
 
@@ -9356,7 +9703,8 @@ exports.d12 = d12 = function d12(params, callback) {
       make it produce two results wid7,8,9
       test deepfilter and make sure it does not break
 */
-exports.d13 = d13 = function d13(params, callback) {
+exports.etd13 = etd13 = function etd13(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1) {
                   var executeList = [{
@@ -9373,7 +9721,7 @@ exports.d13 = d13 = function d13(params, callback) {
                   }];
                   execute(executeList, function (err, res) {
                         //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
-                        cb1(null);
+                        cb1(err, res);
                   });
             },
             function (cb2){
@@ -9383,14 +9731,19 @@ exports.d13 = d13 = function d13(params, callback) {
                     
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         proxyprinttodiv("after d13 deepfilter res", res, 17);
-                        cb2(null);
+                        cb2(err, res);
                   });
             }
       ], function (err, res) {
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res;
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [[[{"data":{"aaa":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:40:36.431Z"}}],[{"data":{"bbb":""},"wid":"wid3","metadata":{"method":"defaultdto","date":"2014-03-19T12:40:36.481Z"}}]],{"a":"aaa","c":"bbb"}];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res);	
       });         
 }
 
@@ -9405,7 +9758,8 @@ exports.d13 = d13 = function d13(params, callback) {
       a:test
       b:[{c:one, d:two}, {c:three, d:four}, {c:five, d:six}]
 */
-exports.d14 = d14 = function d14(params, callback) {
+exports.etd14 = etd14 = function etd14(params, callback) {
+	debuglevel = 17;
       async.series([
             function (cb1){
                   var dtoObjOpt = {"a":"string",
@@ -9433,16 +9787,143 @@ exports.d14 = d14 = function d14(params, callback) {
                         proxyprinttodiv("after d14 deepfilter in", inputObj, 17);
                         proxyprinttodiv("after d14 deepfilter out", dtoObjOpt, 17);
                         proxyprinttodiv("after d14 deepfilter res", res, 17);
-                        cb1(null);
+                        cb1(err, res);
                   });
             }
       ], function (err, res) {
-            params = {  
-                  'test': 'PASS'
-            };
-            callback(params); 
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = res;
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [{"a":"aval","y":"yes","x":[{"y":"hello","b":[{"c":"one","c1":50},{"c":"two","c1":30},{"c":"three"}]}]}];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
       });
 }
+
+
+exports.etalldeepfiltertests = etalldeepfiltertests = function etalldeepfiltertests(params, callback) {
+debuglevel = 17;
+
+var result = [];
+var err;
+
+etd1(result, function (err, r1) {
+      result.push(r1);
+      etd2(result, function (err, r2) {
+            result.push(r2);
+            etd3(result, function (err, r3) {
+                  result.push(r3);
+                        etd5(result, function (err, r5) {
+                              result.push(r5);
+                              etd6(result, function (err, r6) {
+                                    result.push(r6);
+                                    etd7(result, function (err, r7) {
+                                          result.push(r7);
+                                          etd8(result, function (err, r8) {
+                                                result.push(r8);
+                                                      etd10(result, function (err, r10) {
+                                                            result.push(r10);
+                                                            etd10b(result, function (err, r10b) {
+                                                                  result.push(r10b);
+                                                                  etd11(result, function (err, r11) {
+                                                                        result.push(r11);
+                                                                        etd12(result, function (err, r12) {
+                                                                              result.push(r12);
+                                                                              etd13(result, function (err, r13) {
+                                                                                    result.push(r13);
+                                                                                    etd14(result, function (err, r14) {
+                                                                                        result.push(r14);
+																						callback(err, result); 
+                                                                                    });
+                                                                              });
+                                                                        });
+                                                                  });
+                                                            });
+                                                      });
+                                                });
+                                          });
+                                    });
+                              });
+                        });
+                  });
+
+      });
+}
+
+
+exports.etd9 = etd9 = function etd9(params, callback) {
+	debuglevel = 17;
+      var dtoObjOpt = {"name":"string","age":"string","wid":"string",
+                                                      "metadata":{"method":"string","spousedto":{"type":"jsononetoone"},"housedto":{"type":"onetoone"},"bookdto":{"type":"onetomany"},"expirationdate":"2014-03-14T09:00:01.106Z"},
+                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                                                            "deepdtolist":{"systemdto":"onetoone","addressdto":"onetomany","statedto":"manytoone","ownerdto":"onetoone","pubhousedto":"manytoone","spousedto":"jsononetoone","housedto":"onetoone","bookdto":"onetomany"},
+                                                            "dtolist":{"spousedto":"jsononetoone","housedto":"onetoone","bookdto":"onetomany","systemdto":"onetoone"}},
+                                    "spousedto":{"datemarried":"date","wid":"string",
+                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:01.304Z"},
+                                                            "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                                                            "deepdtolist":{"systemdto":"onetoone"},
+                                                            "dtolist":{"systemdto":"onetoone"}}},
+                                    "housedto":{"color":"string","wid":"string",
+                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:01.674Z"},
+                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                                                            "deepdtolist":{"systemdto":"onetoone"},
+                                                            "dtolist":{"systemdto":"onetoone"}}},
+                                    "bookdto":[{"title":"string","pages":"string","wid":"string",
+                                                      "metadata":{"method":"string","pubhousedto":{"type":"manytoone"},"expirationdate":"2014-03-14T09:00:02.076Z"},
+                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                                                            "deepdtolist":{"systemdto":"onetoone","addressdto":"onetomany","statedto":"manytoone","ownerdto":"onetoone","pubhousedto":"manytoone"},
+                                                            "dtolist":{"pubhousedto":"manytoone","systemdto":"onetoone"}},
+                                          "pubhousedto":{"coname":"string","establishdate":"date","wid":"string",
+                                                      "metadata":{"method":"string","addressdto":{"type":"onetomany"},"statedto":{"type":"manytoone"},"ownerdto":{"type":"onetoone"},"expirationdate":"2014-03-14T09:00:02.598Z"},
+                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                                                            "deepdtolist":{"systemdto":"onetoone","addressdto":"onetomany","statedto":"manytoone","ownerdto":"onetoone"},
+                                                            "dtolist":{"addressdto":"onetomany","statedto":"manytoone","ownerdto":"onetoone","systemdto":"onetoone"}},
+                                                "addressdto":[{"city":"string","add1":"string","add2":"string","wid":"string",
+                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:03.750Z"},
+                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                                                      "deepdtolist":{"systemdto":"onetoone"},
+                                                      "dtolist":{"systemdto":"onetoone"}}}],
+                                                "statedto":{"statename":"string","zipcode":"string","wid":"string",
+                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:04.297Z"},
+                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                                                      "deepdtolist":{"systemdto":"onetoone"},
+                                                      "dtolist":{"systemdto":"onetoone"}}},
+                                                "ownerdto":{"name":"string","wid":"string",
+                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:04.860Z"},
+                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                                                      "deepdtolist":{"systemdto":"onetoone"},
+                                                      "dtolist":{"systemdto":"onetoone"}}}}}]}
+
+      var inputObj = 
+                  {"metadata":{"method":"authordto"},"wid":"wid1","name":"somedata222",
+                  "age":"somedata","spousedto":{"datemarried":"03/10/2014"},
+                  "housedto":{"color":"purple"},
+                  "bookdto":{"title":"Book 1","pages":"300",
+                        "pubhousedto":{"coname":"Company Name","establishdate":"03/10/2014",
+                              "addressdto":[{"city":"City Name","add1":"Address1","add2":"Address2"}],
+                              "statedto":[{"statename":"State Name tx","zipcode":"Z 123456"}],
+                              "ownerdto":[{"name":"Owner Name"}]}}}
+                  
+      var command = {"formatresult": "false"};
+        
+      deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+            proxyprinttodiv("after d3 deepfilter res", res, 99, true);
+           
+			proxyprinttodiv("res --", res, 17);
+			var actual_result = [res];
+			proxyprinttodiv("actual_result --", actual_result, 17);							  
+
+			var expected_result = [{"metadata":{"method":"authordto"},"wid":"wid1","name":"somedata222","age":"somedata","spousedto":{"datemarried":"03/10/2014"},"housedto":{"color":"purple"},"bookdto":[{"title":"Book 1","pages":"300","pubhousedto":{"coname":"Company Name","establishdate":"03/10/2014","addressdto":[{"city":"City Name","add1":"Address1","add2":"Address2"}],"statedto":[{"statename":"State Name tx","zipcode":"Z 123456"}],"ownerdto":[{"name":"Owner Name"}]}}]}];
+			proxyprinttodiv("expected_result --", expected_result, 17);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
+      });
+}
+
 
 /*
       4) 
@@ -10579,112 +11060,4 @@ ettest1dot3dotjsonmany(result, function (err, r1) {
             });
       });
 });
-}
-
-exports.alldeepfiltertests = alldeepfiltertests = function alldeepfiltertests(params, callback) {
-var result = [];
-var err;
-
-d1(result, function (err, r1) {
-      result.push(r1);
-      d2(result, function (err, r2) {
-            result.push(r2);
-            d3(result, function (err, r3) {
-                  result.push(r3);
-                        d5(result, function (err, r5) {
-                              result.push(r5);
-                              d6(result, function (err, r6) {
-                                    result.push(r6);
-                                    d7(result, function (err, r7) {
-                                          result.push(r7);
-                                          d8(result, function (err, r8) {
-                                                result.push(r8);
-                                                      d10(result, function (err, r10) {
-                                                            result.push(r10);
-                                                            d10b(result, function (err, r10b) {
-                                                                  result.push(r10b);
-                                                                  d11(result, function (err, r11) {
-                                                                        result.push(r11);
-                                                                        d12(result, function (err, r12) {
-                                                                              result.push(r12);
-                                                                              d13(result, function (err, r13) {
-                                                                                    result.push(r13);
-                                                                                    d14(result, function (err, r14) {
-                                                                                          result.push(r14);
-                                                                                          callback(err, result);
-                                                                                    });
-                                                                              });
-                                                                        });
-                                                                  });
-                                                            });
-                                                      });
-                                                });
-                                          });
-                                    });
-                              });
-                        });
-                  });
-
-      });
-}
-
-
-exports.d9 = d9 = function d9(params, callback) {
-      var dtoObjOpt = {"name":"string","age":"string","wid":"string",
-                                                      "metadata":{"method":"string","spousedto":{"type":"jsononetoone"},"housedto":{"type":"onetoone"},"bookdto":{"type":"onetomany"},"expirationdate":"2014-03-14T09:00:01.106Z"},
-                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                                                            "deepdtolist":{"systemdto":"onetoone","addressdto":"onetomany","statedto":"manytoone","ownerdto":"onetoone","pubhousedto":"manytoone","spousedto":"jsononetoone","housedto":"onetoone","bookdto":"onetomany"},
-                                                            "dtolist":{"spousedto":"jsononetoone","housedto":"onetoone","bookdto":"onetomany","systemdto":"onetoone"}},
-                                    "spousedto":{"datemarried":"date","wid":"string",
-                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:01.304Z"},
-                                                            "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                                                            "deepdtolist":{"systemdto":"onetoone"},
-                                                            "dtolist":{"systemdto":"onetoone"}}},
-                                    "housedto":{"color":"string","wid":"string",
-                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:01.674Z"},
-                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                                                            "deepdtolist":{"systemdto":"onetoone"},
-                                                            "dtolist":{"systemdto":"onetoone"}}},
-                                    "bookdto":[{"title":"string","pages":"string","wid":"string",
-                                                      "metadata":{"method":"string","pubhousedto":{"type":"manytoone"},"expirationdate":"2014-03-14T09:00:02.076Z"},
-                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                                                            "deepdtolist":{"systemdto":"onetoone","addressdto":"onetomany","statedto":"manytoone","ownerdto":"onetoone","pubhousedto":"manytoone"},
-                                                            "dtolist":{"pubhousedto":"manytoone","systemdto":"onetoone"}},
-                                          "pubhousedto":{"coname":"string","establishdate":"date","wid":"string",
-                                                      "metadata":{"method":"string","addressdto":{"type":"onetomany"},"statedto":{"type":"manytoone"},"ownerdto":{"type":"onetoone"},"expirationdate":"2014-03-14T09:00:02.598Z"},
-                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                                                            "deepdtolist":{"systemdto":"onetoone","addressdto":"onetomany","statedto":"manytoone","ownerdto":"onetoone"},
-                                                            "dtolist":{"addressdto":"onetomany","statedto":"manytoone","ownerdto":"onetoone","systemdto":"onetoone"}},
-                                                "addressdto":[{"city":"string","add1":"string","add2":"string","wid":"string",
-                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:03.750Z"},
-                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                                                      "deepdtolist":{"systemdto":"onetoone"},
-                                                      "dtolist":{"systemdto":"onetoone"}}}],
-                                                "statedto":{"statename":"string","zipcode":"string","wid":"string",
-                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:04.297Z"},
-                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                                                      "deepdtolist":{"systemdto":"onetoone"},
-                                                      "dtolist":{"systemdto":"onetoone"}}},
-                                                "ownerdto":{"name":"string","wid":"string",
-                                                      "metadata":{"method":"string","expirationdate":"2014-03-14T09:00:04.860Z"},
-                                                      "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                                                      "deepdtolist":{"systemdto":"onetoone"},
-                                                      "dtolist":{"systemdto":"onetoone"}}}}}]}
-
-      var inputObj = 
-                  {"metadata":{"method":"authordto"},"wid":"wid1","name":"somedata222",
-                  "age":"somedata","spousedto":{"datemarried":"03/10/2014"},
-                  "housedto":{"color":"purple"},
-                  "bookdto":{"title":"Book 1","pages":"300",
-                        "pubhousedto":{"coname":"Company Name","establishdate":"03/10/2014",
-                              "addressdto":[{"city":"City Name","add1":"Address1","add2":"Address2"}],
-                              "statedto":[{"statename":"State Name tx","zipcode":"Z 123456"}],
-                              "ownerdto":[{"name":"Owner Name"}]}}}
-                  
-      var command = {"formatresult": "false"};
-        
-      deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-            proxyprinttodiv("after d3 deepfilter res", res, 99, true);
-            callback(err,res)
-      });
 }

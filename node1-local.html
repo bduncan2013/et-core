@@ -296,6 +296,7 @@ copyright (c) 2014 DRI
         if (!$('#dest_print').is(':checked') && $('#dest_google').is(':checked')) saveglobal("debugdestination", 2);
         if ($('#dest_print').is(':checked') && $('#dest_google').is(':checked')) saveglobal("debugdestination", 3);
 
+
         // localStorage.clear();
         $('#resultDiv').text("");
         $('#test_result_message').text("");
@@ -310,6 +311,16 @@ copyright (c) 2014 DRI
         var my_execute_object = {
             "executethis": function_to_execute
         };
+        var data = $('#function_parameters').val();
+        if (data != "") {
+            data = JSON.parse(data);
+            if (Object.keys(data).length > 0) {
+                alert('adding: ' + data);
+                for (var d in data) {
+                    my_execute_object[d] = data[d];
+                }
+            }
+        }
 
         // if ($('#server_caller').prop('checked')) {       
         if (isServer) {
@@ -326,6 +337,7 @@ copyright (c) 2014 DRI
         // Change the Clean local storage checkbox to 'unchecked'
         $("#localStorageClean").prop('checked', false);
         // ******** This actually executes the function and show the output ********
+        // alert('ex-object:\n' + JSON.stringify(my_execute_object,'-', 4));
         execute(my_execute_object, show_function_output3);
     }
 
@@ -473,8 +485,10 @@ copyright (c) 2014 DRI
 
     function show_function_output3(err, result_array) {
         // console.log("+++\n" + JSON.stringify(result_array, "-", 4));
-        console.log("err object\n" + JSON.stringify(err, "-", 4));
-         
+        // console.log("err object\n" + JSON.stringify(err, "-", 4));
+        // if (typeof(result_array) != "array" && typeof(result_array) == "object") {
+        //     result_array[0] = result_array;
+        // }
         if (Object.keys(err).length > 0) {
             result_array.push(err)
         }

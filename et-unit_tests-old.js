@@ -2232,7 +2232,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
             });
 
 
-            debugfn("updatewid code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+            debugfn("updatewid code generator END", "updatewid", "add", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 5);
             saveglobal("debugname", "");
             saveglobal("debugcat", "");
             debugsubcat = "";
@@ -2294,7 +2294,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "wid": "color1"
         }],
         function (err, res) {
-            debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
+            debugfn("offlinegetwid code generator END", "ag2", "", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
             saveglobal("debugname", "");
             saveglobal("debugcat", "");
@@ -2405,16 +2405,16 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
 
 
         function (err, res) {
-            // debugfn("update code generator END", "updatewid", "add", "code", debugcolor, debugindent, {}, 5);
+            // debugfn("update code generator END", "updatewid", "add", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 5);
             // 
             // These will create the code on the screen from the logged data
 
             //%%%%%%%%%%%%%%%%%%%%%
             // Functions of --- config-local
 
-            // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", debugcolor, debugindent, {}, 9);
-            debugfn("offlinegetwid code generator END", "", "", "code", debugcolor, debugindent, {}, 9);
+            // debugfn("update code generator END",        "offlineupdatewid", "add",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("offlinegetwid code generator END", "offlinegetwid",    "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            debugfn("offlinegetwid code generator END", "", "", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
             // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- add
@@ -2422,14 +2422,14 @@ exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
             // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- query
 
-            // debugfn("querywid code generator END",      "querywid",         "query", "code", debugcolor, debugindent, {}, 9);
+            // debugfn("querywid code generator END",      "querywid",         "query", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
             // %%%%%%%%%%%%%%%%%%%%%
             // Functions of --- get
 
-            // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", debugcolor, debugindent, {}, 9);
-            // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", debugcolor, debugindent, {}, 9);
+            // debugfn("getwidmaster code generator END",  "getwidmaster",     "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("getWidMongo code generator END",   "getWidMongo",      "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            // debugfn("getcleanparameters code generator END",   "getcleanparameters",      "get",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
             // %%%%%%%%%%%%%%%%%%%%%
             // saveglobal("debugname", "");
@@ -3461,7 +3461,7 @@ exports.sample1 = sample1 = function sample1(params, callback) {
         "wid": "wid1",
         "a": "b"
     }, callback);
-    debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END", "ag2", "", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 exports.sample2 = sample2 = function sample2(params, callback) {
@@ -3473,7 +3473,7 @@ exports.sample2 = sample2 = function sample2(params, callback) {
         "wid": "wid2",
         "y": "z"
     });
-    debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END", "ag2", "", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 // getclean(resultObj, command, callback)
@@ -3487,7 +3487,7 @@ exports.sample3 = sample3 = function sample3(params, callback) {
             "method": "DOT"
         }
     }, "DOT");
-    debugfn("offlinegetwid code generator END", "ag2", "", "code", debugcolor, debugindent, {}, 9);
+    debugfn("offlinegetwid code generator END", "ag2", "", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 }
 
 function test171717(params, callback) {
@@ -3602,7 +3602,7 @@ exports.err1 = err1 = function err1(params, callback) {
         }
     }, function (err, result) {
         proxyprinttodiv('Function err1 result ', result, 99);
-        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
     });
 }
 
@@ -3620,7 +3620,7 @@ exports.wrapped1 = wrapped1 = function wrapped1(params, callback) {
         }
     }], function (err, result) {
         proxyprinttodiv('Function wrapped1 result ', result, 99)
-        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", debugcolor, debugindent, {}, 9);
+        // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
     });
 }

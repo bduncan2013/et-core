@@ -905,7 +905,11 @@
             resultsArr = [];
 
             // saveglobal("debugname", "executelist");
-            debugcolor++;
+            // debugcolor++;
+
+            var x = getglobal("debugcolor") + 1;
+            saveglobal("debugcolor", x);
+
 
 
             async.mapSeries(howToDoList, function (h, cbMapH) {
@@ -961,7 +965,7 @@
 
                                         proxyprinttodiv("executelist end what howallowexecute ", howallowexecute, 11);
                                         proxyprinttodiv("executelist end what whatallowexecute ", whatallowexecute, 11);
-                                        //debugfn("executelist", "executelist", "execute", "mid", debugcolor, debugindent, debugvars([1, 2, 3]));
+                                        //debugfn("executelist", "executelist", "execute", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1, 2, 3]));
 
                                         if ((howallowexecute) && (whatallowexecute)) { //if both allowed to execute
                                             getexecuteobject(jsonConcat(howToDoParams, whatToDoParams), howToDo, whatToDo, whatToDoFn,
@@ -1138,7 +1142,9 @@
                     // });
                     callback(err, outputResultsArr);
                 });
-            debugcolor--;
+            // debugcolor--;
+            var x = getglobal("debugcolor") - 1;
+            saveglobal("debugcolor", x);
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "executelist"}, {}, "executelist", err, inboundparms_116);
