@@ -757,6 +757,23 @@
     }
 
 
+    exports.lm1 = lm1 = function lm1(params, callback) {
+        var c = "c";
+        var d = "d";
+        manytoonesetupdto(params, 0, function (err, res) {
+
+                        //parent,   c,  child, d, preamble, dto, getlist
+            addauthorrecord(0,      c,      0, d,   -1,     -1,     2, function (err, res){
+            // addauthorrecord(0,      c,      1, d,   0,      -1,     2, function (err, res){
+                callback(err, res);
+            // });
+            });
+        });
+    }
+
+
+
+
     // ADD: How many to add
     // ADD: parentparmkey, c, 
     // ADD: childparmkey, d: (let system select child wid names, we select child wid names)

@@ -1290,7 +1290,15 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
     // };
 
     exports.logverify = logverify = function logverify(test_name, data_object, assertion_object) {
-        if (test_name === undefined) test_name = "defaulttest";
+        //To delete metadata.date method
+		if(data_object[0] && data_object[0]["metadata"] && data_object[0]["metadata"]["date"]){
+			delete data_object[0]["metadata"]["date"];
+		}
+		if(assertion_object[0] && assertion_object[0]["metadata"] && assertion_object[0]["metadata"]["date"]){		
+			delete assertion_object[0]["metadata"]["date"];
+		}
+		
+		if (test_name === undefined) test_name = "defaulttest";
 
         var result = deepDiffMapper.map(data_object, assertion_object);
         // Assume UNKNOWN...
@@ -1685,6 +1693,9 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 return diff;
             },
             compareValues: function (value1, value2) {
+				if(this.isEqualDates(value1, value2)){
+					return this.VALUE_UNCHANGED;
+				}
                 if (value1 === value2) {
                     return this.VALUE_UNCHANGED;
                 }
@@ -1707,7 +1718,16 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             },
             isValue: function (obj) {
                 return !this.isObject(obj) && !this.isArray(obj);
-            }
+            },
+			isEqualDates: function(datestr1, datestr2) {
+				var d1=new Date(datestr1);
+				var d2=new Date(datestr2);
+				if(d1 && d2 && d1.getFullYear()==d2.getFullYear() && d1.getMonth()==d2.getMonth() && d1.getDate()==d2.getDate()) {
+					return true;
+				} else {
+					return false;
+				}	
+			}
         }
     }();
 
