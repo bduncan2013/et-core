@@ -1,3 +1,18 @@
+exports.ettest_smsr1 = ettest_smsr1 = function ettest_smsr1 (params, callback) {
+    execute([{
+            "executethis": "sendsms",
+            "tonumber": "+12316200816",
+            "msgbody": "Hi Russ"
+        }],
+        function (err, res) {
+            alert("res: \m" + JSON.stringify(res[0], "-", 4));
+            res = logverify("ettestast2_result", res[0], [{
+                "smscomplete": "success"
+            }]);
+            callback(err, res);
+        });
+}
+
 	// out of date
     // exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
     //     eventappinstall();
