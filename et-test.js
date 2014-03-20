@@ -709,7 +709,7 @@
 					"wid": "authordto",
 				}];
 				execute(executeList, function (err, res) {
-					proxyprinttodiv("getwidmaster authordto", res, 99);
+					// proxyprinttodiv("getwidmaster authordto", res, 99);
                     cb2(err, res);
 				});
 			}
@@ -764,9 +764,9 @@
 
                         //parent,   c,  child, d, preamble, dto, getlist
             addauthorrecord(0,      c,      0, d,   -1,     -1,     2, function (err, res){
-            // addauthorrecord(0,      c,      1, d,   0,      -1,     2, function (err, res){
+            addauthorrecord(0,      c,      1, d,   0,      -1,     2, function (err, res){
                 callback(err, res);
-            // });
+            });
             });
         });
     }
