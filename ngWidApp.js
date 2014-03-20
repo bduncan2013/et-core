@@ -143,7 +143,8 @@ if (typeof angular !== 'undefined') {
                     etProcessScreenWid(dataset, scope, function () {
                         widAppHelper.processHtml(dataset, scope, $compile);
                     });
-                }
+                } else if (dataset.js) { widAppHelper.processJS(dataset, scope, $compile); }
+                else if (dataset.css) { widAppHelper.processCSS(dataset, scope, $compile); }
             });
         };
 
@@ -476,6 +477,22 @@ if (typeof angular !== 'undefined') {
             "<div class='input-group-btn delrowbtn'><button class='btn btn-info' " +
             "onclick='$(this).parent().parent().parent().remove();'>-</button></div></div></span>",
 
+        processJS: function(wid, scope, compile) {
+            if (typeof $('body') !== 'undefined') {
+                scope.$apply(function() {
+                    $('body').append(compile('<script>' + wid.js + '</script>')(scope));
+                });
+            }
+        },
+
+        processCSS: function(wid, scope, compile) {
+            if (typeof $('body') !== 'undefined') {
+                scope.$apply(function() {
+                    $('body').append(compile('<style>' + wid.css + '</style>')(scope));
+                });
+            }
+        },
+
         processHtml: function(screenWid, scope, compile) {
             var targetElement = $('#default_view_loc');
 
@@ -487,6 +504,8 @@ if (typeof angular !== 'undefined') {
                 if (screenWid.command.htmlcleartargetid) {
                     if (screenWid.command.htmlcleartargetid === 'body') {
                         $('#default_view_loc').html('');
+                        $('#errorlog').html('');
+                        $('#successlog').html('');
 
                         // call new page event in config-local
                         eventnewpage();
