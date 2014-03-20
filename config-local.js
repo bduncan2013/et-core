@@ -547,39 +547,40 @@ function test2(params, callback) {
 }
 
 exports.server = window.server = server = function server(params, callback) {
-    try { 
-    var inbound_parameters = {};
-    extend(true, inbound_parameters, params);
+        proxyprinttodiv('Function server ------', params, 99);
+    // try { 
+    // var inbound_parameters = {};
+    // extend(true, inbound_parameters, params);
 
-    console.log('execute server called with ' + JSON.stringify(params));
-    // delete params['configuration'];
-    params = toLowerKeys(params);
-    // if (params['midexecute']) {
-    //     params['executethis'] = params['midexecute'];
-    //     delete params['midexecute'];
+    // console.log('execute server called with ' + JSON.stringify(params));
+    // // delete params['configuration'];
+    // params = toLowerKeys(params);
+    // // if (params['midexecute']) {
+    // //     params['executethis'] = params['midexecute'];
+    // //     delete params['midexecute'];
+    // // }
+    // // alert(JSON.stringify(params));
+
+    // // add accesstoken if user exists in localStorage
+    // var currentUser = window.localStorage ? JSON.parse(window.localStorage.getItem('driUser')) : undefined;
+    // if (currentUser) {
+    //     if (!params.etenvironment) {
+    //         params.etenvironment = {};
+    //     }
+    //     params.etenvironment.accesstoken = currentUser.at;
     // }
-    // alert(JSON.stringify(params));
 
-    // add accesstoken if user exists in localStorage
-    var currentUser = window.localStorage ? JSON.parse(window.localStorage.getItem('driUser')) : undefined;
-    if (currentUser) {
-        if (!params.etenvironment) {
-            params.etenvironment = {};
-        }
-        params.etenvironment.accesstoken = currentUser.at;
-    }
-
-    executeAjax("", params, function (data) {
-        console.log("Return from server: " + JSON.stringify(data));
-        var err;
-        callback(null, data);
-    });
-    } // end try
-    catch (err) {
-        var finalobject = 
-            createfinalobject({"result": "server"}, {}, "server", err, inbound_parameters);
-        callback (finalobject.err, finalobject.res);
-    }
+    // executeAjax("", params, function (data) {
+    //     console.log("Return from server: " + JSON.stringify(data));
+    //     var err;
+    //     callback(null, data);
+    // });
+    // } // end try
+    // catch (err) {
+    //     var finalobject = 
+    //         createfinalobject({"result": "server"}, {}, "server", err, inbound_parameters);
+    //     callback (finalobject.err, finalobject.res);
+    // }
 };
 
 exports.getDriApiData = getDriApiData = function getDriApiData(params, callback) {

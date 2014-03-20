@@ -149,8 +149,8 @@
                         "wid": "permissiondto",
                         "metadata.method": "permissiondto",
                         "level": "string",
-                        "metadata.actiongroup.type": "manytomany", // **** NEED TO CHECK :: ADDED BY SAURABH,, HERE should be actiongroupdto
-                        "metadata.usergroup.type": "manytomany", // **** NEED TO CHECK :: ADDED BY SAURABH,, HERE should be usergroupdto
+                        "metadata.actiongroup.type": "manytomany", // **** NEED TO CHECK :: ADDED BY SAURABH
+                        "metadata.usergroup.type": "manytomany", // **** NEED TO CHECK :: ADDED BY SAURABH
                         // "metadata.actiongroup":"string", // **** NEED TO CHECK :: ADDED BY SAURABH
                         // "metadata.usergroup":"string",// **** NEED TO CHECK :: ADDED BY SAURABH
                         "metadata.db": "string", // **** NEED TO CHECK :: ADDED BY SAURABH
