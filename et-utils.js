@@ -329,7 +329,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
         var temparray = [];
         var modifiedObj = {};
         var todolist = [];
-        Object.keys(inputObject).forEach(function (inpKey) {
+        Object.keys(dtoObject).forEach(function (inpKey) {
             //for (eachkey in inputObject) {
             todolist.push(inpKey);
             //}
@@ -404,9 +404,52 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                                             cbMap(null);
                                         }
                                     });
-                            } else
+                            } else if (dataType === "boolean" || dataType === "string" || dataType === "number" || dataType === "date" || dataType === "integer" || dataType === "shortwid" || dataType === "guid" || dataType === "hash" || dataType === "phone" || dataType === "random4") {
+								
+								//dataType=shortwid - to create new 5 digit alphanumeric string
+								function createNew5DigitAlphanumericString(){
+									return randomString(5, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+								}
+								function randomString(length, chars){
+									var result = '';
+									for (var i = length; i > 0; --i){
+										result += chars[Math.round(Math.random() * (chars.length - 1))];
+									}
+									return result;
+								}
+								
+								//dataType=guid - to create new guid
+								function createNewGuid(){
+									return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+								}
+								function s4(){
+									return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+								}
+								
+								//dataType=phone - to convert phone with phone regex
+								function modifyPhoneInputWithPhoneRegex(number){
+									var format = '# ### ### ####'
+									var tail=format.lastIndexOf('.');number=number.toString();
+									tail=tail>-1?format.substr(tail):'';
+									if(tail.length>0){if(tail.charAt(1)=='#'){
+										tail=number.substr(number.lastIndexOf('.'),tail.length);
+									}}
+									number=number.replace(/\..*|[^0-9]/g,'').split('');
+									format=format.replace(/\..*/g,'').split('');
+									for(var i=format.length-1;i>-1;i--){
+										if(format[i]=='#'){format[i]=number.pop()}
+									}
+									return "+" + number.join('')+format.join('')+tail;
+								}
 
-                            if (typeof inpVal === "string" && (dataType === "boolean" || dataType === "string" || dataType === "number" || dataType === "date")) {
+								//dataType=random4 - to create new random 4 digit number
+								function createNewRandom4DigitNumber(){
+									return getRandomInt(1000, 9999);
+								}
+								function getRandomInt(min, max) {
+									return Math.floor(Math.random() * (max - min + 1)) + min;
+								}
+	
                                 if (command["command.deepfilter.convert"] == false) {
                                     modifiedObj[inpKey] = inpVal;
                                 } else {
@@ -424,6 +467,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                                         modifiedObj[inpKey] = String(inpVal);
                                         break;
                                     case "number":
+									case "integer":
                                         modifiedObj[inpKey] = parseInt(inpVal);
                                         break;
                                     case "date":
@@ -438,6 +482,21 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                                         date.setDate(date.getDate() + 1);
                                         modifiedObj[inpKey] = date;
                                         break;
+									case "shortwid":	//to create 5 digit alphanumeric string
+										modifiedObj[inpKey] = createNew5DigitAlphanumericString();
+										break;
+									case "guid":
+										modifiedObj[inpKey] = createNewGuid();
+										break;
+									case "hash":
+										modifiedObj[inpKey] = "#" + inpVal;
+										break;
+									case "phone":	//+9 999 999 9999
+										modifiedObj[inpKey] = modifyPhoneInputWithPhoneRegex(inpVal);
+										break;
+									case "random4":	//to create 4 digit number
+										modifiedObj[inpKey] = createNewRandom4DigitNumber();
+										break;
                                     }
                                 }
                                 proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
@@ -1675,6 +1734,11 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 }
                 var diff = {};
                 for (var key in obj1) {
+					if (key=="date") {
+						console.log("key : " + key);
+						console.log("val : " + obj1[key]);
+						continue;
+					}
                     if (this.isFunction(obj1[key])) {
                         continue;
                     }
@@ -1693,9 +1757,9 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 return diff;
             },
             compareValues: function (value1, value2) {
-				if(this.isEqualDates(value1, value2)){
-					return this.VALUE_UNCHANGED;
-				}
+				console.log("value1 : " + value1);
+				console.log("value2 : " + value2);
+			
                 if (value1 === value2) {
                     return this.VALUE_UNCHANGED;
                 }
@@ -1718,16 +1782,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
             },
             isValue: function (obj) {
                 return !this.isObject(obj) && !this.isArray(obj);
-            },
-			isEqualDates: function(datestr1, datestr2) {
-				var d1=new Date(datestr1);
-				var d2=new Date(datestr2);
-				if(d1 && d2 && d1.getFullYear()==d2.getFullYear() && d1.getMonth()==d2.getMonth() && d1.getDate()==d2.getDate()) {
-					return true;
-				} else {
-					return false;
-				}	
-			}
+            }
         }
     }();
 
