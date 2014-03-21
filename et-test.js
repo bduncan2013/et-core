@@ -1,18 +1,3 @@
-exports.ettest_smsr1 = ettest_smsr1 = function ettest_smsr1 (params, callback) {
-    execute([{
-            "executethis": "sendsms",
-            "tonumber": "+12316200816",
-            "msgbody": "Hi Russ"
-        }],
-        function (err, res) {
-            alert("res: \m" + JSON.stringify(res[0], "-", 4));
-            res = logverify("ettestast2_result", res[0], [{
-                "smscomplete": "success"
-            }]);
-            callback(err, res);
-        });
-}
-
 	// out of date
     // exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
     //     eventappinstall();
@@ -724,7 +709,7 @@ exports.ettest_smsr1 = ettest_smsr1 = function ettest_smsr1 (params, callback) {
 					"wid": "authordto",
 				}];
 				execute(executeList, function (err, res) {
-					// proxyprinttodiv("getwidmaster authordto", res, 99);
+					proxyprinttodiv("getwidmaster authordto", res, 99);
                     cb2(err, res);
 				});
 			}
@@ -761,8 +746,9 @@ exports.ettest_smsr1 = ettest_smsr1 = function ettest_smsr1 (params, callback) {
             executeobj["executethis"]= "getwidmaster";
             executeobj["wid"]=eachprint["wid"];
             executeobj["command.dtotype"]=eachprint["command.dtotype"];
+			proxyprinttodiv("Function printlistmany input executeobj for getwidmaster", executeobj, 99, true);
             execute(executeobj, function (err, res) {
-                proxyprinttodiv( eachprint["wid"] + " with command.dtotype="+eachprint["command.dtotype"], res, 99, true);
+				proxyprinttodiv("Function printlistmany output for getwidmaster " + eachprint["wid"] + " with command.dtotype="+eachprint["command.dtotype"], executeobj, 99, true);
                 cbMap(null);
                 //callback(err, res);
             }); 
@@ -770,23 +756,6 @@ exports.ettest_smsr1 = ettest_smsr1 = function ettest_smsr1 (params, callback) {
         , function (err, res) {callback(null,null)}
         );
     }
-
-
-    exports.lm1 = lm1 = function lm1(params, callback) {
-        var c = "c";
-        var d = "d";
-        manytoonesetupdto(params, 0, function (err, res) {
-
-                        //parent,   c,  child, d, preamble, dto, getlist
-            addauthorrecord(0,      c,      0, d,   -1,     -1,     2, function (err, res){
-            addauthorrecord(0,      c,      1, d,   0,      -1,     2, function (err, res){
-                callback(err, res);
-            });
-            });
-        });
-    }
-
-
 
 
     // ADD: How many to add
@@ -903,9 +872,9 @@ exports.ettest_smsr1 = ettest_smsr1 = function ettest_smsr1 (params, callback) {
         //proxyprinttodiv("Function addauthorrecord executeobj after dtotype ", executeobj, 99, true);
                 
         executeobj["executethis"]="addwidmaster";
-        proxyprinttodiv("data add before execute = ", executeobj, 99, true);	
+        proxyprinttodiv("Function addauthorrecord input executeobj for addwidmaster", executeobj, 99, true);	
         execute(executeobj, function (err, res) {
-            proxyprinttodiv("data add after execute =", res, 99, true);
+            proxyprinttodiv("Function addauthorrecord output for addwidmaster", res, 99, true);
             printlistmany(printlist[relgetlist], function (err, res) {
                 callback(err, res);
             });
@@ -1873,3 +1842,45 @@ exports.ettest_smsr1 = ettest_smsr1 = function ettest_smsr1 (params, callback) {
                 })
         });
     }
+	
+	
+	/*
+		deep filter should process arrays
+		Allow input object to be of the type being checked.  i.e. input = 30 or “30” should be okay for type integer
+
+		Today it is not converting to integer.
+
+		in addition to supporting integer, string..we want to support:
+		shortwid-create a short 5 digit alphanumeric
+		guid-create a long guid
+		hash-convert number to hash
+		phone-phone number in international format +n nnn…
+		random4-random 4 digit number
+	*/
+	exports.etd15 = etd15 = function etd15(params, callback) {
+		debuglevel = 41;
+		async.series([
+			function (cb1){
+				var dtoObjOpt = {"n":"number", "i":"integer", "s":"shortwid", "g":"guid", "h":"hash", "p":"phone", "r":"random4"};
+				var inputObj = {"n":"30", "i":"40", "h":"ff00ff","p":"19998887777"};
+				var command = {"formatresult": "false", "command.deepfilter.convert":true};
+
+				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+					proxyprinttodiv("after etd15 deepfilter in", inputObj, 41);
+					proxyprinttodiv("after etd15 deepfilter out", dtoObjOpt, 41);
+					proxyprinttodiv("after etd15 deepfilter res", res, 41);
+					cb1(err, res);
+				});
+			}
+		], function (err, res) {
+			proxyprinttodiv("res --", res, 41);
+			var actual_result = res;
+			proxyprinttodiv("actual_result --", actual_result, 41);							  
+
+			var expected_result = [{"n":30}];
+			proxyprinttodiv("expected_result --", expected_result, 41);
+
+			res = logverify("logverify", actual_result, expected_result);
+			callback(err, res); 
+		});
+	}
