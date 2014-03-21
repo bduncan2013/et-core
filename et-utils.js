@@ -297,12 +297,12 @@ function setbyindex(obj, str, val) {
 
 
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
-        console.log("<< in deepfilter >>");
+                    console.log("<< in deepfilter >>");
         var modifiedObj = {};
         extend(true, modifiedObj, inputObj);
-        console.log("<< extend >>" + JSON.stringify(modifiedObj));
-        proxyprinttodiv("deepfilter inputObj", inputObj, 41);
-        proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
+                    console.log("<< extend >>" + JSON.stringify(modifiedObj));
+                    proxyprinttodiv("deepfilter inputObj", inputObj, 41);
+                    proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
         if (dtoObjOpt) {
             recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
                 // If error, bounce out
@@ -398,7 +398,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                                     function (err, res) {
                                         // If error, bounce out
                                         if (err && Object.keys(err).length > 0) {
-                                            cbMap(err, result);
+                                            cbMap(err, res);
                                         } else {
                                             proxyprinttodiv("recurseModObj - modifiedObj[inpKey] end nextTick ", modifiedObj[inpKey], 41);
                                             cbMap(null);

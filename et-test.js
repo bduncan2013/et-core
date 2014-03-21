@@ -1861,9 +1861,25 @@
 		debuglevel = 41;
 		async.series([
 			function (cb1){
-				var dtoObjOpt = {"n":"number", "i":"integer", "s":"shortwid", "g":"guid", "h":"hash", "p":"phone", "r":"random4"};
-				var inputObj = {"n":"30", "i":"40", "h":"ff00ff","p":"19998887777"};
-				var command = {"formatresult": "false", "command.deepfilter.convert":true};
+				var dtoObjOpt = {
+                                    "n":"number", 
+                                    "i":"integer", 
+                                    "s":"shortwid", 
+                                    "g":"guid", 
+                                    "h":"hash", 
+                                    "p":"phone", 
+                                    "r":"random4"
+                                };
+				var inputObj = {
+                                    "n":"30", 
+                                    "i":"40", 
+                                    "h":"ff00ff",
+                                    "p":"19998887777"
+                                };
+				var command = {
+                                    "formatresult": "false", 
+                                    "command.deepfilter.convert":true
+                                };
 
 				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
 					proxyprinttodiv("after etd15 deepfilter in", inputObj, 41);
