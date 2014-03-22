@@ -1692,13 +1692,18 @@
         };
         var json2 = converttodriformat(json1);
         proxyprinttodiv('Function testformat ---  json2 -- ', json2, 39);
-        callback(null,json2);
+        callback(null, json2);
     }
 
-    
+
 
 
     // Security test -- setup schema, add user, permission etc data,test security
+    // Test to pass security check
+    // user has permissions to access what he is trying to
+    // rogeruser tries getwidmaster
+    // rogeruser is part of driemployees usergroup
+    //  driemployees usergroup has permission to getwidmaster actiongroup
     exports.etsec1 = etsec1 = function etsec1(parm, callback) {
         // _accesstoken, _mygroup, _actiongroup, _dbgroup, _collection, _server, _loginlevel,
         debuglevel = 39;
@@ -1778,40 +1783,621 @@
 
 
         /// *** TESTS BELOW **** CHANGE THE STUFF ABOVE, NOTHING BELOW
+        proxyprinttodiv('Function  etsec1  going to check security now for user ', userobj.wid, 39);
+        checkSecurityForData(parm, userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, check1Set, callback);
+    }
 
+
+    // Security test -- setup schema, add user, permission etc data,test security
+    // Test to fail security check
+    // user DOES NOT HAVE permissions to access what he is trying to
+    // rogeruser tries addwidmaster
+    // rogeruser is part of driemployees usergroup
+    //  driemployees usergroup DOES NOT HAVE permission to addwidmaster actiongroup
+    exports.etsec2 = etsec2 = function etsec2(parm, callback) {
+        // _accesstoken, _mygroup, _actiongroup, _dbgroup, _collection, _server, _loginlevel,
+        debuglevel = 39;
+
+        // user data
+        var userobj = {};
+        userobj['wid'] = "rogeruser";
+        userobj['fname'] = "Roger";
+        userobj['lname'] = "Colburn";
+        userobj['phone'] = "987-383-8958";
+        userobj['email'] = "roger@d.com";
+        userobj['address'] = "112";
+        userobj['address2'] = "Donald Lynch Blvd";
+        userobj['city'] = "Marlborough";
+        userobj['state'] = "Massachusetts";
+        userobj['zip'] = "17502";
+        userobj['country'] = "US";
+
+        // environment data
+        var environmentobj = {};
+        environmentobj['ac'] = 'ac';
+        environmentobj['gps'] = 'gpsval';
+        environmentobj['account'] = 'default';
+        environmentobj['db'] = 'data';
+        environmentobj['collection'] = 'maincollection';
+
+        // user permissions data
+        var permissionobj = {
+            "permissiondto.0.level": "99",
+            "permissiondto.0.metadata.collection": "collection1",
+            "permissiondto.0.metadata.system.creator": "rogeruser",
+            "permissiondto.0.actiongroupdto.actiongroupname": "getwid",
+            // "permissiondto.0.actiongroupdto.metadata.system.creator": "rogeruser",
+            "permissiondto.0.usergroupdto.usergroupname": "driemployees",
+            // "permissiondto.0.usergroupdto.metadata.system.creator": "rogeruser",
+            "permissiondto.0.metadata.db": "data1"
+        };
+
+        // user usergroups assignment data
+        var usergroupobj = {
+            "usergroupdto.0.usergroupname": "driemployees",
+            "usergroupdto.0.metadata.system.creator": "rogeruser",
+            "usergroupdto.1.metadata.system.creator": "rogeruser",
+            "usergroupdto.1.usergroupname": "drimanagers"
+        };
+
+        // user actiongroups assignment data
+        var actiongroupobj = {
+            "actiongroupdto.0.actiongroupname": "getwidmaster",
+            "actiongroupdto.0.metadata.system.creator": "rogeruser",
+            "actiongroupdto.1.metadata.system.creator": "rogeruser",
+            "actiongroupdto.1.actiongroupname": "addwidmaster",
+            "actiongroupdto.0.actiongroupname": "getwid",
+            "actiongroupdto.0.metadata.system.creator": "rogeruser"
+        };
+
+        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- override
+        var overrideobj = {};
+        overrideobj['wid'] = 'overridedataobjwid';
+
+        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- default
+        var defaultobj = {};
+        defaultobj['wid'] = 'defaultobjwid';
+
+        // user security data
+        var securityobj = {};
+        securityobj['ac'] = "rogerac";
+
+        // what to test security on
+        var check1Set = {};
+        check1Set['ac'] = "rogerac";
+        check1Set['usergroup'] = null;
+        check1Set['actiongroup'] = "getwidmaster";
+        check1Set['dbgroup'] = "data1";
+        check1Set['phone'] = "9873838958";
+        check1Set['server'] = "server1";
+        check1Set['collection'] = "collection1";
+        check1Set['datastore'] = "dbs";
+
+
+        /// *** TESTS BELOW **** CHANGE THE STUFF ABOVE, NOTHING BELOW
+        proxyprinttodiv('Function  etsec2  going to check security now for user ', userobj.wid, 39);
+        checkSecurityForData(parm, userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, check1Set, callback);
+    }
+
+    // ** GENERIC FUNCTION TO CHECK SECURITY ON THE BASIS OF THE GIVEN DATA AND RETURN THE STATUS **
+
+    function checkSecurityForData(parm, userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, check1Set, callback) {
         var status = false;
         async.series([
             function (cb1) {
                 // create schema data
                 createalldtos(parm, function (err, res) {
-                    proxyprinttodiv('Function  etsec1  added schema dtos ', res, 39);
+                    proxyprinttodiv('Function  checkSecurityForData  added schema dtos ', res, 39);
                     cb1(null);
                 });
             },
             function (cb1) {
                 // create schema data
                 noncriticaldtos(function (err, res) {
-                    proxyprinttodiv('Function  etsec1  added noncriticaldtos ', res, 39);
+                    proxyprinttodiv('Function  checkSecurityForData  added noncriticaldtos ', res, 39);
                     cb1(null);
                 });
             },
             function (cb1) {
                 // setup user data
                 createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
-                    proxyprinttodiv('Function  etsec1  added user data ', res, 39);
+                    proxyprinttodiv('Function  checkSecurityForData  added user data ', res, 39);
                     cb1(null);
                 });
             },
             function (cb1) {
                 // check security test 1
                 securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
-                    proxyprinttodiv('Function  etsec1  checked security ', res, 39);
+                    proxyprinttodiv('Function  checkSecurityForData  checked security ', res, 39);
                     status = res;
                     cb1(null);
                 });
             }
         ], function (err, res) {
             callback(err, status);
+        });
+    }
+
+
+    // ***************************************************************************
+    // *************** DATA ADDITION TEST FUNCTIONS ******************************
+    //****************************************************************************
+
+
+
+
+    // create the defaultgroups 
+    exports.createdefaultgroups = createdefaultgroups = function createdefaultgroups() {
+
+        execute([{
+                "executethis": "addwidmaster",
+                "wid": "employees_grp",
+                "metadata.method": "groupdto",
+                "groupname": "employees"
+            },
+            //Create the 
+            {
+                "executethis": "addwidmaster",
+                "wid": "managers_grp",
+                "metadata.method": "groupdto",
+                "groupname": "managers"
+            }
+        ], function (err, res) {
+            proxyprinttodiv('Function createdefaultgroups -- added 2 groups  -- ', res, 39);
+            callback(err, res);
+        });
+    }
+
+
+    // 1st test for new security stuff
+    exports.asap = asap = function asap(parm, callback) {
+
+        debuglevel = 39;
+
+        // roger user data
+        var userobj = {};
+        userobj['wid'] = "rogeruser";
+        userobj['fname'] = "Roger";
+        userobj['lname'] = "Colburn";
+        userobj['phone'] = "987-383-8958";
+        userobj['email'] = "roger@d.com";
+        userobj['address'] = "112";
+        userobj['address2'] = "Donald Lynch Blvd";
+        userobj['city'] = "Marlborough";
+        userobj['state'] = "Massachusetts";
+        userobj['zip'] = "17502";
+        userobj['country'] = "US";
+
+        // environment data
+        var environmentobj = {};
+        environmentobj['ac'] = 'ac';
+        environmentobj['gps'] = 'gpsval';
+        environmentobj['account'] = 'default';
+        environmentobj['db'] = 'data';
+        environmentobj['collection'] = 'maincollection';
+
+        // rogeruser permissions data
+
+
+        var permissionsobj = {
+            "permissiondto.0.level": "99",
+            "permissiondto.0.metadata.collection": "collection1",
+            "permissiondto.0.actiongroupdto.actiongroupname": "getwidmaster",
+            "permissiondto.0.usergroupdto.usergroupname": "driemployees",
+            "permissiondto.0.metadata.db": "data1"
+        };
+
+
+        var usergroupobj = {
+            "usergroupdto.0.usergroupname": "driemployees",
+            "usergroupdto.0.usergroupdto.0.usergroupname": "driemployees",
+
+            "usergroupdto.1.usergroupname": "drimanagers",
+            "usergroupdto.1.usergroupdto.0.usergroupname": "driemployees"
+        };
+
+        var actiongroupobj = {
+            "actiongroupdto.0.actiongroupname": "getwidmaster",
+            "actiongroupdto.0.creator": "rogeruser",
+            "actiongroupdto.0.actiongroupdto.0.actiongroupname": "getwidmaster",
+            "actiongroupdto.0.actiongroupdto.0.creator": "rogeruser",
+            "actiongroupdto.1.actiongroupname": "addwidmaster",
+            "actiongroupdto.1.creator": "rogeruser",
+            "actiongroupdto.1.actiongroupdto.0.actiongroupname": "addwidmaster"
+        };
+
+
+        // default data -- override
+        var overrideobj = {};
+        overrideobj['wid'] = 'overridedataobjwid';
+
+        // default data -- default
+        var defaultobj = {};
+        defaultobj['wid'] = 'defaultobjwid';
+
+        var securityobj = {};
+        securityobj['ac'] = "rogerac";
+
+
+
+        async.series([
+                function (cb) {
+                    createalldtos(null, function (err, res) {
+                        cb(null, "system dtos created")
+                    });
+                },
+
+                function (cb) {
+                    noncriticaldtos(function (err, res) {
+                        cb(null, "non critical dtos created")
+                    });
+                },
+
+                function (cb) {
+                    proxyprinttodiv('Function asap -- environment is >>>>>  environmentobj', environmentobj, 39);
+                    proxyprinttodiv('Function asap -- actiongroups are >>>>>  actiongroupobj', actiongroupobj, 39);
+                    proxyprinttodiv('Function asap -- usergroups are >>>>>  usergroupobj', usergroupobj, 39);
+                    proxyprinttodiv('Function asap -- usergroups are >>>>>  usergroupobj', usergroupobj, 39);
+
+                    createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionsobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
+                        proxyprinttodiv('Function asap >>>>>  res', res, 39);
+                        cb(null, "userdata");
+                    });
+                }
+            ],
+
+            function (err, res) {
+                proxyprinttodiv('Function asap >>>>> finally done >>> res', res, 39);
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": userobj.wid
+                }, function (err, resp) {
+                    proxyprinttodiv('Function createuserdata -- added getwidmaster on user  -- ' + userobj.wid, resp, 39);
+                    callback(err, res);
+                });
+
+
+            })
+    }
+
+
+    // test to see if 2nd level data addition is a problems
+    // proves it is not
+    // step wise building schema
+    exports.csd1 = csd1 = function csd1(params, callback) {
+        var executeList = [{
+            // parentdto
+            "executethis": "addwidmaster",
+            "metadata.method": "parentdto",
+            "wid": "parentdto",
+            "phone1": "string",
+            "metadata.childdto.type": "manytomany"
+        }, {
+            // childdto
+            "executethis": "addwidmaster",
+            "metadata.method": "childdto",
+            "wid": "childdto",
+            "phone2": "string",
+            "metadata.grandchilddto.type": "manytomany"
+        }, {
+            // grandchilddto
+            "executethis": "addwidmaster",
+            "metadata.method": "grandchilddto",
+            "wid": "grandchilddto",
+            "phone3": "string"
+        }];
+
+        execute(executeList, function (err, res) {
+            createrelationship("parentdto", "childdto", "manytomany", function (err, res) {
+                createrelationship("childdto", "grandchilddto", "manytomany", function (err, res) {
+                    execute({
+                        // create data 
+                        "executethis": "addwidmaster",
+                        "metadata.method": "parentdto",
+                        "wid": "parentwid1",
+                        "phone1": "11111",
+                        "childdto.0.phone2": "22222",
+                        "childdto.0.grandchilddto.0.phone3": "33333",
+                        "childdto.1.phone2": "2121212121",
+                        "childdto.1.grandchilddto.0.phone3": "3131313131",
+                        "childdto.1.phone2": "211211211211211",
+                        "childdto.1.grandchilddto.0.phone3": "311311311311311",
+                        "childdto.1.grandchilddto.1.phone3": "322322322322322"
+
+                    }, function (err, res) {
+
+                        execute({
+                            // create data 
+                            "executethis": "getwidmaster",
+                            "wid": "parentwid1"
+                        }, function (err, res) {
+                            // proxyprinttodiv('Function csd -- added all this -- ', res, 99);
+                            callback(err, res);
+                        });
+
+                    });
+                });
+            });
+        });
+    }
+
+
+    // test to see if 2nd level data addition is a problems
+    // proves it is not
+    // one go building schema
+    exports.csd = csd = function csd(params, callback) {
+        var executeList = [{
+            // Create the actiongroupdto        
+            "executethis": "addwidmaster",
+            "wid": "actiongroupdto",
+            "metadata.method": "actiongroupdto",
+            "actiongroupname": "string"
+            // ,
+            // "metadata.executeactiondto.type": "manytoone",
+            // "metadata.getactiondto.type": "manytoone",
+            // "metadata.editactiondto.type": "manytoone",
+            // "metadata.deleteactiondto.type": "manytoone",
+            // "metadata.addactiondto.type": "manytoone"
+        }, {
+            // Create the usergroupdto      
+            "executethis": "addwidmaster",
+            "wid": "usergroupdto",
+            "metadata.method": "usergroupdto",
+            "usergroupname": "string"
+        }, {
+            // Create the permissiondto     
+            "executethis": "addwidmaster",
+            "wid": "permissiondto",
+            "metadata.method": "permissiondto",
+            "level": "string",
+            "metadata.actiongroupdto.type": "manytomany",
+            "metadata.usergroupdto.type": "manytomany",
+            "metadata.db": "string",
+            "metadata.collection": "string"
+        }];
+
+        execute(executeList, function (err, res) {
+            createrelationship("permissiondto", "actiongroupdto", "manytomany", function (err, res) {
+                createrelationship("permissiondto", "usergroupdto", "manytomany", function (err, res) {
+                    execute({
+                        // create data 
+                        "executethis": "addwidmaster",
+                        "metadata.method": "parentdto",
+                        "wid": "parentwid1",
+                        "phone1": "11111",
+                        "childdto.0.phone2": "22222",
+                        "childdto.0.grandchilddto.0.phone3": "33333",
+                        "childdto.1.phone2": "2121212121",
+                        "childdto.1.grandchilddto.0.phone3": "3131313131",
+                        "childdto.1.phone2": "211211211211211",
+                        "childdto.1.grandchilddto.0.phone3": "311311311311311",
+                        "childdto.1.grandchilddto.1.phone3": "322322322322322"
+
+                    }, function (err, res) {
+
+                        execute({
+                            // create data 
+                            "executethis": "getwidmaster",
+                            "wid": "parentwid1"
+                        }, function (err, res) {
+                            // proxyprinttodiv('Function csd -- added all this -- ', res, 99);
+                            callback(err, res);
+                        });
+
+                    });
+                });
+            });
+        });
+    }
+
+    /*
+        to test createalldtos
+    */
+    exports.testcreatealldtos = testcreatealldtos = function testcreatealldtos(params, callback) {
+        var executeobj = {
+            "executethis": "addwidmaster",
+            "metadata.method": "userdto",
+            "wid": "wid1",
+
+            "widname": "user widname", //HERE, we need to specify value as datatype "wid"
+            "fname": "user fname1",
+            "lname": "user lname1",
+            "phone": "user phone",
+            "email": "user@test.com",
+            "address": "user address",
+            "address2": "user address2",
+            "city": "user city",
+            "state": "user state",
+            "zip": "user zip 123456",
+            "country": "user country",
+
+            "securitydto.accesstoken": "user security accesstoken",
+            "securitydto.status": "user security status",
+
+            "environmentdto.ac": "user environment ac",
+            "environmentdto.gps": "user environment gps",
+            "environmentdto.account": "user environment account",
+            "environmentdto.db": "user environment db",
+            "environmentdto.collection": "user environment collection",
+
+            "permissiondto.0.level": "user permission level",
+            "permissiondto.0.metadata.db": "user permission db",
+            "permissiondto.0.metadata.collection": "user permission collection",
+
+            "usergroupdto.0.groupname": "user usergroup name"
+        };
+
+        createalldtos(params, function (cb2) {
+            var executeList = [];
+
+            var executeObjForGet = {
+                "executethis": "getwidmaster",
+                "wid": "userdto",
+            };
+            //executeList.push(executeObjForGet);
+            executeList.push(executeobj);
+
+            execute(executeList, function (err, res) {
+                proxyprinttodiv("result from data add ", res, 99, true);
+
+                var printlist = [
+                    //{"wid":"wid1", "command.dtotype":""},
+
+                    {
+                        "wid": "wid1",
+                        "command.dtotype": "userdto"
+                    },
+                    //{"wid":"wid1", "command.dtotype":"securitydto"},
+                    //{"wid":"wid1", "command.dtotype":"environmentdto"},
+                    //{"wid":"wid1", "command.dtotype":"permissiondto"}
+                ];
+
+                printlistmany(printlist, function (err, res) {
+                    callback(err, res);
+                })
+            });
+        });
+    }
+
+
+    /// test to add a permission record and get it back
+    /// made to test if permission dto is setup correctly or not
+    exports.tp1 = tp1 = function tp1(parms, callback) {
+        // permissiondto
+        debuglevel = 39;
+
+        var executeobj = {
+            // add permissions as per given information 
+            "executethis": "addwidmaster",
+            "wid": "p1",
+            // permissions data 
+            "metadata.method": "permissiondto",
+            "usergroupdto.usergroupname": "ug",
+            "actiongroupdto.actiongroupname": "ag",
+            "metadata.db": "data",
+            "metadata.collection": "maincollection",
+            "level": "99"
+        };
+
+        createalldtos(parms, function (err, res) {
+            execute(executeobj, function (err, res) {
+
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": "p1"
+                }, function (err, res) {
+                    proxyprinttodiv("tp1 -- permissiondto p1 --  ", res, 39, true);
+                    callback(err, res);
+
+                });
+            });
+        });
+    }
+
+    /// test to add a actiongroup record and get it back
+    /// made to test if actiongroup is setup correctly or not
+    exports.agr1 = agr1 = function agr1(parms, callback) {
+        // actiongroupdto
+        debuglevel = 39;
+
+        var executeobj = {
+            "executethis": "addwidmaster",
+            "wid": "ag1",
+            "metadata.method": "actiongroupdto",
+            "actiongroupname": "grou name"
+        };
+
+        createalldtos(parms, function (err, res) {
+            execute(executeobj, function (err, res) {
+
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": "ag1"
+                }, function (err, res) {
+                    proxyprinttodiv("ag1 --  --  ", res, 39, true);
+                    callback(err, res);
+
+                });
+            });
+        });
+    }
+
+    /// test to add a userdto record and get it back
+    /// made to test if userdto is setup correctly or not
+    exports.uw = uw = function uw(parms, callback) {
+        // userdto
+        debuglevel = 39;
+
+        createalldtos(parms, function (err, res) {
+
+            var executeobj = {
+                "executethis": "addwidmaster",
+                "metadata.method": "userdto",
+                "wid": "uw",
+                "fname": "userobj.fname",
+                "lname": "userobj.lname",
+                "phone": "userobj.phone",
+                "email": "userobj.email",
+                "address": "userobj.address",
+                "address2": "userobj.address2",
+                "city": "userobj.city",
+                "state": "userobj.state",
+                "zip": "userobj.zip",
+                "country": "userobj.country",
+
+                "securitydto.accesstoken": "user security accesstoken",
+                "securitydto.status": "user security status",
+
+                "environmentdto.ac": "user environment ac",
+                "environmentdto.gps": "user environment gps",
+                "environmentdto.account": "user environment account",
+                "environmentdto.db": "user environment db",
+                "environmentdto.collection": "user environment collection",
+
+                "permissiondto.0.level": "user permission level",
+                "permissiondto.0.metadata.db": "user permission db",
+                "permissiondto.0.metadata.collection": "user permission collection",
+
+                "usergroupdto.0.usergroupname": "user usergroup name",
+                "actiongroupdto.0.actiongroupname": "permission action group"
+            };
+
+            execute(executeobj, function (err, res) {
+
+                execute({
+                    "executethis": "getwidmaster",
+                    "wid": "uw"
+                }, function (err, res) {
+                    proxyprinttodiv("uw --  --  ", res, 39, true);
+                    callback(err, res);
+
+                });
+            });
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+    // test recursive groups fetching
+    exports.etgrp = etgrp = function etgrp(parm, callback) {
+        debuglevel = 39;
+        asap({}, function (err, res) {
+            proxyprinttodiv('Function etgrp >>>>>  for  -- asap done', res, 39);
+            var userobj = {
+                "wid": "rogeruser"
+            };
+            var groupset = [];
+            getmygroups(userobj, "usergroupdto", "usergroupname", groupset, function (err, res) {
+                proxyprinttodiv('Function etgrp >>>>>  for  -- groupset', groupset, 39);
+                callback(err, groupset);
+            });
         });
     }
 })(typeof window == "undefined" ? global : window);

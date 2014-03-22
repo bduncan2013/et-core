@@ -117,7 +117,7 @@
                     });
                 },
                 function (cb1) {
-                    // getwidmaster for permissions for the 'owner' :: REVIEW THIS APPROACH
+                    // getwidmaster for permissions for the 'owner' 
                     var rawquery1 = {
                         "executethis": "querywid",
                         "mongorawquery": {
@@ -376,5 +376,252 @@
             });
         });
     }
+
+
+
+
+
+
+
+    // ***************************************************************************
+    // *************** PURE LOGIC GENERIC FUNCTIONS ******************************
+    //****************************************************************************
+
+
+
+
+
+
+
+
+
+    // ** GENERIC FUNCTION TO CREATE COMMON(default and override) DATA **
+    // create defaultdto and overridedto wids -- NOT USED CURRENTLY
+    exports.createcommondata = createcommondata = function createcommondata(callback) {
+
+        var creatorwid = "driwid";
+        var expirationtimer = "10000";
+        var creationdate = "3/9/2014";
+        var expirationdate = "12/31/2999";
+        var expirationdate = "12/31/2999";
+        var db = "data";
+        var collectionname = "dri";
+
+
+        execute([{
+            // create defaultdto data
+            "executethis": "addwidmaster",
+            "metadata.method": "defaultdto",
+            "system.creator": creatorwid,
+            "system.creationdate": creationdate,
+            "system.expirationtimer": expirationtimer,
+            "system.expiratondate": expirationdate,
+            "system.db": db,
+            "system.collection": collectionname
+
+            // TODO :: ADD systemdto/overridedto data add logic below
+            // },{
+            //  // create overridedto data
+            //     "executethis": "addwidmaster",
+            //     "metadata.method": "defaultdto",
+            //     "metadata.system.creator": creatorwid,
+            //     "metadata.system.creationdate": creationdate,
+            //     "metadata.system.expirationtimer": expirationtimer,
+            //     "metadata.system.expiratondate": expirationdate,
+            //     "metadata.system.db": db,
+            //     "metadata.system.collection": collectionname
+        }], callback);
+    }
+
+    // ** GENERIC FUNCTION TO CREATE A USER WID ON THE BASIS OF RECEIVED DATA **
+    // create createuserdata wid data and associated relationships
+    exports.createuserdata = createuserdata = function createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, callback) {
+
+        var userJson = {
+            "executethis": "addwidmaster",
+            "metadata.method": "userdto",
+            "wid": userobj.wid,
+            "fname": userobj.fname,
+            "lname": userobj.lname,
+            "phone": userobj.phone,
+            "email": userobj.email,
+            "address": userobj.address,
+            "address2": userobj.address2,
+            "city": userobj.city,
+            "state": userobj.state,
+            "zip": userobj.zip,
+            "country": userobj.country
+
+        }
+
+        // add permissiondto values from the json object passed in
+        for (var key in permissionobj) {
+            userJson[key] = permissionobj[key];
+        }
+
+        // add usergroupdto values from the json object passed in
+        for (var key in usergroupobj) {
+            userJson[key] = usergroupobj[key];
+        }
+        // add actiongroupdto values from the json object passed in
+        for (var key in actiongroupobj) {
+            userJson[key] = actiongroupobj[key];
+        }
+
+        // add environmentdto values from the json object passed in
+        userJson["environmentdto.ac"] = environmentobj.ac;
+        userJson["environmentdto.gps"] = environmentobj.gps;
+        userJson["environmentdto.account"] = environmentobj.account;
+        userJson["environmentdto.db"] = environmentobj.db;
+        userJson["environmentdto.collection"] = environmentobj.collection;
+
+        // add securitydto values from the json object passed in
+        userJson["securitydto.accesstoken"] = securityobj.ac;
+
+        // create userdto data
+        execute(userJson, function (err, res) {
+            // create securitydto data
+            execute({
+                "executethis": "getwidmaster",
+                "wid": userobj.wid
+            }, function (err, resp) {
+                proxyprinttodiv('Function createuserdata -- added getwidmaster on user  -- ' + userobj.wid, res, 39);
+                callback(err, res);
+            });
+        });
+    }
+
+    // ** GENERIC FUNCTION TO ADD ENVIRONMENT DATA TO A USER WID ON THE BASIS OF RECEIVED DATA **
+    // logic to assign environment to a user -- taking the groupname 
+    exports.addenvironment = addenvironment = function addenvironment(userobj, environmentobj, callback) {
+
+        execute({
+            "executethis": "addwidmaster",
+            "wid": userobj.wid,
+            "environmentdto.ac": environmentobj.ac,
+            "environmentdto.gps": environmentobj.gps,
+            "environmentdto.account": environmentobj.account,
+            "environmentdto.db": environmentobj.db,
+            "environmentdto.collection": environmentobj.collection
+        }, function (err, res) {
+            proxyprinttodiv('Function addenvironment -- added environment to user  -- ' + userobj.wid, res, 39);
+            callback(null, "environmentdto");
+        });
+    }
+
+    // ** GENERIC FUNCTION TO CREATE A GROUP ON THE BASIS OF RECEIVED DATA **
+    // logic to create a group -- taking the groupname 
+    exports.creategroup = creategroup = function creategroup(groupname, callback) {
+        execute([{
+            "executethis": "addwidmaster",
+            "wid": groupname,
+            "usergroupname": groupname
+        }], function (err, res) {
+            proxyprinttodiv('Function creategroup -- added group  -- ', groupname, 39);
+
+            callback(err, res);
+        });
+    }
+
+
+    // ** GENERIC FUNCTION TO CREATE A USER GROUP ON THE BASIS OF RECEIVED DATA **
+    // logic to create a group -- taking the groupname 
+    exports.createusergroup = createusergroup = function createusergroup(groupname, callback) {
+        execute([{
+            "executethis": "addwidmaster",
+            "wid": groupname,
+            "usergroupname": groupname
+        }], function (err, res) {
+            proxyprinttodiv('Function createusergroup -- added user group  -- ', groupname, 39);
+
+            callback(err, res);
+        });
+    }
+
+
+
+    // ** GENERIC FUNCTION TO CREATE AN ACTION GROUP ON THE BASIS OF RECEIVED DATA **
+    // logic to create a group -- taking the groupname 
+    exports.createactiongroup = createactiongroup = function createactiongroup(groupname, callback) {
+        execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "actiongroupdto",
+            "wid": groupname,
+            "actiongroupname": groupname
+        }], function (err, res) {
+            proxyprinttodiv('Function createactiongroup -- added actiongroup  -- ', groupname, 39);
+
+            callback(err, res);
+        });
+    }
+
+    // ** GENERIC FUNCTION TO ADD A RELATIONSHIP BETWEEN TWO WID TYPES ON THE BASIS OF RECEIVED DATA **
+    // create relationship function
+    exports.createrelationship = createrelationship = function createrelationship(primarywid, secondarywid, linktype, callback) {
+
+        execute([{
+            "executethis": "addwidmaster",
+            "wid": "rel_" + secondarywid + "_to_" + primarywid,
+            "metadata.method": "relationshipdto",
+            "relationshiptype": "attributes",
+            "linktype": linktype,
+            "primarywid": primarywid,
+            "primarymethod": primarywid,
+            "secondarywid": secondarywid,
+            "secondarymethod": secondarywid
+        }], function (err, res) {
+            // proxyprinttodiv('Function createrelationship -- added relationship for  -- ' + primarywid + ' >> ' + secondarywid, linktype, 39);
+            callback(err, res);
+        });
+
+        // alert('done creating relationship');
+    }
+
+
+    // ** GENERIC FUNCTION TO ADD A RELATIONSHIP BETWEEN TWO WID TYPES ON THE BASIS OF RECEIVED DATA **
+    // add permission
+    exports.addpermission = addpermission = function addpermission(userobj, permissionobjArr, callback) {
+        async.mapSeries(permissionobjArr, function (permissionobj, cbMap) {
+            // add each permission to the user
+            execute([{
+                    // add permissions as per given information 
+                    "executethis": "addwidmaster",
+                    "wid": userobj.wid,
+                    // permissions data 
+                    "metadata.method": "userdto",
+                    "permissiondto.usergroup.usergroupname": permissionobj.usergroup,
+                    "permissiondto.actiongroup.actiongroupname": permissionobj.actiongroup,
+                    "permissiondto.dbgroup": permissionobj.dbgroup,
+                    "permissiondto.levelgroup": permissionobj.levelgroup
+
+                }],
+                function (err, res) {
+                    cbMap(null);
+                });
+        }, function (err, res) {
+            proxyprinttodiv('Function createuser done --  >>>>>> added permission >>>>>  for  -- ' + userobj.wid, res, 39);
+            callback(err, res);
+        });
+    }
+
+    // ** GENERIC FUNCTION TO ADD A SECURITY DATA FOR A USER WID ON THE BASIS OF RECEIVED DATA **
+    // add security data
+    exports.addsecurity = addsecurity = function addsecurity(userobj, securityobj, callback) {
+        execute([{
+                // add group as per given wid 
+                "executethis": "addwidmaster",
+                "wid": userobj.wid,
+                // security data
+                "metadata.method": "userdto",
+                "securitydto.accesstoken": securityobj.ac
+            }],
+            function (err, res) {
+                proxyprinttodiv('Function addsecurity --  >>>>>> added security  >>>>>  for  -- ' + userobj.wid, res, 39);
+                // console.debug('added security for wid ' + wid + " >>>> " + JSON.stringify(res));
+                callback(err, res)
+            });
+    }
+
+
 
 })(typeof window == "undefined" ? global : window);
