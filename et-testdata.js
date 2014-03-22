@@ -49,26 +49,33 @@
             callback(null);
         });
     }
-	
-exports.authortest1 = authortest1 = function authortest1(){
-	execute([{"executethis":"addwidmaster",
-			"wid":"bookdto",
-			"metadata.method":"bookdto",
-			"title":"string"},
-			
-			{"executethis":"addwidmaster",
-			"wid":"authordto",
-			"metadata.method":"authordto",
-			"name":"string",
-			"metadata.bookdto.type":"onetomany"},
-			
-			{"executethis":"addwidmaster",
-			"wid":"daniel",
-			"metadata.method":"authordto",
-			"name":"Daniel",
-			"bookdto.title":"House of Horrors"}]);
-}
-	
+
+    exports.authortest1 = authortest1 = function authortest1() {
+        execute([{
+                "executethis": "addwidmaster",
+                "wid": "bookdto",
+                "metadata.method": "bookdto",
+                "title": "string"
+            },
+
+            {
+                "executethis": "addwidmaster",
+                "wid": "authordto",
+                "metadata.method": "authordto",
+                "name": "string",
+                "metadata.bookdto.type": "onetomany"
+            },
+
+            {
+                "executethis": "addwidmaster",
+                "wid": "daniel",
+                "metadata.method": "authordto",
+                "name": "Daniel",
+                "bookdto.title": "House of Horrors"
+            }
+        ]);
+    }
+
     exports.createactiondto = createactiondto = function createactiondto() {
         execute([{
             "executethis": "addwidmaster",
@@ -1417,26 +1424,6 @@ exports.authortest1 = authortest1 = function authortest1(){
             });
     };
 
-    function createuserdata(cb) {
-        async.series([
-            function (cb1) {
-                // create users -- create user roger
-                createtestuser("roger", "rogerac", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 creategroup -- roger', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create users -- create user cody
-                createtestuser("cody", "codyac", 99, function (err, res) {
-                    proxyprinttodiv('Function st2 fresh1 createtestuser -- cody', res, 39);
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {
-            cb(err, res);
-        });
-    }
 
     function creategroupdata(cb) {
         async.series([
@@ -1573,6 +1560,10 @@ exports.authortest1 = authortest1 = function authortest1(){
         });
     }
 
+
+
+
+
     exports.st2 = st2 = function st2(parm, callback) {
 
         // create users
@@ -1601,45 +1592,226 @@ exports.authortest1 = authortest1 = function authortest1(){
                         proxyprinttodiv('Function  st2  added user data ', res, 39);
                         cb1(null);
                     });
-                // },
-                // function (cb1) {
-                //     // setup groups data
-                //     creategroupdata(function (err, res) {
-                //         proxyprinttodiv('Function  st2  added groups ', res, 39);
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) {
-                //     // setup permission data
-                //     createpermissiondata(function (err, res) {
-                //         proxyprinttodiv('Function  st2  added permissions ', res, 39);
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) {
-                //     // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
-                //     testsecurity("codyac", undefined, "getwidmaster", "execute", "data", 99, function (err, res) {
-                //         proxyprinttodiv('Function  st2 fresh1 testsecurity --  "codyac" execute actiontype  , for action "getwidmaster", for "db"', res, 39);
-                //         status = res;
-                //         cb1(null);
-                //     });
-                // },
-                // function (cb1) {
-                //     // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
-                //     testsecurity("rogerac", undefined, "addwidmaster", "execute", "data", 99, function (err, res) {
-                //         proxyprinttodiv('Function  st2 fresh1 testsecurity --  "rogerac" execute actiontype  , for action "addwidmaster", for "db"', res, 39);
-                //         status = res;
-                //         cb1(null);
-                //     });
+                    // },
+                    // function (cb1) {
+                    //     // setup groups data
+                    //     creategroupdata(function (err, res) {
+                    //         proxyprinttodiv('Function  st2  added groups ', res, 39);
+                    //         cb1(null);
+                    //     });
+                    // },
+                    // function (cb1) {
+                    //     // setup permission data
+                    //     createpermissiondata(function (err, res) {
+                    //         proxyprinttodiv('Function  st2  added permissions ', res, 39);
+                    //         cb1(null);
+                    //     });
+                    // },
+                    // function (cb1) {
+                    //     // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
+                    //     testsecurity("codyac", undefined, "getwidmaster", "execute", "data", 99, function (err, res) {
+                    //         proxyprinttodiv('Function  st2 fresh1 testsecurity --  "codyac" execute actiontype  , for action "getwidmaster", for "db"', res, 39);
+                    //         status = res;
+                    //         cb1(null);
+                    //     });
+                    // },
+                    // function (cb1) {
+                    //     // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
+                    //     testsecurity("rogerac", undefined, "addwidmaster", "execute", "data", 99, function (err, res) {
+                    //         proxyprinttodiv('Function  st2 fresh1 testsecurity --  "rogerac" execute actiontype  , for action "addwidmaster", for "db"', res, 39);
+                    //         status = res;
+                    //         cb1(null);
+                    //     });
                 }
             ],
 
             function (err, res) {
                 console.log('Function st2 fresh 1 -- add data and test --  ' + JSON.stringify(res));
 
-                callback(err, res==="true");
+                callback(err, res === "true");
             });
     }
 
 
+    exports.gr1 = gr1 = function gr1(parm, callback) {
+        var actionCreatorPermissions = [];
+        getmygroups("rogeruser", "permissiondto", "", actionCreatorPermissions, function (err, res) {
+            proxyprinttodiv('Function gr1 permissions list -- ', actionCreatorPermissions, 39);
+            cb1(null, "getwidmaster to get owner's permissions");
+        });
+    }
+
+    exports.testformat = testformat = function testformat(parm, callback) {
+        var json1 = {
+            "fname": "Roger",
+            "lname": "Colburn",
+            "phone": "987-383-8958",
+            "email": "roger@d.com",
+            "address": "112",
+            "address2": "Donald Lynch Blvd",
+            "city": "Marlborough",
+            "state": "Massachusetts",
+            "zip": "17502",
+            "country": "US",
+            "wid": "rogeruser",
+            "metadata.method": "userdto",
+            "metadata.securitydto.type": "onetoone",
+            "metadata.environmentdto.type": "onetoone",
+            "metadata.permissiondto.type": "onetomany",
+            "metadata.usergroupdto.type": "onetomany",
+            "securitydto.accesstoken": "rogerac",
+            "securitydto.wid": "1",
+            "securitydto.metadata.method": "securitydto",
+            "environmentdto.ac": "ac",
+            "environmentdto.gps": "gpsval",
+            "environmentdto.account": "default",
+            "environmentdto.db": "data",
+            "environmentdto.collection": "maincollection",
+            "environmentdto.wid": "3",
+            "environmentdto.metadata.method": "environmentdto",
+            "permissiondto.0.level": "99",
+            "permissiondto.0.wid": "5",
+            "permissiondto.0.metadata.collection": "collection1",
+            "permissiondto.0.metadata.system.creator": "rogeruser",
+            "permissiondto.0.metadata.db": "data1",
+            "permissiondto.0.metadata.method": "permissiondto",
+            "permissiondto.0.metadata.actiongroupdto.type": "manytomany",
+            "permissiondto.0.metadata.usergroupdto.type": "manytomany",
+            "permissiondto.0.actiongroupdto.0.actiongroupname": "getwidmaster",
+            "permissiondto.0.actiongroupdto.0.wid": "7",
+            "permissiondto.0.actiongroupdto.0.metadata.method": "actiongroupdto",
+            "permissiondto.0.usergroupdto.0.usergroupname": "driemployees",
+            "permissiondto.0.usergroupdto.0.wid": "9",
+            "permissiondto.0.usergroupdto.0.metadata.method": "usergroupdto",
+            "usergroupdto.0.usergroupname": "driemployees",
+            "usergroupdto.0.wid": "11",
+            "usergroupdto.0.metadata.method": "usergroupdto",
+            "usergroupdto.1.usergroupname": "drimanagers",
+            "usergroupdto.1.wid": "13",
+            "usergroupdto.1.metadata.method": "usergroupdto"
+        };
+        var json2 = converttodriformat(json1);
+        proxyprinttodiv('Function testformat ---  json2 -- ', json2, 39);
+        callback(null,json2);
+    }
+
+    
+
+
+    // Security test -- setup schema, add user, permission etc data,test security
+    exports.etsec1 = etsec1 = function etsec1(parm, callback) {
+        // _accesstoken, _mygroup, _actiongroup, _dbgroup, _collection, _server, _loginlevel,
+        debuglevel = 39;
+
+        // user data
+        var userobj = {};
+        userobj['wid'] = "rogeruser";
+        userobj['fname'] = "Roger";
+        userobj['lname'] = "Colburn";
+        userobj['phone'] = "987-383-8958";
+        userobj['email'] = "roger@d.com";
+        userobj['address'] = "112";
+        userobj['address2'] = "Donald Lynch Blvd";
+        userobj['city'] = "Marlborough";
+        userobj['state'] = "Massachusetts";
+        userobj['zip'] = "17502";
+        userobj['country'] = "US";
+
+        // environment data
+        var environmentobj = {};
+        environmentobj['ac'] = 'ac';
+        environmentobj['gps'] = 'gpsval';
+        environmentobj['account'] = 'default';
+        environmentobj['db'] = 'data';
+        environmentobj['collection'] = 'maincollection';
+
+        // user permissions data
+        var permissionobj = {
+            "permissiondto.0.level": "99",
+            "permissiondto.0.metadata.collection": "collection1",
+            "permissiondto.0.metadata.system.creator": "rogeruser",
+            "permissiondto.0.actiongroupdto.actiongroupname": "getwidmaster",
+            // "permissiondto.0.actiongroupdto.metadata.system.creator": "rogeruser",
+            "permissiondto.0.usergroupdto.usergroupname": "driemployees",
+            // "permissiondto.0.usergroupdto.metadata.system.creator": "rogeruser",
+            "permissiondto.0.metadata.db": "data1"
+        };
+
+        // user usergroups assignment data
+        var usergroupobj = {
+            "usergroupdto.0.usergroupname": "driemployees",
+            "usergroupdto.0.metadata.system.creator": "rogeruser",
+            "usergroupdto.1.metadata.system.creator": "rogeruser",
+            "usergroupdto.1.usergroupname": "drimanagers"
+        };
+
+        // user actiongroups assignment data
+        var actiongroupobj = {
+            "actiongroupdto.0.actiongroupname": "getwidmaster",
+            "actiongroupdto.0.metadata.system.creator": "rogeruser",
+            "actiongroupdto.1.metadata.system.creator": "rogeruser",
+            "actiongroupdto.1.actiongroupname": "addwidmaster"
+        };
+
+        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- override
+        var overrideobj = {};
+        overrideobj['wid'] = 'overridedataobjwid';
+
+        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- default
+        var defaultobj = {};
+        defaultobj['wid'] = 'defaultobjwid';
+
+        // user security data
+        var securityobj = {};
+        securityobj['ac'] = "rogerac";
+
+        // what to test security on
+        var check1Set = {};
+        check1Set['ac'] = "rogerac";
+        check1Set['usergroup'] = null;
+        check1Set['actiongroup'] = "getwidmaster";
+        check1Set['dbgroup'] = "data1";
+        check1Set['phone'] = "9873838958";
+        check1Set['server'] = "server1";
+        check1Set['collection'] = "collection1";
+        check1Set['datastore'] = "dbs";
+
+
+        /// *** TESTS BELOW **** CHANGE THE STUFF ABOVE, NOTHING BELOW
+
+        var status = false;
+        async.series([
+            function (cb1) {
+                // create schema data
+                createalldtos(parm, function (err, res) {
+                    proxyprinttodiv('Function  etsec1  added schema dtos ', res, 39);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create schema data
+                noncriticaldtos(function (err, res) {
+                    proxyprinttodiv('Function  etsec1  added noncriticaldtos ', res, 39);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // setup user data
+                createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
+                    proxyprinttodiv('Function  etsec1  added user data ', res, 39);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // check security test 1
+                securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
+                    proxyprinttodiv('Function  etsec1  checked security ', res, 39);
+                    status = res;
+                    cb1(null);
+                });
+            }
+        ], function (err, res) {
+            callback(err, status);
+        });
+    }
 })(typeof window == "undefined" ? global : window);
