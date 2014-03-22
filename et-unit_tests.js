@@ -300,7 +300,12 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
                 result.push(r3);
                 ettestagtt(result, function (err, r4) {
                     result.push(r4);
-                    callback(err, result);
+                    etalldeepfiltertests(result, function (err, r5) {
+                        result.push(r5);
+
+                        callback(err, result);
+
+                    });
                 });
             });
         });
@@ -9184,7 +9189,7 @@ exports.etd1 = etd1 = function etd1(params, callback) {
 				var expected_result = [{"metadata":{"method":"defaultdto"},"a":"aaa","z":"ggg","c":30,"d":"1912-06-23T18:30:00.000Z","q":{"w":{"e":"t"}},"g":true,"b":[{"c":"one"}],"x1":[{"y":"hello","d":"2014-02-27T18:30:00.000Z","b":[{"c":"one","c1":50},{"c":"two","c1":30},{"c":"three"}]}]}];
 				proxyprinttodiv("expected_result --", expected_result, 17);
 
-				res = logverify("logverify", actual_result, expected_result);
+				res = logverify("etd1", actual_result, expected_result);
 				callback(err, res); 
             });
       });
@@ -9231,7 +9236,7 @@ exports.etd2 = etd2 = function etd2(params, callback) {
 				var expected_result = [{"c":"30","h":"hval","g":"true","d":"6/25/1912","q":{"w":{"e":"t"}},"x":{"y":{"z":"string"}}}];
 				proxyprinttodiv("expected_result --", expected_result, 17);
 
-				res = logverify("logverify", actual_result, expected_result);
+				res = logverify("etd2", actual_result, expected_result);
 				callback(err, res);
             });
       });
@@ -9271,7 +9276,7 @@ exports.etd3 = etd3 = function etd3(params, callback) {
 				var expected_result = [{"a":"aaa"}];
 				proxyprinttodiv("expected_result --", expected_result, 17);
 
-				res = logverify("logverify", actual_result, expected_result);
+				res = logverify("etd3", actual_result, expected_result);
 				callback(err, res);
             });
       });
@@ -9339,7 +9344,7 @@ exports.etd5 = etd5 = function etd5(params, callback) {
                                     "c":"number","d":"date","q":{"w":{"e":"string"}},"g":"boolean"} ;
                   var inputObj = {"metadata":{"method":"defaultdto"},"a":"aaa", "x":"test", "z":"ggg",
                                           "c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"};
-                  var command = {"formatresult": "false"};
+                  var command = {"formatresult": "true"};
                     
                   deepfilter(inputObj, dtoObjOpt, command, function (err, res){
                         proxyprinttodiv("after d5 deepfilter res", res, 17);
@@ -9351,10 +9356,11 @@ exports.etd5 = etd5 = function etd5(params, callback) {
 			var actual_result = [res];
 			proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-			var expected_result = [[[[{"data":{"aaa":"","ggg":"","test":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:20:54.139Z"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+                  // var expected_result = [[[[{"data":{"aaa":"","ggg":"","test":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:20:54.139Z"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+			var expected_result = [[[[{"data":{"aaa":"","ggg":"","test":""},"wid":"wid2","metadata":{"method":"defaultdto"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
-			res = logverify("logverify", actual_result, expected_result);
+			res = logverify("etd5", actual_result, expected_result);
 			callback(err, res);
       });
 }
@@ -9385,7 +9391,7 @@ exports.etd6 = etd6 = function etd6(params, callback) {
 			var expected_result = [[{"metadata":{"method":"defaultdto"},"c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
-			res = logverify("logverify", actual_result, expected_result);
+			res = logverify("etd6", actual_result, expected_result);
 			callback(err, res);
       });
 }
@@ -9428,10 +9434,11 @@ exports.etd7 = etd7 = function etd7(params, callback) {
 			var actual_result = [res];
 			proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-			var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:23:47.300Z"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+                  // var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:23:47.300Z"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+			var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
-			res = logverify("logverify", actual_result, expected_result);
+			res = logverify("etd7", actual_result, expected_result);
 			callback(err, res); 
       });
 }
@@ -9470,10 +9477,11 @@ exports.etd8 = etd8 = function etd8(params, callback) {
 			var actual_result = [res];
 			proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-			var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:25:34.697Z"}}]],{"d":"6/23/1912"}]];
+                  // var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:25:34.697Z"}}]],{"d":"6/23/1912"}]];
+			var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto"}}]],{"d":"6/23/1912"}]];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
-			res = logverify("logverify", actual_result, expected_result);
+			res = logverify("etd8", actual_result, expected_result);
 			callback(err, res); 
       });
 }
@@ -9510,7 +9518,7 @@ exports.etd10 = etd10 = function etd10(params, callback) {
 				var expected_result = [{"obj":"","c":"cval","d":{}}];
 				proxyprinttodiv("expected_result --", expected_result, 17);
 
-				res = logverify("logverify", actual_result, expected_result);
+				res = logverify("etd10", actual_result, expected_result);
 				callback(err, res);
             });
       });
@@ -9542,7 +9550,7 @@ exports.etd10b = etd10b = function etd10b(params, callback) {
 		var expected_result = [{"wid":"songdto","metadata":{"method":"songdto","sounddto":{"type":"jsononetomany"}},"title":"string","sounddto":[{"wid":"string","metadata":{"method":"string"},"note":"string"}]}];
 		proxyprinttodiv("expected_result --", expected_result, 17);
 
-		res = logverify("logverify", actual_result, expected_result);
+		res = logverify("etd10b", actual_result, expected_result);
 		callback(err, res);	   
 	});
 }
@@ -9646,7 +9654,7 @@ exports.etd11 = etd11 = function etd11(params, callback) {
 			var expected_result = [{"obj":"","c":"cval","d":{}}];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
-			res = logverify("logverify", actual_result, expected_result);
+			res = logverify("etd11", actual_result, expected_result);
 			callback(err, res);	 
       });
 }
@@ -9692,7 +9700,7 @@ exports.etd12 = etd12 = function etd12(params, callback) {
 			var expected_result = [{"b1":"true"},{"b1":true},{"b1":true}];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
-			res = logverify("logverify", actual_result, expected_result);
+			res = logverify("etd12", actual_result, expected_result);
 			callback(err, res);	
       });
 }
@@ -9739,10 +9747,11 @@ exports.etd13 = etd13 = function etd13(params, callback) {
 			var actual_result = res;
 			proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-			var expected_result = [[[{"data":{"aaa":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:40:36.431Z"}}],[{"data":{"bbb":""},"wid":"wid3","metadata":{"method":"defaultdto","date":"2014-03-19T12:40:36.481Z"}}]],{"a":"aaa","c":"bbb"}];
+                  // var expected_result = [[[{"data":{"aaa":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:40:36.431Z"}}],[{"data":{"bbb":""},"wid":"wid3","metadata":{"method":"defaultdto","date":"2014-03-19T12:40:36.481Z"}}]],{"a":"aaa","c":"bbb"}];
+			var expected_result = [[[{"data":{"aaa":""},"wid":"wid2","metadata":{"method":"defaultdto"}}],[{"data":{"bbb":""},"wid":"wid3","metadata":{"method":"defaultdto"}}]],{"a":"aaa","c":"bbb"}];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
-			res = logverify("logverify", actual_result, expected_result);
+			res = logverify("etd13", actual_result, expected_result);
 			callback(err, res);	
       });         
 }
@@ -9798,7 +9807,7 @@ exports.etd14 = etd14 = function etd14(params, callback) {
 			var expected_result = [{"a":"aval","y":"yes","x":[{"y":"hello","b":[{"c":"one","c1":50},{"c":"two","c1":30},{"c":"three"}]}]}];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
-			res = logverify("logverify", actual_result, expected_result);
+			res = logverify("etd14", actual_result, expected_result);
 			callback(err, res); 
       });
 }
