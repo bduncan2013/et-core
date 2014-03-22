@@ -337,44 +337,4 @@
     }
 
 
-    // get cumulative list of all the permission records associated given group and key
-
-    function getPermissionsForGroup(group, groupname, key, type, rawquery, callback) {
-        getgroupsrecursive(groupname, type, [], function (err, res) {
-            var matchingGroups = res;
-            var permissionsList = [];
-
-            var query = {};
-            if (rawquery) {
-                query = rawquery;
-            } else {
-                query["data." + key] = group;
-            }
-
-            var command = {
-                "executethis": "querywid",
-                "mongorawquery": query
-            };
-
-            execute(command, function (err, res) {
-                var arr = res;
-                var obj, jsonKey, dtoPermissions;
-
-                for (var i = 0; i < arr.length; i++) {
-                    obj = arr[i];
-                    jsonKey = Object.keys(obj)[0];
-                    dtoPermissions = obj[jsonKey];
-
-                    // check for all the permissions in the matchinggroups with acceptable level
-                    if (((!dtoPermissions.levelgroup) || (sentinloginlevel >= dtoPermissions.levelgroup))) {
-                        permissionsList.push(dtoPermissions);
-                    }
-                }
-
-                proxyprinttodiv('Function getPermissionsForGroup --  permissionsList ', permissionsList, 39);
-                callback(err, permissionsList);
-            });
-        });
-    }
-
 })(typeof window == "undefined" ? global : window);
