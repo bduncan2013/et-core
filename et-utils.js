@@ -1734,6 +1734,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                 }
                 var diff = {};
                 for (var key in obj1) {
+                    // console.log('Key in obj1: ' + key);
 					if (key=="date") {
 						console.log("key : " + key);
 						console.log("val : " + obj1[key]);
