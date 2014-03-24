@@ -22,7 +22,7 @@ if (typeof angular !== 'undefined') {
             console.log(obj);
             console.log('********************************************');
 
-            scope[thisWid] = obj;
+            scope.$apply(function() { scope[thisWid] = obj; });
 
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
@@ -36,7 +36,7 @@ if (typeof angular !== 'undefined') {
 
                         storeAllData(obj[prop], scope, prop);
                     } else {
-                        scope.data[prop] = obj[prop];
+                        scope.$apply(function() { scope.data[prop] = obj[prop]; });
                     }
                 }
             }
@@ -752,11 +752,9 @@ if (typeof angular !== 'undefined') {
     exports.addToAngular = addToAngular = function addToAngular(name, obj) {
         var scope = $('body').scope();
 
-        scope.$apply(function() {
-            angular.injector(['ng', 'widApp'])
-                .get('dataService')
-                .storeData(obj, scope, name);
-        });
+        angular.injector(['ng', 'widApp'])
+            .get('dataService')
+            .storeData(obj, scope, name);
     };
 
     // call executeService.executeThis from legacy (non angularJS) code
