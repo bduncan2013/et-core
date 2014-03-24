@@ -21,241 +21,275 @@
                 function (cb1) {
                     // Create DTOs
                     execute([{
-                        "executethis": "addwidmaster",
-                        "wid": "dtodefault",
-                        "metadata.method": "dtodefault",
-                        "metadata.system.creator": "driwid",
-                        "metadata.system.creationdate": "3/9/2014",
-                        "metadata.system.expirationtimer": "10000",
-                        "metadata.system.expirationdate": "12/31/2999",
-                        "metadata.system.db": "data",
-                        "metadata.system.collection": "dri",
-                        "metadata.system.type": ""
-                    }, {
-                        // Create the dtooverride
-                        "executethis": "addwidmaster",
-                        "wid": "dtooverride",
-                        "metadata.method": "dtodefault",
-                        "metadata.system.creator": "driwid",
-                        "metadata.system.creationdate": "3/9/2014",
-                        "metadata.system.expirationtimer": "10000",
-                        "metadata.system.expirationdate": "12/31/2999",
-                        "metadata.system.db": "data",
-                        "metadata.system.collection": "dri",
-                        "metadata.system.type": "",
-                        "metadata.interfacedto.type": "manytoone",
-                        "metadata.executeactiondto.type": "manytoone",
-                        "metadata.getactiondto.type": "manytoone",
-                        "metadata.editactiondto.type": "manytoone",
-                        "metadata.deleteactiondto.type": "manytoone",
-                        "metadata.addactiondto.type": "manytoone",
-                        "metadata.groupdto.type": "manytoone"
-                        //,
-                    }, {
-                        // securitydatadto
-                        "executethis": "addwidmaster",
-                        "wid": "securitydatadto",
-                        "metadata.method": "securitydatadto",
-                        "ac": "string"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // create the offlineactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "offlineactiondto",
-                        "metadata.method": "offlineactiondto",
-                        "metadata.executedto.type": "manytoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // create the onlineactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "onlineactiondto",
-                        "metadata.method": "onlineactiondto",
-                        "metadata.executedto.type": "manytoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // create the localactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "localactiondto",
-                        "metadata.method": "localactiondto",
-                        "metadata.onlineaction.type": "manytoone",
-                        "metadata.offlineaction.type": "manytoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // create the serveractiondto
-                        "executethis": "addwidmaster",
-                        "wid": "serveractiondto",
-                        "metadata.method": "serveractiondto",
-                        "metadata.serveractiondto.type": "manytoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // create the actiondto
-                        "executethis": "addwidmaster",
-                        "wid": "actiondto",
-                        "metadata.method": "actiondto",
-                        "metadata.serveractiondto.type": "manytoone",
-                        "metadata.localactiondto.type": "manytoone"
-                        //,
-                        //"actionname":"string",
-                        //"actiontype":"string",
-                        //"dothis":"string",
-                        //"parameters":"string",
-                        //"offlineonline":"string",
-                        //"localserver":"string",
-                        //"oncreate":"string",
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the executeactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "executeactiondto",
-                        "metadata.method": "executeactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the getactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "getactiondto",
-                        "metadata.method": "getactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the editactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "editactiondto",
-                        "metadata.method": "editactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the addactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "addactiondto",
-                        "metadata.method": "addactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the deleteactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "deleteactiondto",
-                        "metadata.method": "deleteactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the environmentdto
-                        "executethis": "addwidmaster",
-                        "metadata.method": "environmentdto",
-                        "wid": "environmentdto",
-                        "ac": "string",
-                        "gps": "string",
-                        "account": "string",
-                        "db": "string",
-                        "collection": "string"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the securitydto
-                        "executethis": "addwidmaster",
-                        "metadata.method": "securitydto",
-                        "wid": "securitydto",
-                        "accesstoken": "string",
-                        //"status": "integer"
-                        "status": "string"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the groupdto      
-                        "executethis": "addwidmaster",
-                        "wid": "groupdto",
-                        "metadata.method": "groupdto",
-                        "groupname": "string",
-                        "metadata.groupdto.type": "onetomany"
-                        // ,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the actiongroupdto        
-                        "executethis": "addwidmaster",
-                        "wid": "actiongroupdto",
-                        "metadata.method": "actiongroupdto",
-                        "actiongroupname": "string",
-                        "creator": "string",
-                        "metadata.actiongroupdto.type": "manytomany",
-                        "metadata.executeactiondto.type": "manytoone",
-                        "metadata.getactiondto.type": "manytoone",
-                        "metadata.editactiondto.type": "manytoone",
-                        "metadata.deleteactiondto.type": "manytoone",
-                        "metadata.addactiondto.type": "manytoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the usergroupdto      
-                        "executethis": "addwidmaster",
-                        "wid": "usergroupdto",
-                        "metadata.method": "usergroupdto",
-                        // "metadata.userdto.type": "manytomany",
-                        "usergroupname": "string"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the permissiondto     
-                        "executethis": "addwidmaster",
-                        "wid": "permissiondto",
-                        "metadata.method": "permissiondto",
-                        "metadata.system.creator": "string",
-                        "level": "string",
-                        "metadata.actiongroupdto.type": "manytomany",
-                        "metadata.usergroupdto.type": "manytomany",
-                        "metadata.db": "string",
-                        "metadata.collection": "string"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the userdto
-                        "executethis": "addwidmaster",
-                        "metadata.method": "userdto",
-                        "wid": "userdto",
-                        "widname": "wid",
-                        "fname": "string",
-                        "lname": "string",
-                        "phone": "string",
-                        "email": "string",
-                        "address": "string",
-                        "address2": "string",
-                        "city": "string",
-                        "state": "string",
-                        "zip": "string",
-                        "country": "string",
-                        "metadata.securitydto.type": "onetoone",
-                        "metadata.environmentdto.type": "onetoone",
-                        "metadata.permissiondto.type": "onetomany"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }], function (err, res) {
+                            /// dtodefault
+                            "executethis": "addwidmaster",
+                            "wid": "dtodefault",
+                            "metadata.method": "dtodefault",
+
+                            "metadata.system.db": "data",
+                            "metadata.system.collection": "dri"
+                        }, { /// systemdto
+                            "executethis": "addwidmaster",
+                            "wid": "systemdto",
+                            "metadata.method": "systemdto",
+
+                            "metadata.executeactiondto.type": "manytoone",
+                            "metadata.getactiondto.type": "manytoone",
+                            "metadata.editactiondto.type": "manytoone",
+                            "metadata.deleteactiondto.type": "manytoone",
+                            "metadata.addactiondto.type": "manytoone",
+                            "metadata.resultdto.type": "manytoone",
+                            "metadata.interfacedto.type": "manytoone",
+
+                            "metadata.namespace": "active",
+                            "metadata.widname": "active",
+                            "metadata.status": "active",
+                            "metadata.creator": "driwid",
+                            "metadata.creationdate": "3/9/2014",
+                            "metadata.expirationtimer": "10000",
+                            "metadata.expirationdate": "12/31/2999"
+                        }, { /// systemdto
+                            "executethis": "addwidmaster",
+                            "wid": "systemdto",
+                            "metadata.method": "systemdto",
+
+                            "metadata.executeactiondto.type": "manytoone",
+                            "metadata.getactiondto.type": "manytoone",
+                            "metadata.editactiondto.type": "manytoone",
+                            "metadata.deleteactiondto.type": "manytoone",
+                            "metadata.addactiondto.type": "manytoone",
+                            "metadata.resultdto.type": "manytoone",
+                            "metadata.interfacedto.type": "manytoone",
+
+                            "metadata.namespace": "active",
+                            "metadata.widname": "active",
+                            "metadata.status": "active",
+                            "metadata.creator": "driwid",
+                            "metadata.creationdate": "3/9/2014",
+                            "metadata.expirationtimer": "10000",
+                            "metadata.expirationdate": "12/31/2999"
+                        },
+
+
+                        {
+                            // Create the dtooverride
+                            "executethis": "addwidmaster",
+                            "wid": "dtooverride",
+                            "metadata.method": "dtodefault",
+                            "metadata.interfacedto.type": "manytoone",
+                            "metadata.executeactiondto.type": "manytoone",
+                            "metadata.getactiondto.type": "manytoone",
+                            "metadata.editactiondto.type": "manytoone",
+                            "metadata.deleteactiondto.type": "manytoone",
+                            "metadata.addactiondto.type": "manytoone",
+                            "metadata.groupdto.type": "manytoone"
+                            //,
+                        }, {
+                            // securitydatadto
+                            "executethis": "addwidmaster",
+                            "wid": "securitydatadto",
+                            "metadata.method": "securitydatadto",
+                            "ac": "string"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // create the offlineactiondto
+                            "executethis": "addwidmaster",
+                            "wid": "offlineactiondto",
+                            "metadata.method": "offlineactiondto",
+                            "metadata.executedto.type": "manytoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // create the onlineactiondto
+                            "executethis": "addwidmaster",
+                            "wid": "onlineactiondto",
+                            "metadata.method": "onlineactiondto",
+                            "metadata.executedto.type": "manytoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // create the localactiondto
+                            "executethis": "addwidmaster",
+                            "wid": "localactiondto",
+                            "metadata.method": "localactiondto",
+                            "metadata.onlineaction.type": "manytoone",
+                            "metadata.offlineaction.type": "manytoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // create the serveractiondto
+                            "executethis": "addwidmaster",
+                            "wid": "serveractiondto",
+                            "metadata.method": "serveractiondto",
+                            "metadata.serveractiondto.type": "manytoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // create the actiondto
+                            "executethis": "addwidmaster",
+                            "wid": "actiondto",
+                            "metadata.method": "actiondto",
+                            "metadata.serveractiondto.type": "manytoone",
+                            "metadata.localactiondto.type": "manytoone"
+                            //,
+                            //"actionname":"string",
+                            //"actiontype":"string",
+                            //"dothis":"string",
+                            //"parameters":"string",
+                            //"offlineonline":"string",
+                            //"localserver":"string",
+                            //"oncreate":"string",
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the executeactiondto
+                            "executethis": "addwidmaster",
+                            "wid": "executeactiondto",
+                            "metadata.method": "executeactiondto",
+                            "metadata.actiondto.type": "onetoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the getactiondto
+                            "executethis": "addwidmaster",
+                            "wid": "getactiondto",
+                            "metadata.method": "getactiondto",
+                            "metadata.actiondto.type": "onetoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the editactiondto
+                            "executethis": "addwidmaster",
+                            "wid": "editactiondto",
+                            "metadata.method": "editactiondto",
+                            "metadata.actiondto.type": "onetoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the addactiondto
+                            "executethis": "addwidmaster",
+                            "wid": "addactiondto",
+                            "metadata.method": "addactiondto",
+                            "metadata.actiondto.type": "onetoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the deleteactiondto
+                            "executethis": "addwidmaster",
+                            "wid": "deleteactiondto",
+                            "metadata.method": "deleteactiondto",
+                            "metadata.actiondto.type": "onetoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the environmentdto
+                            "executethis": "addwidmaster",
+                            "metadata.method": "environmentdto",
+                            "wid": "environmentdto",
+                            "ac": "string",
+                            "gps": "string",
+                            "account": "string",
+                            "db": "string",
+                            "collection": "string"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the securitydto
+                            "executethis": "addwidmaster",
+                            "metadata.method": "securitydto",
+                            "wid": "securitydto",
+                            "accesstoken": "string",
+                            //"status": "integer"
+                            "status": "string"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the groupdto      
+                            "executethis": "addwidmaster",
+                            "wid": "groupdto",
+                            "metadata.method": "groupdto",
+                            "groupname": "string",
+                            "metadata.groupdto.type": "onetomany"
+                            // ,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the actiongroupdto        
+                            "executethis": "addwidmaster",
+                            "wid": "actiongroupdto",
+                            "metadata.method": "actiongroupdto",
+                            "actiongroupname": "string",
+                            "creator": "string",
+                            "metadata.actiongroupdto.type": "manytomany",
+                            "metadata.executeactiondto.type": "manytoone",
+                            "metadata.getactiondto.type": "manytoone",
+                            "metadata.editactiondto.type": "manytoone",
+                            "metadata.deleteactiondto.type": "manytoone",
+                            "metadata.addactiondto.type": "manytoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the usergroupdto      
+                            "executethis": "addwidmaster",
+                            "wid": "usergroupdto",
+                            "metadata.method": "usergroupdto",
+                            // "metadata.userdto.type": "manytomany",
+                            "usergroupname": "string"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the permissiondto     
+                            "executethis": "addwidmaster",
+                            "wid": "permissiondto",
+                            "metadata.method": "permissiondto",
+                            "metadata.system.creator": "string",
+                            "level": "string",
+                            "metadata.actiongroupdto.type": "manytomany",
+                            "metadata.usergroupdto.type": "manytomany",
+                            "metadata.db": "string",
+                            "metadata.collection": "string"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }, {
+                            // Create the userdto
+                            "executethis": "addwidmaster",
+                            "metadata.method": "userdto",
+                            "wid": "userdto",
+                            "widname": "wid",
+                            "fname": "string",
+                            "lname": "string",
+                            "phone": "string",
+                            "email": "string",
+                            "address": "string",
+                            "address2": "string",
+                            "city": "string",
+                            "state": "string",
+                            "zip": "string",
+                            "country": "string",
+                            "metadata.securitydto.type": "onetoone",
+                            "metadata.environmentdto.type": "onetoone",
+                            "metadata.permissiondto.type": "onetomany"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                        }
+                    ], function (err, res) {
                         cb1(null);
                     });
                 },
@@ -478,6 +512,56 @@
                         "metadata.groupdto.type": "manytoone"
                         //,
                     }, {
+                        // Create the executeactiondto
+                        "executethis": "addwidmaster",
+                        "wid": "executeactiondto",
+                        "metadata.method": "executeactiondto",
+                        "metadata.actiongroupdto.type": "manytoone",
+                        "metadata.actiondto.type": "onetoone"
+                        //,
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
+                    }, {
+                        // Create the getactiondto
+                        "executethis": "addwidmaster",
+                        "wid": "getactiondto",
+                        "metadata.method": "getactiondto",
+                        "metadata.actiongroupdto.type": "manytoone",
+                        "metadata.actiondto.type": "onetoone"
+                        //,
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
+                    }, {
+                        // Create the editactiondto
+                        "executethis": "addwidmaster",
+                        "wid": "editactiondto",
+                        "metadata.method": "editactiondto",
+                        "metadata.actiongroupdto.type": "manytoone",
+                        "metadata.actiondto.type": "onetoone"
+                        //,
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
+                    }, {
+                        // Create the addactiondto
+                        "executethis": "addwidmaster",
+                        "wid": "addactiondto",
+                        "metadata.method": "addactiondto",
+                        "metadata.actiongroupdto.type": "manytoone",
+                        "metadata.actiondto.type": "onetoone"
+                        //,
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
+                    }, {
+                        // Create the deleteactiondto
+                        "executethis": "addwidmaster",
+                        "wid": "deleteactiondto",
+                        "metadata.method": "deleteactiondto",
+                        "metadata.actiongroupdto.type": "manytoone",
+                        "metadata.actiondto.type": "onetoone"
+                        //,
+                        //"metadata.inherit.override": "dtooverride",
+                        //"metadata.inherit.default": "dtodefault"
+                    }, {
                         // securitydatadto
                         "executethis": "addwidmaster",
                         "wid": "securitydatadto",
@@ -538,51 +622,6 @@
                         //"offlineonline":"string",
                         //"localserver":"string",
                         //"oncreate":"string",
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the executeactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "executeactiondto",
-                        "metadata.method": "executeactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the getactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "getactiondto",
-                        "metadata.method": "getactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the editactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "editactiondto",
-                        "metadata.method": "editactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the addactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "addactiondto",
-                        "metadata.method": "addactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
-                        //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": "dtodefault"
-                    }, {
-                        // Create the deleteactiondto
-                        "executethis": "addwidmaster",
-                        "wid": "deleteactiondto",
-                        "metadata.method": "deleteactiondto",
-                        "metadata.actiondto.type": "onetoone"
-                        //,
                         //"metadata.inherit.override": "dtooverride",
                         //"metadata.inherit.default": "dtodefault"
                     }, {
