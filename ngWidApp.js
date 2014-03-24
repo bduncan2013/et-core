@@ -17,14 +17,12 @@ if (typeof angular !== 'undefined') {
                 ? obj.wid
                 : undefined;
 
-            if (thisWid && typeof scope[thisWid] === 'undefined') {
-                console.log('********************************************');
-                console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
-                console.log(obj);
-                console.log('********************************************');
+            console.log('********************************************');
+            console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
+            console.log(obj);
+            console.log('********************************************');
 
-                scope[thisWid] = obj;
-            }
+            scope[thisWid] = obj;
 
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
@@ -753,9 +751,12 @@ if (typeof angular !== 'undefined') {
     // adds the passed in object to the current angularJS scope (model) under the passed in name
     exports.addToAngular = addToAngular = function addToAngular(name, obj) {
         var scope = $('body').scope();
-        angular.injector(['ng', 'widApp'])
-            .get('dataService')
-            .storeData(obj, scope, name);
+
+        scope.$apply(function() {
+            angular.injector(['ng', 'widApp'])
+                .get('dataService')
+                .storeData(obj, scope, name);
+        });
     };
 
     // call executeService.executeThis from legacy (non angularJS) code
