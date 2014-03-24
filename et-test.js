@@ -1057,8 +1057,441 @@
 					"metadata.groupdto1.0": "employee_grp"
                 }]);
     }
+
+	// This uses the dto & relationship to itself setup in manytomanysetup1() to see if adding wids of the same
+	// method to each other in a many-to-many works. Two levels deep.
+	exports.manytomanystest2 = manytomanytest2 = function manytomanytest2(params, callback){
+	
+			manytomanyself1();
 			
-	// works
+			execute([{// Create the Espressobay group
+                    "executethis": "addwidmaster",
+                    "wid": "espresso_grp",
+                    "metadata.method": "groupdto1",
+                    "name":"EspressoBay"
+                },{// Create the employees group and add it to the espressobay group
+                    "executethis": "addwidmaster",
+                    "wid": "employee_grp",
+                    "metadata.method": "groupdto1",
+                    "name":"Employees",
+					"metadata.groupdto1.0":"espresso_grp"
+                },{ // Create the managers group and add it to the employees group
+                    "executethis": "addwidmaster",
+					"wid": "managers_grp",
+					"metadata.method": "groupdto1",
+					"name": "Managers",
+					"metadata.groupdto1.0": "employee_grp"
+                }]);
+    }
+	
+	// This tests inherit.default at the dto level. authordto inherits from authordefault and so author1 should be returned with name=Alex & age=42
+	// works.
+	exports.testinheritdefault0 = testinheritdefault0 = function testinheritdefault0(params,callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authordefault",
+			"metadata.method":"authordto",
+			"name":"Alex",
+			"age":"42"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string",
+			"metadata.inherit.default.0S":"authordefault"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[2], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}			
+	
+	// This tests inherit.default at the wid level. author1 inherits from authordefault and should be returned with name=Alex & age=42 
+    // works.
+	exports.testinheritdefault1 = testinheritdefault1 = function testinheritdefault1(params,callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authordefault",
+			"metadata.method":"authordto",
+			"name":"Alex",
+			"age":"42"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto",
+			"metadata.inherit.default.0":"authordefault"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[2], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}
+
+	// This tests inherit.default at the wid level with 1 field already existing. Only age=42 should be accepted from authordefault as name=Tom is already
+	// present in the wid. author1 should return name=Tom & age=42.
+	// NOTE: This is not working. The age field is not being returned from the default, only the pre-existing name=Tom. It seems like there is a conflict
+	// if inherit.default sees that ANY field already exists in the wid.
+	exports.testinheritdefault2 = testinheritdefault2 = function testinheritdefault2(params,callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authordefault",
+			"metadata.method":"authordto",
+			"name":"Alex",
+			"age":"42"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto",
+			"name":"Tom",
+			"metadata.inherit.default.0":"authordefault"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[2], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}
+
+	// tests if inherit override works in the dto (authordto). author1 inherits authoroverride and should be returned with name=Alex & age=42.
+	// NOTE: this is not working right now. Execution is doing some funky stuff, repeatedly returning results.
+	exports.testinheritoverride0 = testinheritoverride0 = function testinheritoverride0(params,callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authoroverride",
+			"metadata.method":"authordto",
+			"name":"Alex",
+			"age":"42"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string",
+			"metadata.inherit.override.0":"authoroverride"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[2], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}
+
+	// This tests inherit.override at the wid level. author1 inherits authoroverride and should return with name=Alex & age=42.
+	// works.
+	exports.testinheritoverride1 = testinheritoverride1 = function testinheritoverride1(params,callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authoroverride",
+			"metadata.method":"authordto",
+			"name":"Alex",
+			"age":"42"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto",
+			"metadata.inherit.override.0":"authoroverride"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[2], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}
+
+	// Tests inherit.override at the wid level with fields already existing in the wid. The fields in author1 should be overriden by the fields in
+	// authoroverride, returning the result name=Alex & age=42.
+	// works.
+	exports.testinheritoverride2 = testinheritoverride2 = function testinheritoverride2(params,callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authoroverride",
+			"metadata.method":"authordto",
+			"name":"Alex",
+			"age":"42"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto",
+			"name":"Tom",
+			"age":"58",
+			"metadata.inherit.override.0":"authoroverride"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[2], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}
+
+	// This tests inherit.override at the dto level with inherit.default set as well. authordto has inherit.override set & default set, but only the
+	// fields from the override should show up.
+	// NOTE: This does not work, same problem as testinheritoverride0. inherit.override in a dto is causing bad results.
+	exports.testinheritoverride3 = testinheritoverride3 = function testinheritoverride3(params,callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authordefault",
+			"metadata.method":"authordto",
+			"name":"Tom",
+			"age":"58"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authoroverride",
+			"metadata.method":"authordto",
+			"name":"Alex",
+			"age":"42"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string",
+			"metadata.inherit.default.0":"authordefault",
+			"metadata.inherit.override.0":"authoroverride"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[2], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}
+
+	// This tests inherit.override at the wid level with inherit.default set as well. author1 has inherit.override set & default set, but only the
+	// fields from the override should show up.
+	// works.
+	exports.testinheritoverride4 = testinheritoverride4 = function testinheritoverride4(params,callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authordefault",
+			"metadata.method":"authordto",
+			"name":"Tom",
+			"age":"58"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authoroverride",
+			"metadata.method":"authordto",
+			"name":"Alex",
+			"age":"42"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto",
+			"metadata.inherit.default.0":"authordefault",
+			"metadata.inherit.override.0":"authoroverride"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[2], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}
+
+    exports.test999 = test999 = function test999() {
+       // debuglevel = 38;
+
+        execute([{
+                "executethis": "addwidmaster",
+                "wid": "authordto",
+                "name": "string",
+                "metadata.method": "authordto",
+                "metadata.bookdto.type": "onetomany",
+                "bookdto.wid": "bookdto",
+                "bookdto.title": "string",
+                "bookdto.metadata.method": "bookdto"
+            },{
+                "executethis": "addwidmaster",
+                "wid": "marysue",
+                "metadata.method": "authordto",
+                "name": "Mary Sue",
+                "bookdto.title": "Haunted Mansions"
+            }],
+            function (err, res) {
+                proxyprinttodiv('getwidmaster of marysue ', res, 99);
+            }
+        );
+    }
+	
+	exports.test1000 = test1000 = function test1000() {
+       // debuglevel = 38;
+
+        execute([{
+                "executethis": "addwidmaster",
+                "wid": "authordto",
+                "name": "string",
+                "metadata.method": "authordto",
+                "metadata.bookdto.type": "onetomany"
+            },{
+				"wid": "bookdto",
+                "title": "string",
+                "metadata.method": "bookdto"
+			},{
+				"executethis": "addwidmaster",
+				"wid": "rel_author_book",
+				"metadata.method": "relationshipdto",
+				"relationshiptype": "attributes",
+				"linktype": "onetomany",
+				"primarywid": "authordto",
+				"primarymethod": "authordto",
+				"secondarywid": "bookdto",
+				"secondarymethod": "bookdto"
+            },{
+                "executethis": "addwidmaster",
+                "wid": "marysue",
+                "metadata.method": "authordto",
+                "name": "Mary Sue",
+                "bookdto.0.title": "Haunted Mansions"
+            }],
+            function (err, res) {
+                proxyprinttodiv('getwidmaster of marysue ', res, 99);
+            }
+        );
+    }
+	
+	exports.testjsononetoone0 = testjsononetoone0 = function testjsononetoone0(params, callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string",
+			"metadata.spousedto.type":"onetoone"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"spousedto",
+			"metadata.method":"spousedto",
+			"name":"string",
+			"age":"string"
+			},{
+			"executethis": "addwidmaster",
+			"wid": "rel_author_to_spouse",
+			"metadata.method": "relationshipdto",
+			"relationshiptype": "attributes",
+			"linktype": "onetoone",
+			"primarywid": "authordto",
+			"primarymethod": "authordto",
+			"secondarywid": "spousedto",
+			"secondarymethod": "spousedto"
+            },{
+			"executethis":"addwidmaster",
+			"wid":"spouse1",
+			"metadata.method":"spousedto",
+			"name":"Sarah Jones",
+			"age":"28"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto",
+			"name":"Jim Jones",
+			"age":"30",
+			"spousedto.0.name":"Sarah",
+			"spousedto.0.age":"28",
+			"spousedto.0.hair":"blonde"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[3], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}		
+
     exports.ettestinheritoverride2 = ettestinheritoverride2 = function ettestinheritoverride2(params, callback) {
         eventappinstall();
         debuglevel = 0;
@@ -1369,6 +1802,8 @@
         get each child by childname with dto, 
         results of this test:
 	*/
+	
+	// the output of this function appears to be correct: all wids look good
     exports.etaddautoselectwid = etaddautoselectwid = function etaddautoselectwid(params, callback) {
         var c="c";
         var d="d";
@@ -1407,6 +1842,7 @@
         results of this test:
     */
 
+	// the output of this function appears to be correct: all wids look good
     exports.etaddmanualselectwid = etaddmanualselectwid = function etaddmanualselectwid(params, callback) {
         var c="c";
         var d="d";
@@ -1445,6 +1881,8 @@
         results of this test:
     */
 
+	// add with command.dtotype is not working. specifying a dtotype is not creating the right structure. All
+	// fields are being added to the top level wid instead of as children.
     exports.etaddwithdtotype = etaddwithdtotype = function etaddwithdtotype(params, callback) {
         var c="c";
         var d="d";
@@ -1483,6 +1921,7 @@
         results of this test:
     */
 
+	// appears to work: output looks good.
     exports.etadddtoandpreamble = etadddtoandpreamble = function etadddtoandpreamble(params, callback) {
         var c="c";
         var d="d";
@@ -1523,6 +1962,7 @@
         get each child by childname with dto, 
         result of this test:
     */
+	// appears to be working: last update takes affect
     exports.etadd3big = etadd3big = function etadd3big(params, callback) {
         var c="c";
         var d="d";
@@ -1795,20 +2235,20 @@
 
     exports.ettestatoa = ettestatoa = function ettestatoa(params, callback) {
         eventappinstall();
-        debuglevel = 0;
+        debuglevel = 38;
         
         execute([{
                     "executethis": "addwidmaster",
                     "wid": "authordto",
                     "metadata.method": "authordto",
-                    "metadata.authordto.type": "manytomany",
+                    "metadata.authordto.type": "onetoone",
                     "name":"string"
                 },{ //authordto - authordto
                     "executethis": "addwidmaster",
                     "wid": "rel_author_author",
                     "metadata.method": "relationshipdto",
                     "relationshiptype": "attributes",
-                    "linktype": "manytomany",
+                    "linktype": "onetoone",
                     "primarywid": "authordto",
                     "primarymethod": "authordto",
                     "secondarywid": "authordto",
@@ -1817,7 +2257,7 @@
                     "executethis": "addwidmaster",
                     "wid": "wid1",
                     "metadata.method": "authordto",
-                    "authordto.0.authordto.0.authordto.name":"sammysample"
+                    "authordto.authordto.authordto.name":"sammysample"
                 },{
                     "executethis": "getwidmaster",
                     "wid": "authordto"
@@ -1828,7 +2268,7 @@
             ], function (err, res) {
                 proxyprinttodiv('Function authordto result Full res', res, 17);
                 
-                proxyprinttodiv('Function authordto wid1 res[4] ', res[4], 99);
+                proxyprinttodiv('Function authordto wid1 res[3] ', res[3], 99);
                 proxyprinttodiv('Function authordto wid1 res[4] ', res[4], 99);
                 
                 var expectedResult = [{"wid":"authordto","metadata.method":"authordto","name":"string"}];
@@ -1836,67 +2276,36 @@
                 
                 res = logverify("authordto_result", res[4], expectedResult);
                 debuglevel=0;
-                execute({"executethis": "getwidmaster","wid": "authordto"}, function (err, res1) {
-                    proxyprinttodiv('Function authordto result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
+                // execute({"executethis": "getwidmaster","wid": "authordto"}, function (err, res1) {
+                //     proxyprinttodiv('Function authordto result LAST ', res1, 17); 
+                //     callback(err, res); 
+                // })
         });
     }
-	
-	
-	/*
-		deep filter should process arrays
-		Allow input object to be of the type being checked.  i.e. input = 30 or “30” should be okay for type integer
+/*
+etcreatedefaultdto1 in et-test: I see it creating an author record under wid2default but I don't see any other wid created to inherit from this wid. have you tested this one? The only output at the end is a bunch of empty results:
 
-		Today it is not converting to integer.
-
-		in addition to supporting integer, string..we want to support:
-		shortwid-create a short 5 digit alphanumeric
-		guid-create a long guid
-		hash-convert number to hash
-		phone-phone number in international format +n nnn…
-		random4-random 4 digit number
-	*/
-	exports.etd15 = etd15 = function etd15(params, callback) {
-		debuglevel = 41;
-		async.series([
-			function (cb1){
-				var dtoObjOpt = {
-                                    "n":"number", 
-                                    "i":"integer", 
-                                    "s":"shortwid", 
-                                    "g":"guid", 
-                                    "h":"hash", 
-                                    "p":"phone", 
-                                    "r":"random4"
-                                };
-				var inputObj = {
-                                    "n":"30", 
-                                    "i":"40", 
-                                    "h":"ff00ff",
-                                    "p":"19998887777"
-                                };
-				var command = {
-                                    "formatresult": "false", 
-                                    "command.deepfilter.convert":true
-                                };
-
-				deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-					proxyprinttodiv("after etd15 deepfilter in", inputObj, 41);
-					proxyprinttodiv("after etd15 deepfilter out", dtoObjOpt, 41);
-					proxyprinttodiv("after etd15 deepfilter res", res, 41);
-					cb1(err, res);
-				});
-			}
-		], function (err, res) {
-			proxyprinttodiv("res --", res, 41);
-			var actual_result = res;
-			proxyprinttodiv("actual_result --", actual_result, 41);							  
-
-			var expected_result = [{"n":30}];
-			proxyprinttodiv("expected_result --", expected_result, 41);
-
-			res = logverify("logverify", actual_result, expected_result);
-			callback(err, res); 
-		});
-	}
+Function printlistmany input executeobj for getwidmaster
+{
+    "executethis": "getwidmaster",
+    "wid": "wid2default",
+    "command.dtotype": ""
+}
+Function printlistmany output for getwidmaster wid2default with command.dtotype=
+{
+    "wid": "wid2default",
+    "command.dtotype": ""
+}
+Function printlistmany input executeobj for getwidmaster
+{
+    "executethis": "getwidmaster",
+    "wid": "wid1default",
+    "command.dtotype": ""
+}
+Function printlistmany output for getwidmaster wid1default with command.dtotype=
+{
+    "wid": "wid1default",
+    "command.dtotype": ""
+}
+The addbig test (manytoone = last record updates in a one to one) worked
+*/
