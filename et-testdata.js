@@ -866,6 +866,56 @@
 
     }
 
+		exports.testjsononetoone0 = testjsononetoone0 = function testjsononetoone0(params, callback){
+		execute([{
+			"executethis":"addwidmaster",
+			"wid":"authordto",
+			"metadata.method":"authordto",
+			"name":"string",
+			"age":"string",
+			"metadata.spousedto.type":"onetoone"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"spousedto",
+			"metadata.method":"spousedto",
+			"name":"string",
+			"age":"string"
+			},{
+			"executethis": "addwidmaster",
+			"wid": "rel_author_spouse",
+			"metadata.method": "relationshipdto",
+			"relationshiptype": "attributes",
+			"linktype": "onetoone",
+			"primarywid": "authordto",
+			"primarymethod": "authordto",
+			"secondarywid": "spousedto",
+			"secondarymethod": "spousedto"
+            },{
+			"executethis":"addwidmaster",
+			"wid":"spouse1",
+			"metadata.method":"spousedto",
+			"name":"Sarah Jones",
+			"age":"28"
+			},{
+			"executethis":"addwidmaster",
+			"wid":"author1",
+			"metadata.method":"authordto",
+			"name":"Jim Jones",
+			"age":"30",
+			"metadata.spousedto.0":"spouse1"
+			}],
+			function (err, res) {
+                proxyprinttodiv('Full results: ', res, 99);
+                
+                proxyprinttodiv('The author1 record: ', res[3], 99);
+				
+                debuglevel = 0;
+                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
+                    callback(err, res); 
+                });
+			});
+}
     //
     exports.test1008 = test1008 = function test1008(params, callback) {
         debuglevel = 39;
