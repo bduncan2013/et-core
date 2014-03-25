@@ -48,26 +48,30 @@
                             "metadata.creationdate": "3/9/2014",
                             "metadata.expirationtimer": "10000",
                             "metadata.expirationdate": "12/31/2999"
-                        }, { /// systemdto
+                        }, 
+                            // actiongroup 
+                            // metadata    
+                            // metadata.method actiongroup
+                            // manytoone   actiongroup
+                            // manytoone   executeaction, getaction, editaction, deleteaction, addaction]
+                            // actiongroupname string
+                             {
+                            // Create the actiongroupdto        
                             "executethis": "addwidmaster",
-                            "wid": "systemdto",
-                            "metadata.method": "systemdto",
-
+                            "wid": "actiongroupdto",
+                            "metadata.method": "actiongroupdto",
+                            "actiongroupname": "string",
+                            "metadata.actiongroupdto.type": "manytomany",
                             "metadata.executeactiondto.type": "manytoone",
                             "metadata.getactiondto.type": "manytoone",
                             "metadata.editactiondto.type": "manytoone",
                             "metadata.deleteactiondto.type": "manytoone",
-                            "metadata.addactiondto.type": "manytoone",
-                            "metadata.resultdto.type": "manytoone",
-                            "metadata.interfacedto.type": "manytoone",
+                            "metadata.addactiondto.type": "manytoone"
+                            //,
+                            //"metadata.inherit.override": "dtooverride",
+                            //"metadata.inherit.default": "dtodefault"
+                    
 
-                            "metadata.namespace": "active",
-                            "metadata.widname": "active",
-                            "metadata.status": "active",
-                            "metadata.creator": "driwid",
-                            "metadata.creationdate": "3/9/2014",
-                            "metadata.expirationtimer": "10000",
-                            "metadata.expirationdate": "12/31/2999"
                         },
 
 
@@ -224,22 +228,6 @@
                             "groupname": "string",
                             "metadata.groupdto.type": "onetomany"
                             // ,
-                            //"metadata.inherit.override": "dtooverride",
-                            //"metadata.inherit.default": "dtodefault"
-                        }, {
-                            // Create the actiongroupdto        
-                            "executethis": "addwidmaster",
-                            "wid": "actiongroupdto",
-                            "metadata.method": "actiongroupdto",
-                            "actiongroupname": "string",
-                            "creator": "string",
-                            "metadata.actiongroupdto.type": "manytomany",
-                            "metadata.executeactiondto.type": "manytoone",
-                            "metadata.getactiondto.type": "manytoone",
-                            "metadata.editactiondto.type": "manytoone",
-                            "metadata.deleteactiondto.type": "manytoone",
-                            "metadata.addactiondto.type": "manytoone"
-                            //,
                             //"metadata.inherit.override": "dtooverride",
                             //"metadata.inherit.default": "dtodefault"
                         }, {
