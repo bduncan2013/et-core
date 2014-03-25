@@ -651,7 +651,7 @@ if (typeof angular !== 'undefined') {
             widforbackground = [],
             links = [],
             dataforview = {},
-            all_wids = [];
+            all_wids= [];
 
         scope = scope || $('body').scope();
 
@@ -718,26 +718,20 @@ if (typeof angular !== 'undefined') {
             delete parameters['dataforview'];
         }
 
-        for (var a = 0; a < widforview.length; a++) { all_wids.push(widforview[a].trim()); }
-        for (var b = 0; b < widforbase.length; b++) { all_wids.push(widforbase[b].trim()); }
-        for (var c = 0; c < widforbackground.length; c++) { all_wids.push(widforbackground[c].trim()); }
+        for (var a = 0; a < widforview.length; a++) { all_wids.push({executethis:widforview[a].trim()}); }
+        for (var b = 0; b < widforbase.length; b++) { all_wids.push({executethis:widforbase[b].trim()}); }
+        for (var c = 0; c < widforbackground.length; c++) { all_wids.push({executethis:widforbackground[c].trim()}); }
 
         if ($('<div>' + parameters.html + '</div>').find('execute').length > 0) {
             $('<div>' + parameters.html + '</div>').find('execute').each(function(i, ele) {
                 var attrs = NNMtoObj(ele.attributes);
 
-                if (attrs.executethis && Object.size(attrs) == 1) {
-                    all_wids.push(attrs.executethis);
-                }
+                all_wids.push(attrs);
             });
         }
 
         async.each(all_wids,
-            function(wid, cb) {
-                var executeObj = {};
-                executeObj.executethis = wid;
-                executeObj['command.convertmethod'] = 'toobject';
-
+            function(executeObj, cb) {
                 execute(executeObj, function (err, resultArray) {
                     angular.injector(['ng', 'widApp'])
                         .get('dataService')
