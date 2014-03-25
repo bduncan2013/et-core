@@ -2328,15 +2328,8 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "merchantdto.metadata.loyaltydto.type": "onetomany",
                     "merchantdto.loyaltydto.metadata.method": "loyaltydto",
                     "merchantdto.loyaltydto.wid": "loyaltydto",
-                    "merchantdto.loyaltydto.name":"string",
-                       "configuration": {
-                           "midexecute": [{
-                               "dothis": "server",
-                               "tryorder": "0",
-                               "executeorder": "0",
-                               "params": {}
-                               }]
-                   }
+                    "merchantdto.loyaltydto.name":"string"
+
                 }
 
             ], function (err, res) {  });
@@ -2349,15 +2342,8 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "executethis": "addwidmaster",
                     "wid": "merchgroup1",
                     "metadata.method": "merchantsdto",
-                    "name": "luke's company",
-                       "configuration": {
-                           "midexecute": [{
-                               "dothis": "server",
-                               "tryorder": "0",
-                               "executeorder": "0",
-                               "params": {}
-                               }]
-                   }
+                    "name": "luke's company"
+
                 }
             ], function (err, res) {  });
     }
@@ -2369,15 +2355,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "executethis": "addwidmaster",
                     "wid": "merchgroup1",
                     "metadata.method": "merchantsdto",
-                    "merchantdto.name": "joe's company",
-                       "configuration": {
-                           "midexecute": [{
-                               "dothis": "server",
-                               "tryorder": "0",
-                               "executeorder": "0",
-                               "params": {}
-                               }]
-                   }
+                    "merchantdto.name": "joe's company"
                 }
             ], function (err, res) {  });
     }
@@ -2389,15 +2367,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "executethis": "addwidmaster",
                     "wid": "merchgroup1",
                     "metadata.method": "merchantsdto",
-                    "merchantdto.name": "bill's company",
-                       "configuration": {
-                           "midexecute": [{
-                               "dothis": "server",
-                               "tryorder": "0",
-                               "executeorder": "0",
-                               "params": {}
-                               }]
-                   }
+                    "merchantdto.name": "bill's company"
                 }
             ], function (err, res) {  });
     }
@@ -2409,15 +2379,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "executethis": "addwidmaster",
                     "wid": "loyaltygroup1",
                     "metadata.method": "merchantdto",
-                    "loyaltydto.name": "bill's loyalty wid",
-                       "configuration": {
-                           "midexecute": [{
-                               "dothis": "server",
-                               "tryorder": "0",
-                               "executeorder": "0",
-                               "params": {}
-                               }]
-                   }
+                    "loyaltydto.name": "bill's loyalty wid"
                 }
             ], function (err, res) {  });
     }
@@ -2429,15 +2391,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "executethis": "addwidmaster",
                     "wid": "loyaltygroup1",
                     "metadata.method": "merchantdto",
-                    "loyaltydto.name": "Joe's loyalty wid",
-                       "configuration": {
-                           "midexecute": [{
-                               "dothis": "server",
-                               "tryorder": "0",
-                               "executeorder": "0",
-                               "params": {}
-                               }]
-                   }
+                    "loyaltydto.name": "Joe's loyalty wid"
                 }
             ], function (err, res) {  });
     }
@@ -2449,15 +2403,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "executethis": "addwidmaster",
                     "wid": "loyaltygroup1",
                     "metadata.method": "merchantdto",
-                    "loyaltydto.name": lname,
-                       "configuration": {
-                           "midexecute": [{
-                               "dothis": "server",
-                               "tryorder": "0",
-                               "executeorder": "0",
-                               "params": {}
-                               }]
-                   }
+                    "loyaltydto.name": lname
                 }
             ], function (err, res) {  });
     }
@@ -2468,15 +2414,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
             {
                     "executethis": "addwidmaster",
                     "wid": "nodtowid",
-                    "name": "bill's no data datawid",
-                       "configuration": {
-                           "midexecute": [{
-                               "dothis": "server",
-                               "tryorder": "0",
-                               "executeorder": "0",
-                               "params": {}
-                               }]
-                   }
+                    "name": "bill's no data datawid"
                 }
             ], function (err, res) {  });
     }
