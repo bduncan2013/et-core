@@ -2420,5 +2420,8 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "executethis":"getwidmaster",
                     "wid":"nodtowid"
                 }
-            ], function (err, res) {  });
+            ], function (err, res) { 
+
+                callback(err, res)
+             });
     }
