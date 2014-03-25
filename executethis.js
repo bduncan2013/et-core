@@ -51,7 +51,7 @@
             if ((incomingparams && incomingparams.command && incomingparams.command.multiple && incomingparams.command.multiple.parameters)) {
                 proxyprinttodiv("execute - command.multiple ", incomingparams.command.multiple, 37);
                 commandmultiple = incomingparams.command.multiple.parameters;
-                incomingparams = incomingparams["executethis"];
+                //incomingparams = incomingparams["executethis"]; changed by roger 3/19
                 delete incomingparams.command;
             }
 
@@ -59,9 +59,28 @@
 
             if ((incomingparams instanceof Array)) {
                 proxyprinttodiv("execute - array params received ", incomingparams, 11);
-                executethismultiple(incomingparams, {}, callback);
-                //executethismultiple(incomingparams, commandmultiple, callback);
+                //executethismultiple(incomingparams, {}, callback);
+                // ** changed by roger 3/19
+                executethismultiple(incomingparams, commandmultiple, callback);
             } else {
+
+                if (incomingparams.command && incomingparams.command.server) {
+                    var fn = incomingparams.command.server
+                    delete incomingparams.command.server;
+                    fn(incomingparams, function (err, res) { callback(err, res)})
+                }
+                else { 
+                    //if (!incomingparams['configuration']) {incomingparams['configuration']={}}
+                    // extend(true, incomingparams['configuration'], 
+                    //                                                 {"midexecute": [{
+                    //                                                     "dothis": "server",
+                    //                                                     "tryorder": 0,
+                    //                                                     "executeorder": 0,
+                    //                                                     "params": {}
+                    //                                                 }]}
+                    //                                                 )
+                    //}
+
                 // if command.execute.parameters exist the insert those parameters into execution stream.  
                 // Remove command.execute.parameters
                 if (incomingparams.command && incomingparams.command.parameters) {
@@ -197,6 +216,7 @@
                         }
                     } // end else
                 }); // end do this processor pre
+            } // added for command.server
             }
         } // end try
         catch (err) {
