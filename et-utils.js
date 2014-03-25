@@ -402,7 +402,7 @@ try {
                         function (err, res) {
                             // If error, bounce out
                             if (err && Object.keys(err).length > 0) {
-                                cbMap(err, result);
+                                cbMap(err, res);
                             } else {
                                 proxyprinttodiv("recurseModObj - modifiedObj[inpKey] end nextTick ", modifiedObj[inpKey], 41);
                                 cbMap(null);
