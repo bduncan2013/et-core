@@ -297,26 +297,28 @@ function setbyindex(obj, str, val) {
 
 
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
-        console.log("<< in deepfilter >>");
-        var modifiedObj = {};
-        extend(true, modifiedObj, inputObj);
-        console.log("<< extend >>" + JSON.stringify(modifiedObj));
-        proxyprinttodiv("deepfilter inputObj", inputObj, 41);
-        proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
-        if (dtoObjOpt) {
-            recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
-                // If error, bounce out
-                if (err && Object.keys(err).length > 0) {
-                    callback(err, res);
-                } else {
-                    proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
-                    callback(null, res);
-                }
-            });
-        } else {
-            proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
-            callback(null, inputObj);
-        }
+    console.log("<< in deepfilter >>");
+    var modifiedObj = {};
+    extend(true, modifiedObj, inputObj);
+    console.log("<< extend >>" + JSON.stringify(modifiedObj));
+    console.log("<<inobj>>" + JSON.stringify(inputObj));
+    console.log("<<dtoobj>>" + JSON.stringify(dtoObjOpt));
+    proxyprinttodiv("deepfilter inputObj", inputObj, 41);
+    proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
+    if (dtoObjOpt) {
+        recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            } else {
+                proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
+                callback(null, res);
+            }
+        });
+    } else {
+        proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
+        callback(null, inputObj);
+    }
 }
 
 function recurseModObj(inputObject, dtoObject, command, callback) {
@@ -400,7 +402,7 @@ try {
                         function (err, res) {
                             // If error, bounce out
                             if (err && Object.keys(err).length > 0) {
-                                cbMap(err, result);
+                                cbMap(err, res);
                             } else {
                                 proxyprinttodiv("recurseModObj - modifiedObj[inpKey] end nextTick ", modifiedObj[inpKey], 41);
                                 cbMap(null);
