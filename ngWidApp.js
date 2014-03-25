@@ -11,18 +11,17 @@ if (typeof angular !== 'undefined') {
 
     widApp.factory('dataService', function($http, $compile) {
         var storeAllData = function(obj, scope, objName, callback) {
-            var thisWid = objName
-                ? objName
-                : obj.wid
-                ? obj.wid
-                : undefined;
+            var thisWid = objName ? objName : obj.wid ? obj.wid : undefined,
+                phase = scope.$root.$$phase;
 
             console.log('********************************************');
             console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
             console.log(obj);
             console.log('********************************************');
 
-            scope.$apply(function() { scope[thisWid] = obj; });
+            if (phase !== '$apply' && phase !== '$digest') {
+                scope.$apply(function() { scope[thisWid] = obj; });
+            } else { scope[thisWid] = obj; }
 
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
@@ -32,11 +31,15 @@ if (typeof angular !== 'undefined') {
                         console.log(obj[prop]);
                         console.log('********************************************');
 
-                        scope[prop] = obj[prop];
+                        if (phase !== '$apply' && phase !== '$digest') {
+                            scope.$apply(function() { scope[prop] = obj[prop]; });
+                        } else { scope[prop] = obj[prop]; }
 
                         storeAllData(obj[prop], scope, prop);
                     } else {
-                        scope.$apply(function() { scope.data[prop] = obj[prop]; });
+                        if (phase !== '$apply' && phase !== '$digest') {
+                            scope.$apply(function() { scope.data[prop] = obj[prop]; });
+                        } else { scope[prop] = obj[prop];  }
                     }
                 }
             }
@@ -177,7 +180,10 @@ if (typeof angular !== 'undefined') {
     widApp.directive('ngBlur', function() {
         return function(scope, elem, attrs) {
             elem.bind('blur', function() {
-                scope.$apply(attrs.ngBlur);
+                var phase = scope.$root.$$phase;
+                if (phase !== '$apply' && phase !== '$digest') {
+                    scope.$apply(attrs.ngBlur);
+                } else { scope.$apply(attrs.ngBlur); }
             });
         };
     });
@@ -477,17 +483,23 @@ if (typeof angular !== 'undefined') {
 
         processJS: function(wid, scope, compile) {
             if (typeof $('body') !== 'undefined') {
-                scope.$apply(function() {
-                    $('body').append(compile('<script>' + wid.js + '</script>')(scope));
-                });
+                var phase = scope.$root.$$phase;
+                if (phase !== '$apply' && phase !== '$digest') {
+                    scope.$apply(function() {
+                        $('body').append(compile('<script>' + wid.js + '</script>')(scope));
+                    });
+                }
             }
         },
 
         processCSS: function(wid, scope, compile) {
             if (typeof $('body') !== 'undefined') {
-                scope.$apply(function() {
-                    $('body').append(compile('<style>' + wid.css + '</style>')(scope));
-                });
+                var phase = scope.$root.$$phase;
+                if (phase !== '$apply' && phase !== '$digest') {
+                    scope.$apply(function() {
+                        $('body').append(compile('<style>' + wid.css + '</style>')(scope));
+                    });
+                }
             }
         },
 
@@ -513,9 +525,12 @@ if (typeof angular !== 'undefined') {
                 }
             }
 
-            scope.$apply(function() {
-                targetElement.append(compile(screenWid.html)(scope));
-            });
+            var phase = scope.$root.$$phase;
+            if (phase !== '$apply' && phase !== '$digest') {
+                scope.$apply(function() {
+                    targetElement.append(compile(screenWid.html)(scope));
+                });
+            }
 
             // take care of any <execute></execute> elements
             $('execute').each(function (index, ele) {
@@ -543,9 +558,12 @@ if (typeof angular !== 'undefined') {
                                 widAppHelper.processExecute(element, scope, compile);
                             });
 
-                            scope.$apply(function() {
-                                $(ele).append(compile(results.html)(scope));
-                            });
+                            var phase = scope.$root.$$phase;
+                            if (phase !== '$apply' && phase !== '$digest') {
+                                scope.$apply(function() {
+                                    $(ele).append(compile(results.html)(scope));
+                                });
+                            }
                         }
                     });
             });
@@ -700,19 +718,19 @@ if (typeof angular !== 'undefined') {
             delete parameters['dataforview'];
         }
 
-        if (parameters.startwid) {
-            angular.injector(['ng', 'widApp'])
-                .get('executeService')
-                .executeThis({executethis:parameters.startwid}, scope, function (err, resultsArr) {
-                    if (err && Object.size(err) > 0) {
-                        console.log('execute error while processing html => ' + JSON.stringify(err));
-                    }
-                });
-        }
-
         for (var a = 0; a < widforview.length; a++) { all_wids.push(widforview[a].trim()); }
         for (var b = 0; b < widforbase.length; b++) { all_wids.push(widforbase[b].trim()); }
         for (var c = 0; c < widforbackground.length; c++) { all_wids.push(widforbackground[c].trim()); }
+
+        if ($('<div>' + parameters.html + '</div>').find('execute').length > 0) {
+            $('<div>' + parameters.html + '</div>').find('execute').each(function(i, ele) {
+                var attrs = NNMtoObj(ele.attributes);
+
+                if (attrs.executethis && Object.size(attrs) == 1) {
+                    all_wids.push(attrs.executethis);
+                }
+            });
+        }
 
         async.each(all_wids,
             function(wid, cb) {
@@ -720,12 +738,13 @@ if (typeof angular !== 'undefined') {
                 executeObj.executethis = wid;
                 executeObj['command.convertmethod'] = 'toobject';
 
-                // run through executeThis to store data in the model and display any contained html
-                angular.injector(['ng', 'widApp'])
-                    .get('executeService')
-                    .executeThis(executeObj, scope, function (err, resultArray) {
-                        cb();
-                    });
+                execute(executeObj, function (err, resultArray) {
+                    angular.injector(['ng', 'widApp'])
+                        .get('dataService')
+                        .storeData(resultArray, scope, '', function() {
+                            cb();
+                        });
+                });
             },
             function(err) {
                 if (callback instanceof Function) { callback(); }
