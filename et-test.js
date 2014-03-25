@@ -2332,7 +2332,9 @@ The addbig test (manytoone = last record updates in a one to one) worked
 
                 }
 
-            ], function (err, res) {  });
+            ], function (err, res) { 
+                callback(err, res)
+             });
     }
 
      function step1Luke (params, callback) {
@@ -2345,7 +2347,9 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "name": "luke's company"
 
                 }
-            ], function (err, res) {  });
+            ], function (err, res) { 
+                callback(err, res)
+             });
     }
 
      function step1Joe(params, callback) {
@@ -2357,7 +2361,9 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "metadata.method": "merchantsdto",
                     "merchantdto.name": "joe's company"
                 }
-            ], function (err, res) {  });
+            ], function (err, res) { 
+                callback(err, res)
+             });
     }
 
      function step1Bill (params, callback) {
@@ -2369,7 +2375,9 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "metadata.method": "merchantsdto",
                     "merchantdto.name": "bill's company"
                 }
-            ], function (err, res) {  });
+            ], function (err, res) { 
+                callback(err, res)
+             });
     }
 
      function step2BillLoyalty (params, callback) {
@@ -2381,7 +2389,9 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "metadata.method": "merchantdto",
                     "loyaltydto.name": "bill's loyalty wid"
                 }
-            ], function (err, res) {  });
+            ], function (err, res) { 
+                callback(err, res)
+             });
     }
 
      function step2JoeLoyalty (params, callback) {
@@ -2393,7 +2403,9 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "metadata.method": "merchantdto",
                     "loyaltydto.name": "Joe's loyalty wid"
                 }
-            ], function (err, res) {  });
+            ], function (err, res) { 
+                callback(err, res)
+             });
     }
 
          function inputLoyalty (params, callback) {
@@ -2405,7 +2417,9 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "metadata.method": "merchantdto",
                     "loyaltydto.name": lname
                 }
-            ], function (err, res) {  });
+            ], function (err, res) { 
+                callback(err, res)
+             });
     }
 
      function step3datanodto (params, callback) {
@@ -2421,7 +2435,6 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "wid":"nodtowid"
                 }
             ], function (err, res) { 
-
                 callback(err, res)
              });
     }
