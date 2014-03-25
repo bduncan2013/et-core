@@ -2309,3 +2309,174 @@ Function printlistmany output for getwidmaster wid1default with command.dtotype=
 }
 The addbig test (manytoone = last record updates in a one to one) worked
 */
+
+
+
+/***********************************************************Bills Tests***************************************/
+
+ function merchantstest (params, callback) {
+        
+        execute([{  // build the dtos and relatiopnsips
+                    "executethis": "addwidmaster",
+                    "wid": "merchantsdto",
+                    "metadata.method": "merchantsdto",
+                    "title": "string",
+                    "metadata.merchantdto.type": "onetomany",
+                    "merchantdto.wid": "merchantdto",
+                    "merchantdto.metadata.method": "merchantdto",
+                    "merchantdto.name": "string",
+                    "merchantdto.metadata.loyaltydto.type": "onetomany",
+                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
+                    "merchantdto.loyaltydto.wid": "loyaltydto",
+                    "merchantdto.loyaltydto.name":"string",
+                       "configuration": {
+                           "midexecute": [{
+                               "dothis": "server",
+                               "tryorder": "0",
+                               "executeorder": "0",
+                               "params": {}
+                               }]
+                   }
+                }
+
+            ], function (err, res) {  });
+    }
+
+     function step1Luke (params, callback) {
+        
+        execute([
+            { // add the merchants (notice its the parent wid)
+                    "executethis": "addwidmaster",
+                    "wid": "merchgroup1",
+                    "metadata.method": "merchantsdto",
+                    "name": "luke's company",
+                       "configuration": {
+                           "midexecute": [{
+                               "dothis": "server",
+                               "tryorder": "0",
+                               "executeorder": "0",
+                               "params": {}
+                               }]
+                   }
+                }
+            ], function (err, res) {  });
+    }
+
+     function step1Joe(params, callback) {
+        
+        execute([
+            { // add the merchants (notice its the parent wid)
+                    "executethis": "addwidmaster",
+                    "wid": "merchgroup1",
+                    "metadata.method": "merchantsdto",
+                    "merchantdto.name": "joe's company",
+                       "configuration": {
+                           "midexecute": [{
+                               "dothis": "server",
+                               "tryorder": "0",
+                               "executeorder": "0",
+                               "params": {}
+                               }]
+                   }
+                }
+            ], function (err, res) {  });
+    }
+
+     function step1Bill (params, callback) {
+        
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "merchgroup1",
+                    "metadata.method": "merchantsdto",
+                    "merchantdto.name": "bill's company",
+                       "configuration": {
+                           "midexecute": [{
+                               "dothis": "server",
+                               "tryorder": "0",
+                               "executeorder": "0",
+                               "params": {}
+                               }]
+                   }
+                }
+            ], function (err, res) {  });
+    }
+
+     function step2BillLoyalty (params, callback) {
+        
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "loyaltygroup1",
+                    "metadata.method": "merchantdto",
+                    "loyaltydto.name": "bill's loyalty wid",
+                       "configuration": {
+                           "midexecute": [{
+                               "dothis": "server",
+                               "tryorder": "0",
+                               "executeorder": "0",
+                               "params": {}
+                               }]
+                   }
+                }
+            ], function (err, res) {  });
+    }
+
+     function step2JoeLoyalty (params, callback) {
+        
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "loyaltygroup1",
+                    "metadata.method": "merchantdto",
+                    "loyaltydto.name": "Joe's loyalty wid",
+                       "configuration": {
+                           "midexecute": [{
+                               "dothis": "server",
+                               "tryorder": "0",
+                               "executeorder": "0",
+                               "params": {}
+                               }]
+                   }
+                }
+            ], function (err, res) {  });
+    }
+
+         function inputLoyalty (params, callback) {
+            var lname = document.getElementById('loyaltyName').value;
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "loyaltygroup1",
+                    "metadata.method": "merchantdto",
+                    "loyaltydto.name": lname,
+                       "configuration": {
+                           "midexecute": [{
+                               "dothis": "server",
+                               "tryorder": "0",
+                               "executeorder": "0",
+                               "params": {}
+                               }]
+                   }
+                }
+            ], function (err, res) {  });
+    }
+
+     function step3datanodto (params, callback) {
+        
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "nodtowid",
+                    "name": "bill's no data datawid",
+                       "configuration": {
+                           "midexecute": [{
+                               "dothis": "server",
+                               "tryorder": "0",
+                               "executeorder": "0",
+                               "params": {}
+                               }]
+                   }
+                }
+            ], function (err, res) {  });
+    }
