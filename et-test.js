@@ -2415,6 +2415,10 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "executethis": "addwidmaster",
                     "wid": "nodtowid",
                     "name": "bill's no data datawid"
+                },
+                {
+                    "executethis":"getwidmaster",
+                    "wid":"nodtowid"
                 }
             ], function (err, res) {  });
     }
