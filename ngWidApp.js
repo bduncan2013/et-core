@@ -39,7 +39,7 @@ if (typeof angular !== 'undefined') {
                     } else {
                         if (phase !== '$apply' && phase !== '$digest') {
                             scope.$apply(function() { scope[prop] = obj[prop]; scope.data[prop] = obj[prop]; });
-                        } else { scope[prop] = obj[prop];  }
+                        } else { scope[prop] = obj[prop]; scope.data[prop] = obj[prop]; }
                     }
                 }
             }
