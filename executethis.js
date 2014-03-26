@@ -37,6 +37,13 @@
         try {
             var inboundparms_111 = arguments;
 
+            //extract the wrapper object(if present)
+            var wrapperObject="";
+            if((incomingparams.command && incomingparams.command.result)){
+                wrapperObject = incomingparams.command.result;
+            };
+
+
             var result, preError, midError, overallError, commandmultiple;
             // check for execute multiple commands, if passed store and delete from request
 
@@ -174,12 +181,19 @@
 
                                                     } else {
 
-                                                        if ((postResults.command) && (postResults.command.execute) && (postResults.command.execute.result)) { // if command.result then wrap results
+                                                        if ((postResults.command) && (postResults.command.result)) { // if command.result then wrap results
                                                             var resultWrapperObj = {};
-                                                            resultWrapperObj[postResults.command.execute.result] = postResults;
+                                                            resultWrapperObj[postResults.command.result] = postResults;
                                                             postResults = resultWrapperObj;
-                                                            delete postResults.command.execute.result;
+                                                            delete postResults.command.result;
                                                         }
+
+                                                        // wrap  if needed to
+                                                        if(wrapperObject){
+                                                            var json = {};
+                                                            json[wrapperObject]=postResults;
+                                                            postResults = json;
+                                                        }   
 
                                                         if (Object.prototype.toString.call(postResults) !== '[object Array]') {
 
