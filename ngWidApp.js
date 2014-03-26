@@ -38,7 +38,7 @@ if (typeof angular !== 'undefined') {
                         storeAllData(obj[prop], scope, prop);
                     } else {
                         if (phase !== '$apply' && phase !== '$digest') {
-                            scope.$apply(function() { scope.data[prop] = obj[prop]; });
+                            scope.$apply(function() { scope[prop] = obj[prop]; scope.data[prop] = obj[prop]; });
                         } else { scope[prop] = obj[prop];  }
                     }
                 }
