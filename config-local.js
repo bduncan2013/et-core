@@ -600,6 +600,12 @@ exports.server = window.server = server = function server(params, callback) {
     }
 };
 
+exports.server2 = window.server2 = server2 = function server2(params, callback) {
+    proxyprinttodiv('Function server2 ------', params, 99);
+    params.command.server="server2";
+    server(params,callback);
+}
+
 exports.getDriApiData = getDriApiData = function getDriApiData(params, callback) {
     // set up object in syntax that driApi is expecting
     // also get getdata/<action> action from params object

@@ -65,9 +65,9 @@
             } else {
 
                 if (incomingparams.command && incomingparams.command.server) {
-                    var fn = incomingparams.command.server
+                    var fn = incomingparams.command.server;
                     delete incomingparams.command.server;
-                    fn(incomingparams, function (err, res) { callback(err, res)})
+                    window[fn](incomingparams, function (err, res) { callback(err, res)})
                 }
                 else { 
                     //if (!incomingparams['configuration']) {incomingparams['configuration']={}}

@@ -17,7 +17,7 @@ copyright (c) 2014 DRI
 
     <script src="./async.js"></script>
     <script src="et-utils.js"></script>
-    <script src="config-local-1.js"></script>
+    <script src="config-local.js"></script>
     <script src="et-dto.js"></script>
     <script src="et-testdata.js"></script>
     <script src="et-security.js"></script>
@@ -254,7 +254,7 @@ copyright (c) 2014 DRI
         var here = document.URL;
         var path = "";
         if (here.substring(0,4) === "http") {
-            alert ('You are already viewing the server2 version.');
+            alert ('You are already viewing the server version.');
         } else {
             path = "http://dripoint.com/" + here.substring(here.indexOf('Staff'));
             window.location.replace(path);
@@ -275,7 +275,7 @@ copyright (c) 2014 DRI
         // alert(document.URL);
     });
 
-    function execute_stuff(isTest, isServer) {
+    function execute_stuff(isTest, isServer, servername) {
         // Save function from textbox
         sessionStorage.setItem('function', $('#function_to_run').val());
 
@@ -338,6 +338,9 @@ copyright (c) 2014 DRI
                 }]
             };
             my_execute_object['command.debug'] = 'true';
+            // if(servername){
+            //     my_execute_object['command']={'server':servername};
+            // }
         }
         // Change the Clean local storage checkbox to 'unchecked'
         $("#localStorageClean").prop('checked', false);
@@ -364,7 +367,7 @@ copyright (c) 2014 DRI
     });
 
     $('#execute_server_function').click(function() {
-        execute_stuff(false, true);
+         execute_stuff(false, true,"server");
     });
 
     $('#get_copy').click(function() {
