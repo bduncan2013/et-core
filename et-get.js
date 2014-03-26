@@ -216,35 +216,39 @@
     // Purpose: Pulls the schema for objects
     exports.getdtoobject = getdtoobject = function getdtoobject(obj, command, callback) {
         try {
-            proxyprinttodiv("getdtoobject input obj: ", obj, 38);
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
 
-            var dtotype;
-            var dtoobject = {};
-            var dtotable = {};
-
-            if (!obj["metadata"]) {
-                obj["metadata"] = {};
-                proxyprinttodiv("getdtoobject metadata -- CREATED", obj, 38);
-            }
-            if (!obj["metadata"]["method"]) {
-                obj["metadata"]["method"] = "defaultdto";
-                proxyprinttodiv("getdtoobject metadata method -- CREATED", obj, 38);
-            }
 
             // creates a table of dto's to refrence
-            function createdtotable(mm, dtoobject) {
-                proxyprinttodiv("getdtoobject createdtotable -- dtoobject", dtoobject, 38);
-                proxyprinttodiv("getdtoobject createdtotable -- mm", mm, 38);
-                dtotable[mm]=dtoobject;
-                for (var eachparm in dtoobject.dtolist) {
-                    createdtotable(eachparm, dtoobject[eachparm])
+            function createdtotable(mm, dtoobject, dtotable) {                
+                proxyprinttodiv("getdtoobject createdtotable -- dtoobject", dtoobject, 99);
+                proxyprinttodiv("getdtoobject createdtotable -- mm", mm, 99);
+
+                // if we are missing dto object, command, and dtotype create them
+                if(!dtoobject) {
+                    dtoobject = {};
                 }
-            }
-            
+
+                //if (dtoobject.command.dtolist === undefined) {
+                //proxyprinttodiv("getdtoobject createdtotable -- dtoobject.command.dtolist ", dtoobject.command.dtolist, 99);
                 
+                if ((dtoobject.command) && (dtoobject.command.dotlist) && (Object.keys(dtoobject.command.dtolist).length > 0)) {
+                    for (var eachparam in dtoobject.command.dtolist) {
+                        proxyprinttodiv("getdtoobject createdtotable eachparam -- ", eachparam,99);
+                        if (dtoobject[eachparam]) {dtotable = createdtotable(eachparam, dtoobject[eachparam], dtotable);}
+
+                    }
+                }
+
+                // added *** > below
+                if (!dtotable[mm] && Object.keys(dtoobject).length > 0) {
+                    dtotable[mm] = dtoobject;
+                }
+                proxyprinttodiv("getdtoobject createdtotable -- dtotable ", dtotable, 99);
+                return dtotable;
+            }
+        
             function recurseobj(params) {
-                proxyprinttodiv("getdtoobject recurseobj -- params", params, 38);
+                proxyprinttodiv("getdtoobject recurseobj -- params", params, 99);
                 var dtolist = {};
                 var dtoobj = {};
                 var metadata = {};
@@ -252,7 +256,7 @@
                 var inobj = JSON.parse(JSON.stringify(params));
                 //if we get an array in (usally happens on the recurse)
                 if (inobj instanceof Array) {
-                    proxyprinttodiv("inobj instanceof array", inobj, 38);
+                    proxyprinttodiv("inobj instanceof array", inobj, 99);
                     var mergedObj = {};
                     var tempArray = [];
                     for (var i in inobj) {
@@ -268,13 +272,13 @@
                         tempArray.push(mergedObj);
                     }
 
-                    proxyprinttodiv("tempArray", tempArray, 38);
+                    proxyprinttodiv("tempArray", tempArray, 99);
                     return tempArray;
                 }
                 else {
                     for (var eachparm in inobj) {
-                    proxyprinttodiv("getdtoobject recurseobj -- eachparm", eachparm, 38);
-                    proxyprinttodiv("getdtoobject recurseobj -- inobj", inobj, 38);
+                    proxyprinttodiv("getdtoobject recurseobj -- eachparm", eachparm, 99);
+                    proxyprinttodiv("getdtoobject recurseobj -- inobj", inobj, 99);
                         if (inobj.hasOwnProperty(eachparm)) {
                             //proxyprinttodiv("getdtoobject dtolist I", dtolist, 38);
                             //proxyprinttodiv("getdtoobject eachparm", eachparm, 38);
@@ -282,54 +286,48 @@
                             if (eachparm === "metadata") {
                                 metadata = inobj['metadata'];
                                 for (var eachitem in metadata) {
-                                    proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 38);
+                                    proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 99);
                                     if (metadata.hasOwnProperty(eachitem)) {
                                         //proxyprinttodiv("getdtoobjecteachitem", eachitem, 38);
                                         //proxyprinttodiv("getdtoobject dtolist II", dtolist, 38);
                                         if ((eachitem !== "method") && (eachitem !== "inherit")) {
-                                            proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 38);
+                                            proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 99);
                                             tempobj = {};
                                             tempobj[eachitem] = metadata[eachitem]['type'];
                                             extend(true, dtolist, tempobj);
+                                            proxyprinttodiv("In getdtoobject <<< DTOLIST >>>", dtolist, 99);
                                             // eachitem would be a child
-                                            if ((metadata[eachitem]['type'] === "onetomany" || 
-                                                    metadata[eachitem]['type'] === "manytomany" ||
+                                            if ((metadata[eachitem]['type'] === "onetomany" ||
+                                                    metadata[eachitem]['type'] === "manytomany" || // ** readded
                                                     metadata[eachitem]['type'] === "jsononetomany") &&
-                                                (!isArray(inobj[eachitem]))) {
-                                                tempArray = [];
-                                                tempArray.push(inobj[eachitem]);
+                                                (inobj[eachitem] !== undefined) && (!isArray(inobj[eachitem]))) {
+                                                relationshipArray = [];
+                                                relationshipArray.push(inobj[eachitem]);
                                                 delete inobj[eachitem];
-                                                inobj[eachitem] = tempArray;
+                                                inobj[eachitem] = relationshipArray;
+                                                // seems to be a bad idea to do inobj here ***
                                             }
-                                            proxyprinttodiv("getdtoobject dtolist", dtolist, 38);
+                                            proxyprinttodiv("getdtoobject dtolist", dtolist, 99);
                                         }
                                     }
                                 } // for metadata
                             } // if metadata
                             
-                            proxyprinttodiv("getdtoobject --is-- switch inobj[eachparm]", inobj[eachparm], 38);
-                            proxyprinttodiv("getdtoobject --is-- switch inobj", inobj, 38);
-                            if (isObject(inobj[eachparm])) {
-                                proxyprinttodiv("getdtoobject --is-- OBJECT", inobj[eachparm], 38);
-                                dtoobj[eachparm] = recurseobj(inobj[eachparm]);
-                            // }  else if (isArray(inobj[eachparm])) {
-                            //     proxyprinttodiv("getdtoobject --is-- Array", inobj[eachparm], 38);
-                            //     dtoobj[eachparm] = [];
-                            //     dtoobj[eachparm].push(recurseobj(inobj[eachparm]));
-                            } else { // if not object
-                                // *** new
-                                proxyprinttodiv("getdtoobject --is-- ELSE", inobj[eachparm], 38);
-                                proxyprinttodiv("In getdtoobject recurseobj -- inobj", inobj, 38);
-                                // proxyprinttodiv("In getdtoobject recurseobj -- dtotable", dtotable, 38);
-                                // proxyprinttodiv("In getdtoobject recurseobj -- dtotable[inobj.metadata.method]", dtotable[inobj.metadata.method], 38);
-                                // proxyprinttodiv("In getdtoobject recurseobj -- dtotable[inobj.metadata.method][eachparm]", dtotable[inobj.metadata.method][eachparm], 38);
-                                // proxyprinttodiv()
-                                if ((inobj.metadata) && (inobj.metadata.method) &&
-                                    (dtotable[inobj.metadata.method]) && (dtotable[inobj.metadata.method][eachparm])) {
-                                    proxyprinttodiv("In getdtoobject recurseobj -- DTOTABLE USED -- ", dtotable[inobj.metadata.method][eachparm], 38);
-                                    dtoobj[eachparm] = dtotable[inobj.metadata.method][eachparm];
-                                }
+                            proxyprinttodiv("getdtoobject --is-- switch inobj[eachparm]", inobj[eachparm], 99);
+                            proxyprinttodiv("getdtoobject --is-- switch inobj", inobj, 99);
 
+                            if (isObject(inobj[eachparm])) {
+                                proxyprinttodiv("getdtoobject is obj before inobj", inobj, 99);
+                                dtoobj[eachparm] = recurseobj(inobj[eachparm]);
+                                proxyprinttodiv("getdtoobject is obj dtoobj", dtoobj, 99);
+
+                                proxyprinttodiv("getdtoobject is obj after dtoobj--", dtoobj, 99);
+                                if (dtotable[eachparm]) {
+                                    dtoobj[eachparm] = extend(true, dtoobj[eachparm], dtotable[eachparm]);
+                                    // dtoobj[eachparm] = extend(true, dtotable[eachparm], dtoobj[eachparm]);
+                                }
+                            }
+                            else {
                                 dtoobj[eachparm] = "string";
                             }
                         }
@@ -340,14 +338,28 @@
                         }
                         dtoobj.command.dtolist = dtolist;
                     }
-                    proxyprinttodiv("In GetDTOObject before return -- we created dto -- :", dtoobj, 38);
+                    proxyprinttodiv("In GetDTOObject before return -- we created dto -- :", dtoobj, 99);
                     return dtoobj;
-                } 
+                }
             } // end fn recurse
 
-            // *** new
-            // dtoobject = recurseobj(obj);
-            // proxyprinttodiv("getdtoobject after created dtoobject: ", dtoobject, 38);
+            //******starts here
+            proxyprinttodiv("getdtoobject input obj: ", obj, 99);
+            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
+
+            var dtotype;
+            var dtoobject = {};
+            var dtotable = {};
+            var createddto={};
+
+            if (!obj["metadata"]) {
+                obj["metadata"] = {};
+                proxyprinttodiv("getdtoobject metadata -- CREATED", obj, 38);
+            }
+            if (!obj["metadata"]["method"]) {
+                obj["metadata"]["method"] = "defaultdto";
+                proxyprinttodiv("getdtoobject metadata method -- CREATED", obj, 38);
+            }
 
             if (command && command.dtotype) {
                 dtotype = command.dtotype;
@@ -367,17 +379,35 @@
                         callback(err, res);
                     } else {
                         try {
-                            proxyprinttodiv("getdtoobject input res[0] ", res, 38);
+                            proxyprinttodiv("getdtoobject input res I ", res, 99);
                             if (res && (Object.keys(res[0]).length !== 0)) {
-                                dtoobject = res[0]
+                                proxyprinttodiv("getdtoobject before createdtotable dtoobject res[0]", res[0], 99);
+                                proxyprinttodiv("getdtoobject before createdtotable dtoobjectobj", obj, 99);
+                                dtotable = {};
+                                dtotable = createdtotable(dtotype, res[0], dtotable);
+                                proxyprinttodiv("getdtoobject before createdtotable dtoobject res[0] again", res[0], 99);
+                                proxyprinttodiv("getdtoobject after createdtotable, dtotable", dtotable, 99);
+                                createddto = {};
+
+                                // In the case of author.author
+                                if (obj.hasOwnProperty(dtotype) && obj[dtotype].hasOwnProperty(dtotype)) {
+                                    createddto = recurseobj(obj);
+                                } else { // our original case
+                                    createddto = res[0];
+                                }
+
+                                proxyprinttodiv("getdtoobject after createddto", createddto, 99);
+                                dtoobject = extend(true, res[0], createddto);
+                                proxyprinttodiv("getdtoobject after recurseobj dtoobject", dtoobject, 99);
+                                //dtoobject = res[0];
                             } else {
-                                // *** new
-                                createdtotable(dtotype, dtoobject);
-                                dtoobject={};
+                                //proxyprinttodiv("getdtoobject createdtotable dtoobject II-- ", dtotable, 38);
+                                dtoobject = {};
                                 dtoobject = recurseobj(obj);
                             }
-                           
-                            proxyprinttodiv("getdtoobject output1 -- dtoobject", dtoobject, 38);
+                            proxyprinttodiv("getdtoobject output1 AFTER -- dtoobject", dtoobject, 99);
+                            proxyprinttodiv("getdtoobject output1 -- dtotable", dtotable, 38);
+                            //proxyprinttodiv("getdtoobject output1 -- dtolist", dtolist, 38);
                             callback(null, dtoobject);
                         } // end try
                         catch (err) {
@@ -389,25 +419,10 @@
                     }
                 }); // end execute
             } else { // if there is no dtoType or obj.wid then call back with a blank dtoObject
-                proxyprinttodiv("getdtoobject output2 -- dtoobject", dtoobject, 38);
-                
-
-
-                            // *** new
-                            createdtotable(dtotype, dtoobject);
-                            dtoobject={};
-                            dtoobject = recurseobj(obj);
-
-
-                           
-                            proxyprinttodiv("getdtoobject output1 -- dtoobject", dtoobject, 38);
-                            callback(null, dtoobject);
-                // debugfn("getdtoobject code generator", "getdtoobject", "get", "code", 2, 1, {
-                //     0: inbound_parameters,
-                //     1: dtoobject
-                // }, 6);
-
-                // callback(null, dtoobject);
+                dtoobject={};
+                dtoobject = recurseobj(obj);
+                proxyprinttodiv("getdtoobject output2 -- dtoobject", dtoobject, 99);
+                callback(null, dtoobject);
             } // end else
         } // end try
         catch (err) {

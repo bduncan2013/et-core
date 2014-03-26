@@ -1710,8 +1710,8 @@
                     "executethis": "addwidmaster",
                     "wid": "bookdto",
                     "metadata.method": "bookdto",
-                    "metadata.inherit.default.0": "bookdefaultdto",
-                    "metadata.inherit.default.1": "bookdefaultdto2",
+                    "metadata.inherit.default.0": {"bookdefault":"bookdefaultdto"},
+                    "metadata.inherit.default.1": {"bookdefaulttwo":"bookdefaultdto"},
                     "title": "string",
                     "pages": "string"
                 },{
@@ -2309,3 +2309,70 @@ Function printlistmany output for getwidmaster wid1default with command.dtotype=
 }
 The addbig test (manytoone = last record updates in a one to one) worked
 */
+
+function ettestrecurseobj() {
+    //eventappinstall();
+    debuglevel = 0;
+    
+    // *** mock up ***
+    // var obj = { "executethis": "addwidmaster", "wid": "authordto", "metadata.method": "authordto","metadata.authordto.type": "onetoone",              "name":"string" }
+    var obj = { "wid":"song1", "metadata":{"method":"sonddto"},"title":"Highway to Hell","sounddto":[{"note":"A flat"}]}; 
+    var dtotable = {"sonddto":{"title":"string","wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone","sounddto":"onetomany"},"dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}},"sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]}};
+
+    proxyprinttodiv("ettestrecurseobj obj", obj, 99);
+    function recurseobj(obj, type) {
+        var dtoList = {};
+        var dtoObj = {};
+        var tempObj = {};
+        var tempArray = [];
+        var inObj = JSON.parse(JSON.stringify(obj));
+
+        // convert from obj to array if needed
+        if(type === "onetomany" || type === "manytomany" || type === "manytoone" && !isArray(obj)) {
+            tempArray = [];
+            tempArray.push(inObj);
+            inObj = tempArray;
+            proxyprinttodiv("ettestrecurseobj obj", inObj, 99);
+        }
+
+        //if we get an array in (usally happens on the recurse)
+        if (inObj instanceof Array) {
+            proxyprinttodiv("ettestrecurseobj inObj Array", inObj, 99);
+            var mergedObj = {};
+            tempArray = [];
+            for (var i in inObj) {
+                // if our array is just a list of strings
+                if (typeof inObj[i] === 'string') {
+                    tempArray.push("string");
+                } else {
+                    extend(true, mergedObj, recurseobj(inObj[i]));
+                }
+            }
+            // there has to be something in the merge object to push it onto the return
+            if (Object.keys(mergedObj).length > 0) {
+                tempArray.push(mergedObj);
+            }
+            return tempArray;
+        } else { // case of object
+            for (var eachParam in inObj) {
+                proxyprinttodiv("ettestrecurseobj inObj eachParam", eachParam, 99);
+                if (isObject(inObj[eachParam])) {
+                    dtoObj[eachParam] = recurseobj(inObj[eachParam]);
+
+                    if (dtotable[eachParam]) {
+                        dtoObj[eachParam] = extend(true, dtoObj[eachParam], dtotable[eachParam]);
+                    }
+                }
+                else {
+                    dtoObj[eachParam] = "string";
+                }
+            }
+        }
+        return dtoObj;
+    } // end fn recurse
+
+    var obj = recurseobj(obj);
+    proxyprinttodiv("ettestrecurseobj obj", obj, 99);
+
+    console.log(JSON.stringify(obj));
+}
