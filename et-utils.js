@@ -297,32 +297,32 @@ function setbyindex(obj, str, val) {
 
 
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
-    console.log("<< in deepfilter >>");
-    var modifiedObj = {};
-    extend(true, modifiedObj, inputObj);
-    console.log("<< extend >>" + JSON.stringify(modifiedObj));
-    console.log("<<inobj>>" + JSON.stringify(inputObj));
-    console.log("<<dtoobj>>" + JSON.stringify(dtoObjOpt));
-    proxyprinttodiv("deepfilter inputObj", inputObj, 41);
-    proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
-    if (dtoObjOpt) {
-        recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
-            // If error, bounce out
-            if (err && Object.keys(err).length > 0) {
-                callback(err, res);
-            } else {
-                proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
-                callback(null, res);
-            }
-        });
-    } else {
-        proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
-        callback(null, inputObj);
-    }
+        console.log("<< in deepfilter >>");
+        var modifiedObj = {};
+        extend(true, modifiedObj, inputObj);
+        console.log("<< extend >>" + JSON.stringify(modifiedObj));
+        proxyprinttodiv("deepfilter inputObj", inputObj, 41);
+        proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
+        if (dtoObjOpt) {
+            recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, res);
+                } else {
+                    proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
+                    callback(null, res);
+                }
+            });
+        } else {
+            proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
+            callback(null, inputObj);
+        }
 }
 
 function recurseModObj(inputObject, dtoObject, command, callback) {
-try {   
+    proxyprinttodiv("recurseModObj - inputObject ", inputObject, 41);
+	proxyprinttodiv("recurseModObj - dtoObject ", dtoObject, 41);
+//try {   
     var convert;
     var totype;
     var inbound_parameters_110 = arguments;
@@ -351,9 +351,9 @@ try {
     async.mapSeries(todolist, function (inpKey, cbMap) {
         proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
         async.nextTick(function () {
-            try {
+            //try {
                 var inpVal = inputObject[inpKey];
-                if (dtoObject.hasOwnProperty(inpKey)) {
+                if (inpVal && dtoObject.hasOwnProperty(inpKey)) {
                     var dataType = dtoObject[inpKey];
                     //if (inpVal instanceof Array) {
                     if ((isArray(inpVal)) || (isArray(dataType))) {
@@ -368,33 +368,40 @@ try {
                         if (!modifiedObj[inpKey]) {
                             modifiedObj[inpKey] = []
                         }
+						proxyprinttodiv("recurseModObj - before mapseries inpKey ", inpKey, 41);
                         proxyprinttodiv("recurseModObj - before mapseries inpVal ", inpVal, 41);
                         proxyprinttodiv("recurseModObj - before mapseries inpVal isArray", isArray(inpVal), 41);
                         proxyprinttodiv("recurseModObj - before mapseries dataType ", dataType, 41);
                         async.mapSeries(inpVal, function (eachinputval, cb1) { // step through each inpVal
                             async.nextTick(function () {
                             proxyprinttodiv("recurseModObj - in mapseries eachinputval ", eachinputval, 41);
-                            recurseModObj(eachinputval, dataType, command, function (err, result) {
-                                // If error, bounce out
-                                if (err && Object.keys(err).length > 0) {
-                                    cb1(err, result);
-                                } else {
-                                    try {
-                                        proxyprinttodiv("recurseModObj - in mapseries result ", result, 41);
-                                        if (Object.keys(result).length !== 0) {
-                                            modifiedObj[inpKey].push(result)
-                                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] ", modifiedObj[inpKey], 41);
-                                            proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
-                                        };
-                                        proxyprinttodiv("recurseModObj - after if ", modifiedObj[inpKey], 41);
-                                        cb1(null)
-                                    }
-                                    catch (err) {
-                                        var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj"}, {}, "recurseModObj_recurseModObj", err, result);
-                                        cb1(finalobject.err, finalobject.res);
-                                    }
-                                }
-                            }) // recurse
+                            if(eachinputval){
+								recurseModObj(eachinputval, dataType, command, function (err, result) {
+									// If error, bounce out
+									if (err && Object.keys(err).length > 0) {
+										cb1(err, result);
+									} else {
+										//try {
+											proxyprinttodiv("recurseModObj - in mapseries result ", result, 41);
+											if (Object.keys(result).length !== 0) {
+												modifiedObj[inpKey].push(result)
+												proxyprinttodiv("recurseModObj - modifiedObj[inpKey] ", modifiedObj[inpKey], 41);
+												proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
+											};
+											proxyprinttodiv("recurseModObj - after if ", modifiedObj[inpKey], 41);
+											cb1(null)
+										//}
+										//catch (err) {
+										//    var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj"}, {}, "recurseModObj_recurseModObj", err, result);
+										//    cb1(finalobject.err, finalobject.res);
+										//}
+									}
+								}) // recurse
+							}else{
+								modifiedObj[inpKey] = null;
+								proxyprinttodiv("recurseModObj - modifiedObj[inpKey] after undefined input ", modifiedObj[inpKey], 41);
+								cb1(null);
+							}
                             proxyprinttodiv("recurseModObj - between ", modifiedObj[inpKey], 41);
                         }) // next tick
                         proxyprinttodiv("recurseModObj - between II ", modifiedObj[inpKey], 41);
@@ -444,6 +451,7 @@ try {
                                         } else {
                                         if (totype===true) {modifiedObj[inpKey] = true} else {modifiedObj[inpKey] = "true"}
                                         }
+
                                     //modifiedObj[inpKey] = true;
                                 } else if (inpVal === false || inpVal == "false") {
 
@@ -555,16 +563,16 @@ try {
                                 if (err && Object.keys(err).length > 0) {
                                     cbMap(err, result);
                                 } else {
-                                    try {
+                                    //try {
                                         //var modObj = recurseModObj(inpVal,dataType,command);
                                         modifiedObj[inpKey] = result;
                                         proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
                                         cbMap(null);
-                                    }
-                                    catch (err) {
-                                        var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II"}, {}, "recurseModObj_recurseModObj_II", err, result);
-                                        cbMap(finalobject.err, finalobject.res);
-                                    }
+                                    //}
+                                    //catch (err) {
+                                    //    var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II"}, {}, "recurseModObj_recurseModObj_II", err, result);
+                                    //    cbMap(finalobject.err, finalobject.res);
+                                    //}
                                 }
                             });
                         } else {
@@ -581,7 +589,7 @@ try {
                             if (err && Object.keys(err).length > 0) {
                                 cbMap(err, result);
                             } else {
-                                try {
+                                //try {
                                     //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
                                     var widObj = result[0][0];
                                     if (widObj) {
@@ -591,11 +599,11 @@ try {
                                     }
                                     proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);
                                     cbMap(null);
-                                }
-                                catch (err) {
+                                //}
+                               // catch (err) {
                                     var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II_execute"}, {}, "recurseModObj_recurseModObj_II_execute", err, result);
                                     cbMap(finalobject.err, finalobject.res);
-                                }
+                                //}
                             }
                         });
                     }
@@ -609,11 +617,11 @@ try {
                     proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
                     cbMap(null);
                 }
-            } // end try
-            catch (err) {
-                var finalobject = createfinalobject({"result": "recurseModObj_async_nextTick"}, {}, "recurseModObj_async_nextTick", err, inpKey);
-                cbMap(finalobject.err, finalobject.res);
-            }
+            //} // end try
+            //catch (err) {
+            //    var finalobject = createfinalobject({"result": "recurseModObj_async_nextTick"}, {}, "recurseModObj_async_nextTick", err, inpKey);
+             //   cbMap(finalobject.err, finalobject.res);
+            //}
         });
     },
 
@@ -625,11 +633,11 @@ try {
             callback(null, modifiedObj);
         }
     });
-} // end try
-catch (err) {
-    var finalobject = createfinalobject({"result": "recurseModObj"}, {}, "recurseModObj", err, inbound_parameters_110);
-    callback(finalobject.err, finalobject.res);
-}
+//} // end try
+//catch (err) {
+    //var finalobject = createfinalobject({"result": "recurseModObj"}, {}, "recurseModObj", err, inbound_parameters_110);
+    //callback(finalobject.err, finalobject.res);
+//}
 }
 
 //deepfilter dataType=shortguid - to create new 5 digit alphanumeric string
@@ -1436,7 +1444,15 @@ function getRandomNumberByLength(length) {
     // };
 
     exports.logverify = logverify = function logverify(test_name, data_object, assertion_object) {
-        if (test_name === undefined) test_name = "defaulttest";
+        //To delete metadata.date method
+		if(data_object[0] && data_object[0]["metadata"] && data_object[0]["metadata"]["date"]){
+			delete data_object[0]["metadata"]["date"];
+		}
+		if(assertion_object[0] && assertion_object[0]["metadata"] && assertion_object[0]["metadata"]["date"]){		
+			delete assertion_object[0]["metadata"]["date"];
+		}
+		
+		if (test_name === undefined) test_name = "defaulttest";
 
         var result = deepDiffMapper.map(data_object, assertion_object);
         // Assume UNKNOWN...
@@ -1813,6 +1829,11 @@ function getRandomNumberByLength(length) {
                 }
                 var diff = {};
                 for (var key in obj1) {
+					if (key=="date") {
+						console.log("key : " + key);
+						console.log("val : " + obj1[key]);
+						continue;
+					}
                     if (this.isFunction(obj1[key])) {
                         continue;
                     }
@@ -1831,6 +1852,9 @@ function getRandomNumberByLength(length) {
                 return diff;
             },
             compareValues: function (value1, value2) {
+				console.log("value1 : " + value1);
+				console.log("value2 : " + value2);
+			
                 if (value1 === value2) {
                     return this.VALUE_UNCHANGED;
                 }
