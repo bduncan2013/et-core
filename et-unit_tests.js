@@ -302,9 +302,12 @@ exports.ettestat = ettestat = function ettestat(params, callback) {
                     result.push(r4);
                     etalldeepfiltertests(result, function (err, r5) {
                         result.push(r5);
+                        ettestdot(result, function (err, r6) {
+                            result.push(r6);
 
-                        callback(err, result);
+                            callback(err, result);
 
+                        });
                     });
                 });
             });
@@ -617,6 +620,28 @@ exports.ettestagtt = ettestagtt = function ettestagtt(params, callback) {
         });
     });
 }
+
+// These are the deepfilter tests
+exports.ettestetdtt = ettestetdtt = function ettestetdtt(params, callback) {
+
+    var result = [];
+    var err;
+
+    etd16(result, function (err, r1) {
+        result.push(r1);
+        etd17(result, function (err, r2) {
+            result.push(r2);
+            etd18(result, function (err, r3) {
+                result.push(r3);
+                etd19(result, function (err, r4) {
+                    result.push(r4);
+                    callback(err, result);
+                });
+            });
+        });
+    });
+}
+
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -8209,10 +8234,6 @@ proxyprinttodiv("end of data add", "end data add", 17);
       return widArray;
 }
 
-
-
-
-
 exports.t1example = t1example = function t1example(params, callback) {
       eventappinstall();
       config = setconfig1();
@@ -8235,7 +8256,6 @@ exports.t1example = t1example = function t1example(params, callback) {
                   }
             });
 }
-
 
 exports.etmttest2 = etmttest2 = function etmttest2(params, callback) {
 	debuglevel = 17;
@@ -8320,10 +8340,6 @@ exports.etmttest2 = etmttest2 = function etmttest2(params, callback) {
 			callback(err, res); 
       });
 }
-
-
-
-
 
 exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
 	debuglevel = 17;
@@ -9434,8 +9450,8 @@ exports.etd7 = etd7 = function etd7(params, callback) {
 			var actual_result = [res];
 			proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-                  // var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:23:47.300Z"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
-			var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+                  var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:23:47.300Z"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
+			// var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto"}}]],{"metadata":{"method":"defaultdto"},"a":"aaa","x":"test","z":"ggg","c":"30","d":"6/23/1912","q":{"w":{"e":"t"}},"g":"true"}]];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
 			res = logverify("etd7", actual_result, expected_result);
@@ -9477,8 +9493,8 @@ exports.etd8 = etd8 = function etd8(params, callback) {
 			var actual_result = [res];
 			proxyprinttodiv("actual_result --", actual_result, 17);							  
 
-                  // var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:25:34.697Z"}}]],{"d":"6/23/1912"}]];
-			var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto"}}]],{"d":"6/23/1912"}]];
+                  var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto","date":"2014-03-19T12:25:34.697Z"}}]],{"d":"6/23/1912"}]];
+			// var expected_result = [[[[{"data":{"aaa":"","ggg":""},"wid":"wid2","metadata":{"method":"defaultdto"}}]],{"d":"6/23/1912"}]];
 			proxyprinttodiv("expected_result --", expected_result, 17);
 
 			res = logverify("etd8", actual_result, expected_result);
@@ -10002,7 +10018,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result ', res[4], 17);
 
-            res = logverify("ettestagag3_result", res[4], [{
+            res = logverify("ettest1dot3dot", res[4], [{
                   "title": "Highway to Hell",
                   "wid": "song1",
                   "metadata.method": "songdto",
@@ -10087,7 +10103,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
-            res = logverify("ettestagag3_result", res[6], [{
+            res = logverify("ettest3dot3dot", res[6], [{
       "title": "Highway to Hell",
       "sounddto.0.wid": "1",
       "sounddto.0.note": "A flat",
@@ -10162,7 +10178,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
-            res = logverify("ettestagag3_result", res[4], [{
+            res = logverify("ettest3dot1dot", res[4], [{
       "title": "Highway to Hell",
       "sounddto.0.wid": "1",
       "sounddto.0.note": "A flat",
@@ -10225,7 +10241,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
-            res = logverify("ettestagag3_result", res[2], [{
+            res = logverify("ettest1dot1dot", res[2], [{
                   "title": "Highway to Hell",
                   "sounddto.0.wid": "2",
                   "sounddto.0.note": "A flat",
@@ -10302,7 +10318,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result ', res[4], 17);
 
-            res = logverify("ettestagag3_result", res[4], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
+            res = logverify("ettest1dot3dotjsonmany", res[4], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
                   "sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]
                   );
 
@@ -10378,7 +10394,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
-            res = logverify("ettestagag3_result", res[6], [{
+            res = logverify("ettest3dot3dotjsonmany", res[6], [{
                   "sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
             }]);
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -10439,7 +10455,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
-            res = logverify("ettestagag3_result", res[4], [{
+            res = logverify("ettest3dot1dotjsonmany", res[4], [{
                   "sounddto.0.note":"A flat","sounddto.1.note":"B sharp","sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"
             }]);
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -10488,7 +10504,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
-            res = logverify("ettestagag3_result", res[2], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
+            res = logverify("ettest1dot1dotjsonmany", res[2], [{"sounddto.0.note":"A flat","sounddto.1.note":"B sharp",
                   "sounddto.2.note":"C flat","title":"Highway to Hell","wid":"song1","metadata.method":"songdto"}]);
             // execute({"executethis": "getwidmaster","wid": "songdto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
@@ -10550,7 +10566,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result ', res[4], 17);
 
-            res = logverify("ettestagag3_result", res[4], [{
+            res = logverify("ettest1dot3dotjsonone", res[4], [{
                   "title":"Highway to Hell",
                   "sounddto.note":"C flat",
                   "wid":"song1",
@@ -10624,7 +10640,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
-            res = logverify("ettestagag3_result", res[6], [{
+            res = logverify("ettest3dot3dotjsonone", res[6], [{
                   "title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
             }]);
             // execute({"executethis": "getwidmaster","wid": "songdto",
@@ -10685,7 +10701,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
-            res = logverify("ettestagag3_result", res[4], [{
+            res = logverify("ettest3dot1dotjsonone", res[4], [{
                   "title":"Highway to Hell",
                   //"sounddto.0.note":"A flat",
                   //"sounddto.1.note":"B sharp",
@@ -10737,7 +10753,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[2], 17);
 
-            res = logverify("ettestagag3_result", res[2], [{
+            res = logverify("ettest1dot1dotjsonone", res[2], [{
                   "title":"Highway to Hell",
                   //"sounddto.0.note":"A flat",
                   //"sounddto.1.note":"B sharp",
@@ -10805,7 +10821,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result ', res[4], 17);
 
-            res = logverify("ettestagag3_result", res[4], [{
+            res = logverify("ettest1dot3dotobject", res[4], [{
                   "title":"Highway to Hell","sounddto.note":"C flat","wid":"song1","metadata.method":"songdto"
             }]);
 
@@ -10877,7 +10893,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[6], 17);
 
-            res = logverify("ettestagag3_result", res[6], [{
+            res = logverify("ettest3dot3dotobject", res[6], [{
                   "title":"Highway to Hell",
                   "sounddto.note":"C flat",
                   "wid":"song1",
@@ -10938,7 +10954,7 @@ execute([{
             proxyprinttodiv('Function ag3 result Full res', res, 17);
             proxyprinttodiv('Function ag3 result 3 x 3', res[4], 17);
 
-            res = logverify("ettestagag3_result", res[4], [{
+            res = logverify("ettest3dot1dotobject", res[4], [{
                   "title":"Highway to Hell",
                   // "sounddto.0.note":"A flat",
                   // "sounddto.1.note":"B sharp",
@@ -11194,3 +11210,482 @@ exports.etd19 = etd19 = function etd19(params, callback) {
 		callback(err, res);
 	});
 }
+
+/*
+	deep filter tests for all dto types
+	shortwid-create a short 5 digit alphanumeric
+	guid-create a long guid
+	hash-convert number to hash
+	phone-phone number in international format +n nnn…
+	random4-random 4 digit number
+
+	convert = true or false (should the output be changed)
+	totype = true or false (when the output is converted should it be the right type or string)
+	
+	4 input test cases :-
+	string input, datatype input, blank input, wrong input
+*/
+// do same test 3 more times
+// var command = {"command.deepfilter.convert":false};
+// var command = {"command.deepfilter.totype":false};
+
+
+// var command = {"command.deepfilter.convert":true};
+// var command = {"command.deepfilter.totype":true};
+
+// var command = {"command.deepfilter.convert":true};
+// var command = {"command.deepfilter.totype":true};
+	
+
+function testDeepFilterTests(command, callback){
+	debuglevel = 0;
+	async.series([
+		function (cb1){
+			var dtoObjOpt = {
+                "b1":"boolean", 
+                "s1":"string", 
+                "n1":"number", 
+                "i1":"integer", 
+                "d1":"date", 
+                "sg1":"shortguid", 
+                "g1":"guid", 
+                "h1":"hash", 
+                "p1":"phone", 
+                "r1":"random4",
+
+                "b2":"boolean", 
+                "s2":"string", 
+                "n2":"number", 
+                "i2":"integer", 
+                "d2":"date", 
+                "sg2":"shortguid", 
+                "g2":"guid", 
+                "h2":"hash", 
+                "p2":"phone", 
+                "r2":"random4",
+
+				"b3":"boolean", 
+                "s3":"string", 
+                "n3":"number", 
+                "i3":"integer", 
+                "d3":"date", 
+                "sg3":"shortguid", 
+                "g3":"guid", 
+                "h3":"hash", 
+                "p3":"phone", 
+                "r3":"random4",
+
+                "b4":"boolean", 
+                "s4":"string", 
+                "n4":"number", 
+                "i4":"integer", 
+                "d4":"date", 
+                "sg4":"shortguid", 
+                "g4":"guid", 
+                "h4":"hash", 
+                "p4":"phone", 
+                "r4":"random4"
+			};
+			var inputObj = {
+                "b1":"false",
+                "s1":"hello", 
+                "n1":"30", 
+                "i1":"40", 
+                "d1":"2/27/2014", 
+                "h1":"ff00ff",
+                "p1":"19998887777",
+
+                "b2":false, 
+                "s2":"hello", 
+                "n2":30, 
+                "i2":40, 
+                "d2":"2014-02-27T18:30:00.000Z", 
+                "h2":"#ff00ff",
+                "p2":"+19998887777",
+
+				"b3":"", 
+                "s3":"", 
+                "n3":"", 
+                "i3":"", 
+                "d3":"", 
+                "h3":"",
+                "p3":"",
+
+                "b4":"x", 
+                "s4":false, 
+                "n4":"x", 
+                "i4":"x", 
+                "d4":"x", 
+                "h4":"x",
+                "p4":"x"
+            };
+			
+			/*
+			var dtoObjOpt = {
+					"b1":"boolean", "b2":"boolean", "b3":"boolean", "b4":"boolean",
+					//"s1":"string", "s2":"string", "s3":"string", "s4":"string",
+					//"n1":"number", "n2":"number", "n3":"number", "n4":"number",
+					//"i1":"integer", "i2":"integer", "i3":"integer", "i4":"integer",
+					//"d1":"date", "d2":"date", "d3":"date", "d4":"date",   
+					//"sg1":"shortguid", "sg2":"shortguid", "sg3":"shortguid", "sg4":"shortguid",
+					//"g1":"guid", "g2":"guid", "g3":"guid",, "g4":"guid", 
+					//"h1":"hash", "h2":"hash", "h3":"hash", "h4":"hash",
+					//"p1":"phone", "p2":"phone", "p3":"phone", "p4":"phone",
+					//"r1":"random4", "r2":"random4", "r3":"random4", "r4":"random4"
+					};
+			var inputObj = {
+					"b1":"false", "b2":false, "b3":"", "b4":"x", 
+					//"s1":"hello", "s2":"hello", "s3":"", "s4":false,
+					//"n1":"30", "n2":30, "n3":"", "n4":"x",
+					//"i1":"40", "i2":40, "i3":"", "i4":"x",
+					//"d1":"2/27/2014", "d2": new Date(2/27/2014), "d3":"", "d4":"x",
+					//"h1":"ff00ff", "h2":"ff00ff", "h3":"", "h4":"x",
+					//"p1":"+19998887777", "p2":"+19998887777", "p3":"", "p4":"x"
+					};	
+			*/
+			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+				proxyprinttodiv("after etd16 deepfilter in", inputObj, 99);
+				proxyprinttodiv("after etd16 deepfilter dto", dtoObjOpt, 99);
+				proxyprinttodiv("after etd16 deepfilter res", res, 99);
+				cb1(err, res);
+			});
+		}
+	], function (err, res) {
+		callback(err, res); 
+	});
+}
+
+/*
+	"command.deepfilter.convert":true, "command.deepfilter.totype":true
+*/
+exports.etd16 = etd16 = function etd16(params, callback) {
+    eventappinstall();
+
+    execute([{
+            "executethis": "testDeepFilterTests",
+            "command.deepfilter.convert": true,
+            "command.deepfilter.totype": true
+        }],
+        function (err, res) {
+            res = logverify("etd16_result", res[0], [{
+                "b1": false,
+                "s1": "hello",
+                "n1": 30,
+                "i1": 40,
+                "d1": "2014-02-27T05:00:00.000Z",
+                "h1": "#ff00ff",
+                "p1": "+1 999 888 7777",
+                "b2": false,
+                "s2": "hello",
+                "n2": 30,
+                "i2": 40,
+                "d2": "2014-02-27T18:30:00.000Z",
+                "h2": "#ff00ff",
+                "p2": "+1 999 888 7777",
+                "s3": ""
+            }]);
+            callback(err, res);
+        });
+}
+
+/*
+	"command.deepfilter.convert":true, "command.deepfilter.totype":false
+*/
+exports.etd17 = etd17 = function etd17(params, callback) {
+    eventappinstall();
+
+    execute([{
+            "executethis": "testDeepFilterTests",
+            "command.deepfilter.convert": true,
+            "command.deepfilter.totype": false
+        }],
+        function (err, res) {
+            res = logverify("etd17_result", res[0], [{
+                "b1": "false",
+                "s1": "hello",
+                "n1": "30",
+                "i1": "40",
+                "d1": "2/27/2014",
+                "h1": "ff00ff",
+                "p1": "19998887777",
+                "b2": "false",
+                "s2": "hello",
+                "n2": "30",
+                "i2": "40",
+                "d2": "2014-02-27T18:30:00.000Z",
+                "h2": "#ff00ff",
+                "p2": "+19998887777",
+                "s3": ""
+            }]);
+            callback(err, res);
+        });
+}
+
+/*
+	"command.deepfilter.convert":false, "command.deepfilter.totype":true
+	no conversion
+*/
+exports.etd18 = etd18 = function etd18(params, callback) {
+    eventappinstall();
+
+    execute([{
+            "executethis": "testDeepFilterTests",
+            "command.deepfilter.convert": false,
+            "command.deepfilter.totype": true
+        }],
+        function (err, res) {
+            res = logverify("etd18_result", res[0], [{
+                "b1": "false",
+                "s1": "hello",
+                "n1": "30",
+                "i1": "40",
+                "d1": "2/27/2014",
+                "h1": "ff00ff",
+                "p1": "19998887777",
+                "b2": false,
+                "s2": "hello",
+                "n2": 30,
+                "i2": 40,
+                "d2": "2014-02-27T18:30:00.000Z",
+                "h2": "#ff00ff",
+                "p2": "+19998887777",
+                "s3": ""
+            }]);
+            callback(err, res);
+        });
+}
+
+/*
+	"command.deepfilter.convert":false, "command.deepfilter.totype":false
+	no conversion
+*/
+exports.etd19 = etd19 = function etd19(params, callback) {
+    eventappinstall();
+
+    execute([{
+            "executethis": "testDeepFilterTests",
+            "command.deepfilter.convert": false,
+            "command.deepfilter.totype": false
+        }],
+        function (err, res) {
+            res = logverify("etd19_result", res[0], [{
+                "b1": "false",
+                "s1": "hello",
+                "n1": "30",
+                "i1": "40",
+                "d1": "2/27/2014",
+                "h1": "ff00ff",
+                "p1": "19998887777",
+                "b2": false,
+                "s2": "hello",
+                "n2": 30,
+                "i2": 40,
+                "d2": "2014-02-27T18:30:00.000Z",
+                "h2": "#ff00ff",
+                "p2": "+19998887777",
+                "s3": ""
+            }]);
+            callback(err, res);
+        });
+}
+
+// exports.etd16 = etd16 = function etd16(params, callback) {
+//     var command = {"command.deepfilter.convert":true, "command.deepfilter.totype":true};    //string to datatype
+//     testDeepFilterTests(command, function(err, res){
+
+//         proxyprinttodiv("after test convert:true totype: true --1:string, 2:type, 3:'', 4:wrong", res, 99, true);
+        
+//         callback(err, res);
+//     });
+// }
+// exports.etd17 = etd17 = function etd17(params, callback) {
+//     var command = {"command.deepfilter.convert":true, "command.deepfilter.totype":false};   //datatype to string
+//     testDeepFilterTests(command, function(err, res){
+//             proxyprinttodiv("after test convert:true totype: false --1:string, 2:type, 3:'', 4:wrong", res, 99, true);
+//         callback(err, res);
+//     });
+// }                 
+                  
+// exports.etd18 = etd18 = function etd18(params, callback) {
+//     var command = {"command.deepfilter.convert":false, "command.deepfilter.totype":true};   //no conversion
+//     testDeepFilterTests(command, function(err, res){
+//             proxyprinttodiv("after test convert:false totype: true --1:string, 2:type, 3:'', 4:wrong", res, 99, true);
+//         callback(err, res);
+//     });
+// }                 
+
+// exports.etd19 = etd19 = function etd19(params, callback) {
+// 	var command = {"command.deepfilter.convert":false, "command.deepfilter.totype":false};	//no conversion
+// 	testDeepFilterTests(command, function(err, res){
+//             proxyprinttodiv("after test convert:false totype: false --1:string, 2:type, 3:'', 4:wrong", res, 99, true);
+// 		callback(err, res);
+// 	});
+// }
+
+exports.lmetd2 = lmetd2 = function lmetd2(params, callback) {
+    debuglevel = 17;    
+      async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+                    "wid": "deep_filter_test",
+                    "metadata.method": "defaultdto",
+                    "aaa": "",
+                    "ggg": ""
+                }];
+                execute(executeList, function (err, res) {
+                cb1(null);
+                });
+            }
+      ], function (err, res) {      //after updatewid
+            var dtoObjOpt = {
+                                "c":"integer"//, 
+                                // "h":"string", 
+                                // "g":"boolean",
+                                // "d":"date", 
+                                // "q":{"w":{"e":"string"}}, 
+                                // "x":{"y":{"z":"string"}}
+                            };
+            var inputObj = {
+                                "c":30//, 
+                                // "h":"hval", 
+                                // "g":"true",
+                                // "d":"6/25/1912", 
+                                // "q":{"w":{"e":"t"}}, 
+                                // "x":{"y":{"z":"string"}}
+                            };
+            var command = {
+                            "formatresult": "true"
+                        };
+              
+            deepfilter(inputObj, dtoObjOpt, command, function(err, res){
+                var actual_result = [res];
+                var expected_result = [{
+                                        "c":30//,
+                                        // "h":"hval",
+                                        // "g":"true",
+                                        // "d":"6/25/1912",
+                                        // "q":{"w":{"e":"t"}},
+                                        // "x":{"y":{"z":"string"}}
+                                    }];
+                res = logverify("lmetd2", actual_result, expected_result);
+                callback(err, res);
+            });
+      });
+}
+// I thought I could turn an integer into a string, but no go....leaves it an integer
+exports.lmetd3 = lmetd3 = function lmetd3(params, callback) {
+    debuglevel = 17;    
+      async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+                    "wid": "deep_filter_test",
+                    "metadata.method": "defaultdto",
+                    "aaa": ""
+                }];
+                execute(executeList, function (err, res) {
+                cb1(null);
+                });
+            }
+      ], function (err, res) {  
+            var dtoObjOpt = {
+                                "c":"string"
+                            };
+            var inputObj = {
+                                "c":30
+                            };
+            var command = {
+                            "formatresult": "true"
+                        };
+              
+            deepfilter(inputObj, dtoObjOpt, command, function(err, res){
+                var actual_result = [res];
+                var expected_result = [{
+                                        "c":"30"
+                                    }];
+                res = logverify("lmetd3", actual_result, expected_result);
+                callback(err, res);
+            });
+      });
+}
+
+// I expected the integer to stay an integer, 
+// but with an empty dtoObjOpt, you get a string
+exports.lmetd4 = lmetd4 = function lmetd4(params, callback) {
+    debuglevel = 17;    
+      async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+                    "wid": "deep_filter_test",
+                    "metadata.method": "defaultdto",
+                    "aaa": ""
+                }];
+                execute(executeList, function (err, res) {
+                cb1(null);
+                });
+            }
+      ], function (err, res) {  
+            var dtoObjOpt = {
+                                "c":""
+                            };
+            var inputObj = {
+                                "c":30
+                            };
+            var command = {
+                            "formatresult": "true"
+                        };
+              
+            deepfilter(inputObj, dtoObjOpt, command, function(err, res){
+                var actual_result = [res];
+                var expected_result = [{
+                                        "c":30
+                                    }];
+                res = logverify("lmetd4", actual_result, expected_result);
+                callback(err, res);
+            });
+      });
+}
+// 
+exports.lmetd5 = lmetd5 = function lmetd5(params, callback) {
+    debuglevel = 17;    
+      async.series([
+            function (cb1) {
+                var executeList = [{
+                    "executethis": "updatewid",
+                    "wid": "deep_filter_test",
+                    "metadata.method": "defaultdto",
+                    "aaa": ""
+                }];
+                execute(executeList, function (err, res) {
+                cb1(null);
+                });
+            }
+      ], function (err, res) {  
+            var dtoObjOpt = {
+                                "charlie":""
+                            };
+            var inputObj = {
+                                "charlie":"30"
+                            };
+            var command = {
+                            "formatresult": "true"//,
+                            // "deepfilter.convert": "true"
+                        };
+              
+            deepfilter(inputObj, dtoObjOpt, command, function(err, res){
+                var actual_result = [res];
+                var expected_result = [{
+                                        "charlie":"30"
+                                    }];
+                res = logverify("lmetd5", actual_result, expected_result);
+                callback(err, res);
+            });
+      });
+}
+
+var command;
+          if (!command) {command = {};}
+          if (!command.deepfilter) {command.deepfilter = {};}
+          command.deepfilter.convert = true;

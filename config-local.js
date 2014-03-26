@@ -12,9 +12,9 @@ if (!config) { // used in executethis
 //     var widMasterKey = 'widmaster_';
 // }
 
-if (!potentialwid) { // should not be neeeded
-    var potentialwid = 0;
-}
+// if (!potentialwid) { // should not be neeeded
+//     var potentialwid = 0;
+// }
 
 if (!Debug) { // printdiv
     var Debug = 'false';
