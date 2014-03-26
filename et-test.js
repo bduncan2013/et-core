@@ -2439,7 +2439,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
              });
     }
 
-    exports.wraptest = window.wraptest = wraptest = function wraptest(params, callback) {
+    exports.wraptest = wraptest = function wraptest(params, callback) {
         proxyprinttodiv('Function wraptest ------', params, 99);
 
         execute({"executethis":"ettestag1","command":{"result":"x"}},function(err,res){
