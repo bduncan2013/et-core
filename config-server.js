@@ -1,171 +1,194 @@
+var needle = require('needle');
+var twilio = require('twilio')('AC909f1981261f4461abbc7985bd202897', '7bb26fabe1f818f11f4a178359e0f19a');
+
 if (!exports) {
     var exports = {};
 }
-if (!config) {
-    var config = {};
-}
-if (!environment) {
-    var environment='local';
-}
-if (!widMasterKey) {
-    var widMasterKey = 'widmaster_';
-}
-if (!potentialwid) {
-    var potentialwid = 0;
-}
 
-if (!Debug) {
-    var Debug = 'false';
-}
-if (!debuglevel) {
-    var debuglevel = 0;
-}
-if (!debugon) {
-    var debugon = false;
-}
+exports.environment = 'server';
+exports.server = 'server1';
 
-if (!debugindent) {
-    var debugindent = 0;
-}
-if (!debugcolor) {
-    var debugcolor = 0;
-}
-if (!debugname) {
-    var debugname = '';
-}
-if (!debugcat) {
-    var debugcat = '';
-}
-if (!debugsubcat) {
-    var debugsubcat = '';
-}
-if (!debugfilter) {
-    var debugfilter = '';
-}
-if (!debugdestination) {
-    var debugdestination = 1;
-}
-if (!debuglinenum) {
-    var debuglinenum = 1;
-}
-if (!debuglog) {
-    var debuglog ={};
-}
 
-if (!test_results) {
-    var test_results = {};
-}
+(function (window) {
 
-exports.bootprocess = bootprocess = function bootprocess() {
-    if (Object.keys(config).length === 0) { setdefaultparm(); }
+    exports.sendsms = sendsms = function sendsms(params, cb) {
+        var callerFrom = '+12312259665'; // Who will this call appear to originate from?
+        // this number MUST be registered with our
+        // twilio account or the call will fail
+        // leave AS-IS or update twilio
 
-    proxyprinttodiv('Function bootprocess config', config, 1);
+        toNumber = params['tonumber'];
+        msgBody = params['msgbody'];
 
-    // if DRIKEY does not exist in localStorage
-    // then assume this is first visit to app and run appinstall
-    if (!getFromLocalStorage('DRIKEY')) { etappinstall(); }
+        // Create (send) an SMS message
+        // POST /2010-04-01/Accounts/ACCOUNT_SID/SMS/Messages
+        // "create" and "update" aliases are in place where appropriate on PUT and POST requests
+        twilio.sms.messages.post({
+                to: toNumber, // '+16515559999',
+                from: callerFrom,
+                body: msgBody // 'word to your mother.'
+            },
+            function (err, text) {
+                // console.log('You sent: '+ text.body);
+                //console.log('Current status of this text message is: '+ text.status);
+                //text = '' || text;
+                //text += ' -- send sms complete';
+                cb(err, text);
+            }
+        );
 
-//    execute({
-//        "executethis": "getwid",
-//        "wid": "etenvironment"
-//        }, function (err, result) {
-//        //proxyprinttodiv('Function bootprocess result', result, 1);
-//        // read etenvironment, if not there then must be ok to clear out initial stuff
-//
-//        // ***** temporary
-////        result={};
-//        //****
-//        if (result instanceof Array) {result=result[0]}
-//        if (Object.keys(result).length === 0) {
-//            // then 'dirty' et environement
-//            execute({
-//                "executethis": "updatewid",
-//                "wid": "etenvironment",
-//                "something": "something"
-//            }, etappinstall); //,
-//            // function (err, result) {
-//
-//            // })
-//
-//            if (true) {
-//                etappstarted();
-//            }
-//            if (true) {
-//                etappnewpage();
-//            }
-//            //testAddWids();
-//            //displayAllWids();
-//        }
-//    });
-    proxyprinttodiv('Function END bootprocess config', config, 1);
+    };
 
+    exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
+        //        proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
+        //widMasterKey = "widmaster_";
+        localStore.clear();
+        //potentialwid = 0;
+        localStore.push("DRI", [{
+            "wid": "initialwid",
+            "initialwid": "hello from bootprocess"
+        }]);
+        localStore.push("DRIKEY", {
+            "initialwid": {
+                "wid": "initialwid",
+                "initialwid": "for key hello from bootprocess"
+            }
+        });
+    };
+
+
+    // *********** EVENTS **************************************************
+    exports.eventappinstall = eventappinstall = function eventappinstall() {
+        setdefaultparm();
+        if (exports.environment === 'local') {
+            clearLocalStorage()
+        }
+    };
+    exports.eventdeviceready = eventdeviceready = function eventdeviceready() {
+        if (Object.keys(config).length === 0) {
+            eventappinstall()
+        }
+        // start eventonemin, etc
+    };
+    exports.eventnewpage = eventnewpage = function eventnewpage() {};
+    exports.eventonline = eventonline = function eventonline() {};
+    exports.eventoffline = eventoffline = function eventoffline() {};
+    exports.eventonemin = eventonemin = function eventonemin() {};
+    exports.eventtenmin = eventtenmin = function eventtenmin() {};
+    exports.eventdaily = eventdaily = function eventdaily() {};
+    exports.eventmonthly = eventmonthly = function eventmonthly() {};
+    exports.eventlogineventsucess = eventlogineventsucess = function eventlogineventsucess() {};
+    exports.eventlogineventfail = eventlogineventfail = function eventlogineventfail() {};
+    exports.eventoutboundevent = eventoutboundevent = function eventoutboundevent() {};
+    exports.eventdeletewidevent = eventdeletewidevent = function eventdeletewidevent() {};
+    exports.eventgetwidevent = eventgetwidevent = function eventgetwidevent() {};
+    exports.eventupdatewidevent = eventupdatewidevent = function eventupdatewidevent() {};
+    exports.eventaddwidevent = eventaddwidevent = function eventaddwidevent() {};
+    exports.eventexecuteevent = eventexecuteevent = function eventexecuteevent() {};
+    exports.eventexecuteeachend = eventexecuteeachend = function eventexecuteeachend() {};
+    exports.eventexecuteend = eventexecuteend = function eventexecuteend() {};
+
+
+    exports.Debug = Debug = 'false';
+    exports.debuglevel = debuglevel = 0;
+    exports.widMasterKey = widMasterKey = "widmaster_";
+    exports.test_results = test_results = {};
+    exports.potentialwid = potentialwid = 0;
+
+    //do not change these constants
+    exports.debugon = debugon = true;
+    exports.debugname = debugname = "";
+    exports.debugsubcat = debugsubcat = "";
+    exports.debugcat = debugcat = "";
+    exports.debugfilter = debugfilter = "";
+    exports.debugdestination = debugdestination = 1;
+    exports.debugcolor = debugcolor = 0;
+    exports.debugindent = debugindent = 0;
+    exports.environment = environment = 'server';
+
+
+
+    exports.debuglinenum = debuglinenum = 1;
 
     function etappinstall() { // exeucte only the first time app is installed -- once per lifetime
         setappinstallparm();
         if (exports.environment === 'local') {
             clearLocalStorage();
-            addToLocalStorage("DRI", [{"wid":"initialwid", "initialwid":"hello from bootprocess"}]);
-            addToLocalStorage("DRIKEY", {"initialwid" : {"wid":"initialwid", "initialwid":"for key hello from bootprocess"}});
+            addToLocalStorage("DRI", [{
+                "wid": "initialwid",
+                "initialwid": "hello from bootprocess"
+            }]);
+            addToLocalStorage("DRIKEY", {
+                "initialwid": {
+                    "wid": "initialwid",
+                    "initialwid": "for key hello from bootprocess"
+                }
+            });
         }
     }
 
     function etappstarted() {} // execute only once per day when app is started
 
     function etappnewpage() {} // execute each time we go to new page
-};
 
 
-//bootprocess();
-//exports.config = config = config123(); //moved by Bill per Roger
 
-function setappinstallparm() {}
+    //bootprocess();
+    //exports.config = config = config123(); //moved by Bill per Roger
 
-function setdefaultparm() {
-//    testclearstorage();  // commented by Jason, please don't clear local storage everytime.
-//    clearLocalStorage();  // as it severely hinders testing
-    exports.config = config = config123();
-    Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
-    debuglevel = 0;
-    widMasterKey = "widmaster_";
-    test_results = {};
-    potentialwid = 0;
-    debugon = false;
-    debugname = "";
-    debugsubcat = "";
-    debugcat = "";
-    debugfilter = "";
-    debugdestination = 1;
-    debugcolor = 0;
-    debugindent = 0;
-    debuglinenum = 1;
-    environment="local";
-    exports.environment = environment;
-    test_results = {}; // can take out
-    debuglog = {};
-    exports.debuglog = debuglog = debuglog;
+    function setappinstallparm() {}
 
-    exports.Debug = Debug;
-    exports.debuglevel = debuglevel;
-    exports.widMasterKey = widMasterKey;
-    exports.test_results = test_results;
-    exports.potentialwid = potentialwid;
+    function setdefaultparm() {
+        localStore.clear();
+        Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
+        debuglevel = 0;
+        widMasterKey = "widmaster_";
+        test_results = {};
+        potentialwid = 0;
+        debugon = false;
+        debugname = "";
+        debugsubcat = "";
+        debugcat = "";
+        debugfilter = "";
+        debugdestination = 1;
+        debugcolor = 0;
+        debugindent = 0;
+        debuglinenum = 1;
+        environment = "server";
+        exports.environment = environment;
+        test_results = {}; // can take out
+        debuglog = {};
+        exports.debuglog = debuglog;
+        exports.Debug = Debug;
+        exports.debuglevel = debuglevel;
+        exports.widMasterKey = widMasterKey;
+        exports.test_results = test_results;
+        exports.potentialwid = potentialwid;
+        exports.debugon = debugon;
+        exports.debugname = debugname;
+        exports.debugsubcat = debugsubcat;
+        exports.debugcat = debugcat =
+            exports.debugfilter = debugfilter;
+        exports.debugdestination = debugdestination;
+        exports.debugcolor = debugcolor;
+        exports.debugindent = debugindent;
+        exports.debuglinenum = debuglinenum;
+    }
+    exports.bootprocess = bootprocess = function bootprocess() {
+        setdefaultparm();
+        test_results = {};
+        //testAddWids();
+        //displayAllWids();
+    }
 
-    exports.debugon = debugon;
-    exports.debugname = debugname;
-    exports.debugsubcat = debugsubcat;
-    exports.debugcat = debugcat;
-    exports.debugfilter = debugfilter;
-    exports.debugdestination = debugdestination;
-    exports.debugcolor = debugcolor;
-    exports.debugindent = debugindent;
-    exports.debuglinenum = debuglinenum;
-}
+})(typeof window == "undefined" ? global : window);
 
 
-function config123() {
+var config123 = function () {
     var configuration = {};
 
-    configuration.environment = 'local';
+    configuration.environment = 'server';
+
 
     configuration.preExecute = [];
     configuration.preExecute[0] = {};
@@ -183,11 +206,11 @@ function config123() {
     configuration.preExecute[2].tryorder = 3;
     configuration.preExecute[2].dothis = 'executegetwid';
     configuration.preExecute[2].params = {};
-//    configuration.preExecute[3] = {};
-//    configuration.preExecute[3].executeorder = 1;
-//    configuration.preExecute[3].tryorder = 4;
-//    configuration.preExecute[3].dothis = 'server';
-//    configuration.preExecute[3].params = {};
+    // configuration.preExecute[3] = {};
+    // configuration.preExecute[3].executeorder = 1;
+    // configuration.preExecute[3].tryorder = 4;
+    // configuration.preExecute[3].dothis = 'server';
+    // configuration.preExecute[3].params = {};
 
     configuration.midExecute = [];
     configuration.midExecute[0] = {};
@@ -205,11 +228,11 @@ function config123() {
     configuration.midExecute[2].tryorder = 3;
     configuration.midExecute[2].dothis = 'executegetwid';
     configuration.midExecute[2].params = {};
-//    configuration.midExecute[3] = {};
-//    configuration.midExecute[3].executeorder = 1;
-//    configuration.midExecute[3].tryorder = 4;
-//    configuration.midExecute[3].dothis = 'server';
-//    configuration.midExecute[3].params = {};
+    // configuration.midExecute[3] = {};
+    // configuration.midExecute[3].executeorder = 1;
+    // configuration.midExecute[3].tryorder = 4;
+    // configuration.midExecute[3].dothis = 'server';
+    // configuration.midExecute[3].params = {};
 
     configuration.postExecute = [];
     configuration.postExecute[0] = {};
@@ -227,527 +250,456 @@ function config123() {
     configuration.postExecute[2].tryorder = 3;
     configuration.postExecute[2].dothis = 'executegetwid';
     configuration.postExecute[2].params = {};
-//    configuration.postExecute[3] = {};
-//    configuration.postExecute[3].executeorder = 1;
-//    configuration.postExecute[3].tryorder = 4;
-//    configuration.postExecute[3].dothis = 'server';
-//    configuration.postExecute[3].params = {};
+    // configuration.postExecute[3] = {};
+    // configuration.postExecute[3].executeorder = 1;
+    // configuration.postExecute[3].tryorder = 4;
+    // configuration.postExecute[3].dothis = 'server';
+    // configuration.postExecute[3].params = {};
 
-    // configuration.getwid = [];
-    // configuration.getwid[0] = {};
-    // configuration.getwid[0].executeorder = 1;
-    // configuration.getwid[0].tryorder = 1;
-    // configuration.getwid[0].dothis = 'offlinegetwid';
-    // configuration.getwid[0].server = 'getwid';
-    // configuration.getwid[0].dofn = offlinegetwid;
-    // configuration.getwid[0].params = {};
 
-    // configuration.updatewid = [];
-    // configuration.updatewid[0] = {};
-    // configuration.updatewid[0].executeorder = 1;
-    // configuration.updatewid[0].tryorder = 1;
-    // configuration.updatewid[0].dothis = 'offlineupdatewid';
-    // configuration.updatewid[0].server = 'updatewid';
-    // configuration.updatewid[0].dofn = offlineupdatewid;
-    // configuration.updatewid[0].params = {};
+    configuration.getwid = [];
+    configuration.getwid[0] = {};
+    configuration.getwid[0].executeorder = 0;
+    configuration.getwid[0].tryorder = 0;
+    configuration.getwid[0].dothis = 'getwid';
+    configuration.getwid[0].params = {};
+
+    configuration.updatewid = [];
+    configuration.updatewid[0] = {};
+    configuration.updatewid[0].executeorder = 0;
+    configuration.updatewid[0].tryorder = 0;
+    configuration.updatewid[0].dothis = 'updatewid';
+    configuration.updatewid[0].params = {};
+
+    configuration.getfrommongo = [];
+    configuration.getfrommongo[0] = {};
+    configuration.getfrommongo[0].executeorder = 0;
+    configuration.getfrommongo[0].tryorder = 0;
+    configuration.getfrommongo[0].dothis = 'getfrommongo';
+    configuration.getfrommongo[0].params = {};
+
 
     return {
         "configuration": configuration
     }
-}
-
-//exports.config = config = config123();
-
-
-//    exports.getFromLocalStorage = window.getFromLocalStorage = getFromLocalStorage = function getFromLocalStorage(key) {
-//        return JSON.parse(localStorage.getItem(key));
-//    };
-
-//    exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = function addToLocalStorage(key, value) {
-//        localStorage.setItem(key, JSON.stringify(value));
-//    };
-
-//    exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
-//        widMasterKey = "widmaster_";
-//        localStorage.clear();
-//        potentialwid = 0;
-//    };
-
-//    exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
-//        localStorage.removeItem(key);
-//    };
-
-
-
-//function addtomongo(inputWidgetObject) {
-exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function offlineaddtomongo(inputWidgetObject, callback) {
-    var collection="DRI";
-    var keycollection = "DRIKEY"
-    var err={};
-    var widobject = {};
-    var database = {};
-    var keydatabase = {};
-    var record;
-    var widName = inputWidgetObject['wid'];
-    var found=false;
-    if (widName) {
-        proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject,1);
-        proxyprinttodiv('Function addtomongo widName', widName,1);
-        database = getFromLocalStorage(collection);
-        proxyprinttodiv('Function addtomongo database', database,1);
-
-        for (record in database) {
-            proxyprinttodiv('Function addtomongo database[record]', database[record],1);
-            if (database[record]["wid"]==widName) {
-                database[record]=inputWidgetObject;
-                proxyprinttodiv('Function addtomongo found', database[record],1);
-                found=true;
-                break;
-                }
-            }
-
-        if (!found) {
-               database.push(inputWidgetObject);
-            }
-
-        keydatabase = getFromLocalStorage(keycollection);
-        keydatabase[widName]=inputWidgetObject;
-     
-        addToLocalStorage(collection, database);
-        addToLocalStorage(keycollection, keydatabase);
-        //******
-        widobject = inputWidgetObject;
-        addToLocalStorage(widMasterKey + widName, widobject);
-        //******
-        //widobject['wid'] = widName;
-        //return widobject;
-        callback(err, widobject);
-        }
-    else { // if no widName
-        callback({}, {}); // should have better error here
-        }
-
-};
-
-//function getfrommongo(inputWidgetObject) {
-exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo(inputWidgetObject, callback) {
-
-    var collection = "DRI";
-    var keycollection = "DRIKEY"
-    var err={};
-    var output = {};
-    var keydatabase = {};
-    var record;
-    var widName = inputWidgetObject['wid'];
-    if (widName) {
-        keydatabase = getFromLocalStorage(keycollection);
-        output = keydatabase[widName];
-        //output = getFromLocalStorage(widMasterKey + widKey);
-        //database = getFromLocalStorage(collection);
-        // for (record in database) {
-        //     if (database[record]["wid"]==widName) {
-        //         output=database[record];
-        //         break;
-        //         }
-        //     }
-        }
-    else { // if no widname
-        err={};
-        }
-
-    callback(err, output);
-}; //End of getfrommongo function
-
-
-exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
-    var inbound_parameters = {};
-    extend(true, inbound_parameters, inputWidgetObject);
-    var convertedobject={};
-    proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject, 11);
-    offlinegetfrommongo(inputWidgetObject, function (err, resultobject) {
-        // convert the object from dri standard before returnning it
-        proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject, 11);
-
-        var convertedobject=convertfromdriformat(resultobject)
-        proxyprinttodiv('Function getwid in : convertedobject', convertedobject, 11);
-        proxyprinttodiv('Function getwid in : resultobject', resultobject, 11);
-
-        if (inputWidgetObject['command.convertmethod']==='toobject') {
-            debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
-                0: inbound_parameters,
-                1: ConvertFromDOTdri(convertedobject),
-            }, 6);
-            callback({}, ConvertFromDOTdri(convertedobject))
-            }
-        else {
-            debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
-                0: inbound_parameters,
-                1: convertedobject,
-            }, 6);
-            callback({}, convertedobject);
-        }
-    });
-};
-
-exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
-    // var originalarguments=arguments;
-    // var executionid = new Date();
-    var originalarguments = {};
-    extend(true, originalarguments, inputObject);
-
-    // convert to dri format before saving
-    offlineaddtomongo(converttodriformat(inputObject), function (err, results) {
-        proxyprinttodiv('Function updatewid in : x', results, 10);
-
-        debugfn("updatewid code generator", "offlineupdatewid", "", "code", 2, 1, {
-                0: originalarguments,
-                1: results
-                // 2: executionid
-            }, 6);
-        callback({}, results);
-
-    });
 };
 
 
-function resetMasterKey() {
-    widMasterKey = "widmaster_";
-}
-
-
+exports.config = config = config123();
 
 
 function executeAjax(allConfig, executeItem, callback, returnCallback) {
-    var result;
-    var success = false;
-    result = "";
+    // var result;
+    // var success = false;
+    // result = "";
 
-    //executeItem = "[" + JSON.stringify(executeItem) + "]";
-    executeItem = JSON.stringify(executeItem);
-    $.ajax({
-        type: 'PUT',
-        dataType: 'json',
-        url: '/executethis',
-        headers: {
-            'content-type': 'Application/json'
-        },
-        global: 'false',
-        cache: 'false',
-        async: 'false',
-        data: executeItem,
-        success: function (data) {
-            // alert(JSON.stringify(data));
-            if (data.error) {
-                result = "<pre> APPLICATION ERROR: </pre>" + JSON.stringify(data);
-            } else {
-                if (Object.keys(data).length > 0) {
-                    result = "<pre> SUCCESS: </pre>" + JSON.stringify(data);
-                } else {
-                    result = "<pre> <<< No Data Returned >>> </pre>";
-                }
-            }
-            callback(data, allConfig, 'html', returnCallback);
-        },
-        error: function (data) {
-            alert(JSON.stringify(data));
-            result = "FAILED TO CALL EXECUTETHIS " + JSON.stringify(data);
-            callback(data, allConfig, 'html', returnCallback);
-        }
-    });
+    // //executeItem = "[" + JSON.stringify(executeItem) + "]";
+    // executeItem = JSON.stringify(executeItem);
+    // $.ajax({
+    //     type: 'PUT',
+    //     dataType: 'json',
+    //     url: '/executethis',
+    //     headers: {
+    //         'content-type': 'Application/json'
+    //     },
+    //     global: 'false',
+    //     cache: 'false',
+    //     async: 'false',
+    //     data: executeItem,
+    //     success: function(data) {
+    //         // alert(JSON.stringify(data));
+    //         if (data.error) {
+    //             result = "<pre> APPLICATION ERROR: </pre>" + JSON.stringify(data);
+    //         } else {
+    //             if (Object.keys(data).length > 0) {
+    //                 result = "<pre> SUCCESS: </pre>" + JSON.stringify(data);
+    //             } else {
+    //                 result = "<pre> <<< No Data Returned >>> </pre>";
+    //             }
+    //         }
+    //         callback(data, allConfig, 'html', returnCallback);
+    //     },
+    //     error: function(data) {
+    //         alert(JSON.stringify(data));
+    //         result = "FAILED TO CALL EXECUTETHIS " + JSON.stringify(data);
+    //         callback(data, allConfig, 'html', returnCallback);
+    //     }
+    // });
 }
 
-// Primary execute function called after dothis
+// Primary execute function called after doThis
 
-function test2(params, callback) {
-    callback({
-        "test": "test2 on server called"
-    });
+exports.test2 = test2 = function test2(name, callback) {
+    var default_name = 'stranger';
+    var use_name = name || default_name;
+
+    callback(
+        null, {
+            "test": "test2 on server called, modified by " + JSON.stringify(use_name)
+        }
+    );
 }
 
-exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
-    params.actionQueryString = action;
-    $.ajax({
-        url: '/getdata',
-        type: 'PUT',
+exports.sayHello = sayHello = function (params, callback) {
+
+}
+
+// Utility function to return json with all keys in lowercase
+
+function toLowerKeys(obj) {
+    var key, keys = Object.keys(obj);
+    var n = keys.length;
+    var newobj = {};
+    while (n--) {
+        key = keys[n];
+        newobj[key.toLowerCase()] = obj[key];
+    }
+    return newobj;
+}
+
+var querystring = require('querystring');
+var https = require('https');
+var fs = require('fs');
+
+exports.twilioPassThrough = function (params, callback) {
+    //    proxyprinttodiv('twilioPassThrough started', 99);
+
+    // Twilio Credentials 
+    var accountSid = 'AC909f1981261f4461abbc7985bd202897';
+    var authToken = '7bb26fabe1f818f11f4a178359e0f19a';
+
+    // Twilio constants used in all functions
+    var twilioHost = 'api.twilio.com';
+    var twilioApiVersion = '2010-04-01';
+    var twilioPort = 443;
+    var twilioBasePath = '/' + twilioApiVersion + '/Accounts/' + accountSid
+    var callerFrom = '+12312259665'; // Who will this call appear to originate from?
+    // this number MUST be registered with our
+    // twilio account or the call will fail
+    // leave AS-IS or update twilio
+
+    // Pull out the parameters from the function
+    var twilioFunction = params['twilioFunction'];
+    var callerTo = params['callNumber'];
+    var messageBody = params['messageBody'];
+
+
+    // Override parameters for testing
+    if (false) {
+        twilioFunction = 'Messages.json';
+        callerTo = '+12313133930';
+        messageBody = 'Hello russ';
+    }
+    var twilioURI = twilioBasePath + '/' + twilioFunction;
+    var callHTML = 'https://' + twilioHost + twilioURI;
+
+    //    proxuprinttodiv('Calling twilio function ' + twilioURI );
+
+    //// Maximum size of the message is 1600 characters
+    //if (messageBody)
+    //{
+    //    messageBody = messageBody.substr(0,1599);
+    //} else {
+    //    // no message body - abort
+    //    console.log('Message body paramter missing.  Aborting function');
+    //    return
+    //}
+
+    //// Build the post data object
+    //var post_data = querystring.stringify({
+    //        'From': callerFrom,
+    //        'To': callerTo,
+    //        'Body': messageBody ,                         
+    //    }
+    //);
+
+    // Pass through the paramters
+    var twilioParameters = params['twilioParameters'];
+    twilioParameters.From = callerFrom;
+    var post_data = querystring.stringify(params['twilioParameters']);
+
+    // Build the post options
+    //    proxyprinttodiv('URI = ' + twilioURI);
+    //    proxyprinttodiv('HOST = ' + twilioHost);
+    var post_options = {
+        host: twilioHost,
+        port: twilioPort,
+        path: twilioURI,
+        method: 'POST',
+        strictSSL: false,
+        secureProtocol: 'SSLv3_client_method',
+        auth: accountSid + ':' + authToken,
         headers: {
-            'content-type': 'application/json'
-        },
-        cache: false,
-        async: false,
-        dataType: 'json',
-        data: JSON.stringify(params),
-        success: function (results) {
-            callback(null, results);
-        },
-        error: function (err) {
-            callback(err.responseText, null);
+            'Content-type': 'application/x-www-form-urlencoded',
+            'Content-length': post_data.length
         }
+    };
+
+    // Setup the request
+    var post_request = https.request(post_options, function (res) {
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            //            proxyprinttodiv('Response: ' + chunk);
+
+            // assumes response is 1 chunk
+            callback(null, {
+                "test": "success"
+            });
+        });
+    });
+
+    //post the data
+    post_request.write(post_data);
+    post_request.end();
+
+
+};
+
+// send an SMS to someone
+// - parameters -
+//  To: phone number of who to send message to in +12315551212 format
+//  Body: text of the message to send, max 1600 characters
+exports.sendsms = sendsms = function (params, cb) {
+    var twilioFunction = 'Messages.json';
+    var twilioParameters = {
+        'To': params['To'],
+        'Body': params['Body']
+    }
+    exports.twilioPassThrough({
+            'twilioFunction': twilioFunction,
+            'twilioParameters': twilioParameters
+        },
+        function (err, result) {
+            cb(err, result);
+        }
+    );
+};
+
+//// lets test that function we just created
+//exports.twilioPassThrough( {
+//    'twilioFunction': 'Messages.json', 
+//    'twilioParameters': {
+//        'To': '+12313133930',
+//        'Body': 'This is a new text message for you'
+//    }
+//}, function() { console.log('123'); } );
+
+exports.server = server = function server(params, callback) {
+    // set up object in syntax that driApi is expecting
+    // also get getdata/<action> action from params object
+    console.log('>>> server');
+    var serverUrl = 'http://wiziapi.drillar.com/ButtonServe.svc/GetData/getalldata?accessToken=2afe5025-1964-4c50-abcf-bcd558188e74',
+        driExecuteObj = {
+            actionQueryString: params.dri_action,
+            parameterDTOs: []
+        };
+
+    // convert passed in object to parameterdto list
+    for (var prop in params) {
+        if (params.hasOwnProperty(prop)) {
+            driExecuteObj.parameterDTOs.push({
+                ParameterName: prop,
+                ParameterValue: 'eq:' + params[prop]
+            });
+        }
+    }
+
+    // if params has an executethis value but no wid value then use executethis as the wid
+    if (params.hasOwnProperty('executethis') && !params.hasOwnProperty('wid')) {
+        params.wid = params.executethis;
+        delete params['executethis'];
+    }
+
+    //    driExecuteObj = [{
+    //        "ParameterName": "wid",
+    //        "ParameterValue": "eq:GetCodyTestSMS"
+    //    }];
+
+    var options = {
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        }
+    };
+
+    needle.put(serverUrl, JSON.stringify(driExecuteObj), options, function (err, response, body) {
+        // convert returned list of DataModelDTOs to an object
+        var resultsObj = {};
+        for (var i = 0; i < body.length; i++) {
+            resultsObj[body[i].Key] = body[i].Value;
+        }
+
+        callback(err, resultsObj);
+    });
+};
+
+exports.server2 = server2 = function server2(params, callback) {
+    // set up object in syntax that driApi is expecting
+    // also get getdata/<action> action from params object
+    console.log('>>> server 2');
+    var serverUrl = 'http://95.85.55.218/';
+    //        driExecuteObj = {
+    //        actionQueryString: params.dri_action,
+    //        parameterDTOs: []
+    //    };
+
+    //    // convert passed in object to parameterdto list
+    //    for (var prop in params) {
+    //        if (params.hasOwnProperty(prop)) {
+    //            driExecuteObj.parameterDTOs.push({
+    //                ParameterName: prop,
+    //                ParameterValue: 'eq:' + params[prop]
+    //            });
+    //        }
+    //    }
+
+    //    // if params has an executethis value but no wid value then use executethis as the wid
+    //    if (params.hasOwnProperty('executethis') && !params.hasOwnProperty('wid')){
+    //        params.wid = params.executethis;
+    //        delete params['executethis'];
+    //    }
+
+    //    driExecuteObj = [{
+    //        "ParameterName": "wid",
+    //        "ParameterValue": "eq:GetCodyTestSMS"
+    //    }];
+
+    var options = {
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        }
+    };
+
+    needle.put(serverUrl, JSON.stringify(driExecuteObj), options, function (err, response, body) {
+        // convert returned list of DataModelDTOs to an object
+        var resultsObj = {};
+        for (var i = 0; i < body.length; i++) {
+            resultsObj[body[i].Key] = body[i].Value;
+        }
+
+        callback(err, resultsObj);
     });
 };
 
 
-// function getwidcopy() {
-//     // step through local storage looking for
-//     var set = {}; // get a copy of all local storage ***
-//     var resultobject = {};
-//     var wid = "";
-//     for (var key in localStorage) {
-//         if (key.indexOf(widMasterKey) == 0) {
-//             key = key.substring(10);
-//             resultobject = getFromLocalStorage(widMasterKey + key);
-//             wid = resultobject['wid'];
-//             set[wid] = resultobject;
-//             // $$$$$
+//exports.getDriApiData = getDriApiData = function getDriApiData(params, callback) {
+//    // set up object in syntax that driApi is expecting
+//    // also get getdata/<action> action from params object
+//    console.log('>>> getDriApiData' + getDriApiData);
+//    var driExecuteObj = {
+//         actionQueryString: 'getalldata',
+//         parameterDTOs: []
+//    };
+//
+//    // convert passed in object to parameterdto list
+//    for (var prop in params) {
+//         if (params.hasOwnProperty(prop)) {
+//             driExecuteObj.parameterDTOs.push({
+//                 ParameterName: prop,
+//                 ParameterValue: 'eq:' + params[prop]
+//             });
 //         }
-//     }
-//     return set;
-// }
-
-
-//************************************************************************************************************************************************************************************************
-//if (!exports) {
-//    var exports = {};
-//}
-
-
-//function resetMasterKey() {
-//    widMasterKey = "widmaster_";
-//}
-
-//function setdefaultparm() {
-//    localStore.clear();
-//    Debug = 'false'; // **** Saurabh ::  changed to make node compatible ****
-//    debuglevel = 0;
-//    widMasterKey = "widmaster_";
-//    test_results = {};
-//    potentialwid = 0;
-//    debugon = false;
-//    debugname = "";
-//    debugsubcat = "";
-//    debugcat = "";
-//    debugfilter = "";
-//    debugdestination = 1;
-//    debugcolor = 0;
-//    debugindent = 0;
-
-//    exports.config = config = config123();
-//    exports.environment = 'server';
-
-//    exports.Debug = Debug;
-//    exports.debuglevel = debuglevel;
-//    exports.widMasterKey = widMasterKey;
-//    exports.test_results = test_results;
-//    exports.potentialwid = potentialwid;
-
-//    exports.debugon = debugon;
-//    exports.debugname = debugname;
-//    exports.debugsubcat = debugsubcat;
-//    exports.debugcat = debugcat;
-//    exports.debugfilter = debugfilter;
-//    exports.debugdestination = debugdestination;
-//    exports.debugcolor = debugcolor;
-//    exports.debugindent = debugindent;
-//}
-
-
-//function config123() {
-//    var configuration = {};
-
-//    configuration.environment = 'server';
-
-//    configuration.preExecute = [];
-//    configuration.preExecute[0] = {};
-//    configuration.preExecute[0].executeorder = 1;
-//    configuration.preExecute[0].tryorder = 1;
-//    configuration.preExecute[0].dothis = 'dothis';
-//    configuration.preExecute[0].params = {};
-//    configuration.preExecute[1] = {};
-//    configuration.preExecute[1].executeorder = 1;
-//    configuration.preExecute[1].tryorder = 2;
-//    configuration.preExecute[1].dothis = 'executeparam';
-//    configuration.preExecute[1].params = {};
-//    configuration.preExecute[2] = {};
-//    configuration.preExecute[2].executeorder = 1;
-//    configuration.preExecute[2].tryorder = 3;
-//    configuration.preExecute[2].dothis = 'executegetwid';
-//    configuration.preExecute[2].params = {};
-//    configuration.preExecute[3] = {};
-//    configuration.preExecute[3].executeorder = 1;
-//    configuration.preExecute[3].tryorder = 4;
-//    configuration.preExecute[3].dothis = 'server';
-//    configuration.preExecute[3].params = {};
-
-//    configuration.midExecute = [];
-//    configuration.midExecute[0] = {};
-//    configuration.midExecute[0].executeorder = 1;
-//    configuration.midExecute[0].tryorder = 1;
-//    configuration.midExecute[0].dothis = 'dothis';
-//    configuration.midExecute[0].params = {};
-//    configuration.midExecute[1] = {};
-//    configuration.midExecute[1].executeorder = 1;
-//    configuration.midExecute[1].tryorder = 2;
-//    configuration.midExecute[1].dothis = 'executeparam';
-//    configuration.midExecute[1].params = {};
-//    configuration.midExecute[2] = {};
-//    configuration.midExecute[2].executeorder = 1;
-//    configuration.midExecute[2].tryorder = 3;
-//    configuration.midExecute[2].dothis = 'executegetwid';
-//    configuration.midExecute[2].params = {};
-//    configuration.midExecute[3] = {};
-//    configuration.midExecute[3].executeorder = 1;
-//    configuration.midExecute[3].tryorder = 4;
-//    configuration.midExecute[3].dothis = 'server';
-//    configuration.midExecute[3].params = {};
-
-//    configuration.postExecute = [];
-//    configuration.postExecute[0] = {};
-//    configuration.postExecute[0].executeorder = 1;
-//    configuration.postExecute[0].tryorder = 1;
-//    configuration.postExecute[0].dothis = 'dothis';
-//    configuration.postExecute[0].params = {};
-//    configuration.postExecute[1] = {};
-//    configuration.postExecute[1].executeorder = 1;
-//    configuration.postExecute[1].tryorder = 2;
-//    configuration.postExecute[1].dothis = 'executeparam';
-//    configuration.postExecute[1].params = {};
-//    configuration.postExecute[2] = {};
-//    configuration.postExecute[2].executeorder = 1;
-//    configuration.postExecute[2].tryorder = 3;
-//    configuration.postExecute[2].dothis = 'executegetwid';
-//    configuration.postExecute[2].params = {};
-//    configuration.postExecute[3] = {};
-//    configuration.postExecute[3].executeorder = 1;
-//    configuration.postExecute[3].tryorder = 4;
-//    configuration.postExecute[3].dothis = 'server';
-//    configuration.postExecute[3].params = {};
-
-//    // configuration.getwid = [];
-//    // configuration.getwid[0] = {};
-//    // configuration.getwid[0].executeorder = 1;
-//    // configuration.getwid[0].tryorder = 1;
-//    // configuration.getwid[0].dothis = 'offlinegetwid';
-//    // configuration.getwid[0].server = 'getwid';
-//    // configuration.getwid[0].dofn = offlinegetwid;
-//    // configuration.getwid[0].params = {};
-
-//    // configuration.updatewid = [];
-//    // configuration.updatewid[0] = {};
-//    // configuration.updatewid[0].executeorder = 1;
-//    // configuration.updatewid[0].tryorder = 1;
-//    // configuration.updatewid[0].dothis = 'offlineupdatewid';
-//    // configuration.updatewid[0].server = 'updatewid';
-//    // configuration.updatewid[0].dofn = offlineupdatewid;
-//    // configuration.updatewid[0].params = {};
-
-//    return {
-//        "configuration": configuration
 //    }
-//};
-
-
-//exports.bootprocess = bootprocess = function bootprocess() {
-//    //exports.config = config = config123();
-//    setdefaultparm();
-//    proxyprinttodiv('Function bootprocess config', config, 99);
-//    testclearstorage();
-//    if (exports.environment === 'local') {
-//        clearLocalStorage();
-//    }
-//    test_results = {};
-//    //testAddWids();
-//    //displayAllWids();
-//};
-
-//bootprocess();
-
-
-//function executeAjax(allConfig, executeItem, callback, returnCallback) {
-//    var result;
-//    var success = false;
-//    result = "";
-
-//    //executeItem = "[" + JSON.stringify(executeItem) + "]";
-//    executeItem = JSON.stringify(executeItem);
-//    $.ajax({
-//        type: 'PUT',
-//        dataType: 'json',
-//        url: '/executethis',
-//        headers: {
-//            'content-type': 'Application/json'
-//        },
-//        global: 'false',
-//        cache: 'false',
-//        async: 'false',
-//        data: executeItem,
-//        success: function (data) {
-//            // alert(JSON.stringify(data));
-//            if (data.error) {
-//                result = "<pre> APPLICATION ERROR: </pre>" + JSON.stringify(data);
-//            } else {
-//                if (Object.keys(data).length > 0) {
-//                    result = "<pre> SUCCESS: </pre>" + JSON.stringify(data);
-//                } else {
-//                    result = "<pre> <<< No Data Returned >>> </pre>";
-//                }
+//
+//    needle.put('/getdata?accessToken=2afe5025-1964-4c50-abcf-bcd558188e74', driExecuteObj,
+//        function (err, response, body) {
+//            // convert returned list of DataModelDTOs to an object
+//            var resultsObj = {};
+//            for (var i = 0; i < results.length; i++) {
+//                 resultsObj[body[i].Key] = body[i].Value;
 //            }
-//            callback(data, allConfig, 'html', returnCallback);
-//        },
-//        error: function (data) {
-//            alert(JSON.stringify(data));
-//            result = "FAILED TO CALL EXECUTETHIS " + JSON.stringify(data);
-//            callback(data, allConfig, 'html', returnCallback);
-//        }
-//    });
-//}
-
-//// Primary execute function called after dothis
-
-//function test2(params, callback) {
-//    callback({
-//        "test": "test2 on local called"
-//    });
-//}
-
-//exports.server = window.server = server = function server(params, callback) {
-//    console.log('execute server called with ' + JSON.stringify(params));
-//    // delete params['configuration'];
-//    params = toLowerKeys(params);
-//    // if (params['midexecute']) {
-//    //     params['executethis'] = params['midexecute'];
-//    //     delete params['midexecute'];
-//    // }
-//    // alert(JSON.stringify(params));
-
-//    // add accesstoken if user exists in localStorage
-//    var currentUser = window.localStorage ? JSON.parse(window.localStorage.getItem('driUser')) : undefined;
-//    if (currentUser) {
-//        if (!params.etenvironment) { params.etenvironment = {}; }
-//        params.etenvironment.accesstoken = currentUser.at;
-//    }
-
-//    executeAjax("", params, function (data) {
-//        console.log("Return from server: " + JSON.stringify(data));
-//        callback(data);
-//    });
+//
+//            callback(err, resultsObj);
+//        });
+//
+////    var driExecuteObj = [{
+////        "ParameterName": "wid",
+////        "ParameterValue": "eq:GetCodyTestSMS"
+////    }];
+//
+////    needle.put('http://wiziapi.drillar.com/ButtonServe.svc/GetData/getalldata?accessToken=2afe5025-1964-4c50-abcf-bcd558188e74', driExecuteObj, function (err, response, body) {
+////        // convert returned list of DataModelDTOs to an object
+////        // var resultsObj = {};
+////        // for (var i = 0; i < results.length; i++) {
+////        //     resultsObj[results[i].Key] = results[i].Value;
+////        // }
+////        console.log(JSON.stringify(response));
+////
+////        callback(null, response);
+////    });
+//
 //};
 
-//exports.getDriApiData = getDriApiData = function getDriApiData(action, params, callback) {
-//    params.actionQueryString = action;
-//    $.ajax({
-//        url: '/getdata',
-//        type: 'PUT',
-//        headers: {
-//            'content-type': 'application/json'
-//        },
-//        cache: false,
-//        async: false,
-//        dataType: 'json',
-//        data: JSON.stringify(params),
-//        success: function (results) {
-//            callback(null, results);
-//        },
-//        error: function (err) {
-//            callback(err.responseText, null);
-//        }
-//    });
-//};
+exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
+    var outobject = {};
+    var db = "data";
+    if (command && command.db) {
+        db = command.db
+    }
+
+    //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
+
+    if ((widobject) && (Object.keys(widobject).length > 0)) {
+        if (widobject[db]) {
+            outobject = widobject[db];
+        }
+
+        if (widobject['wid']) {
+            outobject['wid'] = widobject['wid'];
+        } else {
+            outobject['wid'] = "";
+        }
+
+        if (widobject['metadata']) {
+            // deleting date from metadata, this is a fix for ag3
+            if (widobject['metadata']['date']) {
+                delete widobject['metadata']['date'];
+            }
+            outobject['metadata'] = widobject['metadata'];
+
+        } else {
+            outobject['metadata'] = "";
+        }
+        outobject = ConvertToDOTdri(outobject);
+    }
+    return outobject;
+};
+
+exports.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
+    var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
+    delete inputWidgetObject['executethis'];
+    //    proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
+    var saveobject = {};
+    var db = "data";
+    var wid;
+    var metadata;
+    var date;
+    if (command && command.db) {
+        db = command.db
+    }
+
+    inputWidgetObject['metadata.date'] = new Date();
+
+    inputWidgetObject = ConvertFromDOTdri(inputWidgetObject);
+    if (inputWidgetObject['wid']) {
+        wid = inputWidgetObject['wid'];
+        delete inputWidgetObject['wid']
+    }
+    if (inputWidgetObject['metadata']) {
+        metadata = inputWidgetObject['metadata'];
+        delete inputWidgetObject['metadata']
+    }
+
+    saveobject[db] = inputWidgetObject;
+    saveobject['wid'] = wid;
+    saveobject['metadata'] = metadata;
+
+    //    proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
+    return saveobject;
+};
+
+sendsms({
+    'tonumber': '+12313133930',
+    'msgbody': 'This the server- I just restarted '
+}, function (err, result) {
+    //console.log('running');
+});

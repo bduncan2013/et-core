@@ -275,7 +275,7 @@ copyright (c) 2014 DRI
         // alert(document.URL);
     });
 
-    function execute_stuff(isTest, isServer) {
+    function execute_stuff(isTest, isServer, servername) {
         // Save function from textbox
         sessionStorage.setItem('function', $('#function_to_run').val());
 
@@ -338,6 +338,9 @@ copyright (c) 2014 DRI
                 }]
             };
             my_execute_object['command.debug'] = 'true';
+            if(servername){
+                my_execute_object['command']={'server':servername};
+            }
         }
         // Change the Clean local storage checkbox to 'unchecked'
         $("#localStorageClean").prop('checked', false);
@@ -364,7 +367,7 @@ copyright (c) 2014 DRI
     });
 
     $('#execute_server_function').click(function() {
-        execute_stuff(false, true);
+         execute_stuff(false, true,"server2");
     });
 
     $('#get_copy').click(function() {
@@ -494,7 +497,7 @@ copyright (c) 2014 DRI
         // if (typeof(result_array) != "array" && typeof(result_array) == "object") {
         //     result_array[0] = result_array;
         // }
-        if (Object.keys(err).length > 0) {
+        if (err && (Object.keys(err).length > 0)) {
             result_array.push(err)
         }
         proxyprinttodiv("result_array", result_array, 99);

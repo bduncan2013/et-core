@@ -1710,8 +1710,8 @@
                     "executethis": "addwidmaster",
                     "wid": "bookdto",
                     "metadata.method": "bookdto",
-                    "metadata.inherit.default.0": {"bookdefault":"bookdefaultdto"},
-                    "metadata.inherit.default.1": {"bookdefaulttwo":"bookdefaultdto"},
+                    "metadata.inherit.default.0": "bookdefaultdto",
+                    "metadata.inherit.default.1": "bookdefaultdto2",
                     "title": "string",
                     "pages": "string"
                 },{
@@ -2310,69 +2310,141 @@ Function printlistmany output for getwidmaster wid1default with command.dtotype=
 The addbig test (manytoone = last record updates in a one to one) worked
 */
 
-function ettestrecurseobj() {
-    //eventappinstall();
-    debuglevel = 0;
-    
-    // *** mock up ***
-    // var obj = { "executethis": "addwidmaster", "wid": "authordto", "metadata.method": "authordto","metadata.authordto.type": "onetoone",              "name":"string" }
-    var obj = { "wid":"song1", "metadata":{"method":"sonddto"},"title":"Highway to Hell","sounddto":[{"note":"A flat"}]}; 
-    var dtotable = {"sonddto":{"title":"string","wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone","sounddto":"onetomany"},"dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}},"sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]}};
 
-    proxyprinttodiv("ettestrecurseobj obj", obj, 99);
-    function recurseobj(obj, type) {
-        var dtoList = {};
-        var dtoObj = {};
-        var tempObj = {};
-        var tempArray = [];
-        var inObj = JSON.parse(JSON.stringify(obj));
 
-        // convert from obj to array if needed
-        if(type === "onetomany" || type === "manytomany" || type === "manytoone" && !isArray(obj)) {
-            tempArray = [];
-            tempArray.push(inObj);
-            inObj = tempArray;
-            proxyprinttodiv("ettestrecurseobj obj", inObj, 99);
-        }
+/***********************************************************Bills Tests***************************************/
 
-        //if we get an array in (usally happens on the recurse)
-        if (inObj instanceof Array) {
-            proxyprinttodiv("ettestrecurseobj inObj Array", inObj, 99);
-            var mergedObj = {};
-            tempArray = [];
-            for (var i in inObj) {
-                // if our array is just a list of strings
-                if (typeof inObj[i] === 'string') {
-                    tempArray.push("string");
-                } else {
-                    extend(true, mergedObj, recurseobj(inObj[i]));
+ function merchantstest (params, callback) {
+        
+        execute([{  // build the dtos and relatiopnsips
+                    "executethis": "addwidmaster",
+                    "wid": "merchantsdto",
+                    "metadata.method": "merchantsdto",
+                    "title": "string",
+                    "metadata.merchantdto.type": "onetomany",
+                    "merchantdto.wid": "merchantdto",
+                    "merchantdto.metadata.method": "merchantdto",
+                    "merchantdto.name": "string",
+                    "merchantdto.metadata.loyaltydto.type": "onetomany",
+                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
+                    "merchantdto.loyaltydto.wid": "loyaltydto",
+                    "merchantdto.loyaltydto.name":"string"
+
                 }
-            }
-            // there has to be something in the merge object to push it onto the return
-            if (Object.keys(mergedObj).length > 0) {
-                tempArray.push(mergedObj);
-            }
-            return tempArray;
-        } else { // case of object
-            for (var eachParam in inObj) {
-                proxyprinttodiv("ettestrecurseobj inObj eachParam", eachParam, 99);
-                if (isObject(inObj[eachParam])) {
-                    dtoObj[eachParam] = recurseobj(inObj[eachParam]);
 
-                    if (dtotable[eachParam]) {
-                        dtoObj[eachParam] = extend(true, dtoObj[eachParam], dtotable[eachParam]);
-                    }
+            ], function (err, res) { 
+                callback(err, res)
+             });
+    }
+
+     function step1Luke (params, callback) {
+        
+        execute([
+            { // add the merchants (notice its the parent wid)
+                    "executethis": "addwidmaster",
+                    "wid": "merchgroup1",
+                    "metadata.method": "merchantsdto",
+                    "name": "luke's company"
+
                 }
-                else {
-                    dtoObj[eachParam] = "string";
+            ], function (err, res) { 
+                callback(err, res)
+             });
+    }
+
+     function step1Joe(params, callback) {
+        
+        execute([
+            { // add the merchants (notice its the parent wid)
+                    "executethis": "addwidmaster",
+                    "wid": "merchgroup1",
+                    "metadata.method": "merchantsdto",
+                    "merchantdto.name": "joe's company"
                 }
-            }
-        }
-        return dtoObj;
-    } // end fn recurse
+            ], function (err, res) { 
+                callback(err, res)
+             });
+    }
 
-    var obj = recurseobj(obj);
-    proxyprinttodiv("ettestrecurseobj obj", obj, 99);
+     function step1Bill (params, callback) {
+        
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "merchgroup1",
+                    "metadata.method": "merchantsdto",
+                    "merchantdto.name": "bill's company"
+                }
+            ], function (err, res) { 
+                callback(err, res)
+             });
+    }
 
-    console.log(JSON.stringify(obj));
-}
+     function step2BillLoyalty (params, callback) {
+        
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "loyaltygroup1",
+                    "metadata.method": "merchantdto",
+                    "loyaltydto.name": "bill's loyalty wid"
+                }
+            ], function (err, res) { 
+                callback(err, res)
+             });
+    }
+
+     function step2JoeLoyalty (params, callback) {
+        
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "loyaltygroup1",
+                    "metadata.method": "merchantdto",
+                    "loyaltydto.name": "Joe's loyalty wid"
+                }
+            ], function (err, res) { 
+                callback(err, res)
+             });
+    }
+
+         function inputLoyalty (params, callback) {
+            var lname = document.getElementById('loyaltyName').value;
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "loyaltygroup1",
+                    "metadata.method": "merchantdto",
+                    "loyaltydto.name": lname
+                }
+            ], function (err, res) { 
+                callback(err, res)
+             });
+    }
+
+     function step3datanodto (params, callback) {
+        
+        execute([
+            {
+                    "executethis": "addwidmaster",
+                    "wid": "nodtowid",
+                    "name": "bill's no data datawid"
+                },
+                {
+                    "executethis":"getwidmaster",
+                    "wid":"nodtowid"
+                }
+            ], function (err, res) { 
+                callback(err, res)
+             });
+    }
+
+    exports.wraptest = wraptest = function wraptest(params, callback) {
+        proxyprinttodiv('Function wraptest ------', params, 99);
+
+        execute({"executethis":"ettestag1","command":{"result":"x"}},function(err,res){
+            proxyprinttodiv('Function wraptest result LAST ', res, 99); 
+            callback(err,res);  
+        });
+        
+    }
