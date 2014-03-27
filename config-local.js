@@ -409,7 +409,6 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
     }
 }; //End of getfrommongo function
 
-
 exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
     try {
         var inbound_parameters = {};

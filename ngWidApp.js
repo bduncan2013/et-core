@@ -747,23 +747,6 @@ if (typeof angular !== 'undefined') {
             });
     };
 
-    exports.getFromAngular = getFromAngular = function getFromAngular(parameters, callback) {
-        var propName = parameters.wid || '',
-            scope = $('body').scope(),
-            modelObj;
-
-        if (scope) { modelObj = scope[propName]; }
-
-        if (modelObj) {
-            callback(null, modelObj);
-        }
-        else {
-            offlinegetfrommongo(parameters, {}, function (err, resultObj) {
-                callback(err, resultObj);
-            });
-        }
-    };
-
     // adds the passed in object to the current angularJS scope (model) under the passed in name
     exports.addToAngular = addToAngular = function addToAngular(name, obj) {
         var scope = $('body').scope();
@@ -783,6 +766,22 @@ if (typeof angular !== 'undefined') {
             });
     };
 }
+
+exports.getFromAngular = getFromAngular = function getFromAngular(parameters, callback) {
+    var propName = parameters.wid || '',
+        modelObj;
+
+    if ($('body').scope) { modelObj = $('body').scope()[propName]; }
+
+    if (modelObj) {
+        callback(null, modelObj);
+    }
+    else {
+        offlinegetfrommongo(parameters, {}, function (err, resultObj) {
+            callback(err, resultObj);
+        });
+    }
+};
 
 exports.gethtmlbyid = gethtmlbyid = function gethtmlbyid(params, callback) {
     execute({executethis:'getwidmaster',wid:params.fromwid},
