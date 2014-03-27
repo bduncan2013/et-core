@@ -2314,7 +2314,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
 
 /***********************************************************Bills Tests***************************************/
 
- function merchantstest (params, callback) {
+ exports.merchantstest = merchantstest = function merchantstest (params, callback) {
         execute([{  // build the dtos and relatiopnsips
                     "executethis": "addwidmaster",
                     "wid": "merchantsdto",
@@ -2334,7 +2334,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
             });
     }
 
-     function step1Luke (params, callback) {
+exports.step1Luke = step1Luke = function step1Luke (params, callback) {
         
         execute([
             { // add the merchants (notice its the parent wid)
