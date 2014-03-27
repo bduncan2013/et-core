@@ -2337,7 +2337,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
              });
     }
 
-     function step1Luke (params, callback) {
+exports.step1Luke = step1Luke = function step1Luke (params, callback) {
         
         execute([
             { // add the merchants (notice its the parent wid)
