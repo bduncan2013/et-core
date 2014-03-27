@@ -2315,7 +2315,6 @@ The addbig test (manytoone = last record updates in a one to one) worked
 /***********************************************************Bills Tests***************************************/
 
  function merchantstest (params, callback) {
-        
         execute([{  // build the dtos and relatiopnsips
                     "executethis": "addwidmaster",
                     "wid": "merchantsdto",
@@ -2329,12 +2328,10 @@ The addbig test (manytoone = last record updates in a one to one) worked
                     "merchantdto.loyaltydto.metadata.method": "loyaltydto",
                     "merchantdto.loyaltydto.wid": "loyaltydto",
                     "merchantdto.loyaltydto.name":"string"
-
                 }
-
             ], function (err, res) { 
                 callback(err, res)
-             });
+            });
     }
 
      function step1Luke (params, callback) {
