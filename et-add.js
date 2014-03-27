@@ -793,7 +793,7 @@
             proxyprinttodiv("addwid input dtoobject", dtoobject, 17);
             proxyprinttodiv("addwid input command", command, 17);
             var inheritwidlist = [];
-            if (dtoobject.command && dtoobject.command.inherit) {
+            if (dtoobject.command && dtoobject.command.inherit && dtoobject.command.inherit) {
                 inheritwidlist.push(dtoobject.command.inherit);
             }
             var objectarray = [];
@@ -806,7 +806,7 @@
                         for (var eachobject in inheritwid) {} // to get left side or Object.keys
                         execute({
                             "executethis": "getwidmaster",
-                            "wid": Object.keys(eachobject)[0], // TODO: test this fix
+                            "wid": eachobject, // TODO: test this fix Object.keys(eachobject)[0]
                             "command.getwidmaster.execute": "ConvertFromDOTdri",
                             "command.getwidmaster.inheritflag": "false",
                             "command.getwidmaster.convertmethod": "nowid"
