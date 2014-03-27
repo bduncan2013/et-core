@@ -2588,7 +2588,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
     } // end fn recurse
 
 
-    exports.rrr = window.rrr = rrr = function rrr(params, callback) { 
+    exports.rrr = rrr = function rrr(params, callback) { 
         var obj=
         {"wid":"song1","metadata":{"method":"sonddto"},"title":"Highway to Hell","sounddto":{"note":"A flat"}}
 
@@ -2615,7 +2615,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
     /*
         empty dtotable from rrr
     */
-    exports.rrr2 = window.rrr2 = rrr2 = function rrr2(params, callback) {   
+    exports.rrr2 =  rrr2 = function rrr2(params, callback) {   
         var obj=
         {"wid":"song1","metadata":{"method":"sonddto"},"title":"Highway to Hell","sounddto":{"note":"A flat"}}
 
@@ -2629,7 +2629,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
     /*
         input object change
     */
-    exports.rrr3 = window.rrr3 = rrr3 = function rrr3(params, callback) {   
+    exports.rrr3 =  rrr3 = function rrr3(params, callback) {   
         var obj=
         {"wid":"song1","metadata":{"method":"songdto"},"title":"Highway to Hell","sounddto":[{"note":"A flat"},{"note":"B sharp"},{"note":"C flat"}]};
 
@@ -2657,7 +2657,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
     /*
         empty dtotable from rrr3
     */
-    exports.rrr4 = window.rrr4 = rrr4 = function rrr4(params, callback) {   
+    exports.rrr4 = rrr4 = function rrr4(params, callback) {   
         var obj=
         {"wid":"song1","metadata":{"method":"songdto"},"title":"Highway to Hell","sounddto":[{"note":"A flat"},{"note":"B sharp"},{"note":"C flat"}]};
 
@@ -2670,7 +2670,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
     /*
         
     */
-    exports.rrr5 = window.rrr5 = rrr5 = function rrr5(params, callback) {   
+    exports.rrr5 = rrr5 = function rrr5(params, callback) {   
         var obj=
         {"wid":"wid1","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto":{"wid":"1","metadata":{"method":"authordto","authordto": {"type":"onetoone"}},"authordto":{"wid":"3","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto": {"name":"sammysample","wid":"5","metadata":{"method":"authordto"}}}}};
 
@@ -2712,7 +2712,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
     /*
         empty dtotable from rrr5
     */
-    exports.rrr6 = window.rrr6 = rrr6 = function rrr6(params, callback) {   
+    exports.rrr6 = rrr6 = function rrr6(params, callback) {   
         var obj=
         {"wid":"wid1","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto":{"wid":"1","metadata":{"method":"authordto","authordto": {"type":"onetoone"}},"authordto":{"wid":"3","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto": {"name":"sammysample","wid":"5","metadata":{"method":"authordto"}}}}};
 
@@ -2725,7 +2725,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
     /*
         empty dtotable
     */
-    exports.rrr7 = window.rrr7 = rrr7 = function rrr7(params, callback) {   
+    exports.rrr7 =  rrr7 = function rrr7(params, callback) {   
         var obj=
         {"wid": "songdto", "metadata":{"method":"songdto"},"title": "string","metadata":{"sounddto":{"type": "jsononetoone"}},"sounddto":{"wid": "sounddto"},"sounddto":{"metadata":{"method": "sounddto"}},"sounddto":{"note":"string"}};
 
