@@ -2314,7 +2314,7 @@ The addbig test (manytoone = last record updates in a one to one) worked
 
 /***********************************************************Bills Tests***************************************/
 
- function merchantstest (params, callback) {
+ exports.merchantstest = merchantstest = function merchantstest (params, callback) {
         
         execute([{  // build the dtos and relatiopnsips
                     "executethis": "addwidmaster",
