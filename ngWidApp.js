@@ -40,8 +40,8 @@ if (typeof angular !== 'undefined') {
                         storeAllData(obj[prop], scope, prop);
                     } else {
                         if (phase !== '$apply' && phase !== '$digest') {
-                            scope.$apply(function() { scope.data[prop] = obj[prop]; });
-                        } else { scope[prop] = obj[prop];  }
+                            scope.$apply(function() { scope[prop] = obj[prop]; scope.data[prop] = obj[prop]; });
+                        } else { scope[prop] = obj[prop]; scope.data[prop] = obj[prop]; }
                     }
                 }
             }
@@ -754,7 +754,9 @@ if (typeof angular !== 'undefined') {
 
         if (scope) { modelObj = scope[propName]; }
 
-        if (modelObj) { callback(null, modelObj); }
+        if (modelObj) {
+            callback(null, modelObj);
+        }
         else {
             offlinegetfrommongo(parameters, {}, function (err, resultObj) {
                 callback(err, resultObj);
