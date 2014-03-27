@@ -2448,3 +2448,327 @@ The addbig test (manytoone = last record updates in a one to one) worked
         });
         
     }
+
+    /*
+etcreatedefaultdto1 in et-test: I see it creating an author record under wid2default but I don't see any other wid created to inherit from this wid. have you tested this one? The only output at the end is a bunch of empty results:
+
+Function printlistmany input executeobj for getwidmaster
+{
+    "executethis": "getwidmaster",
+    "wid": "wid2default",
+    "command.dtotype": ""
+}
+Function printlistmany output for getwidmaster wid2default with command.dtotype=
+{
+    "wid": "wid2default",
+    "command.dtotype": ""
+}
+Function printlistmany input executeobj for getwidmaster
+{
+    "executethis": "getwidmaster",
+    "wid": "wid1default",
+    "command.dtotype": ""
+}
+Function printlistmany output for getwidmaster wid1default with command.dtotype=
+{
+    "wid": "wid1default",
+    "command.dtotype": ""
+}
+The addbig test (manytoone = last record updates in a one to one) worked
+*/
+
+    function recurseobj(params, dtotable) {
+        proxyprinttodiv("getdtoobject recurseobj -- params", params, 99);
+        proxyprinttodiv("getdtoobject recurseobj -- dtotable", dtotable, 99);
+        var dtolist = {};
+        var dtoobj = {};
+        var metadata = {};
+        var tempobj = {};
+        var inobj = JSON.parse(JSON.stringify(params));
+
+        //if we get an array in (usally happens on the recurse)
+        if (inobj instanceof Array) {
+            proxyprinttodiv("inobj instanceof array", inobj, 99);
+            var mergedObj = {};
+            var tempArray = [];
+            for (var i in inobj) {
+                // if our array is just a list of strings
+                if (typeof inobj[i] === 'string') {
+                    tempArray.push("string");
+                } else {
+                    extend(true, mergedObj, recurseobj(inobj[i], dtotable));
+                }
+            }
+            // there has to be something in the merge object to push it onto the return
+            if (Object.keys(mergedObj).length > 0) {
+                tempArray.push(mergedObj);
+            }
+
+            proxyprinttodiv("tempArray", tempArray, 99);
+            return tempArray;
+        } else {
+
+
+            // section below is if nodtotable then create a command.dtolist
+            if (Object.keys(dtotable).length === 0) {
+
+            if (eachparm === "metadata") {
+                metadata = inobj['metadata'];
+                for (var eachitem in metadata) {
+                    proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 99);
+                    if (metadata.hasOwnProperty(eachitem)) {
+                        //proxyprinttodiv("getdtoobjecteachitem", eachitem, 38);
+                        //proxyprinttodiv("getdtoobject dtolist II", dtolist, 38);
+                        if ((eachitem !== "method") && (eachitem !== "inherit")) {
+                            proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 99);
+                            tempobj = {};
+                            tempobj[eachitem] = metadata[eachitem]['type'];
+                            extend(true, dtolist, tempobj);
+                            proxyprinttodiv("In getdtoobject <<< DTOLIST >>>", dtolist, 99);
+                            // eachitem would be a child
+                            if ((metadata[eachitem]['type'] === "onetomany" ||
+                                    metadata[eachitem]['type'] === "manytomany" || // ** readded
+                                    metadata[eachitem]['type'] === "jsononetomany") &&
+                                (inobj[eachitem] !== undefined) && (!isArray(inobj[eachitem]))) {
+                                relationshipArray = [];
+                                relationshipArray.push(inobj[eachitem]);
+                                delete inobj[eachitem];
+                                inobj[eachitem] = relationshipArray;
+                                // seems to be a bad idea to do inobj here ***
+                            }
+                            proxyprinttodiv("getdtoobject dtolist", dtolist, 99);
+                        }
+                    }
+                } // for metadata
+            } // if metadata
+
+            } // end if no dtotable 
+
+
+
+            for (var eachparm in inobj) {
+                proxyprinttodiv("getdtoobject recurseobj -- eachparm", eachparm, 99);
+                proxyprinttodiv("getdtoobject recurseobj -- inobj", inobj, 99);
+                if (inobj.hasOwnProperty(eachparm)) {
+                    //proxyprinttodiv("getdtoobject dtolist I", dtolist, 38);
+                    //proxyprinttodiv("getdtoobject eachparm", eachparm, 38);
+                    //proxyprinttodiv("getdtoobject inobj", inobj[eachparm], 38);
+
+
+                    proxyprinttodiv("getdtoobject --is-- switch inobj[eachparm]", inobj[eachparm], 99);
+                    proxyprinttodiv("getdtoobject --is-- switch inobj", inobj, 99);
+
+                    if (isObject(inobj[eachparm])) {
+                        proxyprinttodiv("getdtoobject is obj before inobj", inobj, 99);
+                        dtoobj[eachparm] = recurseobj(inobj[eachparm], dtotable);
+                        proxyprinttodiv("getdtoobject is obj dtoobj", dtoobj, 99);
+
+                        proxyprinttodiv("getdtoobject is obj after dtoobj--", dtoobj, 99);
+                        if (dtotable[eachparm]) {
+                            dtoobj[eachparm] = extend(true, dtoobj[eachparm], dtotable[eachparm]);
+                            // dtoobj[eachparm] = extend(true, dtotable[eachparm], dtoobj[eachparm]);
+                        }
+                    } else {
+                        dtoobj[eachparm] = "string";
+                    }
+                }
+            } // for eachparm
+
+            if (Object.keys(dtotable).length === 0) {
+                if (Object.keys(dtolist).length !== 0) {
+                    if (!inobj.command) {
+                        dtoobj.command = {};
+                    }
+                    dtoobj.command.dtolist = inobj.metadata.dtolist
+                }
+            }
+            proxyprinttodiv("In GetDTOObject before return -- we created dto -- :", dtoobj, 99);
+            return dtoobj;
+        }
+    } // end fn recurse
+
+
+    exports.rrr = window.rrr = rrr = function rrr(params, callback) { 
+        var obj=
+        {"wid":"song1","metadata":{"method":"sonddto"},"title":"Highway to Hell","sounddto":{"note":"A flat"}}
+
+        var dtotable = 
+        {
+        "sonddto":{"title":"string","wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},
+
+            "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                  "deepdtolist":{"systemdto":"onetoone","sounddto":"onetomany"},
+                  "dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}},
+
+            "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
+                  "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                  "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]},
+
+        "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
+              "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+              "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]
+              }
+
+        callback({},recurseobj(obj, dtotable));  
+    }
+    
+    /*
+        empty dtotable from rrr
+    */
+    exports.rrr2 = window.rrr2 = rrr2 = function rrr2(params, callback) {   
+        var obj=
+        {"wid":"song1","metadata":{"method":"sonddto"},"title":"Highway to Hell","sounddto":{"note":"A flat"}}
+
+        var dtotable = 
+        {}
+
+        callback({},recurseobj(obj, dtotable));   
+    }
+    
+    
+    /*
+        input object change
+    */
+    exports.rrr3 = window.rrr3 = rrr3 = function rrr3(params, callback) {   
+        var obj=
+        {"wid":"song1","metadata":{"method":"songdto"},"title":"Highway to Hell","sounddto":[{"note":"A flat"},{"note":"B sharp"},{"note":"C flat"}]};
+
+        var dtotable = 
+        {
+        "sonddto":{"title":"string","wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},
+
+            "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                  "deepdtolist":{"systemdto":"onetoone","sounddto":"onetomany"},
+                  "dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}},
+
+            "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
+                  "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+                  "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]},
+
+        "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
+              "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+              "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]
+              }
+
+        callback({},recurseobj(obj, dtotable));   
+    }
+    
+
+    /*
+        empty dtotable from rrr3
+    */
+    exports.rrr4 = window.rrr4 = rrr4 = function rrr4(params, callback) {   
+        var obj=
+        {"wid":"song1","metadata":{"method":"songdto"},"title":"Highway to Hell","sounddto":[{"note":"A flat"},{"note":"B sharp"},{"note":"C flat"}]};
+
+        var dtotable = 
+        {}
+
+        callback({},recurseobj(obj, dtotable));  
+    }
+    
+    /*
+        
+    */
+    exports.rrr5 = window.rrr5 = rrr5 = function rrr5(params, callback) {   
+        var obj=
+        {"wid":"wid1","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto":{"wid":"1","metadata":{"method":"authordto","authordto": {"type":"onetoone"}},"authordto":{"wid":"3","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto": {"name":"sammysample","wid":"5","metadata":{"method":"authordto"}}}}};
+
+        var dtotable = 
+        { 
+            "authordto" : { 
+                "name" : "string",
+                "wid" : "string",
+                "metadata" : { 
+                    "method" : "string",
+                    "authordto" : { 
+                        "type" : "manytomany"
+                    }
+                },
+                "command" : { 
+                    "inherit" : { 
+                        "defaultsystemactions" : "defaultsystemactions"
+                    },
+                    "deepdtolist" : { 
+                        "authordto" : "manytomany",
+                        "systemdto" : "onetoone"
+                    },
+                    "dtolist" : { 
+                        "authordto" : "manytomany",
+                        "systemdto" : "onetoone"
+                    }
+            },
+            "systemdto" : { 
+                "command" : { 
+                    "dtolist" : { }
+                }
+            }
+        }
+        }
+
+        callback({},recurseobj(obj, dtotable));  
+    }
+
+    /*
+        empty dtotable from rrr5
+    */
+    exports.rrr6 = window.rrr6 = rrr6 = function rrr6(params, callback) {   
+        var obj=
+        {"wid":"wid1","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto":{"wid":"1","metadata":{"method":"authordto","authordto": {"type":"onetoone"}},"authordto":{"wid":"3","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto": {"name":"sammysample","wid":"5","metadata":{"method":"authordto"}}}}};
+
+        var dtotable = 
+        {}
+
+        callback({},recurseobj(obj, dtotable));  
+    }
+    
+    /*
+        empty dtotable
+    */
+    exports.rrr7 = window.rrr7 = rrr7 = function rrr7(params, callback) {   
+        var obj=
+        {"wid": "songdto", "metadata":{"method":"songdto"},"title": "string","metadata":{"sounddto":{"type": "jsononetoone"}},"sounddto":{"wid": "sounddto"},"sounddto":{"metadata":{"method": "sounddto"}},"sounddto":{"note":"string"}};
+
+        var dtotable = 
+        {}
+
+        callback({},recurseobj(obj, dtotable));  
+    }
+
+// {"title":"string","wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},
+// "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+// "deepdtolist":{"systemdto":"onetoone","sounddto":"onetomany"},
+// "dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}},
+// "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
+// "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
+// "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]}
+// {
+//     "title": "string",
+//     "wid": "string",
+//     "metadata": {
+//         "method": "string",
+//         "sounddto": {
+//             "type": "onetomany"
+//         }
+//     },
+//     "command": {
+//         "dtolist": {
+//             "sounddto": "onetomany",
+//             "systemdto": "onetoone"
+//         }
+//     },
+//     "sounddto": [
+//         {
+//             "note": "string",
+//             "wid": "string",
+//             "metadata": {
+//                 "method": "string"
+//             },
+//             "command": {
+//                 "dtolist": {
+//                     "systemdto": "onetoone"
+//                 }
+//             }
+//         }
+//     ]
+// }

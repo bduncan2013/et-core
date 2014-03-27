@@ -11522,6 +11522,54 @@ exports.etd19 = etd19 = function etd19(params, callback) {
 // 	});
 // }
 
+
+/*
+      deepfilter issue
+      <<inobj>>{"wid":"merchgroup1","metadata":{"method":"merchantsdto"},"name":"luke's company"}
+
+<<dtoobj>>{"title":"string","wid":"string","metadata":{"method":"string","merchantdto":{"type":"onetomany"}},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone","loyaltydto":"onetomany","merchantdto":"onetomany"},"dtolist":{"merchantdto":"onetomany","systemdto":"onetoone"}},"merchantdto":[{"name":"string","wid":"string","metadata":{"method":"string","loyaltydto":{"type":"onetomany"}},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone","loyaltydto":"onetomany"},"dtolist":{"loyaltydto":"onetomany","systemdto":"onetoone"}},"loyaltydto":[{"name":"string","wid":"string","metadata":{"method":"string"},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]}]}
+*/
+exports.etd20 = etd20 = function etd20(params, callback) {
+      debuglevel = 41;
+      async.series([
+            function (cb1) {
+                        //var executeList = [{
+                        //    "executethis": "updatewid",
+                        //    "wid": "wid5",
+                        //    "metadata.method": "defaultdto",
+                        //    "aaa": "",
+                        //    "ggg": ""
+                        //}];
+                        //execute(executeList, function (err, res) {
+                              //proxyprinttodiv('after updatewid wid1 -- ', res, 34);
+                              //cb1(err, res);
+                        //});
+                        cb1(null, null);
+            }
+      ], function (err, res) {      //after updatewid
+            var dtoObjOpt = {"title":"string","wid":"string","metadata":{"method":"string","merchantdto":{"type":"onetomany"}},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone","loyaltydto":"onetomany","merchantdto":"onetomany"},"dtolist":{"merchantdto":"onetomany","systemdto":"onetoone"}},"merchantdto":[{"name":"string","wid":"string","metadata":{"method":"string","loyaltydto":{"type":"onetomany"}},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone","loyaltydto":"onetomany"},"dtolist":{"loyaltydto":"onetomany","systemdto":"onetoone"}},"loyaltydto":[{"name":"string","wid":"string","metadata":{"method":"string"},"command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]}]};
+            var inputObj = {"wid":"merchgroup1","metadata":{"method":"merchantsdto"},"name":"luke's company"};
+                  
+                  //var dtoObjOpt = {"wid":"string","metadata":{"method":"string","merchantdto":{"type":"onetomany"}}, "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone","loyaltydto":"onetomany","merchantdto":"onetomany"},"dtolist":{"merchantdto":"onetomany","systemdto":"onetoone"}}, "merchantdto":[{"name":"string"}]};
+                  
+                  //var dtoObjOpt = {"wid":"string","metadata":{"method":"string","merchantdto":{"type":"onetomany"}}, "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},"deepdtolist":{"systemdto":"onetoone","loyaltydto":"onetomany","merchantdto":"onetomany"},"dtolist":{"merchantdto":"onetomany","systemdto":"onetoone"}}, "merchantdto":[{"name":"string"}]};
+            //var inputObj = {"wid":"merchgroup1","metadata":{"method":"merchantsdto"},"name":"luke's company"};
+
+            var command = {"command.deepfilter.convert":true, "command.deepfilter.totype":true};      //string to datatype
+              
+            deepfilter(inputObj, dtoObjOpt, command, function (err, res){
+                        proxyprinttodiv("res --", res, 41);
+                        var actual_result = [res];
+                        proxyprinttodiv("actual_result --", actual_result, 41);                                           
+
+                        var expected_result = [{"obj":"","c":"cval","d":{}}];
+                        proxyprinttodiv("expected_result --", expected_result, 41);
+
+                        callback(err, res);
+            });
+      });
+}
+
 exports.lmetd2 = lmetd2 = function lmetd2(params, callback) {
     debuglevel = 17;    
       async.series([
