@@ -710,9 +710,6 @@
                         //"metadata.inherit.default": [{"userdtodefault":""}, {"userpermissionsdtodefault":""}]
                         // or 
                         //"metadata.inherit.default": {"userdtodefault":""}
-                    }], function (err, res) {
-                        cb1(null);
-                    });
                 },{
                         // completeuserdefault
                         // ovrrider from userdefautl
@@ -739,10 +736,6 @@
                         "metadata.securitydto.type": "onetoone",
                         "metadata.environmentdto.type": "onetoone",
                         "metadata.permissiondto.type": "onetomany"
-                    }], function (err, res) {
-                        cb1(null);
-                    });
-
                 },
 
                 function (cb1) {
