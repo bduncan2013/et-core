@@ -266,7 +266,10 @@ if (typeof angular !== 'undefined') {
                 extend(true, processParams, urlResultObj.data);
 
                 executeService.executeThis({executethis:'inwid'}, $scope, function (err, inwidResultArr) {
-                    extend(true, processParams, widAppHelper.mergeNestedArray(inwidResultArr));
+                    var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
+                    if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
+
+                    extend(true, processParams, inwidResults);
 
                     if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
 
