@@ -2314,32 +2314,13 @@ The addbig test (manytoone = last record updates in a one to one) worked
 
 /***********************************************************Bills Tests***************************************/
 
- // exports.merchantstest = merchantstest = function merchantstest (params, callback) {
- //        execute([{  // build the dtos and relatiopnsips
- //                    "executethis": "addwidmaster",
- //                    "wid": "merchantsdto",
- //                    "metadata.method": "merchantsdto",
- //                    "title": "string",
- //                    "metadata.merchantdto.type": "onetomany",
- //                    "merchantdto.wid": "merchantdto",
- //                    "merchantdto.metadata.method": "merchantdto",
- //                    "merchantdto.name": "string",
- //                    "merchantdto.metadata.loyaltydto.type": "onetomany",
- //                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
- //                    "merchantdto.loyaltydto.wid": "loyaltydto",
- //                    "merchantdto.loyaltydto.name":"string"
- //                }
- //            ], function (err, res) { 
- //                callback(err, res)
- //            });
- //    }
-
-exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (params, callback) {
-       execute([{  // build the dtos and relatiopnsips
+ exports.merchantstest = merchantstest = function merchantstest (params, callback) {
+        execute([{  // build the dtos and relatiopnsips
                     "executethis": "addwidmaster",
-                    "wid": "merchantdto",
-                    "metadata.method": "merchantdto",
+                    "wid": "merchantsdto",
+                    "metadata.method": "merchantsdto",
                     "title": "string",
+<<<<<<< HEAD
                     "contactname": "string",
                     "contactemail": "string",
                     "contactphone": "string",
@@ -2417,6 +2398,22 @@ exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (p
             callback(err, resultArray) 
             }); 
 }
+=======
+                    "metadata.merchantdto.type": "onetomany",
+                    "merchantdto.wid": "merchantdto",
+                    "merchantdto.metadata.method": "merchantdto",
+                    "merchantdto.name": "string",
+                    "merchantdto.metadata.loyaltydto.type": "onetomany",
+                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
+                    "merchantdto.loyaltydto.wid": "loyaltydto",
+                    "merchantdto.loyaltydto.name":"string"
+                }
+            ], function (err, res) { 
+                callback(err, res)
+            });
+    }
+
+>>>>>>> parent of 0a79bd6... Split test into individual steps
 exports.step1Luke = step1Luke = function step1Luke (params, callback) {
         
         execute([
