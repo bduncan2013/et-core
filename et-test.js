@@ -2769,3 +2769,46 @@ The addbig test (manytoone = last record updates in a one to one) worked
 //         }
 //     ]
 // }
+
+    exports.jstest1 = jstest1 = function jstest1(parameters, callback) { 
+        parameters.a="3"
+        parameters.b="4"
+        jstest2(parameters, function (err, res) {
+            callback(err, res)
+        })
+
+    }
+
+    exports.jstest2 = jstest2 = function jstest2(parameters, callback) { 
+        //add_numbers_server  
+        eval("(function add_numbers(parameters1, callback1) { alert('global '+ JSON.stringify(parameters));alert('inner '+ JSON.stringify(parameters)); var sum = { numsum : parseInt(parameters.a) + parseInt(parameters.b) };callback(null, sum);})()")
+    }
+
+    exports.jstest3 = jstest3 = function jstest3(p, callback) { 
+        var param={};
+        param.a="3"
+        param.b="4"
+        param.executethis="add_numbers_server"
+        execute(param, function (err, res) {
+            callback(err, res)
+        })
+
+    }    
+
+    exports.jstest4 = jstest4 = function jstest4(parameters, callback) { 
+        parameters.a="3"
+        parameters.b="4"
+        jstest5(parameters, function (err, res) {
+            callback(err, res)
+        })
+
+    }
+
+    exports.jstest5 = jstest5 = function jstest5(parameters, callback) { 
+            (
+                function add_numbers(parameters1, callback1) {
+                    var sum = { numsum : parseInt(parameters.a) + parseInt(parameters.b) };
+                    callback(null, sum);}
+                )
+            ()
+    }

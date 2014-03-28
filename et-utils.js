@@ -297,14 +297,75 @@ function setbyindex(obj, str, val) {
 
 
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
-        console.log("<< in deepfilter >>");
+        function find_and_replace_addthis(obj) {
+                        proxyprinttodiv('<<< Get_Clean find_and_replace_addthis obj >>>', obj, 38);
+                        var _in_obj;
+
+                        if (obj instanceof Array) {
+                            _in_obj = [];
+                            extend(true, _in_obj, obj);
+                        } else {
+                            _in_obj = {};
+                            extend(true, _in_obj, obj);
+                        }
+
+                        proxyprinttodiv('<<< Get_Clean find_and_replace_addthis _in_obj >>>', _in_obj, 38);
+
+                        if (_in_obj.hasOwnProperty("addthis")) {
+                            var _add_this = _in_obj["addthis"];
+                            delete _in_obj["addthis"];
+                            for (var i in _add_this) {
+                                if (_add_this.hasOwnProperty(i)) {
+                                    _in_obj[i] = _add_this[i];
+                                }
+                            }
+                        }
+
+                        for (var each_param in _in_obj) {
+                            if (_in_obj.hasOwnProperty(each_param)) {
+                                if (isObject(_in_obj[each_param])) {
+                                    _in_obj[each_param] = find_and_replace_addthis(_in_obj[each_param]);
+                                }
+                            }
+                        } // for each_param
+
+                        return _in_obj;
+                    } // end fn recurse
+
+
+
+
+        //console.log("<< in deepfilter >>");
         var modifiedObj = {};
         extend(true, modifiedObj, inputObj);
-        console.log("<< extend >>" + JSON.stringify(modifiedObj));
+        var convert;
+        var totype;
+        var addthisflag;
+        var inbound_parameters_110 = arguments;
+        if (command && command.deepfilter && command.deepfilter.convert===undefined) { //if command.deepfilter.convert undefined
+            convert = false; //default value
+        } else {
+            convert=command.deepfilter.convert
+
+        }
+        if (command && command.deepfilter && command.deepfilter.totype===undefined) { //if command.deepfilter.totype undefined
+            totype = true; //default value
+        } else {
+            totype=command.deepfilter.totype
+        }
+
+        if (command && command.deepfilter && command.deepfilter.addthisflag===undefined) { //if command.deepfilter.totype undefined
+            addthisflag = true; //default value
+        } else {
+            addthisflag=command.deepfilter.addthisflag
+        }
+
+        if (addthisflag) {modifiedObj = find_and_replace_addthis(modifiedObj)}
+
         proxyprinttodiv("deepfilter inputObj", inputObj, 41);
         proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
         if (dtoObjOpt) {
-            recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
+            recurseModObj(modifiedObj, dtoObjOpt, convert, totype, function (err, res) {
                 // If error, bounce out
                 if (err && Object.keys(err).length > 0) {
                     callback(err, res);
@@ -319,24 +380,15 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
         }
 }
 
-function recurseModObj(inputObject, dtoObject, command, callback) {
+
+
+
+
+
+function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
     proxyprinttodiv("recurseModObj - inputObject ", inputObject, 41);
 	proxyprinttodiv("recurseModObj - dtoObject ", dtoObject, 41);
 //try {   
-    var convert;
-    var totype;
-    var inbound_parameters_110 = arguments;
-    if (command && command["command.deepfilter.convert"]===undefined) { //if command.deepfilter.convert undefined
-        convert = false; //default value
-    } else {
-        convert=command["command.deepfilter.convert"]
-
-    }
-	if (command && command["command.deepfilter.totype"]===undefined) { //if command.deepfilter.totype undefined
-        totype = true; //default value
-    } else {
-        totype=command["command.deepfilter.totype"]
-    }
 
     var temparray = [];
     var modifiedObj = {};
@@ -376,7 +428,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                             async.nextTick(function () {
                             proxyprinttodiv("recurseModObj - in mapseries eachinputval ", eachinputval, 41);
                             if(eachinputval){
-								recurseModObj(eachinputval, dataType, command, function (err, result) {
+								recurseModObj(eachinputval, dataType, convert, totype, function (err, result) {
 									// If error, bounce out
 									if (err && Object.keys(err).length > 0) {
 										cb1(err, result);
@@ -545,7 +597,7 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                         // } else if(inpVal instanceof Array) {
                         //     async.mapSeries(inpVal, function (eachinputval, cb1) {
                         //         async.nextTick(function () { 
-                        //             recurseModObj(eachinputval, dataType, command, function (err, result) {
+                        //             recurseModObj(eachinputval, dataType, convert, totype, function (err, result) {
                         //                 modifiedObj[inpKey] = inpVal;
                         //                 cb1(null) 
                         //                 }) // recurse
@@ -558,13 +610,13 @@ function recurseModObj(inputObject, dtoObject, command, callback) {
                         proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
                         if (inpKey !== "metadata") {
                             proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
-                            recurseModObj(inpVal, dataType, command, function (err, result) {
+                            recurseModObj(inpVal, dataType, convert, totype, function (err, result) {
                                 // If error, bounce out
                                 if (err && Object.keys(err).length > 0) {
                                     cbMap(err, result);
                                 } else {
                                     //try {
-                                        //var modObj = recurseModObj(inpVal,dataType,command);
+                                        //var modObj = recurseModObj(inpVal, dataType, convert, totype,
                                         modifiedObj[inpKey] = result;
                                         proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
                                         cbMap(null);
@@ -1830,8 +1882,8 @@ function getRandomNumberByLength(length) {
                 var diff = {};
                 for (var key in obj1) {
 					if (key=="date") {
-						console.log("key : " + key);
-						console.log("val : " + obj1[key]);
+						//console.log("key : " + key);
+						//console.log("val : " + obj1[key]);
 						continue;
 					}
                     if (this.isFunction(obj1[key])) {
@@ -1852,8 +1904,8 @@ function getRandomNumberByLength(length) {
                 return diff;
             },
             compareValues: function (value1, value2) {
-				console.log("value1 : " + value1);
-				console.log("value2 : " + value2);
+				//console.log("value1 : " + value1);
+				//console.log("value2 : " + value2);
 			
                 if (value1 === value2) {
                     return this.VALUE_UNCHANGED;
@@ -2519,7 +2571,7 @@ function getRandomNumberByLength(length) {
     exports.test_and_verify = test_and_verify = function test_and_verify(testname, fnname, parameters, assert, database, command, callback) {
 
         try {    
-        console.log('test &&&&&&&&&&&&&&&&&& verify');
+        //console.log('test &&&&&&&&&&&&&&&&&& verify');
             if (database && JSON.stringify(database) !== "{}") {
                 addToLocalStorage("DRIKEY", database);
                 var this_string = "[";

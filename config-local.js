@@ -265,8 +265,8 @@ function config123() {
     configuration.getwid[0] = {};
     configuration.getwid[0].executeorder = 1;
     configuration.getwid[0].tryorder = 1;
-    configuration.getwid[0].dothis = 'getFromAngular';
-//    configuration.getwid[0].dothis = 'offlinegetwid';
+//    configuration.getwid[0].dothis = 'getFromAngular';
+    configuration.getwid[0].dothis = 'offlinegetwid';
     configuration.getwid[0].server = 'getwid';
     configuration.getwid[0].params = {};
 
