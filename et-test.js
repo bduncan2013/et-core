@@ -2392,7 +2392,7 @@ exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (p
         function (err, resultArray) {
             cb(err, resultArray) 
             });              
-
+}
  exports.addmerchantloyaltyreltest = addmerchantloyaltyreltest = function addmerchantloyaltyreltest (params, callback) {
        execute([{            
                     "executethis": "addwidmaster",
@@ -2416,7 +2416,7 @@ exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (p
         function (err, resultArray) {
             cb(err, resultArray) 
             }); 
-
+}
 exports.step1Luke = step1Luke = function step1Luke (params, callback) {
         
         execute([
