@@ -2314,25 +2314,108 @@ The addbig test (manytoone = last record updates in a one to one) worked
 
 /***********************************************************Bills Tests***************************************/
 
- exports.merchantstest = merchantstest = function merchantstest (params, callback) {
-        execute([{  // build the dtos and relatiopnsips
+ // exports.merchantstest = merchantstest = function merchantstest (params, callback) {
+ //        execute([{  // build the dtos and relatiopnsips
+ //                    "executethis": "addwidmaster",
+ //                    "wid": "merchantsdto",
+ //                    "metadata.method": "merchantsdto",
+ //                    "title": "string",
+ //                    "metadata.merchantdto.type": "onetomany",
+ //                    "merchantdto.wid": "merchantdto",
+ //                    "merchantdto.metadata.method": "merchantdto",
+ //                    "merchantdto.name": "string",
+ //                    "merchantdto.metadata.loyaltydto.type": "onetomany",
+ //                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
+ //                    "merchantdto.loyaltydto.wid": "loyaltydto",
+ //                    "merchantdto.loyaltydto.name":"string"
+ //                }
+ //            ], function (err, res) { 
+ //                callback(err, res)
+ //            });
+ //    }
+
+exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (params, callback) {
+       execute([{  // build the dtos and relatiopnsips
                     "executethis": "addwidmaster",
-                    "wid": "merchantsdto",
-                    "metadata.method": "merchantsdto",
+                    "wid": "merchantdto",
+                    "metadata.method": "merchantdto",
                     "title": "string",
-                    "metadata.merchantdto.type": "onetomany",
-                    "merchantdto.wid": "merchantdto",
-                    "merchantdto.metadata.method": "merchantdto",
-                    "merchantdto.name": "string",
-                    "merchantdto.metadata.loyaltydto.type": "onetomany",
-                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
-                    "merchantdto.loyaltydto.wid": "loyaltydto",
-                    "merchantdto.loyaltydto.name":"string"
-                }
-            ], function (err, res) { 
-                callback(err, res)
+                    "contactname": "string",
+                    "contactemail": "string",
+                    "contactphone": "string",
+                    "company": "string",
+                    "website": "string",
+                    "companyphone": "string",
+                    "address": "string",
+                    "address2": "string",
+                    "city": "string",
+                    "state": "string",
+                    "zip": "string",
+                    "metadata.loyaltydto.type": "onetomany",
+                   "configuration": {
+                       "midexecute": [{
+                           "dothis": "server",
+                           "tryorder": "0",
+                           "executeorder": "0",
+                           "params": {}
+                           }]
+                       }
+                }],
+        function (err, resultArray) {
+            cb(err, resultArray) 
             });
     }
+                
+ exports.addloyaltydtotest = addloyaltydtotest = function addloyaltydtotest (params, callback) {
+       execute([{   
+                    "executethis": "addwidmaster",
+                    "metadata.method": "loyaltydto",
+                    "wid": "loyaltydto",
+                    "widname": "myloyalty",
+                    "punches": "integer",
+                    "points": "integer",
+                    "issue": "integer",
+                    "redeem": "integer",
+                    "title": "string",
+                    "logo": "string",
+                    "description": "string",
+                    "expiration": "date",
+                   "configuration": {
+                       "midexecute": [{
+                           "dothis": "server",
+                           "tryorder": "0",
+                           "executeorder": "0",
+                           "params": {}
+                           }]
+                       }
+                }],
+        function (err, resultArray) {
+            cb(err, resultArray) 
+            });              
+
+ exports.addmerchantloyaltyreltest = addmerchantloyaltyreltest = function addmerchantloyaltyreltest (params, callback) {
+       execute([{            
+                    "executethis": "addwidmaster",
+                    "wid": "rel_merchant_loyalty",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "onetomany",
+                    "primarywid": "merchantdto",
+                    "primarymethod": "merchantdto",
+                    "secondarywid": "loyaltydto",
+                    "secondarymethod": "loyaltydto",
+                   "configuration": {
+                       "midexecute": [{
+                           "dothis": "server",
+                           "tryorder": "0",
+                           "executeorder": "0",
+                           "params": {}
+                           }]
+                       }
+                }],
+        function (err, resultArray) {
+            cb(err, resultArray) 
+            }); 
 
 exports.step1Luke = step1Luke = function step1Luke (params, callback) {
         
