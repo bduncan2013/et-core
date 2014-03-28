@@ -12,7 +12,7 @@
                     callback(err, {
                         "etstatus": "unauthorized"
                     });
-                } else  {
+                } else {
                     try {
                         delete inputWidgetObject['executethis']; // ** added by Saurabh 38/9
 
@@ -128,8 +128,7 @@
 
                                                 callback(err, res);
                                             }
-                                        } // end try 
-                                        catch (err) {
+                                        } catch (err) {
                                             var finalobject = createfinalobject({
                                                 "result": "getwidmaster_getclean"
                                             }, {}, "getwidmaster_getclean", err, res);
@@ -219,32 +218,28 @@
 
 
             // creates a table of dto's to refrence
-            function createdtotable(mm, dtoobject, dtotable) {                
+            function createdtotable(mm, dtoobject) {                
                 proxyprinttodiv("getdtoobject createdtotable -- dtoobject", dtoobject, 38);
                 proxyprinttodiv("getdtoobject createdtotable -- mm", mm, 38);
+                proxyprinttodiv("getdtoobject createdtotable dtoobject.command.dtolist -- ", dtoobject.command.dtolist, 38);
 
                 // if we are missing dto object, command, and dtotype create them
                 if(!dtoobject) {
                     dtoobject = {};
                 }
-
-                //if (dtoobject.command.dtolist === undefined) {
-                //proxyprinttodiv("getdtoobject createdtotable -- dtoobject.command.dtolist ", dtoobject.command.dtolist, 38);
-                
-                if ((dtoobject.command) && (dtoobject.command.dotlist) && (Object.keys(dtoobject.command.dtolist).length > 0)) {
+                if (Object.keys(dtoobject.command.dtolist).length > 0) {
                     for (var eachparam in dtoobject.command.dtolist) {
-                        proxyprinttodiv("getdtoobject createdtotable eachparam -- ", eachparam,38);
-                        if (dtoobject[eachparam]) {dtotable = createdtotable(eachparam, dtoobject[eachparam], dtotable);}
+                        proxyprinttodiv("getdtoobject createdtotable eachparam -- ", eachparam, 38);
+                        if (dtoobject[eachparam]) {createdtotable(eachparam, dtoobject[eachparam])};
 
                     }
                 }
+                proxyprinttodiv("getdtoobject createdtotable ", dtotable, 38);
 
-                // added *** > below
-                if (!dtotable[mm] && Object.keys(dtoobject).length > 0) {
+                if (!dtotable[mm]) {
                     dtotable[mm] = dtoobject;
-                }
-                proxyprinttodiv("getdtoobject createdtotable -- dtotable ", dtotable, 38);
-                return dtotable;
+
+                    }
             }
         
             function recurseobj(params) {
@@ -300,12 +295,11 @@
                                             if ((metadata[eachitem]['type'] === "onetomany" ||
                                                     metadata[eachitem]['type'] === "manytomany" || // ** readded
                                                     metadata[eachitem]['type'] === "jsononetomany") &&
-                                                (inobj[eachitem] !== undefined) && (!isArray(inobj[eachitem]))) {
+                                                (!isArray(inobj[eachitem]))) {
                                                 relationshipArray = [];
                                                 relationshipArray.push(inobj[eachitem]);
                                                 delete inobj[eachitem];
                                                 inobj[eachitem] = relationshipArray;
-                                                // seems to be a bad idea to do inobj here ***
                                             }
                                             proxyprinttodiv("getdtoobject dtolist", dtolist, 38);
                                         }
@@ -317,19 +311,16 @@
                             proxyprinttodiv("getdtoobject --is-- switch inobj", inobj, 38);
 
                             if (isObject(inobj[eachparm])) {
-                                proxyprinttodiv("getdtoobject is obj before inobj", inobj, 38);
                                 dtoobj[eachparm] = recurseobj(inobj[eachparm]);
-                                proxyprinttodiv("getdtoobject is obj dtoobj", dtoobj, 38);
 
-                                proxyprinttodiv("getdtoobject is obj after dtoobj--", dtoobj, 38);
                                 if (dtotable[eachparm]) {
-                                    dtoobj[eachparm] = extend(true, dtoobj[eachparm], dtotable[eachparm]);
-                                    // dtoobj[eachparm] = extend(true, dtotable[eachparm], dtoobj[eachparm]);
+                                    dtoobj[eachparm] = extend(true, dtoobj[eachparm], dtotable[eachparm])
                                 }
-                            }
+
+                                }
                             else {
                                 dtoobj[eachparm] = "string";
-                            }
+                                }
                         }
                     } // for eachparm
                     if (Object.keys(dtolist).length !== 0) {
@@ -382,24 +373,13 @@
                             proxyprinttodiv("getdtoobject input res I ", res, 38);
                             if (res && (Object.keys(res[0]).length !== 0)) {
                                 proxyprinttodiv("getdtoobject before createdtotable dtoobject res[0]", res[0], 38);
-                                proxyprinttodiv("getdtoobject before createdtotable dtoobjectobj", obj, 38);
-                                dtotable = {};
-                                dtotable = createdtotable(dtotype, res[0], dtotable);
-                                proxyprinttodiv("getdtoobject before createdtotable dtoobject res[0] again", res[0], 38);
+                                createdtotable(dtotype, res[0]);
                                 proxyprinttodiv("getdtoobject after createdtotable, dtotable", dtotable, 38);
                                 createddto = {};
-
-                                // In the case of author.author
-                                if (obj.hasOwnProperty(dtotype) && obj[dtotype].hasOwnProperty(dtotype)) {
-                                    createddto = recurseobj(obj);
-                                } else { // our original case
-                                    createddto = res[0];
-                                }
-
+                                createddto = recurseobj(obj);
                                 proxyprinttodiv("getdtoobject after createddto", createddto, 38);
-                                dtoobject = extend(true, res[0], createddto);
+                                dtoobject = extend(true, res[0], createddto)
                                 proxyprinttodiv("getdtoobject after recurseobj dtoobject", dtoobject, 38);
-                                //dtoobject = res[0];
                             } else {
                                 //proxyprinttodiv("getdtoobject createdtotable dtoobject II-- ", dtotable, 38);
                                 dtoobject = {};
@@ -491,7 +471,7 @@
             async.series([
                     // getwid
                     function step1(cb) {
-                        try {                  
+                        try {
                             // Sample error  
                             // throw({'Rocks': 'are hard'});
                             proxyprinttodiv('Function getwidmongo step 1 hit with widInput:', widInput, 38);
@@ -563,16 +543,15 @@
                             proxyprinttodiv("GetWidMongo start processOverride", parameterobject, 38);
                             // list of overrides to get
                             var overrides = parameterobject.metadata.inherit.override;
-                            // TODO: Review this delete
                             delete parameterobject.metadata.inherit;
                             var overrideData = [];
 
                             // make a seperate getwidmaster call for each override to collect all the override data                        
                             async.mapSeries(overrides, function (overrideToGet, cbMap) {
-                                // TODO: next tick?
+                                // next tick?
                                 execute({
                                     "executethis": "getwidmaster",
-                                    "wid": Object.key(overrideToGet)[0], // TODO: test this fix
+                                    "wid": overrideToGet,
                                     "command.getwidmaster.convertmethod": "nowid",
                                     "command.getwidmaster.dtotype": ""
                                 }, function (err, res) {
@@ -606,7 +585,6 @@
                                         overrideData.forEach(function (element, index, array) {
                                             proxyprinttodiv("GetWidMongo -- override! --", element, 38);
                                             // TODO remove these
-
                                             delete element.metadata;
                                             delete element.wid;
                                             extend(true, parameterobject, element);
@@ -628,7 +606,7 @@
                         }
                     },
                     function step2(cb) {
-                        if (targetwid != "") {
+                        if (targetwid !== "") {
                             async.series([ // asynch step1n2
                                     function step2n1(cb1) {
                                         executeobject = {};
@@ -793,13 +771,10 @@
 
                                                 proxyprinttodiv('Function getwidmongo recurse', key, 38);
 
-                                                debugfn("getwidmongo before recusr", "getwidmongo", "get", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1]));
+                                                debugfn("getwidmongo before recusr", "getwidmongo", "get", "mid", debugcolor, debugindent, debugvars([1]));
 
-                                                var x = getglobal("debugcolor") + 1;
-                                                var y = getglobal("debugindent") + 1;
-                                                saveglobal("debugcolor", x);
-                                                saveglobal("debugindent", y);
-
+                                                debugcolor++;
+                                                debugindent++;
                                                 //getWidMongo(key, convertmethod, accesstoken, dtotype, rightparameters["metadata"]["method"], level, function (err, params) { 
                                                 getWidMongo(key, command, rightparameters["metadata"]["method"], level, excludeset, function (err, params) {
                                                     // If error, bounce out
@@ -809,12 +784,8 @@
                                                         try {
                                                             proxyprinttodiv('Function getwidmongo params', params, 38);
                                                             //proxyprinttodiv('Function getwidmongo rightparameters inside II ', rightparameters, 38);
-                                                            
-                                                            var x = getglobal("debugcolor") - 1;
-                                                            var y = getglobal("debugindent") - 1;
-                                                            saveglobal("debugcolor", x);
-                                                            saveglobal("debugindent", y);
-
+                                                            debugcolor--;
+                                                            debugindent--;
                                                             if (Object.keys(params).length !== 0) {
                                                                 // added by roger
                                                                 if (command && command.getwidmaster && command.getwidmaster.convertmethod === "nowid") {
@@ -863,7 +834,7 @@
                                                                     } else {
                                                                         if ((rightparameters["linktype"] === "onetoone") ||
                                                                             (rightparameters["linktype"] === "manytoone") ||
-                                                                        (rightparameters["linktype"] === "jsononetoone") 
+                                                                        (rightparameters["linktype"] === "jsononetoone")
                                                                         // || (rightparameters["linktype"] === "manytomany")
                                                                         ) {
                                                                             parameterobject[rightparameters["metadata"]["method"]] = params;
@@ -874,7 +845,7 @@
                                                                             }
                                                                         }
                                                                     } // end of 2nd else
- 
+
                                                                     proxyprinttodiv('Function getwidmongo parameterobject II-before', parameterobject, 38);
                                                                     parameterobject['metadata'][rightparameters.metadata.method] = {};
                                                                     parameterobject['metadata'][rightparameters.metadata.method]['type'] =
@@ -1031,7 +1002,7 @@
 
                         proxyprinttodiv("--- What i'm looking at parameterobject step3 ---", parameterobject, 38);
 
-                        debugfn("getwidmongo end step4", "getwidmongo", "get", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1]));
+                        debugfn("getwidmongo end step4", "getwidmongo", "get", "end", debugcolor, debugindent, debugvars([1]));
                         cb(null, 'four');
                     }
                 ],
@@ -1211,7 +1182,7 @@
                                             proxyprinttodiv('<<< Get_Clean execute firing !!!! >>>', eachresult[Object.keys(eachresult)[0]], 38);
                                             execute({
                                                 "executethis": "getwidmaster",
-                                                "wid": Object.keys(eachresult[Object.keys(eachresult)[0]])[0], // TODO: test this fix
+                                                "wid": eachresult[Object.keys(eachresult)[0]],
                                                 "command.getwidmaster.execute": "ConvertFromDOTdri",
                                                 //"command.convertmethod":"nowid",
                                                 "command.getwidmaster.inheritflag": "false"
@@ -1347,7 +1318,7 @@
                                     resultObj = find_and_replace_addthis(resultObj);
                                     proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>', resultObj, 38);
                                 }
-                                proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>> II', resultObj, 38);
+                                proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>II', resultObj, 38);
                                 callback(null, resultObj);
 
                             } // end try

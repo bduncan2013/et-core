@@ -1275,6 +1275,42 @@
                 function (err, res) {
 
 
+                    function find_and_replace_addthis(obj) {
+
+                        proxyprinttodiv('<<< Get_Clean find_and_replace_addthis obj >>>', obj, 38);
+                        var _in_obj;
+
+                        if (obj instanceof Array) {
+                            _in_obj = [];
+                            extend(true, _in_obj, obj);
+                        } else {
+                            _in_obj = {};
+                            extend(true, _in_obj, obj);
+                        }
+
+                        proxyprinttodiv('<<< Get_Clean find_and_replace_addthis _in_obj >>>', _in_obj, 38);
+
+                        if (_in_obj.hasOwnProperty("addthis")) {
+                            var _add_this = _in_obj["addthis"];
+                            delete _in_obj["addthis"];
+                            for (var i in _add_this) {
+                                if (_add_this.hasOwnProperty(i)) {
+                                    _in_obj[i] = _add_this[i];
+                                }
+                            }
+                        }
+
+                        for (var each_param in _in_obj) {
+                            if (_in_obj.hasOwnProperty(each_param)) {
+                                if (isObject(_in_obj[each_param])) {
+                                    _in_obj[each_param] = find_and_replace_addthis(_in_obj[each_param]);
+                                }
+                            }
+                        } // for each_param
+
+                        return _in_obj;
+                    } // end fn recurse
+
                     proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter resultObj >>>', resultObj, 38);
                     proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter bigdto >>>', bigdto, 38);
                     proxyprinttodiv('<<< Get_Clean before call back beforedeepfilter dtoobject >>>', dtoobject, 38);
@@ -1290,12 +1326,6 @@
                         command.deepfilter.convert = true
                     }
 
-                    if (command && command.getwidmaster &&
-                        (command.getwidmaster.execute === false || command.getwidmaster.execute === "false")) {
-                        command.deepfilter.addthisflag=true;
-                        }
-
-
                     deepfilter(resultObj, dtoobject, command, function (err, resultObj) { // changed by joe
                         // If error, bounce out
                         if (err && Object.keys(err).length > 0) {
@@ -1309,14 +1339,14 @@
                                     0: inbound_parameters,
                                     1: resultObj
                                 }, 6);
-                                // if (command && command.getwidmaster &&
-                                //     (command.getwidmaster.execute === false || command.getwidmaster.execute === "false")) {
-                                //     // empty by design
-                                // } else { // if = true or !=false -- remove addthis.
-                                //     proxyprinttodiv('<<< Get_Clean before find and replace resultObj >>>', resultObj, 38);
-                                //     resultObj = find_and_replace_addthis(resultObj);
-                                //     proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>', resultObj, 38);
-                                // }
+                                if (command && command.getwidmaster &&
+                                    (command.getwidmaster.execute === false || command.getwidmaster.execute === "false")) {
+                                    // empty by design
+                                } else { // if = true or !=false -- remove addthis.
+                                    proxyprinttodiv('<<< Get_Clean before find and replace resultObj >>>', resultObj, 38);
+                                    resultObj = find_and_replace_addthis(resultObj);
+                                    proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>>', resultObj, 38);
+                                }
                                 proxyprinttodiv('<<< Get_Clean after find and replace resultObj >>> II', resultObj, 38);
                                 callback(null, resultObj);
 
