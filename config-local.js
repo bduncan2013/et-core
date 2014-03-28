@@ -265,10 +265,9 @@ function config123() {
     configuration.getwid[0] = {};
     configuration.getwid[0].executeorder = 1;
     configuration.getwid[0].tryorder = 1;
-//    configuration.getwid[0].dothis = 'getfromangular';
-    configuration.getwid[0].dothis = 'offlinegetwid';
+    configuration.getwid[0].dothis = 'getFromAngular';
+//    configuration.getwid[0].dothis = 'offlinegetwid';
     configuration.getwid[0].server = 'getwid';
-    configuration.getwid[0].dofn = offlinegetwid;
     configuration.getwid[0].params = {};
 
     configuration.updatewid = [];
@@ -409,7 +408,6 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
         callback(finalobject.err, finalobject.res);
     }
 }; //End of getfrommongo function
-
 
 exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
     try {

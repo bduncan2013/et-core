@@ -787,14 +787,14 @@
             // start of addwid -- step 1
             var db = 'data';
             if (command && command.db) {
-                db = command.db
+                db = command.db;
             }
             proxyprinttodiv("addwid step 1input object", object, 17);
             proxyprinttodiv("addwid input dtoobject", dtoobject, 17);
             proxyprinttodiv("addwid input command", command, 17);
             var inheritwidlist = [];
-            if (dtoobject.command && dtoobject.command.inherit) {
-                inheritwidlist.push(dtoobject.command.inherit)
+            if (dtoobject.command && dtoobject.command.inherit && dtoobject.command.inherit) {
+                inheritwidlist.push(dtoobject.command.inherit);
             }
             var objectarray = [];
             var currentobject = {};
@@ -806,7 +806,7 @@
                         for (var eachobject in inheritwid) {} // to get left side or Object.keys
                         execute({
                             "executethis": "getwidmaster",
-                            "wid": eachobject,
+                            "wid": eachobject, // TODO: test this fix Object.keys(eachobject)[0]
                             "command.getwidmaster.execute": "ConvertFromDOTdri",
                             "command.getwidmaster.inheritflag": "false",
                             "command.getwidmaster.convertmethod": "nowid"
@@ -823,6 +823,7 @@
                                     //         if (object[eachprop]===res[eachprop]) {delete object[eachprop]}
                                     //         }
                                     // } else { // if no inherit then nothing to do
+
                                     // }
                                     if (Object.keys(res).length !== 0) {
                                         for (var eachprop in res) {

@@ -14,14 +14,16 @@ if (typeof angular !== 'undefined') {
             var thisWid = objName ? objName : obj.wid ? obj.wid : undefined,
                 phase = scope.$root.$$phase;
 
-            console.log('********************************************');
-            console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
-            console.log(obj);
-            console.log('********************************************');
+            if (thisWid) {
+                console.log('********************************************');
+                console.log('**ngModelData** bind-able data for ' + thisWid + ' :');
+                console.log(obj);
+                console.log('********************************************');
 
-            if (phase !== '$apply' && phase !== '$digest') {
-                scope.$apply(function() { scope[thisWid] = obj; });
-            } else { scope[thisWid] = obj; }
+                if (phase !== '$apply' && phase !== '$digest') {
+                    scope.$apply(function() { scope[thisWid] = obj; });
+                } else { scope[thisWid] = obj; }
+            }
 
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
@@ -745,22 +747,6 @@ if (typeof angular !== 'undefined') {
             });
     };
 
-    // get an object or function from the current angularJS scope based on passed in property name
-    exports.getFromAngular = getFromAngular = function getFromAngular(parameters, callback) {
-        var propName = parameters.wid || '',
-            scope = $('body').scope(),
-            modelObj;
-
-        if (scope) { modelObj = scope[propName]; }
-
-        if (modelObj) { callback(null, modelObj); }
-        else {
-            offlinegetfrommongo(parameters, {}, function (err, resultObj) {
-                callback(err, resultObj);
-            });
-        }
-    };
-
     // adds the passed in object to the current angularJS scope (model) under the passed in name
     exports.addToAngular = addToAngular = function addToAngular(name, obj) {
         var scope = $('body').scope();
@@ -780,6 +766,22 @@ if (typeof angular !== 'undefined') {
             });
     };
 }
+
+exports.getFromAngular = getFromAngular = function getFromAngular(parameters, callback) {
+    var propName = parameters.wid || '',
+        modelObj;
+
+    if ($('body').scope) { modelObj = $('body').scope()[propName]; }
+
+    if (modelObj) {
+        callback(null, modelObj);
+    }
+    else {
+        offlinegetfrommongo(parameters, {}, function (err, resultObj) {
+            callback(err, resultObj);
+        });
+    }
+};
 
 exports.gethtmlbyid = gethtmlbyid = function gethtmlbyid(params, callback) {
     execute({executethis:'getwidmaster',wid:params.fromwid},
