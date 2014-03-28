@@ -2362,7 +2362,7 @@ exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (p
                        }
                 }],
         function (err, resultArray) {
-            cb(err, resultArray) 
+            callback(err, resultArray) 
             });
     }
                 
@@ -2390,7 +2390,7 @@ exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (p
                        }
                 }],
         function (err, resultArray) {
-            cb(err, resultArray) 
+            callback(err, resultArray) 
             });              
 }
  exports.addmerchantloyaltyreltest = addmerchantloyaltyreltest = function addmerchantloyaltyreltest (params, callback) {
@@ -2414,7 +2414,7 @@ exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (p
                        }
                 }],
         function (err, resultArray) {
-            cb(err, resultArray) 
+            callback(err, resultArray) 
             }); 
 }
 exports.step1Luke = step1Luke = function step1Luke (params, callback) {
