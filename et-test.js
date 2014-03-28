@@ -1082,8 +1082,7 @@
           "name": "Managers",
           "metadata.groupdto1.0": "employee_grp"
                 }]);
-    }
-  
+    };  
   // This tests inherit.default at the dto level. authordto inherits from authordefault and so author1 should be returned with name=Alex & age=42
   // works.
   exports.testinheritdefault0 = testinheritdefault0 = function testinheritdefault0(params,callback){
@@ -1099,7 +1098,8 @@
       "metadata.method":"authordto",
       "name":"string",
       "age":"string",
-      "metadata.inherit.default.0S":"authordefault"
+      // "metadata.inherit.default.0S":"authordefault" // no way it could have worked with that s in there - Joe
+      "metadata.inherit.default.0":{"authordefault" : "authordto"}
       },{
       "executethis":"addwidmaster",
       "wid":"author1",
@@ -1116,7 +1116,7 @@
                     callback(err, res); 
                 });
       });
-}     
+}; 
   
   // This tests inherit.default at the wid level. author1 inherits from authordefault and should be returned with name=Alex & age=42
   // works.
@@ -1137,7 +1137,7 @@
       "executethis":"addwidmaster",
       "wid":"author1",
       "metadata.method":"authordto",
-      "metadata.inherit.default.0":"authordefault"
+      "metadata.inherit.default.0":{"authordefault" : "authordto"}
       }],
       function (err, res) {
                 proxyprinttodiv('Full results: ', res, 99);
@@ -1146,8 +1146,8 @@
         
                 debuglevel = 0;
                 execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
+                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99);
+                    callback(err, res);
                 });
       });
 }
@@ -1174,7 +1174,7 @@
       "wid":"author1",
       "metadata.method":"authordto",
       "name":"Tom",
-      "metadata.inherit.default.0":"authordefault"
+      "metadata.inherit.default.0":{"authordefault" : "authordto"}
       }],
       function (err, res) {
                 proxyprinttodiv('Full results: ', res, 99);
@@ -1204,7 +1204,7 @@
       "metadata.method":"authordto",
       "name":"string",
       "age":"string",
-      "metadata.inherit.override.0":"authoroverride"
+      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
       },{
       "executethis":"addwidmaster",
       "wid":"author1",
@@ -1242,7 +1242,7 @@
       "executethis":"addwidmaster",
       "wid":"author1",
       "metadata.method":"authordto",
-      "metadata.inherit.override.0":"authoroverride"
+      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
       }],
       function (err, res) {
                 proxyprinttodiv('Full results: ', res, 99);
@@ -1279,7 +1279,7 @@
       "metadata.method":"authordto",
       "name":"Tom",
       "age":"58",
-      "metadata.inherit.override.0":"authoroverride"
+      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
       }],
       function (err, res) {
                 proxyprinttodiv('Full results: ', res, 99);
@@ -1316,8 +1316,8 @@
       "metadata.method":"authordto",
       "name":"string",
       "age":"string",
-      "metadata.inherit.default.0":"authordefault",
-      "metadata.inherit.override.0":"authoroverride"
+      "metadata.inherit.default.0":{"authordefault" : "authordto"},
+      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
       },{
       "executethis":"addwidmaster",
       "wid":"author1",
@@ -1362,8 +1362,8 @@
       "executethis":"addwidmaster",
       "wid":"author1",
       "metadata.method":"authordto",
-      "metadata.inherit.default.0":"authordefault",
-      "metadata.inherit.override.0":"authoroverride"
+      "metadata.inherit.default.0":{"authordefault" : "authordto"},
+      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
       }],
       function (err, res) {
                 proxyprinttodiv('Full results: ', res, 99);
@@ -2314,13 +2314,32 @@ The addbig test (manytoone = last record updates in a one to one) worked
 
 /***********************************************************Bills Tests***************************************/
 
- exports.merchantstest = merchantstest = function merchantstest (params, callback) {
-        execute([{  // build the dtos and relatiopnsips
+ // exports.merchantstest = merchantstest = function merchantstest (params, callback) {
+ //        execute([{  // build the dtos and relatiopnsips
+ //                    "executethis": "addwidmaster",
+ //                    "wid": "merchantsdto",
+ //                    "metadata.method": "merchantsdto",
+ //                    "title": "string",
+ //                    "metadata.merchantdto.type": "onetomany",
+ //                    "merchantdto.wid": "merchantdto",
+ //                    "merchantdto.metadata.method": "merchantdto",
+ //                    "merchantdto.name": "string",
+ //                    "merchantdto.metadata.loyaltydto.type": "onetomany",
+ //                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
+ //                    "merchantdto.loyaltydto.wid": "loyaltydto",
+ //                    "merchantdto.loyaltydto.name":"string"
+ //                }
+ //            ], function (err, res) { 
+ //                callback(err, res)
+ //            });
+ //    }
+
+exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (params, callback) {
+       execute([{  // build the dtos and relatiopnsips
                     "executethis": "addwidmaster",
-                    "wid": "merchantsdto",
-                    "metadata.method": "merchantsdto",
+                    "wid": "merchantdto",
+                    "metadata.method": "merchantdto",
                     "title": "string",
-<<<<<<< HEAD
                     "contactname": "string",
                     "contactemail": "string",
                     "contactphone": "string",
@@ -2398,22 +2417,6 @@ The addbig test (manytoone = last record updates in a one to one) worked
             callback(err, resultArray) 
             }); 
 }
-=======
-                    "metadata.merchantdto.type": "onetomany",
-                    "merchantdto.wid": "merchantdto",
-                    "merchantdto.metadata.method": "merchantdto",
-                    "merchantdto.name": "string",
-                    "merchantdto.metadata.loyaltydto.type": "onetomany",
-                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
-                    "merchantdto.loyaltydto.wid": "loyaltydto",
-                    "merchantdto.loyaltydto.name":"string"
-                }
-            ], function (err, res) { 
-                callback(err, res)
-            });
-    }
-
->>>>>>> parent of 0a79bd6... Split test into individual steps
 exports.step1Luke = step1Luke = function step1Luke (params, callback) {
         
         execute([
