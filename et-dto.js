@@ -709,7 +709,7 @@
                         //"metadata.inherit.override": "dtooverride",
                         //"metadata.inherit.default": [{"userdtodefault":""}, {"userpermissionsdtodefault":""}]
                         // or 
-                        "metadata.inherit.default": [{"userdtodefault":""}]
+                        "metadata.inherit.default": {"userdtodefault":""}
                     }], function (err, res) {
                         cb1(null);
                     });
