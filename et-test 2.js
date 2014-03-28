@@ -1,4 +1,4 @@
-  // out of date
+	// out of date
     // exports.ettestinheritoverride = ettestinheritoverride = function ettestinheritoverride(params, callback) {
     //     eventappinstall();
     //     debuglevel = 0;
@@ -49,7 +49,7 @@
     //             })
     //     });
     // }
-    
+		
     //         /*
     //     To create data for command.dtotype with add
     // */
@@ -378,10 +378,10 @@
     //     });
     //  }
 
-  /*
-    To add dtos, relationships for manytoonetest
-  */
-  function manytoonesetupdto(inherit, dtotype, callback){
+	/*
+		To add dtos, relationships for manytoonetest
+	*/
+	function manytoonesetupdto(inherit, dtotype, callback){
         if (Object.keys(inherit).length === 0) {
             inherit =
                {"authordtodefault":[],
@@ -695,29 +695,29 @@
             ];
         }
 
-    async.series([
-      function (cb1) {
+		async.series([
+			function (cb1) {
 
-        execute(executeList, function (err, res) {
-          proxyprinttodiv("manytoonesetupdto addwidmaster dto res -- ", res, 1, true);
-          cb1(err, res);
-        });
-      },
-      function (cb2){
-        var executeList = [{
-          "executethis": "getwidmaster",
-          "wid": "authordto",
-        }];
-        execute(executeList, function (err, res) {
-          proxyprinttodiv("getwidmaster authordto", res, 99);
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("manytoonesetupdto addwidmaster dto res -- ", res, 1, true);
+					cb1(err, res);
+				});
+			},
+			function (cb2){
+				var executeList = [{
+					"executethis": "getwidmaster",
+					"wid": "authordto",
+				}];
+				execute(executeList, function (err, res) {
+					proxyprinttodiv("getwidmaster authordto", res, 99);
                     cb2(err, res);
-        });
-      }
-    ], function (err, res) {
-      callback(err, res);
-        });       
-  }
-  // authordto, bookdto, spousedto, housedto, pubhousedto, addressdto, statedto, ownerdto
+				});
+			}
+		], function (err, res) {
+			callback(err, res);
+        });				
+	}
+	// authordto, bookdto, spousedto, housedto, pubhousedto, addressdto, statedto, ownerdto
 
    
 
@@ -746,9 +746,9 @@
             executeobj["executethis"]= "getwidmaster";
             executeobj["wid"]=eachprint["wid"];
             executeobj["command.dtotype"]=eachprint["command.dtotype"];
-      proxyprinttodiv("Function printlistmany input executeobj for getwidmaster", executeobj, 99, true);
+			proxyprinttodiv("Function printlistmany input executeobj for getwidmaster", executeobj, 99, true);
             execute(executeobj, function (err, res) {
-        proxyprinttodiv("Function printlistmany output for getwidmaster " + eachprint["wid"] + " with command.dtotype="+eachprint["command.dtotype"], executeobj, 99, true);
+				proxyprinttodiv("Function printlistmany output for getwidmaster " + eachprint["wid"] + " with command.dtotype="+eachprint["command.dtotype"], executeobj, 99, true);
                 cbMap(null);
                 //callback(err, res);
             }); 
@@ -872,7 +872,7 @@
         //proxyprinttodiv("Function addauthorrecord executeobj after dtotype ", executeobj, 99, true);
                 
         executeobj["executethis"]="addwidmaster";
-        proxyprinttodiv("Function addauthorrecord input executeobj for addwidmaster", executeobj, 99, true);  
+        proxyprinttodiv("Function addauthorrecord input executeobj for addwidmaster", executeobj, 99, true);	
         execute(executeobj, function (err, res) {
             proxyprinttodiv("Function addauthorrecord output for addwidmaster", res, 99, true);
             printlistmany(printlist[relgetlist], function (err, res) {
@@ -880,165 +880,165 @@
             });
         });
     }
-  
-  //This just tests setting up a dto with a many-to-many relationship with another dto. Creates the dtos
-  //and a bi-directional relationship between them.
-  exports.manytomany1 = manytomany1 = function manytomany1(params, callback){
-  
-      execute([{// Create the studentdto
+	
+	//This just tests setting up a dto with a many-to-many relationship with another dto. Creates the dtos
+	//and a bi-directional relationship between them.
+	exports.manytomany1 = manytomany1 = function manytomany1(params, callback){
+	
+			execute([{// Create the studentdto
                     "executethis": "addwidmaster",
                     "wid": "studentdto",
                     "metadata.method": "studentdto",
                     "name":"string",
-          "major":"string",
-          "metadata.teacherdto.type":"manytomany"
-          },{// Create the teacherdto
+					"major":"string",
+					"metadata.teacherdto.type":"manytomany"
+					},{// Create the teacherdto
                     "executethis": "addwidmaster",
                     "wid": "teacherdto",
                     "metadata.method": "teacherdto",
                     "name":"string",
-          "department":"string",
-          "metadata.studentdto.type":"manytomany"
-          },{ // relate student to teacher
+					"department":"string",
+					"metadata.studentdto.type":"manytomany"
+					},{ // relate student to teacher
                     "executethis": "addwidmaster",
-          "wid": "rel_student_to_teacher",
-          "metadata.method": "relationshipdto",
-          "relationshiptype": "attributes",
-          "linktype": "manytomany",
-          "primarywid": "studentdto",
-          "primarymethod": "studentdto",
-          "secondarywid": "teacherdto",
-          "secondarymethod": "teacherdto"
-          },{ // relate teacher to student
+					"wid": "rel_student_to_teacher",
+					"metadata.method": "relationshipdto",
+					"relationshiptype": "attributes",
+					"linktype": "manytomany",
+					"primarywid": "studentdto",
+					"primarymethod": "studentdto",
+					"secondarywid": "teacherdto",
+					"secondarymethod": "teacherdto"
+					},{ // relate teacher to student
                     "executethis": "addwidmaster",
-          "wid": "rel_teacher_to_student",
-          "metadata.method": "relationshipdto",
-          "relationshiptype": "attributes",
-          "linktype": "manytomany",
-          "primarywid": "teacherdto",
-          "primarymethod": "teacherdto",
-          "secondarywid": "studentdto",
-          "secondarymethod": "studentdto"
-          }]);
+					"wid": "rel_teacher_to_student",
+					"metadata.method": "relationshipdto",
+					"relationshiptype": "attributes",
+					"linktype": "manytomany",
+					"primarywid": "teacherdto",
+					"primarymethod": "teacherdto",
+					"secondarywid": "studentdto",
+					"secondarymethod": "studentdto"
+					}]);
     }
-  
-  
-  // This uses the dtos and relationships setup in manytomany1() to test a many-to-many relationship
-  // between a student and teacher.
-  exports.manytomanystest1 = manytomanytest1 = function manytomanytest1(params, callback){
-  
-      manytomany1();
-      
-      execute([{// Create the studentdto
+	
+	
+	// This uses the dtos and relationships setup in manytomany1() to test a many-to-many relationship
+	// between a student and teacher.
+	exports.manytomanystest1 = manytomanytest1 = function manytomanytest1(params, callback){
+	
+			manytomany1();
+			
+			execute([{// Create the studentdto
                     "executethis": "addwidmaster",
                     "wid": "student1",
                     "metadata.method": "studentdto",
                     "name":"Jason",
-          "major":"Math",
-          },{// Create the teacherdto
+					"major":"Math",
+					},{// Create the teacherdto
                     "executethis": "addwidmaster",
                     "wid": "teacher1",
                     "metadata.method": "teacherdto",
                     "name":"Katie",
-          "department":"Math & Science",
-          "metadata.studentdto.0":"student1"
-          }]);
+					"department":"Math & Science",
+					"metadata.studentdto.0":"student1"
+					}]);
     }
-  
-  // This is a simple inheritance default test using the student dto setup in manytomany1()
-  exports.inheritdefault1 = inheritdefault1 = function inheritdefault1(params, callback){
-  
-      manytomany1();
-      
-      execute([{// Create the default wid
+	
+	// This is a simple inheritance default test using the student dto setup in manytomany1()
+	exports.inheritdefault1 = inheritdefault1 = function inheritdefault1(params, callback){
+	
+			manytomany1();
+			
+			execute([{// Create the default wid
                     "executethis": "addwidmaster",
                     "wid": "studefault",
                     "metadata.method": "studentdto",
                     "name":"Brett",
-          "major":"Math",
-          },{// Create a student and inherit from studefault
+					"major":"Math",
+					},{// Create a student and inherit from studefault
                     "executethis": "addwidmaster",
                     "wid": "cory",
                     "metadata.method": "studentdto",
                     "name":"Cory",
-          "metadata.inherit.default.0":"studefault"
-          }]);
-          
-      // this should result in a wid returned with as such {"wid":"cory","metadata.method":"studentdto","name":"Cory","major":"Math"}
+					"metadata.inherit.default.0":"studefault"
+					}]);
+					
+			// this should result in a wid returned with as such {"wid":"cory","metadata.method":"studentdto","name":"Cory","major":"Math"}
     }
-  
-  // This is a simple inheritance override test using the student dto setup in manytomany1()
-  exports.inheritoverride1 = inheritoverride1 = function inheritoverride1(params, callback){
-  
-      manytomany1();
-      
-      execute([{// Create the default wid
+	
+	// This is a simple inheritance override test using the student dto setup in manytomany1()
+	exports.inheritoverride1 = inheritoverride1 = function inheritoverride1(params, callback){
+	
+			manytomany1();
+			
+			execute([{// Create the default wid
                     "executethis": "addwidmaster",
                     "wid": "studefault2",
                     "metadata.method": "studentdto",
                     "name":"Sarah",
-          "major":"Nursing",
-          },{// Create a student and inherit from studefault
+					"major":"Nursing",
+					},{// Create a student and inherit from studefault
                     "executethis": "addwidmaster",
                     "wid": "sarah",
                     "metadata.method": "studentdto",
                     "name":"Brittany",
-          "metadata.inherit.override.0":"studefault2"
-          }]);
-          
-      // this should result in a wid returned with as such {"wid":"sarah","metadata.method":"studentdto","name":"Sarah","major":"Nursing"}
+					"metadata.inherit.override.0":"studefault2"
+					}]);
+					
+			// this should result in a wid returned with as such {"wid":"sarah","metadata.method":"studentdto","name":"Sarah","major":"Nursing"}
     }
-  
-  // This just tests setting up a dto to point to itself. Creates a dto and a many-to-many relationship with
-  // itself.
-  exports.manytomanyself1 = manytomanyself1 = function manytomanyself1(params, callback){
-  
-      execute([{// Create the groupdto
+	
+	// This just tests setting up a dto to point to itself. Creates a dto and a many-to-many relationship with
+	// itself.
+	exports.manytomanyself1 = manytomanyself1 = function manytomanyself1(params, callback){
+	
+			execute([{// Create the groupdto
                     "executethis": "addwidmaster",
                     "wid": "groupdto1",
                     "metadata.method": "groupdto1",
                     "name":"string",
-          "metadata.groupdto1.type":"manytomany"
+					"metadata.groupdto1.type":"manytomany"
                 },{ // Create the groupdto relationship to itself
                     "executethis": "addwidmaster",
-          "wid": "rel_groupdto1_to_groupdto1",
-          "metadata.method": "relationshipdto",
-          "relationshiptype": "attributes",
-          "linktype": "manytomany",
-          "primarywid": "groupdto1",
-          "primarymethod": "groupdto1",
-          "secondarywid": "groupdto1",
-          "secondarymethod": "groupdto1"
+					"wid": "rel_groupdto1_to_groupdto1",
+					"metadata.method": "relationshipdto",
+					"relationshiptype": "attributes",
+					"linktype": "manytomany",
+					"primarywid": "groupdto1",
+					"primarymethod": "groupdto1",
+					"secondarywid": "groupdto1",
+					"secondarymethod": "groupdto1"
                 }]);
     }
-  
-  // This uses the dto & relationship to itself setup in manytomanysetup1() to see if adding wids of the same
-  // method to each other in a many-to-many works. One level deep.
-  exports.manytomanytest1 = manytomanytest1 = function manytomanytest1(params, callback){
-  
-      manytomanyself1();
-      
-      execute([{// Create the employees group
+	
+	// This uses the dto & relationship to itself setup in manytomanysetup1() to see if adding wids of the same
+	// method to each other in a many-to-many works. One level deep.
+	exports.manytomanytest1 = manytomanytest1 = function manytomanytest1(params, callback){
+	
+			manytomanyself1();
+			
+			execute([{// Create the employees group
                     "executethis": "addwidmaster",
                     "wid": "employee_grp",
                     "metadata.method": "groupdto1",
                     "name":"Employees"
                 },{ // Create the managers group and add it to the employees group
                     "executethis": "addwidmaster",
-          "wid": "managers_grp",
-          "metadata.method": "groupdto1",
-          "name": "Managers",
-          "metadata.groupdto1.0": "employee_grp"
+					"wid": "managers_grp",
+					"metadata.method": "groupdto1",
+					"name": "Managers",
+					"metadata.groupdto1.0": "employee_grp"
                 }]);
     }
-  
-  // This uses the dto & relationship to itself setup in manytomanysetup1() to see if adding wids of the same
-  // method to each other in a many-to-many works. Two levels deep.
-  exports.manytomanystest2 = manytomanytest2 = function manytomanytest2(params, callback){
-  
-      manytomanyself1();
-      
-      execute([{// Create the Espressobay group
+	
+	// This uses the dto & relationship to itself setup in manytomanysetup1() to see if adding wids of the same
+	// method to each other in a many-to-many works. Two levels deep.
+	exports.manytomanystest2 = manytomanytest2 = function manytomanytest2(params, callback){
+	
+			manytomanyself1();
+			
+			execute([{// Create the Espressobay group
                     "executethis": "addwidmaster",
                     "wid": "espresso_grp",
                     "metadata.method": "groupdto1",
@@ -1048,23 +1048,23 @@
                     "wid": "employee_grp",
                     "metadata.method": "groupdto1",
                     "name":"Employees",
-          "metadata.groupdto1.0":"espresso_grp"
+					"metadata.groupdto1.0":"espresso_grp"
                 },{ // Create the managers group and add it to the employees group
                     "executethis": "addwidmaster",
-          "wid": "managers_grp",
-          "metadata.method": "groupdto1",
-          "name": "Managers",
-          "metadata.groupdto1.0": "employee_grp"
+					"wid": "managers_grp",
+					"metadata.method": "groupdto1",
+					"name": "Managers",
+					"metadata.groupdto1.0": "employee_grp"
                 }]);
     }
 
-  // This uses the dto & relationship to itself setup in manytomanysetup1() to see if adding wids of the same
-  // method to each other in a many-to-many works. Two levels deep.
-  exports.manytomanystest2 = manytomanytest2 = function manytomanytest2(params, callback){
-  
-      manytomanyself1();
-      
-      execute([{// Create the Espressobay group
+	// This uses the dto & relationship to itself setup in manytomanysetup1() to see if adding wids of the same
+	// method to each other in a many-to-many works. Two levels deep.
+	exports.manytomanystest2 = manytomanytest2 = function manytomanytest2(params, callback){
+	
+			manytomanyself1();
+			
+			execute([{// Create the Espressobay group
                     "executethis": "addwidmaster",
                     "wid": "espresso_grp",
                     "metadata.method": "groupdto1",
@@ -1074,424 +1074,388 @@
                     "wid": "employee_grp",
                     "metadata.method": "groupdto1",
                     "name":"Employees",
-          "metadata.groupdto1.0":"espresso_grp"
+					"metadata.groupdto1.0":"espresso_grp"
                 },{ // Create the managers group and add it to the employees group
                     "executethis": "addwidmaster",
-          "wid": "managers_grp",
-          "metadata.method": "groupdto1",
-          "name": "Managers",
-          "metadata.groupdto1.0": "employee_grp"
+					"wid": "managers_grp",
+					"metadata.method": "groupdto1",
+					"name": "Managers",
+					"metadata.groupdto1.0": "employee_grp"
                 }]);
-    };  
-  // This tests inherit.default at the dto level. authordto inherits from authordefault and so author1 should be returned with name=Alex & age=42
-  // works.
-  exports.testinheritdefault0 = testinheritdefault0 = function testinheritdefault0(params,callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authordefault",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string",
-      // "metadata.inherit.default.0S":"authordefault" // no way it could have worked with that s in there - Joe
-      "metadata.inherit.default.0":{"authordefault" : "authordto"}
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto"
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}; 
-  
-  // This tests inherit.default at the wid level. author1 inherits from authordefault and should be returned with name=Alex & age=42
-  // works.
-  exports.testinheritdefault1 = testinheritdefault1 = function testinheritdefault1(params,callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authordefault",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto",
-      "metadata.inherit.default.0":{"authordefault" : "authordto"}
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99);
-                    callback(err, res);
-                });
-      });
-}
-
-  // This tests inherit.default at the wid level with 1 field already existing. Only age=42 should be accepted from authordefault as name=Tom is already
-  // present in the wid. author1 should return name=Tom & age=42.
-  // NOTE: This is not working. The age field is not being returned from the default, only the pre-existing name=Tom. It seems like there is a conflict
-  // if inherit.default sees that ANY field already exists in the wid.
-  exports.testinheritdefault2 = testinheritdefault2 = function testinheritdefault2(params,callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authordefault",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto",
-      "name":"Tom",
-      "metadata.inherit.default.0":{"authordefault" : "authordto"}
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}
-
-  // tests if inherit override works in the dto (authordto). author1 inherits authoroverride and should be returned with name=Alex & age=42.
-  // NOTE: this is not working right now. Execution is doing some funky stuff, repeatedly returning results.
-  exports.testinheritoverride0 = testinheritoverride0 = function testinheritoverride0(params,callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authoroverride",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string",
-      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto"
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}
-
-  // This tests inherit.override at the wid level. author1 inherits authoroverride and should return with name=Alex & age=42.
-  // works.
-  exports.testinheritoverride1 = testinheritoverride1 = function testinheritoverride1(params,callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authoroverride",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto",
-      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}
-
-  // Tests inherit.override at the wid level with fields already existing in the wid. The fields in author1 should be overriden by the fields in
-  // authoroverride, returning the result name=Alex & age=42.
-  // works.
-  exports.testinheritoverride2 = testinheritoverride2 = function testinheritoverride2(params,callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authoroverride",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto",
-      "name":"Tom",
-      "age":"58",
-      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}
-
-  // This tests inherit.override at the dto level with inherit.default set as well. authordto has inherit.override set & default set, but only the
-  // fields from the override should show up.
-  // NOTE: This does not work, same problem as testinheritoverride0. inherit.override in a dto is causing bad results.
-  exports.testinheritoverride3 = testinheritoverride3 = function testinheritoverride3(params,callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authordefault",
-      "metadata.method":"authordto",
-      "name":"Tom",
-      "age":"58"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authoroverride",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string",
-      "metadata.inherit.default.0":{"authordefault" : "authordto"},
-      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto"
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}
-
-  // This tests inherit.override at the wid level with inherit.default set as well. author1 has inherit.override set & default set, but only the
-  // fields from the override should show up.
-  // works.
-  exports.testinheritoverride4 = testinheritoverride4 = function testinheritoverride4(params,callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authordefault",
-      "metadata.method":"authordto",
-      "name":"Tom",
-      "age":"58"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authoroverride",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto",
-      "metadata.inherit.default.0":{"authordefault" : "authordto"},
-      "metadata.inherit.override.0":{"authoroverride" : "authordto"}
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}
-
-    exports.test999 = test999 = function test999() {
-       // debuglevel = 38;
-
-        execute([{
-                "executethis": "addwidmaster",
-                "wid": "authordto",
-                "name": "string",
-                "metadata.method": "authordto",
-                "metadata.bookdto.type": "onetomany",
-                "bookdto.wid": "bookdto",
-                "bookdto.title": "string",
-                "bookdto.metadata.method": "bookdto"
-            },{
-                "executethis": "addwidmaster",
-                "wid": "marysue",
-                "metadata.method": "authordto",
-                "name": "Mary Sue",
-                "bookdto.title": "Haunted Mansions"
-            }],
-            function (err, res) {
-                proxyprinttodiv('getwidmaster of marysue ', res, 99);
-            }
-        );
     }
-  
-  exports.test1000 = test1000 = function test1000() {
-       // debuglevel = 38;
-
-        execute([{
-                "executethis": "addwidmaster",
-                "wid": "authordto",
-                "name": "string",
-                "metadata.method": "authordto",
-                "metadata.bookdto.type": "onetomany"
-            },{
-        "wid": "bookdto",
-                "title": "string",
-                "metadata.method": "bookdto"
-      },{
-        "executethis": "addwidmaster",
-        "wid": "rel_author_book",
-        "metadata.method": "relationshipdto",
-        "relationshiptype": "attributes",
-        "linktype": "onetomany",
-        "primarywid": "authordto",
-        "primarymethod": "authordto",
-        "secondarywid": "bookdto",
-        "secondarymethod": "bookdto"
-            },{
-                "executethis": "addwidmaster",
-                "wid": "marysue",
-                "metadata.method": "authordto",
-                "name": "Mary Sue",
-                "bookdto.0.title": "Haunted Mansions"
-            }],
+	
+	// test inherit at the dto level. In this example, authordto inherits data from authordefault so that anything made with authordto
+	//	should default to this data if no other data is specified (and no override is present).
+	exports.testinheritdefault1 = testinheritdefault1 = function testinheritdefault1(params,callback){
+			async.series([
+				function (cb1){
+					execute([{"executethis":"addwidmaster",
+							"wid":"authordefault",
+							"metadata.method":"authordto",
+							"name":"Alex",
+							"age":"42",
+							"metadata.bookdto.title":"Haunted Mansions",
+							"metadata.bookdto.pages":"200",
+							"metadata.bookdto.publisherdto.name":"Scary Inc."
+							},{
+							"executethis":"addwidmaster",
+							"wid":"authordto",
+							"metadata.method":"authordto",
+							"name":"string",
+							"age":"string",
+							"metadata.bookdto.type":"onetomany",
+							"metadata.inherit.default":"authordefault"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"author1",
+							"metadata.method":"authordto"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"bookdto",
+							"metadata.method":"bookdto",
+							"title":"string",
+							"pages":"string",
+							"metadata.publisherdto.type":"manytoone"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"publisherdto",
+							"metadata.method":"publisherdto",
+							"name":"string"
+							}], function (err,res) {
+									cb1(null);
+							});
+					},
+				function (cb1) {
+					createrelationship("bookdto", "publisherdto", "manytoone", function (err, res) {
+						cb1(null);
+					});
+				},
+				function (cb1) {
+					createrelationship("authordto", "bookdto", "onetomany", function (err, res) {
+						cb1(null);
+					});
+				}
+			],
             function (err, res) {
-                proxyprinttodiv('getwidmaster of marysue ', res, 99);
-            }
-        );
+                proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 39);
+                callback(err, res);
+            });
     }
-  
-  exports.testjsononetoone0 = testjsononetoone0 = function testjsononetoone0(params, callback){
-    execute([{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string",
-      "metadata.spousedto.type":"onetoone"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"spousedto",
-      "metadata.method":"spousedto",
-      "name":"string",
-      "age":"string"
-      },{
-      "executethis": "addwidmaster",
-      "wid": "rel_author_to_spouse",
-      "metadata.method": "relationshipdto",
-      "relationshiptype": "attributes",
-      "linktype": "onetoone",
-      "primarywid": "authordto",
-      "primarymethod": "authordto",
-      "secondarywid": "spousedto",
-      "secondarymethod": "spousedto"
-            },{
-      "executethis":"addwidmaster",
-      "wid":"spouse1",
-      "metadata.method":"spousedto",
-      "name":"Sarah Jones",
-      "age":"28"
-      },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto",
-      "name":"Jim Jones",
-      "age":"30",
-      "spousedto.0.name":"Sarah",
-      "spousedto.0.age":"28",
-      "spousedto.0.hair":"blonde"
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[3], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}   
 
+	// test inherit at the wid level. In this example, author1 inherits from authordefault, meaning name=Alex and age=42 should be defaulted to.
+	exports.testinheritdefault2 = testinheritdefault2 = function testinheritdefault2(params,callback){
+			async.series([
+				function (cb1){
+					execute([{"executethis":"addwidmaster",
+							"wid":"authordefault",
+							"metadata.method":"authordto",
+							"name":"Alex",
+							"age":"42",
+							"metadata.bookdto.title":"Haunted Mansions",
+							"metadata.bookdto.pages":"200",
+							"metadata.bookdto.publisherdto.name":"Scary Inc."
+							},{
+							"executethis":"addwidmaster",
+							"wid":"authordto",
+							"metadata.method":"authordto",
+							"name":"string",
+							"age":"string",
+							"metadata.bookdto.type":"onetomany"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"author1",
+							"metadata.method":"authordto",
+							"metadata.inherit.default":"authordefault"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"bookdto",
+							"metadata.method":"bookdto",
+							"title":"string",
+							"pages":"string",
+							"metadata.publisherdto.type":"manytoone"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"publisherdto",
+							"metadata.method":"publisherdto",
+							"name":"string"
+							}], function (err,res) {
+									cb1(null);
+							});
+					},
+				function (cb1) {
+					createrelationship("bookdto", "publisherdto", "manytoone", function (err, res) {
+						cb1(null);
+					});
+				},
+				function (cb1) {
+					createrelationship("authordto", "bookdto", "onetomany", function (err, res) {
+						cb1(null);
+					});
+				}
+			],
+            function (err, res) {
+                proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 39);
+                callback(err, res);
+            });
+    }
+
+	// test inherit at the wid level with fields present. In this example, author2 has name=Tom and inherits from authordefault. authordefault has
+	// name=Alex and age=42. Since author1 already has name set, only age=42 should make it over. a getwid on author1 should result in name=Tom & age=42.
+	exports.testinheritdefault3 = testinheritdefault2 = function testinheritdefault2(params,callback){
+			async.series([
+				function (cb1){
+					execute([{"executethis":"addwidmaster",
+							"wid":"authordefault",
+							"metadata.method":"authordto",
+							"name":"Alex",
+							"age":"42",
+							"metadata.bookdto.title":"Haunted Mansions",
+							"metadata.bookdto.pages":"200",
+							"metadata.bookdto.publisherdto.name":"Scary Inc."
+							},{
+							"executethis":"addwidmaster",
+							"wid":"authordto",
+							"metadata.method":"authordto",
+							"name":"string",
+							"age":"string",
+							"metadata.bookdto.type":"onetomany"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"author1",
+							"metadata.method":"authordto",
+							"name":"Tom",
+							"metadata.inherit.default":"authordefault"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"bookdto",
+							"metadata.method":"bookdto",
+							"title":"string",
+							"pages":"string",
+							"metadata.publisherdto.type":"manytoone"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"publisherdto",
+							"metadata.method":"publisherdto",
+							"name":"string"
+							}], function (err,res) {
+									cb1(null);
+							});
+					},
+				function (cb1) {
+					createrelationship("bookdto", "publisherdto", "manytoone", function (err, res) {
+						cb1(null);
+					});
+				},
+				function (cb1) {
+					createrelationship("authordto", "bookdto", "onetomany", function (err, res) {
+						cb1(null);
+					});
+				}
+			],
+            function (err, res) {
+                proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 39);
+                callback(err, res);
+            });
+    }
+	
+	// test inherit at the dto level using default + override. In this example, authordto has both inherit default and inherit override set. Override should "override" any data retrieved
+	// by inherit.default. 
+	exports.testinheritoverride1 = testinheritoverride1 = function testinheritoverride1(params,callback){
+			async.series([
+				function (cb1){
+					execute([{"executethis":"addwidmaster",
+							"wid":"authordefault",
+							"metadata.method":"authordto",
+							"name":"Alex",
+							"age":"42",
+							"metadata.bookdto.title":"Haunted Mansions",
+							"metadata.bookdto.pages":"200",
+							"metadata.bookdto.publisherdto.name":"Scary Inc."
+							},{"executethis":"addwidmaster",
+							"wid":"authoroverride",
+							"metadata.method":"authordto",
+							"name":"Tom",
+							"age":"58",
+							"metadata.bookdto.title":"Funny Stories",
+							"metadata.bookdto.pages":"400",
+							"metadata.bookdto.publisherdto.name":"Giggles Inc."
+							},{
+							"executethis":"addwidmaster",
+							"wid":"authordto",
+							"metadata.method":"authordto",
+							"name":"string",
+							"age":"string",
+							"metadata.bookdto.type":"onetomany",
+							"metadata.inherit.default":"authordefault",
+							"metadata.inherit.override":"authoroverride"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"author1",
+							"metadata.method":"authordto"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"bookdto",
+							"metadata.method":"bookdto",
+							"title":"string",
+							"pages":"string",
+							"metadata.publisherdto.type":"manytoone"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"publisherdto",
+							"metadata.method":"publisherdto",
+							"name":"string"
+							}], function (err,res) {
+									cb1(null);
+							});
+					},
+				function (cb1) {
+					createrelationship("bookdto", "publisherdto", "manytoone", function (err, res) {
+						cb1(null);
+					});
+				},
+				function (cb1) {
+					createrelationship("authordto", "bookdto", "onetomany", function (err, res) {
+						cb1(null);
+					});
+				}
+			],
+            function (err, res) {
+                proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 39);
+                callback(err, res);
+            });
+    }
+
+	// test inherit at the wid level using default + override. In this example, author1 wid has both inherit default and override set. Override should win
+	// and a getwid on author1 should return the authoroverride structure.
+	exports.testinheritoverride2 = testinheritoverride2 = function testinheritoverride1(params,callback){
+			async.series([
+				function (cb1){
+					execute([{"executethis":"addwidmaster",
+							"wid":"authordefault",
+							"metadata.method":"authordto",
+							"name":"Alex",
+							"age":"42",
+							"metadata.bookdto.title":"Haunted Mansions",
+							"metadata.bookdto.pages":"200",
+							"metadata.bookdto.publisherdto.name":"Scary Inc."
+							},{"executethis":"addwidmaster",
+							"wid":"authoroverride",
+							"metadata.method":"authordto",
+							"name":"Tom",
+							"age":"58",
+							"metadata.bookdto.title":"Funny Stories",
+							"metadata.bookdto.pages":"400",
+							"metadata.bookdto.publisherdto.name":"Giggles Inc."
+							},{
+							"executethis":"addwidmaster",
+							"wid":"authordto",
+							"metadata.method":"authordto",
+							"name":"string",
+							"age":"string",
+							"metadata.bookdto.type":"onetomany",
+							},{
+							"executethis":"addwidmaster",
+							"wid":"author1",
+							"metadata.method":"authordto",
+							"metadata.inherit.default":"authordefault",
+							"metadata.inherit.override":"authoroverride"							
+							},{
+							"executethis":"addwidmaster",
+							"wid":"bookdto",
+							"metadata.method":"bookdto",
+							"title":"string",
+							"pages":"string",
+							"metadata.publisherdto.type":"manytoone"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"publisherdto",
+							"metadata.method":"publisherdto",
+							"name":"string"
+							}], function (err,res) {
+									cb1(null);
+							});
+					},
+				function (cb1) {
+					createrelationship("bookdto", "publisherdto", "manytoone", function (err, res) {
+						cb1(null);
+					});
+				},
+				function (cb1) {
+					createrelationship("authordto", "bookdto", "onetomany", function (err, res) {
+						cb1(null);
+					});
+				}
+			],
+            function (err, res) {
+                proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 39);
+                callback(err, res);
+            });
+    }
+
+	// test inherit override at the wid level with fields already set. Inherit override should win and the fields should be overwritten with the data in
+	// authoroverride. a getwid on author1 should result in name=Tom & age=58.
+	exports.testinheritoverride2 = testinheritoverride2 = function testinheritoverride1(params,callback){
+			async.series([
+				function (cb1){
+					execute([{"executethis":"addwidmaster",
+							"wid":"authoroverride",
+							"metadata.method":"authordto",
+							"name":"Tom",
+							"age":"58",
+							"metadata.bookdto.title":"Funny Stories",
+							"metadata.bookdto.pages":"400",
+							"metadata.bookdto.publisherdto.name":"Giggles Inc."
+							},{
+							"executethis":"addwidmaster",
+							"wid":"authordto",
+							"metadata.method":"authordto",
+							"name":"string",
+							"age":"string",
+							"metadata.bookdto.type":"onetomany",
+							},{
+							"executethis":"addwidmaster",
+							"wid":"author1",
+							"metadata.method":"authordto",
+							"name":"Alex",
+							"age":"42",
+							"metadata.inherit.override":"authoroverride"							
+							},{
+							"executethis":"addwidmaster",
+							"wid":"bookdto",
+							"metadata.method":"bookdto",
+							"title":"string",
+							"pages":"string",
+							"metadata.publisherdto.type":"manytoone"
+							},{
+							"executethis":"addwidmaster",
+							"wid":"publisherdto",
+							"metadata.method":"publisherdto",
+							"name":"string"
+							}], function (err,res) {
+									cb1(null);
+							});
+					},
+				function (cb1) {
+					createrelationship("bookdto", "publisherdto", "manytoone", function (err, res) {
+						cb1(null);
+					});
+				},
+				function (cb1) {
+					createrelationship("authordto", "bookdto", "onetomany", function (err, res) {
+						cb1(null);
+					});
+				}
+			],
+            function (err, res) {
+                proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 39);
+                callback(err, res);
+            });
+    }
+	
+	//exports.codytestinheritdefault = codytestinheritdefault = function codytestinheritdefault(params,callback) {
+			
+	
+	// works
     exports.ettestinheritoverride2 = ettestinheritoverride2 = function ettestinheritoverride2(params, callback) {
         eventappinstall();
         debuglevel = 0;
@@ -1535,7 +1499,7 @@
                 })
         });
     }
-  // fails : bookdefault fields chapters & publishers not displaying for bookwid1
+	// fails : bookdefault fields chapters & publishers not displaying for bookwid1
     exports.ettestinheritdefault2 = ettestinheritdefault2 = function ettestinheritdefault2(params, callback) {
         eventappinstall();
         debuglevel = 0;
@@ -1584,7 +1548,7 @@
                 })
         });
     }
-  // fails, same as previous test : bookdefault fields chapters & publisher not being grabbed
+	// fails, same as previous test : bookdefault fields chapters & publisher not being grabbed
      exports.ettestinheritdefault3 = ettestinheritdefault3 = function ettestinheritdefault3(params, callback) {
         eventappinstall();
         debuglevel = 0;
@@ -1633,7 +1597,7 @@
                 })
         });
     }
-  // works
+	// works
     exports.ettestinheritoverride3 = ettestinheritoverride3 = function ettestinheritoverride3(params, callback) {
         eventappinstall();
         debuglevel = 0;
@@ -1677,7 +1641,7 @@
                 })
         });
     }
-  // fails
+	// fails
     exports.ettestinheritdefault = ettestinheritdefault = function ettestinheritdefault(params, callback) {
         eventappinstall();
         debuglevel = 0;
@@ -1744,7 +1708,7 @@
                 })
         });
     }
-  
+	
     exports.add999 = add999 = function add999(params, callback) {
         var d="";
         var executeobj = //[]
@@ -1789,7 +1753,7 @@
                 });
             });
     }
-  
+	
     
     /*
         etaddautoselectwid
@@ -1801,33 +1765,33 @@
         get each child by childname w/o dto
         get each child by childname with dto, 
         results of this test:
-  */
-  
-  // the output of this function appears to be correct: all wids look good
+	*/
+	
+	// the output of this function appears to be correct: all wids look good
     exports.etaddautoselectwid = etaddautoselectwid = function etaddautoselectwid(params, callback) {
         var c="c";
         var d="d";
         manytoonesetupdto(params, 0, function (err, res) {
 
-            //parent,   c,  child, d, preamble, dto, getlist
-      addauthorrecord(0,      c,      0, d,   -1,     -1,     2, function (err, res){
-      addauthorrecord(0,      c,      1, d,   0,      -1,     2, function (err, res){
-      addauthorrecord(0,      c,      2, d,   1,      -1,     2, function (err, res){
-      addauthorrecord(0,      c,      3, d,   2,      -1,     2, function (err, res){
-      addauthorrecord(0,      c,      4, d,   3,      -1,     2, function (err, res){
-      addauthorrecord(0,      c,      5, d,   4,      -1,     2, function (err, res){
-      addauthorrecord(0,      c,      6, d,   5,      -1,     2, function (err, res){
-      addauthorrecord(0,      c,      7, d,   6,      -1,     1, function (err, res){
-        callback(err, res);
-      });
-      }); 
-      });
-      });
-      }); 
-      });
-      });
-      });
-    });
+						//parent,   c,  child, d, preamble, dto, getlist
+			addauthorrecord(0,      c,      0, d,   -1,     -1,     2, function (err, res){
+			addauthorrecord(0,      c,      1, d,   0,      -1,     2, function (err, res){
+			addauthorrecord(0,      c,      2, d,   1,      -1,     2, function (err, res){
+			addauthorrecord(0,      c,      3, d,   2,      -1,     2, function (err, res){
+			addauthorrecord(0,      c,      4, d,   3,      -1,     2, function (err, res){
+			addauthorrecord(0,      c,      5, d,   4,      -1,     2, function (err, res){
+			addauthorrecord(0,      c,      6, d,   5,      -1,     2, function (err, res){
+			addauthorrecord(0,      c,      7, d,   6,      -1,     1, function (err, res){
+				callback(err, res);
+			});
+			}); 
+			});
+			});
+			}); 
+			});
+			});
+			});
+		});
     }
 
     /*
@@ -1842,7 +1806,7 @@
         results of this test:
     */
 
-  // the output of this function appears to be correct: all wids look good
+	// the output of this function appears to be correct: all wids look good
     exports.etaddmanualselectwid = etaddmanualselectwid = function etaddmanualselectwid(params, callback) {
         var c="c";
         var d="d";
@@ -1881,8 +1845,8 @@
         results of this test:
     */
 
-  // add with command.dtotype is not working. specifying a dtotype is not creating the right structure. All
-  // fields are being added to the top level wid instead of as children.
+	// add with command.dtotype is not working. specifying a dtotype is not creating the right structure. All
+	// fields are being added to the top level wid instead of as children.
     exports.etaddwithdtotype = etaddwithdtotype = function etaddwithdtotype(params, callback) {
         var c="c";
         var d="d";
@@ -1908,7 +1872,7 @@
             });
         });
     }
-  
+	
     /*    
         etadddtoandpreamble
         we select child wid names
@@ -1921,7 +1885,7 @@
         results of this test:
     */
 
-  // appears to work: output looks good.
+	// appears to work: output looks good.
     exports.etadddtoandpreamble = etadddtoandpreamble = function etadddtoandpreamble(params, callback) {
         var c="c";
         var d="d";
@@ -1962,7 +1926,7 @@
         get each child by childname with dto, 
         result of this test:
     */
-  // appears to be working: last update takes affect
+	// appears to be working: last update takes affect
     exports.etadd3big = etadd3big = function etadd3big(params, callback) {
         var c="c";
         var d="d";
@@ -2034,7 +1998,7 @@
 
     // we will create dtos with wid2 as default - the name of the top wid will be wid2default
     // then we get wid1 to see if defaults there
-  exports.etcreatedefaultdto1 = etcreatedefaultdto1 = function etcreatedefaultdto1(params, callback) {
+	exports.etcreatedefaultdto1 = etcreatedefaultdto1 = function etcreatedefaultdto1(params, callback) {
         var c="default";
         var d="d";
 
@@ -2056,36 +2020,36 @@
                 "statedtooverride":[],
                 "ownerdtooverride":[]
                 }
-        
+				
         manytoonesetupdto(inheritparams, 0, function (err, res) {
 
                     //parent,   c,   child, d, preamble, dto, getlist
-      addauthorrecord(1,      c,      8,  d,   -1,     -1,     3, function (err, res){
-      //addauthorrecord(0,      c,      9,  d,   0,      -1,     0, function (err, res){
-      addauthorrecord(1,      c,      10, d,   1,      -1,     3, function (err, res){
-      //addauthorrecord(0,      c,      11, d,   2,      -1,     0, function (err, res){
-      addauthorrecord(1,      c,      12, d,   3,      -1,     3, function (err, res){
-      //addauthorrecord(0,      c,      13, d,   4,      -1,     0, function (err, res){
-      addauthorrecord(1,      c,      14, d,   5,      -1,     3, function (err, res){
-      //addauthorrecord(0,      c,      15, d,   6,      -1,     0, function (err, res){
-      printlistmany([{"wid":"wid1"+c, "command.dtotype":""}], function (err, res){
-      callback(err, res);
-      });
-                         
-      //                                });
-      //                            }); 
-      //                        });
-      //                    });
-              }); 
-            });
-          });
-        });
+			addauthorrecord(1,      c,      8,  d,   -1,     -1,     3, function (err, res){
+			//addauthorrecord(0,      c,      9,  d,   0,      -1,     0, function (err, res){
+			addauthorrecord(1,      c,      10, d,   1,      -1,     3, function (err, res){
+			//addauthorrecord(0,      c,      11, d,   2,      -1,     0, function (err, res){
+			addauthorrecord(1,      c,      12, d,   3,      -1,     3, function (err, res){
+			//addauthorrecord(0,      c,      13, d,   4,      -1,     0, function (err, res){
+			addauthorrecord(1,      c,      14, d,   5,      -1,     3, function (err, res){
+			//addauthorrecord(0,      c,      15, d,   6,      -1,     0, function (err, res){
+			printlistmany([{"wid":"wid1"+c, "command.dtotype":""}], function (err, res){
+			callback(err, res);
+			});
+											   
+			//                                });
+			//                            }); 
+			//                        });
+			//                    });
+							}); 
+						});
+					});
+				});
         });
 
     }
     
-  
-  
+	
+	
     // we will create dtos with wid2 as default - the name of the top wid will be wid2override
     // then we get wid1 to see if defaults there
     exports.etcreateinheritdefault1 = etcreateinheritdefault1 = function etcreateinheritdefault1(params, callback) {
@@ -2113,124 +2077,124 @@
                         
         manytoonesetupdto(inheritparams, 0, function (err, res) {
 
-          //parent,   c,   child, d, preamble, dto, getlist
-    addauthorrecord(2,      c,      8,  d,   -1,     -1,     4, function (err, res){
-    //addauthorrecord(0,      c,      9,  d,   0,      -1,     0, function (err, res){
-    addauthorrecord(2,      c,      10, d,   1,      -1,     4, function (err, res){
-    //addauthorrecord(0,      c,      11, d,   2,      -1,     0, function (err, res){
-    addauthorrecord(2,      c,      12, d,   3,      -1,     4, function (err, res){
-    //addauthorrecord(0,      c,      13, d,   4,      -1,     0, function (err, res){
-    addauthorrecord(2,      c,      14, d,   5,      -1,     4, function (err, res){
-    //addauthorrecord(0,      c,      15, d,   6,      -1,     0, function (err, res){
+					//parent,   c,   child, d, preamble, dto, getlist
+		addauthorrecord(2,      c,      8,  d,   -1,     -1,     4, function (err, res){
+		//addauthorrecord(0,      c,      9,  d,   0,      -1,     0, function (err, res){
+		addauthorrecord(2,      c,      10, d,   1,      -1,     4, function (err, res){
+		//addauthorrecord(0,      c,      11, d,   2,      -1,     0, function (err, res){
+		addauthorrecord(2,      c,      12, d,   3,      -1,     4, function (err, res){
+		//addauthorrecord(0,      c,      13, d,   4,      -1,     0, function (err, res){
+		addauthorrecord(2,      c,      14, d,   5,      -1,     4, function (err, res){
+		//addauthorrecord(0,      c,      15, d,   6,      -1,     0, function (err, res){
         printlistmany([{"wid":"wid1"+c, "command.dtotype":""}], function (err, res){
         callback(err, res);
         });
-    //});
-    }); 
-    //});
-    });
-    //}); 
-    });
-    //});
-    });
+		//});
+		}); 
+		//});
+		});
+		//}); 
+		});
+		//});
+		});
         });
     }
 
-  /*
-  1) etaddautoselectwid,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
+	/*
+	1) etaddautoselectwid,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
 
-  2) etaddmanualselectwid,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
+	2) etaddmanualselectwid,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
 
-  3) etaddwithdtotype,,,  not able to get full wid with  command.dtotype=authordto
+	3) etaddwithdtotype,,,  not able to get full wid with  command.dtotype=authordto
 
-  4) etadddtoandpreamble,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
+	4) etadddtoandpreamble,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
 
-  5) etaddwithdtotype,,  It does not add as expected.. because we are adding housedto data.. and it adds other data
+	5) etaddwithdtotype,,  It does not add as expected.. because we are adding housedto data.. and it adds other data
 
-  6) etadddtoandpreamble,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
+	6) etadddtoandpreamble,, add works perfectly.. but with get,,, command.dtotype=authordto and command.dtotype="", get complete author data
 
-  7) etcreatedefaultdto1,, with get,, command.dtotype="", complete author data
+	7) etcreatedefaultdto1,, with get,, command.dtotype="", complete author data
 
-  8) etcreateinheritdefault1,, with get,, command.dtotype="", complete author data
-  */
-  
-  
-  
-  
+	8) etcreateinheritdefault1,, with get,, command.dtotype="", complete author data
+	*/
+	
+	
+	
+	
     // test manytomany = manytomanytest() line 97
     // test default = inheritdefault1() line 118
     // test override = inheritoverride1() line 140
     // test author-author = manytomanytest1() line 186
     // create new dtotype in manytoonesetupdto to test manytomany, json
     // more default / inherit tests
-  exports.t123 = t123 = function t123(params, callback) {
-    callback({},{})
-  }
-  
-  /*
-    to test createalldtos
-  */
+	exports.t123 = t123 = function t123(params, callback) {
+		callback({},{})
+	}
+	
+	/*
+		to test createalldtos
+	*/
     exports.testcreatealldtos = testcreatealldtos = function testcreatealldtos(params, callback) {
         var executeobj = {
-      "executethis":"addwidmaster",
-      "metadata.method": "userdto",
-      "wid": "wid1",
-      
-      "widname": "user widname",      //HERE, we need to specify value as datatype "wid"
-      "fname": "user fname1",
-      "lname": "user lname1",
-      "phone": "user phone",
-      "email": "user@test.com",
-      "address": "user address",
-      "address2": "user address2",
-      "city": "user city",
-      "state": "user state",
-      "zip": "user zip 123456",
-      "country": "user country",
-      
-      "securitydto.accesstoken": "user security accesstoken",
-      "securitydto.status": "user security status",
-      
-      "environmentdto.ac": "user environment ac",
-      "environmentdto.gps": "user environment gps",
-      "environmentdto.account": "user environment account",
-      "environmentdto.db": "user environment db",
-      "environmentdto.collection": "user environment collection",
+			"executethis":"addwidmaster",
+			"metadata.method": "userdto",
+			"wid": "wid1",
+			
+			"widname": "user widname",			//HERE, we need to specify value as datatype "wid"
+			"fname": "user fname1",
+			"lname": "user lname1",
+			"phone": "user phone",
+			"email": "user@test.com",
+			"address": "user address",
+			"address2": "user address2",
+			"city": "user city",
+			"state": "user state",
+			"zip": "user zip 123456",
+			"country": "user country",
+			
+			"securitydto.accesstoken": "user security accesstoken",
+			"securitydto.status": "user security status",
+			
+			"environmentdto.ac": "user environment ac",
+			"environmentdto.gps": "user environment gps",
+			"environmentdto.account": "user environment account",
+			"environmentdto.db": "user environment db",
+			"environmentdto.collection": "user environment collection",
 
-      "permissiondto.0.level": "user permission level",
-      "permissiondto.0.metadata.db": "user permission db",
-      "permissiondto.0.metadata.collection": "user permission collection",
-      
-      "usergroupdto.0.groupname": "user usergroup name"
-    };
+			"permissiondto.0.level": "user permission level",
+			"permissiondto.0.metadata.db": "user permission db",
+			"permissiondto.0.metadata.collection": "user permission collection",
+			
+			"usergroupdto.0.groupname": "user usergroup name"
+		};
 
         createalldtos(params, function (cb2) {
-      var executeList = [];
-      
-      var executeObjForGet = {
-        "executethis":"getwidmaster",
-        "wid": "userdto",
-      };
-      //executeList.push(executeObjForGet);
-      executeList.push(executeobj);
-    
-      execute(executeList, function (err, res) {
-        proxyprinttodiv("result from data add ", res, 99, true);
-           
-        var printlist=[
-          //{"wid":"wid1", "command.dtotype":""},
-          
-          {"wid":"wid1", "command.dtotype":"userdto"},
-          //{"wid":"wid1", "command.dtotype":"securitydto"},
-          //{"wid":"wid1", "command.dtotype":"environmentdto"},
-          //{"wid":"wid1", "command.dtotype":"permissiondto"}
-        ];
-        
-        printlistmany(printlist, function (err, res) { 
-          callback(err, res);
-        })
-      });
-    });
+			var executeList = [];
+			
+			var executeObjForGet = {
+				"executethis":"getwidmaster",
+				"wid": "userdto",
+			};
+			//executeList.push(executeObjForGet);
+			executeList.push(executeobj);
+		
+			execute(executeList, function (err, res) {
+				proxyprinttodiv("result from data add ", res, 99, true);
+					 
+				var printlist=[
+					//{"wid":"wid1", "command.dtotype":""},
+					
+					{"wid":"wid1", "command.dtotype":"userdto"},
+					//{"wid":"wid1", "command.dtotype":"securitydto"},
+					//{"wid":"wid1", "command.dtotype":"environmentdto"},
+					//{"wid":"wid1", "command.dtotype":"permissiondto"}
+				];
+				
+				printlistmany(printlist, function (err, res) { 
+					callback(err, res);
+				})
+			});
+		});
     }
 
     exports.ettestatoa = ettestatoa = function ettestatoa(params, callback) {
@@ -2309,546 +2273,3 @@ Function printlistmany output for getwidmaster wid1default with command.dtotype=
 }
 The addbig test (manytoone = last record updates in a one to one) worked
 */
-
-
-
-/***********************************************************Bills Tests***************************************/
-
- // exports.merchantstest = merchantstest = function merchantstest (params, callback) {
- //        execute([{  // build the dtos and relatiopnsips
- //                    "executethis": "addwidmaster",
- //                    "wid": "merchantsdto",
- //                    "metadata.method": "merchantsdto",
- //                    "title": "string",
- //                    "metadata.merchantdto.type": "onetomany",
- //                    "merchantdto.wid": "merchantdto",
- //                    "merchantdto.metadata.method": "merchantdto",
- //                    "merchantdto.name": "string",
- //                    "merchantdto.metadata.loyaltydto.type": "onetomany",
- //                    "merchantdto.loyaltydto.metadata.method": "loyaltydto",
- //                    "merchantdto.loyaltydto.wid": "loyaltydto",
- //                    "merchantdto.loyaltydto.name":"string"
- //                }
- //            ], function (err, res) { 
- //                callback(err, res)
- //            });
- //    }
-
-exports.addmerchantdtotest = addmerchantdtotest = function addmerchantdtotest (params, callback) {
-       execute([{  // build the dtos and relatiopnsips
-                    "executethis": "addwidmaster",
-                    "wid": "merchantdto",
-                    "metadata.method": "merchantdto",
-                    "title": "string",
-                    "contactname": "string",
-                    "contactemail": "string",
-                    "contactphone": "string",
-                    "company": "string",
-                    "website": "string",
-                    "companyphone": "string",
-                    "address": "string",
-                    "address2": "string",
-                    "city": "string",
-                    "state": "string",
-                    "zip": "string",
-                    "metadata.loyaltydto.type": "onetomany",
-                   "configuration": {
-                       "midexecute": [{
-                           "dothis": "server",
-                           "tryorder": "0",
-                           "executeorder": "0",
-                           "params": {}
-                           }]
-                       }
-                }],
-        function (err, resultArray) {
-            callback(err, resultArray) 
-            });
-    }
-                
- exports.addloyaltydtotest = addloyaltydtotest = function addloyaltydtotest (params, callback) {
-       execute([{   
-                    "executethis": "addwidmaster",
-                    "metadata.method": "loyaltydto",
-                    "wid": "loyaltydto",
-                    "widname": "myloyalty",
-                    "punches": "integer",
-                    "points": "integer",
-                    "issue": "integer",
-                    "redeem": "integer",
-                    "title": "string",
-                    "logo": "string",
-                    "description": "string",
-                    "expiration": "date",
-                   "configuration": {
-                       "midexecute": [{
-                           "dothis": "server",
-                           "tryorder": "0",
-                           "executeorder": "0",
-                           "params": {}
-                           }]
-                       }
-                }],
-        function (err, resultArray) {
-            callback(err, resultArray) 
-            });              
-}
- exports.addmerchantloyaltyreltest = addmerchantloyaltyreltest = function addmerchantloyaltyreltest (params, callback) {
-       execute([{            
-                    "executethis": "addwidmaster",
-                    "wid": "rel_merchant_loyalty",
-                    "metadata.method": "relationshipdto",
-                    "relationshiptype": "attributes",
-                    "linktype": "onetomany",
-                    "primarywid": "merchantdto",
-                    "primarymethod": "merchantdto",
-                    "secondarywid": "loyaltydto",
-                    "secondarymethod": "loyaltydto",
-                   "configuration": {
-                       "midexecute": [{
-                           "dothis": "server",
-                           "tryorder": "0",
-                           "executeorder": "0",
-                           "params": {}
-                           }]
-                       }
-                }],
-        function (err, resultArray) {
-            callback(err, resultArray) 
-            }); 
-}
-exports.step1Luke = step1Luke = function step1Luke (params, callback) {
-        
-        execute([
-            { // add the merchants (notice its the parent wid)
-                    "executethis": "addwidmaster",
-                    "wid": "merchgroup1",
-                    "metadata.method": "merchantsdto",
-                    "name": "luke's company"
-
-                }
-            ], function (err, resultArray) { 
-                callback(err, resultArray)
-             });
-    }
-
-     function step1Joe(params, callback) {
-        
-        execute([
-            { // add the merchants (notice its the parent wid)
-                    "executethis": "addwidmaster",
-                    "wid": "merchgroup1",
-                    "metadata.method": "merchantsdto",
-                    "merchantdto.name": "joe's company"
-                }
-            ], function (err, resultArray) { 
-                callback(err, resultArray)
-             });
-    }
-
-     function step1Bill (params, callback) {
-        
-        execute([
-            {
-                    "executethis": "addwidmaster",
-                    "wid": "merchgroup1",
-                    "metadata.method": "merchantsdto",
-                    "merchantdto.name": "bill's company"
-                }
-            ], function (err, resultArray) { 
-                callback(err, resultArray)
-             });
-    }
-
-     function step2BillLoyalty (params, callback) {
-        
-        execute([
-            {
-                    "executethis": "addwidmaster",
-                    "wid": "loyaltygroup1",
-                    "metadata.method": "merchantdto",
-                    "loyaltydto.name": "bill's loyalty wid"
-                }
-            ], function (err, resultArray) { 
-                callback(err, resultArray)
-             });
-    }
-
-     function step2JoeLoyalty (params, callback) {
-        
-        execute([
-            {
-                    "executethis": "addwidmaster",
-                    "wid": "loyaltygroup1",
-                    "metadata.method": "merchantdto",
-                    "loyaltydto.name": "Joe's loyalty wid"
-                }
-            ], function (err, resultArray) { 
-                callback(err, resultArray)
-             });
-    }
-
-         function inputLoyalty (params, callback) {
-            var lname = document.getElementById('loyaltyName').value;
-        execute([
-            {
-                    "executethis": "addwidmaster",
-                    "wid": "loyaltygroup1",
-                    "metadata.method": "merchantdto",
-                    "loyaltydto.name": lname
-                }
-            ], function (err, resultArray) { 
-                callback(err, resultArray)
-             });
-    }
-
-     function step3datanodto (params, callback) {
-        
-        execute([
-            {
-                    "executethis": "addwidmaster",
-                    "wid": "nodtowid",
-                    "name": "bill's no data datawid"
-                },
-                {
-                    "executethis":"getwidmaster",
-                    "wid":"nodtowid"
-                }
-            ], function (err, resultArray) { 
-                callback(err, resultArray)
-             });
-    }
-
-    exports.wraptest = wraptest = function wraptest(params, callback) {
-        proxyprinttodiv('Function wraptest ------', params, 99);
-
-        execute({"executethis":"ettestag1","command":{"result":"x"}},function(err,res){
-            proxyprinttodiv('Function wraptest result LAST ', res, 99); 
-            callback(err,res);  
-        });
-        
-    }
-
-    /*
-etcreatedefaultdto1 in et-test: I see it creating an author record under wid2default but I don't see any other wid created to inherit from this wid. have you tested this one? The only output at the end is a bunch of empty results:
-
-Function printlistmany input executeobj for getwidmaster
-{
-    "executethis": "getwidmaster",
-    "wid": "wid2default",
-    "command.dtotype": ""
-}
-Function printlistmany output for getwidmaster wid2default with command.dtotype=
-{
-    "wid": "wid2default",
-    "command.dtotype": ""
-}
-Function printlistmany input executeobj for getwidmaster
-{
-    "executethis": "getwidmaster",
-    "wid": "wid1default",
-    "command.dtotype": ""
-}
-Function printlistmany output for getwidmaster wid1default with command.dtotype=
-{
-    "wid": "wid1default",
-    "command.dtotype": ""
-}
-The addbig test (manytoone = last record updates in a one to one) worked
-*/
-
-    function recurseobj(params, dtotable) {
-        proxyprinttodiv("getdtoobject recurseobj -- params", params, 99);
-        proxyprinttodiv("getdtoobject recurseobj -- dtotable", dtotable, 99);
-        var dtolist = {};
-        var dtoobj = {};
-        var metadata = {};
-        var tempobj = {};
-        var inobj = JSON.parse(JSON.stringify(params));
-
-        //if we get an array in (usally happens on the recurse)
-        if (inobj instanceof Array) {
-            proxyprinttodiv("inobj instanceof array", inobj, 99);
-            var mergedObj = {};
-            var tempArray = [];
-            for (var i in inobj) {
-                // if our array is just a list of strings
-                if (typeof inobj[i] === 'string') {
-                    tempArray.push("string");
-                } else {
-                    extend(true, mergedObj, recurseobj(inobj[i], dtotable));
-                }
-            }
-            // there has to be something in the merge object to push it onto the return
-            if (Object.keys(mergedObj).length > 0) {
-                tempArray.push(mergedObj);
-            }
-
-            proxyprinttodiv("tempArray", tempArray, 99);
-            return tempArray;
-        } else {
-
-
-            // section below is if nodtotable then create a command.dtolist
-            if (Object.keys(dtotable).length === 0) {
-
-            if (eachparm === "metadata") {
-                metadata = inobj['metadata'];
-                for (var eachitem in metadata) {
-                    proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 99);
-                    if (metadata.hasOwnProperty(eachitem)) {
-                        //proxyprinttodiv("getdtoobjecteachitem", eachitem, 38);
-                        //proxyprinttodiv("getdtoobject dtolist II", dtolist, 38);
-                        if ((eachitem !== "method") && (eachitem !== "inherit")) {
-                            proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 99);
-                            tempobj = {};
-                            tempobj[eachitem] = metadata[eachitem]['type'];
-                            extend(true, dtolist, tempobj);
-                            proxyprinttodiv("In getdtoobject <<< DTOLIST >>>", dtolist, 99);
-                            // eachitem would be a child
-                            if ((metadata[eachitem]['type'] === "onetomany" ||
-                                    metadata[eachitem]['type'] === "manytomany" || // ** readded
-                                    metadata[eachitem]['type'] === "jsononetomany") &&
-                                (inobj[eachitem] !== undefined) && (!isArray(inobj[eachitem]))) {
-                                relationshipArray = [];
-                                relationshipArray.push(inobj[eachitem]);
-                                delete inobj[eachitem];
-                                inobj[eachitem] = relationshipArray;
-                                // seems to be a bad idea to do inobj here ***
-                            }
-                            proxyprinttodiv("getdtoobject dtolist", dtolist, 99);
-                        }
-                    }
-                } // for metadata
-            } // if metadata
-
-            } // end if no dtotable 
-
-
-
-            for (var eachparm in inobj) {
-                proxyprinttodiv("getdtoobject recurseobj -- eachparm", eachparm, 99);
-                proxyprinttodiv("getdtoobject recurseobj -- inobj", inobj, 99);
-                if (inobj.hasOwnProperty(eachparm)) {
-                    //proxyprinttodiv("getdtoobject dtolist I", dtolist, 38);
-                    //proxyprinttodiv("getdtoobject eachparm", eachparm, 38);
-                    //proxyprinttodiv("getdtoobject inobj", inobj[eachparm], 38);
-
-
-                    proxyprinttodiv("getdtoobject --is-- switch inobj[eachparm]", inobj[eachparm], 99);
-                    proxyprinttodiv("getdtoobject --is-- switch inobj", inobj, 99);
-
-                    if (isObject(inobj[eachparm])) {
-                        proxyprinttodiv("getdtoobject is obj before inobj", inobj, 99);
-                        dtoobj[eachparm] = recurseobj(inobj[eachparm], dtotable);
-                        proxyprinttodiv("getdtoobject is obj dtoobj", dtoobj, 99);
-
-                        proxyprinttodiv("getdtoobject is obj after dtoobj--", dtoobj, 99);
-                        if (dtotable[eachparm]) {
-                            dtoobj[eachparm] = extend(true, dtoobj[eachparm], dtotable[eachparm]);
-                            // dtoobj[eachparm] = extend(true, dtotable[eachparm], dtoobj[eachparm]);
-                        }
-                    } else {
-                        dtoobj[eachparm] = "string";
-                    }
-                }
-            } // for eachparm
-
-            if (Object.keys(dtotable).length === 0) {
-                if (Object.keys(dtolist).length !== 0) {
-                    if (!inobj.command) {
-                        dtoobj.command = {};
-                    }
-                    dtoobj.command.dtolist = inobj.metadata.dtolist
-                }
-            }
-            proxyprinttodiv("In GetDTOObject before return -- we created dto -- :", dtoobj, 99);
-            return dtoobj;
-        }
-    } // end fn recurse
-
-
-    exports.rrr = rrr = function rrr(params, callback) { 
-        var obj=
-        {"wid":"song1","metadata":{"method":"sonddto"},"title":"Highway to Hell","sounddto":{"note":"A flat"}}
-
-        var dtotable = 
-        {
-        "sonddto":{"title":"string","wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},
-
-            "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                  "deepdtolist":{"systemdto":"onetoone","sounddto":"onetomany"},
-                  "dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}},
-
-            "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
-                  "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                  "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]},
-
-        "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
-              "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-              "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]
-              }
-
-        callback({},recurseobj(obj, dtotable));  
-    }
-    
-    /*
-        empty dtotable from rrr
-    */
-    exports.rrr2 =  rrr2 = function rrr2(params, callback) {   
-        var obj=
-        {"wid":"song1","metadata":{"method":"sonddto"},"title":"Highway to Hell","sounddto":{"note":"A flat"}}
-
-        var dtotable = 
-        {}
-
-        callback({},recurseobj(obj, dtotable));   
-    }
-    
-    
-    /*
-        input object change
-    */
-    exports.rrr3 =  rrr3 = function rrr3(params, callback) {   
-        var obj=
-        {"wid":"song1","metadata":{"method":"songdto"},"title":"Highway to Hell","sounddto":[{"note":"A flat"},{"note":"B sharp"},{"note":"C flat"}]};
-
-        var dtotable = 
-        {
-        "sonddto":{"title":"string","wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},
-
-            "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                  "deepdtolist":{"systemdto":"onetoone","sounddto":"onetomany"},
-                  "dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}},
-
-            "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
-                  "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-                  "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]},
-
-        "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
-              "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-              "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]
-              }
-
-        callback({},recurseobj(obj, dtotable));   
-    }
-    
-
-    /*
-        empty dtotable from rrr3
-    */
-    exports.rrr4 = rrr4 = function rrr4(params, callback) {   
-        var obj=
-        {"wid":"song1","metadata":{"method":"songdto"},"title":"Highway to Hell","sounddto":[{"note":"A flat"},{"note":"B sharp"},{"note":"C flat"}]};
-
-        var dtotable = 
-        {}
-
-        callback({},recurseobj(obj, dtotable));  
-    }
-    
-    /*
-        
-    */
-    exports.rrr5 = rrr5 = function rrr5(params, callback) {   
-        var obj=
-        {"wid":"wid1","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto":{"wid":"1","metadata":{"method":"authordto","authordto": {"type":"onetoone"}},"authordto":{"wid":"3","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto": {"name":"sammysample","wid":"5","metadata":{"method":"authordto"}}}}};
-
-        var dtotable = 
-        { 
-            "authordto" : { 
-                "name" : "string",
-                "wid" : "string",
-                "metadata" : { 
-                    "method" : "string",
-                    "authordto" : { 
-                        "type" : "manytomany"
-                    }
-                },
-                "command" : { 
-                    "inherit" : { 
-                        "defaultsystemactions" : "defaultsystemactions"
-                    },
-                    "deepdtolist" : { 
-                        "authordto" : "manytomany",
-                        "systemdto" : "onetoone"
-                    },
-                    "dtolist" : { 
-                        "authordto" : "manytomany",
-                        "systemdto" : "onetoone"
-                    }
-            },
-            "systemdto" : { 
-                "command" : { 
-                    "dtolist" : { }
-                }
-            }
-        }
-        }
-
-        callback({},recurseobj(obj, dtotable));  
-    }
-
-    /*
-        empty dtotable from rrr5
-    */
-    exports.rrr6 = rrr6 = function rrr6(params, callback) {   
-        var obj=
-        {"wid":"wid1","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto":{"wid":"1","metadata":{"method":"authordto","authordto": {"type":"onetoone"}},"authordto":{"wid":"3","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto": {"name":"sammysample","wid":"5","metadata":{"method":"authordto"}}}}};
-
-        var dtotable = 
-        {}
-
-        callback({},recurseobj(obj, dtotable));  
-    }
-    
-    /*
-        empty dtotable
-    */
-    exports.rrr7 =  rrr7 = function rrr7(params, callback) {   
-        var obj=
-        {"wid": "songdto", "metadata":{"method":"songdto"},"title": "string","metadata":{"sounddto":{"type": "jsononetoone"}},"sounddto":{"wid": "sounddto"},"sounddto":{"metadata":{"method": "sounddto"}},"sounddto":{"note":"string"}};
-
-        var dtotable = 
-        {}
-
-        callback({},recurseobj(obj, dtotable));  
-    }
-
-// {"title":"string","wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},
-// "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-// "deepdtolist":{"systemdto":"onetoone","sounddto":"onetomany"},
-// "dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}},
-// "sounddto":[{"note":"string","wid":"string","metadata":{"method":"string"},
-// "command":{"inherit":{"defaultsystemactions":"defaultsystemactions"},
-// "deepdtolist":{"systemdto":"onetoone"},"dtolist":{"systemdto":"onetoone"}}}]}
-// {
-//     "title": "string",
-//     "wid": "string",
-//     "metadata": {
-//         "method": "string",
-//         "sounddto": {
-//             "type": "onetomany"
-//         }
-//     },
-//     "command": {
-//         "dtolist": {
-//             "sounddto": "onetomany",
-//             "systemdto": "onetoone"
-//         }
-//     },
-//     "sounddto": [
-//         {
-//             "note": "string",
-//             "wid": "string",
-//             "metadata": {
-//                 "method": "string"
-//             },
-//             "command": {
-//                 "dtolist": {
-//                     "systemdto": "onetoone"
-//                 }
-//             }
-//         }
-//     ]
-// }
