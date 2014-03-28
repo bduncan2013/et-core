@@ -707,35 +707,10 @@
                         "metadata.permissiondto.type": "onetomany"
                         //,
                         //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": [{"userdtodefault":""}, {"userpermissionsdtodefault":""}]
-                        // or 
-                        //"metadata.inherit.default": {"userdtodefault":""}
-                },{
-                        // completeuserdefault
-                        // ovrrider from userdefautl
-                        // override from permissiond defatul
-                        //
-                        // userdefautl
-                        //
-                        // permissindefautkl
-
-                        "executethis": "addwidmaster",
-                        "metadata.method": "userdto",
-                        "wid": "",
-                        "widname": "userdtodefault",
-                        "fname": "1",
-                        "lname": "2",
-                        "phone": "3",
-                        "email": "4",
-                        "address": "5",
-                        "address2": "6",
-                        "city": "7",
-                        "state": "8",
-                        "zip": "9",
-                        "country": "10",
-                        "metadata.securitydto.type": "onetoone",
-                        "metadata.environmentdto.type": "onetoone",
-                        "metadata.permissiondto.type": "onetomany"
+                        //"metadata.inherit.default": "dtodefault"
+                    }], function (err, res) {
+                        cb1(null);
+                    });
                 },
 
                 function (cb1) {
