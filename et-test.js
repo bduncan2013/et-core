@@ -1099,7 +1099,7 @@
 			"metadata.method":"authordto",
 			"name":"string",
 			"age":"string",
-			"metadata.inherit.default.0S":"authordefault"
+			"metadata.inherit.default.0":{"authordefault":"authordto"}
 			},{
 			"executethis":"addwidmaster",
 			"wid":"author1",

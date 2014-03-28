@@ -627,85 +627,85 @@
                             cb(null);
                         }
                     },
-                    function processDefault(cb) {
+                    // function processDefault(cb) {
 
-                        // Sample error  
-                        // throw({'Emeralds': 'make cities'});
+                    //     // Sample error  
+                    //     // throw({'Emeralds': 'make cities'});
 
-                        if (command.getwidmaster.convertmethod !== "donotdefault" && Object.keys(parameterobject).length !== 0 &&
-                            parameterobject.metadata && parameterobject.metadata.inherit && parameterobject.metadata.inherit.default) {
+                    //     if (command.getwidmaster.convertmethod !== "donotdefault" && Object.keys(parameterobject).length !== 0 &&
+                    //         parameterobject.metadata && parameterobject.metadata.inherit && parameterobject.metadata.inherit.default) {
 
-                            proxyprinttodiv("GetWidMongo start processdefault", parameterobject, 38);
-                            // list of defaults to get
-                            var defaults = parameterobject.metadata.inherit.default;
-                            // TODO: Review this delete
-                            delete parameterobject.metadata.inherit;
-                            var defaultData = [];
+                    //         proxyprinttodiv("GetWidMongo start processdefault", parameterobject, 38);
+                    //         // list of defaults to get
+                    //         var defaults = parameterobject.metadata.inherit.default;
+                    //         // TODO: Review this delete
+                    //         delete parameterobject.metadata.inherit;
+                    //         var defaultData = [];
 
-                            // make a seperate getwidmaster call for each default to collect all the default data                        
-                            async.mapSeries(defaults, function (defaultToGet, cbMap) {
-                                // TODO: next tick?
-                                if(isObject(defaultToGet)) {
-                                    defaultToGet = Object.keys(defaultToGet)[0];
-                                }
+                    //         // make a seperate getwidmaster call for each default to collect all the default data                        
+                    //         async.mapSeries(defaults, function (defaultToGet, cbMap) {
+                    //             // TODO: next tick?
+                    //             if(isObject(defaultToGet)) {
+                    //                 defaultToGet = Object.keys(defaultToGet)[0];
+                    //             }
 
-                                execute({
-                                    "executethis": "getwidmaster",
-                                    "wid": defaultToGet, // TODO: test this fix
-                                    "command.getwidmaster.convertmethod": "nowid",
-                                    "command.getwidmaster.dtotype": ""
-                                }, function (err, res) {
-                                    // If error, bounce out
-                                    if (err && Object.keys(err).length > 0) {
-                                        // callback(err, results);
-                                        callback(err, res);
-                                    } else {
-                                        try {
-                                            proxyprinttodiv('In process default got additional default data', res, 38);
-                                            // need 0 check on res
-                                            defaultData.push(res[0]);
-                                            // extend?
-                                            cbMap(null);
-                                        } // end try
-                                        catch (err) {
-                                            var finalobject = createfinalobject({
-                                                "result": "getWidMongo_execute_getwidmaster"
-                                            }, {}, "getWidMongo_execute_getwidmaster", err, res);
-                                            cbMap(finalobject.err, finalobject.res);
-                                        }
-                                    } // end else
-                                });
-                            }, function (err, res) {
-                                if (err && Object.keys(err).length > 0) {
-                                    // callback(err, results);
-                                    callback(err, res);
-                                } else {
-                                    try {
-                                        // iterate over the default data and default the parameterobject with it
-                                        defaultData.forEach(function (element, index, array) {
-                                            proxyprinttodiv("GetWidMongo -- default! --", element, 38);
-                                            // TODO remove these
+                    //             execute({
+                    //                 "executethis": "getwidmaster",
+                    //                 "wid": defaultToGet, // TODO: test this fix
+                    //                 "command.getwidmaster.convertmethod": "nowid",
+                    //                 "command.getwidmaster.dtotype": ""
+                    //             }, function (err, res) {
+                    //                 // If error, bounce out
+                    //                 if (err && Object.keys(err).length > 0) {
+                    //                     // callback(err, results);
+                    //                     callback(err, res);
+                    //                 } else {
+                    //                     try {
+                    //                         proxyprinttodiv('In process default got additional default data', res, 38);
+                    //                         // need 0 check on res
+                    //                         defaultData.push(res[0]);
+                    //                         // extend?
+                    //                         cbMap(null);
+                    //                     } // end try
+                    //                     catch (err) {
+                    //                         var finalobject = createfinalobject({
+                    //                             "result": "getWidMongo_execute_getwidmaster"
+                    //                         }, {}, "getWidMongo_execute_getwidmaster", err, res);
+                    //                         cbMap(finalobject.err, finalobject.res);
+                    //                     }
+                    //                 } // end else
+                    //             });
+                    //         }, function (err, res) {
+                    //             if (err && Object.keys(err).length > 0) {
+                    //                 // callback(err, results);
+                    //                 callback(err, res);
+                    //             } else {
+                    //                 try {
+                    //                     // iterate over the default data and default the parameterobject with it
+                    //                     defaultData.forEach(function (element, index, array) {
+                    //                         proxyprinttodiv("GetWidMongo -- default! --", element, 38);
+                    //                         // TODO remove these
 
-                                            delete element.metadata;
-                                            delete element.wid;
-                                            extend(true, parameterobject, element);
-                                        });
-                                        proxyprinttodiv("GetWidMongo default processing done", parameterobject, 38);
-                                        cb(null);
-                                    } catch (err) {
-                                        var finalobject = createfinalobject({
-                                            "result": "getWidMongo_processdefault_execute_II"
-                                        }, {}, "getWidMongo_processdefault_execute_II", err, res);
-                                        cb(finalobject.err, finalobject.res);
-                                    }
-                                }
-                                // 
-                            }); // end async
-                        } else {
-                            proxyprinttodiv("GetWidMongo no default to process", parameterobject, 38);
-                            cb(null);
-                        }
-                    },
+                    //                         delete element.metadata;
+                    //                         delete element.wid;
+                    //                         extend(true, parameterobject, element);
+                    //                     });
+                    //                     proxyprinttodiv("GetWidMongo default processing done", parameterobject, 38);
+                    //                     cb(null);
+                    //                 } catch (err) {
+                    //                     var finalobject = createfinalobject({
+                    //                         "result": "getWidMongo_processdefault_execute_II"
+                    //                     }, {}, "getWidMongo_processdefault_execute_II", err, res);
+                    //                     cb(finalobject.err, finalobject.res);
+                    //                 }
+                    //             }
+                    //             // 
+                    //         }); // end async
+                    //     } else {
+                    //         proxyprinttodiv("GetWidMongo no default to process", parameterobject, 38);
+                    //         cb(null);
+                    //     }
+                    // },
                     function step2(cb) {
                         if (targetwid != "") {
                             async.series([ // asynch step1n2
