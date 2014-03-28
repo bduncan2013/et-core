@@ -707,9 +707,9 @@
                         "metadata.permissiondto.type": "onetomany"
                         //,
                         //"metadata.inherit.override": "dtooverride",
-                        "metadata.inherit.default": [{"userdtodefault":""}, {"userpermissionsdtodefault":""}]
+                        //"metadata.inherit.default": [{"userdtodefault":""}, {"userpermissionsdtodefault":""}]
                         // or 
-                        "metadata.inherit.default": [{"completeuserdefault":""}]
+                        "metadata.inherit.default": [{"userdtodefault":""}]
                     }], function (err, res) {
                         cb1(null);
                     });
