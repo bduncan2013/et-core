@@ -266,7 +266,10 @@ if (typeof angular !== 'undefined') {
                 extend(true, processParams, urlResultObj.data);
 
                 executeService.executeThis({executethis:'inwid'}, $scope, function (err, inwidResultArr) {
-                    extend(true, processParams, widAppHelper.mergeNestedArray(inwidResultArr));
+                    var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
+                    if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
+
+                    extend(true, processParams, inwidResults);
 
                     if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
 
@@ -771,15 +774,18 @@ exports.getFromAngular = getFromAngular = function getFromAngular(parameters, ca
     var propName = parameters.wid || '',
         modelObj;
 
-    if ($('body').scope) { modelObj = $('body').scope()[propName]; }
+    if ($ && $('body').scope) { modelObj = $('body').scope()[propName]; }
 
     if (modelObj) {
         callback(null, modelObj);
     }
     else {
-        offlinegetfrommongo(parameters, {}, function (err, resultObj) {
-            callback(err, resultObj);
+        offlinegetwid(parameters, function (err, results) {
+            callback(err, results);
         });
+//        offlinegetfrommongo(parameters, {}, function (err, resultObj) {
+//            callback(err, resultObj);
+//        });
     }
 };
 
