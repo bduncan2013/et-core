@@ -2427,8 +2427,8 @@ exports.step1Luke = step1Luke = function step1Luke (params, callback) {
                     "name": "luke's company"
 
                 }
-            ], function (err, res) { 
-                callback(err, res)
+            ], function (err, resultArray) { 
+                callback(err, resultArray)
              });
     }
 
@@ -2441,8 +2441,8 @@ exports.step1Luke = step1Luke = function step1Luke (params, callback) {
                     "metadata.method": "merchantsdto",
                     "merchantdto.name": "joe's company"
                 }
-            ], function (err, res) { 
-                callback(err, res)
+            ], function (err, resultArray) { 
+                callback(err, resultArray)
              });
     }
 
@@ -2455,8 +2455,8 @@ exports.step1Luke = step1Luke = function step1Luke (params, callback) {
                     "metadata.method": "merchantsdto",
                     "merchantdto.name": "bill's company"
                 }
-            ], function (err, res) { 
-                callback(err, res)
+            ], function (err, resultArray) { 
+                callback(err, resultArray)
              });
     }
 
@@ -2469,8 +2469,8 @@ exports.step1Luke = step1Luke = function step1Luke (params, callback) {
                     "metadata.method": "merchantdto",
                     "loyaltydto.name": "bill's loyalty wid"
                 }
-            ], function (err, res) { 
-                callback(err, res)
+            ], function (err, resultArray) { 
+                callback(err, resultArray)
              });
     }
 
@@ -2483,8 +2483,8 @@ exports.step1Luke = step1Luke = function step1Luke (params, callback) {
                     "metadata.method": "merchantdto",
                     "loyaltydto.name": "Joe's loyalty wid"
                 }
-            ], function (err, res) { 
-                callback(err, res)
+            ], function (err, resultArray) { 
+                callback(err, resultArray)
              });
     }
 
@@ -2497,8 +2497,8 @@ exports.step1Luke = step1Luke = function step1Luke (params, callback) {
                     "metadata.method": "merchantdto",
                     "loyaltydto.name": lname
                 }
-            ], function (err, res) { 
-                callback(err, res)
+            ], function (err, resultArray) { 
+                callback(err, resultArray)
              });
     }
 
@@ -2514,8 +2514,8 @@ exports.step1Luke = step1Luke = function step1Luke (params, callback) {
                     "executethis":"getwidmaster",
                     "wid":"nodtowid"
                 }
-            ], function (err, res) { 
-                callback(err, res)
+            ], function (err, resultArray) { 
+                callback(err, resultArray)
              });
     }
 
