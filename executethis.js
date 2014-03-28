@@ -989,6 +989,7 @@
                                                         callback(err, executeobject);
                                                     } else {
                                                         try {
+                                                            var parameters=executeobject.params;
                                                             // always will get something back, even if errorfn...so always execute and store resutls
                                                             proxyprinttodiv("executelist executeobject: ", executeobject, 11);
                                                             proxyprinttodiv("executelist executeobject.params: ", executeobject.params, 11);
