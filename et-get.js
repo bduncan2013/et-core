@@ -570,9 +570,13 @@
                             // make a seperate getwidmaster call for each override to collect all the override data                        
                             async.mapSeries(overrides, function (overrideToGet, cbMap) {
                                 // TODO: next tick?
+                                if(isObject(overrideToGet)) {
+                                    overrideToGet = Object.keys(overrideToGet)[0];
+                                }
+
                                 execute({
                                     "executethis": "getwidmaster",
-                                    "wid": Object.key(overrideToGet)[0], // TODO: test this fix
+                                    "wid": overrideToGet, // TODO: test this fix
                                     "command.getwidmaster.convertmethod": "nowid",
                                     "command.getwidmaster.dtotype": ""
                                 }, function (err, res) {
@@ -1167,13 +1171,14 @@
                             proxyprinttodiv('<<< bigdto.command.inherit.override >>', bigdto.command.inherit.override, 38);
 
                             // we have overrides go ahead and load them up
-                            // if (bigdto.command.inherit.override) {
-                            //     for (var eachkey in bigdto.command.inherit.override) {
-                            //         listToDo.push({
-                            //             "override": bigdto.command.inherit.override[eachkey]
-                            //         });
-                            //     }
-                            // }
+                            if (bigdto.command.inherit.override) {
+                                for (var eachkey in bigdto.command.inherit.override) {
+                                    listToDo.push({
+                                        "override": bigdto.command.inherit.override[eachkey]
+                                    });
+                                }
+                            }
+                            // same with defaults
                             if (bigdto.command.inherit.default) {
                                 for (var eachkey in bigdto.command.inherit.default) {
                                     listToDo.push({
@@ -1236,7 +1241,7 @@
                                                             cbMap(null);
                                                         } // end if
                                                         else { // if no result
-                                                            cbMap(null); 
+                                                            cbMap(null);
                                                         }
                                                     } // end try
                                                     catch (err) {
