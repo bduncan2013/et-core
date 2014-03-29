@@ -130,6 +130,8 @@
                                 }
                             }
 
+                            extend(true, preResults, incomingparams);
+
                             dothisprocessor(preResults, 'midexecute', function (err, midResults) {
                                 // If error, bounce out
                                 if (err && Object.keys(err).length > 0) {
