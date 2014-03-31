@@ -704,7 +704,7 @@
                         "country": "string",
                         "metadata.securitydto.type": "onetoone",
                         "metadata.environmentdto.type": "onetoone",
-                        "metadata.permissiondto.type": "onetomany"
+                        "metadata.permissiondto.type": "onetomany",
                         //,
                         //"metadata.inherit.override": "dtooverride",
                         "metadata.inherit.default.0": {"userdtodefault":"userdto"}
