@@ -728,7 +728,7 @@
                         "metadata.environmentdto.type": "onetoone",
                         "metadata.permissiondto.type": "onetomany"
                     }], function (err, res) {
-                        cb1(res);
+                        cb1(null);
                     });
                 },
 
