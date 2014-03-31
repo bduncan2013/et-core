@@ -707,7 +707,7 @@
                         "metadata.permissiondto.type": "onetomany"
                         //,
                         //"metadata.inherit.override": "dtooverride",
-                        //"metadata.inherit.default": {"userdtodefault":""}
+                        "metadata.inherit.default.0": {"userdtodefault":"userdto"}
                     }, {
                         // Create the userdto
                         "executethis": "addwidmaster",
@@ -728,7 +728,7 @@
                         "metadata.environmentdto.type": "onetoone",
                         "metadata.permissiondto.type": "onetomany"
                     }], function (err, res) {
-                        cb1(null);
+                        cb1(res);
                     });
                 },
 
