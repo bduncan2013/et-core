@@ -611,8 +611,9 @@
                                 dtoobject = {};
                                 dtoobject = recurseobj(obj);
                             }
+                            proxyprinttodiv("getdtoobject after recurseobj dtoobjec I", dtoobject, 38);
                             dtoobject=recursestring(dtoobject)
-                            proxyprinttodiv("getdtoobject output1 AFTER -- dtoobject", dtoobject, 38);
+                            proxyprinttodiv("getdtoobject output1 AFTER -- dtoobject II", dtoobject, 38);
                             proxyprinttodiv("getdtoobject output1 -- dtotable", dtotable, 38);
                             //proxyprinttodiv("getdtoobject output1 -- dtolist", dtolist, 38);
                             callback(null, dtoobject);
@@ -628,8 +629,9 @@
             } else { // if there is no dtoType or obj.wid then call back with a blank dtoObject
                 dtoobject={};
                 dtoobject = recurseobj(obj);
+                proxyprinttodiv("getdtoobject after recurseobj dtoobjec Ib", dtoobject, 38);
                 dtoobject=recursestring(dtoobject)
-                proxyprinttodiv("getdtoobject output2 -- dtoobject", dtoobject, 38);
+                proxyprinttodiv("getdtoobject output2 -- dtoobject IIb", dtoobject, 38);
                 callback(null, dtoobject);
             } // end else
         } // end try
@@ -1427,7 +1429,7 @@
                         delete bigdto.command; // added by joe to delete the command obj so we do not get a blank command object after deep filter
 
                         var wid=resultObj.wid;
-                        var mm=resultObj.metadata.method;
+                        var mm=resultObj.metadata;
 
                         if (listToDo.length > 0 && command && command.getwidmaster && command.getwidmaster.inheritflag === "true") {
                             proxyprinttodiv('the starting value of resultObj', resultObj, 98);
@@ -1465,7 +1467,7 @@
                                                         delete resultObj.command;
                                                         resultObj.wid=wid;
                                                         resultObj.metadata={};
-                                                        resultObj.metadata.method=mm;
+                                                        resultObj.metadata=mm;
 
                                                         proxyprinttodiv('resultObj after special getwidmaster 3', resultObj, 98);
                                                         cbMap(null);

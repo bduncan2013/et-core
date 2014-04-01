@@ -150,15 +150,13 @@
                         var result_obj = {};
                         var output = {};
 
-                        if (!command) {
-                            command = {};
-                        }
-                        if (!command.deepfilter) {
-                            command.deepfilter = {};
-                        }
-                        if (!command.deepfilter.convert) {
-                            command.deepfilter.convert = false;
-                        }
+                        if (!command) { command = {}; }
+
+                        if (!command.deepfilter) { command.deepfilter = {}; }
+
+                        if (!command.deepfilter.keepaddthis) { command.deepfilter.keepaddthis = true; }
+
+                        if (!command.deepfilter.convert) { command.deepfilter.convert = false; }
 
                         output.obj = object;
                         output.dtoobj = dtoobject;
@@ -773,6 +771,9 @@
                 command.deepfilter.convert = true;
 
                 proxyprinttodiv("addwid step2 before to deepfilter object ", object, 17);
+
+                if (!command.deepfilter.keepaddthis) { command.deepfilter.keepaddthis = true; }
+
                 proxyprinttodiv("addwid to deepfilter dto", dtoobject, 17);
                 deepfilter(object, dtoobject, command, function (err, resultobject) {
                     // If error, bounce out
@@ -783,7 +784,6 @@
                         object = resultobject;
                         proxyprinttodiv("addwid result deepfilter object", object, 17);
                         addwid3();
-
                     }
                 });
             }
