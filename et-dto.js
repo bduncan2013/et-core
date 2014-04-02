@@ -884,7 +884,7 @@
                         "metadata.securitydto.type": "onetoone",
                         "metadata.environmentdto.type": "onetoone",
                         "metadata.permissiondto.type": "onetomany",
-                        "metadata.inherit.0.wid": "dtodefault",
+                        "metadata.inherit.0.wid": "userdtodefault",
                         "metadata.inherit.0.command.dtotype": "",
                         "metadata.inherit.0.command.adopt": "default",
                         "metadata.inherit.1.wid": "dtooverride",
@@ -894,7 +894,7 @@
                         // Create the userdto
                         "executethis": "addwidmaster",
                         "metadata.method": "userdto",
-                        "wid": "",
+                        "wid": "userdtodefault",
                         "widname": "userdtodefault",
                         "fname": "1",
                         "lname": "2",
