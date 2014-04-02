@@ -3475,8 +3475,8 @@ function recurseobjcontainer(obj, dtotable, callback) {
             ()
     }
 
-    exports.mongoquery1 = mongoquery1 = function mongoquery1(parameters, callback) { 
-            execute([{
+    exports.mq1 = mq1 = function mq1(parameters, callback) { 
+        execute([{
         "executethis": "querywid",
         "mongorawquery": {
             "$and": [
