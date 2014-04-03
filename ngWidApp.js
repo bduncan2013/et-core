@@ -629,7 +629,7 @@ if (typeof angular !== 'undefined') {
         parameters.command.parameters.eventdata.originatingscreen = widAppHelper.getUrlParam('wid');
 
         // add urlparameters and inwid data to parameters
-        parameters = extend(true, parameters, scope.inwid, scope.urlparameters);
+        parameters = extend(true, scope.inwid, scope.urlparameters, parameters);
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
