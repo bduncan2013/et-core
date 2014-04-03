@@ -46,8 +46,6 @@ if (typeof angular !== 'undefined') {
                 }
             }
 
-            // TODO: try to run addwidmaster call here to keep localStorage sync'd with model
-
             if (callback instanceof Function) { callback(); }
         };
 
@@ -631,7 +629,7 @@ if (typeof angular !== 'undefined') {
         parameters.command.parameters.eventdata.originatingscreen = widAppHelper.getUrlParam('wid');
 
         // add urlparameters and inwid data to parameters
-        parameters = extend(true, parameters, scope.urlparameters, scope.inwid);
+        parameters = extend(true, scope.inwid, scope.urlparameters, parameters);
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
