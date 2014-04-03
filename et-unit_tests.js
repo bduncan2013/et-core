@@ -848,7 +848,7 @@ exports.ettestt6 = ettestt6 = function ettestt6(params, callback) {
 }
 
 exports.ss1 = ss1 = function ss1(params, callback) {
-    proxyprinttodiv('Function ss1 ', '--', 99);
+    proxyprinttodiv('Function ss1 ', '--', 17);
     execute(
         [ 
             {
@@ -2487,9 +2487,9 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
             "wid": "sounddto"
         }],
         function (err, res) {
-            proxyprinttodiv("**Error - Ag1 error result ", err, 99);
+            proxyprinttodiv("**Error - Ag1 error result ", err, 17);
             
-            proxyprinttodiv('Function ag1 result ', res, 99);
+            proxyprinttodiv('Function ag1 result ', res, 17);
             res = logverify("ettestag1_result", res[1], [{
                 "note": "string",
                 "wid": "sounddto",
@@ -2520,7 +2520,7 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
             "wid": "superhero"
         }],
         function (err, res) {
-            proxyprinttodiv('Function ag1 result ', res, 99);
+            proxyprinttodiv('Function ag1 result ', res, 17);
             res = logverify("ettestag1a_result", res[2], {
                 "name": "Nick Fury",
                 "wid": "superhero",
@@ -2775,8 +2775,8 @@ debuglevel=0;
             // saveglobal("debugcat", "");
             // saveglobal("debugsubcat", "");
 
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result ', res[6], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result ', res[6], 17);
 
             res = logverify("ettestag3_result", res[6], [{
                 "title": "Highway to Hell",
@@ -2799,7 +2799,7 @@ debuglevel=0;
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                 proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                 proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
              })
@@ -2845,8 +2845,8 @@ exports.ettestag3b = ettestag3b = function ettestag3b(params, callback) {
    
         function (err, res) {
         
-            proxyprinttodiv('Function ag3 result Full res', res, 99);
-            proxyprinttodiv('Function ag3 result ', res[4], 99);
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result ', res[4], 17);
 
             res = logverify("ettestag3_result", res[4], [{
                 "title": "Highway to Hell",
@@ -2868,7 +2868,7 @@ exports.ettestag3b = ettestag3b = function ettestag3b(params, callback) {
                                           "execute":"ConvertFromDOTdri",
                                           "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             //execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
+                proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
                 callback(err, res); 
                  
             })
@@ -2936,8 +2936,8 @@ exports.ettestag5 = ettestag5 = function ettestag5(params, callback) {
             "wid": "song1"
       }],
       function (err, res) {
-            proxyprinttodiv('Function ag5 result Full res', res, 99);
-            proxyprinttodiv('Function ag5 result ', res[4], 99);
+            proxyprinttodiv('Function ag5 result Full res', res, 17);
+            proxyprinttodiv('Function ag5 result ', res[4], 17);
 
             res = logverify("ettestag5_result", res[4], [{
                 "title": "Highway to Hell",
@@ -2956,7 +2956,7 @@ exports.ettestag5 = ettestag5 = function ettestag5(params, callback) {
  
             execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
                   "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
-                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
+                  proxyprinttodiv('Function ag5 result LAST ', res1, 17); 
                   callback(err, res); 
             });
         });
@@ -2988,8 +2988,8 @@ exports.ettestag6 = ettestag6 = function ettestag6(params, callback) {
             "sounddto.0.note": "C flat"
       }],
       function (err, res) {
-            proxyprinttodiv('Function ag5 result Full res', res, 99);
-            proxyprinttodiv('Function ag5 result ', res[4], 99);
+            proxyprinttodiv('Function ag5 result Full res', res, 17);
+            proxyprinttodiv('Function ag5 result ', res[4], 17);
 
             res = logverify("ettestag5_result", res[4], [{
                 "title": "Highway to Hell",
@@ -3008,7 +3008,7 @@ exports.ettestag6 = ettestag6 = function ettestag6(params, callback) {
  
             execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
                   "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
-                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
+                  proxyprinttodiv('Function ag5 result LAST ', res1, 17); 
                   callback(err, res); 
             });
         });
@@ -3045,13 +3045,13 @@ exports.ettestag7 = ettestag7 = function ettestag7(params, callback) {
             }
 
             // var temp = ConvertToDOTdri(obj);
-            // proxyprinttodiv("ettestag7 converToDot -- DOT --> ", temp, 99);
+            // proxyprinttodiv("ettestag7 converToDot -- DOT --> ", temp, 17);
 
             // temp = ConvertFromDOTdri(obj);
-            // proxyprinttodiv("ettestag7 converFromDot -- JSON --> ", temp, 99);
+            // proxyprinttodiv("ettestag7 converFromDot -- JSON --> ", temp, 17);
             
         getdtoobject(obj, {"dtotype":"defaultdto"}, function (err, res) {
-            proxyprinttodiv("getdtoobject -- RES --> ", res, 99);
+            proxyprinttodiv("getdtoobject -- RES --> ", res, 17);
         });
 }
 
@@ -3076,7 +3076,7 @@ exports.ettestag8 = ettestag8 = function ettestag8(params, callback) {
 
             execute({"executethis":"getwidmaster", "wid":"songdto", "command.getwidmaster.convertmethod":"dto",
                 "command.getwidmaster.execute":"ConvertFromDOTdri"}, function (err, res1) {
-                  proxyprinttodiv('Function ag8 result LAST ', res1, 99); 
+                  proxyprinttodiv('Function ag8 result LAST ', res1, 17); 
                   callback(err, res); 
             });
         });
@@ -3117,8 +3117,8 @@ exports.ettestag9 = ettestag9 = function ettestag9(params, callback) {
             "wid": "song1"
       }],
       function (err, res) {
-            proxyprinttodiv('Function ag5 result Full res', res, 99);
-            proxyprinttodiv('Function ag5 result ', res[3], 99);
+            proxyprinttodiv('Function ag5 result Full res', res, 17);
+            proxyprinttodiv('Function ag5 result ', res[3], 17);
 
             res = logverify("ettestag5_result", res[3], [{
                 "title": "Highway to Hell",
@@ -3137,7 +3137,7 @@ exports.ettestag9 = ettestag9 = function ettestag9(params, callback) {
  
             execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
                   "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
-                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
+                  proxyprinttodiv('Function ag5 result LAST ', res1, 17); 
                   callback(err, res); 
             });
         });
@@ -3178,8 +3178,8 @@ exports.ettestag3a = ettestag3a = function ettestag3a(params, callback) {
             "wid": "song1"
       }],
       function (err, res) {
-            proxyprinttodiv('Function ag5 result Full res', res, 99);
-            proxyprinttodiv('Function ag5 result ', res[2], 99);
+            proxyprinttodiv('Function ag5 result Full res', res, 17);
+            proxyprinttodiv('Function ag5 result ', res[2], 17);
 
             res = logverify("ettestag5_result", res[2], [{
                 "title": "Highway to Hell",
@@ -3198,7 +3198,7 @@ exports.ettestag3a = ettestag3a = function ettestag3a(params, callback) {
  
             execute({"executethis": "getwidmaster","wid": "songdto","command.getwidmaster.convertmethod":"dto",
                   "command.getwidmaster.execute":"ConvertFromDOTdri" }, function (err, res1) {
-                  proxyprinttodiv('Function ag5 result LAST ', res1, 99); 
+                  proxyprinttodiv('Function ag5 result LAST ', res1, 17); 
                   callback(err, res); 
             });
         });
@@ -3279,7 +3279,7 @@ exports.uwid1 = uwid1 = function uwid1(params, callback) {
             "wid": "getexecutetest"
         }],
         function (err, res) {
-            proxyprinttodiv("uwid1 res: ", res, 99);
+            proxyprinttodiv("uwid1 res: ", res, 17);
             // The following will pass...it shows what the getwidmaster returns
             // res = logverify("uwid1", res[1][0], {"addthis.executethis": "func_b", "wid": "getexecutetest", "metadata.method": "testdto"});
 
@@ -3304,7 +3304,7 @@ exports.uwid2 = uwid2 = function uwid2(params, callback) {
             "wid": "getexecutetest"
         }],
         function (err, res) {
-            proxyprinttodiv("uwid2 res: ", res, 99);
+            proxyprinttodiv("uwid2 res: ", res, 17);
             res = logverify("uwid2", res[1][0][0], {"nested.postexecute":"func_b", "nested.nested_again.postexecute":"func_b", "wid":"getexecutetest","metadata.method":"defaultdto","g":"4"});
             callback(err, res);
         });
@@ -4125,7 +4125,7 @@ function func_b33(params, callback) {
 exports.err1 = err1 = function err1 (params, callback) {
     saveglobal("debugsubcat", "code");
     execute({"executethis":"getwidmaster","wid":"1","command":{"parameters":{"test1":"1"},"status":"fail"}}, function(err, result){
-        proxyprinttodiv('Function err1 result ', result, 99);
+        proxyprinttodiv('Function err1 result ', result, 17);
         // debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
     });
 }
@@ -7635,7 +7635,7 @@ exports.executegetwidtest = executegetwidtest = function executegetwidtest(param
       }]
       debuglevel=11;
       execute(executeList, function (err, res) {
-                   proxyprinttodiv('Function executegetwidtest ', res, 99);
+                   proxyprinttodiv('Function executegetwidtest ', res, 17);
             //res = logverify("unit_tests", "getexecutetest", "", res, "", {});
             callback(err, res)
 
@@ -11157,9 +11157,9 @@ function testDeepFilterTests(command, callback){
 					};	
 			*/
 			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-				proxyprinttodiv("after etd16 deepfilter in", inputObj, 99);
-				proxyprinttodiv("after etd16 deepfilter dto", dtoObjOpt, 99);
-				proxyprinttodiv("after etd16 deepfilter res", res, 99);
+				proxyprinttodiv("after etd16 deepfilter in", inputObj, 17);
+				proxyprinttodiv("after etd16 deepfilter dto", dtoObjOpt, 17);
+				proxyprinttodiv("after etd16 deepfilter res", res, 17);
 				cb1(err, res);
 			});
 		}
@@ -11347,9 +11347,9 @@ function testDeepFilterTests(command, callback){
 					};	
 			*/
 			deepfilter(inputObj, dtoObjOpt, command, function (err, res){
-				proxyprinttodiv("after etd16 deepfilter in", inputObj, 99);
-				proxyprinttodiv("after etd16 deepfilter dto", dtoObjOpt, 99);
-				proxyprinttodiv("after etd16 deepfilter res", res, 99);
+				proxyprinttodiv("after etd16 deepfilter in", inputObj, 17);
+				proxyprinttodiv("after etd16 deepfilter dto", dtoObjOpt, 17);
+				proxyprinttodiv("after etd16 deepfilter res", res, 17);
 				cb1(err, res);
 			});
 		}

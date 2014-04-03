@@ -10,11 +10,13 @@
         if (!(inboundparams['command'] && inboundparams['command']['environment'])) {
             environment = {};
             environment['ac'] = '111111111';
-            environment['account'] = ''; //set account to account of ac if no account
-            environment['db'] = 'data';
-            environment['action'] = 'getwid';
-            environment['actiontype'] = 'execute';
-            environment['level'] = 99;
+            environment['mygroup'] = ''; //set account to account of ac if no account
+            environment['myphone'] = '';
+            environment['actiongroup'] = '';
+            environment['dbgroup'] = '';
+            environment['collection'] = '';
+            environment['server'] = '';
+            environment['datastore'] = '';
 
         } else {
             environment = extend(true, environment, inboundparams['command']['environment']);
@@ -24,16 +26,18 @@
             delete inboundparams['command']['environment'];
 
         var accesstoken = environment['ac'];
-        var myaccount = environment['account']; //set account to account of ac if no account
-        var db = environment['db'];
-        var action = environment['action'];
-        var actiontype = environment['actiontype'];
-        var level = environment['level'];
+        var mygroup = environment['mygroup'];
+        var myphone = environment['myphone'];
+        var dbgroup = environment['dbgroup'];
+        var actiongroup = environment['actiongroup'];
+        var collection = environment['collection'];
+        var server = environment['server'];
+        var datastore = environment['datastore'];
 
         if (accesstoken && accesstoken !== '111111111') {
             // actual security check
-            // securitycheck(ac, mygroup(opt), accountgroup, actiongroup, actiontypegroup, dbgroup, level, callback)
-            securitycheck(accesstoken, myaccount, action, actiontype, db, level, callback);
+            // _accesstoken, _mygroup, _myphone, _actiongroup, _dbgroup, _collection, _server, _datastore, 
+            securitycheck(accesstoken, mygroup, myphone, actiongroup, dbgroup, collection, server, datastore, callback);
         } else {
             // fake security check
             callback(null, true);

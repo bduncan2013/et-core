@@ -45,6 +45,9 @@ if (typeof angular !== 'undefined') {
                     }
                 }
             }
+
+            // TODO: try to run addwidmaster call here to keep localStorage sync'd with model
+
             if (callback instanceof Function) { callback(); }
         };
 
@@ -268,6 +271,9 @@ if (typeof angular !== 'undefined') {
                 executeService.executeThis({executethis:'inwid'}, $scope, function (err, inwidResultArr) {
                     var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
                     if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
+
+                    // store inwid data in model
+                    $scope.inwid = inwidResults;
 
                     extend(true, processParams, inwidResults);
 
@@ -545,6 +551,9 @@ if (typeof angular !== 'undefined') {
                     $(ele).attr('processed', 'true');
                 }
             });
+
+            // update screenwid in data model once executes have been processed
+            updateScreenWidModel(screenWid.wid);
         },
 
         processExecute: function(ele, scope, compile) {
@@ -620,6 +629,9 @@ if (typeof angular !== 'undefined') {
         // send calling element and any additional info into the execute process
         parameters.command.parameters.eventdata.element = $('<div>' + ele + '</div>').html();
         parameters.command.parameters.eventdata.originatingscreen = widAppHelper.getUrlParam('wid');
+
+        // add urlparameters and inwid data to parameters
+        parameters = extend(true, parameters, scope.urlparameters, scope.inwid);
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
@@ -783,9 +795,6 @@ exports.getFromAngular = getFromAngular = function getFromAngular(parameters, ca
         offlinegetwid(parameters, function (err, results) {
             callback(err, results);
         });
-//        offlinegetfrommongo(parameters, {}, function (err, resultObj) {
-//            callback(err, resultObj);
-//        });
     }
 };
 
@@ -829,6 +838,19 @@ exports.htmlToScreenwid = htmlToScreenwid = function htmlToScreenwid(screenWidNa
         }
         if (callback instanceof Function) { callback(resultArray); }
     });
+};
+
+exports.updateScreenWidModel = updateScreenWidModel = function updateScreenWidModel(screenWidName) {
+    var newScreenwid = {executethis:'addwidmaster',wid:screenWidName,html:$('body').html()};
+
+    if (widforview) { newScreenwid.widforview = widforview; }
+    if (widforbase) { newScreenwid.widforbase = widforbase; }
+    if (widforbackground) { newScreenwid.widforbackground = widforbackground; }
+    if (dataforview) { newScreenwid.dataforview = JSON.stringify(dataforview); }
+    if (links) { newScreenwid.links = JSON.stringify(links); }
+
+    // update screenwid in the data model
+    addToAngular(screenWidName, newScreenwid);
 };
 
 // calls callback function, passing in all html derived from passed in screenWid object

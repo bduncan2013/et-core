@@ -1617,74 +1617,7 @@
 
 
 
-    exports.st2 = st2 = function st2(parm, callback) {
-
-        // create users
-        // creates wids
-        // we put users and put wids into groups
-
-        // we create actiongroups, targetgroups,
-
-        // we put groups insdie of groups
-        // we add permissions
-        // we test
-        // var status = false;
-        debuglevel = 39;
-
-        async.series([
-                function (cb1) {
-                    // creste schema data
-                    createsystemdtos({}, function (err, res) {
-                        proxyprinttodiv('Function  st2  added schema dtos ', res, 39);
-                        cb1(null);
-                    });
-                },
-                function (cb1) {
-                    // setup user data
-                    createuserdata(function (err, res) {
-                        proxyprinttodiv('Function  st2  added user data ', res, 39);
-                        cb1(null);
-                    });
-                    // },
-                    // function (cb1) {
-                    //     // setup groups data
-                    //     creategroupdata(function (err, res) {
-                    //         proxyprinttodiv('Function  st2  added groups ', res, 39);
-                    //         cb1(null);
-                    //     });
-                    // },
-                    // function (cb1) {
-                    //     // setup permission data
-                    //     createpermissiondata(function (err, res) {
-                    //         proxyprinttodiv('Function  st2  added permissions ', res, 39);
-                    //         cb1(null);
-                    //     });
-                    // },
-                    // function (cb1) {
-                    //     // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
-                    //     testsecurity("codyac", undefined, "getwidmaster", "execute", "data", 99, function (err, res) {
-                    //         proxyprinttodiv('Function  st2 fresh1 testsecurity --  "codyac" execute actiontype  , for action "getwidmaster", for "db"', res, 39);
-                    //         status = res;
-                    //         cb1(null);
-                    //     });
-                    // },
-                    // function (cb1) {
-                    //     // _accesstoken, _mygroup, _actiongroup, _actiontypegroup, _dbgroup, _loginlevel,
-                    //     testsecurity("rogerac", undefined, "addwidmaster", "execute", "data", 99, function (err, res) {
-                    //         proxyprinttodiv('Function  st2 fresh1 testsecurity --  "rogerac" execute actiontype  , for action "addwidmaster", for "db"', res, 39);
-                    //         status = res;
-                    //         cb1(null);
-                    //     });
-                }
-            ],
-
-            function (err, res) {
-                console.log('Function st2 fresh 1 -- add data and test --  ' + JSON.stringify(res));
-
-                callback(err, res === "true");
-            });
-    }
-
+    
 
     exports.gr1 = gr1 = function gr1(parm, callback) {
         var actionCreatorPermissions = [];
