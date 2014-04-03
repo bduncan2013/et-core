@@ -33,20 +33,24 @@
         })
     }
 
+
+    // pre, mid, post tries to combine results
+    // if pre = array (query) then
+
+
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
         try {
             var inboundparms_111 = arguments;
 
-            var result, preError, midError, overallError, commandmultiple;
+            var result, commandmultiple;
 
             // special execute() parameters
             var adopt=null;
             var resultparameters = {};
             var wrapperObject="";
-
-            if((incomingparams.command && incomingparams.command.result)){
-                wrapperObject = incomingparams.command.result;
-            };
+            var executeend;
+            var parametersend;
+            var inarray=[];
 
             // check for execute multiple commands, if passed store and delete from request
 
@@ -61,17 +65,14 @@
             if ((incomingparams && incomingparams.command && incomingparams.command.multiple && incomingparams.command.multiple.parameters)) {
                 proxyprinttodiv("execute - command.multiple ", incomingparams.command.multiple, 37);
                 commandmultiple = incomingparams.command.multiple.parameters;
-                //incomingparams = incomingparams["executethis"]; changed by roger 3/19
                 delete incomingparams.command;
+                // note this might delete needed paramters here in command
             }
-
-            // throw ({'Sample error': 'execute'});
 
             if ((incomingparams instanceof Array)) {
                 proxyprinttodiv("execute - array params received ", incomingparams, 11);
-                //executethismultiple(incomingparams, {}, callback);
-                // ** changed by roger 3/19
                 executethismultiple(incomingparams, commandmultiple, callback);
+
             } else {
 
                 if (incomingparams.command && incomingparams.command.server) {
@@ -88,6 +89,16 @@
                     delete incomingparams.command.parameters;
                 }
 
+                if (incomingparamters.inarray) {
+                    inarray=incomingparamters.inarray;
+                    delete incomingparamters.inarray;
+                }
+
+                if((incomingparams.command && incomingparams.command.result)){
+                    wrapperObject = incomingparams.command.result;
+                    delete incomingparams.command.result;
+                };
+
                 if (incomingparams.command && incomingparams.command.adopt) {
                     adopt = incomingparams.command.adopt
                     delete incomingparams.command.adopt;
@@ -98,40 +109,54 @@
                     delete incomingparams.command.resultparameters;
                 }
 
+                if (incomingparams.command && incomingparams.command.execute) {
+                    executeend = incomingparams.command.execute
+                    delete incomingparams.command.execute;
+                }
+
+                if (incomingparams.command && incomingparams.command.execute && incomingparams.command.execute.parameters) {
+                    parametersend = incomingparams.command.execute.parameters;
+                    delete incomingparams.command.execute.parameters;
+                }
+
                 proxyprinttodiv("execute - inboundparms", incomingparams, 11);
                 proxyprinttodiv("execute - callback fn ", String(callback), 11);
-                //            console.log(' *** test2  ' + JSON.stringify(incomingparams));
-
-                // fix incoming param
-                // if(incomingparams){
-                //  if ((!incomingparams['executethis']) && (Object.keys(incomingparams).length === 1)) {
-                //      incomingparams['executethis'] = incomingparams;
-                //  }
-                // }
 
                 incomingparams['midexecute'] = incomingparams['executethis'];
                 delete incomingparams['executethis'];
-                //            console.log('starting preexecute ' + nonCircularStringify(incomingparams));
                 dothisprocessor(incomingparams, 'preexecute', function (err, preResults) {
                     // If error, bounce out
                     if (err && Object.keys(err).length > 0) {
                         callback(err, preResults);
                     } else {
                         try {
-                            preError = err;
 
                             if (!preResults)
                                 preResults = {};
 
+                            // result will always be array
                             if (Object.prototype.toString.call(preResults) === '[object Array]') {
                                 if (preResults.length > 0) {
                                     preResults = preResults[0];
                                 } else {
-                                    preResults = {};
+                                    // if object then leave it alone, comment line below ###
+                                    //preResults = {};
                                 }
                             }
 
+                            // if (isArray(preResults)) { // query
+                            //    {
+                            //    var temparray = preResults
+                            //    preResults = {};
+                            //    preResults.command = {}
+                            //    preResults.command.parameters = {}
+                            //    preResults.command.parameters.inarray = temparray
+                            //    }
+                            else {
                             extend(true, preResults, incomingparams);
+                            //}
+                            // is it a good idea ot have incomingparams survive
+                            // maybe put incomingparamters inside command.parameters = incomingparams
 
                             dothisprocessor(preResults, 'midexecute', function (err, midResults) {
                                 // If error, bounce out
@@ -139,9 +164,6 @@
                                     callback(err, midResults);
                                 } else {
                                     try {
-                                        midError = err;
-                                        //                    console.log(' after midexecute >> ' + nonCircularStringify(midResults));
-                                        //                    console.log(' after midexecute II >> \n' + JSON.stringify(midResults, '-', 4));
 
                                         proxyprinttodiv("post midexecute -- midResults", midResults, 11);
 
@@ -152,9 +174,15 @@
                                             if (midResults.length > 0) {
                                                 midResults = midResults[0];
                                             } else {
-                                                midResults = {};
+                                                // if object then leave it alone, comment line below ###
+                                                //midResults = {};
                                             }
                                         }
+
+                                        // if (!isArray(preResults)) { // still an array in the case of query
+                                        //extend(true, midResults, incomingparams);
+                                        //}
+                                        // is it a good idea ot have incomingparams survive
 
                                         proxyprinttodiv("end midexecute -- midResults", midResults, 11);
 
@@ -169,26 +197,21 @@
                                                     //     if (postResults.length > 0) {
                                                     //         postResults = postResults[0];
                                                     //     } else {
+                                                    //         if object then leave it alone, comment line below ###
                                                     //         postResults = {};
                                                     //         }
                                                     // }
                                                     if (!postResults)
                                                         postResults = {};
+
                                                     // if command.execute then call execute with command.execute.parameters
-                                                    if ((postResults.command) && (postResults.command.execute)) {
-                                                        var executeobject;
-                                                        if (postResults.command.execute.parameters) {
-                                                            executeobject = postResults.command.execute.parameters;
-                                                            delete postResults.command.execute.parameters;
-                                                        }
-                                                        if (isObject(postResults.command.execute)) {
-                                                            extend(true, executeobject, postResults.command.execute)
-                                                        } else {
-                                                            executeobject['executethis'] = postResults.command.execute;
-                                                        }
-                                                        delete postResults.command.execute;
-                                                        extend(true, executeobject, postResults);
-                                                        execute(executeobject, callback);
+                                                    if (executeend) {
+                                                        if (!parametersend) {parametersend={}}
+                                                        if (!isObject(executeend)) {
+                                                            parametersend['executethis']=executeend
+                                                            }
+                                                        extend(true, parametersend, executeend)
+                                                        execute(parametersend,callback)
 
                                                     } else {
 
@@ -207,13 +230,6 @@
 
                                                         }
 
-                                                        if ((postResults.command) && (postResults.command.result)) { // if command.result then wrap results
-                                                            var resultWrapperObj = {};
-                                                            resultWrapperObj[postResults.command.result] = postResults;
-                                                            postResults = resultWrapperObj;
-                                                            delete postResults.command.result;
-                                                        }
-
                                                         // wrap  if needed to
                                                         if(wrapperObject){
                                                             var json = {};
@@ -228,9 +244,8 @@
                                                             postResults = tempArray;
                                                         }
 
-                                                        overallError = extend(true, preError, midError, err);
                                                         proxyprinttodiv("end postexecute -- postResults", postResults, 11);
-                                                        callback(overallError, postResults);
+                                                        callback(null, postResults);
 
                                                     }
                                                 } // end try
@@ -1056,8 +1071,6 @@
                                                                                                     executeobject.executeflag = false;
                                                                                                 }
                                                                                             }
-
-                                                                                            if ((res) && (res.js)) {executeobject.executeflag = true}
 
                                                                                             // Remove expiration date on return
                                                                                             // ------------------------------------------------

@@ -1987,8 +1987,9 @@
     // *************** DATA ADDITION TEST FUNCTIONS ******************************
     //****************************************************************************
 
+    // test to check if data returns default data inherited
     exports.udata1 = udata1 = function udata1(params, callback) {
-
+        debuglevel = 39;
         // user data
         var userobj = {};
         userobj['wid'] = "testuser";
@@ -2002,34 +2003,28 @@
         environmentobj['collection'] = 'maincollection';
 
         // user permissions data
-        var permissionobj = {
-            "permissiondto.0.level": "99",
-            "permissiondto.0.metadata.collection": "collection1",
-            "permissiondto.0.actiongroupdto.actiongroupname": "getwid",
-            "permissiondto.0.usergroupdto.usergroupname": "driemployees",
-            // // "permissiondto.0.actiongroupdto.metadata.system.creator": "rogeruser",
-            // "permissiondto.0.metadata.system.creator": "rogeruser",
-            // // "permissiondto.0.usergroupdto.metadata.system.creator": "rogeruser",
-            "permissiondto.0.metadata.db": "data1"
-        };
+        var permissionobj = {};
+        // var permissionobj = {
+        //     "permissiondto.0.level": "99",
+        //     "permissiondto.0.metadata.collection": "collection1",
+        //     "permissiondto.0.actiongroupdto.actiongroupname": "getwid",
+        //     "permissiondto.0.usergroupdto.usergroupname": "driemployees",
+        //     "permissiondto.0.metadata.db": "data1"
+        // };
 
         // user usergroups assignment data
         var usergroupobj = {
             "usergroupdto.0.usergroupname": "driemployees",
-            // "usergroupdto.0.metadata.system.creator": "rogeruser",
-            // "usergroupdto.1.metadata.system.creator": "rogeruser",
             "usergroupdto.1.usergroupname": "drimanagers"
         };
 
-        // user actiongroups assignment data
-        var actiongroupobj = {
-            "actiongroupdto.0.actiongroupname": "getwidmaster",
-            // "actiongroupdto.0.metadata.system.creator": "rogeruser",
-            // "actiongroupdto.1.metadata.system.creator": "rogeruser",
-            "actiongroupdto.1.actiongroupname": "addwidmaster",
-            "actiongroupdto.0.actiongroupname": "getwid",
-            // "actiongroupdto.0.metadata.system.creator": "rogeruser"
-        };
+        // user actiongroups assignment data assign default
+        var actiongroupobj = {};
+        // var actiongroupobj = {
+        //     "actiongroupdto.1.actiongroupname": "getwidmaster",
+        //     "actiongroupdto.2.actiongroupname": "addwidmaster",
+        //     "actiongroupdto.1.actiongroupname": "getwid"
+        // };
 
         // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- override
         var overrideobj = {};
@@ -2043,7 +2038,7 @@
         var securityobj = {};
         securityobj['ac'] = "rogerac";
 
-        // what to test security on
+        // // what to test security on
         var check1Set = {};
         check1Set['ac'] = "rogerac";
         check1Set['usergroup'] = null;
@@ -2054,19 +2049,19 @@
         check1Set['collection'] = "collection1";
         check1Set['datastore'] = "dbs";
 
-    var status = false;
+        var status = false;
         async.series([
             function (cb1) {
                 // create schema data
-                createalldtos(parm, function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added schema dtos ', res, 39);
+                createalldtos({}, function (err, res) {
+                    proxyprinttodiv('Function  udata1  added schema dtos ', res, 39);
                     cb1(null);
                 });
             },
             function (cb1) {
                 // create schema data
                 noncriticaldtos(function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added noncriticaldtos ', res, 39);
+                    proxyprinttodiv('Function  udata1  added noncriticaldtos ', res, 39);
                     cb1(null);
                 });
             },
@@ -2075,14 +2070,26 @@
 
                 // setup user data
                 createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added user data ', res, 39);
+                    proxyprinttodiv('Function  udata1  added user data ', res, 39);
                     cb1(null);
                 });
-            }],function(err,res){
-                execute({"executethis":"getwidmaster","wid":userobj.wid},function(err,res){
-                    callback(err,res);
+            },
+            function (cb1) {
+                // check security test 1
+                securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
+                    proxyprinttodiv('Function  udata1  checked security ', res, 39);
+                    status = res;
+                    cb1(null);
                 });
+            }
+        ], function (err, res) {
+            execute({
+                "executethis": "getwidmaster",
+                "wid": userobj.wid
+            }, function (err, res) {
+                callback(err, res);
             });
+        });
     }
 
     // create the defaultgroups 
@@ -2268,7 +2275,7 @@
 
 
 
-    
+
     /// inherit default functionality working (both in data and defination)
     exports.csd1 = csd1 = function csd1(params, callback) {
         debuglevel = 67;
@@ -2346,8 +2353,7 @@
             "executethis": "addwidmaster",
             "metadata.method": "parentdto",
             "wid": "parentwid1",
-            "phone2": "33333333(non-default)"
-            ,
+            "phone2": "33333333(non-default)",
             "metadata.inherit.0.wid": "parentdtooverride",
             "metadata.inherit.0.command.dtotype": "",
             "metadata.inherit.0.command.adopt": "override"
@@ -2368,67 +2374,6 @@
 
     }
 
-    exports.break1 = break1 = function break1(params, callback) {
-        execute([{
-            "executethis": "addwidmaster",
-            "wid": "sounddto",
-            "metadata.method": "sounddto",
-            "note": "string"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "sonddto",
-            "metadata.method": "sonddto",
-            "title": "string",
-            "metadata.sounddto.type": "onetomany"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "rel_sound_to_song",
-            "metadata.method": "relationshipdto",
-            "primarywid": "sonddto",
-            "secondarywid": "sounddto",
-            "primarymethod": "sonddto",
-            "secondarymethod": "sounddto",
-            "linktype": "onetomany",
-            "relationshiptype": "attributes"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "rel_sound_to_song_breaker",
-            "metadata.method": "relationshipdto",
-            "primarywid": "sonddto",
-            "secondarywid": "sounddto",
-            "primarymethod": "sonddto",
-            "secondarymethod": "sounddto",
-            "linktype": "onetomany",
-            "relationshiptype": "attributes"
-        }, {
-            "executethis": "addwidmaster",
-            "wid": "song11",
-            "metadata.method": "sonddto",
-            "title": "Highway to Hell",
-            "sounddto.0.note": "A flat",
-            "sounddto.0.wid": "widnote1",
-            "sounddto.1.note": "B sharp",
-            "sounddto.1.wid": "widnote2",
-            "sounddto.2.note": "C flat",
-            "sounddto.2.wid": "widnote3"
-        }, {
-            "executethis": "getwidmaster",
-            "wid": "song11"
-        }], function (err, res) {
-
-            execute({
-                // create data 
-                "executethis": "getwidmaster",
-                "wid": "song11"
-            }, function (err, res) {
-                proxyprinttodiv('Function break1 -- song11 -- ', song11, 99);
-                callback(err, res);
-            });
-
-        });
-
-
-    }
 
     /*
         to test createalldtos
@@ -2645,254 +2590,4 @@
 
 
 
-
-
-
-
-    exports.tts = tts = function tts(params, callback) {
-        execute([{
-                "executethis": "addwidmaster",
-                "wid": "authordefault",
-                "metadata.method": "authordto",
-                "metadata.bookdto.type": "onetomany",
-                "name": "Alex",
-                "age": "42"
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "bookdefault",
-                "metadata.method": "bookdto",
-                "title": "Haunted Houses"
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "authordto",
-                "metadata.method": "authordto",
-                "name": "string",
-                "age": "string",
-                "metadata.inherit.0": {
-                    "wid": "authordefault",
-                    "command": {
-                        "dtotype": "",
-                        "adopt": "default"
-                    }
-                }
-                //"metadata.inherit.default":[{"widname" : "authordefault"}]
-            }, {
-                "wid": "bookdto",
-                "metadata.method": "bookdto",
-                "title": "string",
-                "metadata.inherit.0": {
-                    "wid": "bookdefault",
-                    "command": {
-                        "dtotype": "",
-                        "adopt": "default"
-                    }
-                }
-                //"metadata.inherit.default":[{"widname" : "bookdefault"}]
-            }, , {
-                "executethis": "addwidmaster",
-                "wid": "author1",
-                "metadata.method": "authordto"
-            }],
-            function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-
-                debuglevel = 38;
-                execute({
-                    "executethis": "getwidmaster",
-                    "wid": "author1"
-                }, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99);
-                    callback(err, res);
-                });
-            });
-    };
-
-
-
-
-
-
-
-
-
-    exports.tts1 = tts1 = function tts1(params, callback) {
-        execute([{
-                "executethis": "addwidmaster",
-                "wid": "authordto",
-                "metadata.method": "authordto",
-                "name": "string",
-                "age": "string",
-                "metadata": {
-                    "inherit.0": {
-                        "wid": "authordefault",
-                        "command": {
-                            "dtotype": "",
-                            "adopt": "default"
-                        }
-                    }
-                }
-
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "bookdto",
-                "title": "string",
-                "metadata": {
-                    "inherit.0": {
-                        "wid": "bookdefault",
-                        "command": {
-                            "dtotype": "",
-                            "adopt": "default"
-                        }
-                    }
-                }
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "rel_author_book",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetomany",
-                "primarywid": "authordto",
-                "primarymethod": "authordto",
-                "secondarywid": "bookdto",
-                "secondarymethod": "bookdto"
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "bookdefault",
-                "metadata.method": "bookdto",
-                "title": "Haunted Houses"
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "authordefault",
-                "metadata.method": "authordto",
-                "name": "Alex",
-                "age": "42"
-
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "author1",
-                "metadata.method": "authordto"
-            }],
-            function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-
-                debuglevel = 0;
-                execute({
-                    "executethis": "getwidmaster",
-                    "wid": "author1"
-                }, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99);
-                    callback(err, res);
-                });
-            });
-    }
-
-    exports.tts2 = tts2 = function tts2(params, callback) {
-        execute([{
-                "executethis": "addwidmaster",
-                "wid": "authordto",
-                "metadata.method": "authordto",
-                "name": "string",
-                "age": "string",
-                "metadata.inherit.0.wid": "authordefault",
-                "metadata.inherit.0.command.dtotype": "",
-                "metadata.inherit.0.command.adopt": "default"
-
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "bookdto",
-                "title": "string",
-                "metadata.inherit.0.wid": "bookdefault",
-                "metadata.inherit.0.command.dtotype": "",
-                "metadata.inherit.0.command.adopt": "default"
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "rel_author_book",
-                "metadata.method": "relationshipdto",
-                "relationshiptype": "attributes",
-                "linktype": "onetomany",
-                "primarywid": "authordto",
-                "primarymethod": "authordto",
-                "secondarywid": "bookdto",
-                "secondarymethod": "bookdto"
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "bookdefault",
-                "metadata.method": "bookdto",
-                "title": "Haunted Houses"
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "authordefault",
-                "metadata.method": "authordto",
-                "name": "Alex",
-                "age": "42"
-
-            }, {
-                "executethis": "addwidmaster",
-                "wid": "author1",
-                "metadata.method": "authordto"
-            }],
-            function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-
-                debuglevel = 0;
-                execute({
-                    "executethis": "getwidmaster",
-                    "wid": "author1"
-                }, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99);
-                    callback(err, res);
-                });
-            });
-    }
-
-    exports.tts2a = tts2a = function tts2a(params, callback) {
-        var a = {
-            "wid": "author1",
-            "command.convertmethod": "nowid",
-            "command.getwidmaster.inheritflag": "false",
-            "command.getwidmaster.execute": "ConvertFromDOTdri",
-            "name": "Alex",
-            "age": "42",
-            "metadata": {
-                "method": "authordto"
-            },
-            "title": "Haunted Houses"
-        };
-
-        var b = sft(a, {})
-
-    }
-
-    exports.sft = sft = function sft(inputObj, dtoObjOpt, command, callback) {
-
-
-
-        console.log("<< in deepfilter >>");
-        var modifiedObj = {};
-        extend(true, modifiedObj, inputObj);
-        console.log("<< extend >>" + JSON.stringify(modifiedObj));
-        proxyprinttodiv("deepfilter inputObj", inputObj, 41);
-        proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
-
-        if (dtoObjOpt) {
-            recurseModObj(modifiedObj, dtoObjOpt, command, function (err, res) {
-                // If error, bounce out
-                if (err && Object.keys(err).length > 0) {
-                    callback(err, res);
-                } else {
-                    proxyprinttodiv("deepfilter result with dtoObjOpt", res, 41);
-                    callback(null, res);
-                }
-            });
-        } else {
-            proxyprinttodiv("deepfilter result without dtoObjOpt", inputObj, 41);
-            callback(null, inputObj);
-        }
-    }
 })(typeof window == "undefined" ? global : window);

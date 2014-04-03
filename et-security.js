@@ -458,29 +458,32 @@
 
         }
 
+        // userJson["permissiondto.0.wid"]={};
         // add permissiondto values from the json object passed in
-        for (var key in permissionobj) {
-            userJson[key] = permissionobj[key];
-        }
-
+        // for (var key in permissionobj) {
+        //     userJson[key] = permissionobj[key];
+        // }
+        
         // add usergroupdto values from the json object passed in
-        for (var key in usergroupobj) {
-            userJson[key] = usergroupobj[key];
-        }
+        // for (var key in usergroupobj) {
+        //     userJson[key] = usergroupobj[key];
+        // }
+
+        // userJson["actiongroupdto.0.wid"]={};
         // add actiongroupdto values from the json object passed in
-        for (var key in actiongroupobj) {
-            userJson[key] = actiongroupobj[key];
-        }
+        // for (var key in actiongroupobj) {
+        //     userJson[key] = actiongroupobj[key];
+        // }
 
         // add environmentdto values from the json object passed in
-        userJson["environmentdto.ac"] = environmentobj.ac;
-        userJson["environmentdto.gps"] = environmentobj.gps;
-        userJson["environmentdto.account"] = environmentobj.account;
-        userJson["environmentdto.db"] = environmentobj.db;
-        userJson["environmentdto.collection"] = environmentobj.collection;
+        // userJson["environmentdto.ac"] = environmentobj.ac;
+        // userJson["environmentdto.gps"] = environmentobj.gps;
+        // userJson["environmentdto.account"] = environmentobj.account;
+        // userJson["environmentdto.db"] = environmentobj.db;
+        // userJson["environmentdto.collection"] = environmentobj.collection;
 
         // add securitydto values from the json object passed in
-        userJson["securitydto.accesstoken"] = securityobj.ac;
+        // userJson["securitydto.accesstoken"] = securityobj.ac;
 
         // create userdto data
         execute(userJson, function (err, res) {
