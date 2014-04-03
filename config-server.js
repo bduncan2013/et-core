@@ -9,35 +9,35 @@ exports.environment = 'server';
 exports.server = 'server1';
 
 
-(function (window) {
+// (function (window) {
 
-    exports.sendsms = sendsms = function sendsms(params, cb) {
-        var callerFrom = '+12312259665'; // Who will this call appear to originate from?
-        // this number MUST be registered with our
-        // twilio account or the call will fail
-        // leave AS-IS or update twilio
+//     exports.sendsms = sendsms = function sendsms(params, cb) {
+//         var callerFrom = '+12312259665'; // Who will this call appear to originate from?
+//         // this number MUST be registered with our
+//         // twilio account or the call will fail
+//         // leave AS-IS or update twilio
 
-        toNumber = params['tonumber'];
-        msgBody = params['msgbody'];
+//         toNumber = params['tonumber'];
+//         msgBody = params['msgbody'];
 
-        // Create (send) an SMS message
-        // POST /2010-04-01/Accounts/ACCOUNT_SID/SMS/Messages
-        // "create" and "update" aliases are in place where appropriate on PUT and POST requests
-        twilio.sms.messages.post({
-                to: toNumber, // '+16515559999',
-                from: callerFrom,
-                body: msgBody // 'word to your mother.'
-            },
-            function (err, text) {
-                // console.log('You sent: '+ text.body);
-                //console.log('Current status of this text message is: '+ text.status);
-                //text = '' || text;
-                //text += ' -- send sms complete';
-                cb(err, text);
-            }
-        );
+//         // Create (send) an SMS message
+//         // POST /2010-04-01/Accounts/ACCOUNT_SID/SMS/Messages
+//         // "create" and "update" aliases are in place where appropriate on PUT and POST requests
+//         twilio.sms.messages.post({
+//                 to: toNumber, // '+16515559999',
+//                 from: callerFrom,
+//                 body: msgBody // 'word to your mother.'
+//             },
+//             function (err, text) {
+//                 // console.log('You sent: '+ text.body);
+//                 //console.log('Current status of this text message is: '+ text.status);
+//                 //text = '' || text;
+//                 //text += ' -- send sms complete';
+//                 cb(err, text);
+//             }
+//         );
 
-    };
+//     };
 
     exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
         //        proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
@@ -357,123 +357,123 @@ function toLowerKeys(obj) {
     return newobj;
 }
 
-var querystring = require('querystring');
-var https = require('https');
-var fs = require('fs');
+// var querystring = require('querystring');
+// var https = require('https');
+// var fs = require('fs');
 
-exports.twilioPassThrough = function (params, callback) {
-    //    proxyprinttodiv('twilioPassThrough started', 99);
+// exports.twilioPassThrough = function (params, callback) {
+//     //    proxyprinttodiv('twilioPassThrough started', 99);
 
-    // Twilio Credentials 
-    var accountSid = 'AC909f1981261f4461abbc7985bd202897';
-    var authToken = '7bb26fabe1f818f11f4a178359e0f19a';
+//     // Twilio Credentials 
+//     var accountSid = 'AC909f1981261f4461abbc7985bd202897';
+//     var authToken = '7bb26fabe1f818f11f4a178359e0f19a';
 
-    // Twilio constants used in all functions
-    var twilioHost = 'api.twilio.com';
-    var twilioApiVersion = '2010-04-01';
-    var twilioPort = 443;
-    var twilioBasePath = '/' + twilioApiVersion + '/Accounts/' + accountSid
-    var callerFrom = '+12312259665'; // Who will this call appear to originate from?
-    // this number MUST be registered with our
-    // twilio account or the call will fail
-    // leave AS-IS or update twilio
+//     // Twilio constants used in all functions
+//     var twilioHost = 'api.twilio.com';
+//     var twilioApiVersion = '2010-04-01';
+//     var twilioPort = 443;
+//     var twilioBasePath = '/' + twilioApiVersion + '/Accounts/' + accountSid
+//     var callerFrom = '+12312259665'; // Who will this call appear to originate from?
+//     // this number MUST be registered with our
+//     // twilio account or the call will fail
+//     // leave AS-IS or update twilio
 
-    // Pull out the parameters from the function
-    var twilioFunction = params['twilioFunction'];
-    var callerTo = params['callNumber'];
-    var messageBody = params['messageBody'];
-
-
-    // Override parameters for testing
-    if (false) {
-        twilioFunction = 'Messages.json';
-        callerTo = '+12313133930';
-        messageBody = 'Hello russ';
-    }
-    var twilioURI = twilioBasePath + '/' + twilioFunction;
-    var callHTML = 'https://' + twilioHost + twilioURI;
-
-    //    proxuprinttodiv('Calling twilio function ' + twilioURI );
-
-    //// Maximum size of the message is 1600 characters
-    //if (messageBody)
-    //{
-    //    messageBody = messageBody.substr(0,1599);
-    //} else {
-    //    // no message body - abort
-    //    console.log('Message body paramter missing.  Aborting function');
-    //    return
-    //}
-
-    //// Build the post data object
-    //var post_data = querystring.stringify({
-    //        'From': callerFrom,
-    //        'To': callerTo,
-    //        'Body': messageBody ,                         
-    //    }
-    //);
-
-    // Pass through the paramters
-    var twilioParameters = params['twilioParameters'];
-    twilioParameters.From = callerFrom;
-    var post_data = querystring.stringify(params['twilioParameters']);
-
-    // Build the post options
-    //    proxyprinttodiv('URI = ' + twilioURI);
-    //    proxyprinttodiv('HOST = ' + twilioHost);
-    var post_options = {
-        host: twilioHost,
-        port: twilioPort,
-        path: twilioURI,
-        method: 'POST',
-        strictSSL: false,
-        secureProtocol: 'SSLv3_client_method',
-        auth: accountSid + ':' + authToken,
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded',
-            'Content-length': post_data.length
-        }
-    };
-
-    // Setup the request
-    var post_request = https.request(post_options, function (res) {
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
-            //            proxyprinttodiv('Response: ' + chunk);
-
-            // assumes response is 1 chunk
-            callback(null, {
-                "test": "success"
-            });
-        });
-    });
-
-    //post the data
-    post_request.write(post_data);
-    post_request.end();
+//     // Pull out the parameters from the function
+//     var twilioFunction = params['twilioFunction'];
+//     var callerTo = params['callNumber'];
+//     var messageBody = params['messageBody'];
 
 
-};
+//     // Override parameters for testing
+//     if (false) {
+//         twilioFunction = 'Messages.json';
+//         callerTo = '+12313133930';
+//         messageBody = 'Hello russ';
+//     }
+//     var twilioURI = twilioBasePath + '/' + twilioFunction;
+//     var callHTML = 'https://' + twilioHost + twilioURI;
 
-// send an SMS to someone
-// - parameters -
-//  To: phone number of who to send message to in +12315551212 format
-//  Body: text of the message to send, max 1600 characters
-exports.sendsms = sendsms = function (params, cb) {
-    var twilioFunction = 'Messages.json';
-    var twilioParameters = {
-        'To': params['To'],
-        'Body': params['Body']
-    }
-    exports.twilioPassThrough({
-            'twilioFunction': twilioFunction,
-            'twilioParameters': twilioParameters
-        },
-        function (err, result) {
-            cb(err, result);
-        }
-    );
-};
+//     //    proxuprinttodiv('Calling twilio function ' + twilioURI );
+
+//     //// Maximum size of the message is 1600 characters
+//     //if (messageBody)
+//     //{
+//     //    messageBody = messageBody.substr(0,1599);
+//     //} else {
+//     //    // no message body - abort
+//     //    console.log('Message body paramter missing.  Aborting function');
+//     //    return
+//     //}
+
+//     //// Build the post data object
+//     //var post_data = querystring.stringify({
+//     //        'From': callerFrom,
+//     //        'To': callerTo,
+//     //        'Body': messageBody ,                         
+//     //    }
+//     //);
+
+//     // Pass through the paramters
+//     var twilioParameters = params['twilioParameters'];
+//     twilioParameters.From = callerFrom;
+//     var post_data = querystring.stringify(params['twilioParameters']);
+
+//     // Build the post options
+//     //    proxyprinttodiv('URI = ' + twilioURI);
+//     //    proxyprinttodiv('HOST = ' + twilioHost);
+//     var post_options = {
+//         host: twilioHost,
+//         port: twilioPort,
+//         path: twilioURI,
+//         method: 'POST',
+//         strictSSL: false,
+//         secureProtocol: 'SSLv3_client_method',
+//         auth: accountSid + ':' + authToken,
+//         headers: {
+//             'Content-type': 'application/x-www-form-urlencoded',
+//             'Content-length': post_data.length
+//         }
+//     };
+
+//     // Setup the request
+//     var post_request = https.request(post_options, function (res) {
+//         res.setEncoding('utf8');
+//         res.on('data', function (chunk) {
+//             //            proxyprinttodiv('Response: ' + chunk);
+
+//             // assumes response is 1 chunk
+//             callback(null, {
+//                 "test": "success"
+//             });
+//         });
+//     });
+
+//     //post the data
+//     post_request.write(post_data);
+//     post_request.end();
+
+
+// };
+
+// // send an SMS to someone
+// // - parameters -
+// //  To: phone number of who to send message to in +12315551212 format
+// //  Body: text of the message to send, max 1600 characters
+// exports.sendsms = sendsms = function (params, cb) {
+//     var twilioFunction = 'Messages.json';
+//     var twilioParameters = {
+//         'To': params['To'],
+//         'Body': params['Body']
+//     }
+//     exports.twilioPassThrough({
+//             'twilioFunction': twilioFunction,
+//             'twilioParameters': twilioParameters
+//         },
+//         function (err, result) {
+//             cb(err, result);
+//         }
+//     );
+// };
 
 //// lets test that function we just created
 //exports.twilioPassThrough( {

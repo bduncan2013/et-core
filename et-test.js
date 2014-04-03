@@ -3474,3 +3474,19 @@ function recurseobjcontainer(obj, dtotable, callback) {
                 )
             ()
     }
+
+    exports.mq1 = mq1 = function mq1(parameters, callback) { 
+        execute([{
+        "executethis": "querywid",
+        "mongorawquery": {
+            "$and": [
+                {
+                    "data.phone": "2312186056"
+                }
+            ]
+        }
+    }],
+        function (err, resultArray) {
+            callback(err, resultArray) 
+            });              
+    }
