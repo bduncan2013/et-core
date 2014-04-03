@@ -1617,7 +1617,7 @@
 
 
 
-    
+
 
     exports.gr1 = gr1 = function gr1(parm, callback) {
         var actionCreatorPermissions = [];
@@ -1750,7 +1750,7 @@
 
         // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- default
         var defaultobj = {};
-        defaultobj['wid'] = 'defaultobjwid';
+        defaultobj['wid'] = 'userdtodefault';
 
         // user security data
         var securityobj = {};
@@ -1869,6 +1869,84 @@
 
     function checkSecurityForData(parm, userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, check1Set, callback) {
         var status = false;
+
+
+        // user data
+        var userobj = {};
+        userobj['wid'] = "rogeruser";
+        userobj['fname'] = "Roger";
+        userobj['lname'] = "Colburn";
+        userobj['phone'] = "987-383-8958";
+        userobj['email'] = "roger@d.com";
+        userobj['address'] = "112";
+        userobj['address2'] = "Donald Lynch Blvd";
+        userobj['city'] = "Marlborough";
+        userobj['state'] = "Massachusetts";
+        userobj['zip'] = "17502";
+        userobj['country'] = "US";
+
+        // environment data
+        var environmentobj = {};
+        environmentobj['ac'] = 'ac';
+        environmentobj['gps'] = 'gpsval';
+        environmentobj['account'] = 'default';
+        environmentobj['db'] = 'data';
+        environmentobj['collection'] = 'maincollection';
+
+        // user permissions data
+        var permissionobj = {
+            "permissiondto.0.level": "99",
+            "permissiondto.0.metadata.collection": "collection1",
+            "permissiondto.0.metadata.system.creator": "rogeruser",
+            "permissiondto.0.actiongroupdto.actiongroupname": "getwid",
+            // "permissiondto.0.actiongroupdto.metadata.system.creator": "rogeruser",
+            "permissiondto.0.usergroupdto.usergroupname": "driemployees",
+            // "permissiondto.0.usergroupdto.metadata.system.creator": "rogeruser",
+            "permissiondto.0.metadata.db": "data1"
+        };
+
+        // user usergroups assignment data
+        var usergroupobj = {
+            "usergroupdto.0.usergroupname": "driemployees",
+            "usergroupdto.0.metadata.system.creator": "rogeruser",
+            "usergroupdto.1.metadata.system.creator": "rogeruser",
+            "usergroupdto.1.usergroupname": "drimanagers"
+        };
+
+        // user actiongroups assignment data
+        var actiongroupobj = {
+            "actiongroupdto.0.actiongroupname": "getwidmaster",
+            "actiongroupdto.0.metadata.system.creator": "rogeruser",
+            "actiongroupdto.1.metadata.system.creator": "rogeruser",
+            "actiongroupdto.1.actiongroupname": "addwidmaster",
+            "actiongroupdto.0.actiongroupname": "getwid",
+            "actiongroupdto.0.metadata.system.creator": "rogeruser"
+        };
+
+        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- override
+        var overrideobj = {};
+        overrideobj['wid'] = 'overridedataobjwid';
+
+        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- default
+        var defaultobj = {};
+        defaultobj['wid'] = 'defaultobjwid';
+
+        // user security data
+        var securityobj = {};
+        securityobj['ac'] = "rogerac";
+
+        // what to test security on
+        var check1Set = {};
+        check1Set['ac'] = "rogerac";
+        check1Set['usergroup'] = null;
+        check1Set['actiongroup'] = "getwidmaster";
+        check1Set['dbgroup'] = "data1";
+        check1Set['phone'] = "9873838958";
+        check1Set['server'] = "server1";
+        check1Set['collection'] = "collection1";
+        check1Set['datastore'] = "dbs";
+
+
         async.series([
             function (cb1) {
                 // create schema data
@@ -1909,8 +1987,103 @@
     // *************** DATA ADDITION TEST FUNCTIONS ******************************
     //****************************************************************************
 
+    exports.udata1 = udata1 = function udata1(params, callback) {
+
+        // user data
+        var userobj = {};
+        userobj['wid'] = "testuser";
+
+        // environment data
+        var environmentobj = {};
+        environmentobj['ac'] = 'ac';
+        environmentobj['gps'] = 'gpsval';
+        environmentobj['account'] = 'default';
+        environmentobj['db'] = 'data';
+        environmentobj['collection'] = 'maincollection';
+
+        // user permissions data
+        var permissionobj = {
+            "permissiondto.0.level": "99",
+            "permissiondto.0.metadata.collection": "collection1",
+            "permissiondto.0.actiongroupdto.actiongroupname": "getwid",
+            "permissiondto.0.usergroupdto.usergroupname": "driemployees",
+            // // "permissiondto.0.actiongroupdto.metadata.system.creator": "rogeruser",
+            // "permissiondto.0.metadata.system.creator": "rogeruser",
+            // // "permissiondto.0.usergroupdto.metadata.system.creator": "rogeruser",
+            "permissiondto.0.metadata.db": "data1"
+        };
+
+        // user usergroups assignment data
+        var usergroupobj = {
+            "usergroupdto.0.usergroupname": "driemployees",
+            // "usergroupdto.0.metadata.system.creator": "rogeruser",
+            // "usergroupdto.1.metadata.system.creator": "rogeruser",
+            "usergroupdto.1.usergroupname": "drimanagers"
+        };
+
+        // user actiongroups assignment data
+        var actiongroupobj = {
+            "actiongroupdto.0.actiongroupname": "getwidmaster",
+            // "actiongroupdto.0.metadata.system.creator": "rogeruser",
+            // "actiongroupdto.1.metadata.system.creator": "rogeruser",
+            "actiongroupdto.1.actiongroupname": "addwidmaster",
+            "actiongroupdto.0.actiongroupname": "getwid",
+            // "actiongroupdto.0.metadata.system.creator": "rogeruser"
+        };
+
+        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- override
+        var overrideobj = {};
+        overrideobj['wid'] = 'overridedataobjwid';
+
+        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- default
+        var defaultobj = {};
+        defaultobj['wid'] = 'defaultuserdto';
+
+        // user security data
+        var securityobj = {};
+        securityobj['ac'] = "rogerac";
+
+        // what to test security on
+        var check1Set = {};
+        check1Set['ac'] = "rogerac";
+        check1Set['usergroup'] = null;
+        check1Set['actiongroup'] = "getwidmaster";
+        check1Set['dbgroup'] = "data1";
+        check1Set['phone'] = "9873838958";
+        check1Set['server'] = "server1";
+        check1Set['collection'] = "collection1";
+        check1Set['datastore'] = "dbs";
+
+    var status = false;
+        async.series([
+            function (cb1) {
+                // create schema data
+                createalldtos(parm, function (err, res) {
+                    proxyprinttodiv('Function  checkSecurityForData  added schema dtos ', res, 39);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create schema data
+                noncriticaldtos(function (err, res) {
+                    proxyprinttodiv('Function  checkSecurityForData  added noncriticaldtos ', res, 39);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
 
 
+                // setup user data
+                createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
+                    proxyprinttodiv('Function  checkSecurityForData  added user data ', res, 39);
+                    cb1(null);
+                });
+            }],function(err,res){
+                execute({"executethis":"getwidmaster","wid":userobj.wid},function(err,res){
+                    callback(err,res);
+                });
+            });
+    }
 
     // create the defaultgroups 
     exports.createdefaultgroups = createdefaultgroups = function createdefaultgroups() {
@@ -2047,66 +2220,6 @@
     }
 
 
-    // test to see if 2nd level data addition is a problems
-    // proves it is not
-    // step wise building schema
-    exports.csd1 = csd1 = function csd1(params, callback) {
-        var executeList = [{
-            // parentdto
-            "executethis": "addwidmaster",
-            "metadata.method": "parentdto",
-            "wid": "parentdto",
-            "phone1": "string",
-            "metadata.childdto.type": "manytomany"
-        }, {
-            // childdto
-            "executethis": "addwidmaster",
-            "metadata.method": "childdto",
-            "wid": "childdto",
-            "phone2": "string",
-            "metadata.grandchilddto.type": "manytomany"
-        }, {
-            // grandchilddto
-            "executethis": "addwidmaster",
-            "metadata.method": "grandchilddto",
-            "wid": "grandchilddto",
-            "phone3": "string"
-        }];
-
-        execute(executeList, function (err, res) {
-            createrelationship("parentdto", "childdto", "manytomany", function (err, res) {
-                createrelationship("childdto", "grandchilddto", "manytomany", function (err, res) {
-                    execute({
-                        // create data 
-                        "executethis": "addwidmaster",
-                        "metadata.method": "parentdto",
-                        "wid": "parentwid1",
-                        "phone1": "11111",
-                        "childdto.0.phone2": "22222",
-                        "childdto.0.grandchilddto.0.phone3": "33333",
-                        "childdto.1.phone2": "2121212121",
-                        "childdto.1.grandchilddto.0.phone3": "3131313131",
-                        "childdto.1.phone2": "211211211211211",
-                        "childdto.1.grandchilddto.0.phone3": "311311311311311",
-                        "childdto.1.grandchilddto.1.phone3": "322322322322322"
-
-                    }, function (err, res) {
-
-                        execute({
-                            // create data 
-                            "executethis": "getwidmaster",
-                            "wid": "parentwid1"
-                        }, function (err, res) {
-                            // proxyprinttodiv('Function csd -- added all this -- ', res, 99);
-                            callback(err, res);
-                        });
-
-                    });
-                });
-            });
-        });
-    }
-
 
     // test to see if 2nd level data addition is a problems
     // proves it is not
@@ -2145,6 +2258,108 @@
                 "wid": "parentwid1"
             }, function (err, res) {
                 // proxyprinttodiv('Function csd -- added all this -- ', res, 99);
+                callback(err, res);
+            });
+
+        });
+
+
+    }
+
+
+
+    
+    /// inherit default functionality working (both in data and defination)
+    exports.csd1 = csd1 = function csd1(params, callback) {
+        debuglevel = 67;
+        execute([{
+            // create default parent data 
+            "executethis": "addwidmaster",
+            "metadata.method": "parentdto",
+            "wid": "parentdtodefault",
+            "phone2": "22222(default)",
+            "phone1": "11111(default)"
+        }, {
+            // create parent data dto defination
+            "executethis": "addwidmaster",
+            "metadata.method": "parentdto",
+            "wid": "parentdto",
+            "phone1": "string",
+            "phone2": "string"
+            // ,
+            // "metadata.inherit.0": {
+            //     "wid": "parentdtodefault",
+            //     "command": {
+            //         "dtotype": "",
+            //         "adopt": "default"
+            //     }
+            // },
+        }, {
+            // create child data 
+            "executethis": "addwidmaster",
+            "metadata.method": "parentdto",
+            "wid": "parentwid1",
+            "phone2": "33333333(non-default)",
+            "metadata.inherit.0.wid": "parentdtodefault",
+            "metadata.inherit.0.command.dtotype": "",
+            "metadata.inherit.0.command.adopt": "default"
+
+        }], function (err, res) {
+
+            execute({
+                // create data 
+                "executethis": "getwidmaster",
+                "wid": "parentwid1"
+            }, function (err, res) {
+                proxyprinttodiv('Function csd1 -- getwidmaster parentwid1 -- ', res, debuglevel);
+                callback(err, res);
+            });
+
+        });
+
+
+    }
+
+    /// inherit override functionality working (both in data and defination)
+    exports.csd2 = csd2 = function csd2(params, callback) {
+        debuglevel = 67;
+        execute([{
+            // create default parent data 
+            "executethis": "addwidmaster",
+            "metadata.method": "parentdto",
+            "wid": "parentdtooverride",
+            "phone2": "22222(override value)",
+            "phone1": "11111(override value)"
+        }, {
+            // create parent data dto defination
+            "executethis": "addwidmaster",
+            "metadata.method": "parentdto",
+            "wid": "parentdto",
+            "phone1": "string",
+            "phone2": "string"
+            // ,
+            // "metadata.inherit.0.wid": "parentdtooverride",
+            // "metadata.inherit.0.command.dtotype": "",
+            // "metadata.inherit.0.command.adopt": "override"
+        }, {
+            // create child data 
+            "executethis": "addwidmaster",
+            "metadata.method": "parentdto",
+            "wid": "parentwid1",
+            "phone2": "33333333(non-default)"
+            ,
+            "metadata.inherit.0.wid": "parentdtooverride",
+            "metadata.inherit.0.command.dtotype": "",
+            "metadata.inherit.0.command.adopt": "override"
+
+        }], function (err, res) {
+
+            execute({
+                // create data 
+                "executethis": "getwidmaster",
+                "wid": "parentwid1"
+            }, function (err, res) {
+                proxyprinttodiv('Function csd1 -- getwidmaster parentwid1 -- ', res, debuglevel);
                 callback(err, res);
             });
 
@@ -2434,18 +2649,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     exports.tts = tts = function tts(params, callback) {
         execute([{
                 "executethis": "addwidmaster",
@@ -2505,19 +2708,6 @@
                 });
             });
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2675,7 +2865,7 @@
             "title": "Haunted Houses"
         };
 
-        var b = sft(a,{})
+        var b = sft(a, {})
 
     }
 
