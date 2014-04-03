@@ -264,7 +264,7 @@ if (typeof angular !== 'undefined') {
             // executeThis will check for screenwids to display
             executeService.executeThis(urlExecuteObj, $scope, function (err, urlResultArr) {
                 var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
-                extend(true, processParams, urlResultObj.data);
+                processParams = extend(true, urlResultObj.data, processParams);
 
                 executeService.executeThis({executethis:'inwid'}, $scope, function (err, inwidResultArr) {
                     var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
@@ -273,7 +273,7 @@ if (typeof angular !== 'undefined') {
                     // store inwid data in model
                     $scope.inwid = inwidResults;
 
-                    extend(true, processParams, inwidResults);
+                    processParams = extend(true, inwidResults, processParams);
 
                     if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
 
