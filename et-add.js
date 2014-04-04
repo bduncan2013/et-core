@@ -67,8 +67,8 @@
                                 callback(err, res);
                             } else {
                                 try {
-                                    res = pack_up_params(res, command, "addwidmaster");
-                                    callback(null, res);
+//                                    res = pack_up_params(res, command, "addwidmaster");
+                                    callback(null, _object);
                                 }
                                 catch (err) {
                                     var finalobject = createfinalobject({"result": "addwidmaster_cleanadd_addwidobject"}, {}, "addwidmaster_cleanadd_addwidobject", err, res);

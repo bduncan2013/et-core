@@ -112,7 +112,7 @@ if (typeof angular !== 'undefined') {
     });
 
     widApp.factory('executeService', function($http, $compile, dataService) {
-        var processExecuteResult = function(result, scope) {
+        var processExecuteResult = function(result, scope, ogWid) {
             if (result.addthis) { result = widAppHelper.removeAddThis(result);}
 
             // if not logged in at this point send browser to login.html
@@ -141,7 +141,7 @@ if (typeof angular !== 'undefined') {
                 angularExecute(executeObj, function (err, returnArray) { });
             }
 
-            dataService.storeData(result, scope, undefined, function (dataset) {
+            dataService.storeData(result, scope, ogWid, function (dataset) {
                 // check if this is a screenwid and needs to be displayed
                 if (dataset.html) {
                     etProcessScreenWid(dataset, scope, function () {
@@ -154,13 +154,15 @@ if (typeof angular !== 'undefined') {
 
         return {
             executeThis: function(parameters, scope, callback) {
+                var ogWid = parameters.wid || undefined;
+
                 execute(parameters, function (err, resultArray) {
                     for (var x = 0; x < resultArray.length; x++) {
                         if (Array.isArray(resultArray[x])) {
                             for (var i = 0; i < resultArray[x].length; i++) {
-                                processExecuteResult(resultArray[x][i], scope);
+                                processExecuteResult(resultArray[x][i], scope, ogWid);
                             }
-                        } else { processExecuteResult(resultArray[x], scope); }
+                        } else { processExecuteResult(resultArray[x], scope, ogWid); }
                     }
 
                     // send array to callback
@@ -264,7 +266,7 @@ if (typeof angular !== 'undefined') {
             // executeThis will check for screenwids to display
             executeService.executeThis(urlExecuteObj, $scope, function (err, urlResultArr) {
                 var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
-                extend(true, processParams, urlResultObj.data);
+                processParams = extend(true, urlResultObj, processParams);
 
                 executeService.executeThis({executethis:'inwid'}, $scope, function (err, inwidResultArr) {
                     var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
@@ -273,7 +275,7 @@ if (typeof angular !== 'undefined') {
                     // store inwid data in model
                     $scope.inwid = inwidResults;
 
-                    extend(true, processParams, inwidResults);
+                    processParams = extend(true, inwidResults, processParams);
 
                     if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
 
@@ -635,7 +637,8 @@ if (typeof angular !== 'undefined') {
             .get('executeService')
             .executeThis(parameters, scope, function (err, resultArray) {
                 if (err && Object.size(err) > 0) {
-                    console.log('error in execute process that was bound using links event binding => ' + JSON.stringify(err));
+                    console.log('error in execute process that was bound using links event binding => ');
+                    console.log(err.error);
                 }
             });
     }
@@ -841,11 +844,11 @@ exports.htmlToScreenwid = htmlToScreenwid = function htmlToScreenwid(screenWidNa
 exports.updateScreenWidModel = updateScreenWidModel = function updateScreenWidModel(screenWidName) {
     var newScreenwid = {executethis:'addwidmaster',wid:screenWidName,html:$('body').html()};
 
-    if (widforview) { newScreenwid.widforview = widforview; }
-    if (widforbase) { newScreenwid.widforbase = widforbase; }
-    if (widforbackground) { newScreenwid.widforbackground = widforbackground; }
-    if (dataforview) { newScreenwid.dataforview = JSON.stringify(dataforview); }
-    if (links) { newScreenwid.links = JSON.stringify(links); }
+    if (typeof widforview !== 'undefined') { newScreenwid.widforview = widforview; }
+    if (typeof widforbase !== 'undefined') { newScreenwid.widforbase = widforbase; }
+    if (typeof widforbackground !== 'undefined') { newScreenwid.widforbackground = widforbackground; }
+    if (typeof dataforview !== 'undefined') { newScreenwid.dataforview = JSON.stringify(dataforview); }
+    if (typeof links !== 'undefined') { newScreenwid.links = JSON.stringify(links); }
 
     // update screenwid in the data model
     addToAngular(screenWidName, newScreenwid);
