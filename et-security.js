@@ -124,13 +124,15 @@
                     // getwidmaster for permissions for the 'owner' 
                     var rawquery1 = {
                         "executethis": "querywid",
+                        "command.result":"queryresult",
                         "mongorawquery": {
                             "metadata.system.creator": actionCreator
                         }
                     };
 
 
-                    execute(rawquery1, function (err, res) {
+                    execute(rawquery1, function (err, res1) {
+                        var res = res1["queryresult"];
                         var arr = res;
                         var obj, jsonKey, dto;
                         if (arr) {
@@ -257,12 +259,14 @@
         execute([{
                 "executethis": "querywid",
                 "mongowid": userobj,
+                "command.result":"queryresult",
                 "mongorelationshiptype": "attributes",
                 "mongorelationshipmethod": grouptype,
                 "mongorelationshipdirection": "forward",
                 "mongowidmethod": grouptype
             }],
-            function (err, res) {
+            function (err, res1) {
+                var res = res1["queryresult"];
                 var arr = res[0];
                 var obj, jsonKey, dto;
 
@@ -315,6 +319,7 @@
             function part1(cb) {
                 var query1 = [{
                     "executethis": "querywid",
+                    "command.result":"queryresult",
                     "mongorawquery": {
                         "data.accesstoken": userac
                     },
@@ -323,7 +328,8 @@
                     "mongorelationshiptype": "attributes"
                 }];
 
-                execute(query1, function (err, res) {
+                execute(query1, function (err, res1) {
+                    var res = res1["queryresult"];
                     proxyprinttodiv('Function getuserbyac query1 -- res', res[0][0], 39);
                     var jsonKey = Object.keys(res[0][0])[0];
                     var jsonVal = res[0][0][jsonKey];
@@ -357,10 +363,12 @@
 
             var command = {
                 "executethis": "querywid",
+                "command.result":"queryresult",
                 "mongorawquery": query
             };
 
-            execute(command, function (err, res) {
+            execute(command, function (err, res1) {
+                var res =  res1["queryresult"];
                 var arr = res;
                 var obj, jsonKey, dtoPermissions;
 
@@ -463,7 +471,7 @@
         // for (var key in permissionobj) {
         //     userJson[key] = permissionobj[key];
         // }
-        
+
         // add usergroupdto values from the json object passed in
         // for (var key in usergroupobj) {
         //     userJson[key] = usergroupobj[key];

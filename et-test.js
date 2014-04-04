@@ -2110,10 +2110,10 @@ exports.testcommanddtotype = testcommanddtotype = function testcommanddtotype(pa
         manytoonesetupdto(params, 0, function (cb2) {
             //debuglevel=17;
             execute(executeobj, function (err, res) {
-                proxyprinttodiv("result from data add ", res, 99, true);
+                proxyprinttodiv("result from data add ", res, 98, true);
                     printlistmany([{"wid":"wid1", "command.dtotype":""}], function (err, res) {  
                         execute({"executethis":"getwidmaster", "wid":"wid1"}, function (err, res) {  
-                        proxyprinttodiv("result from data add ", res, 99, true);
+                        proxyprinttodiv("result from data add ", res, 98, true);
                         callback(err, res);
                         })
                     })
@@ -2139,6 +2139,45 @@ exports.testcommanddtotype = testcommanddtotype = function testcommanddtotype(pa
         var c="c";
         var d="d";
         manytoonesetupdto(params, 0, function (err, res) {
+
+            //parent,   c,  child, d, preamble, dto, getlist
+      addauthorrecord(0,      c,      0, d,   -1,     -1,     2, function (err, res){
+      addauthorrecord(0,      c,      1, d,   0,      -1,     2, function (err, res){
+      addauthorrecord(0,      c,      2, d,   1,      -1,     2, function (err, res){
+      addauthorrecord(0,      c,      3, d,   2,      -1,     2, function (err, res){
+      addauthorrecord(0,      c,      4, d,   3,      -1,     2, function (err, res){
+      addauthorrecord(0,      c,      5, d,   4,      -1,     2, function (err, res){
+      addauthorrecord(0,      c,      6, d,   5,      -1,     2, function (err, res){
+      addauthorrecord(0,      c,      7, d,   6,      -1,     1, function (err, res){
+        callback(err, res);
+      });
+      }); 
+      });
+      });
+      }); 
+      });
+      });
+      });
+    });
+    }
+	
+	/*
+        etaddautoselectwid2
+        let system select child wid names
+        childs DO have preamble
+        do NOT use command.dtotype
+        get each get each child with one parent w/o dto, 
+        get each child with one parent with dto, 
+        get each child by childname w/o dto
+        get each child by childname with dto, 
+        results of this test:
+  */
+  
+  // the output of this function appears to be correct: all wids look good
+    exports.etaddautoselectwid2 = etaddautoselectwid2 = function etaddautoselectwid2(params, callback) {
+        var c="c";
+        var d="d";
+        manytoonesetupdto(params, 1, function (err, res) {
 
             //parent,   c,  child, d, preamble, dto, getlist
       addauthorrecord(0,      c,      0, d,   -1,     -1,     2, function (err, res){
@@ -2599,8 +2638,8 @@ exports.testcommanddtotype = testcommanddtotype = function testcommanddtotype(pa
             ], function (err, res) {
                 proxyprinttodiv('Function authordto result Full res', res, 17);
                 
-                proxyprinttodiv('Function authordto wid1 res[3] ', res[3], 99);
-                proxyprinttodiv('Function authordto wid1 res[4] ', res[4], 99);
+                proxyprinttodiv('Function authordto wid1 res[3] ', res[3], 98);
+                proxyprinttodiv('Function authordto wid1 res[4] ', res[4], 98);
                 
                 var expectedResult = [{"wid":"authordto","metadata.method":"authordto","name":"string"}];
                 proxyprinttodiv('Function authordto expectedResult ', expectedResult, 17);
@@ -2851,10 +2890,10 @@ exports.step1Luke = step1Luke = function step1Luke (params, callback) {
     }
 
     exports.wraptest = wraptest = function wraptest(params, callback) {
-        proxyprinttodiv('Function wraptest ------', params, 99);
+        proxyprinttodiv('Function wraptest ------', params, 98);
 
         execute({"executethis":"ettestag1","command":{"result":"x"}},function(err,res){
-            proxyprinttodiv('Function wraptest result LAST ', res, 99); 
+            proxyprinttodiv('Function wraptest result LAST ', res, 98); 
             callback(err,res);  
         });
         
@@ -2888,7 +2927,7 @@ Function printlistmany output for getwidmaster wid1default with command.dtotype=
 The addbig test (manytoone = last record updates in a one to one) worked
 */
 
-
+/*
 function recurseobjcontainer(obj, dtotable, callback) {
 
             function recursestring(dtoobject) {
@@ -3149,6 +3188,54 @@ function recurseobjcontainer(obj, dtotable, callback) {
         proxyprinttodiv("createdtotabletest result -- dtotable ", dtotable, 38, 99);
         callback(null, dtotable)
     }
+	
+	
+	exports.createdtotabletest2 =  createdtotabletest2 = function createdtotabletest2(params, callback) {  
+        function createdtotable(mm, dtoobject) {                
+			proxyprinttodiv("getdtoobject createdtotable -- dtoobject", dtoobject, 38);
+			proxyprinttodiv("getdtoobject createdtotable -- mm", mm, 38);
+
+			// if we are missing dto object, command, and dtotype create them
+			if(!dtoobject) {
+				dtoobject = {};
+			}
+
+			//if (dtoobject.command.dtolist === undefined) {
+			//proxyprinttodiv("getdtoobject createdtotable -- dtoobject.command.dtolist ", dtoobject.command.dtolist, 38);
+			
+			if ((dtoobject.command) && (dtoobject.command.dtolist) && (Object.keys(dtoobject.command.dtolist).length > 0)) {
+				proxyprinttodiv("getdtoobject dtoobject.command.dtolist -- ", dtoobject.command.dtolist,38);
+				for (var eachparam in dtoobject.command.dtolist) {
+					proxyprinttodiv("getdtoobject createdtotable eachparam -- ", eachparam,38);
+					if (isObject(dtoobject[eachparam])) {
+						createdtotable(eachparam, dtoobject[eachparam]);             
+						dtotable[eachparam] = dtoobject[eachparam]
+						proxyprinttodiv("getdtoobject createdtotable dtoobject[eachparam] -- ", dtoobject[eachparam],38);
+						proxyprinttodiv("getdtoobject createdtotable dtotable -- ", dtotable,38);
+					}
+				}
+			}
+
+			//dtoobject=recursestring(dtoobject);
+
+			if (!dtotable[mm] && Object.keys(dtoobject).length > 0) {
+				dtotable[mm] = dtoobject;
+			}
+			proxyprinttodiv("getdtoobject createdtotable -- dtotable ", dtotable, 38);
+		}
+		
+		
+		
+		debuglevel = 38;
+        var mm = "sonddto";
+        var dtoobject = {"title":"string","sounddto":{"wid":"sounddto","metadata":{"method":"sounddto"},"note":"string"},"wid":"string","metadata":{"method":"string","sounddto":{"type":"onetomany"}},"command":{"inherit":[{"wid":"systemactions","command":{"dtotype":"","adopt":"default"}}],"deepdtolist":{"sounddto":"onetomany","systemdto":"onetoone"},"dtolist":{"sounddto":"onetomany","systemdto":"onetoone"}}};
+        var dtotable = {};
+        
+        createdtotable(mm, dtoobject);  
+        proxyprinttodiv("createdtotabletest result -- dtotable ", dtotable, 38, 99);
+        callback(null, dtotable)
+    }
+	
 
     exports.testcad = testcad = function (params, callback){
 
@@ -3199,7 +3286,7 @@ function recurseobjcontainer(obj, dtotable, callback) {
 
             });
     }
-    //{"command":{},"wid":"string","metadata":{"command":{"dtolist":{"systemdto":"string"}},"method":"string"},"title":"string","sounddto":{"command":{"dtolist":{"systemdto":"string"}},"wid":"string","note":"string"}}
+*/    //{"command":{},"wid":"string","metadata":{"command":{"dtolist":{"systemdto":"string"}},"method":"string"},"title":"string","sounddto":{"command":{"dtolist":{"systemdto":"string"}},"wid":"string","note":"string"}}
 
 
     exports.rrr =  rrr = function rrr(params, callback) { 
@@ -3321,9 +3408,217 @@ function recurseobjcontainer(obj, dtotable, callback) {
         
     */
     exports.rrr5 = rrr5 = function rrr5(params, callback) {   
-        var obj=
-        {"wid":"wid1","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto":{"wid":"1","metadata":{"method":"authordto","authordto": {"type":"onetoone"}},"authordto":{"wid":"3","metadata":{"method":"authordto","authordto":{"type":"onetoone"}},"authordto": {"name":"sammysample","wid":"5","metadata":{"method":"authordto"}}}}};
+        function recurseobjcontainer(obj, dtotable, callback) {
 
+			function recursestring(dtoobject) {
+				for (var eachparam in dtoobject) {
+					if (eachparam!=="command") { 
+						if (isArray(dtoobject[eachparam])) {
+							var tempArray=[];
+							for (var eachitem in dtoobject[eachparam]) {
+								tempArray.push(recursestring(dtoobject[eachparam][eachitem]))
+								}
+							dtoobject[eachparam]=tempArray;
+							} 
+						else {
+							if (isObject(dtoobject[eachparam])) {
+								dtoobject[eachparam]=recursestring(dtoobject[eachparam])
+								}
+							else {
+								dtoobject[eachparam]="string"
+								}
+							}
+					}
+				}
+				return dtoobject
+			}
+			function recurseobj(params) {   
+				proxyprinttodiv("getdtoobject recurseobj -- params", params, 98);
+				var dtolist = {};
+				var dtoobj = {};
+				var metadata = {};
+				var tempobj = {};
+				var inheritlist=[];
+				var inobj = JSON.parse(JSON.stringify(params));
+
+				if (inobj instanceof Array) {         //if we get an array in (usally happens on the recurse)
+					proxyprinttodiv("inobj instanceof array", inobj, 98);
+					var mergedObj = {};
+					var tempArray = [];
+					for (var i in inobj) {
+						// if our array is just a list of strings
+						if (typeof inobj[i] === 'string') {
+							tempArray.push("string");
+						} else {
+							extend(true, mergedObj, recurseobj(inobj[i]));
+						}
+					}
+					// there has to be something in the merge object to push it onto the return
+					if (Object.keys(mergedObj).length > 0) {
+						tempArray.push(mergedObj);
+					}
+
+					proxyprinttodiv("tempArray", tempArray, 98);
+					return tempArray;
+				} else {
+					// the section below improves inobj, 
+					// -it gets command from dtotable if avail
+					// -it creates a dtolist based on type 
+					// - it changes structure of inobj based on type
+
+					if (inobj['metadata']) {
+						dtolist={};
+						metadata = inobj['metadata'];
+						proxyprinttodiv("In getdtoobject recurseobj metadata", metadata, 98);
+						for (var eachitem in metadata) {
+							if (eachitem==='type' || eachitem==='method') {
+								proxyprinttodiv("In getdtoobject recurseobj metadata -- eachitem", eachitem, 98);
+								tempobj = {};
+								if (eachitem==='type') {
+									tempobj[eachitem] = metadata[eachitem]['type'];
+									}
+								if (eachitem==='method') {
+									if (dtotable[metadata.method]) {tempobj = dtotable[metadata.method].command.dtolist}
+								 }
+								if (tempobj) {extend(true, dtolist, tempobj)};
+								// if (eachitem==='method' && dtotable[metadata.method] && 
+								//     dtotable[metadata.method].command && dtotable[metadata.method].command.inherit) {
+								//     proxyprinttodiv("getdtoobject dtotable[metadata.method].command.inherit ", dtotable[metadata.method].command.inherit, 98);
+								//         tempobj = dtotable[metadata.method].command.inherit;
+								//         inheritlist.push(tempobj);
+								//     }
+								proxyprinttodiv("getdtoobject dtolist", dtolist, 98);
+								proxyprinttodiv("In getdtoobject <<< DTOLIST >>>", dtolist, 98);
+								// eachitem would be a child
+								if ((metadata[eachitem]['type'] === "onetomany" ||
+										metadata[eachitem]['type'] === "manytomany" || // ** readded
+										metadata[eachitem]['type'] === "jsononetomany") &&
+									(inobj[eachitem] !== undefined) && (!isArray(inobj[eachitem]))) {
+									relationshipArray = [];
+									relationshipArray.push(inobj[eachitem]);
+									delete inobj[eachitem];
+									inobj[eachitem] = relationshipArray;
+									}                    
+							} // type
+						} // for metadata
+					} // if inobj['metadata'];
+
+					var dtolistdefault = {'systemdto' : 'onetoone'}
+					extend(true, dtolist, dtolistdefault)
+
+								if(!dtoobj.command){
+									dtoobj.command = {};
+								}
+					debuglevel = 98;
+					// section below goes through each property and recurse
+					proxyprinttodiv("getdtoobject createdtotable -- dtotable ", dtotable, 98, true);
+					//proxyprinttodiv("getdtoobject inheritlist", inheritlist, 98);
+					proxyprinttodiv("getdtoobject dtolist", dtolist, 98);
+					proxyprinttodiv("getdtoobject recurseobj -- inobj II", inobj, 98);
+					 for (var eachparm in inobj) {
+						proxyprinttodiv("getdtoobject recurseobj -- eachparm", eachparm, 98);
+						proxyprinttodiv("getdtoobject --is-- switch inobj[eachparm]", inobj[eachparm], 98);
+
+						if (isObject(inobj[eachparm]) || isArray(inobj[eachparm])) {
+							dtoobj[eachparm] = recurseobj(inobj[eachparm]);
+							proxyprinttodiv("getdtoobject --is-- switch inobj[eachparm]", inobj[eachparm], 98);
+							proxyprinttodiv("getdtoobject is obj dtoobj", dtoobj, 98);
+							if (dtotable[eachparm]) { // if table entry exists, then merge to what you just got
+								proxyprinttodiv("getdtoobject is obj dtotable[eachparm]", dtotable[eachparm], 98);
+
+								if (isArray(dtotable[eachparm])) { // get a object copy of dtotable[eachparam] to tempobj
+									tempobj=dtotable[eachparm][0]
+									}
+								else {
+									tempobj=dtotable[eachparm]
+									}
+								proxyprinttodiv("getdtoobject is obj tempobj", tempobj, 98);
+								if (isArray(dtoobj[eachparm])) { // merge it with object dtoobj[eachparm]
+									tempobj = extend(true, dtoobj[eachparm][0], tempobj);
+									}
+								else {
+									tempobj = extend(true, dtoobj[eachparm], tempobj);
+									}
+								proxyprinttodiv("getdtoobject is obj tempobj II", tempobj, 98);
+								if (isArray(dtotable[eachparm])) { // now convert it back to right form
+									dtoobj[eachparm]=[]
+									dtoobj[eachparm].push(tempobj)
+									}
+								else {
+									dtoobj[eachparm]=tempobj
+									}
+								//dtoobj[eachparm]=recursestring(dtoobj[eachparm])
+								proxyprinttodiv("getdtoobject is obj dtoobj.command.dtolist", dtoobj.command.dtolist, 98);
+							}
+						} else { // if not object then 
+							dtoobj[eachparm] = "string";
+							//dtoobj[eachparm]=recursestring(dtoobj[eachparm])
+						}
+						dtoobj[eachparm]=recursestring(dtoobj[eachparm])
+						proxyprinttodiv("getdtoobject is obj dtoobj end--each", dtoobj[eachparm], 98);
+					} // for eachparm
+
+					proxyprinttodiv("getdtoobject is obj inobj", inobj, 98);
+					proxyprinttodiv("getdtoobject is obj dtoobj end", dtoobj, 98);
+
+					if (!dtoobj.command) {dtoobj.command = {}}
+					if (!dtoobj.command.dtolist) {dtoobj.command.dtolist = {}}
+					if (dtolist) {dtoobj.command.dtolist = extend(true, dtoobj.command.dtolist, dtolist)}
+
+					//if (!dtoobj.command.inherit) {dtoobj.command.inherit = []}
+					// if (inheritlist) {
+					//     for (var eachinherit in inheritlist) {
+					//         dtoobj.command.inherit.push(inheritlist[eachinherit])
+					//     }
+					// }
+
+					proxyprinttodiv("In GetDTOObject before return -- we created dto -- :", dtoobj, 98);
+							
+					return dtoobj;
+				} // else
+			} // end fn recurse
+			
+			function createdtotable(mm, dtoobject) {                
+				proxyprinttodiv("getdtoobject createdtotable -- dtoobject", dtoobject, 38);
+				proxyprinttodiv("getdtoobject createdtotable -- mm", mm, 38);
+
+				// if we are missing dto object, command, and dtotype create them
+				if(!dtoobject) {
+					dtoobject = {};
+				}
+
+				//if (dtoobject.command.dtolist === undefined) {
+				//proxyprinttodiv("getdtoobject createdtotable -- dtoobject.command.dtolist ", dtoobject.command.dtolist, 38);
+				
+				if ((dtoobject.command) && (dtoobject.command.dtolist) && (Object.keys(dtoobject.command.dtolist).length > 0)) {
+					proxyprinttodiv("getdtoobject dtoobject.command.dtolist -- ", dtoobject.command.dtolist,38);
+					for (var eachparam in dtoobject.command.dtolist) {
+						proxyprinttodiv("getdtoobject createdtotable eachparam -- ", eachparam,38);
+						if (isObject(dtoobject[eachparam])) {
+							createdtotable(eachparam, dtoobject[eachparam]);             
+							dtotable[eachparam] = dtoobject[eachparam]
+							proxyprinttodiv("getdtoobject createdtotable dtoobject[eachparam] -- ", dtoobject[eachparam],38);
+							proxyprinttodiv("getdtoobject createdtotable dtotable -- ", dtotable,38);
+						}
+					}
+				}
+
+				//dtoobject=recursestring(dtoobject);
+
+				if (!dtotable[mm] && Object.keys(dtoobject).length > 0) {
+					dtotable[mm] = dtoobject;
+				}
+				proxyprinttodiv("getdtoobject createdtotable -- dtotable ", dtotable, 38);
+			}
+			
+			callback({}, recurseobj(obj))
+		}//end fn recurseobjcontainer
+		
+		
+		
+		var obj=    {"wid": "wid1",
+                    "metadata.method": "authordto",
+                    "authordto.authordto.authordto.name":"sammysample"};
         var dtotable = 
         { 
             "authordto" : { 
@@ -3336,12 +3631,6 @@ function recurseobjcontainer(obj, dtotable, callback) {
                     }
                 },
                 "command" : { 
-
-                "inherit":[{"wid":"usergroupoverride","command":{"dtotype":"", "adopt":"override"}},
-                            {"wid":"permissionoverride","command":{"dtotype":"", "adopt":"override"}},
-                            {"wid":"securityoverride","command":{"dtotype":"", "adopt":"override"}},
-                            {"wid":"environmentoverride","command":{"dtotype":"", "adopt":"override"}}],
-
 
                     "deepdtolist" : { 
                         "authordto" : "manytomany",
@@ -3360,6 +3649,7 @@ function recurseobjcontainer(obj, dtotable, callback) {
         }
         }
 
+        obj=ConvertFromDOTdri(obj);
         recurseobjcontainer(obj, dtotable, function (err, res) {
             callback(err, res)
 
@@ -3474,19 +3764,139 @@ function recurseobjcontainer(obj, dtotable, callback) {
                 )
             ()
     }
-
-    exports.mq1 = mq1 = function mq1(parameters, callback) { 
-        execute([{
-        "executethis": "querywid",
-        "mongorawquery": {
-            "$and": [
-                {
-                    "data.phone": "2312186056"
-                }
-            ]
-        }
-    }],
-        function (err, resultArray) {
-            callback(err, resultArray) 
-            });              
-    }
+	
+	/*
+		manytomany test
+	*/
+	exports.manytomanytest = manytomanytest = function manytomanytest(params, callback) {
+		execute([{
+				"executethis": "addwidmaster",
+				"wid": "authordto",
+				"metadata.method": "authordto",
+				"age": "string",
+			}, {
+				"executethis": "addwidmaster",
+				"wid": "bookdto",
+				"metadata.method": "bookdto",
+				"title": "string",
+			}, {
+				"executethis": "addwidmaster",
+				"wid": "rel_author_book",
+				"metadata.method": "relationshipdto",
+				"relationshiptype": "attributes",
+				"linktype": "manytomany",
+				"primarywid": "authordto",
+				"primarymethod": "authordto",
+				"secondarywid": "bookdto",
+				"secondarymethod": "bookdto"
+			}, {
+				"executethis": "addwidmaster",
+				"wid": "author1",
+				"metadata.method": "authordto",
+				"name": "Author1",
+				"bookdto.0.title": "Author1 Book1",
+			}, {
+				"executethis": "addwidmaster",
+				"wid": "author2",
+				"metadata.method": "authordto",
+				"name": "Author2",
+				"bookdto.0.title": "Author2 Book1",
+				"bookdto.1.title": "Author2 Book2"
+			}, {
+				"executethis": "addwidmaster",
+				"wid": "author3",
+				"metadata.method": "authordto",
+				"name": "Author3",
+				"bookdto.0.title": "Author3 Book1",
+				"bookdto.1.title": "Author3 Book2",
+				"bookdto.2.title": "Author3 Book3"
+			}],
+			function (err, res) {
+				proxyprinttodiv("manytomanytest addwidmaster result: ", res, 99);
+				debuglevel = 38;
+				execute([{
+					"executethis": "getwidmaster",
+					"wid": "author1"
+				},{
+					"executethis": "getwidmaster",
+					"wid": "author2"
+				},{
+					"executethis": "getwidmaster",
+					"wid": "author3"
+				}], function (err, res1) {
+					proxyprinttodiv("manytomanytest getwidmaster result: ", res1, 99);
+					callback(err, res1);
+				});
+		});
+	}
+	
+	/*
+		authortoauthor test
+	*/
+	exports.authortoauthortest = authortoauthortest = function authortoauthortest(params, callback) {
+		execute([
+				{
+                    "executethis": "addwidmaster",
+                    "wid": "authordto",
+                    "metadata.method": "authordto",
+                    "name":"string",
+					"metadata.authordto.type": "onetoone"
+                },{ //authordto - authordto
+                    "executethis": "addwidmaster",
+                    "wid": "rel_author_author",
+                    "metadata.method": "relationshipdto",
+                    "relationshiptype": "attributes",
+                    "linktype": "onetoone",
+                    "primarywid": "authordto",
+                    "primarymethod": "authordto",
+                    "secondarywid": "authordto",
+                    "secondarymethod": "authordto"
+                }, {
+                    "executethis": "addwidmaster",
+                    "wid": "wid1",
+                    "metadata.method": "authordto",
+					"name":"author1",
+                    "authordto.authordto.authordto.name":"authortoauthor1"
+                }],
+			function (err, res) {
+				proxyprinttodiv('authortoauthortest addwidmaster result: ', res, 99);
+				
+				debuglevel = 38;
+				execute({
+					"executethis": "getwidmaster",
+					"wid": "wid1"
+				}, function (err, res1) {
+					proxyprinttodiv("authortoauthortest getwidmaster result: ", res1, 99);
+					callback(err, res);
+				});
+		});
+	}
+	
+	/*
+		addwidmaster ex-17-data
+	*/
+	exports.addwidmasterex17data = addwidmasterex17data = function addwidmasterex17data(params, callback) {
+		execute([{
+			"executethis": "addwidmaster",
+			"wid": "ex-17-data",
+			"html": "Wow...here is some HTML from a button click on ex-17-html",
+			"addthis.command.htmltargetid":"putithere"
+		}, {
+			"executethis": "addwidmaster",
+			"wid": "ex-17-data",
+			"html": "Wow...here is some HTML from a button click on ex-17-html",
+			"addthis.command.htmltargetid":"putithere"
+		}, {
+			"executethis": "addwidmaster",
+			"wid": "ex-17-data",
+			"html": "Wow...here is some HTML from a button click on ex-17-html",
+			"addthis.command.htmltargetid":"putithere"
+		}, {
+			"executethis": "getwidmaster",
+			"wid": "ex-17-data"
+		}
+		], function (err, res1) {
+			proxyprinttodiv("addwidmasterex17data result: ", res1, 99);
+			callback(err, res1);
+		});
+	}

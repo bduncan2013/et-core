@@ -587,8 +587,10 @@ exports.getselectedwid = getselectedwid = function getselectedwid(inputWidgetObj
 }
 
 exports.generatechildren = generatechildren = function generatechildren(inputWidgetObject, callback) {
+
     var querylist = [{
         "executethis": "querywid",
+        "command.results" : "queryresult",
         "rawmongoquery": {
             "$or": [{
                 "primarywid": inputWidgetObject["wid"]
@@ -596,7 +598,8 @@ exports.generatechildren = generatechildren = function generatechildren(inputWid
         }
     }];
     execute(querylist, function (err, res) {
-        callback(res);
+
+        callback(res['queryresult']);
     });
 }
 

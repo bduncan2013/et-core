@@ -2486,11 +2486,12 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
             "executethis": "getwidmaster",
             "wid": "sounddto"
         }],
-        function (err, res) {
+        function (err, res1) {
+            var res = res1[1];
             proxyprinttodiv("**Error - Ag1 error result ", err, 17);
             
             proxyprinttodiv('Function ag1 result ', res, 17);
-            res = logverify("ettestag1_result", res[1], [{
+            res = logverify("ettestag1_result", res, [{
                 "note": "string",
                 "wid": "sounddto",
                 "metadata.method": "sounddto"
@@ -7558,13 +7559,15 @@ exports.etmttest4 = etmttest4 = function etmttest4(params, callback) {
       if (mongorawquerytests) {
             var queryList = [{
                   "executethis": "querywid",
+                  "command.results":"queryresult",
                   "mongorawquery": '{"$or": [{ "wid": "color1" }]}'
 
 
 
 
             }];
-            execute(queryList, function (err, res) {
+            execute(queryList, function (err, res1) {
+                var res =  res1["queryresult"];  
                 console.log(' >>> final response after queryList >>> ' + JSON.stringify(res));
 				  
 				proxyprinttodiv("res --", res, 17);
@@ -7588,11 +7591,13 @@ exports.etmttest4 = etmttest4 = function etmttest4(params, callback) {
             var queryList = [{
                   "executethis": "querywid",
                   "mongosinglequery": "color7",
+                  "command.results" :"queryresult"
                   //"relationshipdirection": "forward",
                   //"relationshiptype": "attributes",
                   //"relationshipmethod": "first"
             }];
-            execute(queryList, function (err, res) {
+            execute(queryList, function (err, res1) {
+                  var res = res1["queryresult"];
                   console.log(' >>> final response after queryList >>> ' + JSON.stringify(res));
             });
       }
@@ -7645,11 +7650,11 @@ exports.executegetwidtest = executegetwidtest = function executegetwidtest(param
 
 
 exports.qw1 = qw1 = function (params, callback) {
-      var q = '[{"dtotype":"","convertmethod":"","mongowidmethod":"","mongorelationshipdirection":"forward","mongorelationshipmethod":"all","mongorelationshiptype":"attributes"}]';
+      var q = '[{"dtotype":"","convertmethod":"","mongowidmethod":"","command.results":"queryresult","mongorelationshipdirection":"forward","mongorelationshipmethod":"all","mongorelationshiptype":"attributes"}]';
       var qJson = JSON.parse(q);
 
-      querywid(qJson, function (err, res) {
-
+      querywid(qJson, function (err, res1) {
+            var res = res1["queryresult"];
             console.log(' >>> final response after querywid >>> ' + JSON.stringify(res));
 
             res = logverify("unit_tests", "testqw1_result", "", res[0], "", {});
@@ -7659,7 +7664,7 @@ exports.qw1 = qw1 = function (params, callback) {
 }
 
 exports.qw2 = qw2 = function (params, callback) {
-      var q = '{"mongorawquery":{"wid":"wid1","mongorelationshiptype":"x"}}';
+      var q = '{"mongorawquery":{"wid":"wid1","command.results": "queryresult","mongorelationshiptype":"x"}}';
       var qJson = JSON.parse(q);
 
       var executeList = [{
@@ -7667,7 +7672,8 @@ exports.qw2 = qw2 = function (params, callback) {
             "wid": "wid1"
       }];
       execute(executeList, function (err, res) {
-            querywid(qJson, function (err, res) {
+            querywid(qJson, function (err, res1) {
+                  var res = res1["queryresult"];
                   console.log(' >>> final response after querywid >>> ' + JSON.stringify(res[0][0]));
                   res = logverify("unit_tests", "testqw2_result", "", res[0], "", {});
                   callback(err, res)
@@ -7863,12 +7869,14 @@ exports.mts1 = mts1 = function mts1(params, callback) {
             // build execute array for testing query wid
             executeObj = {};
             executeObj["executethis"] = "querywid";
+            executeObj["command.results"] = "queryresult";
             executeObj["mongorawquery"] = '{"$and":[{"data.primarywid":"song1","data.secondarywid":"4"}]}';
             executeList = [];
             executeList.push(executeObj);
 
             // Execute our query wid test
-            execute(executeList, function (err, res) {
+            execute(executeList, function (err, res1) {
+                  var res = res1["queryresult"];
                   proxyprinttodiv('Function mttest II', res, 17);
             });
             //});
@@ -7915,12 +7923,14 @@ exports.mts2 = mts2 = function mts2(params, callback) {
                   // build execute array for testing query wid
                   executeObj = {};
                   executeObj["executethis"] = "querywid";
+                  executeObj["command.results"] = "queryresult";
                   executeObj["mongorawquery"] = '{"$or":[{"data.a":"string"}]}';
                   executeList = [];
                   executeList.push(executeObj);
 
                   // Execute our query wid test
-                  execute(executeList, function (err, res) {
+                  execute(executeList, function (err, res1) {
+                        var res = res1["queryresult"];
                         alert(JSON.stringify(res));
                         colorTrace('res after executerray querywid: ' + JSON.stringify(res), "blue");
                   });
@@ -8102,10 +8112,12 @@ exports.etmttest1 = etmttest1 = function etmttest1(params, callback) {
 
             var executeObj = {};
             executeObj["executethis"] = "querywid";
+            executeObj["command.results"] = "queryresult";
             executeObj["mongorawquery"] = '{"$or":[{"data.a":"string"}]}';
             executeList.push(executeObj);
 
-            execute(executeList, function (err, res) {
+            execute(executeList, function (err, res1) {
+                  var res = res1["queryresult"];
                   console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
 
                   var expectedResultArray = [];
@@ -8412,6 +8424,7 @@ exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
       executeList = [];
       var executeList = [{
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "red"
@@ -8419,6 +8432,7 @@ exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "green"
@@ -8426,6 +8440,7 @@ exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "blue"
@@ -8433,6 +8448,7 @@ exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "cyan"
@@ -8440,6 +8456,7 @@ exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "magenta"
@@ -8447,6 +8464,7 @@ exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "yellow"
@@ -8454,6 +8472,7 @@ exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "black"
@@ -8461,8 +8480,8 @@ exports.etmttest3 = etmttest3 = function etmttest3(params, callback) {
             }
       }];
       proxyprinttodiv("execute list for query", executeList, 17);
-      execute(executeList, function (err, res) {
-
+      execute(executeList, function (err, res1) {
+            var res = res1["queryresult"];
 		//Query Expected Result List
 		  expectedResultList = [
 				[{
@@ -8579,6 +8598,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
       //Query List
       var querylist = [{
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "string"
@@ -8586,6 +8606,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "green"
@@ -8595,6 +8616,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "blue"
@@ -8602,6 +8624,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "yellow"
@@ -8611,6 +8634,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "sat": "cyan-sat"
@@ -8622,6 +8646,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "red"
@@ -8639,6 +8664,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "magenta"
@@ -8658,6 +8684,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "magenta"
@@ -8669,6 +8696,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "magenta"
@@ -8680,6 +8708,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "magenta"
@@ -8695,6 +8724,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "red"
@@ -8706,6 +8736,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "magenta"
@@ -8721,6 +8752,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "blue"
@@ -8738,6 +8770,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "yellow"
@@ -8755,6 +8788,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$or": [{
                         "hue": "green"
@@ -8778,6 +8812,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "magenta"
@@ -8801,6 +8836,7 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
             }
       }, {
             "executethis": "querywid",
+            "command.results": "queryresult",
             "rawmongoquery": {
                   "$and": [{
                         "hue": "cyan"
@@ -8945,7 +8981,8 @@ exports.etmttest333 = etmttest333 = function etmttest333(params, callback) {
                   "sat": "cyan-sat"
             }]
       ];
-      execute([addlist, querylist], function (err, res) {
+      execute([addlist, querylist], function (err, res1) {
+            var res = res1["queryresult"]
             proxyprinttodiv("res --", res, 17);
 			var actual_result = res[0];
 			proxyprinttodiv("actual_result --", actual_result, 17);							  
@@ -9077,6 +9114,7 @@ exports.mt3 = mt3 = function mt3(params, callback) {
 
       x[12] = {
             "executethis": "querywid",
+            "command.results":"queryresult",
             "mongowid": "songdtodata",
             "mongorelationshiptype": "attributes",
             "mongorelationshipmethod": "songdto",
@@ -9595,9 +9633,10 @@ exports.etd11 = etd11 = function etd11(params, callback) {
             },
             function step2(cb2){    //5 (b)
                   var executeList = [
-                        { "executethis": "querywid", "mongorawquery": '{"$or": [{ "data.a": "b" }]}'}
+                        { "executethis": "querywid","command.results":"queryresult", "mongorawquery": '{"$or": [{ "data.a": "b" }]}'}
                   ];
-                  execute(executeList, function (err, res) {
+                  execute(executeList, function (err, res1) {
+                        var res = res1["queryresult"];
                         //proxyprinttodiv("mongo query result ", res, 17);
                         cb2(null);
                   });

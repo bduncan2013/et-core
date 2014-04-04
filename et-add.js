@@ -150,13 +150,15 @@
                         var result_obj = {};
                         var output = {};
 
-                        if (!command) { command = {}; }
-
-                        if (!command.deepfilter) { command.deepfilter = {}; }
-
-                        if (!command.deepfilter.keepaddthis) { command.deepfilter.keepaddthis = true; }
-
-                        if (!command.deepfilter.convert) { command.deepfilter.convert = false; }
+                        if (!command) {
+                            command = {};
+                        }
+                        if (!command.deepfilter) {
+                            command.deepfilter = {};
+                        }
+                        if (!command.deepfilter.convert) {
+                            command.deepfilter.convert = false;
+                        }
 
                         output.obj = object;
                         output.dtoobj = dtoobject;
@@ -532,8 +534,10 @@
                                         }]
                                     };
                                 }
-                                execute(executeobject, function (err, widset) {
+                                execute(executeobject, function (err, widset1) {
                                     // If error, bounce out
+                                    var widset=widset1[0]['querywid'];
+                                    if (!widset) {widset=[]}
                                     if (err && Object.keys(err).length > 0) {
                                         step1_callback(err, widset);
                                     } else {
@@ -771,9 +775,6 @@
                 command.deepfilter.convert = true;
 
                 proxyprinttodiv("addwid step2 before to deepfilter object ", object, 17);
-
-                if (!command.deepfilter.keepaddthis) { command.deepfilter.keepaddthis = true; }
-
                 proxyprinttodiv("addwid to deepfilter dto", dtoobject, 17);
                 deepfilter(object, dtoobject, command, function (err, resultobject) {
                     // If error, bounce out
@@ -784,6 +785,7 @@
                         object = resultobject;
                         proxyprinttodiv("addwid result deepfilter object", object, 17);
                         addwid3();
+
                     }
                 });
             }

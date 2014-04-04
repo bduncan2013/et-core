@@ -348,9 +348,9 @@
                         "metadata.method": "userdto",
 
                         // relationships
-                        // "metadata.securitydto.type": "onetoone",
-                        // "metadata.environmentdto.type": "onetoone",
-                        // "metadata.usergroupdto.type": "onetomany",
+                        "metadata.securitydto.type": "onetoone",
+                        "metadata.environmentdto.type": "onetoone",
+                        "metadata.usergroupdto.type": "onetomany",
 
                         // securitydto
                         "securitydto.accesstoken": "rogerac",
