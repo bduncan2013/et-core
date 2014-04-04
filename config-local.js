@@ -111,36 +111,36 @@ exports.processevent = processevent = function processevent(eventname, callback)
         if (executelist.length > 0) {
             execute(executelist, function (err, res) {
                 markasdone(executelist, function (err, res) {
-                    callback(err, res)
+                    callback(err, res);
                 })
             })
         }
-        else {callback(null, {})}
+        else {callback(null, {});}
     })
-}
+};
 
 exports.getexecutelist = getexecutelist = function getexecutelist(eventname, callback) {
     var executeobject = 
-    executeobject = {"command":{"result":"queryresult"}}
-    executeobject.command.collection="queuecollection"
-    executeobject.command.db="queuedata"
+    executeobject = {"command":{"result":"queryresult"}};
+    executeobject.command.collection="queuecollection";
+    executeobject.command.db="queuedata";
     executeobject["executethis"] = "querywid";
     executeobject["mongorawquery"] = {
         "$and": [{
-            "metadata": eventname,
+            "metadata": eventname
         }]
     };
         execute(executeobject, function (err, executelist) {
             if (executelist.length === 0) {
-                executelist=[]
-                }
-            callback(null, executelist)
+                executelist=[];
+            }
+            callback(null, executelist);
         })
-    }
+    };
 
     exports.markasdone = markasdone = function markasdone(parms, callback) {
 
-    }
+    };
 
 // exports.bootprocess = bootprocess = function bootprocess() {
 //     if (Object.keys(config).length === 0) {
