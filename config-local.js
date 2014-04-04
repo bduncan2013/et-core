@@ -122,9 +122,9 @@ exports.processevent = processevent = function processevent(eventname, callback)
                 })
             })
         }
-        else {callback(null, {})}
+        else {callback(null, {});}
     })
-}
+};
 
 exports.geteventlist = geteventlist = function geteventlist(eventname, callback) {
     var executeobject = 
@@ -135,16 +135,16 @@ exports.geteventlist = geteventlist = function geteventlist(eventname, callback)
     executeobject["executethis"] = "querywid";
     executeobject["mongorawquery"] = { 
         "$and": [{
-            "metadata": eventname,
+            "metadata": eventname
         }]
     };
-        execute(executeobject, function (err, eventlist) {
-            if (eventlist.length === 0) {
-                eventlist=[]
-                }
-            callback(null, eventlist)
+        execute(executeobject, function (err, executelist) {
+            if (executelist.length === 0) {
+                executelist=[];
+            }
+            callback(null, executelist);
         })
-    }
+    };
 
     exports.markasdone = markasdone = function markasdone(widlist, callback) {
         var executelist=[];
