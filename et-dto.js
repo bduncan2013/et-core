@@ -60,126 +60,136 @@
                         "wid": "executeactiondto",
                         "metadata.method": "executeactiondto",
                         "metadata.actiongroupdto.type": "manytoone",
-                        "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.actiondto.type": "onetoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the getactiondto
                         "executethis": "addwidmaster",
                         "wid": "getactiondto",
                         "metadata.method": "getactiondto",
                         "metadata.actiongroupdto.type": "manytoone",
-                        "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.actiondto.type": "onetoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the editactiondto
                         "executethis": "addwidmaster",
                         "wid": "editactiondto",
                         "metadata.method": "editactiondto",
                         "metadata.actiongroupdto.type": "manytoone",
-                        "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.actiondto.type": "onetoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the addactiondto
                         "executethis": "addwidmaster",
                         "wid": "addactiondto",
                         "metadata.method": "addactiondto",
                         "metadata.actiongroupdto.type": "manytoone",
-                        "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.actiondto.type": "onetoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the deleteactiondto
                         "executethis": "addwidmaster",
                         "wid": "deleteactiondto",
                         "metadata.method": "deleteactiondto",
                         "metadata.actiongroupdto.type": "manytoone",
-                        "metadata.actiondto.type": "onetoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.actiondto.type": "onetoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // securitydatadto
                         "executethis": "addwidmaster",
                         "wid": "securitydatadto",
                         "metadata.method": "securitydatadto",
-                        "ac": "string",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "ac": "string"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the offlineactiondto
                         "executethis": "addwidmaster",
                         "wid": "offlineactiondto",
                         "metadata.method": "offlineactiondto",
-                        "metadata.executedto.type": "manytoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.executedto.type": "manytoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the onlineactiondto
                         "executethis": "addwidmaster",
                         "wid": "onlineactiondto",
                         "metadata.method": "onlineactiondto",
-                        "metadata.executedto.type": "manytoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.executedto.type": "manytoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the localactiondto
                         "executethis": "addwidmaster",
                         "wid": "localactiondto",
                         "metadata.method": "localactiondto",
                         "metadata.onlineaction.type": "manytoone",
-                        "metadata.offlineaction.type": "manytoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.offlineaction.type": "manytoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the serveractiondto
                         "executethis": "addwidmaster",
                         "wid": "serveractiondto",
                         "metadata.method": "serveractiondto",
-                        "metadata.serveractiondto.type": "manytoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.serveractiondto.type": "manytoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the actiondto
                         "executethis": "addwidmaster",
@@ -195,13 +205,13 @@
                         //"offlineonline":"string",
                         //"localserver":"string",
                         //"oncreate":"string",
-                        ,
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the environmentdto
                         "executethis": "addwidmaster",
@@ -211,13 +221,14 @@
                         "gps": "string",
                         "account": "string",
                         "db": "string",
-                        "collection": "string",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "collection": "string"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the securitydto
                         "executethis": "addwidmaster",
@@ -225,26 +236,28 @@
                         "wid": "securitydto",
                         "accesstoken": "string",
                         //"status": "integer"
-                        "status": "string",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "status": "string"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the groupdto      
                         "executethis": "addwidmaster",
                         "wid": "groupdto",
                         "metadata.method": "groupdto",
                         "groupname": "string",
-                        "metadata.groupdto.type": "onetomany",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.groupdto.type": "onetomany"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the actiongroupdto        
                         "executethis": "addwidmaster",
@@ -271,13 +284,14 @@
                         "wid": "usergroupdto",
                         "metadata.method": "usergroupdto",
                         // "metadata.userdto.type": "manytomany",
-                        "usergroupname": "string",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "usergroupname": "string"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the permissiondto     
                         "executethis": "addwidmaster",
@@ -370,6 +384,7 @@
                         "permissiondto.level": "99",
                         "permissiondto.metadata.collection": "collection1",
                         "permissiondto.metadata.db": "data1",
+                        // ,
                         // "permissiondto.0.metadata.inherit.0.wid": "userdtodefault",
                         // "permissiondto.0.metadata.inherit.0.command.dtotype": "",
                         // "permissiondto.0.metadata.inherit.0.command.adopt": "default",
@@ -414,13 +429,14 @@
                         "country": "string",
                         "metadata.securitydto.type": "onetoone",
                         "metadata.environmentdto.type": "onetoone",
-                        "metadata.permissiondto.type": "onetomany",
-                        "metadata.inherit.0.wid": "userdtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.permissiondto.type": "onetomany"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }], function (err, res) {
                         cb1(null);
                     });
@@ -620,37 +636,40 @@
                         "executethis": "addwidmaster",
                         "wid": "viewdto",
                         "metadata.method": "viewdto",
-                        "html": "string",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "html": "string"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // basedto
                         "executethis": "addwidmaster",
                         "wid": "basedto",
                         "metadata.method": "basedto",
-                        "html": "string",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "html": "string"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // backdto
                         "executethis": "addwidmaster",
                         "wid": "backdto",
                         "metadata.method": "backdto",
-                        "html": "string",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "html": "string"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // interfacedto
                         "executethis": "addwidmaster",
@@ -658,13 +677,14 @@
                         "metadata.method": "interfacedto",
                         "metadata.viewdto.type": "manytoone",
                         "metadata.backdto.type": "manytoone",
-                        "metadata.basedto.type": "manytoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.basedto.type": "manytoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create the errorobjectdto
                         "executethis": "addwidmaster",
@@ -675,92 +695,100 @@
                         "referenceerror": "string",
                         "syntaxerror": "string",
                         "typeerror": "string",
-                        "urlerror": "string",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "urlerror": "string"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the passdto
                         "executethis": "addwidmaster",
                         "wid": "passdto",
                         "metadata.method": "passdto",
-                        "log": "boolean",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "log": "boolean"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the faildto
                         "executethis": "addwidmaster",
                         "wid": "faildto",
                         "metadata.method": "faildto",
-                        "log": "boolean",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "log": "boolean"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the validatedto
                         "executethis": "addwidmaster",
                         "wid": "validatedto",
-                        "metadata.method": "validatedto",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.method": "validatedto"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the resultdto
                         "executethis": "addwidmaster",
                         "wid": "resultdto",
-                        "metadata.method": "resultdto",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.method": "resultdto"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the errordto
                         "executethis": "addwidmaster",
                         "wid": "errordto",
-                        "metadata.method": "errordto",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.method": "errordto"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the beforedto
                         "executethis": "addwidmaster",
                         "wid": "beforedto",
-                        "metadata.method": "beforedto",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.method": "beforedto"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the afterdto
                         "executethis": "addwidmaster",
                         "wid": "afterdto",
-                        "metadata.method": "afterdto",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.method": "afterdto"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the executedto
                         "executethis": "addwidmaster",
@@ -778,46 +806,50 @@
                         "metadata.resultdto.type": "onetoone",
                         "metadata.errordto.type": "onetoone",
                         "metadata.beforedto.type": "manytoone",
-                        "metadata.afterdto.type": "manytoone",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.afterdto.type": "manytoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the logobject
                         "executethis": "addwidmaster",
                         "wid": "logobject",
-                        "metadata.method": "executedto",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.method": "executedto"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the gettypedto
                         "executethis": "addwidmaster", // <-- this wid might not be needed
                         "wid": "gettypedto",
-                        "metadata.method": "gettypedto",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.method": "gettypedto"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // create the addtypedto
                         "executethis": "addwidmaster",
                         "wid": "addtypedto",
-                        "metadata.method": "addtypedto",
-                        "metadata.inherit.0.wid": "dtodefault",
-                        "metadata.inherit.0.command.dtotype": "",
-                        "metadata.inherit.0.command.adopt": "default",
-                        "metadata.inherit.1.wid": "dtooverride",
-                        "metadata.inherit.1.command.dtotype": "",
-                        "metadata.inherit.1.command.adopt": "override"
+                        "metadata.method": "addtypedto"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
                     }, {
                         // Create a default actionset
                         "executethis": "addwidmaster",
