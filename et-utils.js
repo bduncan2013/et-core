@@ -77,11 +77,11 @@ exports.clearLocal = clearLocal = function clearLocal() {
     // widMasterKey = "widmaster_";
     localStore.clear();
     potentialwid = 0;
-    addToLocal("DRI", [{
+    addToLocal("maincollection", [{
         "wid": "initialwid",
         "initialwid": "hello from bootprocess"
     }]);
-    addToLocal("DRIKEY", {
+    addToLocal("maincollectionkey", {
         "initialwid": {
             "wid": "initialwid",
             "initialwid": "for key hello from bootprocess"
@@ -1655,7 +1655,7 @@ function getRandomNumberByLength(length) {
                 break;
             case 6:
                 if (exports.environment === 'local') {
-                    outobject[3] = getFromLocalStorage("DRIKEY");
+                    outobject[3] = getFromLocalStorage("maincollection");
                     // outobject[4]=getFromLocalStorage("DRIKEY");
                     etlogresults(indebugname, outobject)
                 }
@@ -2572,13 +2572,13 @@ function getRandomNumberByLength(length) {
         try {
             //console.log('test &&&&&&&&&&&&&&&&&& verify');
             if (database && JSON.stringify(database) !== "{}") {
-                addToLocalStorage("DRIKEY", database);
+                addToLocalStorage("maincollectionkey", database);
                 var this_string = "[";
                 for (var d in database) {
                     this_string += JSON.stringify(database[d]) + ',';
                 }
                 this_string = this_string.substring(0, this_string.length - 1) + ']';
-                addToLocalStorage("DRI", JSON.parse(this_string));
+                addToLocalStorage("maincollection", JSON.parse(this_string));
             }
             if (parameters instanceof Array) {
                 parameters.push(function (err, res) {
@@ -2655,53 +2655,9 @@ function getRandomNumberByLength(length) {
 
         if (!metadata['expirationdate']) {metadata['expirationdate'] = new Date()};
 
-        // for (eachwid in inputWidgetObject) {
-        //     if ((inputWidgetObject[eachwid] == "onetomany") (inputWidgetObject[eachwid]=="onetoone")) {
-        //         inputWidgetObject['metadata'][eachwid]['type']=inputWidgetObject[eachwid]
-        //         delete inputWidgetObject[eachwid];
-        //         }
-        //     }
         saveobject[db] = inputWidgetObject;
         saveobject['wid'] = wid;
         saveobject['metadata'] = metadata;
-        //saveobject = ConvertFromDOTdri(saveobject); // in case command.db = x.y.z nested was sent in
-
-        // saveobject['wid']=wid;
-        // saveobject['metadata.method']=method;
-        // if (inputWidgetObject) {
-        //     saveobject['data'] = inputWidgetObject;
-        //     }
-        // saveobject = ConvertFromDOTdri(inputWidgetObject);
-
-
-        // if (inputWidgetObject['wid']) {
-        //     saveobject['wid'] = inputWidgetObject['wid'].toLowerCase();
-        // } else {
-        //     saveobject['wid'] = "";
-        // }
-        // proxyprinttodiv('Function updatewid in : saveobject 0', saveobject, 1);
-        // delete inputWidgetObject['wid'];
-
-        // saveobject['metadata'] = {};
-        // if (inputWidgetObject['metadata.method']) {
-        //     saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
-        // } else {
-        //     saveobject['metadata']['method'] = "";
-        // }
-        // saveobject['metadata']['date'] = new Date();
-        // proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
-        // proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
-
-        // proxyprinttodiv('Function updatewid in : saveobject I', saveobject, 1);
-
-        // // saveobject['metadata'] = inputWidgetObject['metadata'] ;
-        // delete inputWidgetObject['metadata.method'];
-        // if (inputWidgetObject) {
-        //     saveobject['data'] = inputWidgetObject;
-        // } else {
-        //     saveobject['data'] = "";
-        // }
-
         proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
         return saveobject;
     };
@@ -2709,16 +2665,11 @@ function getRandomNumberByLength(length) {
     exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
         var outobject = {};
         var db = "data";
+        if (!command) {command={}}
         if (command && command.db) {
             db = command.db
         }
 
-        //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
-
-        // if ((widobject) && (Object.keys(widobject).length > 0)) {
-        //     if (widobject[db]) {
-        //         outobject = widobject[db];
-        //     }
         if ((widobject) && (Object.keys(widobject).length > 0)) {
             if (isArray(widobject[db])) {
                 outobject = widobject[db][0];
@@ -2733,7 +2684,6 @@ function getRandomNumberByLength(length) {
             }
 
             if (widobject['metadata']) {
-                // deleting date from metadata, this is a fix for ag3
                 if (widobject['metadata']['date']) {
                     delete widobject['metadata']['date'];
                 }
@@ -2742,29 +2692,14 @@ function getRandomNumberByLength(length) {
             } else {
                 outobject['metadata'] = "";
             }
+
+            if (command.driformat==="nowid") {
+                delete outobject.wid;
+                delete outobject.metadata
+            }
             //commented by Roger
             //outobject = ConvertToDOTdri(outobject);
         }
-
-        // if ((widobject) && (Object.keys(widobject).length > 0)) {
-        //     if (widobject["data"]) {
-        //         outobject = widobject["data"];
-        //     }
-
-        //     if (widobject['wid']) {
-        //         outobject['wid'] = widobject['wid'];
-        //     } else {
-        //         outobject['wid'] = "";
-        //     }
-
-        //     if (widobject['metadata']) {
-        //         outobject['metadata.method'] = widobject['metadata']['method'];
-        //         //&& added
-
-        //     } else {
-        //         outobject['metadata.method'] = "";
-        //     }
-        // }
         return outobject;
     };
 

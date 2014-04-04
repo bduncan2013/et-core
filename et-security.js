@@ -111,10 +111,10 @@
                     // get the owner of the original action(metadata.systemdto.creator)
                     var query = {
                         "executethis": "mongoquery",
-                        "data.usergroupname": "driemployees"
+                        "data.usergroupname": "everyone"
                     };
                     execute(query, function (err, res) {
-                        actionCreator = res[1]['metadata']['system']['creator'];
+                        actionCreator = res[1]['queryresult']['metadata']['system']['creator'];
                         proxyprinttodiv('Function securitycheck Action creator is -- ', actionCreator, 39);
                         // actionCreator = "rogeruser";
                         cb1(null, "identified action owner");
@@ -124,7 +124,7 @@
                     // getwidmaster for permissions for the 'owner' 
                     var rawquery1 = {
                         "executethis": "querywid",
-                        "command.result":"queryresult",
+                        "command":{"result":"queryresult"},
                         "mongorawquery": {
                             "metadata.system.creator": actionCreator
                         }
@@ -132,7 +132,7 @@
 
 
                     execute(rawquery1, function (err, res1) {
-                        var res = res1["queryresult"];
+                        var res = res1[0][0]["queryresult"];
                         var arr = res;
                         var obj, jsonKey, dto;
                         if (arr) {
@@ -259,15 +259,15 @@
         execute([{
                 "executethis": "querywid",
                 "mongowid": userobj,
-                "command.result":"queryresult",
+                "command":{"result":"queryresult"},
                 "mongorelationshiptype": "attributes",
                 "mongorelationshipmethod": grouptype,
                 "mongorelationshipdirection": "forward",
                 "mongowidmethod": grouptype
             }],
             function (err, res1) {
-                var res = res1["queryresult"];
-                var arr = res[0];
+                var res = res1[0][0]["queryresult"];
+                var arr = res;
                 var obj, jsonKey, dto;
 
                 if (arr) {
@@ -319,7 +319,7 @@
             function part1(cb) {
                 var query1 = [{
                     "executethis": "querywid",
-                    "command.result":"queryresult",
+                    "command":{"result":"queryresult"},
                     "mongorawquery": {
                         "data.accesstoken": userac
                     },
@@ -329,10 +329,10 @@
                 }];
 
                 execute(query1, function (err, res1) {
-                    var res = res1["queryresult"];
-                    proxyprinttodiv('Function getuserbyac query1 -- res', res[0][0], 39);
-                    var jsonKey = Object.keys(res[0][0])[0];
-                    var jsonVal = res[0][0][jsonKey];
+                    var res = res1[0][0]["queryresult"];
+                    proxyprinttodiv('Function getuserbyac query1 -- res', res, 39);
+                    var jsonKey = Object.keys(res)[0];
+                    var jsonVal = res[jsonKey];
                     userWid = jsonVal;
                     cb(null);
                 });
@@ -363,12 +363,12 @@
 
             var command = {
                 "executethis": "querywid",
-                "command.result":"queryresult",
+                "command":{"result":"queryresult"},
                 "mongorawquery": query
             };
 
             execute(command, function (err, res1) {
-                var res =  res1["queryresult"];
+                var res =  res1[0][0]["queryresult"];
                 var arr = res;
                 var obj, jsonKey, dtoPermissions;
 

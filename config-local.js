@@ -69,7 +69,7 @@ exports.everyMinuteInterval = 0;
 exports.everyTenMinuteInterval = 0;
 exports.eventdeviceready = eventdeviceready = function eventdeviceready() {
     setdefaultparm();
-    if (!getFromLocalStorage('DRIKEY')) {
+    if (!getFromLocalStorage('maincollectionkey')) {
         eventappinstall();
     }
 
@@ -107,10 +107,17 @@ exports.eventexecuteend = eventexecuteend = function eventexecuteend(parameters,
 };
 
 exports.processevent = processevent = function processevent(eventname, callback) {
-    getexecutelist(eventname, function (err, executelist) {
-        if (executelist.length > 0) {
+    var widlist=[];
+    var executelist=[];
+    geteventlist(eventname, function (err, eventlist) {
+        if (eventlist.length > 0) {
+            for (var eachexecute in eventlist) {
+                widlist.push(eachexecute)
+                executelist.push(eventlist[eachexecute])
+                }
             execute(executelist, function (err, res) {
-                markasdone(executelist, function (err, res) {
+                // maybe res has widlist results?
+                markasdone(widlist, eventname, function (err, res) {
                     callback(err, res)
                 })
             })
@@ -119,75 +126,34 @@ exports.processevent = processevent = function processevent(eventname, callback)
     })
 }
 
-exports.getexecutelist = getexecutelist = function getexecutelist(eventname, callback) {
+exports.geteventlist = geteventlist = function geteventlist(eventname, callback) {
     var executeobject = 
     executeobject = {"command":{"result":"queryresult"}}
-    executeobject.command.collection="queuecollection"
+    executeobject.command.collection=eventname
     executeobject.command.db="queuedata"
+    executeobject.command.driformat="nowid"
     executeobject["executethis"] = "querywid";
-    executeobject["mongorawquery"] = {
+    executeobject["mongorawquery"] = { 
         "$and": [{
             "metadata": eventname,
         }]
     };
-        execute(executeobject, function (err, executelist) {
-            if (executelist.length === 0) {
-                executelist=[]
+        execute(executeobject, function (err, eventlist) {
+            if (eventlist.length === 0) {
+                eventlist=[]
                 }
-            callback(null, executelist)
+            callback(null, eventlist)
         })
     }
 
-    exports.markasdone = markasdone = function markasdone(parms, callback) {
-
+    exports.markasdone = markasdone = function markasdone(widlist, callback) {
+        var executelist=[];
+        var executeobject={};
+        for (eachwid in widlist) {
+            //deletewid
+            //executeobject
+        }
     }
-
-// exports.bootprocess = bootprocess = function bootprocess() {
-//     if (Object.keys(config).length === 0) {
-//         setdefaultparm();
-// //        clearLocalStorage();
-//     }
-//     proxyprinttodiv('Function bootprocess config', config, 38);
-//     if (!getFromLocalStorage('DRIKEY')) {
-//         etappinstall();
-//     }
-// };
-
-//    execute({
-//        "executethis": "getwid",
-//        "wid": "etenvironment"
-//        }, function (err, result) {
-//        //proxyprinttodiv('Function bootprocess result', result, 1);
-//        // read etenvironment, if not there then must be ok to clear out initial stuff
-//
-//        // ***** temporary
-////        result={};
-//        //****
-//        if (result instanceof Array) {result=result[0]}
-//        if (Object.keys(result).length === 0) {
-//            // then 'dirty' et environement
-//            execute({
-//                "executethis": "updatewid",
-//                "wid": "etenvironment",
-//                "something": "something"
-//            }, etappinstall); //,
-//            // function (err, result) {
-//
-//            // })
-//
-//            if (true) {
-//                etappstarted();
-//            }
-//            if (true) {
-//                etappnewpage();
-//            }
-//            //testAddWids();
-//            //displayAllWids();
-//        }
-//    });
-// proxyprinttodiv('Function END bootprocess config', config, 1);
-
-// *********** EVENTS ************
 
 function setdefaultparm() {
 
@@ -340,16 +306,8 @@ exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = funct
     //widMasterKey = "widmaster_";
     localStorage.clear();
     //potentialwid = 0;
-    addToLocalStorage("DRI", [{
-        "wid": "initialwid",
-        "initialwid": "hello from bootprocess"
-    }]);
-    addToLocalStorage("DRIKEY", {
-        "initialwid": {
-            "wid": "initialwid",
-            "initialwid": "for key hello from bootprocess"
-        }
-    });
+    addToLocalStorage("maincollection", [{"wid": "initialwid","system generated": "clearLocalStorage"}]);
+    addToLocalStorage("maincollectionkey", {"initialwid": {"wid": "initialwid","system generated": "clearLocalStorage"}});
 };
 
 exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
@@ -361,8 +319,8 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
         var originalarguments = {};
         extend(true, originalarguments, inputWidgetObject);
 
-        var collection = "DRI";
-        var keycollection = "DRIKEY";
+        var collection = "maincollection"
+        var keycollection = collection + "key"
         var err = null;
         var widobject = {};
         var database = {};
@@ -373,6 +331,10 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
             proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject, 1);
             proxyprinttodiv('Function addtomongo widName', widName, 1);
             database = getFromLocalStorage(collection);
+            if (!database) {    
+                addToLocalStorage(collection, [{"wid": "initialwid","system generated": "offlineaddtomongo"}]);
+                addToLocalStorage(keycollection, {"initialwid": {"wid": "initialwid","system generated": "offlineaddtomongo"}});
+                }
             proxyprinttodiv('Function addtomongo database', database, 1);
 
             for (var record in database) {
@@ -394,12 +356,11 @@ exports.offlineaddtomongo = offlineaddtomongo = offlineaddtomongo = function off
 
             addToLocalStorage(collection, database);
             addToLocalStorage(keycollection, keydatabase);
-            //******
+
+            //stuff below can be removed
             widobject = inputWidgetObject;
             addToLocalStorage("widmaster_" + widName, widobject);
-            //******
-            //widobject['wid'] = widName;
-            //return widobject;
+
             callback(err, widobject);
         } else { // if no widName
             callback(null, {}); // should have better error here
@@ -420,8 +381,8 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
         var originalarguments = {};
         extend(true, originalarguments, inputWidgetObject);
 
-        var collection = "DRI";
-        var keycollection = "DRIKEY";
+        var collection = "maincollection";
+        var keycollection = collection + "key";
         var err = null;
         var output = {};
         var keydatabase = {};
@@ -429,15 +390,11 @@ exports.offlinegetfrommongo = offlinegetfrommongo = function offlinegetfrommongo
         var widName = inputWidgetObject['wid'];
         if (widName) {
             keydatabase = getFromLocalStorage(keycollection);
+            if (!keydatabase) {
+                addToLocalStorage(collection, [{"wid": "initialwid","system generated": "offlinegetfrommongo"}]);
+                addToLocalStorage(keycollection, {"initialwid": {"wid": "initialwid","system generated": "offlinegetfrommongo"}});
+            }
             output = keydatabase[widName];
-            //output = getFromLocalStorage("widmaster_" + widKey);
-            //database = getFromLocalStorage(collection);
-            // for (record in database) {
-            //     if (database[record]["wid"]==widName) {
-            //         output=database[record];
-            //         break;
-            //         }
-            //     }
         } else { // if no widname
             err = {};
         }
@@ -474,21 +431,13 @@ exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlineg
                     // convert the object from dri standard before returnning it
                     proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject, 11);
 
-                    var convertedobject = convertfromdriformat(resultobject)
+                    var convertedobject = convertfromdriformat(resultobject, command)
                     proxyprinttodiv('Function getwid in : convertedobject', convertedobject, 11);
                     proxyprinttodiv('Function getwid in : resultobject', resultobject, 11);
 
                     if (inputWidgetObject['command.convertmethod'] === 'toobject') {
-                        debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
-                            0: inbound_parameters,
-                            1: ConvertFromDOTdri(convertedobject)
-                        }, 6);
                         callback(null, ConvertFromDOTdri(convertedobject))
                     } else {
-                        debugfn("offlinegetwid code generator", "offlinegetwid", "", "code", 2, 1, {
-                            0: inbound_parameters,
-                            1: convertedobject
-                        }, 6);
                         callback(null, convertedobject);
                     }
                 } // end try
@@ -520,20 +469,16 @@ exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function
         // get collection and db
         // call add with those
         var command = {};
+        //command = inputObject.command
 
         // convert to dri format before saving
-        offlineaddtomongo(converttodriformat(inputObject), command, function (err, results) {
+        offlineaddtomongo(converttodriformat(inputObject, command), command, function (err, results) {
             // If error, bounce out
             if (err && Object.keys(err).length > 0) {
                 callback(err, results);
             } else {
                 try {
                     proxyprinttodiv('Function updatewid in : x', results, 10);
-                    debugfn("updatewid code generator", "offlineupdatewid", "", "code", 2, 1, {
-                        0: originalarguments,
-                        1: results
-                        // 2: executionid
-                    }, 6);
                     callback(null, results);
                 } // end try
                 catch (err) {
@@ -692,7 +637,7 @@ exports.getDriApiData = getDriApiData = function getDriApiData(params, callback)
 };
 
 
-exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
+exports.mongoquery = mongoquery = function mongoquery(inboundobj, command, callback) {
     try {
         var inbound_parameters = {};
         extend(true, inbound_parameters, inboundobj);
@@ -708,21 +653,20 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
             return true;
         }
 
-        // for (var eachwid in localStorage) {
-        //     if (eachwid.indexOf("widmaster_") == 0) {
-        //         var widObj = JSON.parse(localStorage[eachwid]);
-        //         inlist.push(widObj);
-        //     }
-        // }
         var query = inboundobj;
         var outlist = [];
         var convertedlist = [];
         var resultlist = [];
-        var collection = "DRI";
-        var keycollection = "DRIKEY";
+        //var collection = "DRI";
+        //var keycollection = "DRIKEY";
+        var collection = "maincollection";
+        var keycollection = collection+'key';
         var database = {};
         var keydatabase = {};
         var eachwid;
+
+        if (command.db) {db=command.db} // not needed
+        if (command.collection) {collection=command.collection}
 
         database = getFromLocalStorage(collection);
 
@@ -751,6 +695,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
             return Date.parse(aObj["metadata"]["date"]) - Date.parse(bObj["metadata"]["date"]);
         });
 
+// not sure if stuff below needed
         keydatabase = getFromLocalStorage(keycollection);
         for (var eachrecord in outlist) {
             eachwid = keydatabase[outlist[eachrecord]["wid"]];
@@ -769,18 +714,3 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback) {
     }
 };
 
-// function getwidcopy() {
-//     // step through local storage looking for
-//     var set = {}; // get a copy of all local storage ***
-//     var resultobject = {};
-//     var wid = "";
-//     for (var key in localStorage) {
-//         if (key.indexOf("widmaster_") == 0) {
-//             key = key.substring(10);
-//             resultobject = getFromLocalStorage("widmaster_" + key);
-//             wid = resultobject['wid'];
-//             set[wid] = resultobject;
-//             // $$$$$
-//         }
-//     }
-//     return set;

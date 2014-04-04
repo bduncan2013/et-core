@@ -63,7 +63,7 @@
             var queryresults = {};
             var wid;
             var environmentdb;
-            var convertmethod = commandParams['command.convertmethod'];
+            //var convertmethod = commandParams['command.convertmethod'];
             var extraparameters = {};
             //proxyprinttodiv('querywid convertmethod', convertmethod, 38);
             //proxyprinttodiv('querywid commandParams', commandParams, 38);
@@ -153,7 +153,7 @@
                                             proxyprinttodiv('Function MongoDataQuery singlemongoquery : ', mQueryString, 28);
                                             //mQueryString = output.substring(0, output.length - 1);
                                             // if (validParams(mQueryString)) {
-                                            mongoquery(mQueryString, function (err, res) {
+                                            mongoquery(mQueryString, commandParams, function (err, res) {
                                                 // If error, bounce out
                                                 if (err && Object.keys(err).length > 0) {
                                                     cb(err, res);
@@ -278,7 +278,7 @@
                                                             proxyprinttodiv('querywid mQueryString init', mQueryString, 28);
 
                                                             // if (validParams(mQueryString)) {
-                                                            mongoquery(mQueryString, function (err, res) {
+                                                            mongoquery(mQueryString, commandParams, function (err, res) {
                                                                 // If error, bounce out
                                                                 if (err && Object.keys(err).length > 0) {
                                                                     cb(err, res);
@@ -322,7 +322,7 @@
                                 proxyprinttodiv('querywid mQueryString second', mQueryString, 28);
 
                                 // if (validParams(mQueryString)) {
-                                mongoquery(mQueryString, function (err, res) {
+                                mongoquery(mQueryString, commandParams, function (err, res) {
                                     // If error, bounce out
                                     if (err && Object.keys(err).length > 0) {
                                         cb(err, res);
@@ -395,7 +395,7 @@
                                 // console.log('mQueryString at step03 => ' + mQueryString);
 
                                 if (Object.keys(JSON.parse(mQueryString)).length > 0) {
-                                    mongoquery(mQueryString, function (err, res) {
+                                    mongoquery(mQueryString, commandParams, function (err, res) {
                                         // If error, bounce out
                                         if (err && Object.keys(err).length > 0) {
                                             cb(err, res);
@@ -457,7 +457,7 @@
                                 debugfn("step04", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
 
                                 if (Object.keys(JSON.parse(mQueryString)).length > 0) {
-                                    mongoquery(mQueryString, function (err, res) {
+                                    mongoquery(mQueryString, commandParams, function (err, res) {
                                         // If error, bounce out
                                         if (err && Object.keys(err).length > 0) {
                                             cb(err, res);
@@ -495,7 +495,7 @@
                             proxyprinttodiv('querywid before output', output, 28);
                             proxyprinttodiv('querywid before output aggParams', aggParams, 28);
 
-                            formatListFinal(output, environmentdb, convertmethod, extraparameters, aggParams, function (err, output) {
+                            formatListFinal(output, environmentdb, extraparameters, aggParams, commandParams, function (err, output) {
                                 // If error, bounce out
                                 if (err && Object.keys(err).length > 0) {
                                     callback(err, output);
@@ -595,7 +595,7 @@
         // takes inlist, looks for wid, then goes to main database to get a get clean complete converted copy of that wid
         // also looks in extra paramters, append information found about that wid to results also
 
-        function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, aggParams, callback) {
+        function formatListFinal(inlist, environmentdb, extraparameters, aggParams, commandParams, callback) {
             try {
                 proxyprinttodiv('querywid finalformatlist aggParams ', aggParams, 28);
                 var inbound_parameters_120 = JSON.parse(JSON.stringify(arguments));
@@ -670,10 +670,10 @@
                                             widrecord = extend(true, widrecord, extrarecord);
                                             proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 28);
 
-                                            if (convertmethod === "toobject") {
+                                            if (commandParams.convertmethod === "toobject") {
                                                 record[wid] = widrecord;
                                             } else {
-                                                record[wid] = convertfromdriformat(widrecord);
+                                                record[wid] = convertfromdriformat(widrecord, commandParams);
                                             }
                                             cb1(null);
                                         }

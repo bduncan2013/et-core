@@ -1,4 +1,4 @@
-// copyright (c) 2014 DRI
+    // copyright (c) 2014 DRI
 // execute is the asynchronous version  has an etbypass option
 // executelist executes list (howToDoList and whatToDoList).  It accepts a structure as in config
 // 
@@ -16,6 +16,42 @@
     var execute, executethis, etexecute;
 
     exports.executethis = window.executethis = executethis = function executethis(incomingparams, callback, overallError) {
+        // get envrionment
+
+
+
+            // executethis()
+            // current execute() code goes here
+
+            // new execute() begin (accepts executeobject)
+            // 1) if no command.executeid then … create unique executeid to localstore
+            // 2) get command.execute (including environment) … store to executeid, remove from parm stream
+            // 3) send command.executeid to executethis()
+            // put parameters into it
+            // store executeid info permanently
+            // mark id record if exsitng as done
+
+
+            // middle of execute
+            // 1) when we “push” results store history and original wid to executeid
+
+            // execute() end
+
+            // Node API (node server.js)
+            // start at execute()
+
+            // Trigger executeendevent
+            // Create outbound object
+
+
+            // 1) look through result parameters…if wid then store the results
+            // process commands
+            // create commands
+            // 2) store commands
+            // 3) store history object — look in local store, delete local store
+
+
+
         execute(incomingparams, function (err, res) {
             // If error, bounce out
             if (err && Object.keys(err).length > 0) {
@@ -697,6 +733,7 @@
                         if (params.hasOwnProperty('postexecute') && params.postexecute === undefined) { delete params['postexecute']; }
                         // err = {"Error": "here it is"};
                         proxyprinttodiv("**Error - dothisprocessor ", err,11);
+                        proxyprinttodiv("**executethis - params ", params,99);
                         callback(err, params);
                     }
                 } // else not test4

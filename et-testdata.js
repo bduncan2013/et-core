@@ -1943,32 +1943,32 @@
         check1Set['dbgroup'] = "data1";
         check1Set['phone'] = "9873838958";
         check1Set['server'] = "server1";
-        check1Set['collection'] = "collection1";
+        check1Set['collection'] = "maincollection";
         check1Set['datastore'] = "dbs";
 
 
         async.series([
-            function (cb1) {
-                // create schema data
-                createalldtos(parm, function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added schema dtos ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create schema data
-                noncriticaldtos(function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added noncriticaldtos ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // setup user data
-                createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added user data ', res, 39);
-                    cb1(null);
-                });
-            },
+            // function (cb1) {
+            //     // create schema data
+            //     createalldtos(parm, function (err, res) {
+            //         proxyprinttodiv('Function  checkSecurityForData  added schema dtos ', res, 39);
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            //     // create schema data
+            //     noncriticaldtos(function (err, res) {
+            //         proxyprinttodiv('Function  checkSecurityForData  added noncriticaldtos ', res, 39);
+            //         cb1(null);
+            //     });
+            // },
+            // function (cb1) {
+            //     // setup user data
+            //     createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
+            //         proxyprinttodiv('Function  checkSecurityForData  added user data ', res, 39);
+            //         cb1(null);
+            //     });
+            // },
             function (cb1) {
                 // check security test 1
                 securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
@@ -2057,38 +2057,38 @@
                     proxyprinttodiv('Function  udata1  added schema dtos ', res, 39);
                     cb1(null);
                 });
-            },
-            function (cb1) {
-                // create schema data
-                noncriticaldtos(function (err, res) {
-                    proxyprinttodiv('Function  udata1  added noncriticaldtos ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
+                // },
+                // function (cb1) {
+                //     // create schema data
+                //     noncriticaldtos(function (err, res) {
+                //         proxyprinttodiv('Function  udata1  added noncriticaldtos ', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
 
 
-                // setup user data
-                createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
-                    proxyprinttodiv('Function  udata1  added user data ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // check security test 1
-                securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
-                    proxyprinttodiv('Function  udata1  checked security ', res, 39);
-                    status = res;
-                    cb1(null);
-                });
+                //     // setup user data
+                //     createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
+                //         proxyprinttodiv('Function  udata1  added user data ', res, 39);
+                //         cb1(null);
+                //     });
+                // },
+                // function (cb1) {
+                //     // check security test 1
+                //     securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
+                //         proxyprinttodiv('Function  udata1  checked security ', res, 39);
+                //         status = res;
+                //         cb1(null);
+                //     });
             }
         ], function (err, res) {
-            execute({
-                "executethis": "getwidmaster",
-                "wid": userobj.wid
-            }, function (err, res) {
-                callback(err, res);
-            });
+            // execute({
+            //     "executethis": "getwidmaster",
+            //     "wid": userobj.wid
+            // }, function (err, res) {
+            callback(err, res);
+            // });
         });
     }
 
@@ -2322,6 +2322,47 @@
                 callback(err, res);
             });
 
+        });
+
+
+    }
+
+    /// check relationships adding
+    exports.csd3 = csd3 = function csd3(params, callback) {
+        debuglevel = 67;
+        execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "a1dto",
+            "wid": "a1dto",
+            "a11": "string",
+            "metadata.b1dto.type": "onetoone"
+        }, {
+            "executethis": "addwidmaster",
+            "metadata.method": "b1dto",
+            "wid": "b1dto",
+            "b11": "string"
+
+        }], function (err, res) {
+            createrelationship("a1dto", "b1dto", "onetoone", function (err, res) {
+
+                execute({
+                    "executethis": "addwidmaster",
+                    "wid": "a11wid",
+                    "metadata.method": "a1dto",
+                    "a11": "a11value",
+                    "b1dto.b11": "b11value"
+                }, function (err, res) {
+                    execute({
+                        // create data 
+                        "executethis": "getwidmaster",
+                        "wid": "a11wid"
+                    }, function (err, res) {
+                        proxyprinttodiv('Function csd3 -- getwidmaster a11wid -- ', res, debuglevel);
+                        callback(err, res);
+                    });
+                });
+
+            });
         });
 
 
