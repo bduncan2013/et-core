@@ -116,9 +116,8 @@ exports.processevent = processevent = function processevent(eventname, callback)
                 executelist.push(eventlist[eachexecute])
                 }
             execute(executelist, function (err, res) {
-                // maybe res has widlist results?
-                markasdone(widlist, eventname, function (err, res) {
-                    callback(err, res)
+                markasdone(executelist, function (err, res) {
+                    callback(err, res);
                 })
             })
         }
@@ -128,10 +127,10 @@ exports.processevent = processevent = function processevent(eventname, callback)
 
 exports.geteventlist = geteventlist = function geteventlist(eventname, callback) {
     var executeobject = 
-    executeobject = {"command":{"result":"queryresult"}}
-    executeobject.command.collection=eventname
-    executeobject.command.db="queuedata"
-    executeobject.command.driformat="nowid"
+
+    executeobject = {"command":{"result":"queryresult"}};
+    executeobject.command.collection="queuecollection";
+    executeobject.command.db="queuedata";
     executeobject["executethis"] = "querywid";
     executeobject["mongorawquery"] = { 
         "$and": [{
@@ -145,15 +144,9 @@ exports.geteventlist = geteventlist = function geteventlist(eventname, callback)
             callback(null, executelist);
         })
     };
+    exports.markasdone = markasdone = function markasdone(parms, callback) {
 
-    exports.markasdone = markasdone = function markasdone(widlist, callback) {
-        var executelist=[];
-        var executeobject={};
-        for (eachwid in widlist) {
-            //deletewid
-            //executeobject
-        }
-    }
+    };
 
 function setdefaultparm() {
 

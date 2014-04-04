@@ -1943,32 +1943,32 @@
         check1Set['dbgroup'] = "data1";
         check1Set['phone'] = "9873838958";
         check1Set['server'] = "server1";
-        check1Set['collection'] = "maincollection";
+        check1Set['collection'] = "collection1";
         check1Set['datastore'] = "dbs";
 
 
         async.series([
-            // function (cb1) {
-            //     // create schema data
-            //     createalldtos(parm, function (err, res) {
-            //         proxyprinttodiv('Function  checkSecurityForData  added schema dtos ', res, 39);
-            //         cb1(null);
-            //     });
-            // },
-            // function (cb1) {
-            //     // create schema data
-            //     noncriticaldtos(function (err, res) {
-            //         proxyprinttodiv('Function  checkSecurityForData  added noncriticaldtos ', res, 39);
-            //         cb1(null);
-            //     });
-            // },
-            // function (cb1) {
-            //     // setup user data
-            //     createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
-            //         proxyprinttodiv('Function  checkSecurityForData  added user data ', res, 39);
-            //         cb1(null);
-            //     });
-            // },
+            function (cb1) {
+                // create schema data
+                createalldtos(parm, function (err, res) {
+                    proxyprinttodiv('Function  checkSecurityForData  added schema dtos ', res, 39);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // create schema data
+                noncriticaldtos(function (err, res) {
+                    proxyprinttodiv('Function  checkSecurityForData  added noncriticaldtos ', res, 39);
+                    cb1(null);
+                });
+            },
+            function (cb1) {
+                // setup user data
+                createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
+                    proxyprinttodiv('Function  checkSecurityForData  added user data ', res, 39);
+                    cb1(null);
+                });
+            },
             function (cb1) {
                 // check security test 1
                 securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
