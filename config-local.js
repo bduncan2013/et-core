@@ -116,8 +116,9 @@ exports.processevent = processevent = function processevent(eventname, callback)
                 executelist.push(eventlist[eachexecute])
                 }
             execute(executelist, function (err, res) {
-                markasdone(executelist, function (err, res) {
-                    callback(err, res);
+                // maybe res has widlist results?
+                markasdone(widlist, eventname, function (err, res) {
+                    callback(err, res)
                 })
             })
         }
@@ -137,16 +138,22 @@ exports.geteventlist = geteventlist = function geteventlist(eventname, callback)
             "metadata": eventname
         }]
     };
-        execute(executeobject, function (err, executelist) {
-            if (executelist.length === 0) {
-                executelist=[];
-            }
-            callback(null, executelist);
+        execute(executeobject, function (err, eventlist) {
+            if (eventlist.length === 0) {
+                eventlist=[]
+                }
+            callback(null, eventlist)
         })
     };
-    exports.markasdone = markasdone = function markasdone(parms, callback) {
 
-    };
+    exports.markasdone = markasdone = function markasdone(widlist, callback) {
+        var executelist=[];
+        var executeobject={};
+        for (eachwid in widlist) {
+            //deletewid
+            //executeobject
+        }
+    }
 
 function setdefaultparm() {
 
