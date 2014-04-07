@@ -1,42 +1,87 @@
 // copyright (c) 2014 DRI
 (function (window) {
 
-    exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
-        try {
-            // var originalarguments=arguments;
-            // var executionid = new Date();
-            var originalarguments = {};
-            extend(true, originalarguments, inputObject);
+exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
+    //try {
+        proxyprinttodiv('Function updatewid inputObject : x', inputObject, 17);
+        var originalarguments = {};
+        extend(true, originalarguments, inputObject);
 
-            // convert to dri format before saving
-            addtomongo(converttodriformat(inputObject), function (err, results) {
+        // getwidmaster environment
+        // get collection and db
+        // call add with those
+        var command = {};
+        if (!inputObject.command) {
+            command=inputObject.command
+            delete inputObject.command
+            }
 
-                // If error, bounce out
-                if (err && Object.keys(err).length > 0) {
-                    callback(err, results);
-                } else {
-                    try {
-                        proxyprinttodiv('Function updatewid in : x', results, 10);
-                        debugfn("updatewid code generator", "updatewid", "", "code", 2, 1, {
-                            0: originalarguments,
-                            1: results
-                            // 2: executionid
-                        }, 6);
-                        // callback({}, results);
-                        callback(null, results);
-
-                    } catch (err) {
-                        var finalobject = createfinalobject({"result": "updatewid"}, {}, "updatewid", err, inbound_parameters);
-                        callback(finalobject.err, finalobject.res);
-                    }
+        // convert to dri format before saving
+        updatedatastore(converttodriformat(inputObject, command), command, function (err, results) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, results);
+            } else {
+                try {
+                    proxyprinttodiv('Function updatewid in : x', results, 17);
+                    callback(null, results);
+                } // end try
+                catch (err) {
+                    var finalobject =
+                        createfinalobject({
+                            "result": "updatedatastore"
+                        }, {}, "updatedatastore", err, inbound_parameters);
+                    callback(finalobject.err, finalobject.res);
                 }
-            });
-        } catch (err) {
-            //callback ({"status":"there was an error"}, {"try":"was caught"});        
-            var finalobject = createfinalobject({"result": "updatewid"}, {}, "updatewid", err, inbound_parameters);
-            callback(finalobject.err, finalobject.res);
-        }
-    };
+            } // end else
+        });
+    // } // end try
+    // catch (err) {
+    //     var finalobject =
+    //         createfinalobject({
+    //             "result": "offlineupdatewid"
+    //         }, {}, "offlineupdatewid", err, inbound_parameters);
+    //     callback(finalobject.err, finalobject.res);
+    // }
+};
+
+
+    // exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
+    //     try {
+    //         // var originalarguments=arguments;
+    //         // var executionid = new Date();
+    //         var originalarguments = {};
+    //         extend(true, originalarguments, inputObject);
+
+    //         // convert to dri format before saving
+    //         addtomongo(converttodriformat(inputObject), function (err, results) {
+
+    //             // If error, bounce out
+    //             if (err && Object.keys(err).length > 0) {
+    //                 callback(err, results);
+    //             } else {
+    //                 try {
+    //                     proxyprinttodiv('Function updatewid in : x', results, 10);
+    //                     debugfn("updatewid code generator", "updatewid", "", "code", 2, 1, {
+    //                         0: originalarguments,
+    //                         1: results
+    //                         // 2: executionid
+    //                     }, 6);
+    //                     // callback({}, results);
+    //                     callback(null, results);
+
+    //                 } catch (err) {
+    //                     var finalobject = createfinalobject({"result": "updatewid"}, {}, "updatewid", err, inbound_parameters);
+    //                     callback(finalobject.err, finalobject.res);
+    //                 }
+    //             }
+    //         });
+    //     } catch (err) {
+    //         //callback ({"status":"there was an error"}, {"try":"was caught"});        
+    //         var finalobject = createfinalobject({"result": "updatewid"}, {}, "updatewid", err, inbound_parameters);
+    //         callback(finalobject.err, finalobject.res);
+    //     }
+    // };
 
     exports.addwidmaster = addwidmaster = function addwidmaster(object, callback) {
         try {
@@ -150,13 +195,15 @@
                         var result_obj = {};
                         var output = {};
 
-                        if (!command) { command = {}; }
-
-                        if (!command.deepfilter) { command.deepfilter = {}; }
-
-                        if (!command.deepfilter.keepaddthis) { command.deepfilter.keepaddthis = true; }
-
-                        if (!command.deepfilter.convert) { command.deepfilter.convert = false; }
+                        if (!command) {
+                            command = {};
+                        }
+                        if (!command.deepfilter) {
+                            command.deepfilter = {};
+                        }
+                        if (!command.deepfilter.convert) {
+                            command.deepfilter.convert = false;
+                        }
 
                         output.obj = object;
                         output.dtoobj = dtoobject;
@@ -512,6 +559,7 @@
                                 )
                                 {//|| (relationshiptype === "manytomany")
                                     executeobject["executethis"] = "querywid";
+                                    executeobject["command"] = {"result":"queryresult"};
                                     executeobject["mongorawquery"] = {
                                         "$and": [{
                                             "data.primarywid": parentwid,
@@ -525,6 +573,7 @@
 
                                 if (relationshiptype === "manytoone") {
                                     executeobject["executethis"] = "querywid";
+                                    executeobject["command"] = {"result":"queryresult"};
                                     executeobject["mongorawquery"] = {
                                         "$and": [{
                                             "data.primarywid": inputrecord["metadata"]["method"],
@@ -532,8 +581,10 @@
                                         }]
                                     };
                                 }
-                                execute(executeobject, function (err, widset) {
+                                execute(executeobject, function (err, widset1) {
                                     // If error, bounce out
+                                    var widset=widset1[0]["queryresult"];
+                                    if (!widset) {widset=[]}
                                     if (err && Object.keys(err).length > 0) {
                                         step1_callback(err, widset);
                                     } else {
@@ -586,7 +637,7 @@
                                     proxyprinttodiv("addrecord input addobject :- ", addobject, 17);
 
                                     reldto = {
-                                        "wid": "string",
+                                        "wid": "shortguid",
                                         "primarywid": "string",
                                         "secondarywid": "string",
                                         "relationshiptype": "string",
@@ -668,24 +719,104 @@
     };
 
     exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
-        try {
-            var inbound_parameters = JSON.parse(JSON.stringify(arguments));
-            function addwid5() {
-                object["executethis"] = "updatewid";
-                proxyprinttodiv("addwid before updatewid ", object, 17);
-                execute(object, function (err, res) {
+        proxyprinttodiv("addwid object", object, 17);
+        proxyprinttodiv("addwid dtoobject", dtoobject, 17);
+        proxyprinttodiv("addwid command", command, 17);
+        var currentobject={}
+        var currentinheritobject = {}
+        var differenceresults = {}
+        var err=null;
+        var output={}
+        
+        // make sure getwidmaster does not return wids
+        async.series([
+            function step1(step1_callback) { // getwidmaster
+                // proxyprinttodiv("addwid step1 getwidmaster result", res, 17);
+                // if (object['wid']) {
+                // execute({
+                //     "executethis": "getwidmaster",
+                //     "wid": object['wid'],
+                //     "command.getwidmaster.execute": "ConvertFromDOTdri",
+                //     "command.getwidmaster.convertmethod": "nowid"
+                //     }, function (err, res) {
+                //         proxyprinttodiv("addwid step1 getwidmaster result", res, 17);
+                //         var getwidmasterres = extend(true, {}, res[0]);
+                //         proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", getwidmasterres, 17);
+                //         //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":44,"command":{"inherit":{"data":{"c":17, "e":98, "g":7}}}}];      /*********************/
+                //         //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":4, "f":6, "command":{"inherit":{"data":{"c":17, "e":98, "g":7}}}}];       /*********************/
+                //         if (res[0] === 'object' && Object.keys(res[0]).length !== 0) {
+                //             if (res[0].command.inherit.data) {
+                //             currentinheritobject=res[0].command.inherit.data;
+                //             delete res[0].command.inherit.data;
+                //             }
+                //             currentobject=res[0];
+                //             object = extend(true, currentobject, object)
+                //             proxyprinttodiv("addwid step1 getwidmaster currentobject", currentobject, 17);
+                //             proxyprinttodiv("addwid step1 getwidmaster currentinheritobject", currentinheritobject, 17);
+                //             differenceresults = deepDiffMapper.map(object,currentinheritobject);// fn in utils
+                //             proxyprinttodiv("addwid step1 getwidmaster differenceresults", differenceresults, 17);
+                //             //
+                //             // use the differenceresults to create a new object
+                //             // ***** create code here
+                //                 for(key in differenceresults){
+                //                     if(differenceresults[key]["type"]=="added"){
+                //                         object[key]=differenceresults[key]["data"];
+                //                     }
+                //                 }
+                            
+                //             //To merge object with getwidmaster result
+                //             if(getwidmasterres && Object.keys(getwidmasterres).length !== 0){
+                //                 for(key in getwidmasterres){
+                //                     if(!object[key]){
+                //                         object[key]=getwidmasterres[key]
+                //                     }
+                //                 }
+                //             }
+                            
+                //             proxyprinttodiv("addwid step1 after diff and merge object", object, 17);    
+                            
+                //             }
+                //             step1_callback(null);
+                //         });
+                
+                    
+                // } else { // if no object['wid']
+                    step1_callback(null);
+                // }
+            },
+            function step2(step2_callback) { // deepfilter step...should create a guid for an empty wid
+                if (!command) {
+                    command = {};
+                }
+                if (!command.deepfilter) {
+                    command.deepfilter = {};
+                }
+                command.deepfilter.convert = true;
+
+
+                if (!command.deepfilter.keepaddthis) { command.deepfilter.keepaddthis = true; }
+
+                proxyprinttodiv("addwid to deepfilter dto", dtoobject, 17);
+                // add wid = guid if its missing
+                if (!object.hasOwnProperty("wid")) {
+                    object["wid"] =  "undefined";
+                }
+
+                proxyprinttodiv("addwid step2 before to deepfilter object", object, 17);
+
+                deepfilter(object, dtoobject, command, function (err, resultobject) {
                     // If error, bounce out
                     if (err && Object.keys(err).length > 0) {
-                        callback(err, res);
-                    }else{
-                        // 
-                        proxyprinttodiv("this was added", res, 17);
-                        callback(null, res);
+                        step2_callback(err, resultobject);
+                        }
+                    else{
+                        object = resultobject;
+                        proxyprinttodiv("addwid result deepfilter object", object, 17);
+                        step2_callback(err, resultobject)
                     }
                 });
-            }
-
-            function addwid4() {
+            },       
+            function step3(step3_callback) { // not sure if this step is needed
                 var dtolist = {};
                 if (dtoobject.command && dtoobject.command.dtolist) {
                     dtolist = dtoobject.command.dtolist
@@ -715,159 +846,31 @@
                             object[dtoname] = lastObject;
                         }
                     }
-
                 }
-
-                object = extend(true, currentobject, object);
-                proxyprinttodiv("after extend,, object-- ", object, 17);
-                addwid5();
-            }
-
-            function addwid3() { // if not wid then assign new wid
-                proxyprinttodiv("addwid step3 check for wid id object ", object, 17);
-                if (!object["wid"]) {
-                    getnewwid({}, function (err, res) {
-                        // If error, bounce out
-                        if (err && Object.keys(err).length > 0) {
-                            callback(err, res);
-                        }else{
-                            // 
-                            proxyprinttodiv("addwid getnewwid", res, 17);
-                            object["wid"] = res;
-                            addwid4();
-                        }
-                    });
-
-                } else { // if wid then read wid, and extend
-                    object["wid"] = object["wid"].toLowerCase();
-                    proxyprinttodiv("addwid wid id existed", object, 17);
-                    execute({
-                        "executethis": "getwid",
-                        "wid": object["wid"]
-                    }, function (err, res) {
-                        // If error, bounce out
-                        if (err && Object.keys(err).length > 0) {
-                            callback(err, res);
-                        }else{
-                            // 
-                            if (Object.keys(res[0]).length !== 0) {
-                                currentobject = res[0];
-                            }
-                            proxyprinttodiv("before currentobject ", currentobject, 17);
-                            addwid4();
-                        }
-                    })
-                }
-            }
-
-            function addwid2() {
-
-                if (!command) {
-                    command = {};
-                }
-                if (!command.deepfilter) {
-                    command.deepfilter = {};
-                }
-                command.deepfilter.convert = true;
-
-                proxyprinttodiv("addwid step2 before to deepfilter object ", object, 17);
-
-                if (!command.deepfilter.keepaddthis) { command.deepfilter.keepaddthis = true; }
-
-                proxyprinttodiv("addwid to deepfilter dto", dtoobject, 17);
-                deepfilter(object, dtoobject, command, function (err, resultobject) {
+                //step3_callback(err, res)
+                step3_callback(null);   
+            },
+            function step4(step4_callback) {
+                object["executethis"] = "updatewid";
+                proxyprinttodiv("addwid before updatewid ", object, 17);
+                execute(object, function (err, res) {
+                    output = res; // or res[0]?
                     // If error, bounce out
                     if (err && Object.keys(err).length > 0) {
-                        callback(err, resultobject);
+                        step4_callback(err, res);
                     }else{
                         // 
-                        object = resultobject;
-                        proxyprinttodiv("addwid result deepfilter object", object, 17);
-                        addwid3();
+                        proxyprinttodiv("this was added", res, 17);
+                        step4_callback(err, res);
                     }
                 });
+                //step4_callback(err, res)
+                //step4_callback(null);
             }
-
-
-
-            // deepfilter should assign wid
-            // do one check to getwidmaster
-            // only add differences
-
-
-            // start of addwid -- step 1
-            var db = 'data';
-            if (command && command.db) {
-                db = command.db;
-            }
-            proxyprinttodiv("addwid step 1input object", object, 17);
-            proxyprinttodiv("addwid input dtoobject", dtoobject, 17);
-            proxyprinttodiv("addwid input command", command, 17);
-            var inheritwidlist = [];
-            if (dtoobject.command && dtoobject.command.inherit && dtoobject.command.inherit) {
-                inheritwidlist.push(dtoobject.command.inherit);
-            }
-            var objectarray = [];
-            var currentobject = {};
-
-            proxyprinttodiv("addwid inheritwidlist", inheritwidlist, 17);
-            if (inheritwidlist) { // do not save if in inherit
-                async.mapSeries(inheritwidlist, function (inheritwid, cbMap) {
-                    async.nextTick(function () {
-                        for (var eachobject in inheritwid) {} // to get left side or Object.keys
-                        execute({
-                            "executethis": "getwidmaster",
-                            "wid": eachobject, // TODO: test this fix Object.keys(eachobject)[0]
-                            "command.getwidmaster.execute": "ConvertFromDOTdri",
-                            "command.getwidmaster.inheritflag": "false",
-                            "command.getwidmaster.convertmethod": "nowid"
-                        }, function (err, res) {
-                            // If error, bounce out
-                            if (err && Object.keys(err).length > 0) {
-                                // callback(err, res);
-                                cbMap(err,"addwid2");
-                            } else {
-                                try {
-                                    proxyprinttodiv("getwidmaster wid : " + inheritwid + " -- res -- ", res, 17);
-                                    // if (Object.keys(res).length !== 0) {
-                                    //     for (var eachprop in res) {
-                                    //         if (object[eachprop]===res[eachprop]) {delete object[eachprop]}
-                                    //         }
-                                    // } else { // if no inherit then nothing to do
-
-                                    // }
-                                    if (Object.keys(res).length !== 0) {
-                                        for (var eachprop in res) {
-                                            if (res.hasOwnProperty(eachprop)) {
-                                                if (object[eachprop] === res[eachprop]) {
-                                                    delete object[eachprop];
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        // if no inherit then nothing to do
-                                    }
-                                    proxyprinttodiv("object after deleting the properties--", object, 17);
-                                    cbMap(null,"addwid2");
-                                } // end try
-                                catch (err) {
-                                    //callback ({"status":"there was an error"}, {"function":"addwid"});        
-                                    var finalobject = createfinalobject({"result": "addwid_execute"}, {}, "addwid_execute", err, res);
-                                    cbMap(finalobject.err, finalobject.res);
-                                }
-                            } // end if
-                        }); // execute
-                    }); // next tick
-                }, addwid2); // mapseries
-            } else { // if no inheritwid
-                addwid2();
-            }
-        } // end try
-        catch (err) {
-            //callback ({"status":"there was an error"}, {"function":"addwid"});        
-            var finalobject = createfinalobject({"result": "addwid"}, {}, "addwid", err, inbound_parameters);
-            callback(finalobject.err, finalobject.res);
-        }
-    }; // end of addwid
+        ], function (err, res) {
+            callback(null, output);
+        });
+        //}
+    }//end of addwid
 
 })(typeof window === "undefined" ? global : window); //

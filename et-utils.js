@@ -77,11 +77,11 @@ exports.clearLocal = clearLocal = function clearLocal() {
     // widMasterKey = "widmaster_";
     localStore.clear();
     potentialwid = 0;
-    addToLocal("DRI", [{
+    addToLocal("maincollection", [{
         "wid": "initialwid",
         "initialwid": "hello from bootprocess"
     }]);
-    addToLocal("DRIKEY", {
+    addToLocal("maincollectionkey", {
         "initialwid": {
             "wid": "initialwid",
             "initialwid": "for key hello from bootprocess"
@@ -89,18 +89,386 @@ exports.clearLocal = clearLocal = function clearLocal() {
     });
 };
 
+
+function getdatabaseinfo(command, datastore, collection, keycollection) {
+
+    if (!collection) {collection = "maincollection"};
+    if (command && command.collection) {collection=command.collection}
+
+    if (!keycollection) {keycollection = collection + "key"}
+    if (command && command.keycollection) {keycollection=command.keycollection}
+
+    if (!datastore) {
+        if (config.configuration.environment==="local") {datastore='localstorage'} else {datastore='mongo'}
+        }
+
+    if (command && command.datastore) {datastore=command.datastore}
+
+    proxyprinttodiv('Function getdatabaseinfo collection', collection,12);
+    proxyprinttodiv('Function getdatabaseinfo keycollection', keycollection,12);
+    proxyprinttodiv('Function getdatabaseinfo datastore', datastore,12);
+    var database = [];
+    var keydatabase={};
+            if (datastore==="localstorage") {
+                database = getFromLocalStorage(collection)
+                if (!database) {    
+                    addToLocalStorage(collection, [
+                                        {"wid": "initialwid", 
+                                        "metadata": {"date": new Date()}, 
+                                        "data":{"system generated": "clearLocalStorage6"}
+                                        }
+                                        ]);
+                    addToLocalStorage(keycollection, {"initialwid": {"wid": "initialwid", 
+                                        "metadata": {"date": new Date()}, 
+                                        "data":{"system generated": "clearLocalStorage12"}
+                                        }});
+                    database = getFromLocalStorage(collection)
+                    }
+                keydatabase = getFromLocalStorage(keycollection)
+                }
+            else if (datastore==="localstore") {
+                database = getfromlocal(collection) // &&& localstorage&&&
+                if (!database) {    
+                    addtolocal(collection, [
+                                        {"wid": "initialwid", 
+                                        "metadata": {"date": new Date()}, 
+                                        "data":{"system generated": "clearLocalStorage8"}
+                                        }
+                                        ]);
+                    addtolocal(keycollection, {"initialwid": {"wid": "initialwid", 
+                                        "metadata": {"date": new Date()}, 
+                                        "data":{"system generated": "clearLocalStorage12"}
+                                        }});
+                    database = getfromlocal(collection)
+                    }
+                keydatabase = getfromlocal(keycollection)
+                }
+            else if (datastore==="mongo") {}
+    return {database: database, keydatabase : keydatabase, datastore : datastore, collection:collection, keycollection: keycollection}
+    }
+
+exports.updatedatastore = updatedatastore = updatedatastore = function updatedatastore(inputWidgetObject, command, callback) {
+    //try {
+        var originalarguments = {};
+        extend(true, originalarguments, inputWidgetObject);
+
+        var err = null;
+        var widName = inputWidgetObject['wid'];
+        var found = false;
+        var getdatabaseinforesult;
+        var database = {};
+        var keydatabase = {};
+        var collection
+        var keycollection
+        var datastore
+
+        if (widName) {
+            proxyprinttodiv('Function addtomongo inputWidgetObject', inputWidgetObject,12);
+            proxyprinttodiv('Function addtomongo widName', widName,12);
+            getdatabaseinforesult=getdatabaseinfo(command, datastore, collection, keycollection);
+            proxyprinttodiv('Function getfromdatastore getdatabaseinforesult update', getdatabaseinforesult,12);
+            datastore=getdatabaseinforesult.datastore;
+            collection=getdatabaseinforesult.collection;
+            keycollection=getdatabaseinforesult.keycollection;
+
+            if ((datastore==='localstorage') || (datastore==='localstore')) {
+                database=getdatabaseinforesult.database
+                keydatabase=getdatabaseinforesult.keydatabase
+
+                proxyprinttodiv('Function addtomongo database', database,12);
+
+                for (var record in database) {
+                    proxyprinttodiv('Function addtomongo database[record]', database[record],12);
+                    if (database[record]["wid"] == widName) {
+                        database[record] = inputWidgetObject;
+                        proxyprinttodiv('Function addtomongo found', database[record],12);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    database.push(inputWidgetObject);
+                }
+                proxyprinttodiv('Function addtomongo database after push', database,12);
+                keydatabase[widName] = inputWidgetObject;
+
+                if  (datastore==="localstorage") {
+                    //keydatabase = getFromLocalStorage(keycollection);
+                    //keydatabase[widName] = inputWidgetObject;
+                    addToLocalStorage(collection, database);
+                    addToLocalStorage(keycollection, keydatabase)
+                    }
+                else if (datastore==="localstore") {
+                    //keydatabase = getfromlocal(keycollection);
+                    //keydatabase[widName] = inputWidgetObject;
+                    addtolocal(collection, database); // &&& localstorage
+                    addtolocal(keycollection, keydatabase)
+                    }
+
+                // the type of storage below is not needed
+                addToLocalStorage("widmaster_" + widName, inputWidgetObject);
+                //addtoangularstorage
+                callback(err, inputWidgetObject);
+            } 
+            // else if (datastore==='angularstorage') { // if datastore == angularstorage
+            //     }
+            else if (datastore==='mongo') { // if datastore == mongo
+                madd(inputWidgetObject, command, function (err, res) { 
+                    callback(err, res)
+                    })
+                }
+                else {callback(null, {});}
+        }
+        else { // if no widName
+            callback(null, {}); // should have better error here
+        }
+    // } // end try
+    // catch (err) {
+    //     var finalobject =
+    //         createfinalobject({
+    //             "result": "updatedatastore"
+    //         }, {}, "updatedatastore", err, originalarguments);
+    //     callback(finalobject.err, finalobject.res);
+    // }
+};
+
+//function getfrommongo(inputWidgetObject) {
+exports.getfromdatastore = getfromdatastore = function getfromdatastore(inputWidgetObject, command, callback) {
+    //try {
+        var originalarguments = {};
+        extend(true, originalarguments, inputWidgetObject);
+        var err = null;
+        var output = {};
+        var database = {};
+        var getdatabaseinforesult;
+        var widName = inputWidgetObject['wid'];
+
+        if (widName) {
+            getdatabaseinforesult = getdatabaseinfo(command, null, null, null);
+            proxyprinttodiv('Function getfromdatastore getdatabaseinforesult', getdatabaseinforesult,12);
+            datastore=getdatabaseinforesult.datastore;
+            if ((datastore==='localstorage') || (datastore==='localstore')) {
+                keydatabase=getdatabaseinforesult.keydatabase
+                proxyprinttodiv('Function getfromdatastore keydatabase', keydatabase,12);
+                output = keydatabase[widName];          
+                
+                // uncommenting below causes infinite loop to be debugged
+                // getfromangular(inputWidgetObject, function (err, resultobject) {
+                //     output=extend(true, resultobject, output)
+                     callback(err, output)
+                // })
+
+                }
+            else if (datastore==='mongo') { 
+                mget(inputWidgetObject, command, function (err, resultobject) {
+                    callback(err, resultobject)
+                })
+            } else {callback(err, output);}
+
+        } else { // if no widname
+            err = {};
+            callback(err, output);
+        }
+        //callback(err, output);
+    // } // end try
+    // catch (err) {
+    //     var finalobject =
+    //         createfinalobject({
+    //             "result": "updatedatastore"
+    //         }, {}, "updatedatastore", err, originalarguments);
+    //     callback(finalobject.err, finalobject.res);
+    // }
+}; //End of getfrommongo function
+
+// exports.offlinegetwid = window.offlinegetwid = offlinegetwid = function offlinegetwid(inputWidgetObject, callback) {
+//     try {
+//         var inbound_parameters = {};
+//         extend(true, inbound_parameters, inputWidgetObject);
+
+//         // get envrionment
+//         //
+//         var command = {};
+//         if (!inputWidgetObject.command) {
+//             command=inputWidgetObject.command
+//             delete inputWidgetObject.command
+//             }
+
+//         var convertedobject = {};
+//         proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject,12);
+//         getfromdatastore(inputWidgetObject, command, function (err, resultobject) {
+//             var originalarguments = {};
+//             extend(true, originalarguments, inputWidgetObject);
+//             // If error, bounce out
+//             if (err && Object.keys(err).length > 0) {
+//                 callback(err, resultobject);
+//             } else {
+//                 try {
+//                     // convert the object from dri standard before returnning it
+//                     proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject,12);
+
+//                     var convertedobject = convertfromdriformat(resultobject, command)
+//                     proxyprinttodiv('Function getwid in : convertedobject', convertedobject,12);
+//                     proxyprinttodiv('Function getwid in : resultobject', resultobject,12);
+
+//                     if (inputWidgetObject['command.convertmethod'] === 'toobject') {
+//                         callback(null, ConvertFromDOTdri(convertedobject))
+//                     } else {
+//                         callback(null, convertedobject);
+//                     }
+//                 } // end try
+//                 catch (err) {
+//                     var finalobject =
+//                         createfinalobject({
+//                             "result": "getfromdatastore"
+//                         }, {}, "getfromdatastore", err, originalarguments);
+//                     callback(finalobject.err, finalobject.res);
+//                 }
+//             }
+//         });
+//     } // end try
+//     catch (err) {
+//         var finalobject =
+//             createfinalobject({
+//                 "result": "offlinegetwid"
+//             }, {}, "offlinegetwid", err, inbound_parameters);
+//         callback(finalobject.err, finalobject.res);
+//     }
+// };
+
+// exports.offlineupdatewid = window.offlineupdatewid = offlineupdatewid = function offlineupdatewid(inputObject, callback) {
+//     try {
+//         var originalarguments = {};
+//         extend(true, originalarguments, inputObject);
+
+//         // getwidmaster environment
+//         // get collection and db
+//         // call add with those
+//         var command = {};
+//         if (!inputObject.command) {
+//             command=inputObject.command
+//             delete inputObject.command
+//             }
+
+//         // convert to dri format before saving
+//         updatedatastore(converttodriformat(inputObject, command), command, function (err, results) {
+//             // If error, bounce out
+//             if (err && Object.keys(err).length > 0) {
+//                 callback(err, results);
+//             } else {
+//                 try {
+//                     proxyprinttodiv('Function updatewid in : x', results,120);
+//                     callback(null, results);
+//                 } // end try
+//                 catch (err) {
+//                     var finalobject =
+//                         createfinalobject({
+//                             "result": "updatedatastore"
+//                         }, {}, "updatedatastore", err, inbound_parameters);
+//                     callback(finalobject.err, finalobject.res);
+//                 }
+//             } // end else
+//         });
+//     } // end try
+//     catch (err) {
+//         var finalobject =
+//             createfinalobject({
+//                 "result": "offlineupdatewid"
+//             }, {}, "offlineupdatewid", err, inbound_parameters);
+//         callback(finalobject.err, finalobject.res);
+//     }
+// };
+
+    exports.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
+        var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
+        delete inputWidgetObject['executethis'];
+        proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
+        var saveobject = {};
+        var db = "data";
+        var wid;
+        var metadata;
+        var date;
+        if (command && command.db) {
+            db = command.db
+        }
+
+        inputWidgetObject['metadata.date'] = new Date();
+
+        inputWidgetObject = ConvertFromDOTdri(inputWidgetObject);
+        if (inputWidgetObject['wid']) {
+            wid = inputWidgetObject['wid'];
+            delete inputWidgetObject['wid'];
+        }
+        if (inputWidgetObject['metadata']) {
+            metadata = inputWidgetObject['metadata'];
+            delete inputWidgetObject['metadata'];
+        }
+
+        if (!metadata['expirationdate']) {metadata['expirationdate'] = new Date()};
+
+        saveobject[db] = inputWidgetObject;
+        saveobject['wid'] = wid;
+        saveobject['metadata'] = metadata;
+        proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
+        return saveobject;
+    };
+
+    exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
+        var outobject = {};
+        //var outobject = null;
+        var db = "data";
+        if (!command) {command={}}
+        if (command && command.db) {
+            db = command.db
+        }
+
+        if ((widobject) && (Object.keys(widobject).length > 0)) {
+            if (isArray(widobject[db])) {
+                outobject = widobject[db][0];
+            } else {
+                outobject = widobject[db] || {};
+            }
+
+            if (widobject['wid']) {
+                outobject['wid'] = widobject['wid'];
+            } else {
+                outobject['wid'] = "";
+            }
+
+            if (widobject['metadata']) {
+                if (widobject['metadata']['date']) {
+                    delete widobject['metadata']['date'];
+                }
+                outobject['metadata'] = widobject['metadata'];
+
+            } else {
+                outobject['metadata'] = "";
+            }
+
+            if (command.driformat==="nowid") {
+                delete outobject.wid;
+                delete outobject.metadata
+            }
+            //commented by Roger
+            //outobject = ConvertToDOTdri(outobject);
+        }
+        return outobject;
+    };
+
+
+
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
     try {
 
         var inbound_parameters = arguments;
-        // if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 99)) {
+        // if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 41)) {
         //     printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
         //     if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
         //     if (document.getElementById('divprint')) {
         //         document.getElementById('divprint').innerHTML = document.getElementById('divprint').innerHTML + printText; //append(printText);
         //     }
 
-        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 99)) {
+        if ((Debug == 'true') || (debuglevel == debugone) || (debugone == 41)) {
             printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
             if (pretty) {printText = '<pre>' + text + '<br/>' + JSON.stringify(obj, "-", 4)+ '</pre>';}
             // console.log(text);
@@ -476,15 +844,15 @@ function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
                          if input provided, then no change
                          if input not provided, then set new values
                          */
-                        if(inpVal===undefined){
+                        if(inpVal===undefined || inpVal === "undefined"){
                             switch (dataType) {
                                 case "shortguid":   //to create 5 digit alphanumeric string
                                     //modifiedObj[inpKey] = createNewShortGuid();
                                     inpVal = createNewShortGuid();
                                     break;
                                 case "guid":
-                                    //modifiedObj[inpKey] = createNewGuid();
                                     inpVal = createNewGuid();
+                                    //modifiedObj[inpKey] = createNewGuid();
                                     break;
                                 case "random4": //to create 4 digit number
                                     //modifiedObj[inpKey] = createNewRandom4DigitNumber();
@@ -494,6 +862,18 @@ function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
                         }
 
                         switch (dataType) {
+                            // place holders needs to be fleshed out
+                            case "shortguid":
+                                modifiedObj[inpKey] = inpVal;
+                            break;
+                            case "guid":
+                                modifiedObj[inpKey] = inpVal;
+                            break;
+                            case "random4":
+                                modifiedObj[inpKey] = inpVal;
+                            break;
+                            // ************************************
+
                             case "boolean":
                                 if (inpVal === true || inpVal == "true") {
 
@@ -591,23 +971,21 @@ function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
 
                         proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
                         cbMap(null);
-                        //} else if(typeof inpVal === "object" &&  dataType === "object") {
-                        //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {                            //Ignoring metadata property in input.
-                        // } else if(inpVal instanceof Array) {
-                        //     async.mapSeries(inpVal, function (eachinputval, cb1) {
-                        //         async.nextTick(function () { 
-                        //             recurseModObj(eachinputval, dataType, convert, totype, function (err, result) {
-                        //                 modifiedObj[inpKey] = inpVal;
-                        //                 cb1(null) 
-                        //                 }) // recurse
-                        //             }) // next tick
-                        //         }, // mapseries
-                        //         cbMap(null);
-                        //         ) // mapseries
-
+					//} else if(typeof inpVal === "object" &&  dataType === "object") {
+					//} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {	//Ignoring metadata property in input.
+					} else if(inpVal instanceof Array) {
+						async.mapSeries(inpVal, function (eachinputval, cb1) {
+							async.nextTick(function () { 
+								recurseModObj(eachinputval, dataType, convert, totype, function (err, result) {
+									modifiedObj[inpKey] = result;
+									cb1(null) 
+								}) // recurse
+							}) // next tick
+						}) // mapseries
+						cbMap(null);
                     } else if ((typeof inpVal === "object")) {
                         proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
-                        if (inpKey !== "metadata") {
+                        if (inpKey !== "metadata") {	//Ignoring metadata property in input.
                             proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
                             recurseModObj(inpVal, dataType, convert, totype, function (err, result) {
                                 // If error, bounce out
@@ -1496,6 +1874,9 @@ function getRandomNumberByLength(length) {
 
     exports.logverify = logverify = function logverify(test_name, data_object, assertion_object) {
         //To delete metadata.date method
+        proxyprinttodiv("logverify test_name: ", test_name, 41);
+        proxyprinttodiv("logverify data_object: ", data_object, 41);
+        proxyprinttodiv("logverify assertion_object: ", assertion_object, 41);
         if(data_object[0] && data_object[0]["metadata"] && data_object[0]["metadata"]["date"]){
             delete data_object[0]["metadata"]["date"];
         }
@@ -1655,7 +2036,7 @@ function getRandomNumberByLength(length) {
                 break;
             case 6:
                 if (exports.environment === 'local') {
-                    outobject[3] = getFromLocalStorage("DRIKEY");
+                    outobject[3] = getFromLocalStorage("maincollection");
                     // outobject[4]=getFromLocalStorage("DRIKEY");
                     etlogresults(indebugname, outobject)
                 }
@@ -1862,7 +2243,7 @@ function getRandomNumberByLength(length) {
         // storetogoogle
     }
 
-    var deepDiffMapper = function () {
+    exports.deepDiffMapper = deepDiffMapper = function deepDiffMapper() {
         return {
             VALUE_CREATED: 'created',
             VALUE_UPDATED: 'updated',
@@ -2572,13 +2953,13 @@ function getRandomNumberByLength(length) {
         try {
             //console.log('test &&&&&&&&&&&&&&&&&& verify');
             if (database && JSON.stringify(database) !== "{}") {
-                addToLocalStorage("DRIKEY", database);
+                addToLocalStorage("maincollectionkey", database);
                 var this_string = "[";
                 for (var d in database) {
                     this_string += JSON.stringify(database[d]) + ',';
                 }
                 this_string = this_string.substring(0, this_string.length - 1) + ']';
-                addToLocalStorage("DRI", JSON.parse(this_string));
+                addToLocalStorage("maincollection", JSON.parse(this_string));
             }
             if (parameters instanceof Array) {
                 parameters.push(function (err, res) {
@@ -2628,145 +3009,7 @@ function getRandomNumberByLength(length) {
         }
     };
 
-    exports.converttodriformat = converttodriformat = function converttodriformat(inputObject, command) {
-        var inputWidgetObject = JSON.parse(JSON.stringify(inputObject));
-        delete inputWidgetObject['executethis'];
-        proxyprinttodiv('Function updatewid in : inputWidgetObject', inputWidgetObject, 1);
-        var saveobject = {};
-        var db = "data";
-        var wid;
-        var metadata;
-        var date;
-        if (command && command.db) {
-            db = command.db
-        }
 
-        inputWidgetObject['metadata.date'] = new Date();
-
-        inputWidgetObject = ConvertFromDOTdri(inputWidgetObject);
-        if (inputWidgetObject['wid']) {
-            wid = inputWidgetObject['wid'];
-            delete inputWidgetObject['wid'];
-        }
-        if (inputWidgetObject['metadata']) {
-            metadata = inputWidgetObject['metadata'];
-            delete inputWidgetObject['metadata'];
-        }
-
-        if (!metadata['expirationdate']) {metadata['expirationdate'] = new Date()};
-
-        // for (eachwid in inputWidgetObject) {
-        //     if ((inputWidgetObject[eachwid] == "onetomany") (inputWidgetObject[eachwid]=="onetoone")) {
-        //         inputWidgetObject['metadata'][eachwid]['type']=inputWidgetObject[eachwid]
-        //         delete inputWidgetObject[eachwid];
-        //         }
-        //     }
-        saveobject[db] = inputWidgetObject;
-        saveobject['wid'] = wid;
-        saveobject['metadata'] = metadata;
-        //saveobject = ConvertFromDOTdri(saveobject); // in case command.db = x.y.z nested was sent in
-
-        // saveobject['wid']=wid;
-        // saveobject['metadata.method']=method;
-        // if (inputWidgetObject) {
-        //     saveobject['data'] = inputWidgetObject;
-        //     }
-        // saveobject = ConvertFromDOTdri(inputWidgetObject);
-
-
-        // if (inputWidgetObject['wid']) {
-        //     saveobject['wid'] = inputWidgetObject['wid'].toLowerCase();
-        // } else {
-        //     saveobject['wid'] = "";
-        // }
-        // proxyprinttodiv('Function updatewid in : saveobject 0', saveobject, 1);
-        // delete inputWidgetObject['wid'];
-
-        // saveobject['metadata'] = {};
-        // if (inputWidgetObject['metadata.method']) {
-        //     saveobject['metadata']['method'] = inputWidgetObject['metadata.method'];
-        // } else {
-        //     saveobject['metadata']['method'] = "";
-        // }
-        // saveobject['metadata']['date'] = new Date();
-        // proxyprinttodiv('Function updatewid wid', saveobject['wid'], 10);
-        // proxyprinttodiv('Function updatewid added date', saveobject['metadata'], 10);
-
-        // proxyprinttodiv('Function updatewid in : saveobject I', saveobject, 1);
-
-        // // saveobject['metadata'] = inputWidgetObject['metadata'] ;
-        // delete inputWidgetObject['metadata.method'];
-        // if (inputWidgetObject) {
-        //     saveobject['data'] = inputWidgetObject;
-        // } else {
-        //     saveobject['data'] = "";
-        // }
-
-        proxyprinttodiv('Function updatewid in : saveobject II', saveobject, 1);
-        return saveobject;
-    };
-
-    exports.convertfromdriformat = convertfromdriformat = function convertfromdriformat(widobject, command) {
-        var outobject = {};
-        var db = "data";
-        if (command && command.db) {
-            db = command.db
-        }
-
-        //widobject = ConvertToDOTdri(widobject); // in case db=a.b.c nested object sent in
-
-        // if ((widobject) && (Object.keys(widobject).length > 0)) {
-        //     if (widobject[db]) {
-        //         outobject = widobject[db];
-        //     }
-        if ((widobject) && (Object.keys(widobject).length > 0)) {
-            if (isArray(widobject[db])) {
-                outobject = widobject[db][0];
-            } else {
-                outobject = widobject[db] || {};
-            }
-
-            if (widobject['wid']) {
-                outobject['wid'] = widobject['wid'];
-            } else {
-                outobject['wid'] = "";
-            }
-
-            if (widobject['metadata']) {
-                // deleting date from metadata, this is a fix for ag3
-                if (widobject['metadata']['date']) {
-                    delete widobject['metadata']['date'];
-                }
-                outobject['metadata'] = widobject['metadata'];
-
-            } else {
-                outobject['metadata'] = "";
-            }
-            //commented by Roger
-            //outobject = ConvertToDOTdri(outobject);
-        }
-
-        // if ((widobject) && (Object.keys(widobject).length > 0)) {
-        //     if (widobject["data"]) {
-        //         outobject = widobject["data"];
-        //     }
-
-        //     if (widobject['wid']) {
-        //         outobject['wid'] = widobject['wid'];
-        //     } else {
-        //         outobject['wid'] = "";
-        //     }
-
-        //     if (widobject['metadata']) {
-        //         outobject['metadata.method'] = widobject['metadata']['method'];
-        //         //&& added
-
-        //     } else {
-        //         outobject['metadata.method'] = "";
-        //     }
-        // }
-        return outobject;
-    };
 
     exports.createfinalobject = createfinalobject = function createfinalobject(outobject, command, nameoffn, errorobject, initialparameters) {
         proxyprinttodiv('createfinalobject input errorobject', errorobject, 98);
