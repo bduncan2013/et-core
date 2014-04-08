@@ -1057,23 +1057,23 @@
                                                                                                 }
                                                                                             }
 
-                                                                                            if ((res) && (res.js)) {executeobject.executeflag = true}
+                                                                                            if ((res[0]) && (res[0].js)) {executeobject.executeflag = true}
 
                                                                                             // Remove expiration date on return
                                                                                             // ------------------------------------------------
                                                                                             // AG1 example res: {"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-03-17T13:55:26.832Z","expirationdate":"2014-03-17T13:55:26.832Z"}}
-                                                                                            if ((res) && (Object.keys(res).length > 0) && (res['metadata']) && (res['metadata']['expirationdate'])) {
-                                                                                                delete res['metadata']['expirationdate'];
+                                                                                            if ((res[0]) && (Object.keys(res[0]).length > 0) && (res[0]['metadata']) && (res[0]['metadata']['expirationdate'])) {
+                                                                                                delete res[0]['metadata']['expirationdate'];
                                                                                             }
                                                                                             // ************************************************
 
                                                                                             // for an addthis situation
                                                                                             if (executeobject.executeflag === true) {
-                                                                                                if ((res) && (res.js)) {
+                                                                                                if ((res[0]) && (res[0].js)) {
                                                                                                     // TODO: do not leave this in production as is
-                                                                                                    var fnstring = res.js
+                                                                                                    var fnstring = res[0].js
                                                                                                     if (fnstring.indexOf("function")===0) {
-                                                                                                        fnstring="("+fnstring+")()"
+                                                                                                        //fnstring="("+fnstring+")()"
                                                                                                     }
                                                                                                     proxyprinttodiv("execute fnstring", fnstring, 11);
                                                                                                     eval(fnstring);
