@@ -163,9 +163,7 @@ if (typeof angular !== 'undefined') {
                                     for (var z = 0; z < resultArray[x][y].length; z++) {
                                         processExecuteResult(resultArray[x][y][z], scope);
                                     }
-                                } else {
-                                    processExecuteResult(resultArray[x][y], scope);
-                                }
+                                } else { processExecuteResult(resultArray[x][y], scope); }
                             }
                         } else { processExecuteResult(resultArray[x], scope); }
                     }
@@ -270,9 +268,11 @@ if (typeof angular !== 'undefined') {
 
             // get urlparams and inwid parameters and call executeThis with them
             // executeThis will check for screenwids to display
-            execute(urlExecuteObj, function (err, addurlresults) {
+            execute(urlExecuteObj, function (err, addUrlResults) {
                 execute({executethis:'urlparams'}, function (err, urlResultArr) {
                     var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
+
+                    if (urlResultObj.addthis) { urlResultObj = widAppHelper.removeAddThis(urlResultObj); }
 
                     $scope.urlparams = urlResultObj;
 
@@ -298,7 +298,7 @@ if (typeof angular !== 'undefined') {
 
                         executeService.executeThis(processParams, $scope);
                     });
-                })
+                });
             });
 
 //            // package url parameters into model
@@ -642,7 +642,8 @@ if (typeof angular !== 'undefined') {
         parameters.command.parameters.eventdata.originatingscreen = widAppHelper.getUrlParam('wid');
 
         // add urlparameters and inwid data to parameters
-        parameters = extend(true, scope.inwid, scope.urlparams, parameters);
+//        parameters = extend(true, scope.inwid, scope.urlparams, parameters);
+        parameters = extend(true, scope.inwid, parameters); // not using urlparams for now as it causes conflicting wid properties at times.
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')

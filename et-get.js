@@ -1161,12 +1161,30 @@
                             parameterobject["metadata"]["method"] = "string";
                             parameterobject.command.inherit.push({"wid" : "systemdefault", "command":{"dtotype":"", "adopt":"default"}})
 
+                            execute({
+                                "executethis": "getwidmaster",
+                                "wid": "systemdto",
+                                "command.getwidmaster.execute": "ConvertFromDOTdri",
+                                "command.getwidmaster.convertmethod": "dto",
+                                "command.getwidmaster.inheritflag":"false" // ### enabled by Roger
+                            }, function (err, res) {
+                                if (err && Object.keys(err).length > 0) {
 
+                                } else {
+                                    systemdto = res[0];
+                                    // make sure it not an empty command object                           
+                                    if(parameterobject && Object.keys(parameterobject).length > 0) {
+                                        //var systemdto = {"expirationdate":"4/8/2014"};
+                                        parameterobject = extend(true, parameterobject, systemdto);
+                                        proxyprinttodiv("--- What i'm looking at parameterobject inside system dto ---", parameterobject, 38);
+                                    }
+                                }
+                            });
+                            
                             parameterobject.command.dtolist['systemdto'] = 'onetoone';
                             parameterobject.command.deepdtolist['systemdto'] = 'onetoone';
 
-
-                        } // if dto
+                        } // end if 
 
                         proxyprinttodiv("--- What i'm looking at parameterobject step3 ---", parameterobject, 38);
 
