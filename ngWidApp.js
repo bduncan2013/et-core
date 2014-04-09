@@ -2,7 +2,8 @@ if(!exports){ var exports = {}; }
 
 // call eventdeviceready from config to see if app needs to be installed
 // call outside controller so it happens first
-eventdeviceready();
+
+eventdeviceready({}, function (err, results) { });
 
 //<editor-fold desc="App, Factories, and Directives">
 
@@ -112,7 +113,7 @@ if (typeof angular !== 'undefined') {
     });
 
     widApp.factory('executeService', function($http, $compile, dataService) {
-        var processExecuteResult = function(result, scope, ogWid) {
+        var processExecuteResult = function(result, scope) {
             if (result.addthis) { result = widAppHelper.removeAddThis(result);}
 
             // if not logged in at this point send browser to login.html
@@ -141,28 +142,26 @@ if (typeof angular !== 'undefined') {
                 angularExecute(executeObj, function (err, returnArray) { });
             }
 
-            dataService.storeData(result, scope, ogWid, function (dataset) {
+            dataService.storeData(result, scope, undefined, function (dataset) {
                 // check if this is a screenwid and needs to be displayed
                 if (dataset.html) {
                     etProcessScreenWid(dataset, scope, function () {
                         widAppHelper.processHtml(dataset, scope, $compile);
                     });
-                } else if (dataset.js) { widAppHelper.processJS(dataset, scope, $compile); }
+                } else if (dataset.script) { widAppHelper.processJS(dataset, scope, $compile); }
                 else if (dataset.css) { widAppHelper.processCSS(dataset, scope, $compile); }
             });
         };
 
         return {
             executeThis: function(parameters, scope, callback) {
-                var ogWid = parameters.wid || undefined;
-
                 execute(parameters, function (err, resultArray) {
                     for (var x = 0; x < resultArray.length; x++) {
                         if (Array.isArray(resultArray[x])) {
                             for (var i = 0; i < resultArray[x].length; i++) {
-                                processExecuteResult(resultArray[x][i], scope, ogWid);
+                                processExecuteResult(resultArray[x][i], scope);
                             }
-                        } else { processExecuteResult(resultArray[x], scope, ogWid); }
+                        } else { processExecuteResult(resultArray[x], scope); }
                     }
 
                     // send array to callback
@@ -260,15 +259,19 @@ if (typeof angular !== 'undefined') {
                 else { parameters.addthis.executethis = parameters.executethis; }
                 delete parameters['executethis'];
             }
+
             var urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
 
             // get urlparams and inwid parameters and call executeThis with them
             // executeThis will check for screenwids to display
-            executeService.executeThis(urlExecuteObj, $scope, function (err, urlResultArr) {
+            execute(urlExecuteObj, function (err, urlResultArr) {
                 var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
+
+                $scope.urlparams = urlResultObj;
+
                 processParams = extend(true, urlResultObj, processParams);
 
-                executeService.executeThis({executethis:'inwid'}, $scope, function (err, inwidResultArr) {
+                execute({executethis:'inwid'}, function (err, inwidResultArr) {
                     var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
                     if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
 
@@ -290,10 +293,10 @@ if (typeof angular !== 'undefined') {
                 });
             });
 
-            // package url parameters into model
-            if (Object.size(widAppHelper.queryStrToObj(location.search)) > 0) {
-                $scope.urlparameters = widAppHelper.queryStrToObj(location.search);
-            }
+//            // package url parameters into model
+//            if (Object.size(widAppHelper.queryStrToObj(location.search)) > 0) {
+//                $scope.urlparameters = widAppHelper.queryStrToObj(location.search);
+//            }
 
             // package current users info into the model
             if (currentUser && currentUser.loggedin) {
@@ -497,7 +500,7 @@ if (typeof angular !== 'undefined') {
                 var phase = scope.$root.$$phase;
                 if (phase !== '$apply' && phase !== '$digest') {
                     scope.$apply(function() {
-                        $('body').append(compile('<script>' + wid.js + '</script>')(scope));
+                        $('body').append(compile('<script>' + wid.script + '</script>')(scope));
                     });
                 }
             }
@@ -552,8 +555,8 @@ if (typeof angular !== 'undefined') {
                 }
             });
 
-            // update screenwid in data model once executes have been processed
-            updateScreenWidModel(screenWid.wid);
+//            // update screenwid in data model once executes have been processed
+//            updateScreenWidModel(screenWid.wid);
         },
 
         processExecute: function(ele, scope, compile) {
@@ -631,7 +634,7 @@ if (typeof angular !== 'undefined') {
         parameters.command.parameters.eventdata.originatingscreen = widAppHelper.getUrlParam('wid');
 
         // add urlparameters and inwid data to parameters
-        parameters = extend(true, scope.inwid, scope.urlparameters, parameters);
+        parameters = extend(true, scope.inwid, scope.urlparams, parameters);
 
         angular.injector(['ng', 'widApp'])
             .get('executeService')
@@ -748,7 +751,7 @@ if (typeof angular !== 'undefined') {
             });
         }
 
-        async.each(all_wids,
+        async.eachSeries(all_wids,
             function(executeObj, cb) {
                 execute(executeObj, function (err, resultArray) {
                     angular.injector(['ng', 'widApp'])
@@ -783,20 +786,23 @@ if (typeof angular !== 'undefined') {
     };
 }
 
-exports.getFromAngular = getFromAngular = function getFromAngular(parameters, callback) {
-    var propName = parameters.wid || '',
-        modelObj;
+exports.getfromangular = getfromangular = function getfromangular(parameters, callback) {
+    if ($ && $('body').scope) { callback(null, $('body').scope()[parameters.wid]); }
+    else { callback(null); }
 
-    if ($ && $('body').scope) { modelObj = $('body').scope()[propName]; }
+//    var propName = parameters.wid || '',
+//        modelObj;
 
-    if (modelObj) {
-        callback(null, modelObj);
-    }
-    else {
-        offlinegetwid(parameters, function (err, results) {
-            callback(err, results);
-        });
-    }
+//    if ($ && $('body').scope) { modelObj = $('body').scope()[propName]; }
+//
+//    if (modelObj) {
+//        callback(null, modelObj);
+//    }
+//    else {
+//        offlinegetwid(parameters, function (err, results) {
+//            callback(err, results);
+//        });
+//    }
 };
 
 exports.gethtmlbyid = gethtmlbyid = function gethtmlbyid(params, callback) {
@@ -841,18 +847,18 @@ exports.htmlToScreenwid = htmlToScreenwid = function htmlToScreenwid(screenWidNa
     });
 };
 
-exports.updateScreenWidModel = updateScreenWidModel = function updateScreenWidModel(screenWidName) {
-    var newScreenwid = {executethis:'addwidmaster',wid:screenWidName,html:$('body').html()};
-
-    if (typeof widforview !== 'undefined') { newScreenwid.widforview = widforview; }
-    if (typeof widforbase !== 'undefined') { newScreenwid.widforbase = widforbase; }
-    if (typeof widforbackground !== 'undefined') { newScreenwid.widforbackground = widforbackground; }
-    if (typeof dataforview !== 'undefined') { newScreenwid.dataforview = JSON.stringify(dataforview); }
-    if (typeof links !== 'undefined') { newScreenwid.links = JSON.stringify(links); }
-
-    // update screenwid in the data model
-    addToAngular(screenWidName, newScreenwid);
-};
+//exports.updateScreenWidModel = updateScreenWidModel = function updateScreenWidModel(screenWidName) {
+//    var newScreenwid = {executethis:'addwidmaster',wid:screenWidName,html:$('body').html()};
+//
+//    if (typeof widforview !== 'undefined') { newScreenwid.widforview = widforview; }
+//    if (typeof widforbase !== 'undefined') { newScreenwid.widforbase = widforbase; }
+//    if (typeof widforbackground !== 'undefined') { newScreenwid.widforbackground = widforbackground; }
+//    if (typeof dataforview !== 'undefined') { newScreenwid.dataforview = JSON.stringify(dataforview); }
+//    if (typeof links !== 'undefined') { newScreenwid.links = JSON.stringify(links); }
+//
+//    // update screenwid in the data model
+//    addToAngular(screenWidName, newScreenwid);
+//};
 
 // calls callback function, passing in all html derived from passed in screenWid object
 exports.screenwidToHtml = screenwidToHtml = function screenwidToHtml(screenWid, callback) {
@@ -875,7 +881,7 @@ exports.screenwidToHtml = screenwidToHtml = function screenwidToHtml(screenWid, 
         });
     }
 
-    async.each(htmlDom.filter('execute'), addToElement, function (err) {
+    async.eachSeries(htmlDom.filter('execute'), addToElement, function (err) {
         htmlDom.each(function (index, element) {
             if (element.outerHTML !== undefined) {
                 htmlString += element.outerHTML;
