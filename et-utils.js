@@ -862,6 +862,16 @@ function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
                         }
 
                         switch (dataType) {
+                            // placeholders, these may need to be fleshed out per roger, thats why the set value logic is here and not above
+                            case "shortguid":   //to create 5 digit alphanumeric string
+                                modifiedObj[inpKey] = inpVal;
+                                break;
+                            case "guid":
+                                modifiedObj[inpKey] = inpVal;
+                                break;
+                            case "random4": //to create 4 digit number
+                                modifiedObj[inpKey] = inpVal;
+                                break;
                             case "boolean":
                                 if (inpVal === true || inpVal == "true") {
 
