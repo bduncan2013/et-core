@@ -247,16 +247,33 @@ exports.getfromdatastore = getfromdatastore = function getfromdatastore(inputWid
         if (widName) {
             getdatabaseinforesult = getdatabaseinfo(command, null, null, null);
             proxyprinttodiv('Function getfromdatastore getdatabaseinforesult', getdatabaseinforesult,12);
-            datastore=getdatabaseinforesult.datastore;
+            var datastore = getdatabaseinforesult.datastore;
             if ((datastore==='localstorage') || (datastore==='localstore')) {
-                keydatabase=getdatabaseinforesult.keydatabase;
+                var keydatabase=getdatabaseinforesult.keydatabase;
                 proxyprinttodiv('Function getfromdatastore keydatabase', keydatabase,12);
-                output = keydatabase[widName];          
-                
-                // uncommenting below causes infinite loop to be debugged
+                output = keydatabase[widName];
+
+                // default getdatabaseinforesult.command.db if not present
+                if (!getdatabaseinforesult.command) { getdatabaseinforesult.command = {db:'data'}; }
+                else if (!getdatabaseinforesult.command.db) { getdatabaseinforesult.command.db = 'data'; }
+
+                var db = getdatabaseinforesult.command.db;
+
                 getfromangular(inputWidgetObject, function (err, resultobject) {
-                     output=extend(true, resultobject, output);
-                     callback(err, output);
+                    output=extend(true, resultobject, output);
+
+                    // make sure data is bundled properly for convertfromdriformat()
+                    for (var prop in output) {
+                        if (output.hasOwnProperty(prop)) {
+                            if (prop !== 'wid' && prop !== 'metadata' && prop !== 'converttodriformat' && prop !== 'data') {
+                                if (!output[db]) { output[db] = {}; }
+                                output[db][prop] = output[prop];
+                                delete output[prop];
+                            }
+                        }
+                    }
+
+                    callback(err, output);
                 });
 
             }
