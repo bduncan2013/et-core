@@ -257,7 +257,7 @@ exports.getfromdatastore = getfromdatastore = function getfromdatastore(inputWid
                 getfromangular(inputWidgetObject, function (err, resultobject) {
                      output=extend(true, resultobject, output);
                      callback(err, output);
-                })
+                });
 
             }
             else if (datastore==='mongo') { 

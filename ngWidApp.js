@@ -158,8 +158,14 @@ if (typeof angular !== 'undefined') {
                 execute(parameters, function (err, resultArray) {
                     for (var x = 0; x < resultArray.length; x++) {
                         if (Array.isArray(resultArray[x])) {
-                            for (var i = 0; i < resultArray[x].length; i++) {
-                                processExecuteResult(resultArray[x][i], scope);
+                            for (var y = 0; y < resultArray[x].length; y++) {
+                                if (Array.isArray(resultArray[x][y])) {
+                                    for (var z = 0; z < resultArray[x][y].length; z++) {
+                                        processExecuteResult(resultArray[x][y][z], scope);
+                                    }
+                                } else {
+                                    processExecuteResult(resultArray[x][y], scope);
+                                }
                             }
                         } else { processExecuteResult(resultArray[x], scope); }
                     }
@@ -260,37 +266,39 @@ if (typeof angular !== 'undefined') {
                 delete parameters['executethis'];
             }
 
-            var urlExecuteObj = extend(true, parameters, {executethis:'addwidmaster', wid:'urlparams'});
+            var urlExecuteObj = extend(true, parameters, {executethis:'updatewid', wid:'urlparams'});
 
             // get urlparams and inwid parameters and call executeThis with them
             // executeThis will check for screenwids to display
-            execute(urlExecuteObj, function (err, urlResultArr) {
-                var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
+            execute(urlExecuteObj, function (err, addurlresults) {
+                execute({executethis:'urlparams'}, function (err, urlResultArr) {
+                    var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
 
-                $scope.urlparams = urlResultObj;
+                    $scope.urlparams = urlResultObj;
 
-                processParams = extend(true, urlResultObj, processParams);
+                    processParams = extend(true, urlResultObj, processParams);
 
-                execute({executethis:'inwid'}, function (err, inwidResultArr) {
-                    var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
-                    if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
+                    execute({executethis:'inwid'}, function (err, inwidResultArr) {
+                        var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
+                        if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
 
-                    // store inwid data in model
-                    $scope.inwid = inwidResults;
+                        // store inwid data in model
+                        $scope.inwid = inwidResults;
 
-                    processParams = extend(true, inwidResults, processParams);
+                        processParams = extend(true, inwidResults, processParams);
 
-                    if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
+                        if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
 
-                    if (processParams.wid) {
-                        processParams.executethis = processParams.wid;
-                        delete processParams['wid'];
-                    }
+                        if (processParams.wid) {
+                            processParams.executethis = processParams.wid;
+                            delete processParams['wid'];
+                        }
 
-                    if (processParams.metadata) { delete processParams['metadata']; }
+                        if (processParams.metadata) { delete processParams['metadata']; }
 
-                    executeService.executeThis(processParams, $scope);
-                });
+                        executeService.executeThis(processParams, $scope);
+                    });
+                })
             });
 
 //            // package url parameters into model
