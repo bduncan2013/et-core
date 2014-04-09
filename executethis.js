@@ -266,20 +266,13 @@
                                                             //     } 
                                                             // }
 
+                                                           // make a copy of inherit data if we have resultparameters
                                                             if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
-                                                                // proxyprinttodiv("execute - resultparameters ****", resultparameters, 11);
-                                                                // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
-                                                                if (!postResults.command) {
-                                                                    postResults.command = {};
-                                                                }
-                                                                if (!postResults.command.inherit) {
-                                                                    postResults.command.inherit = {};
-                                                                }
-                                                                postResults.command.inherit.data = postResults;
-                                                                proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
-                                                                incomingparams = extend(true, incomingparams, command.resultparameters);
+                                                                var copyOfInheritData = {};
+                                                                extend(true, copyOfInheritData, postResults);
                                                             }
 
+                                                            // process inherit
                                                             if (command.adopt) {
                                                                 // proxyprinttodiv("execute - adopt ****", adopt, 11);
                                                                 // proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
@@ -291,6 +284,25 @@
                                                                     postResults = extend(true, postResults, incomingparams);
                                                                 }
 
+                                                            }
+
+                                                            // process command.resultparamters, deals with loading a copy of inherit data along with incomingparams
+                                                            if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
+                                                                // proxyprinttodiv("execute - resultparameters ****", resultparameters, 11);
+                                                                // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
+                                                                if (!postResults.command) {
+                                                                    postResults.command = {};
+                                                                }
+                                                                if (!postResults.command.inherit) {
+                                                                    postResults.command.inherit = {};
+                                                                }
+                                                                if (!postResults.command.inherit.data) {
+                                                                    postResults.command.inherit.data = {};
+                                                                }
+                                                                // load a copy of the what was inherited
+                                                                postResults.command.inherit.data = copyOfInheritData;
+                                                                proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
+                                                                incomingparams = extend(true, incomingparams, command.resultparameters);
                                                             }
 
                                                             // wrap  if needed to
