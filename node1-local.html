@@ -266,7 +266,7 @@ copyright (c) 2014 DRI
     //clearLocalStorage()
     $(document).ready(function() {
         // page loaded, on ready  >>     function etappstarted()
-        eventdeviceready();
+        eventdeviceready({}, function (err, res) {
         Debug = 'false';
         //bootprocess();
         
@@ -274,6 +274,9 @@ copyright (c) 2014 DRI
         $('#function_to_run').focus();
         // $('dest_print').prop("checked", true);
         // alert(document.URL);
+            
+        });
+
     });
 
     function execute_stuff(isTest, isServer, servername) {
@@ -799,8 +802,7 @@ copyright (c) 2014 DRI
             <input name="numbers" id="numbers" type="text">
             <input type="button" value="Submit" class="submit" onclick="checkBeforeSubmit();" />
             <span id="success"></span>
-    </div>
-    </form>
+        </form>
     </div>
 
 

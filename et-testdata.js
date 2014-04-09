@@ -1760,12 +1760,12 @@
         var check1Set = {};
         check1Set['ac'] = "rogerac";
         check1Set['usergroup'] = null;
-        check1Set['actiongroup'] = "getwidmaster";
-        check1Set['dbgroup'] = "data1";
+        check1Set['actiongroup'] = "allactions";
+        check1Set['dbgroup'] = "data";
         check1Set['phone'] = "9873838958";
         check1Set['server'] = "server1";
-        check1Set['collection'] = "collection1";
-        check1Set['datastore'] = "dbs";
+        check1Set['collection'] = "maincollection";
+        check1Set['datastore'] = "data";
 
 
         /// *** TESTS BELOW **** CHANGE THE STUFF ABOVE, NOTHING BELOW
@@ -1865,184 +1865,21 @@
         checkSecurityForData(parm, userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, check1Set, callback);
     }
 
-    // ** GENERIC FUNCTION TO CHECK SECURITY ON THE BASIS OF THE GIVEN DATA AND RETURN THE STATUS **
-
-    function checkSecurityForData(parm, userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, check1Set, callback) {
-        var status = false;
-
-
-        // user data
-        var userobj = {};
-        userobj['wid'] = "rogeruser";
-        userobj['fname'] = "Roger";
-        userobj['lname'] = "Colburn";
-        userobj['phone'] = "987-383-8958";
-        userobj['email'] = "roger@d.com";
-        userobj['address'] = "112";
-        userobj['address2'] = "Donald Lynch Blvd";
-        userobj['city'] = "Marlborough";
-        userobj['state'] = "Massachusetts";
-        userobj['zip'] = "17502";
-        userobj['country'] = "US";
-
-        // environment data
-        var environmentobj = {};
-        environmentobj['ac'] = 'ac';
-        environmentobj['gps'] = 'gpsval';
-        environmentobj['account'] = 'default';
-        environmentobj['db'] = 'data';
-        environmentobj['collection'] = 'maincollection';
-
-        // user permissions data
-        var permissionobj = {
-            "permissiondto.0.level": "99",
-            "permissiondto.0.metadata.collection": "collection1",
-            "permissiondto.0.metadata.system.creator": "rogeruser",
-            "permissiondto.0.actiongroupdto.actiongroupname": "getwid",
-            // "permissiondto.0.actiongroupdto.metadata.system.creator": "rogeruser",
-            "permissiondto.0.usergroupdto.usergroupname": "driemployees",
-            // "permissiondto.0.usergroupdto.metadata.system.creator": "rogeruser",
-            "permissiondto.0.metadata.db": "data1"
-        };
-
-        // user usergroups assignment data
-        var usergroupobj = {
-            "usergroupdto.0.usergroupname": "driemployees",
-            "usergroupdto.0.metadata.system.creator": "rogeruser",
-            "usergroupdto.1.metadata.system.creator": "rogeruser",
-            "usergroupdto.1.usergroupname": "drimanagers"
-        };
-
-        // user actiongroups assignment data
-        var actiongroupobj = {
-            "actiongroupdto.0.actiongroupname": "getwidmaster",
-            "actiongroupdto.0.metadata.system.creator": "rogeruser",
-            "actiongroupdto.1.metadata.system.creator": "rogeruser",
-            "actiongroupdto.1.actiongroupname": "addwidmaster",
-            "actiongroupdto.0.actiongroupname": "getwid",
-            "actiongroupdto.0.metadata.system.creator": "rogeruser"
-        };
-
-        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- override
-        var overrideobj = {};
-        overrideobj['wid'] = 'overridedataobjwid';
-
-        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- default
-        var defaultobj = {};
-        defaultobj['wid'] = 'defaultobjwid';
-
-        // user security data
-        var securityobj = {};
-        securityobj['ac'] = "rogerac";
-
-        // what to test security on
-        var check1Set = {};
-        check1Set['ac'] = "rogerac";
-        check1Set['usergroup'] = null;
-        check1Set['actiongroup'] = "getwidmaster";
-        check1Set['dbgroup'] = "data1";
-        check1Set['phone'] = "9873838958";
-        check1Set['server'] = "server1";
-        check1Set['collection'] = "collection1";
-        check1Set['datastore'] = "dbs";
-
-
-        async.series([
-            function (cb1) {
-                // create schema data
-                createalldtos(parm, function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added schema dtos ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create schema data
-                noncriticaldtos(function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added noncriticaldtos ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // setup user data
-                createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  added user data ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // check security test 1
-                securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
-                    proxyprinttodiv('Function  checkSecurityForData  checked security ', res, 39);
-                    status = res;
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {
-            callback(err, status);
-        });
-    }
-
+  
 
     // ***************************************************************************
     // *************** DATA ADDITION TEST FUNCTIONS ******************************
     //****************************************************************************
 
-    // test to check if data returns default data inherited
+
     exports.udata1 = udata1 = function udata1(params, callback) {
         debuglevel = 39;
-        // user data
-        var userobj = {};
-        userobj['wid'] = "testuser";
-
-        // environment data
-        var environmentobj = {};
-        environmentobj['ac'] = 'ac';
-        environmentobj['gps'] = 'gpsval';
-        environmentobj['account'] = 'default';
-        environmentobj['db'] = 'data';
-        environmentobj['collection'] = 'maincollection';
-
-        // user permissions data
-        var permissionobj = {};
-        // var permissionobj = {
-        //     "permissiondto.0.level": "99",
-        //     "permissiondto.0.metadata.collection": "collection1",
-        //     "permissiondto.0.actiongroupdto.actiongroupname": "getwid",
-        //     "permissiondto.0.usergroupdto.usergroupname": "driemployees",
-        //     "permissiondto.0.metadata.db": "data1"
-        // };
-
-        // user usergroups assignment data
-        var usergroupobj = {
-            "usergroupdto.0.usergroupname": "driemployees",
-            "usergroupdto.1.usergroupname": "drimanagers"
-        };
-
-        // user actiongroups assignment data assign default
-        var actiongroupobj = {};
-        // var actiongroupobj = {
-        //     "actiongroupdto.1.actiongroupname": "getwidmaster",
-        //     "actiongroupdto.2.actiongroupname": "addwidmaster",
-        //     "actiongroupdto.1.actiongroupname": "getwid"
-        // };
-
-        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- override
-        var overrideobj = {};
-        overrideobj['wid'] = 'overridedataobjwid';
-
-        // TODO :: USE IT LATER :: NOT USED RIGHT NOW default data -- default
-        var defaultobj = {};
-        defaultobj['wid'] = 'defaultuserdto';
-
-        // user security data
-        var securityobj = {};
-        securityobj['ac'] = "rogerac";
-
-        // // what to test security on
+        
+        // what to test security on
         var check1Set = {};
         check1Set['ac'] = "rogerac";
         check1Set['usergroup'] = null;
-        check1Set['actiongroup'] = "getwidmaster";
+        check1Set['actiongroup'] = "allactions";
         check1Set['dbgroup'] = "data1";
         check1Set['phone'] = "9873838958";
         check1Set['server'] = "server1";
@@ -2051,45 +1888,135 @@
 
         var status = false;
         async.series([
-            function (cb1) {
-                // create schema data
-                createalldtos({}, function (err, res) {
-                    proxyprinttodiv('Function  udata1  added schema dtos ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // create schema data
-                noncriticaldtos(function (err, res) {
-                    proxyprinttodiv('Function  udata1  added noncriticaldtos ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
+                function (cb1) {
+                    // create schema data
+                    createalldtos({}, function (err, res) {
+                        proxyprinttodiv('Function  udata1  added schema dtos ', res, 39);
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // TODO :: SAURABH :: MODULARIZE USER DATA ADDITION AND UNCOMMENT THIS
+                    // setup user data
+                    // createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
+                    //     proxyprinttodiv('Function  udata1  added user data ', res, 39);
+                    //     cb1(null);
+                    // });
+                    execute([{
+                        // default actiongroupdto
+                        "executethis": "addwidmaster",
+                        "wid": "actiongroupdtodefault",
+                        "metadata.method": "actiongroupdto",
+                        "actiongroupname": "actiongroupdtodefault",
+                        "executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        "executeactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        "getactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        "getactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        "editactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        "editactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        "deleteactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        "deleteactiondto.actiondto.localactiondto": "defaultlocalactiondto"
+                    }, {
+                        // default permissiondto
+                        "executethis": "addwidmaster",
+                        "wid": "permissiondtodefault",
+                        "metadata.method": "permissiondto",
+                        "metadata.system.creator": "string",
+                        "level": "string",
+                        // "actiongroupdto.wid": "actiongroupdtodefault",
+                        "db": "data",
+                        "collection": "maincollection"
+                    }, {
+                        // Create the userdto
+                        "executethis": "addwidmaster",
+                        "metadata.method": "userdto",
+                        "widname": "userdtodefault",
+                        "wid": "defaultuser",
+                        "fname": "1",
+                        "lname": "2",
+                        "phone": "3",
+                        "email": "4",
+                        "address": "5",
+                        "address2": "6",
+                        "city": "7",
+                        "state": "8",
+                        "zip": "9",
+                        "country": "10",
+                        "wid": "testuser",
+                        "metadata.method": "userdto",
 
+                        // relationships
+                        "metadata.securitydto.type": "onetoone",
+                        "metadata.environmentdto.type": "onetoone",
+                        "metadata.usergroupdto.type": "onetomany",
 
-                // setup user data
-                createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
-                    proxyprinttodiv('Function  udata1  added user data ', res, 39);
-                    cb1(null);
-                });
-            },
-            function (cb1) {
-                // check security test 1
-                securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
-                    proxyprinttodiv('Function  udata1  checked security ', res, 39);
-                    status = res;
-                    cb1(null);
-                });
-            }
-        ], function (err, res) {
-            execute({
-                "executethis": "getwidmaster",
-                "wid": userobj.wid
-            }, function (err, res) {
+                        // securitydto
+                        "securitydto.accesstoken": "rogerac",
+                        "securitydto.metadata.method": "securitydto",
+
+                        // environmentdto
+                        "environmentdto.ac": "ac",
+                        "environmentdto.gps": "gpsval",
+                        "environmentdto.account": "default",
+                        "environmentdto.db": "data",
+                        "environmentdto.collection": "maincollection",
+                        "environmentdto.metadata.method": "environmentdto",
+
+                        // permissiondto
+                        "permissiondto.metadata.method": "permissiondto",
+                        "permissiondto.metadata.system.creator": "driwid",
+                        "permissiondto.level": "99",
+                        "permissiondto.metadata.collection": "collection1",
+                        "permissiondto.metadata.db": "data1",
+                        // ,
+                        // "permissiondto.0.metadata.inherit.0.wid": "userdtodefault",
+                        // "permissiondto.0.metadata.inherit.0.command.dtotype": "",
+                        // "permissiondto.0.metadata.inherit.0.command.adopt": "default",
+                        // "permissiondto.0.actiongroupdto.0.metadata.inherit.wid": "actiongroupdtodefault",
+                        // "permissiondto.0.actiongroupdto.0.metadata.inherit.0.command.dtotype": "",
+                        // "permissiondto.0.actiongroupdto.0.metadata.inherit.0.command.adopt": "default"
+
+                        // permissiondto.usergroupdto
+                        "permissiondto.usergroupdto.0.usergroupname": "everyone",
+                        "permissiondto.usergroupdto.0.metadata.method": "usergroupdto",
+                        "permissiondto.usergroupdto.0.metadata.system.creator": "driwid",
+
+                        // permissiondto.actiongroupdto
+                        "permissiondto.actiongroupdto.0.actiongroupname": "allactions",
+                        "permissiondto.actiongroupdto.0.metadata.method": "actiongroupdto",
+                        "permissiondto.actiongroupdto.0.metadata.system.creator": "driwid",
+                        // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.actiongroupname": "actiongroupdtodefault",
+                        // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        // "permissiondto.0.actiongroupdto.1.getactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.1.getactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        // "permissiondto.0.actiongroupdto.2.editactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.2.editactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        // "permissiondto.0.actiongroupdto.3.deleteactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.3.deleteactiondto.actiondto.localactiondto": "defaultlocalactiondto"
+                    }], function (err, res) {
+                        execute({
+                            "executethis": "getwidmaster",
+                            "wid": "testuser"
+                        }, function (err, res) {
+                            proxyprinttodiv('Function  udata1  created userdata --- testuser ', res, 39);
+                            cb1(null);
+                        });
+                    })
+                },
+                function (cb1) {
+                    // check security test 1
+                    securitycheck(check1Set.ac, check1Set.usergroup, check1Set.phone, check1Set.actiongroup, check1Set.dbgroup, check1Set.collection, check1Set.server, check1Set.datastore, function (err, res) {
+                        proxyprinttodiv('Function  udata1  checked security ', res, 39);
+                        status = res;
+                        cb1(null);
+                    });
+                }
+            ],
+            function (err, res) {
                 callback(err, res);
             });
-        });
     }
 
     // create the defaultgroups 
@@ -2115,116 +2042,6 @@
     }
 
 
-    // 1st test for new security stuff
-    exports.asap = asap = function asap(parm, callback) {
-
-        debuglevel = 39;
-
-        // roger user data
-        var userobj = {};
-        userobj['wid'] = "rogeruser";
-        userobj['fname'] = "Roger";
-        userobj['lname'] = "Colburn";
-        userobj['phone'] = "987-383-8958";
-        userobj['email'] = "roger@d.com";
-        userobj['address'] = "112";
-        userobj['address2'] = "Donald Lynch Blvd";
-        userobj['city'] = "Marlborough";
-        userobj['state'] = "Massachusetts";
-        userobj['zip'] = "17502";
-        userobj['country'] = "US";
-
-        // environment data
-        var environmentobj = {};
-        environmentobj['ac'] = 'ac';
-        environmentobj['gps'] = 'gpsval';
-        environmentobj['account'] = 'default';
-        environmentobj['db'] = 'data';
-        environmentobj['collection'] = 'maincollection';
-
-        // rogeruser permissions data
-
-
-        var permissionsobj = {
-            "permissiondto.0.level": "99",
-            "permissiondto.0.metadata.collection": "collection1",
-            "permissiondto.0.actiongroupdto.actiongroupname": "getwidmaster",
-            "permissiondto.0.usergroupdto.usergroupname": "driemployees",
-            "permissiondto.0.metadata.db": "data1"
-        };
-
-
-        var usergroupobj = {
-            "usergroupdto.0.usergroupname": "driemployees",
-            "usergroupdto.0.usergroupdto.0.usergroupname": "driemployees",
-
-            "usergroupdto.1.usergroupname": "drimanagers",
-            "usergroupdto.1.usergroupdto.0.usergroupname": "driemployees"
-        };
-
-        var actiongroupobj = {
-            "actiongroupdto.0.actiongroupname": "getwidmaster",
-            "actiongroupdto.0.creator": "rogeruser",
-            "actiongroupdto.0.actiongroupdto.0.actiongroupname": "getwidmaster",
-            "actiongroupdto.0.actiongroupdto.0.creator": "rogeruser",
-            "actiongroupdto.1.actiongroupname": "addwidmaster",
-            "actiongroupdto.1.creator": "rogeruser",
-            "actiongroupdto.1.actiongroupdto.0.actiongroupname": "addwidmaster"
-        };
-
-
-        // default data -- override
-        var overrideobj = {};
-        overrideobj['wid'] = 'overridedataobjwid';
-
-        // default data -- default
-        var defaultobj = {};
-        defaultobj['wid'] = 'defaultobjwid';
-
-        var securityobj = {};
-        securityobj['ac'] = "rogerac";
-
-
-
-        async.series([
-                function (cb) {
-                    createalldtos(null, function (err, res) {
-                        cb(null, "system dtos created")
-                    });
-                },
-
-                function (cb) {
-                    noncriticaldtos(function (err, res) {
-                        cb(null, "non critical dtos created")
-                    });
-                },
-
-                function (cb) {
-                    proxyprinttodiv('Function asap -- environment is >>>>>  environmentobj', environmentobj, 39);
-                    proxyprinttodiv('Function asap -- actiongroups are >>>>>  actiongroupobj', actiongroupobj, 39);
-                    proxyprinttodiv('Function asap -- usergroups are >>>>>  usergroupobj', usergroupobj, 39);
-                    proxyprinttodiv('Function asap -- usergroups are >>>>>  usergroupobj', usergroupobj, 39);
-
-                    createuserdata(userobj, securityobj, overrideobj, defaultobj, permissionsobj, usergroupobj, actiongroupobj, environmentobj, function (err, res) {
-                        proxyprinttodiv('Function asap >>>>>  res', res, 39);
-                        cb(null, "userdata");
-                    });
-                }
-            ],
-
-            function (err, res) {
-                proxyprinttodiv('Function asap >>>>> finally done >>> res', res, 39);
-                execute({
-                    "executethis": "getwidmaster",
-                    "wid": userobj.wid
-                }, function (err, resp) {
-                    proxyprinttodiv('Function createuserdata -- added getwidmaster on user  -- ' + userobj.wid, resp, 39);
-                    callback(err, res);
-                });
-
-
-            })
-    }
 
 
 
@@ -2322,6 +2139,47 @@
                 callback(err, res);
             });
 
+        });
+
+
+    }
+
+    /// check relationships adding
+    exports.csd3 = csd3 = function csd3(params, callback) {
+        debuglevel = 67;
+        execute([{
+            "executethis": "addwidmaster",
+            "metadata.method": "a1dto",
+            "wid": "a1dto",
+            "a11": "string",
+            "metadata.b1dto.type": "onetoone"
+        }, {
+            "executethis": "addwidmaster",
+            "metadata.method": "b1dto",
+            "wid": "b1dto",
+            "b11": "string"
+
+        }], function (err, res) {
+            createrelationship("a1dto", "b1dto", "onetoone", function (err, res) {
+
+                execute({
+                    "executethis": "addwidmaster",
+                    "wid": "a11wid",
+                    "metadata.method": "a1dto",
+                    "a11": "a11value",
+                    "b1dto.b11": "b11value"
+                }, function (err, res) {
+                    execute({
+                        // create data 
+                        "executethis": "getwidmaster",
+                        "wid": "a11wid"
+                    }, function (err, res) {
+                        proxyprinttodiv('Function csd3 -- getwidmaster a11wid -- ', res, debuglevel);
+                        callback(err, res);
+                    });
+                });
+
+            });
         });
 
 

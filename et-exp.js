@@ -50,7 +50,10 @@ function getwidobject(wid, convertMethod, dtotype, callback) {
         executeobject["mongorelationshipdirection"]="forward"; 
         executeobject["mongowidmethod"]="" //current dto; 
         executeobject["executethis"]="querywid"; 
-        execute(executeobject, function (err, relationshipslist) {
+        executeobject["command.result"]="queryresult"; 
+
+        execute(executeobject, function (err, res1) {
+            var relationshipslist = res1['queryresult'];
             if(relationshipslist.length()>0 && !err)
             {
                 eobj={}; 
@@ -60,7 +63,10 @@ function getwidobject(wid, convertMethod, dtotype, callback) {
                 eobj["mongorelationshipdirection"]="forward"; 
                 eobj["mongowidmethod"]=""; 
                 eobj["executethis"]="querywid"; 
-                execute(eobj, function (errd, dtotypelist) { 
+                eobj["command.result"]="queryresult"; 
+                execute(eobj, function (errd, res2) { 
+                 var dtotypelist = res2['queryresult'];
+
                 if(dtotypelist.length()>0 && !errd) {
                     for(var i in dtotypelist)
                     {

@@ -7326,12 +7326,13 @@ exports.mttest2 = mttest2 = function mttest2(params, callback) {
 
                         var executeObj = {};
                         executeObj["executethis"] = "querywid";
+                        executeObj["command.results"] = "queryresult";
                         executeObj["mongorawquery"] = '{"$or":[{"data.a":"string"}]}';
                         executeList.push(executeObj);
 
                         execute(executeList, function (err, res) {
                             console.log(' >>> final response after executerray >>> ' + JSON.stringify(res));
-                            result = res;
+                            result = res['queryresult'];
 
                             var expectedResultArray = [];
                             expectedResultArray.push({

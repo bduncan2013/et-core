@@ -1,48 +1,185 @@
 // copyright (c) 2014 DRI
 (function (window) {
 
-    // authcall looks at incoming paramters and creates call to security check
-    exports.authcall = authcall = function authcall(inboundparams, callback) {
-        // proxyprinttodiv('authcall inboundparams ', inboundparams, 39);
-        var environment;
-        var status = false;
-        // //console.debug">>>>> env >>> "+ JSON.stringify(inboundparams['etenvironment']));
-        if (!(inboundparams['command'] && inboundparams['command']['environment'])) {
+        // test to see if a call to getwidmaster gets passed through security check
+        exports.testauth = testauth = function testauth(inboundparams, callback) {
+            debuglevel = 39;
+            proxyprinttodiv('testauth inboundparams ', inboundparams, 39);
+            var environment;
             environment = {};
-            environment['ac'] = '111111111';
+            environment['ac'] = 'rogerac';
             environment['mygroup'] = ''; //set account to account of ac if no account
-            environment['myphone'] = '';
-            environment['actiongroup'] = '';
-            environment['dbgroup'] = '';
-            environment['collection'] = '';
-            environment['server'] = '';
-            environment['datastore'] = '';
+            environment['myphone'] = '9873838958';
+            environment['actiongroup'] = 'allactions';
+            environment['dbgroup'] = 'data';
+            environment['collection'] = 'maincollection';
+            environment['server'] = 'server1';
+            environment['datastore'] = 'datastore1';
 
-        } else {
-            environment = extend(true, environment, inboundparams['command']['environment']);
+            var request = {};
+            request['command'] = {};
+            request['command']['environment'] = environment;
+
+            request['executethis'] = 'ettestag1';
+
+            async.series([
+
+                function (cb1) {
+                    // create all DTOs for security
+                    createalldtos({}, function (err, res) {
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    // create all data 
+                    execute([{
+                        // default actiongroupdto
+                        "executethis": "addwidmaster",
+                        "wid": "actiongroupdtodefault",
+                        "metadata.method": "actiongroupdto",
+                        "actiongroupname": "actiongroupdtodefault",
+                        "executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        "executeactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        "getactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        "getactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        "editactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        "editactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        "deleteactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        "deleteactiondto.actiondto.localactiondto": "defaultlocalactiondto"
+                    }, {
+                        // default permissiondto
+                        "executethis": "addwidmaster",
+                        "wid": "permissiondtodefault",
+                        "metadata.method": "permissiondto",
+                        "metadata.system.creator": "string",
+                        "level": "string",
+                        // "actiongroupdto.wid": "actiongroupdtodefault",
+                        "db": "data",
+                        "collection": "maincollection"
+                    }, {
+                        // Create the userdto
+                        "executethis": "addwidmaster",
+                        "metadata.method": "userdto",
+                        "widname": "userdtodefault",
+                        "wid": "defaultuser",
+                        "fname": "1",
+                        "lname": "2",
+                        "phone": "3",
+                        "email": "4",
+                        "address": "5",
+                        "address2": "6",
+                        "city": "7",
+                        "state": "8",
+                        "zip": "9",
+                        "country": "10",
+                        "wid": "testuser",
+                        "metadata.method": "userdto",
+
+                        // relationships
+                        "metadata.securitydto.type": "onetoone",
+                        "metadata.environmentdto.type": "onetoone",
+                        "metadata.usergroupdto.type": "onetomany",
+
+                        // securitydto
+                        "securitydto.accesstoken": "rogerac",
+                        "securitydto.metadata.method": "securitydto",
+
+                        // environmentdto
+                        "environmentdto.ac": "ac",
+                        "environmentdto.gps": "gpsval",
+                        "environmentdto.account": "default",
+                        "environmentdto.db": "data",
+                        "environmentdto.collection": "maincollection",
+                        "environmentdto.metadata.method": "environmentdto",
+
+                        // permissiondto
+                        "permissiondto.metadata.method": "permissiondto",
+                        "permissiondto.metadata.system.creator": "driwid",
+                        "permissiondto.level": "99",
+                        "permissiondto.metadata.collection": "collection1",
+                        "permissiondto.metadata.db": "data1",
+                        // ,
+                        // "permissiondto.0.metadata.inherit.0.wid": "userdtodefault",
+                        // "permissiondto.0.metadata.inherit.0.command.dtotype": "",
+                        // "permissiondto.0.metadata.inherit.0.command.adopt": "default",
+                        // "permissiondto.0.actiongroupdto.0.metadata.inherit.wid": "actiongroupdtodefault",
+                        // "permissiondto.0.actiongroupdto.0.metadata.inherit.0.command.dtotype": "",
+                        // "permissiondto.0.actiongroupdto.0.metadata.inherit.0.command.adopt": "default"
+
+                        // permissiondto.usergroupdto
+                        "permissiondto.usergroupdto.0.usergroupname": "everyone",
+                        "permissiondto.usergroupdto.0.metadata.method": "usergroupdto",
+                        "permissiondto.usergroupdto.0.metadata.system.creator": "driwid",
+
+                        // permissiondto.actiongroupdto
+                        "permissiondto.actiongroupdto.0.actiongroupname": "allactions",
+                        "permissiondto.actiongroupdto.0.metadata.method": "actiongroupdto",
+                        "permissiondto.actiongroupdto.0.metadata.system.creator": "driwid",
+                        // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.actiongroupname": "actiongroupdtodefault",
+                        // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        // "permissiondto.0.actiongroupdto.1.getactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.1.getactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        // "permissiondto.0.actiongroupdto.2.editactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.2.editactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                        // "permissiondto.0.actiongroupdto.3.deleteactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                        // "permissiondto.0.actiongroupdto.3.deleteactiondto.actiondto.localactiondto": "defaultlocalactiondto"
+                    }], function (err, res) {
+                        //
+                        cb1(null);
+                    });
+                },
+                function (cb1) {
+                    execute(request, function (err, res) {
+                        cb1(null);
+                    });
+                }
+
+            ], function (err, res) {
+                callback(res);
+            });
+
+
         }
 
-        if (inboundparams['command'] && inboundparams['command']['environment'])
-            delete inboundparams['command']['environment'];
+        // authcall looks at incoming paramters and creates call to security check
+        exports.authcall = authcall = function authcall(executeobject, command, callback) {
+            if (command.internalcall && command.internalcall === true) {
+                // internal call, no security check required
+                alert("skip")
+                callback(undefined, true);
+            } else {
+                // proxyprinttodiv('authcall inboundparams ', inboundparams, 39); 
+                var environment;
+                var status = false;
+                // //console.debug">>>>> env >>> "+ JSON.stringify(inboundparams['etenvironment']));
+                if (!(command && command['environment'])) {
+                    callback(null, false);
+                } else {
+                    environment = extend(true, environment, command['environment']);
+                    secParams = command['environment'];
 
-        var accesstoken = environment['ac'];
-        var mygroup = environment['mygroup'];
-        var myphone = environment['myphone'];
-        var dbgroup = environment['dbgroup'];
-        var actiongroup = environment['actiongroup'];
-        var collection = environment['collection'];
-        var server = environment['server'];
-        var datastore = environment['datastore'];
+                    var accesstoken = environment['ac'];
+                    var mygroup = environment['mygroup'];
+                    var myphone = environment['myphone'];
+                    var actiongroup = environment['actiongroup'];
+                    var dbgroup = environment['dbgroup'];
+                    var collection = environment['collection'];
+                    var server = environment['server'];
+                    var datastore = environment['datastore'];
 
-        if (accesstoken && accesstoken !== '111111111') {
-            // actual security check
-            // _accesstoken, _mygroup, _myphone, _actiongroup, _dbgroup, _collection, _server, _datastore, 
-            securitycheck(accesstoken, mygroup, myphone, actiongroup, dbgroup, collection, server, datastore, callback);
-        } else {
-            // fake security check
-            callback(null, true);
-        }
-    }
+                    if (accesstoken && collection && myphone && dbgroup && actiongroup && server && datastore) {
+                        // actual security check
+                        // _accesstoken, _mygroup, _myphone, _actiongroup, _dbgroup, _collection, _server, _datastore, 
+                        securitycheck(secParams, accesstoken, mygroup, myphone, actiongroup, dbgroup, collection, server, datastore, callback);
+                    } else {
+                        // false result of security check
+                        callback(null, false);
+                    }
+                }
+            }
+        };
 
 
 
@@ -52,7 +189,7 @@
 
     // securitycheck(ac, mygroup(opt),_myphone(opt), accountgroup, actiongroup, actiontypegroup, dbgroup, _loginlevel, callback)
     // (AC or my account, action, action type, db)
-    exports.securitycheck = securitycheck = function securitycheck(_accesstoken, _mygroup, _myphone, _actiongroup, _dbgroup, _collection, _server, _datastore, callback) {
+    exports.securitycheck = securitycheck = function securitycheck(secParams, _accesstoken, _mygroup, _myphone, _actiongroup, _dbgroup, _collection, _server, _datastore, callback) {
         proxyprinttodiv('Function securitytest accesstoken-- ', _accesstoken, 39);
         proxyprinttodiv('Function securitytest mygroup-- ', _mygroup, 39);
         proxyprinttodiv('Function securitytest actiongroup-- ', _actiongroup, 39);
@@ -80,11 +217,13 @@
                 function (cb1) {
                     // if mygroup not sent in then convert AC to my userwid (mygroup)
                     if (!_mygroup) {
-                        getuserbyac(_accesstoken, function (err, userDto) {
+
+                        getuserbyac(secParams, _accesstoken, function (err, userDto) {
                             actor = userDto;
                             actorGroup = userDto.wid; // consider user is usergroup
                             cb1(null);
                         });
+
                     } else {
                         actorGroup = _mygroup;
                         cb1(null);
@@ -94,7 +233,7 @@
                     // 'actor' wants to do an 'action'
                     // 'actorGroup' shall be in the list of 'userGroups' having permissions to 'actionGroup'
 
-                    getmygroups(actorGroup, "usergroupdto", "usergroupname", actorGroupsArr, function (err, res) {
+                    getmygroups(secParams, actorGroup, "usergroupdto", "usergroupname", actorGroupsArr, function (err, res) {
                         // get all userGroups for the actor
                         // add calculated + default userGroup for the actor('actorGroup')
                         cb1(null, "get usergroups for user");
@@ -103,7 +242,7 @@
                 function (cb1) {
                     // get all actionGroups for the action
                     // add calculated + default userGroup for the actor('actorGroup')
-                    getmygroups(action, "actiongroupdto", "actiongroupname", actionGroupsArr, function (err, res) {
+                    getmygroups(secParams, action, "actiongroupdto", "actiongroupname", actionGroupsArr, function (err, res) {
                         cb1(null, "get actiongroups for action");
                     })
                 },
@@ -111,59 +250,68 @@
                     // get the owner of the original action(metadata.systemdto.creator)
                     var query = {
                         "executethis": "mongoquery",
-                        "data.usergroupname": "driemployees"
+                        "data.usergroupname": "everyone"
                     };
-                    execute(query, function (err, res) {
-                        actionCreator = res[1]['metadata']['system']['creator'];
-                        proxyprinttodiv('Function securitycheck Action creator is -- ', actionCreator, 39);
-                        // actionCreator = "rogeruser";
-                        cb1(null, "identified action owner");
+                    addSecurityParams(query, secParams, function (err, query) {
+                        execute(query, function (err, res) {
+                            actionCreator = res[0][0]['metadata']['system']['creator'];
+                            proxyprinttodiv('Function securitycheck Action creator is -- ', actionCreator, 39);
+                            // actionCreator = "rogeruser";
+                            cb1(null, "identified action owner");
+                        });
                     });
                 },
                 function (cb1) {
                     // getwidmaster for permissions for the 'owner' 
                     var rawquery1 = {
                         "executethis": "querywid",
+                        "command": {
+                            "result": "queryresult"
+                        },
                         "mongorawquery": {
                             "metadata.system.creator": actionCreator
                         }
                     };
 
+                    addSecurityParams(rawquery1, secParams, function (err, rawquery1) {
 
-                    execute(rawquery1, function (err, res) {
-                        var arr = res;
-                        var obj, jsonKey, dto;
-                        if (arr) {
-                            // iterate over the results and prepare the list
-                            async.mapSeries(arr, function (objOuter, cbMapOuter) {
-                                jsonKey = Object.keys(objOuter)[0];
-                                dto = objOuter[jsonKey];
+                        execute(rawquery1, function (err, res1) {
+                            var res = res1[0]["queryresult"];
+                            var arr = res;
+                            var obj, jsonKey, dto;
+                            if (arr) {
+                                // iterate over the results and prepare the list
+                                async.mapSeries(arr, function (objOuter, cbMapOuter) {
+                                    jsonKey = Object.keys(objOuter)[0];
+                                    dto = objOuter[jsonKey];
 
-                                var rawquery2 = {
-                                    "executethis": "getwidmaster",
-                                    "wid": dto.wid
-                                };
-                                execute(rawquery2, function (err, res) {
-                                    var arr = res;
-                                    var obj, jsonKey, dto;
-                                    if (arr) {
-                                        // iterate over the results and prepare the list
-                                        async.mapSeries(arr, function (obj, cbMap) {
-                                            var permissionsjson = converttodriformat(obj);
-                                            actionCreatorPermissions.push(permissionsjson);
-                                            cbMap(null, "map iteration");
-                                        }, function (err, res) {
-                                            proxyprinttodiv('Function securitycheck permissions list -- ', actionCreatorPermissions, 39);
+                                    var rawquery2 = {
+                                        "executethis": "getwidmaster",
+                                        "wid": dto.wid
+                                    };
+                                    execute(rawquery2, function (err, res) {
+                                        var arr = res;
+                                        var obj, jsonKey, dto;
+                                        if (arr) {
+                                            // iterate over the results and prepare the list
+                                            async.mapSeries(arr, function (obj, cbMap) {
+                                                var permissionsjson = converttodriformat(obj);
+                                                actionCreatorPermissions.push(permissionsjson);
+                                                cbMap(null, "map iteration");
+                                            }, function (err, res) {
+                                                proxyprinttodiv('Function securitycheck permissions list -- ', actionCreatorPermissions, 39);
+                                                cbMapOuter(null, "getwidmaster to get owner's permissions");
+                                            })
+                                        } else {
                                             cbMapOuter(null, "getwidmaster to get owner's permissions");
-                                        })
-                                    } else {
-                                        cbMapOuter(null, "getwidmaster to get owner's permissions");
-                                    }
+                                        }
+                                    });
+                                }, function (err, res) {
+                                    cb1(null, "finish getting permissions list");
                                 });
-                            }, function (err, res) {
-                                cb1(null, "finish getting permissions list");
-                            });
-                        }
+                            }
+                        });
+
                     });
                 },
 
@@ -249,45 +397,53 @@
 
     // getusergroups
     // that calls getusergroupsdefault, getusergroupsrecurse and adds them together
-    exports.getmygroups = getmygroups = function getmygroups(userobj, grouptype, groupkey, groupset, callback) {
+    exports.getmygroups = getmygroups = function getmygroups(secParams, userobj, grouptype, groupkey, groupset, callback) {
         debuglevel = 39;
 
+        query = {
+            "executethis": "querywid",
+            "mongowid": userobj,
+            "command": {
+                "result": "queryresult"
+            },
+            "mongorelationshiptype": "attributes",
+            "mongorelationshipmethod": grouptype,
+            "mongorelationshipdirection": "forward",
+            "mongowidmethod": grouptype
+        };
+
+        addSecurityParams(query, secParams, function (err, query) {
 
 
-        execute([{
-                "executethis": "querywid",
-                "mongowid": userobj,
-                "mongorelationshiptype": "attributes",
-                "mongorelationshipmethod": grouptype,
-                "mongorelationshipdirection": "forward",
-                "mongowidmethod": grouptype
-            }],
-            function (err, res) {
-                var arr = res[0];
-                var obj, jsonKey, dto;
+            execute([query],
+                function (err, res1) {
+                    var res = res1[0][0]["queryresult"];
+                    var arr = res;
+                    var obj, jsonKey, dto;
 
-                if (arr) {
-                    // iterate over the results and prepare the list
-                    // for (var i = 0; i < arr.length; i++) {
-                    async.mapSeries(arr, function (obj, cbMap) {
-                        jsonKey = Object.keys(obj)[0];
-                        dto = obj[jsonKey];
+                    if (arr) {
+                        // iterate over the results and prepare the list
+                        // for (var i = 0; i < arr.length; i++) {
+                        async.mapSeries(arr, function (obj, cbMap) {
+                            jsonKey = Object.keys(obj)[0];
+                            dto = obj[jsonKey];
 
-                        groupset.push(dto[groupkey]);
-                        if (dto[groupkey]) {
-                            getmygroups(dto[groupkey], grouptype, groupkey, groupset, function (err, res) {
-                                // recursing -- nothing to do
-                                cbMap(null, "  added a dto in iteration  ");
-                            });
-                        }
-                    }, function (err, res) {
+                            groupset.push(dto[groupkey]);
+                            if (dto[groupkey]) {
+                                getmygroups(dto[groupkey], grouptype, groupkey, groupset, function (err, res) {
+                                    // recursing -- nothing to do
+                                    cbMap(null, "  added a dto in iteration  ");
+                                });
+                            }
+                        }, function (err, res) {
 
-                        groupset.push(userobj)
-                        // proxyprinttodiv('Function getmygroups >>>>>  for  -- creator', creator, 39);
-                        callback(err, groupset);
-                    });
-                }
-            });
+                            groupset.push(userobj)
+                            // proxyprinttodiv('Function getmygroups >>>>>  for  -- creator', creator, 39);
+                            callback(err, groupset);
+                        });
+                    }
+                });
+        });
     }
 
     // logic to get my owner as string
@@ -307,7 +463,7 @@
 
     // getuserbyac() gets user id by ac
     // logic to get user wid by the user accesstoken passed in
-    exports.getuserbyac = getuserbyac = function getuserbyac(userac, callback) {
+    exports.getuserbyac = getuserbyac = function getuserbyac(secParams, userac, callback) {
         var userDto, results1, userWid, systemWid;
 
         async.series([
@@ -315,6 +471,9 @@
             function part1(cb) {
                 var query1 = [{
                     "executethis": "querywid",
+                    "command": {
+                        "result": "queryresult"
+                    },
                     "mongorawquery": {
                         "data.accesstoken": userac
                     },
@@ -323,12 +482,15 @@
                     "mongorelationshiptype": "attributes"
                 }];
 
-                execute(query1, function (err, res) {
-                    proxyprinttodiv('Function getuserbyac query1 -- res', res[0][0], 39);
-                    var jsonKey = Object.keys(res[0][0])[0];
-                    var jsonVal = res[0][0][jsonKey];
-                    userWid = jsonVal;
-                    cb(null);
+                addSecurityParams(query1, secParams, function (err, query1) {
+                    execute(query1, function (err, res1) {
+                        var res = res1[0][0]["queryresult"];
+                        proxyprinttodiv('Function getuserbyac query1 -- res', res, 39);
+                        var jsonKey = Object.keys(res)[0];
+                        var jsonVal = res[jsonKey];
+                        userWid = jsonVal;
+                        cb(null);
+                    });
                 });
             }
         ], function (err, res) {
@@ -357,10 +519,14 @@
 
             var command = {
                 "executethis": "querywid",
+                "command": {
+                    "result": "queryresult"
+                },
                 "mongorawquery": query
             };
 
-            execute(command, function (err, res) {
+            execute(command, function (err, res1) {
+                var res = res1[0][0]["queryresult"];
                 var arr = res;
                 var obj, jsonKey, dtoPermissions;
 
@@ -463,7 +629,7 @@
         // for (var key in permissionobj) {
         //     userJson[key] = permissionobj[key];
         // }
-        
+
         // add usergroupdto values from the json object passed in
         // for (var key in usergroupobj) {
         //     userJson[key] = usergroupobj[key];
@@ -629,6 +795,9 @@
             });
     }
 
-
+    function addSecurityParams(query, secParams, callback) {
+        query['command'] = secParams['command'];
+        callback(null, query);
+    }
 
 })(typeof window == "undefined" ? global : window);

@@ -63,7 +63,7 @@
             var queryresults = {};
             var wid;
             var environmentdb;
-            var convertmethod = commandParams['command.convertmethod'];
+            //var convertmethod = commandParams['command.convertmethod'];
             var extraparameters = {};
             //proxyprinttodiv('querywid convertmethod', convertmethod, 38);
             //proxyprinttodiv('querywid commandParams', commandParams, 38);
@@ -163,7 +163,7 @@
                                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                                     cb(null, "step01");
                                                 }
-                                            });
+                                            }, commandParams);
                                             // } else {
                                             //     if(!output)
                                             //         output = {};
@@ -288,7 +288,7 @@
                                                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                                                     cb(null, 'step01');
                                                                 }
-                                                            });
+                                                            }, commandParams);
                                                             // } else {
                                                             //     if(!output)
                                                             //         output = {};
@@ -334,7 +334,7 @@
                                         debugfn("move queParams to output", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                         cb(null, "step01");
                                     }
-                                });
+                                }, commandParams);
 
                                 // } else {
                                 //     if(!output)
@@ -406,7 +406,7 @@
                                             debugfn("relationship", "rawmongoquery", "query", "middle", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                             cb(null, "step03");
                                         }
-                                    });
+                                    }, commandParams);
 
                                 } else {
                                     cb(null, "step03");
@@ -467,7 +467,7 @@
                                             debugfn("post relationship query", "rawmongoquery", "query", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                             cb(null, "step04");
                                         }
-                                    });
+                                    }, commandParams);
                                 } else {
                                     cb(null, "step04");
                                 }
@@ -495,7 +495,7 @@
                             proxyprinttodiv('querywid before output', output, 28);
                             proxyprinttodiv('querywid before output aggParams', aggParams, 28);
 
-                            formatListFinal(output, environmentdb, convertmethod, extraparameters, aggParams, function (err, output) {
+                            formatListFinal(output, environmentdb, extraparameters, aggParams, commandParams, function (err, output) {
                                 // If error, bounce out
                                 if (err && Object.keys(err).length > 0) {
                                     callback(err, output);
@@ -595,7 +595,7 @@
         // takes inlist, looks for wid, then goes to main database to get a get clean complete converted copy of that wid
         // also looks in extra paramters, append information found about that wid to results also
 
-        function formatListFinal(inlist, environmentdb, convertmethod, extraparameters, aggParams, callback) {
+        function formatListFinal(inlist, environmentdb, extraparameters, aggParams, commandParams, callback) {
             try {
                 proxyprinttodiv('querywid finalformatlist aggParams ', aggParams, 28);
                 var inbound_parameters_120 = JSON.parse(JSON.stringify(arguments));
@@ -670,10 +670,10 @@
                                             widrecord = extend(true, widrecord, extrarecord);
                                             proxyprinttodiv('querywid finalformatlist widrecord after ', widrecord, 28);
 
-                                            if (convertmethod === "toobject") {
+                                            if (commandParams.convertmethod === "toobject") {
                                                 record[wid] = widrecord;
                                             } else {
-                                                record[wid] = convertfromdriformat(widrecord);
+                                                record[wid] = convertfromdriformat(widrecord, commandParams);
                                             }
                                             cb1(null);
                                         }
