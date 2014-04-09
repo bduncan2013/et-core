@@ -255,7 +255,7 @@ exports.getfromdatastore = getfromdatastore = function getfromdatastore(inputWid
                 
                 // uncommenting below causes infinite loop to be debugged
                 getfromangular(inputWidgetObject, function (err, resultobject) {
-                     output=extend(true, resultobject, output)
+                     output=extend(true, resultobject, output);
                      callback(err, output);
                 })
 
