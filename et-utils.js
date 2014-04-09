@@ -254,12 +254,12 @@ exports.getfromdatastore = getfromdatastore = function getfromdatastore(inputWid
                 output = keydatabase[widName];          
                 
                 // uncommenting below causes infinite loop to be debugged
-                // getfromangular(inputWidgetObject, function (err, resultobject) {
-                //     output=extend(true, resultobject, output)
+                getfromangular(inputWidgetObject, function (err, resultobject) {
+                     output=extend(true, resultobject, output)
                      callback(err, output);
-                // })
+                })
 
-                }
+            }
             else if (datastore==='mongo') { 
                 mget(inputWidgetObject, command, function (err, resultobject) {
                     callback(err, resultobject);
