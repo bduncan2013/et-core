@@ -1173,9 +1173,10 @@
                                 } else {
                                     systemdto = res[0];
                                     // make sure it not an empty command object                           
-                                    if(parameterobject && Object.keys(parameterobject).length > 1) {
+                                    if(parameterobject && Object.keys(parameterobject).length > 0) {
                                         //var systemdto = {"expirationdate":"4/8/2014"};
                                         parameterobject = extend(true, parameterobject, systemdto);
+                                        proxyprinttodiv("--- What i'm looking at parameterobject inside system dto ---", parameterobject, 38);
                                     }
                                 }
                             });
@@ -1185,7 +1186,7 @@
 
                         } // end if 
 
-                        proxyprinttodiv("--- What i'm looking at parameterobject step3 ---", parameterobject, 99);
+                        proxyprinttodiv("--- What i'm looking at parameterobject step3 ---", parameterobject, 38);
 
                         debugfn("getwidmongo end step4", "getwidmongo", "get", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1]));
                         cb(null, 'four');

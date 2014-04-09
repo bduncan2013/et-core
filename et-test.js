@@ -4268,3 +4268,19 @@ exports.ettestag111 = ettestag111 = function ettestag111(params, callback) {
             proxyprinttodiv("res -- get", res, 17);
         });
     }
+
+    // tests systemdto from get
+    exports.testusersystem = testusersystem = function testusersystem(params,callback){
+        debuglevel = 0;
+        execute({"executethis": "getwidmaster", "command.convertmethod":"dto", "wid": "userdto"}, function (err, res1) {
+            proxyprinttodiv("getwidmaster userdto result: ", res1, 99); 
+            var found = [];
+            for (var prop in res1[0]){
+                if (prop.indexOf("systemdto") != -1){
+                    found.push(prop + " : " + res1[0][prop]);
+                }
+            }
+            proxyprinttodiv("systemdto fields found: ", found, 99);             
+            //callback(err, res1); 
+        });
+    }
