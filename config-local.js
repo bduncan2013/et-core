@@ -40,7 +40,7 @@ exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, 
 
     updatedatastore({"wid":"initialwid", "date": new Date()}, {}, function (err, res){
         callback(err,res)
-    })
+    }) 
 };
 
 exports.eventnewpage = eventnewpage = function eventnewpage() {};
@@ -76,7 +76,7 @@ exports.processevent = processevent = function processevent(eventname, callback)
             for (var eachexecute in eventlist) {
                 widlist.push(eachexecute)
                 executelist.push(eventlist[eachexecute])
-            }
+                }
             execute(executelist, function (err, res) {
                 // maybe res has widlist results?
                 markasdone(widlist, eventname, function (err, res) {
@@ -89,33 +89,33 @@ exports.processevent = processevent = function processevent(eventname, callback)
 };
 
 exports.geteventlist = geteventlist = function geteventlist(eventname, callback) {
-    var executeobject =
+    var executeobject = 
 
-        executeobject = {"command":{"result":"queryresult"}};
+    executeobject = {"command":{"result":"queryresult"}};
     executeobject.command.collection="queuecollection";
     executeobject.command.db="queuedata";
     executeobject["executethis"] = "querywid";
-    executeobject["mongorawquery"] = {
+    executeobject["mongorawquery"] = { 
         "$and": [{
             "metadata": eventname
         }]
     };
-    execute(executeobject, function (err, eventlist) {
-        if (eventlist.length === 0) {
-            eventlist=[]
-        }
-        callback(null, eventlist)
-    })
-};
+        execute(executeobject, function (err, eventlist) {
+            if (eventlist.length === 0) {
+                eventlist=[]
+                }
+            callback(null, eventlist)
+        })
+    };
 
-exports.markasdone = markasdone = function markasdone(widlist, callback) {
-    var executelist=[];
-    var executeobject={};
-    for (eachwid in widlist) {
-        //deletewid
-        //executeobject
+    exports.markasdone = markasdone = function markasdone(widlist, callback) {
+        var executelist=[];
+        var executeobject={};
+        for (eachwid in widlist) {
+            //deletewid
+            //executeobject
+        }
     }
-}
 
 function setdefaultparm() {
 
@@ -270,15 +270,15 @@ exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = funct
     //potentialwid = 0;
     // items below can probably be cleared now
     addToLocalStorage("maincollection", [
-        {"wid": "initialwid",
-            "metadata": {"date": new Date()},
-            "data":{"system generated": "clearLocalStorage10"}
-        }
-    ]);
-    addToLocalStorage("maincollectionkey", {"initialwid": {"wid": "initialwid",
-        "metadata": {"date": new Date()},
-        "data":{"system generated": "clearLocalStorage12"}
-    }});
+                                        {"wid": "initialwid", 
+                                        "metadata": {"date": new Date()}, 
+                                        "data":{"system generated": "clearLocalStorage10"}
+                                        }
+                                        ]);
+    addToLocalStorage("maincollectionkey", {"initialwid": {"wid": "initialwid", 
+                                        "metadata": {"date": new Date()}, 
+                                        "data":{"system generated": "clearLocalStorage12"}
+                                        }});
 };
 
 exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {

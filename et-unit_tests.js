@@ -2475,7 +2475,7 @@ exports.ettestag12 = ettestag12 = function ettestag12(params, callback) {
 // This will test the ability to write a dto to the db and retrieve it
 
 exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
-      debuglevel = 0;
+      //debuglevel = 11;
     // eventappinstall();
     execute([{
             "executethis": "addwidmaster",
@@ -2487,15 +2487,17 @@ exports.ettestag1 = ettestag1 = function ettestag1(params, callback) {
             "wid": "sounddto"
         }],
         function (err, res1) {
-            var res = res1[1];
-            proxyprinttodiv("**Error - Ag1 error result ", err, 17);
-            
-            proxyprinttodiv('Function ag1 result ', res, 17);
-            res = logverify("ettestag1_result", res, [{
+            proxyprinttodiv("Ag1  result ", res1, 99);
+            // var res = res1[1]; //~~~ changed by SAURABH 
+            var res = res1[0];
+
+            proxyprinttodiv('Function ag1 expected res ', {
                 "note": "string",
                 "wid": "sounddto",
                 "metadata.method": "sounddto"
-            }]);
+            }, 99);
+            proxyprinttodiv('Function ag1 actual result ', res, 99);
+            res = logverify("ettestag1_result", res, [{"wid":"sounddto","metadata":{"method":"sounddto"},"note":"string"}]);
             callback(err, res);
         });
 }
@@ -2562,6 +2564,31 @@ exports.ettestag1a = ettestag1a = function ettestag1a(params, callback) {
 //  }
 // }
 
+exports.ettestag122 = ettestag122 = function ettestag122(params, callback) {
+var a = {"wid":"systemdefault","command":{"dtotype":"","adopt":"default","getwidmaster":{"inheritflag":"false","execute":"ConvertFromDOTdri"},"resultparameters":{"note":"string","wid":"sounddto","metadata":{"method":"sounddto"}}},"executethis":"getwidmaster"}
+proxyprinttodiv('>>>> before a', a, 99);
+var filter_data = tolowerparameters(a,{
+                                "command.internalcall": false
+                                    //     // "beginexecute" : {"execute":"","parameters":{}},
+                                    //     // "beforemidexecute" : {"execute":"","parameters":{}},
+                                    //     // "beforepostexecute" : {"execute":"","parameters":{}},
+                                    //     // "endexecute" : {"execute":"","parameters":{}},
+                                    //     // "securitycheck" : {"execute":"","parameters":{}},
+                                    //     // "multiple" : {"execute":"","parameters":{}}
+                                
+                            }, {
+                                "command.internalcall": ""
+                                    // "beginexecute" : {"execute":"","parameters":{}},
+                                    // "beforemidexecute" : {"execute":"","parameters":{}},
+                                    // "beforepostexecute" : {"execute":"","parameters":{}},
+                                    // "endexecute" : {"execute":"","parameters":{}},
+                                    // "securitycheck" : {"execute":"","parameters":{}},
+                                    // "multiple" : {"execute":"","parameters":{}}
+                                
+                            },true);
+proxyprinttodiv('>>>> after a', filter_data.output, 99);
+
+}
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
 exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
@@ -2794,13 +2821,13 @@ debuglevel=0;
                 "sounddto.2.wid": "ag3cflat",
                 "sounddto.2.metadata.method": "sounddto"
             }]);
-            debuglevel=38;
+            debuglevel=0;
             // execute({"executethis": "getwidmaster","wid": "sonddto",
             //       "command":{"getwidmaster":{"convertmethod":"dto",
             //                               "execute":"ConvertFromDOTdri",
             //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
             execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
-                 proxyprinttodiv('Function ag3 result LAST ', res1, 17); 
+                 proxyprinttodiv('Function ag3 result LAST ', res1, 99); 
                 callback(err, res); 
                  
              })

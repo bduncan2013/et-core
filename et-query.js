@@ -153,7 +153,7 @@
                                             proxyprinttodiv('Function MongoDataQuery singlemongoquery : ', mQueryString, 28);
                                             //mQueryString = output.substring(0, output.length - 1);
                                             // if (validParams(mQueryString)) {
-                                            mongoquery(mQueryString, commandParams, function (err, res) {
+                                            mongoquery(mQueryString, function (err, res) {
                                                 // If error, bounce out
                                                 if (err && Object.keys(err).length > 0) {
                                                     cb(err, res);
@@ -163,7 +163,7 @@
                                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                                     cb(null, "step01");
                                                 }
-                                            });
+                                            }, commandParams);
                                             // } else {
                                             //     if(!output)
                                             //         output = {};
@@ -278,7 +278,7 @@
                                                             proxyprinttodiv('querywid mQueryString init', mQueryString, 28);
 
                                                             // if (validParams(mQueryString)) {
-                                                            mongoquery(mQueryString, commandParams, function (err, res) {
+                                                            mongoquery(mQueryString, function (err, res) {
                                                                 // If error, bounce out
                                                                 if (err && Object.keys(err).length > 0) {
                                                                     cb(err, res);
@@ -288,7 +288,7 @@
                                                                     //output = formatlist(res, "wid", "wid");  &&& takenout by roger
                                                                     cb(null, 'step01');
                                                                 }
-                                                            });
+                                                            }, commandParams);
                                                             // } else {
                                                             //     if(!output)
                                                             //         output = {};
@@ -322,7 +322,7 @@
                                 proxyprinttodiv('querywid mQueryString second', mQueryString, 28);
 
                                 // if (validParams(mQueryString)) {
-                                mongoquery(mQueryString, commandParams, function (err, res) {
+                                mongoquery(mQueryString, function (err, res) {
                                     // If error, bounce out
                                     if (err && Object.keys(err).length > 0) {
                                         cb(err, res);
@@ -334,7 +334,7 @@
                                         debugfn("move queParams to output", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                         cb(null, "step01");
                                     }
-                                });
+                                }, commandParams);
 
                                 // } else {
                                 //     if(!output)
@@ -395,7 +395,7 @@
                                 // console.log('mQueryString at step03 => ' + mQueryString);
 
                                 if (Object.keys(JSON.parse(mQueryString)).length > 0) {
-                                    mongoquery(mQueryString, commandParams, function (err, res) {
+                                    mongoquery(mQueryString, function (err, res) {
                                         // If error, bounce out
                                         if (err && Object.keys(err).length > 0) {
                                             cb(err, res);
@@ -406,7 +406,7 @@
                                             debugfn("relationship", "rawmongoquery", "query", "middle", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                             cb(null, "step03");
                                         }
-                                    });
+                                    }, commandParams);
 
                                 } else {
                                     cb(null, "step03");
@@ -457,7 +457,7 @@
                                 debugfn("step04", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
 
                                 if (Object.keys(JSON.parse(mQueryString)).length > 0) {
-                                    mongoquery(mQueryString, commandParams, function (err, res) {
+                                    mongoquery(mQueryString, function (err, res) {
                                         // If error, bounce out
                                         if (err && Object.keys(err).length > 0) {
                                             cb(err, res);
@@ -467,7 +467,7 @@
                                             debugfn("post relationship query", "rawmongoquery", "query", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([4]));
                                             cb(null, "step04");
                                         }
-                                    });
+                                    }, commandParams);
                                 } else {
                                     cb(null, "step04");
                                 }

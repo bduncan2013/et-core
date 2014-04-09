@@ -381,6 +381,24 @@
   /*
     To add dtos, relationships for manytoonetest
   */
+
+
+    exports.testusersystem = testusersystem = function testusersystem(params,callback){
+            debuglevel = 0;
+            execute({"executethis": "getwidmaster", "command.convertmethod":"dto", "wid": "userdto"}, function (err, res1) {
+                proxyprinttodiv("getwidmaster userdto result: ", res1, 99); 
+                var found = [];
+                for (var prop in res1[0]){
+                    if (prop.indexOf("systemdto") != -1){
+                        found.push(prop + " : " + res1[0][prop]);
+                    }
+                }
+                proxyprinttodiv("systemdto fields found: ", found, 99);             
+                //callback(err, res1); 
+            });
+    }
+
+    
   function manytoonesetupdto(inherit, dtotype, callback){
         if (Object.keys(inherit).length === 0) {
             inherit =
@@ -1732,7 +1750,7 @@ exports.testcommanddtotype = testcommanddtotype = function testcommanddtotype(pa
 
  
   exports.testaddauthor1 = testaddauthor1 = function testaddauthor1() {
-       // debuglevel = 38;
+       debuglevel = 11;
 
         execute([{
                 "executethis": "addwidmaster",
@@ -3900,3 +3918,353 @@ function recurseobjcontainer(obj, dtotable, callback) {
 			callback(err, res1);
 		});
 	}
+
+        
+    /*
+        addwidmaster blank guid
+    */
+    exports.addwidmasterblankguid = addwidmasterblankguid = function addwidmasterblankguid(params, callback) {
+        execute([{
+            "executethis": "addwidmaster",
+            "wid": "authordto",
+            "metadata.method": "authordto",
+            "name":"string",
+            "g1": "guid"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "addwidmasterblankguid",
+            "name":"Author1"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "addwidmasterblankguid"
+        }
+        ], function (err, res1) {
+            proxyprinttodiv("addwidmasterblankguid result: ", res1, 99);
+            callback(err, res1);
+        });
+    }
+
+    /*
+        addwid with no data,, no command.inherit.data
+    */
+    exports.etaddwidtest8 = etaddwidtest8 = function etaddwidtest8(parameters, callback) {
+        debuglevel = 17;
+        eventappinstall();
+    
+        execute([{
+            "executethis": "updatewid",
+            "wid": "wid1",
+            "addthis.command":{"inherit":{}}
+        }], function (err, res1) {
+            var inputdto = {
+                "wid": "string",
+                "a": "string",
+                "b": "string",
+                "c": "string",
+                "d": "string",
+                "e": "string",
+                "metadata": {
+                    "method": "string"
+                }
+            };
+
+            var inputobject = {
+                "wid": "wid1",
+                "a": "1",
+                "b": "2",
+                "c": "3",
+                "d": "4",
+                "e": "5",
+                "metadata": {
+                    "method": "authordto"
+                }
+            };
+
+            var command = {};
+
+            addwid(inputobject, inputdto, command, function (err, res) {
+                proxyprinttodiv("res --", res, 17);
+                var actual_result = res;
+                proxyprinttodiv("actual_result --", actual_result, 17);                           
+
+                var expected_result = [{"data":{"a":"1","b":"2","c":"3","d":"4","e":"5"},"wid":"wid1","metadata":{"method":"authordto","date":"2014-04-05T10:43:31.375Z"}}];
+                proxyprinttodiv("expected_result --", expected_result, 17);
+
+                res = logverify("logverify", actual_result, expected_result);
+                callback(err, res);
+            });
+        });
+    }
+    
+    /*
+        addwid with data,, no command.inherit.data
+    */
+    exports.etaddwidtest9 = etaddwidtest9 = function etaddwidtest9(parameters, callback) {
+        debuglevel = 17;
+        eventappinstall();
+    
+        execute([{
+            "executethis": "updatewid",
+            "wid": "wid1",
+            "d":"44",
+            "f":"6",
+            "addthis.command":{"inherit":{}}
+        }], function (err, res1) {
+            var inputdto = {
+                "wid": "string",
+                "a": "string",
+                "b": "string",
+                "c": "string",
+                "d": "string",
+                "e": "string",
+                "metadata": {
+                    "method": "string"
+                }
+            };
+            
+            var inputobject = {
+                "wid": "wid1",
+                "a": "1",
+                "b": "2",
+                "c": "3",
+                "d": "4",
+                "e": "5",
+                "metadata": {
+                    "method": "authordto"
+                }
+            };
+            
+            var command = {};
+
+            addwid(inputobject, inputdto, command, function (err, res) {
+                proxyprinttodiv("res --", res, 17);
+                var actual_result = res;
+                proxyprinttodiv("actual_result --", actual_result, 17);                           
+
+                var expected_result = [{"data":{"a":"1","b":"2","c":"3","d":"4","e":"5"},"wid":"wid1","metadata":{"method":"authordto","date":"2014-04-05T10:43:31.375Z"}}];
+                proxyprinttodiv("expected_result --", expected_result, 17);
+
+                res = logverify("logverify", actual_result, expected_result);
+                callback(err, res);
+            });
+        });
+    }
+    
+    /*
+        addwid with no data,, with command.inherit.data
+    */
+    exports.etaddwidtest10 = etaddwidtest10 = function etaddwidtest10(parameters, callback) {
+        debuglevel = 17;
+        eventappinstall();
+    
+        execute([{
+            "executethis": "updatewid",
+            "wid": "wid1",
+            "addthis.command":{"inherit":{"data":{"c":"99", "e":"98", "g":"7"}}}
+        }], function (err, res1) {
+            var inputdto = {
+                "wid": "string",
+                "a": "string",
+                "b": "string",
+                "c": "string",
+                "d": "string",
+                "e": "string",
+                "metadata": {
+                    "method": "string"
+                }
+            };
+            
+            var inputobject = {
+                "wid": "wid1",
+                "a": "1",
+                "b": "2",
+                "c": "3",
+                "d": "4",
+                "e": "5",
+                "metadata": {
+                    "method": "authordto"
+                }
+            };
+            
+            var command = {};
+
+            addwid(inputobject, inputdto, command, function (err, res) {
+                proxyprinttodiv("res --", res, 17);
+                var actual_result = res;
+                proxyprinttodiv("actual_result --", actual_result, 17);                           
+
+                var expected_result = [{"data":{"a":"1","b":"2","c":"3","d":"4","e":"5"},"wid":"wid1","metadata":{"method":"authordto","date":"2014-04-05T10:43:31.375Z"}}];
+                proxyprinttodiv("expected_result --", expected_result, 17);
+
+                res = logverify("logverify", actual_result, expected_result);
+                callback(err, res);
+            });
+        });
+    }
+    
+    /*
+        addwid with data,, with command.inherit.data
+    */
+    exports.etaddwidtest11 = etaddwidtest11 = function etaddwidtest11(parameters, callback) {
+        debuglevel = 17;
+        eventappinstall();
+    
+        execute([{
+            "executethis": "updatewid",
+            "wid": "wid1",
+            "d":"44",
+            "f":"6",
+            "addthis.command":{"inherit":{"data":{"c":"99", "e":"98", "g":"7"}}}
+        }], function (err, res1) {
+            var inputdto = {
+                "wid": "string",
+                "a": "string",
+                "b": "string",
+                "c": "string",
+                "d": "string",
+                "e": "string",
+                "metadata": {
+                    "method": "string"
+                }
+            };
+            
+            var inputobject = {
+                "wid": "wid1",
+                "a": "1",
+                "b": "2",
+                "c": "3",
+                "d": "4",
+                "e": "5",
+                "metadata": {
+                    "method": "authordto"
+                }
+            };
+            
+            var command = {};
+
+            addwid(inputobject, inputdto, command, function (err, res) {
+                proxyprinttodiv("res --", res, 17);
+                var actual_result = res;
+                proxyprinttodiv("actual_result --", actual_result, 17);                           
+
+                var expected_result = [{"data":{"a":"1","b":"2","c":"3","d":"4","e":"5"},"wid":"wid1","metadata":{"method":"authordto","date":"2014-04-05T10:43:31.375Z"}}];
+                proxyprinttodiv("expected_result --", expected_result, 17);
+
+                res = logverify("logverify", actual_result, expected_result);
+                callback(err, res);
+            });
+        });
+    }
+    
+    /*
+        To add wid to db(default "data")
+    */
+    exports.etaddwidtodbdata = etaddwidtodbdata = function etaddwidtodbdata(parameters, callback) {
+        debuglevel = 17;
+        //eventappinstall();
+
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "sounddto",
+            "metadata.method": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "sounddto"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "wid1",
+            "d":"44",
+            "f":"6",
+            "command":{"db":"data"}
+        }, {
+             "executethis": "addwidmaster",
+             "wid": "wid2",
+             "d":"444",
+             "f":"66",
+             "command":{"db":"test"}
+        }, {
+             "executethis": "addwidmaster",
+             "wid": "wid3",
+             "d":"4444",
+             "f":"666",
+             "command":{"collection":"othercollection"}
+        }, {
+             "executethis": "getwidmaster",
+             "wid": "wid1",
+             "command":{"db":"data"}
+        }, {
+             "executethis": "getwidmaster",
+             "wid": "wid2",
+             "command":{"db":"data"}
+        }, {
+             "executethis": "getwidmaster",
+             "wid": "wid3",
+             "command":{"collection":"othercollection"}
+        }],
+        function (err, res) {
+            callback(err, res);
+            proxyprinttodiv("res -- add", res, 17);
+        });
+    }
+    
+exports.ettestag111 = ettestag111 = function ettestag111(params, callback) {
+      debuglevel = 12;
+    // eventappinstall();
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "sounddto",
+            "metadata.method": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "sounddto"
+        }],
+        function (err, res1) {
+            proxyprinttodiv("Ag1  result ", res1, 99);
+            var res = res1[1]; //~~~ changed by SAURABH 
+            //var res = res1[0];
+
+            
+            proxyprinttodiv('Function ag1 result ', res, 17);
+            res = logverify("ettestag1_result", res, [{
+                "note": "string",
+                "wid": "sounddto",
+                "metadata.method": "sounddto"
+            }]);
+            callback(err, res);
+        });
+}
+
+
+
+
+
+
+    /*
+        To get wid from db(default "data")
+    */
+    exports.etgetfromdbdata = etgetfromdbdata = function etgetfromdbdata(parameters, callback) {
+        debuglevel = 17;
+        eventappinstall();
+
+        execute([{
+            "executethis": "getwidmaster",
+            "wid": "sounddto"
+        },{
+            "executethis": "getwidmaster",
+            "wid": "wid1",
+            "command":{"db":"data"}
+        },{
+            "executethis": "getwidmaster",
+            "wid": "wid2",
+            "command":{"db":"data"}
+        },{
+            "executethis": "getwidmaster",
+            "wid": "wid3",
+            "command":{"collection":"othercollection"}
+        }], function (err, res) {
+            callback(err, res);
+            proxyprinttodiv("res -- get", res, 17);
+        });
+    }
