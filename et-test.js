@@ -3890,36 +3890,35 @@ function recurseobjcontainer(obj, dtotable, callback) {
 		});
 	}
 	
-	/*
-		addwidmaster ex-17-data
-	*/
-	exports.addwidmasterex17data = addwidmasterex17data = function addwidmasterex17data(params, callback) {
-		execute([{
-			"executethis": "addwidmaster",
-			"wid": "ex-17-data",
-			"html": "Wow...here is some HTML from a button click on ex-17-html",
-			"addthis.command.htmltargetid":"putithere"
-		}, {
-			"executethis": "addwidmaster",
-			"wid": "ex-17-data",
-			"html": "Wow...here is some HTML from a button click on ex-17-html",
-			"addthis.command.htmltargetid":"putithere"
-		}, {
-			"executethis": "addwidmaster",
-			"wid": "ex-17-data",
-			"html": "Wow...here is some HTML from a button click on ex-17-html",
-			"addthis.command.htmltargetid":"putithere"
-		}, {
-			"executethis": "getwidmaster",
-			"wid": "ex-17-data"
-		}
-		], function (err, res1) {
-			proxyprinttodiv("addwidmasterex17data result: ", res1, 99);
-			callback(err, res1);
-		});
-	}
-
-        
+/*
+        addwidmaster ex-17-data
+    */
+    exports.addwidmasterex17data = addwidmasterex17data = function addwidmasterex17data(params, callback) {
+        execute([{
+            "executethis": "addwidmaster",
+            "wid": "ex-17-data",
+            "html": "Wow...here is some HTML from a button click on ex-17-html",
+            "addthis.command.htmltargetid":"putithere"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "ex-17-data",
+            "html": "Wow...here is some HTML from a button click on ex-17-html",
+            "addthis.command.htmltargetid":"putithere"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "ex-17-data",
+            "html": "Wow...here is some HTML from a button click on ex-17-html",
+            "addthis.command.htmltargetid":"putithere"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "ex-17-data"
+        }
+        ], function (err, res1) {
+            proxyprinttodiv("addwidmasterex17data result: ", res1, 99);
+            callback(err, res1);
+        });
+    }
+    
     /*
         addwidmaster blank guid
     */
@@ -4267,6 +4266,35 @@ exports.ettestag111 = ettestag111 = function ettestag111(params, callback) {
             callback(err, res);
             proxyprinttodiv("res -- get", res, 17);
         });
+    }
+
+    /*
+        Get from datastore
+    */
+    exports.etupdategetdatastore = etupdategetdatastore = function etupdategetdatastore(parameters, callback) {
+        debuglevel = 12;
+        eventappinstall();
+        
+        updatedatastore({
+            "wid": "wid2",
+            "d":"444",
+            "f":"66"
+        }, {
+            //"command":{"datastore":"mongo"}
+            "command":{"collection":"test"}
+        }, function(err,res){
+            proxyprinttodiv("etupdatedatastore -- res", res, 12);
+            
+            getfromdatastore({
+                "wid": "wid2"
+            }, {
+                //"command":{"datastore":"mongo"}
+                "command":{"collection":"test2"}
+            }, function(err,res){
+                 proxyprinttodiv("etgetfromdatastore -- res", res, 12);
+                 callback(err, res);
+            });
+        }); 
     }
 
     // tests systemdto from get
