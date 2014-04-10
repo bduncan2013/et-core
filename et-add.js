@@ -717,6 +717,54 @@ exports.updatewid = window.updatewid = updatewid = function updatewid(inputObjec
     };
 
     exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
+        // needs to be wired in
+         // function step1(step1_callback) { // getwidmaster
+         //        if (object['wid']) {
+         //            execute({
+         //                "executethis": "getwidmaster",
+         //                "wid": object['wid'],
+         //                "command.getwidmaster.execute": "ConvertFromDOTdri",
+         //                "command.getwidmaster.convertmethod": "nowid"
+         //                }, function (err, res) {
+         //                    proxyprinttodiv("addwid step1 getwidmaster result", res, 17);
+         //                    var getwidmasterres = extend(true, {}, res[0]);
+         //                    proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", getwidmasterres, 17);
+         //                    //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":44,"command":{"inherit":{"data":{"c":17, "e":98, "g":7}}}}];      /*********************/
+         //                    //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":4, "f":6, "command":{"inherit":{"data":{"c":17, "e":98, "g":7}}}}];       /*********************/
+         //                    if (res[0] === 'object' && Object.keys(res[0]).length !== 0) {
+         //                        if (res[0].command.inherit.data) {
+         //                            currentinheritobject=res[0].command.inherit.data;
+         //                            delete res[0].command.inherit.data;
+         //                        }
+         //                        currentobject=res[0];
+         //                        object = extend(true, currentobject, object);
+         //                        proxyprinttodiv("addwid step1 getwidmaster currentobject", currentobject, 17);
+         //                        proxyprinttodiv("addwid step1 getwidmaster currentinheritobject", currentinheritobject, 17);
+         //                        differenceresults = deepDiffMapper.map(object,currentinheritobject);// fn in utils
+         //                        proxyprinttodiv("addwid step1 getwidmaster differenceresults", differenceresults, 17);
+         //                        // use the differenceresults to create a new object
+         //                        // ***** create code here
+         //                        for(var diffKey in differenceresults){
+         //                            if(differenceresults[diffKey]["type"]=="added"){
+         //                                object[diffKey]=differenceresults[diffKey]["data"];
+         //                            }
+         //                        }
+         //                        //To merge object with getwidmaster result
+         //                        if(getwidmasterres && Object.keys(getwidmasterres).length !== 0){
+         //                            for(var getWidKey in getwidmasterres){
+         //                                if(!object[getWidKey]){
+         //                                    object[getWidKey]=getwidmasterres[getWidKey];
+         //                                }
+         //                            }
+         //                        }
+         //                        proxyprinttodiv("addwid step1 after diff and merge object", object, 17);
+         //                    }
+         //                    step1_callback(null);
+         //            }); // end execute
+         //        } else { // if no object['wid']
+         //            step1_callback(null);
+         //        }
+         //    },
         try {
             var inbound_parameters = JSON.parse(JSON.stringify(arguments));
             function addwid5() {

@@ -4319,24 +4319,25 @@ exports.ettestag111 = ettestag111 = function ettestag111(params, callback) {
                     "metadata.permissiondto.type": "onetomany",
                     "metadata.usergroupdto.type":"onetomany"},
                     function (err, res1) {
-                        proxyprinttodiv("getwidmaster userdto result: ", res1, 99);           
-                        //callback(err, res1); 
+                        proxyprinttodiv("getwidmaster userdto adduserdto result: ", res1, 99);           
+                        callback(null, null); 
                     }
               );
     }
 
      exports.testusersystem = testusersystem = function testusersystem(params,callback){
-            adduserdto();
-            execute({"executethis": "getwidmaster", "command.getwidmaster.convertmethod":"dto", "wid": "userdto"}, function (err, res1) {
-                proxyprinttodiv("getwidmaster userdto result: ", res1, 99); 
-                var found = [];
-                for (var prop in res1[0]){
-                    if (prop.indexOf("systemdto") != -1){
-                        found.push(prop + " : " + res1[0][prop]);
+            adduserdto(null, function () {
+                execute({"executethis": "getwidmaster", "command.getwidmaster.convertmethod":"dto", "wid": "userdto"}, function (err, res1) {
+                    proxyprinttodiv("getwidmaster userdto testusersystem result: ", res1, 99); 
+                    var found = [];
+                    for (var prop in res1[0]){
+                        if (prop.indexOf("systemdto") != -1){
+                            found.push(prop + " : " + res1[0][prop]);
+                        }
                     }
-                }
-                proxyprinttodiv("systemdto fields found: ", found, 99);             
-                //callback(err, res1); 
+                    proxyprinttodiv("systemdto fields found: ", found, 99);             
+                    //callback(err, res1); 
+                });
             });
     }
 
