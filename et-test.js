@@ -4297,18 +4297,90 @@ exports.ettestag111 = ettestag111 = function ettestag111(params, callback) {
         }); 
     }
 
-    // tests systemdto from get
-    exports.testusersystem = testusersystem = function testusersystem(params,callback){
-        debuglevel = 0;
-        execute({"executethis": "getwidmaster", "command.convertmethod":"dto", "wid": "userdto"}, function (err, res1) {
-            proxyprinttodiv("getwidmaster userdto result: ", res1, 99); 
-            var found = [];
-            for (var prop in res1[0]){
-                if (prop.indexOf("systemdto") != -1){
-                    found.push(prop + " : " + res1[0][prop]);
+    exports.adduserdto = adduserdto = function adduserdto(params,callback){
+        execute({
+                    // Create the userdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "userdto",
+                    "wid": "userdto",
+                    "widname": "wid",
+                    "fname": "string",
+                    "lname": "string",
+                    "phone": "string",
+                    "email": "string",
+                    "address": "string",
+                    "address2": "string",
+                    "city": "string",
+                    "state": "string",
+                    "zip": "string",
+                    "country": "string",
+                    "metadata.securitydto.type": "onetoone",
+                    "metadata.environmentdto.type": "onetoone",
+                    "metadata.permissiondto.type": "onetomany",
+                    "metadata.usergroupdto.type":"onetomany"},
+                    function (err, res1) {
+                        proxyprinttodiv("getwidmaster userdto result: ", res1, 99);           
+                        //callback(err, res1); 
+                    }
+              );
+    }
+
+     exports.testusersystem = testusersystem = function testusersystem(params,callback){
+            adduserdto();
+            execute({"executethis": "getwidmaster", "command.getwidmaster.convertmethod":"dto", "wid": "userdto"}, function (err, res1) {
+                proxyprinttodiv("getwidmaster userdto result: ", res1, 99); 
+                var found = [];
+                for (var prop in res1[0]){
+                    if (prop.indexOf("systemdto") != -1){
+                        found.push(prop + " : " + res1[0][prop]);
+                    }
                 }
-            }
-            proxyprinttodiv("systemdto fields found: ", found, 99);             
-            //callback(err, res1); 
-        });
+                proxyprinttodiv("systemdto fields found: ", found, 99);             
+                //callback(err, res1); 
+            });
+    }
+
+    
+    exports.systemdinuserdto1 = systemdinuserdto1 = function systemdinuserdto1(params,callback){
+            adduserdto();           
+            execute([{
+                        // Create the userdto
+                        "executethis": "addwidmaster",
+                        "metadata.method": "userdto",
+                        "wid": "userdto",
+                        "systemdto.expirationdate":"6/14/14"
+                    }],
+                          function (err, res) {
+                                    //proxyprinttodiv('Full results: ', res, 99);
+                                    
+                                    //proxyprinttodiv('The userdto record: ', res[2], 99);
+                            
+                                    debuglevel = 0;
+                                    execute({"executethis": "getwidmaster", "wid": "userdto"}, function (err, res1) {
+                                        proxyprinttodiv("getwidmaster userdto result: ", res1, 99); 
+                                        callback(err, res); 
+                                    });
+                          });
+    }
+    
+    exports.systemdinuserwid1 = systemdinuserwid1 = function systemdinuserwid1(params,callback){
+            adduserdto();           
+            execute([{
+                        // Create the userdto
+                        "executethis": "addwidmaster",
+                        "metadata.method": "userdto",
+                        "wid": "user1",
+                        "systemdto.expirationdate":"6/14/14"
+                    }],
+                          function (err, res) {
+                                    //proxyprinttodiv('Full results: ', res, 99);
+                                    
+                                    //proxyprinttodiv('The userdto record: ', res[2], 99);
+                            
+                                    debuglevel = 0;
+                                    execute({"executethis": "getwidmaster", "wid": "user1"}, function (err, res1) {
+                                        proxyprinttodiv("getwidmaster user11 result: ", res1, 99); 
+                                        callback(err, res); 
+                                    });
+                          });
     }
