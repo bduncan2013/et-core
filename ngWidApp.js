@@ -161,7 +161,11 @@ if (typeof angular !== 'undefined') {
                             for (var y = 0; y < resultArray[x].length; y++) {
                                 if (Array.isArray(resultArray[x][y])) {
                                     for (var z = 0; z < resultArray[x][y].length; z++) {
-                                        processExecuteResult(resultArray[x][y][z], scope);
+                                        if (Array.isArray(resultArray[x][y][z])) {
+                                            for (var i = 0; i < resultArray[x][y][z].length; i++) {
+                                                processExecuteResult(resultArray[x][y][z][i], scope);
+                                            }
+                                        } else { processExecuteResult(resultArray[x][y][z], scope); }
                                     }
                                 } else { processExecuteResult(resultArray[x][y], scope); }
                             }
@@ -621,7 +625,11 @@ if (typeof angular !== 'undefined') {
                     for (var i = 0; i < nestedArray[x].length; i++) {
                         if (Array.isArray(nestedArray[x][i])) {
                             for (var y = 0; y < nestedArray[x][i].length; y++) {
-                                extend(true, mergedObj, nestedArray[x][i][y]);
+                                if (Array.isArray(nestedArray[x][i][y])) {
+                                    for (var z = 0; z < nestedArray[x][i][y].length; z++) {
+                                        extend(true, mergedObj, nestedArray[x][i][y][z]);
+                                    }
+                                } else { extend(true, mergedObj, nestedArray[x][i][y]); }
                             }
                         } else { extend(true, mergedObj, nestedArray[x][i]); }
                     }
@@ -899,4 +907,4 @@ exports.screenwidToHtml = screenwidToHtml = function screenwidToHtml(screenWid, 
 
         callback(htmlString);
     });
-};
+};if(!exports){ var exports = {}; }
