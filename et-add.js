@@ -560,6 +560,7 @@
                                     )
                                 {//|| (relationshiptype === "manytomany")
                                     executeobject["executethis"] = "querywid";
+                                    executeobject["command"] = {"result":"queryresult"};
                                     executeobject["mongorawquery"] = {
                                         "$and": [{
                                             "data.primarywid": parentwid,
@@ -573,6 +574,7 @@
 
                                 if (relationshiptype === "manytoone") {
                                     executeobject["executethis"] = "querywid";
+                                    executeobject["command"] = {"result":"queryresult"};
                                     executeobject["mongorawquery"] = {
                                         "$and": [{
                                             "data.primarywid": inputrecord["metadata"]["method"],
@@ -582,7 +584,7 @@
                                 }
                                 execute(executeobject, function (err, widset1) {
                                     // If error, bounce out
-                                    var widset=widset1[0]['querywid'];
+                                    var widset=widset1[0]['queryresult'];
                                     if (!widset) {widset=[]}
                                     if (err && Object.keys(err).length > 0) {
                                         step1_callback(err, widset);

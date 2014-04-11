@@ -4341,63 +4341,63 @@ exports.testusersystem = testusersystem = function testusersystem(params,callbac
 }
 
 
-// simple test which sets up all data and then runs sectest1 test after that 
+    // simple test which sets up all data and then runs sectest1 test after that 
 exports.datastore1 = datastore1 = function datastore1(params, callback) {
 
-    debuglevel = 12;
+      debuglevel = 12;
 
-    async.series([
-        function (cb1) {
-            updatedatastore({"wid": "sounddto","metadata.method": "sounddto","note": "string"},{}, function (err, res) {
+      async.series([
+            function (cb1) {
+                  updatedatastore({"wid": "sounddto","metadata.method": "sounddto","note": "string"},{}, function (err, res) {
+                  cb1(null);
+                })
+            },
+            function (cb1) {
+                  getfromdatastore({"wid":"sounddto"}, null, function (err, res) {
                 cb1(null);
-            })
-        },
-        function (cb1) {
-            getfromdatastore({"wid":"sounddto"}, null, function (err, res) {
-                cb1(null);
-            });
-        }
-    ], function (err, res) {
-        proxyprinttodiv('res', res, 34);
-        callback(err, res);
-    });
+                  });
+            }
+      ], function (err, res) {
+            proxyprinttodiv('res', res, 34);
+            callback(err, res);
+      });
 }
 
 
 
 
-// simple test which sets up all data and then runs sectest1 test after that 
+    // simple test which sets up all data and then runs sectest1 test after that 
 exports.datastore2 = datastore2 = function datastore2(params, callback) {
 
-    debuglevel = 12;
+      debuglevel = 12;
 
-    async.series([
-        function (cb1) {
-            proxyprinttodiv('Function updatewid in : x', 'hi',12);
-            updatewid({"wid": "sounddto","metadata":{"method": "sounddto"},"note": "string"},function (err, res) {
+      async.series([
+            function (cb1) {
+                  proxyprinttodiv('Function updatewid in : x', 'hi',12);
+                  updatewid({"wid": "sounddto","metadata":{"method": "sounddto"},"note": "string"},function (err, res) {
+                  cb1(null);
+                })
+            },
+            function (cb1) {
+                  getwid({"wid":"sounddto"}, function (err, res) {
                 cb1(null);
-            })
-        },
-        function (cb1) {
-            getwid({"wid":"sounddto"}, function (err, res) {
-                cb1(null);
-            });
-        }
-    ], function (err, res) {
-        proxyprinttodiv('res', res, 34);
-        callback(err, res);
-    });
+                  });
+            }
+      ], function (err, res) {
+            proxyprinttodiv('res', res, 34);
+            callback(err, res);
+      });
 };
 
+  
+    /*
+        To add wid to db(default "data")
+    */
+    exports.datastore3 = datastore3 = function datastore3(parameters, callback) {
+        debuglevel = 12;
+        eventappinstall();
 
-/*
- To add wid to db(default "data")
- */
-exports.datastore3 = datastore3 = function datastore3(parameters, callback) {
-    debuglevel = 12;
-    //eventappinstall();
-
-    execute([{
+        execute([{
             "executethis": "updatewid",
             "wid": "sounddto",
             "metadata.method": "sounddto",
@@ -4412,33 +4412,123 @@ exports.datastore3 = datastore3 = function datastore3(parameters, callback) {
             "f":"6",
             "command":{"db":"data"}
         }, {
-            "executethis": "getwid",
-            "wid": "wid1",
-            "command":{"db":"data"}
+             "executethis": "getwid",
+             "wid": "wid1",
+             "command":{"db":"data"}
         }, {
-            "executethis": "updatewid",
-            "wid": "wid2",
-            "d":"444",
-            "f":"66",
-            "command":{"db":"test"}
+             "executethis": "updatewid",
+             "wid": "wid2",
+             "d":"444",
+             "f":"66",
+             "command":{"db":"test"}
         }, {
-            "executethis": "getwid",
-            "wid": "wid2",
-            "command":{"db":"data"}
+             "executethis": "getwid",
+             "wid": "wid2",
+             "command":{"db":"data"}
         }, {
-            "executethis": "updatewid",
-            "wid": "wid3",
-            "d":"4444",
-            "f":"666",
-            "command":{"collection":"othercollection"}
+             "executethis": "updatewid",
+             "wid": "wid3",
+             "d":"4444",
+             "f":"666",
+             "command":{"collection":"othercollection"}
         }, {
-            "executethis": "getwid",
-            "wid": "wid3",
-            "command":{"collection":"othercollection"}
+             "executethis": "getwid",
+             "wid": "wid3",
+             "command":{"collection":"othercollection"}
+        }, {
+             "executethis": "getwid",
+             "wid": "wid3",
+             "command":{"collection":"testcollection"}
         }],
         function (err, res) {
             callback(err, res);
             proxyprinttodiv("res -- add", res, 17);
         });
-};
+    };
+    
+    /*
+        normal add / get
+    */
+    exports.datastore4 = datastore4 = function datastore4(parameters, callback) {
+        debuglevel = 12;
+        eventappinstall();
 
+        execute([{
+            "executethis": "updatewid",
+            "wid": "sounddto",
+            "metadata.method": "sounddto",
+            "note": "string"
+        }, {
+            "executethis": "getwid",
+            "wid": "sounddto"
+        }],
+        function (err, res) {
+            callback(err, res);
+            proxyprinttodiv("res -- add", res, 17);
+        });
+    }
+
+    function datastorefunction(updatecommand, callback){
+        debuglevel = 12;
+        eventappinstall();
+        
+        var allPossibleCommandValues = [
+            {"db":"data"},
+            {"db":"test"},
+            {"db":""},
+            {"collection":"maincollection"},
+            {"collection":"othercollection"},
+            {"collection":""},
+            {"datastore":"localstorage"},
+            {"datastore":"localstore"},
+            {"datastore":"angular"},
+            {"datastore":"mongo"}
+        ];
+        
+        var executeArray = [];
+        executeArray.push({
+            "executethis": "updatewid",
+            "wid": "wid1",
+            "d":"44",
+            "f":"6",
+            "command":updatecommand
+        });
+        
+        for(commandValue in allPossibleCommandValues){
+            var executeObj = {
+                "executethis": "getwid",
+                "wid": "wid1",
+                "command":allPossibleCommandValues[commandValue]
+            }
+            executeArray.push(executeObj);
+        }
+        proxyprinttodiv("executeArray", executeArray, 12);
+        
+        execute(executeArray, function (err, res) {
+            proxyprinttodiv("res -- add", res, 12);
+            callback(err, res);
+        });
+    }
+    
+    
+    /*
+        To add wid to db(default "data")
+        To get wid from all other variations
+    */
+    exports.datastore5 = datastore5 = function datastore5(parameters, callback) {
+        var updatecommand = {"db":"data"};
+        datastorefunction(updatecommand, function(err, res){
+            callback(err, res);
+        });
+    }
+    
+    /*
+        To add wid to collection(default "othercollection")
+        To get wid from all other variations
+    */
+    exports.datastore6 = datastore6 = function datastore6(parameters, callback) {
+        var updatecommand = {"db":"test"};
+        datastorefunction(updatecommand, function(err, res){
+            callback(err, res);
+        });
+    }

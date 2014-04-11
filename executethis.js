@@ -307,7 +307,7 @@
 
                                                             // wrap  if needed to
 
-                                                            proxyprinttodiv("end postResults command.result", command, 11);
+                                                            proxyprinttodiv("end postResults command.result", command, 99);
 
                                                             if (command.result) {
                                                                 var json = {};
@@ -317,7 +317,7 @@
                                                                 json[command.result] = postResults;
                                                                 postResults = json;
                                                             }
-                                                            proxyprinttodiv("end postResults III", postResults, 11);
+                                                            proxyprinttodiv("end postResults III", postResults, 99);
 
                                                             if (Object.prototype.toString.call(postResults) !== '[object Array]') {
                                                                 var tempArray = [];
