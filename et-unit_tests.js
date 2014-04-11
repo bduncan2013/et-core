@@ -2592,7 +2592,7 @@ proxyprinttodiv('>>>> after a', filter_data.output, 99);
 // This will test the ability to write a dto to the db, use that dto to write
 // a wid with that dto, and get the results of getting that wid.
 exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
-    eventappinstall();
+//    eventappinstall();
             // alert('here');
 
     debuglevel = 75;
@@ -2620,7 +2620,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             "wid": "color1"
         }],
         function (err, res) {
-            debugfn("offlinegetwid code generator END",                  "ag2",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+            debugfn("offlinegetwid code generator END", "ag2", "", "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
 
             saveglobal("debugname", "");
             saveglobal("debugcat", "");
@@ -2634,7 +2634,7 @@ exports.ettestag2 = ettestag2 = function ettestag2(params, callback) {
             }]);
             callback(err, res);
     });
-}
+};
 // This is a 2 level test of the dtos...instantiate song1 with a sonddto, and some sounddto values
 // failing due to a command object being sent back
 exports.ettestag3 = ettestag3 = function ettestag3(params, callback) {
