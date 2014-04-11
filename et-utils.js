@@ -301,26 +301,31 @@ exports.getfromdatastore = getfromdatastore = function getfromdatastore(inputWid
 
             //     callback(err, resultobject);
             // });
-            getfromangular(inputWidgetObject, function (err, resultobject) {
-                if (!resultobject) {resultobject={}}
-                proxyprinttodiv('Function getfromdatastore from angularstorage', resultobject,12);
-                output=extend(true, resultobject, output);
-                proxyprinttodiv('Function getfromdatastore output', output,12);
-                // make sure data is bundled properly for convertfromdriformat()
-
+            if (config.configuration.environment)==="local" {
+                getfromangular(inputWidgetObject, function (err, resultobject) {
+                    if (!resultobject) {resultobject={}}
+                    proxyprinttodiv('Function getfromdatastore from angularstorage', resultobject,12);
+                    output=extend(true, resultobject, output);
+                    proxyprinttodiv('Function getfromdatastore output', output,12);
                     // make sure data is bundled properly for convertfromdriformat()
-                    for (var prop in output) {
-                        if (output.hasOwnProperty(prop)) {
-                            if (prop !== 'wid' && prop !== 'metadata' && prop !== 'converttodriformat' && prop !== 'data') {
-                                if (!output[db]) { output[db] = {}; }
-                                output[db][prop] = output[prop];
-                                delete output[prop];
+
+                        // make sure data is bundled properly for convertfromdriformat()
+                        for (var prop in output) {
+                            if (output.hasOwnProperty(prop)) {
+                                if (prop !== 'wid' && prop !== 'metadata' && prop !== 'converttodriformat' && prop !== 'data') {
+                                    if (!output[db]) { output[db] = {}; }
+                                    output[db][prop] = output[prop];
+                                    delete output[prop];
+                                }
                             }
                         }
-                    }
 
-                    callback(err, output);
-                });
+                        callback(err, output);
+                    });
+                }
+            else {
+                callback(err, output);
+                }
 
             }
             else if (datastore==='mongo') { 
