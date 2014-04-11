@@ -301,7 +301,7 @@ exports.getfromdatastore = getfromdatastore = function getfromdatastore(inputWid
 
             //     callback(err, resultobject);
             // });
-            if (config.configuration.environment)==="local" {
+            if (config.configuration.environment==="local") {
                 getfromangular(inputWidgetObject, function (err, resultobject) {
                     if (!resultobject) {resultobject={}}
                     proxyprinttodiv('Function getfromdatastore from angularstorage', resultobject,12);
