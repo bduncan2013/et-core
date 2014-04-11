@@ -11800,9 +11800,89 @@ exports.lmetd5 = lmetd5 = function lmetd5(params, callback) {
                 callback(err, res);
             });
       });
-}
+};
 
-var command;
-          if (!command) {command = {};}
-          if (!command.deepfilter) {command.deepfilter = {};}
-          command.deepfilter.convert = true;
+exports.ettestag3v2 = ettestag3v2 = function ettestag3v2(params, callback) {
+
+
+    debuglevel=0;
+    execute([{
+            "executethis": "addwidmaster",
+            "wid": "sounddtov2",
+            "metadata.method": "sounddtov2",
+            "note": "string"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "sonddtov2",
+            "metadata.method": "sonddtov2",
+            "title": "string",
+            "metadata.sounddto.type": "onetomany"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "rel_sound_to_song",
+            "metadata.method":"relationshipdto",
+            "primarywid": "sonddtov2",
+            "secondarywid": "sounddtov2",
+            "primarymethod": "sonddtov2",
+            "secondarymethod": "sounddtov2",
+            "linktype":"onetomany",
+            "relationshiptype": "attributes"
+
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1v2",
+            "metadata.method": "sonddto",
+            "title": "Highway to Hell",
+            "sounddto.wid":"ag3aflatv2",
+            "sounddto.note": "A flat"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1v2",
+            "metadata.method": "sonddto",
+            "title": "Highway to Hell",
+            "sounddto.wid":"ag3bsharpv2",
+            "sounddto.note": "B sharp"
+        }, {
+            "executethis": "addwidmaster",
+            "wid": "song1v2",
+            "metadata.method": "sonddto",
+            "title": "Highway to Hell",
+            "sounddto.wid":"ag3cflatv2",
+            "sounddto.note": "C flat"
+        }, {
+            "executethis": "getwidmaster",
+            "wid": "song1v2"
+        }],
+        function (err, res) {
+            debugfn("offlinegetwid code generator END", "",    "",   "code", getglobal("debugcolor"), getglobal("debugindent"), {}, 9);
+
+            proxyprinttodiv('Function ag3 result Full res', res, 17);
+            proxyprinttodiv('Function ag3 result ', res[6], 17);
+
+            res = logverify("ettestag3_result", res[6], [{
+                "title": "Highway to Hell",
+                "wid": "song1v2",
+                "metadata.method": "sonddto",
+                "metadata.sounddto.type": "onetomany",
+                "sounddto.0.note": "A flat",
+                "sounddto.0.wid": "ag3aflatv2",
+                "sounddto.0.metadata.method": "sounddto",
+                "sounddto.1.note": "B sharp",
+                "sounddto.1.wid": "ag3bsharpv2",
+                "sounddto.1.metadata.method": "sounddto",
+                "sounddto.2.note": "C flat",
+                "sounddto.2.wid": "ag3cflatv2",
+                "sounddto.2.metadata.method": "sounddto"
+            }]);
+            debuglevel=0;
+            // execute({"executethis": "getwidmaster","wid": "sonddto",
+            //       "command":{"getwidmaster":{"convertmethod":"dto",
+            //                               "execute":"ConvertFromDOTdri",
+            //                               "inheritflag":"true","dtotype":""}}}, function (err, res1) {
+            execute({"executethis": "getwidmaster","wid": "song1"}, function (err, res1) {
+                proxyprinttodiv('Function ag3 result LAST ', res1, 99);
+                callback(err, res);
+
+            })
+        });
+};

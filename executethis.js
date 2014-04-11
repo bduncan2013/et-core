@@ -1265,7 +1265,7 @@
                                                             proxyprinttodiv("executelist executeobject.targetfn: ", String(executeobject.targetfn), 11);
                                                             if (typeof executeobject.targetfn === 'function') { // there was a chance of a non function getting in here -- Joe
                                                                 command ={};// Fake security PASS TODO :: pass informaton needed for security checks in this object
-                                                                authcall(executeobject, command, function (err, securitycheck) {
+//                                                                authcall(executeobject, command, function (err, securitycheck) {
                                                                     proxyprinttodiv(">>>>>> executelist executeobject.params: ", executeobject.params, 11);
                                                                     // If error, bounce out
                                                                     if (err && Object.keys(err).length > 0) {
@@ -1273,7 +1273,7 @@
                                                                     } else {
                                                                         try {
                                                                             err = null; // Do not leave in the code
-                                                                            securitycheck = true
+                                                                            securitycheck = true;
                                                                             if (securitycheck) {
                                                                                 executeobject.targetfn(executeobject.params, function (err, res) {
 
@@ -1328,7 +1328,7 @@
                                                                                             if (executeobject.executeflag === true) {
                                                                                                 if ((res) && (res.js)) {
                                                                                                     // TODO: do not leave this in production as is
-                                                                                                    var fnstring = res.js
+                                                                                                    var fnstring = res.js;
                                                                                                     if (fnstring.indexOf("function") === 0) {
                                                                                                         fnstring = "(" + fnstring + ")()"
                                                                                                     }
@@ -1393,7 +1393,7 @@
                                                                             cbMapW(finalobject.err, finalobject.res);
                                                                         }
                                                                     } // end else
-                                                                }); // end authcall
+//                                                                }); // end authcall
 
                                                                 // create a google spreadsheet with intended data
                                                                 // https://docs.google.com/spreadsheet/ccc?key=0AqSqNB4MEkB0dDZzZFE1bm1QRk8tYTBVNjZjWlpfSnc#gid=0
