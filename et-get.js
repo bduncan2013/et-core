@@ -4,76 +4,76 @@
     // *** GetWid ***
     // Purpose: Converts data to and from dri standards
 
-    exports.getwid = window.getwid = getwid = function getwid(inputWidgetObject, callback) {
-        //try {
-        var inbound_parameters = {};
-        extend(true, inbound_parameters, inputWidgetObject);
+    // exports.getwid = window.getwid = getwid = function getwid(inputWidgetObject, callback) {
+    //     //try {
+    //     var inbound_parameters = {};
+    //     extend(true, inbound_parameters, inputWidgetObject);
 
-        // get envrionment
-        //
-        var command = {};
-        if (inputWidgetObject.command) { ///--- no !
-            // if (!inputWidgetObject.command) {
-            command=inputWidgetObject.command
-            delete inputWidgetObject.command
-        }
+    //     // get envrionment
+    //     //
+    //     var command = {};
+    //     if (inputWidgetObject.command) { ///--- no !
+    //         // if (!inputWidgetObject.command) {
+    //         command=inputWidgetObject.command
+    //         delete inputWidgetObject.command
+    //     }
 
-        var convertedobject = {};
-        proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject,12);
-        getfromdatastore(inputWidgetObject, command, function (err, resultobject) {
-            proxyprinttodiv('Function getwid in : resultobject 1' , resultobject,12);
-            var originalarguments = {};
-            extend(true, originalarguments, inputWidgetObject);
-            // If error, bounce out
-            if (err && Object.keys(err).length > 0) {
-                callback(err, resultobject);
-            } else {
-                try {
-
-
-
-
-                    // if (resultobject === undefined) {
-                    //    callback(null, {})
-                    // } else {
+    //     var convertedobject = {};
+    //     proxyprinttodiv('Function getwid in : inputWidgetObject', inputWidgetObject,12);
+    //     getfromdatastore(inputWidgetObject, command, function (err, resultobject) {
+    //         proxyprinttodiv('Function getwid in : resultobject 1' , resultobject,12);
+    //         var originalarguments = {};
+    //         extend(true, originalarguments, inputWidgetObject);
+    //         // If error, bounce out
+    //         if (err && Object.keys(err).length > 0) {
+    //             callback(err, resultobject);
+    //         } else {
+    //             try {
 
 
 
 
+    //                 // if (resultobject === undefined) {
+    //                 //    callback(null, {})
+    //                 // } else {
 
-                    // convert the object from dri standard before returnning it
-                    proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject,12);
 
-                    var convertedobject = convertfromdriformat(resultobject, command)
-                    proxyprinttodiv('Function getwid in : resultobject 2' , convertedobject,12);
-                    proxyprinttodiv('Function getwid in : convertedobject', convertedobject,12);
-                    proxyprinttodiv('Function getwid in : resultobject', resultobject,12);
 
-                    if (inputWidgetObject['command.convertmethod'] === 'toobject') {
-                        callback(null, ConvertFromDOTdri(convertedobject))
-                    } else {
-                        callback(null, convertedobject);
-                    }
-                    //} // else !===0
-                } // end try
-                catch (err) {
-                    var finalobject =
-                        createfinalobject({
-                            "result": "getfromdatastore"
-                        }, {}, "getfromdatastore", err, originalarguments);
-                    callback(finalobject.err, finalobject.res);
-                }
-            }
-        });
-        // } // end try
-        // catch (err) {
-        //     var finalobject =
-        //         createfinalobject({
-        //             "result": "offlinegetwid"
-        //         }, {}, "offlinegetwid", err, inbound_parameters);
-        //     callback(finalobject.err, finalobject.res);
-        // }
-    };
+
+
+    //                 // convert the object from dri standard before returnning it
+    //                 proxyprinttodiv('Function getwid in : inputWidgetObject II', inputWidgetObject,12);
+
+    //                 var convertedobject = convertfromdriformat(resultobject, command)
+    //                 proxyprinttodiv('Function getwid in : resultobject 2' , convertedobject,12);
+    //                 proxyprinttodiv('Function getwid in : convertedobject', convertedobject,12);
+    //                 proxyprinttodiv('Function getwid in : resultobject', resultobject,12);
+
+    //                 if (inputWidgetObject['command.convertmethod'] === 'toobject') {
+    //                     callback(null, ConvertFromDOTdri(convertedobject))
+    //                 } else {
+    //                     callback(null, convertedobject);
+    //                 }
+    //                 //} // else !===0
+    //             } // end try
+    //             catch (err) {
+    //                 var finalobject =
+    //                     createfinalobject({
+    //                         "result": "getfromdatastore"
+    //                     }, {}, "getfromdatastore", err, originalarguments);
+    //                 callback(finalobject.err, finalobject.res);
+    //             }
+    //         }
+    //     });
+    //     // } // end try
+    //     // catch (err) {
+    //     //     var finalobject =
+    //     //         createfinalobject({
+    //     //             "result": "offlinegetwid"
+    //     //         }, {}, "offlinegetwid", err, inbound_parameters);
+    //     //     callback(finalobject.err, finalobject.res);
+    //     // }
+    // };
 
     // exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
     //     try {
@@ -354,7 +354,7 @@
                                 if (eachitem==='method') {
                                     if (dtotable[metadata.method]) {tempobj = dtotable[metadata.method].command.dtolist}
                                 }
-                                if (tempobj) {extend(true, dtolist, tempobj)};
+                                if (tempobj) {extend(true, dtolist, tempobj);}
                                 // if (eachitem==='method' && dtotable[metadata.method] &&
                                 //     dtotable[metadata.method].command && dtotable[metadata.method].command.inherit) {
                                 //     proxyprinttodiv("getdtoobject dtotable[metadata.method].command.inherit ", dtotable[metadata.method].command.inherit, 98);
@@ -996,7 +996,7 @@
                                                                 // added
                                                                 if (params.command && params.command.inherit) {
                                                                     for (var eachinherit in params.command.inherit) {
-                                                                        parameterobject.command.inherit.push(params.command.inherit[eachinherit])
+                                                                        parameterobject.command.inherit.push(params.command.inherit[eachinherit]);
                                                                     }
                                                                     // ### above added below taken away roger
                                                                     //extend(true, parameterobject.command.inherit, params.command.inherit);

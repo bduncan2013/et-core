@@ -1,49 +1,49 @@
 // copyright (c) 2014 DRI
 (function (window) {
 
-    exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
-        //try {
-        var originalarguments = {};
-        extend(true, originalarguments, inputObject);
-        proxyprinttodiv('Function updatewid inputObject', inputObject,12);
-        // getwidmaster environment
-        // get collection and db
-        // call add with those
-        var command = {};
-        if (inputObject.command) {
-            command=inputObject.command;
-            delete inputObject.command;
-        }
+    // exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
+    //     //try {
+    //     var originalarguments = {};
+    //     extend(true, originalarguments, inputObject);
+    //     proxyprinttodiv('Function updatewid inputObject', inputObject,12);
+    //     // getwidmaster environment
+    //     // get collection and db
+    //     // call add with those
+    //     var command = {};
+    //     if (inputObject.command) {
+    //         command=inputObject.command;
+    //         delete inputObject.command;
+    //     }
 
-        // convert to dri format before saving
-        proxyprinttodiv('Function updatewid inputObject', converttodriformat(inputObject, command),12);
-        updatedatastore(converttodriformat(inputObject, command), command, function (err, results) {
-            // If error, bounce out
-            if (err && Object.keys(err).length > 0) {
-                callback(err, results);
-            } else {
-                try {
-                    proxyprinttodiv('Function updatewid in : x', results,12);
-                    callback(null, results);
-                } // end try
-                catch (err) {
-                    var finalobject =
-                        createfinalobject({
-                            "result": "updatedatastore"
-                        }, {}, "updatedatastore", err, inbound_parameters);
-                    callback(finalobject.err, finalobject.res);
-                }
-            } // end else
-        });
-        // } // end try
-        // catch (err) {
-        //     var finalobject =
-        //         createfinalobject({
-        //             "result": "offlineupdatewid"
-        //         }, {}, "offlineupdatewid", err, inbound_parameters);
-        //     callback(finalobject.err, finalobject.res);
-        // }
-    };
+    //     // convert to dri format before saving
+    //     proxyprinttodiv('Function updatewid inputObject', converttodriformat(inputObject, command),12);
+    //     updatedatastore(converttodriformat(inputObject, command), command, function (err, results) {
+    //         // If error, bounce out
+    //         if (err && Object.keys(err).length > 0) {
+    //             callback(err, results);
+    //         } else {
+    //             try {
+    //                 proxyprinttodiv('Function updatewid in : x', results,12);
+    //                 callback(null, results);
+    //             } // end try
+    //             catch (err) {
+    //                 var finalobject =
+    //                     createfinalobject({
+    //                         "result": "updatedatastore"
+    //                     }, {}, "updatedatastore", err, inbound_parameters);
+    //                 callback(finalobject.err, finalobject.res);
+    //             }
+    //         } // end else
+    //     });
+    //     // } // end try
+    //     // catch (err) {
+    //     //     var finalobject =
+    //     //         createfinalobject({
+    //     //             "result": "offlineupdatewid"
+    //     //         }, {}, "offlineupdatewid", err, inbound_parameters);
+    //     //     callback(finalobject.err, finalobject.res);
+    //     // }
+    // };
 
 
     // exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
