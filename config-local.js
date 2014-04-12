@@ -38,9 +38,9 @@ exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, 
     exports.everyMinuteInterval = setInterval(exports.eventonemin,12 * minutes);
     exports.everyTenMinuteInterval = setInterval(exports.eventtenmin,120 * minutes);
 
-    updatedatastore({"wid":"initialwid", "date": new Date()}, {}, function (err, res){
-        callback(err,res)
-    }) 
+    updatewid({"wid":"initialwid", "date": new Date()}, function (err, res) {
+        callback(err, res);
+    });
 };
 
 exports.eventnewpage = eventnewpage = function eventnewpage() {};
