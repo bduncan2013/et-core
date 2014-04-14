@@ -925,7 +925,7 @@ function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
                          if input provided, then no change
                          if input not provided, then set new values
                          */
-                        if(inpVal===undefined){
+                        if(inpVal === undefined || inpVal === "undefined") {
                             switch (dataType) {
                                 case "shortguid":   //to create 5 digit alphanumeric string
                                     //modifiedObj[inpKey] = createNewShortGuid();
