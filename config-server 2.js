@@ -161,6 +161,11 @@ var config123 = function () {
     var configuration = {};
 
     configuration.environment = 'server';
+    configuration.defaultcollection = 'dricollection';
+    configuration.defaultdb='data';
+    configuration.defaultdatastore = 'mongo'
+    configuration.defaultkeycollection = 'dricollectionkey'
+    configuration.defaultmongodb = 'wikiwallettesting'
 
 
     configuration.preExecute = [];

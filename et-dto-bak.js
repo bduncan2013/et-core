@@ -19,12 +19,11 @@
 
     // This function creates the "critical dtos"
     exports.createalldtos = createalldtos = function createalldtos(params, callback) {
+
         async.series([
                 function (cb1) {
                     // Create DTOs
-					debuglevel = 0;
                     execute([{
-					/*
                         "executethis": "addwidmaster",
                         "wid": "dtodefault",
                         "metadata.method": "dtodefault",
@@ -35,11 +34,9 @@
                         "metadata.system.db": "data",
                         "metadata.system.collection": "dri",
                         "metadata.system.type": ""
-                    */
-					}, {
+                    }, {
                         // Create the dtooverride
-                      /*
-						"executethis": "addwidmaster",
+                        "executethis": "addwidmaster",
                         "wid": "dtooverride",
                         "metadata.method": "dtodefault",
                         "metadata.system.creator": "driwid",
@@ -56,46 +53,21 @@
                         "metadata.deleteactiondto.type": "manytoone",
                         "metadata.addactiondto.type": "manytoone",
                         "metadata.groupdto.type": "manytoone"
-                        */
-						//,
+                        //,
                     }, {
                         // Create the systemdto
-						"executethis": "addwidmaster",
-						"wid": "systemdto",
-						"metadata.method": "systemdto",
-                        //"metadata.inherit.0": {"wid" : "systemdefault", "command" : { "dtotype":"", "adopt":"default"}},
-						//"metadata.inherit.1": {"wid" : "systemoverride", "command" : { "dtotype":"", "adopt":"override"}},
-						"metadata.executeobjectdto.type":"onetoone",
-						"metadata.executeactiondto.type":"manytoone",
-						"metadata.getactiondto.type":"manytoone",
-						"metadata.editactiondto.type":"manytoone",
-						"metadata.deleteactiondto.type":"manytoone",
-						"metadata.addactiondto.type":"manytoone",
-                        "metadata.resultdto.type": "manytoone",
-						"metadata.interfacedto.type":"manytoone",
-						"namespace":"string",
-						"widname":"string",
-						"status":"string",
-						"creator":"string",
-						"creationdate":"string",
-						"expirationdate":"string",
-						"expirationtime":"string"
-                    }, {
-                        // Create the executeactiondto
                         "executethis": "addwidmaster",
-                        "wid": "executeobjectdto",
-						"metadata.method": "executeobjectdto",
-                        //"metadata.inherit.0": {"wid" : "executeobjectdefault", "command" : { "dtotype":"", "adopt":"default"}},
-						//"metadata.inherit.1": {"wid" : "executeobjectoverride", "command" : { "dtotype":"", "adopt":"override"}},						
-                        "metadata.executeprefdto.type":"manytoone",
-						"metadata.resultprefdto.type":"manytoone",
-						"metadata.errorprefdto.type":"manytoone",
-						"metadata.executedto.type":"manytomany",
-						"metadata.parametersdto.type":"onetoone",
-						"metadata.errorobjectdto.type":"onetoone",
-						"executeid":"string",
-						"status":"string"
-                    },{
+                        "wid": "systemdto",
+                        "metadata.method": "systemdto",
+                        "metadata.actiondto.type": "onetoone"
+                        // ,
+                        // "metadata.inherit.0.wid": "dtodefault",
+                        // "metadata.inherit.0.command.dtotype": "",
+                        // "metadata.inherit.0.command.adopt": "default",
+                        // "metadata.inherit.1.wid": "dtooverride",
+                        // "metadata.inherit.1.command.dtotype": "",
+                        // "metadata.inherit.1.command.adopt": "override"
+                    }, {
                         // Create the executeactiondto
                         "executethis": "addwidmaster",
                         "wid": "executeactiondto",
@@ -258,22 +230,11 @@
                         "executethis": "addwidmaster",
                         "metadata.method": "environmentdto",
                         "wid": "environmentdto",
-                        "server": "string",
+                        "ac": "string",
+                        "gps": "string",
+                        "account": "string",
                         "db": "string",
-                        "collection": "string",
-						"datastore": "string",
-                        "expirationtimer": "string",
-                        "result":"string",
-						"to":"string",
-						"via":"string",
-						"event":"string",
-						"begindate":"string",
-						"enddate":"string",
-						"priority":"integer",
-						"userid":"string",
-						"gps":"string",
-						"executeobjectdto.type":"manytoone",
-						"parametersdto.type":"onetomany"
+                        "collection": "string"
                         // ,
                         // "metadata.inherit.0.wid": "dtodefault",
                         // "metadata.inherit.0.command.dtotype": "",
@@ -286,9 +247,9 @@
                         "executethis": "addwidmaster",
                         "metadata.method": "securitydto",
                         "wid": "securitydto",
-                        "ac": "string",
+                        "accesstoken": "string",
                         //"status": "integer"
-                        "loginlevel": "string"
+                        "status": "string"
                         // ,
                         // "metadata.inherit.0.wid": "dtodefault",
                         // "metadata.inherit.0.command.dtotype": "",
@@ -388,9 +349,7 @@
                         "country": "string",
                         "metadata.securitydto.type": "onetoone",
                         "metadata.environmentdto.type": "onetoone",
-                        "metadata.permissiondto.type": "onetomany",
-						"metadata.usergroupdto.type":"onetomany",
-						//"metadata.inherit.0": {"wid" : "userdefault", "command" : { "dtotype":"", "adopt":"default"}}
+                        "metadata.permissiondto.type": "onetomany"
                         // ,
                         // "metadata.inherit.0.wid": "dtodefault",
                         // "metadata.inherit.0.command.dtotype": "",
@@ -398,60 +357,10 @@
                         // "metadata.inherit.1.wid": "dtooverride",
                         // "metadata.inherit.1.command.dtotype": "",
                         // "metadata.inherit.1.command.adopt": "override"
-                    },{
-						"executethis":"addwidmaster",
-						"wid":"userdefault",
-						"metadata.method":"userdto",
-						"widname":"userdefault",
-						"fname":"default",
-						"lname":"user",
-						"metadata.securitydto.inherit.0": {"wid" : "defaultusersecurity", "command" : { "dtotype":"", "adopt":"default"}},
-						"metadata.environmentdto.inherit.0": {"wid" : "defaultuserenv", "command" : { "dtotype":"", "adopt":"default"}},
-						"metadata.permissiondto.inherit.0": {"wid" : "defaultuserpermission", "command" : { "dtotype":"", "adopt":"default"}},
-						"metadata.usergroupdto.inherit.0": {"wid" : "everyone", "command" : { "dtotype":"", "adopt":"default"}}
-						},{
-						"executethis":"addwidmaster",
-						"wid":"defaultusersecurity",
-						"metadata.method":"securitydto",
-						"ac":"defaultac",
-						"loginlevel":"99"
-						},{
-						"executethis":"addwidmaster",
-						"wid":"defaultuserenv",
-						"metadata.method":"environmentdto",
-						//"metadata.executeobjectdto.inherit.0": {"wid" : "envexecuteobjectove", "command" : { "dtotype":"", "adopt":"override"}}
-						"server":"default",
-						"db":"data",
-						"collection":"maincollection",
-						"datastore":"localstorage",
-						"expirationtimer":99,
-						"result":"none",
-						"to":"default",
-						"via":"default",
-						"event":"default",
-						"begindate":"current_date",
-						"enddate":"current_date+1year",
-						"priority":"5",
-						"userid":"default",
-						"gps":"default"
-						},{
-						"executethis":"addwidmaster",
-						"wid":"defaultuserpermission",
-						"metadata.method":"permissiondto",
-						//"actiongroupdto.inherit.0":"",
-						//"usergroupdto.inherit.0":"",
-						"db":"data",
-						"collection":"maincollection",
-						"level":"0"
-						},{
-						"executethis":"addwidmaster",
-						"wid":"everyonegrp",
-						"metadata.method":"usergroupdto",
-						"usergroupname":"everyone"
-						}], function (err, res) {
-								cb1(null);
-							});
-						},
+                    }], function (err, res) {
+                        cb1(null);
+                    });
+                },
 
                 function (cb1) {
                     createrelationship("actiongroupdto", "actiongroupdto", "manytomany", function (err, res) {
@@ -623,120 +532,112 @@
                 // //createrelationship("permissiondto","collectiondto","manytomany", function (err, res) {
                 //         cb1(null);
                 //     });
-            ]
-			/*
-			,
+            ],
 
             function (err, res) {
                 proxyprinttodiv('Function createalldtos -- added all relationships  -- ', res, 39);
 
 
-                execute([{
-                    // default actiongroupdto
-                    "executethis": "addwidmaster",
-                    "wid": "actiongroupdtodefault",
-                    "metadata.method": "actiongroupdto",
-                    "actiongroupname": "actiongroupdtodefault",
-                    "executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    "executeactiondto.actiondto.localactiondto": "defaultlocalactiondto",
-                    "getactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    "getactiondto.actiondto.localactiondto": "defaultlocalactiondto",
-                    "editactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    "editactiondto.actiondto.localactiondto": "defaultlocalactiondto",
-                    "deleteactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    "deleteactiondto.actiondto.localactiondto": "defaultlocalactiondto"
-                }, {
-                    // default permissiondto
-                    "executethis": "addwidmaster",
-                    "wid": "permissiondtodefault",
-                    "metadata.method": "permissiondto",
-                    "metadata.system.creator": "string",
-                    "level": "string",
-                    // "actiongroupdto.wid": "actiongroupdtodefault",
-                    "db": "data",
-                    "collection": "maincollection"
-                }, {
-                    // Create the userdto
-                    "executethis": "addwidmaster",
-                    "metadata.method": "userdto",
-                    "widname": "userdtodefault",
-                    "wid": "defaultuser",
-                    "fname": "1",
-                    "lname": "2",
-                    "phone": "3",
-                    "email": "4",
-                    "address": "5",
-                    "address2": "6",
-                    "city": "7",
-                    "state": "8",
-                    "zip": "9",
-                    "country": "10",
-                    "wid": "testuser",
-                    "metadata.method": "userdto",
+                // execute([{
+                //     // default actiongroupdto
+                //     "executethis": "addwidmaster",
+                //     "wid": "actiongroupdtodefault",
+                //     "metadata.method": "actiongroupdto",
+                //     "actiongroupname": "actiongroupdtodefault",
+                //     "executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     "executeactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                //     "getactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     "getactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                //     "editactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     "editactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                //     "deleteactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     "deleteactiondto.actiondto.localactiondto": "defaultlocalactiondto"
+                // }, {
+                //     // default permissiondto
+                //     "executethis": "addwidmaster",
+                //     "wid": "permissiondtodefault",
+                //     "metadata.method": "permissiondto",
+                //     "metadata.system.creator": "string",
+                //     "level": "string",
+                //     // "actiongroupdto.wid": "actiongroupdtodefault",
+                //     "db": "data",
+                //     "collection": "maincollection"
+                // }, {
+                //     // Create the userdto
+                //     "executethis": "addwidmaster",
+                //     "metadata.method": "userdto",
+                //     "widname": "userdtodefault",
+                //     "wid": "defaultuser",
+                //     "fname": "1",
+                //     "lname": "2",
+                //     "phone": "3",
+                //     "email": "4",
+                //     "address": "5",
+                //     "address2": "6",
+                //     "city": "7",
+                //     "state": "8",
+                //     "zip": "9",
+                //     "country": "10",
+                //     "wid": "testuser",
+                //     "metadata.method": "userdto",
 
-                    // relationships
-                    "metadata.securitydto.type": "onetoone",
-                    "metadata.environmentdto.type": "onetoone",
-                    "metadata.usergroupdto.type": "onetomany",
+                //     // relationships
+                //     "metadata.securitydto.type": "onetoone",
+                //     "metadata.environmentdto.type": "onetoone",
+                //     "metadata.usergroupdto.type": "onetomany",
 
-                    // securitydto
-                    "securitydto.accesstoken": "rogerac",
-                    "securitydto.metadata.method": "securitydto",
+                //     // securitydto
+                //     "securitydto.accesstoken": "rogerac",
+                //     "securitydto.metadata.method": "securitydto",
 
-                    // environmentdto
-                    "environmentdto.ac": "ac",
-                    "environmentdto.gps": "gpsval",
-                    "environmentdto.account": "default",
-                    "environmentdto.db": "data",
-                    "environmentdto.collection": "maincollection",
-                    "environmentdto.metadata.method": "environmentdto",
+                //     // environmentdto
+                //     "environmentdto.ac": "ac",
+                //     "environmentdto.gps": "gpsval",
+                //     "environmentdto.account": "default",
+                //     "environmentdto.db": "data",
+                //     "environmentdto.collection": "maincollection",
+                //     "environmentdto.metadata.method": "environmentdto",
 
-                    // permissiondto
-                    "permissiondto.metadata.method": "permissiondto",
-                    "permissiondto.metadata.system.creator": "driwid",
-                    "permissiondto.level": "99",
-                    "permissiondto.metadata.collection": "collection1",
-                    "permissiondto.metadata.db": "data1",
-                    // ,
-                    // "permissiondto.0.metadata.inherit.0.wid": "userdtodefault",
-                    // "permissiondto.0.metadata.inherit.0.command.dtotype": "",
-                    // "permissiondto.0.metadata.inherit.0.command.adopt": "default",
-                    // "permissiondto.0.actiongroupdto.0.metadata.inherit.wid": "actiongroupdtodefault",
-                    // "permissiondto.0.actiongroupdto.0.metadata.inherit.0.command.dtotype": "",
-                    // "permissiondto.0.actiongroupdto.0.metadata.inherit.0.command.adopt": "default"
+                //     // permissiondto
+                //     "permissiondto.metadata.method": "permissiondto",
+                //     "permissiondto.metadata.system.creator": "driwid",
+                //     "permissiondto.level": "99",
+                //     "permissiondto.metadata.collection": "collection1",
+                //     "permissiondto.metadata.db": "data1",
+                //     // ,
+                //     // "permissiondto.0.metadata.inherit.0.wid": "userdtodefault",
+                //     // "permissiondto.0.metadata.inherit.0.command.dtotype": "",
+                //     // "permissiondto.0.metadata.inherit.0.command.adopt": "default",
+                //     // "permissiondto.0.actiongroupdto.0.metadata.inherit.wid": "actiongroupdtodefault",
+                //     // "permissiondto.0.actiongroupdto.0.metadata.inherit.0.command.dtotype": "",
+                //     // "permissiondto.0.actiongroupdto.0.metadata.inherit.0.command.adopt": "default"
 
-                    // permissiondto.usergroupdto
-                    "permissiondto.usergroupdto.usergroupname": "everyone",
-                    "permissiondto.usergroupdto.metadata.method": "usergroupdto",
-                    "permissiondto.usergroupdto.metadata.system.creator": "driwid",
+                //     // permissiondto.usergroupdto
+                //     "permissiondto.usergroupdto.0.usergroupname": "everyone",
+                //     "permissiondto.usergroupdto.0.metadata.method": "usergroupdto",
+                //     "permissiondto.usergroupdto.0.metadata.system.creator": "driwid",
 
-                    // permissiondto.actiongroupdto
-                    "permissiondto.actiongroupdto.actiongroupname": "allactions",
-                    "permissiondto.actiongroupdto.metadata.method": "actiongroupdto",
-                    "permissiondto.actiongroupdto.metadata.system.creator": "driwid",
-                    // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    // "permissiondto.0.actiongroupdto.actiongroupname": "actiongroupdtodefault",
-                    // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.localactiondto": "defaultlocalactiondto",
-                    // "permissiondto.0.actiongroupdto.1.getactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    // "permissiondto.0.actiongroupdto.1.getactiondto.actiondto.localactiondto": "defaultlocalactiondto",
-                    // "permissiondto.0.actiongroupdto.2.editactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    // "permissiondto.0.actiongroupdto.2.editactiondto.actiondto.localactiondto": "defaultlocalactiondto",
-                    // "permissiondto.0.actiongroupdto.3.deleteactiondto.actiondto.serveractiondto": "defaultserveractiondto",
-                    // "permissiondto.0.actiongroupdto.3.deleteactiondto.actiondto.localactiondto": "defaultlocalactiondto"
-                }],function (err, res) {
-
-
-
-
-                    execute({
-                        "executethis": "getwidmaster", // <-- this wid might not be needed
-                        "wid": "defaultuser"
-                    }, callback);
-                });
-            }
-			*/
-			);
+                //     // permissiondto.actiongroupdto
+                //     "permissiondto.actiongroupdto.0.actiongroupname": "allactions",
+                //     "permissiondto.actiongroupdto.0.metadata.method": "actiongroupdto",
+                //     "permissiondto.actiongroupdto.0.metadata.system.creator": "driwid",
+                //     // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     // "permissiondto.0.actiongroupdto.actiongroupname": "actiongroupdtodefault",
+                //     // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     // "permissiondto.0.actiongroupdto.0.executeactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                //     // "permissiondto.0.actiongroupdto.1.getactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     // "permissiondto.0.actiongroupdto.1.getactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                //     // "permissiondto.0.actiongroupdto.2.editactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     // "permissiondto.0.actiongroupdto.2.editactiondto.actiondto.localactiondto": "defaultlocalactiondto",
+                //     // "permissiondto.0.actiongroupdto.3.deleteactiondto.actiondto.serveractiondto": "defaultserveractiondto",
+                //     // "permissiondto.0.actiongroupdto.3.deleteactiondto.actiondto.localactiondto": "defaultlocalactiondto"
+                // }],function (err, res) {
+                execute({
+                    "executethis": "getwidmaster", // <-- this wid might not be needed
+                    "wid": "defaultuser"
+                }, callback);
+                // });
+            });
     }
 
 

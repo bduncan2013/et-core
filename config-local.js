@@ -28,7 +28,7 @@ exports.everyMinuteInterval = 0;
 exports.everyTenMinuteInterval = 0;
 exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, callback) {
     setdefaultparm();
-    if (!getFromLocalStorage('maincollectionkey')) {
+    if (!getFromLocalStorage(config.configuration.defaultdatabasetable+config.configuration.defaultkeycollection)) {
         eventappinstall();
     }
 
@@ -37,6 +37,18 @@ exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, 
     var minutes = 60 * 1000;
     exports.everyMinuteInterval = setInterval(exports.eventonemin,12 * minutes);
     exports.everyTenMinuteInterval = setInterval(exports.eventtenmin,120 * minutes);
+
+/*    execute([
+        {"executethis":"updatewid", 
+                "wid":"systemdto", 
+                "metadata":{"method":"systemdto",
+                            "inherit":{"wid":"systemdtodefault", }}, 
+                "expirationtimer":"string",
+                "expirationdate":"string"},
+        {}
+        ], function (err, res) {
+        callback(err, res);
+    })*/
 
     updatewid({"wid":"initialwid", "date": new Date()}, function (err, res) {
         callback(err, res);
@@ -59,7 +71,6 @@ exports.eventupdatewidevent = eventupdatewidevent = function eventupdatewidevent
 exports.eventaddwidevent = eventaddwidevent = function eventaddwidevent() {};
 exports.eventexecuteevent = eventexecuteevent = function eventexecuteevent() {};
 exports.eventexecuteeachend = eventexecuteeachend = function eventexecuteeachend() {};
-
 
 
 exports.eventexecuteend = eventexecuteend = function eventexecuteend(parameters, cb) {
@@ -94,6 +105,7 @@ exports.geteventlist = geteventlist = function geteventlist(eventname, callback)
     executeobject = {"command":{"result":"queryresult"}};
     executeobject.command.collection="queuecollection";
     executeobject.command.db="queuedata";
+    executeobject.command.result="queueresult";
     executeobject["executethis"] = "querywid";
     executeobject["mongorawquery"] = { 
         "$and": [{
@@ -120,7 +132,6 @@ exports.geteventlist = geteventlist = function geteventlist(eventname, callback)
 function setdefaultparm() {
 
     exports.config = config = config123();
-    // widMasterKey = "widmaster_";
     test_results = {};
     potentialwid = 0;
 
@@ -136,28 +147,10 @@ function setdefaultparm() {
     saveglobal("debugindent", 0);
     saveglobal("debuglinenum",12);
 
-    // environment = "local";
-    // exports.environment = environment;
     exports.environment = "local";
-    // test_results = {}; // can take out
-    // debuglog = {};
-    // exports.debuglog = debuglog;
-
     exports.Debug = Debug;
     exports.debuglevel = debuglevel;
-    // exports.widMasterKey = "widmaster_";
-    // exports.test_results = test_results;
-    // exports.potentialwid = potentialwid;
 
-    // exports.debugon             = debugon;
-    // exports.debugname           = getglobal("debugname");
-    // exports.debugsubcat         = getglobal("debugsubcat");
-    // exports.debugcat            = getglobal("debugcat");
-    // exports.debugfilter         = getglobal("debugfilter");
-    // exports.debugdestination    = getglobal("debugdestination");
-    // exports.debugcolor          = getglobal("debugcolor");
-    // exports.debugindent         = getglobal("debugindent");
-    // exports.debuglinenum        = getglobal("debuglinenum");
 }
 
 
@@ -165,6 +158,12 @@ function config123() {
     var configuration = {};
 
     configuration.environment = 'local';
+    configuration.widmasterkey = 'widmasterkey'
+    configuration.defaultcollection = 'dricollection';
+    configuration.defaultdb='data';
+    configuration.defaultdatastore = 'localstorage'
+    configuration.defaultkeycollection = 'dricollectionkey'
+    configuration.defaultdatabasetable = 'wikiwallettesting'
 
     configuration.preExecute = [];
     configuration.preExecute[0] = {};
@@ -265,17 +264,16 @@ exports.addToLocalStorage = window.addToLocalStorage = addToLocalStorage = funct
 
 exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
     proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
-    //widMasterKey = "widmaster_";
     localStorage.clear();
     //potentialwid = 0;
     // items below can probably be cleared now
-    addToLocalStorage("maincollection", [
+    addToLocalStorage(config.configuration.defaultdatabasetable+config.configuration.defaultcollection, [
                                         {"wid": "initialwid", 
                                         "metadata": {"date": new Date()}, 
                                         "data":{"system generated": "clearLocalStorage10"}
                                         }
                                         ]);
-    addToLocalStorage("maincollectionkey", {"initialwid": {"wid": "initialwid", 
+    addToLocalStorage(config.configuration.defaultdatabasetable+config.configuration.defaultkeycollection, {"initialwid": {"wid": "initialwid", 
                                         "metadata": {"date": new Date()}, 
                                         "data":{"system generated": "clearLocalStorage12"}
                                         }});
@@ -422,7 +420,7 @@ exports.getDriApiData = getDriApiData = function getDriApiData(params, callback)
 };
 
 
-exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback, command) {
+exports.mquery = mquery = function mquery(inboundobj, command, callback) {
     try {
         var inbound_parameters = {};
         extend(true, inbound_parameters, inboundobj);
@@ -444,8 +442,9 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback, comm
         var resultlist = [];
         //var collection = "DRI";
         //var keycollection = "DRIKEY";
-        var collection = "maincollection";
-        var keycollection = collection+'key';
+        var collection = config.configuration.defaultcollection
+        var keycollection = config.configuration.defaultkeycollection
+        var databasetable = config.configuration.defaultdatabasetable
         var database = {};
         var keydatabase = {};
         var eachwid;
@@ -454,7 +453,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback, comm
         // if (command.db) {db=command.db} // not needed
         // if (command.collection) {collection=command.collection}
 
-        database = getFromLocalStorage(collection);
+        database = getFromLocalStorage(databasetable + collection);
 
         proxyprinttodiv('Function inlist', database, 30);
         proxyprinttodiv('before IsJsonString', inboundobj, 30);
@@ -482,7 +481,7 @@ exports.mongoquery = mongoquery = function mongoquery(inboundobj, callback, comm
         });
 
 // not sure if stuff below needed
-        keydatabase = getFromLocalStorage(keycollection);
+        keydatabase = getFromLocalStorage(databasetable + keycollection);
         for (var eachrecord in outlist) {
             eachwid = keydatabase[outlist[eachrecord]["wid"]];
             resultlist.push(eachwid);

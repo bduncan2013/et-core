@@ -11,468 +11,457 @@
     // 
 
     (function (window) {
-            // 'use strict';
+    // 'use strict';
 
-            var execute, executethis, etexecute;
+        var execute, executethis, etexecute;
 
-            exports.executethis = window.executethis = executethis = function executethis(incomingparams, callback, overallError) {
-                // get environment -- user id
-                // executeid
-
-
-                execute(incomingparams, function (err, res) {
-                    // If error, bounce out
-                    if (err && Object.keys(err).length > 0) {
-                        callback(err, res);
-                    } else {
-                        try {
-
-                            processevent("eventexecuteend", function (err, res) {
-                                overallError.push(err);
-                                callback(err, res);
-                            })
-                        } catch (err) {
-                            var finalobject = createfinalobject({
-                                "result": "executethis"
-                            }, {}, "executethis", err, res);
-                            callback(finalobject.err, finalobject.res);
-                        }
-                    }
-                })
-            };
+        exports.executethis = window.executethis = executethis = function executethis(incomingparams, callback, overallError) {
+            // get environment -- user id
+            // executeid
 
 
-            // pre, mid, post tries to combine results
-            // if pre = array (query) then
-            exports.internalexecute = window.internalexecute = internalexecute = function internalexecute(incomingparams, callback) {
-                callback(null, incomingparams);
-            };
-
-            exports.execute = window.execute = execute = function execute(incomingparams, callback) {
+        execute(incomingparams, function (err, res) {
+            // If error, bounce out
+            if (err && Object.keys(err).length > 0) {
+                callback(err, res);
+            } else {
                 try {
-                    var inboundparms_111 = arguments;
 
-
-                    var result, commandmultiple;
-                    var executeend;
-                    var parametersend;
-                    var inarray = [];
-                    var command;
-                    var stagedata = {};
-                    var overallerror = {};
-                    var overallresult = {};
-                    //debuglevel = 11
-                    proxyprinttodiv("execute - hello from execute", incomingparams, 11);
-
-                    // check for execute multiple commands, if passed store and delete from request
-
-                    if (isString(incomingparams)) {
-                        var temp = {};
-                        temp['executethis'] = incomingparams;
-                        proxyprinttodiv("execute - array params received I", temp, 11);
-                        incomingparams = temp;
-                        proxyprinttodiv("execute - array params received I", incomingparams, 11);
-                    }
-
-                    // with stagedata, the code below not needed
-                    if ((incomingparams && incomingparams.command && incomingparams.command.multiple && incomingparams.command.multiple.parameters)) {
-                        proxyprinttodiv("execute - command.multiple ", incomingparams.command.multiple, 37);
-                        command = incomingparams.command.multiple.parameters;
-                        delete incomingparams.command;
-                    }
-
-                    proxyprinttodiv("execute - incomingparams 1", incomingparams, 11);
-                    if ((incomingparams instanceof Array)) {
-                        proxyprinttodiv("execute - array params received ", incomingparams, 11);
-                        executethismultiple(incomingparams, command, callback);
-
-                    } else {
-
-                        proxyprinttodiv("execute - incomingparams 2", incomingparams, 11);
-                        if (incomingparams.command && incomingparams.command.server) {
-                            var fn = incomingparams.command.server;
-                            delete incomingparams.command.server;
-                            window[fn](incomingparams, function (err, res) {
-                                callback(err, res)
-                            })
-                        } else {
-                            proxyprinttodiv('>>>> execute incomingparams ', incomingparams, 11);
-
-
-
-                            proxyprinttodiv("execute - incomingparams 3", incomingparams, 11);
-                            if (incomingparams.command && incomingparams.command.parameters) {
-                                for (var key in incomingparams.command.parameters) {
-                                    incomingparams[key] = incomingparams.command.parameters[key];
-                                }
-                                delete incomingparams.command.parameters;
-                            }
-
-                            var filter_data = getcommand(incomingparams, {
-                                    "command": {
-                                        "internalcall": true,
-                                        "adopt": "",
-                                        "resultparameters": "",
-                                        "result": "",
-                                        "beforepreexecute": "",
-                                        "beforemidexecute": "stage_mergetincoming_continueonerror",
-                                        "beforepostexecute": "",
-                                        "beforeendexecute": "",
-                                        "beforemultiple": "",
-                                        "duringmultiple": "",
-                                        "beforeendmultiple": "",
-                                        "execute": "",
-                                        "environment": "",
-                                        "inherit":""
-                                    }
-                                }, {
-                                    "command": {
-                                        "internalcall": "",
-                                        "adopt": "",
-                                        "resultparameters": "",
-                                        "result": "",
-                                        "beforepreexecute": "",
-                                        "beforemidexecute": "",
-                                        "beforepostexecute": "",
-                                        "beforeendexecute": "",
-                                        "beforemultiple": "",
-                                        "duringmultiple": "",
-                                        "beforeendmultiple": "",
-                                        "execute": "",
-                                        "environment": "",
-                                        "command":""
-                                    }
-                                },
-                                true);
-                            inboundparms = filter_data.output;
-                            command = filter_data.filteredobject.command;
-                            proxyprinttodiv('>>>> execute command', command, 11);
-                            proxyprinttodiv('>>>> execute incomingparams', incomingparams, 11);
-
-                            incomingparams['midexecute'] = incomingparams['executethis'];
-                            delete incomingparams['executethis'];
-
-                            //process beforepreexecute
-                            stagedata = {};
-                            stagedata.fn = command.beforepreexecute;
-                            stagedata.currenterror = null;
-                            stagedata.currentresult = {};
-                            //stagedata.overallerror={};
-                            //stagedata.overallresult={};
-                            stagedata.initialparameters = incomingparams;
-                            processstage(stagedata);
-
-                            dothisprocessor(incomingparams, 'preexecute', function (err, preResults) {
-                                stagedata.fn = command.beforemidexecute;
-                                stagedata.currenterror = err;
-                                stagedata.currentresult = preResults;
-                                processstage(stagedata);
-
-                                if (stagedata.overallerror && Object.keys(stagedata.overallerror).length > 0) {
-                                    callback(stagedata.overallerror, stagedata.overallresult)
-                                } else {
-                                    try {
-                                    preResults=stagedata.currentresult;
-                                
-                                    // // If error, bounce out
-                                    // if (err && Object.keys(err).length > 0) {
-                                    //     callback(err, preResults);
-                                    // } else {
-                                    //     try {
-
-                                    //         if (!preResults) {
-                                    //             preResults = {}
-                                    //         }
-                                    //         // result will always be array
-                                    //         // if (Object.prototype.toString.call(preResults) === '[object Array]') {
-                                    //         //     if (preResults.length > 0) {
-                                    //         //         preResults = preResults[0];
-                                    //         //     } 
-                                    //         // }
-
-                                    //         if (preResults) {
-                                    //             extend(true, preResults, incomingparams)
-                                    //         }
-
-                                    //         // is it a good idea ot have incomingparams survive, maybe put incomingparamters inside command.parameters = incomingparams
-
-
-                                    dothisprocessor(preResults, 'midexecute', function (err, midResults) {
-
-                                        // stagedata.fn = command.beforepostexecute
-                                        // stagedata.currenterror = err
-                                        // stagedata.currentresult = preResults
-                                        // stagedata = processstage(stagedata)
-
-                                        // If error, bounce out
-                                        // if (stagedata.overallerror && Object.keys(stagedata.overallerror).length > 0) {
-                                        //     callback(err, preResults)
-                                        // } else {
-                                        //     preResults=stagedata.currentresult
-                                        // }
-
-                                        // If error, bounce out
-                                        if (err && Object.keys(err).length > 0) {
-                                            callback(err, midResults);
-                                        } else {
-                                            try {
-
-                                                proxyprinttodiv("post midexecute -- midResults", midResults, 11);
-
-                                                if (!midResults) {
-                                                    midResults = {}
-                                                }
-
-
-                                                // if (Object.prototype.toString.call(midResults) === '[object Array]') {
-                                                //     if (midResults.length > 0) {
-                                                //         midResults = midResults[0];
-                                                //     } 
-                                                // }
-
-                                                // if (midResults) {
-                                                //     extend(true, midResults, preResults);
-                                                //     }
-
-                                                proxyprinttodiv("end midexecute -- midResults", midResults, 11);
-
-                                                dothisprocessor(midResults, 'postexecute', function (err, postResults) {
-
-                                                    // stagedata.fn = command.beforendexecute
-                                                    // stagedata.currenterror = err
-                                                    // stagedata.currentresult = preResults
-                                                    // stagedata = processstage(stagedata)
-
-                                                    // If error, bounce out
-                                                    // if (stagedata.overallerror && Object.keys(stagedata.overallerror).length > 0) {
-                                                    //     callback(err, preResults)
-                                                    // } else {
-                                                    //     preResults=stagedata.currentresult
-                                                    // }
-                                                    // If error, bounce out
-                                                    if (err && Object.keys(err).length > 0) {
-                                                        callback(err, postResults);
-                                                    } else {
-                                                        try {
-
-                                                            if (!postResults) {
-                                                                postResults = {}
-                                                            }
-
-                                                            proxyprinttodiv("end postResults", postResults, 11);
-                                                            // if (Object.prototype.toString.call(postResults) === '[object Array]') {
-                                                            //     if (postResults.length > 0) {
-                                                            //         postResults = postResults[0];
-                                                            //     } 
-                                                            // }
-
-                                                           // make a copy of inherit data if we have resultparameters
-                                                            if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
-                                                                var copyOfInheritData = {};
-                                                                extend(true, copyOfInheritData, postResults);
-                                                            }
-
-                                                            // process inherit
-                                                            if (command.adopt) {
-                                                                // proxyprinttodiv("execute - adopt ****", adopt, 11);
-                                                                // proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
-                                                                delete incomingparams.command;
-                                                                if (command.adopt === "override") {
-                                                                    postResults = extend(true, incomingparams, postResults);
-                                                                }
-                                                                if (command.adopt === "default") {
-                                                                    postResults = extend(true, postResults, incomingparams);
-                                                                }
-
-                                                            }
-
-                                                            // process command.resultparamters, deals with loading a copy of inherit data along with incomingparams
-                                                            if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
-                                                                // proxyprinttodiv("execute - resultparameters ****", resultparameters, 11);
-                                                                // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
-                                                                if (!postResults.command) {
-                                                                    postResults.command = {};
-                                                                }
-                                                                if (!postResults.command.inherit) {
-                                                                    postResults.command.inherit = {};
-                                                                }
-                                                                if (!postResults.command.inherit.data) {
-                                                                    postResults.command.inherit.data = {};
-                                                                }
-                                                                // load a copy of the what was inherited
-                                                                postResults.command.inherit.data = copyOfInheritData;
-                                                                proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
-                                                                incomingparams = extend(true, incomingparams, command.resultparameters);
-                                                            }
-
-                                                            // wrap  if needed to
-
-                                                            proxyprinttodiv("end postResults command.result", command, 11);
-
-                                                            if (command.result) {
-                                                                var json = {};
-                                                                if (isArray(postResults)) {
-                                                                    postResults = postResults[0];
-                                                                }
-                                                                json[command.result] = postResults;
-                                                                postResults = json;
-                                                            }
-                                                            proxyprinttodiv("end postResults III", postResults, 11);
-
-                                                            if (Object.prototype.toString.call(postResults) !== '[object Array]') {
-                                                                var tempArray = [];
-                                                                tempArray.push(postResults);
-                                                                postResults = tempArray;
-                                                            }
-                                                            // if command.execute then call execute with command.execute.parameters
-                                                            // code below not tested and could be taken out
-                                                            if (command.execute) {
-                                                                var executeparam = {};
-                                                                if (command && command.execute && command.execute.parameters) {
-                                                                    executeparam = command.execute.parameters;
-                                                                }
-                                                                if (!isObject(command.execute)) {
-                                                                    executeparam['executethis'] = command.execute;
-                                                                } else { // if object
-                                                                    extend(true, executeparam, command.execute);
-                                                                }
-                                                                extend(true, executeparam, postResults);
-                                                                execute(executeparam, callback);
-
-                                                            } else {
-
-                                                                proxyprinttodiv("end postexecute -- postResults", postResults, 11);
-                                                                callback(null, postResults);
-
-                                                            }
-                                                        } // end try
-                                                        catch (err) {
-                                                            var finalobject = createfinalobject({
-                                                                "result": "execute_post"
-                                                            }, {}, "execute_post", err, postResults);
-                                                            callback(finalobject.err, finalobject.res);
-                                                        }
-                                                    } // end else
-                                                }); // end do this processor post
-
-                                            } // end try
-                                            catch (err) {
-                                                var finalobject = createfinalobject({
-                                                    "result": "execute_mid"
-                                                }, {}, "execute_mid", err, midResults);
-                                                callback(finalobject.err, finalobject.res);
-                                            }
-                                        } // end else
-                                    }); // end do this processor mid
-
-                                } // end try
-                                catch (err) {
-                                    var finalobject = createfinalobject({
-                                        "result": "execute_pre"
-                                    }, {}, "execute_pre", err, preResults);
-                                    callback(finalobject.err, finalobject.res);
-                                }
-                            } // end else
-                        }); // end do this processor pre
-                } // added for command.server
+                    processevent("eventexecuteend", function (err, res) {
+                        overallError.push(err);
+                        callback(err, res);
+                    })
+                } catch (err) {
+                    var finalobject = createfinalobject({
+                        "result": "executethis"
+                    }, {}, "executethis", err, res);
+                    callback(finalobject.err, finalobject.res);
+                }
             }
-        } // end try
-        catch (err) {
-            var finalobject = createfinalobject({
-                "result": "execute"
-            }, {}, "execute", err, inboundparms_111);
-            callback(finalobject.err, finalobject.res);
-        }
+        })
     };
 
 
-    // stagedata.fn=command.beforepreexecute;
-    // stagedata.currenterror=null;
-    // stagedata.currentresult={}
-    // stagedata.overallerror={}
-    // stagedata.overallresult={}
-    // stagedata.initialparameters=incomingparams
+    // pre, mid, post tries to combine results
+    // if pre = array (query) then
+    exports.internalexecute = window.internalexecute = internalexecute = function internalexecute(incomingparams, callback) {
+        callback(null, incomingparams);
+    };
 
-    function processstage(stagedata) {
-        if (!stagedata) {
-            stage_mergecurrent_stoponerror(stagedata)
-        } else { // if stagedata
-            var targetfn = window[stagedata.fn];
-            if (targetfn) { // if fn exists then do it
-                stagedata = targetfn(stagedata);
-            } else { // default behavior
-                stage_mergecurrent_stoponerror(stagedata);
+    exports.execute = window.execute = execute = function execute(incomingparams, callback) {
+        try {
+            var inboundparms_111 = arguments;
+
+
+            var result, commandmultiple;
+            var executeend;
+            var parametersend;
+            var inarray = [];
+            var command={};
+            //debuglevel = 11
+            proxyprinttodiv("execute - hello from execute", incomingparams, 11);
+
+            if (isString(incomingparams)) {
+                var temp = {};
+                temp['executethis'] = incomingparams;
+                proxyprinttodiv("execute - array params received I", temp, 11);
+                incomingparams = temp;
+                proxyprinttodiv("execute - array params received I", incomingparams, 11);
             }
+            proxyprinttodiv("execute - hello from execute  II", incomingparams, 11);
 
-        }
-        return {
-            fn: "",
-            currentresult: stagedata.currentresult,
-            overallerror: stagedata.overallerror,
-            overallresult: stagedata.overallresult
-        };
+            proxyprinttodiv("execute - incomingparams 1", incomingparams, 11);
+            if ((incomingparams instanceof Array)) {
+                proxyprinttodiv("execute - array params received ", incomingparams, 11);
+                executethismultiple(incomingparams, command, callback);
+
+            } else {
+
+                proxyprinttodiv("execute - incomingparams 2", incomingparams, 11);
+                if (incomingparams.command && incomingparams.command.server) {
+                    var fn = incomingparams.command.server;
+                    delete incomingparams.command.server;
+                    window[fn](incomingparams, function (err, res) {
+                        callback(err, res)
+                    })
+                } else {
+                    proxyprinttodiv('>>>> execute incomingparams ', incomingparams, 11);
+
+                var filter_data = getcommand(incomingparams, {
+                        "command": {
+                            "internalcall": true,
+                            "adopt": "",
+                            "resultparameters": "",
+                            "result": "",
+                            "execute": "",
+                            "environment": "",
+                            "inherit":"",
+                            "beforepreexecute": {
+                                                "overallresultrule": "waterfall",
+                                                "overallerrorrule" : "waterfall", 
+                                                "resultrule"       : "waterfall", 
+                                                "errorrule"        : "nullwaterfall"
+                                                },                                                             
+                            "beforemidexecute": {
+                                                "overallresultrule": "waterfall",
+                                                "overallerrorrule" : "waterfall", 
+                                                "resultrule"       : "waterfall", 
+                                                "errorrule"        : "nullwaterfall"                                                            
+                                                },
+                            "beforepostexecute":{
+                                                "overallresultrule": "waterfall",
+                                                "overallerrorrule" : "waterfall", 
+                                                "resultrule"       : "waterfall", 
+                                                "errorrule"        : "nullwaterfall"
+                                                },
+                            "beforeendexecute": {
+                                                "overallresultrule": "objectwaterfall",
+                                                "overallerrorrule" : "waterfall", 
+                                                "resultrule"       : "waterfall", 
+                                                "errorrule"        : "nullwaterfall"
+                                                },
+                            "overallerror":[{}],
+                            "overallresult":[{}],
+                            "currenterror":null,
+                            "currentresult":{},
+                            "currentparameters":{},
+                            "multiple":[],
+                            "parameters":{}
+                        }
+                    }, {
+                        "command": {
+                            "internalcall": "",
+                            "adopt": "",
+                            "resultparameters": "",
+                            "result": "",
+                            "execute": "",
+                            "environment": "",
+                            "inherit":"",
+                            "beforepreexecute": "",
+                            "beforemidexecute": "",
+                            "beforepostexecute": "",
+                            "beforeendexecute": "",
+                            "overallerror":"",
+                            "overallresult":"",
+                            "currenterror":"",
+                            "currentresult":"",
+                            "currentparameters":"",
+                            "multiple":"",
+                            "parameters":""
+                        }
+                    },
+                    true);
+
+                proxyprinttodiv('>>>> execute filter_data', filter_data, 11);
+                inboundparms = extend(true, filter_data.output, command.parameters)
+                command = filter_data.filteredobject.command;
+                proxyprinttodiv('>>>> execute command', command, 11);
+                proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11);
+
+                if (command.multiple.length>0) {
+                    proxyprinttodiv("execute - array params received ", incomingparams, 11);
+                    executethismultiple(inboundparms, command, callback);
+
+                } else {
+
+
+                    inboundparms['midexecute'] = inboundparms['executethis'];
+                    delete inboundparms['executethis'];
+
+                    //process beforepreexecute
+                    command.currentresult=inboundparms; // these will flow to currentparameters
+                    processstage(command, "beforepreexecute");
+
+                    dothisprocessor(command.currentparameters, 'preexecute', function (err, preResults) {
+                    proxyprinttodiv("before preResults", command.currentparameters, 11);
+                    proxyprinttodiv("end preResults", preResults, 11);
+                        command.currenterror = err;
+                        command.currentresult = preResults;
+                        processstage(command, "beforemidexecute");
+                        if (command.currenterror && Object.keys(command.currenterror).length > 0) {
+                            callback(command.overallerror, command.overallresult)
+                        } else {
+                            //try {
+
+                            proxyprinttodiv('command preResults', preResults, 11);
+                           
+                            dothisprocessor(command.currentparameters, 'midexecute', function (err, midResults) {
+                                proxyprinttodiv("before midResults", command.currentparameters, 11);
+                                proxyprinttodiv("end midResults", midResults, 11);
+                                command.currenterror = err
+                                command.currentresult = midResults
+                                processstage(command, "beforepostexecute");
+                                    if (command.currenterror && Object.keys(command.currenterror).length > 0) {
+                                    callback(command.overallerror, command.overallresult)
+                                } else {                                            
+                                    //try {
+
+                                        
+                                        dothisprocessor(command.currentparameters, 'postexecute', function (err, postResults) {
+                                            proxyprinttodiv("before postResults", command.currentparameters, 11);
+                                            proxyprinttodiv("end postResults", postResults, 11);
+                                            command.currenterror = err
+                                            command.currentresult = postResults
+                                            processstage(command, "beforeendexecute");
+                                            
+                                            if (command.currenterror && Object.keys(command.currenterror).length > 0) {
+                                                callback(command.overallerror, command.overallresult)
+                                            } else {
+                                                try {
+
+                                                    // if (isArray(command.currentresult)) {
+                                                    //     postResults=command.currentresult[0]
+                                                    //     }
+                                                    // else {
+                                                    //     postResults=command.currentresult
+                                                    //     }
+                                                    // proxyprinttodiv("end postResults", postResults, 11);
+
+
+                                                    if (command.overallresult && Object.keys(command.overallresult).length > 0) {
+                                                        var copyOfInheritData = {};
+                                                        extend(true, copyOfInheritData, command.overallresult);
+                                                        }
+
+                                                    // if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
+                                                    //     var copyOfInheritData = {};
+                                                    //     extend(true, copyOfInheritData, postResults);
+                                                    // }
+
+                                                    // process inherit
+                                                    if (command.adopt) {
+                                                        proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
+                                                        //delete incomingparams.command;
+                                                        if (command.adopt === "override") {
+                                                            command.overallresult = extend(true, inboundparms, command.overallresult);
+                                                        }
+                                                        if (command.adopt === "default") {
+                                                            command.overallresult = extend(true, command.overallresult, inboundparms);
+                                                        }
+                                                        }
+                                                    // process inherit
+                                                    // if (command.adopt) {
+                                                    //     proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
+                                                    //     delete incomingparams.command;
+                                                    //     if (command.adopt === "override") {
+                                                    //         postResults = extend(true, incomingparams, postResults);
+                                                    //     }
+                                                    //     if (command.adopt === "default") {
+                                                    //         postResults = extend(true, postResults, incomingparams);
+                                                    //     }
+                                                    // }
+
+                                                    // process command.resultparamters, deals with loading a copy of inherit data along with incomingparams
+                                                    if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
+                                                        // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
+                                                        if (!command.overallresult.command) {
+                                                            command.overallresult.command = {};
+                                                        }
+                                                        if (!command.overallresult.command.inherit) {
+                                                            command.overallresult.command.inherit = {};
+                                                        }
+                                                        if (!command.overallresult.command.inherit.data) {
+                                                            command.overallresult.command.inherit.data = {};
+                                                        }
+                                                        // load a copy of the what was inherited
+                                                        command.overallresult.command.inherit.data = copyOfInheritData;
+                                                        proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
+                                                        //###
+                                                        //incomingparams = extend(true, incomingparams, command.resultparameters);
+                                                        }
+                                                    // if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
+                                                    //     // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
+                                                    //     if (!postResults.command) {
+                                                    //         postResults.command = {};
+                                                    //     }
+                                                    //     if (!postResults.command.inherit) {
+                                                    //         postResults.command.inherit = {};
+                                                    //     }
+                                                    //     if (!postResults.command.inherit.data) {
+                                                    //         postResults.command.inherit.data = {};
+                                                    //     }
+                                                    //     // load a copy of the what was inherited
+                                                    //     postResults.command.inherit.data = copyOfInheritData;
+                                                    //     proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
+                                                    //     //###
+                                                    //     //incomingparams = extend(true, incomingparams, command.resultparameters);
+                                                    // }
+                                                    proxyprinttodiv("end postResults command.result", command, 11);
+
+                                                    if (command.result) {
+                                                        var json = {};
+                                                        // if (isArray(postResults)) {
+                                                        //     postResults = postResults[0];
+                                                        // }
+                                                        json[command.result] = command.overallresult;
+                                                        command.overallresult = json;
+                                                        }
+                                                    // proxyprinttodiv("end postResults command.result", command, 11);
+
+                                                    // if (command.result) {
+                                                    //     var json = {};
+                                                    //     // if (isArray(postResults)) {
+                                                    //     //     postResults = postResults[0];
+                                                    //     // }
+                                                    //     json[command.result] = postResults;
+                                                    //     postResults = json;
+                                                    // }
+                                                    //proxyprinttodiv("end postResults III", postResults, 11);
+                                                    if (Object.prototype.toString.call(command.overallresult) !== '[object Array]') {
+                                                        var tempArray = [];
+                                                        tempArray.push(command.overallresult);
+                                                        command.overallresult = tempArray;
+                                                    }
+
+                                                        proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11);
+                                                        //proxyprinttodiv("end postexecute -- postResults", postResults, 11);
+                                                        callback(null, command.overallresult);
+
+                                                    // proxyprinttodiv("end postResults III", postResults, 11);
+                                                    // if (Object.prototype.toString.call(postResults) !== '[object Array]') {
+                                                    //     var tempArray = [];
+                                                    //     tempArray.push(postResults);
+                                                    //     postResults = tempArray;
+                                                    // }
+
+                                                    //     proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11);
+                                                    //     proxyprinttodiv("end postexecute -- postResults", postResults, 11);
+                                                    //     callback(null, postResults);
+                                                    //}
+                                                } // end try
+                                                catch (err) {
+                                                    var finalobject = createfinalobject({
+                                                        "result": "execute_post"
+                                                    }, {}, "execute_post", err, command.overallresult);
+                                                    callback(finalobject.err, finalobject.res);
+                                                }
+                                            } // end else
+                                        }); // end do this processor post
+
+                                    // } // end try
+                                    // catch (err) {
+                                    //     var finalobject = createfinalobject({
+                                    //         "result": "execute_mid"
+                                    //     }, {}, "execute_mid", err, midResults);
+                                    //     callback(finalobject.err, finalobject.res);
+                                    // }
+                                } // end else
+                            }); // end do this processor mid
+
+                        // } // end try
+                        // catch (err) {
+                        //     var finalobject = createfinalobject({
+                        //         "result": "execute_pre"
+                        //     }, {}, "execute_pre", err, preResults);
+                        //     callback(finalobject.err, finalobject.res);
+                        // }
+                        } // end else
+                    }); // end do this processor pre
+                } // multiple
+        } // added for command.server
     }
+} // end try
+catch (err) {
+    var finalobject = createfinalobject({
+        "result": "execute"
+    }, {}, "execute", err, inboundparms_111);
+    callback(finalobject.err, finalobject.res);
+}
+};
 
-    function stage_mergecurrent_stoponerror(stagedata) {
-            stagedata.overallerror = stagedata.currenterror;
-            stagedata.overallresult = extend(true, stagedata.overallresult, stagedata.currentresult);
-            if (!stagedata.currentparameters) {
-                stagedata.currentparameters = {};
-            }
+
+    function processstage(command, stagename) {
+        proxyprinttodiv('stagename begin--', stagename, 11);
+        proxyprinttodiv('command begin--', command, 11);
+
+        command.overallresult =         processrule(
+                                        command[stagename].overallresultrule, 
+                                        command.currentresult, 
+                                        command.overallresult)
+
+        command.overallerror =          processrule(                    
+                                        command[stagename].overallerrorrule, 
+                                        command.currenterror, 
+                                        command.overallerror)
+
+        command.currentparameters =     processrule(   
+                                        command[stagename].resultrule, 
+                                        command.currentresult, 
+                                        command.currentparameters)
+
+        command.currenterror =          processrule(
+                                        command[stagename].errorrule, 
+                                        command.currenterror, 
+                                        command.currenterror)
+
+
+        proxyprinttodiv('stagename end--', stagename, 11);
+        proxyprinttodiv('command end--', command, 11);
         }
 
-    function stage_mergetincoming_continueonerror(stagedata) {
-        if (!stagedata.currentresult) {
-            stagedata.currentresult = {};
+    window.processrule = function processrule(rule, current, overall) {
+        proxyprinttodiv('command processrule current', current, 11);
+        var targetfn = window[rule];
+        if (targetfn) {overall = targetfn(current, overall)} else {overall=current}
+        return overall
         }
 
-        if (stagedata.currentresult) {
-            extend(true, stagedata.currentresult, stagedata.incomingparams);
+    window.waterfall = function waterfall(current, overall) {
+        if (!current) {current={}}
+        overall=current
+        return overall
         }
 
-        stagedata.overallerror = stagedata.currenterror;
-        stagedata.overallresult = stagedata.currentresult;
+    window.nullwaterfall = function nullwaterfall(current, overall) {
+        if (!current) {return null}
+        overall=current
+        return overall
+        }
 
-    }
+    window.clearresults = function clearresults(current, overall) {
+        overall=[]
+        return overall
+        }
 
+    window.objectwaterfall = function objectwaterfall(current, overall) {
+        if (!current) {current={}}
+        if (isArray(current)) {current = current[0];}  
+        overall=current;
+        return overall
+        }
 
-    function failall(stagedata) {
-        var targetresults = {};
-        var overallerror = stagedata.overallerror;
-        var overallresult = stagedata.overallresult;
-        var initialparameters = stagedata.initialparameters;
-        var currentresult = stagedata.currentparameters;
-//        var currentresult = stagedata.currenterror;  // should be one or the other, not both
-        var parameters = stagedata.parameters;
-        // do some logic
-        return {
-            overallerror: targetresults.overallerror,
-            overallresult: targetresults.overallresult
-        };
-    }
+    window.extendobject = function extendobjects(current, overall) {
+        if (!current) {current={}}
+        if (isArray(current)) {current = current[0];}   
+        if (!overall) {overall=[{}]}
+        var tempobject=overall[0]
+        extend(true, current, tempobject) 
+        overall.push(tempobject)
+        return overall
+        }
 
+    window.pushobject = function pushobjects(current, overall) {
+        if (!current) {current={}}
+        if (isArray(current)) {current = current[0];}   
+        if (!overall) {overall=[]}
+        if (!isArray(overall)) {overall.push(overall)}
+        overall.push(current)
+        return overall
+        }
 
-    function saveandprocessqueue(stagedata) {
-        var targetresults = {};
-        var overallerror = stagedata.overallerror;
-        var overallresult = stagedata.overallresult;
-        var initialparameters = stagedata.initialparameters;
-        var currentresult = stagedata.currentparameters;
-//        var currentresult = stagedata.currenterror; // should be one or the other, not both
-        var parameters = stagedata.parameters;
-        // do some logic
-        return {
-            overallerror: targetresults.overallerror,
-            overallresult: targetresults.overallresult
-        };
-    }
-
-
+    window.pusharray = function pusharrays(current, overall) {
+        if (!current) {current={}}
+        //if (isArray(current)) {current = current[0];}   
+        if (!overall) {overall=[]}
+        if (!isArray(overall)) {overall.push(overall)}
+        overall.push(current)
+        return overall
+        }
 
     // > 
     // > executeone
-    // > if (!parm[‘fn’]) {parm[‘fn’]=“execute”}
-    // > …
+    // > if (!parm[‚Äòfn‚Äô]) {parm[‚Äòfn‚Äô]=‚Äúexecute‚Äù}
+    // > ‚Ä¶
     // > window[fn].apply(window, fnparams);
     exports.executeone = executeone = function executeone(params, callback) {
         try {
@@ -529,63 +518,73 @@
 
 
     exports.executethismultiple = window.executethismultiple = executethismultiple = function executethismultiple(inparams, inCmd, callback) {
-        try {
+        //try {
             var inboundparms_113 = arguments;
-            // > execute()
-            // > if array then multiple()
-            // > else normal
-            // > 
-            // > multiple
-            // > split into series, parallel, waterfall
-            // > if eachtodo = array 
-            // >   {for (eachsplit in eachtodo) {
-            // >       executemultiple(eachtodo[eachsplit]);
-            // >       }
-            // > else (if not array) {executeone();}
-
-            // throw ({'Sample error': 'executethismultiple'});
-            var stagedata = {};
-            var overallerror = {};
-            var overallresult = {};
+            var command = {};
             var output = [];
-            var commandobject = {};
-            var defaultCommandObject = {};
-            defaultCommandObject['executefilter'] = '';
-            defaultCommandObject['executelimit'] = 15;
-            defaultCommandObject['executemethod'] = 'execute';
-            defaultCommandObject['executeorder'] = 'series';
-
-            if (inCmd) {
-                commandobject = defaultCommandObject;
-                for (var key in defaultCommandObject) {
-                    if (defaultCommandObject.hasOwnProperty(key)) {
-                        if (inCmd[key]) {
-                            commandobject[key] = inCmd[key];
-                        }
-                    }
+            var filter_data = getcommand(inparams, {
+                "command": {
+                    "executefilter":"",
+                    "executelimit":15,
+                    "executemethod":"execute",
+                    "executeorder":"series",
+                    "beforemultiple": { 
+                                        "overallresultrule": "clearresults",
+                                        "overallerrorrule" : "waterfall", 
+                                        "resultrule"       : "waterfall", 
+                                        "errorrule"        : "nullwaterfall"                                     
+                                        },
+                    "duringmultiple": {
+                                        "overallresultrule": "pusharray",
+                                        "overallerrorrule" : "waterfall",
+                                        "resultrule"       : "waterfall", 
+                                        "errorrule"        : "nullwaterfall"
+                                        },
+                    "beforeendmultiple": 
+                                      { 
+                                        "overallresultrule": "waterfall",
+                                        "overallerrorrule" : "waterfall", 
+                                        "resultrule"       : "waterfall", 
+                                        "errorrule"        : "nullwaterfall"
+                                        },
                 }
-            } else {
-                commandobject = defaultCommandObject;
+            }, {
+                "command": {
+                    "executefilter":"",
+                    "executelimit":"",
+                    "executemethod":"",
+                    "executeorder":"",
+                    "beforemultiple": "",
+                    "duringmultiple": "",
+                    "beforeendmultiple": "",
+                }
+            },
+            true);
+            inparams = filter_data.output;
+            var command = filter_data.filteredobject.command;
+            if (inCmd) {extend(true, command, inCmd)}
+
+            proxyprinttodiv("executethismultiple - outside iteration - command ", command, 99);
+            if (isArray(command.multiple)) { // command.multiple wins
+                inparams=command.multiple
+                delete command.multiple
             }
-            proxyprinttodiv("executethismultiple - outside iteration - inparams ", inparams, 11);
-            proxyprinttodiv("executethismultiple - outside iteration - commandobject ", commandobject, 11);
-            // function filterParams(item, callback) {
-            //     callback(item == item);
-            // }
+            proxyprinttodiv("executethismultiple - outside iteration - inparams ", inparams, 99);
+
 
             function filterParams(item, callback) {
-                proxyprinttodiv("executethismultiple - item ", item, 11);
+                proxyprinttodiv("executethismultiple - item ", item, 21);
                 var result = true;
-                if (commandobject && commandobject.executefilter) {
+                if (command && command.executefilter) {
                     result = false;
                     // {"query":{"$eq":{"type":"minute"}}}
                     // {"query":{"$in":{"type":["minute","second"]}}}
-                    if (item && commandobject && commandobject.executefilter && commandobject.executefilter.query) {
+                    if (item && command && command.executefilter && command.executefilter.query) {
 
-                        if (commandobject.executefilter.query['$eq']) {
-                            var key = Object.keys(commandobject.executefilter.query.$eq);
-                            proxyprinttodiv("executethismultiple - key ", commandobject.executefilter.query.$eq[key], 11);
-                            result = (item && item[key] === commandobject.executefilter.query.$eq[key]);
+                        if (command.executefilter.query['$eq']) {
+                            var key = Object.keys(command.executefilter.query.$eq);
+                            proxyprinttodiv("executethismultiple - key ", command.executefilter.query.$eq[key], 21);
+                            result = (item && item[key] === command.executefilter.query.$eq[key]);
                         }
                         // TODO :: add more conditions and more operators handling
                     }
@@ -594,37 +593,20 @@
                     callback(result);
                 }
             }
-            // async.filter(inparams, filterParams, function (filteredParams) {
-            //     proxyprinttodiv("executethismultiple - filteredParams ", filteredParams, 11);
 
-
-
-            //     //filter 1st n request only
-
-            //     if (filteredParams && (filteredParams.length > commandobject.executelimit)) {
-            //         filteredParams = filteredParams.splice(15);
-            //     }
 
             var filteredParams = JSON.parse(JSON.stringify(inparams));
-
             async.series([
                     function step1(clb) {
 
-
-                        // stagedata={};
-                        // stagedata.fn=command.beforemultiple;
-                        // stagedata.currenterror=null;
-                        // stagedata.currentresult={};
-                        // //stagedata.overallerror={};
-                        // //stagedata.overallresult={};
-                        // stagedata.initialparameters=incomingparams;
-                        // stagedata = processstage(stagedata);
-
+                        command.currentresult=inparams; // will flow to currentparameters
+                        processstage(command, "beforemultiple");
+                        proxyprinttodiv("executethismultiple - after begin - command ", command, 99, 4);
                         // throw ({'Sample error': 'executethismultiple_async_step1'});
 
                         // series
-                        if (commandobject.executeorder === "series") {
-                            proxyprinttodiv("executethismultiple - filteredParams ", filteredParams, 11);
+                        if (command.executeorder === "series") {
+                            proxyprinttodiv("executethismultiple - filteredParams ", filteredParams, 21);
                             async.mapSeries(filteredParams, function (eachtodo, cbMap) {
                                 async.nextTick(function () {
                                     try {
@@ -633,45 +615,57 @@
                                         // throw ({'Sample error': 'executethismultiple_async_mapSeries_nexttick'});
 
                                         if (eachtodo instanceof Array) {
-                                            proxyprinttodiv("series - eachtodo 1st condition ****** should not trigger un2 level deep", eachtodo, 11);
+                                            proxyprinttodiv("series - eachtodo 1st condition ****** should not trigger un2 level deep", eachtodo, 21);
                                             executethismultiple(eachtodo, {}, function (err, res) {
                                                 // If error, bounce out
+                                                command.currenterror = err
+                                                command.currentresult  = res
+                                                processstage(command, "duringmultiple");
                                                 if (err && Object.keys(err).length > 0) {
-                                                    callback(err, res);
+                                                    cbMap(err, res); //###
+                                                    //callback(err, res);
                                                 } else {
                                                     try {
 
-                                                        // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 11);
+                                                        //proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 21);
                                                         output.push(res);
-                                                        cbMap(null);
+                                                        cbMap(null, res);
                                                     } catch (err) {
                                                         var finalobject = createfinalobject({
                                                             "result": "executethismultiple_executethismultiple"
                                                         }, {}, "executethismultiple_executethismultiple", err, res);
-                                                        cbMap(finalobject.err, finalobject.res);
+                                                        cbMap(finalobject.err, finalobject.res); 
                                                     }
                                                 }
                                             });
                                         } else {
-                                            proxyprinttodiv("series - eachtodo", eachtodo, 11);
+                                            proxyprinttodiv("series - eachtodo", eachtodo, 21);
                                             execute(eachtodo, function (err, res) {
-                                                // stagedata.fn = command.duringmultiple
-                                                // stagedata.currenterror = err
-                                                // stagedata.currentresult = res
-                                                // stagedata = processstage(stagedata)
-                                                // If error, bounce out
-                                                if (err && Object.keys(err).length > 0) {
-                                                    callback(err, res);
+                                                proxyprinttodiv('multiple res', res, 11);
+                                                command.currenterror = err
+                                                command.currentresult  = res
+                                                processstage(command, "duringmultiple");
+
+                                                if (command.currenterror && Object.keys(command.currenterror).length > 0) {
+                                                        cbMap(command.overallerror, command.overallresult)
                                                 } else {
                                                     try {
-                                                        // execute(eachtodo, function (err, res) {
-                                                        output.push(res);
+                                                // // If error, bounce out
+                                                // if (err && Object.keys(err).length > 0) {
+                                                //     callback(err, res);
+                                                // } else {
+                                                //     try {
+                                                //         // execute(eachtodo, function (err, res) {
+                                                        proxyprinttodiv('multiple', command.currentparameters, 11);
+                                                        output.push(command.currentparameters)
+                                                        //output.push(res);
                                                         cbMap(null);
                                                     } catch (err) {
                                                         var finalobject = createfinalobject({
                                                             "result": "executethismultiple_executethismultiple_II"
                                                         }, {}, "executethismultiple_executethismultiple_II", err, res);
-                                                        callback(finalobject.err, finalobject.res);
+                                                        cbMap(finalobject.err, finalobject.res); //####
+                                                        //callback(finalobject.err, finalobject.res);
                                                     }
                                                 }
                                             });
@@ -680,22 +674,23 @@
                                         var finalobject = createfinalobject({
                                             "result": "executethismultiple_executethismultiple_wrapper"
                                         }, {}, "executethismultiple_executethismultiple_wrapper", err, filteredParams);
-                                        callback(finalobject.err, finalobject.res);
+                                        cbMap(finalobject.err, finalobject.res); //####
+                                        //callback(finalobject.err, finalobject.res);
                                     }
                                 });
                                 //cbMap(null); // Moved by joe -- Fixes mem out error
-                            }, function (err, re) {
-                                clb(null);
+                            }, function (err, res) {
+                                clb(null,res);
                             });
                         } else {
-                            clb(null);
+                            clb(null, res);
                         }
                     }
                     // ,
 
                     // function step2(clb) {
                     //     // waterfall
-                    //     if (commandobject.executeorder === "waterfall") {
+                    //     if (command.executeorder === "waterfall") {
                     //         function createFnArray(filteredParams, output) {
 
 
@@ -730,7 +725,7 @@
 
                     // function step3 (clb) {
                     //     // parallel
-                    //     if (commandobject.executeorder === "parallel") {
+                    //     if (command.executeorder === "parallel") {
                     //         async.map(filteredParams, function (eachtodo, cbMap) {
                     //             proxyprinttodiv("executethismultiple - iteration - parallel - eachtodo ", eachtodo, 11);
                     //             executeone(eachtodo, function (err, res) {
@@ -749,23 +744,28 @@
                     // }
                 ],
                 function (err, resp) {
-                    // stagedata.fn = command.beforeendmultiple
-                    // stagedata.currenterror = err
-                    // stagedata.currentresult = preResults
-                    // stagedata = processstage(stagedata)
-                    // if any of the saves produced an error, err would equal that error
-                    proxyprinttodiv("executethismultiple - resp ", resp, 11);
-                    callback(err, output);
+                    proxyprinttodiv("executethismultiple - **output", output, 11);
+                    proxyprinttodiv("executethismultiple - **overallresult", command.overallresult, 99);
+                    command.currenterror = err
+                    //command.currentresult = output
+                    command.currentresult = command.overallresult
+                    processstage(command, "beforeendmultiple");
+
+                    proxyprinttodiv("executethismultiple - **overallresult II", command.overallresult, 99);
+                    proxyprinttodiv("executethismultiple - **output II", output, 99);
+                    //callback(err, output);
+                    //callback(command.overallerror, output)
+                    callback(command.overallerror, command.overallresult)
                 });
             //});
             //
-        } // end try
-        catch (err) {
-            var finalobject = createfinalobject({
-                "result": "executethismultiple"
-            }, {}, "executethismultiple", err, inboundparms_113);
-            callback(finalobject.err, finalobject.res);
-        }
+        //} // end try
+        // catch (err) {
+        //     var finalobject = createfinalobject({
+        //         "result": "executethismultiple"
+        //     }, {}, "executethismultiple", err, inboundparms_113);
+        //     callback(finalobject.err, finalobject.res);
+        // }
     };
 
 
@@ -851,7 +851,8 @@
     function dothisprocessor(params, target, callback) {
         try {
             var inboundparms_114 = arguments;
-            var err = {};
+            //var err = {};
+            var err=null
             // if command.status=fail, check between dothis, do not execute
             if (params && ((!params.command) || (params.command && params.command.status !== 'fail'))) {
 
@@ -1264,8 +1265,7 @@
                                                             proxyprinttodiv("executelist executeobject.params: ", executeobject.params, 11);
                                                             proxyprinttodiv("executelist executeobject.targetfn: ", String(executeobject.targetfn), 11);
                                                             if (typeof executeobject.targetfn === 'function') { // there was a chance of a non function getting in here -- Joe
-                                                                command ={};// Fake security PASS TODO :: pass informaton needed for security checks in this object
-//                                                                authcall(executeobject, command, function (err, securitycheck) {
+                                                                //authcall(executeobject, command, function (err, securitycheck) {
                                                                     proxyprinttodiv(">>>>>> executelist executeobject.params: ", executeobject.params, 11);
                                                                     // If error, bounce out
                                                                     if (err && Object.keys(err).length > 0) {
@@ -1273,7 +1273,7 @@
                                                                     } else {
                                                                         try {
                                                                             err = null; // Do not leave in the code
-                                                                            securitycheck = true;
+                                                                            securitycheck = true
                                                                             if (securitycheck) {
                                                                                 executeobject.targetfn(executeobject.params, function (err, res) {
 
@@ -1328,7 +1328,7 @@
                                                                                             if (executeobject.executeflag === true) {
                                                                                                 if ((res) && (res.js)) {
                                                                                                     // TODO: do not leave this in production as is
-                                                                                                    var fnstring = res.js;
+                                                                                                    var fnstring = res.js
                                                                                                     if (fnstring.indexOf("function") === 0) {
                                                                                                         fnstring = "(" + fnstring + ")()"
                                                                                                     }
@@ -1393,7 +1393,7 @@
                                                                             cbMapW(finalobject.err, finalobject.res);
                                                                         }
                                                                     } // end else
-//                                                                }); // end authcall
+                                                                //}); // end authcall
 
                                                                 // create a google spreadsheet with intended data
                                                                 // https://docs.google.com/spreadsheet/ccc?key=0AqSqNB4MEkB0dDZzZFE1bm1QRk8tYTBVNjZjWlpfSnc#gid=0
