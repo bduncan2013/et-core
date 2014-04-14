@@ -1106,7 +1106,7 @@
                                 },
                                 function (err, res) {
                                     // If error, bounce out
-                                    proxyprinttodiv('Function getwidmongo end of paramerterobject mapSeries res', res, 38);
+                                    proxyprinttodiv('Function getwidmongo end of parameterobject mapSeries res', res, 38);
                                     if (err && Object.keys(err).length > 0) {
                                         cb(err, res);
                                         // cb(null, 'three');
@@ -1198,26 +1198,36 @@
                         //     debugfn("getwidmongo end step4", "getwidmongo", "get", "end", getglobal("debugcolor"), getglobal("debugindent"), debugvars([1]));
                         //     cb(null, 'four');
 
+                                // save widName for systemdto check, this keeps it from endlessly looping
+
+                                var widName = "undefined";
+                                if (parameterobject["wid"]) {
+                                    widName = parameterobject["wid"];
+                                }
+
                                 parameterobject["wid"] = "guid";
                                 parameterobject["metadata"]["method"] = "string";
                                 // parameterobject.command.inherit.push({"wid" : "systemdefault", "command":{"dtotype":"", "adopt":"default"}})
 
-                                if (command.getwidmaster.inheritflag === "true") {
-                                    var executeobject = {}
+                                // if (command.getwidmaster.inheritflag === "true") {
+                                if (widName !== "systemdto") {
+                                    var executeobject = {};
                                     executeobject["command"] = {
                                         "result": "systemdto",
                                         "getwidmaster.execute": "ConvertFromDOTdri",
                                         "getwidmaster.convertmethod": "dto",
                                         "getwidmaster.inheritflag": "true"   // changed from false
                                     };
-                                    executeobject["executethis"] = "getwidmaster"
-                                    executeobject["wid"] = "systemdto"
+                                    executeobject["executethis"] = "getwidmaster";
+                                    executeobject["wid"] = "systemdto";
                                     execute(executeobject, function (err, res) {
                                         if (err && Object.keys(err).length > 0) {
                                             cb(null, 'four');
                                         } else {
                                             systemdto = res[0];
                                             // make sure it not an empty command object                           
+                                            proxyprinttodiv("--- What i'm looking at systemdto inside system dto ---", systemdto, 38);
+                                            
                                             if (parameterobject && Object.keys(parameterobject).length > 0) {
                                                 parameterobject = extend(true, parameterobject, systemdto);
                                                 proxyprinttodiv("--- What i'm looking at parameterobject inside system dto ---", parameterobject, 38);

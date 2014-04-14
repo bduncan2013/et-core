@@ -4359,25 +4359,26 @@ exports.ettestag111 = ettestag111 = function ettestag111(params, callback) {
 
 	
 	exports.systemdinuserdto1 = systemdinuserdto1 = function systemdinuserdto1(params,callback){
-			adduserdto();			
-			execute([{
-                        // Create the userdto
-                        "executethis": "addwidmaster",
-                        "metadata.method": "userdto",
-                        "wid": "userdto",
-                        "systemdto.expirationdate":"6/14/14"
-                    }],
-						  function (err, res) {
-									//proxyprinttodiv('Full results: ', res, 99);
-									
-									//proxyprinttodiv('The userdto record: ', res[2], 99);
-							
-								//	debuglevel = 0;
-									execute({"executethis": "getwidmaster", "wid": "userdto"}, function (err, res1) {
-										proxyprinttodiv("getwidmaster userdto result: ", res1, 99); 
-										callback(err, res); 
-									});
-						  });
+		adduserdto(null, function(err, res) {			
+		  execute({
+                    // Create the userdto
+                    "executethis": "addwidmaster",
+                    "metadata.method": "userdto",
+                    "wid": "userdto",
+                    "systemdto.expirationdate":"6/14/14"
+                },
+					  function (err, res) {
+								//proxyprinttodiv('Full results: ', res, 99);
+								
+								//proxyprinttodiv('The userdto record: ', res[2], 99);
+						
+							//	debuglevel = 0;
+								execute({"executethis": "getwidmaster", "wid": "userdto"}, function (err, res1) {
+									proxyprinttodiv("getwidmaster userdto result: ", res1, 99); 
+									callback(err, res); 
+								});
+					  });
+        });
 	}
     
 	exports.systemdinuserwid1 = systemdinuserwid1 = function systemdinuserwid1(params,callback){
@@ -4619,15 +4620,14 @@ exports.ettestag111 = ettestag111 = function ettestag111(params, callback) {
     }
 	
 	exports.testsysteminuserdto = testsysteminuserdto = function testsysteminuserdto(params,callback){
-		adduserdto();
+		adduserdto(null, function () {
 		
-		execute([{"executethis": "getwidmaster", "command.getwidmaster.convertmethod":"dto", "wid": "userdto"}], 
-			function (err, res1) {
-							proxyprinttodiv("getwidmaster awesome userdto results: ", res1, 99); 
-							callback(err, res); 
-				});
-							
-			
+    		execute([{"executethis": "getwidmaster", "command.getwidmaster.convertmethod":"dto", "wid": "userdto"}], 
+    			function (err, res1) {
+    							proxyprinttodiv("getwidmaster awesome userdto results: ", res1, 99); 
+    							callback(err, res1); 
+    			});
+            });				
 	}
 	
 	exports.testdeepsystem1 = testdeepsystem1 = function testdeepsystem1(params,callback){
@@ -4643,22 +4643,20 @@ exports.ettestag111 = ettestag111 = function ettestag111(params, callback) {
 				"securitydto.systemdto.expirationdate":"hi from security",
 				"permissiondto.level":"2",
 				"permissiondto.systemdto.expirationdate":"hi from permissions",
-				//"permissiondto.0.usergroupdto.0.usergroupname":"employees",
-				//"permissiondto.0.usergroupdto.0.systemdto.expirationdate":"hi from permissions.usergroup",
+				"permissiondto.0.usergroupdto.0.usergroupname":"employees",
+				"permissiondto.0.usergroupdto.0.systemdto.expirationdate":"hi from permissions.usergroup",
 				"environmentdto.priority":"1",
 				"environmentdto.systemdto.expirationdate":"hi from environment",
 				"usergroupdto.usergroupname":"everyone",
 				"usergroupdto.systemdto.expirationdate":"hi from usergroup"}],
             function (err, res) {
-						//proxyprinttodiv('Full results: ', res, 99);
-						
-						//proxyprinttodiv('The userdto record: ', res[2], 99);
-				
-				//		debuglevel = 0;
-						execute({"executethis": "getwidmaster", "wid": "user1"}, function (err, res1) {
-							proxyprinttodiv("getwidmaster user1 result: ", res1, 99); 
-							callback(err, res); 
-						});
+				// proxyprinttodiv('Full results: ', res, 99);
+				// proxyprinttodiv('The userdto record: ', res[2], 99);
+				// debuglevel = 0;
+				execute({"executethis": "getwidmaster", "wid": "user1"}, function (err, res1) {
+					proxyprinttodiv("getwidmaster user1 result: ", res1, 99); 
+					callback(err, res); 
+				});
 			  });
 							
 			

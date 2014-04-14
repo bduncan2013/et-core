@@ -28,7 +28,7 @@ exports.everyMinuteInterval = 0;
 exports.everyTenMinuteInterval = 0;
 exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, callback) {
     setdefaultparm();
-    if (!getFromLocalStorage(config.configuration.defaultdatabasetable+config.configuration.defaultkeycollection)) {
+    if (!getFromLocalStorage(config.configuration.defaultkeycollection)) {
         eventappinstall();
     }
 
@@ -38,17 +38,23 @@ exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, 
     exports.everyMinuteInterval = setInterval(exports.eventonemin,12 * minutes);
     exports.everyTenMinuteInterval = setInterval(exports.eventtenmin,120 * minutes);
 
-/*    execute([
-        {"executethis":"updatewid", 
-                "wid":"systemdto", 
-                "metadata":{"method":"systemdto",
-                            "inherit":{"wid":"systemdtodefault", }}, 
+    execute([{"executethis":"addwidmaster", 
+                "metadata.method":"systemdto",
+                "wid":"systemdto",
                 "expirationtimer":"string",
-                "expirationdate":"string"},
-        {}
-        ], function (err, res) {
-        callback(err, res);
-    })*/
+                "expirationdate":"string",
+                "metadata.inherit.0": {"wid" : "systemdefault", "command" : { "dtotype":"", "adopt":"default"}}
+        },{
+            "executethis":"addwidmaster",
+            "wid":"systemdefault",
+            "metadata.method":"systemdto",
+            "expirationtimer":"90",
+            "expirationdate":"6/14/14"
+        }
+        ],
+        function (err, res) {
+            callback(err, res);
+    });
 
     updatewid({"wid":"initialwid", "date": new Date()}, function (err, res) {
         callback(err, res);
