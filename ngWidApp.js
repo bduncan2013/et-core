@@ -594,6 +594,8 @@ if (typeof angular !== 'undefined') {
                                 });
                             }
                         }
+                        else if (dataset.script) { widAppHelper.processJS(dataset, scope, $compile); }
+                        else if (dataset.css) { widAppHelper.processCSS(dataset, scope, $compile); }
                     });
             });
         },
