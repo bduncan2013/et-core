@@ -921,10 +921,10 @@
     //     }
     // }; // end of addwid
 exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
-        // debuglevel = 18;
-        // if (!object["wid"]){
-        //     debuglevel = 18;
-        // }
+        debuglevel = 18;
+        if (!object["wid"]){
+            debuglevel = 18;
+        }
         proxyprinttodiv("addwid object", object, 18);
         proxyprinttodiv("addwid dtoobject", dtoobject, 18);
         proxyprinttodiv("addwid command", command, 18);
@@ -946,7 +946,8 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                      "command.getwidmaster.convertmethod": "nowid"
                      }, function (err, res) {
                          proxyprinttodiv("addwid step1 getwidmaster result", res, 18);
-                         var getwidmasterres = extend(true, {}, res[0]);
+                         var getwidmasterres = {};
+                         extend(true, getwidmasterres, res[0]);
                          proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", getwidmasterres, 18);
                          //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":44,"command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];      
                          //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":4, "f":6, "command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];       
@@ -965,19 +966,30 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                              // use the differenceresults to create a new object
                              // ***** create code here
                                  for(key in differenceresults){
-                                     if(differenceresults[key]["type"] === "added"){
-                                         object[key]=differenceresults[key]["data"];
+                                     if(differenceresults[key]["type"] === "updated"){
+                                        
+                                        object[key] = differenceresults[key]["data"];
                                      }
                                  }
                             
                              //To merge object with getwidmaster result
-                             if(getwidmasterres && Object.keys(getwidmasterres).length !== 0){
-                                 for(key in getwidmasterres){
+                             // if(typeof getwidmasterres === 'object' && Object.keys(getwidmasterres).length !== 0){
+                             //     for(key in getwidmasterres){
+                             //         if(!object[key]){
+                             //            proxyprinttodiv("adding to missing prop to object! ", getwidmasterres[key], 18);
+                             //             object[key] = getwidmasterres[key];
+                             //         }
+                             //     }
+                             // }
+
+                                //if(typeof getwidmasterres === 'object' && Object.keys(getwidmasterres).length !== 0){
+                                 for(key in currentinheritobject){
                                      if(!object[key]){
-                                         object[key] = getwidmasterres[key];
+                                        proxyprinttodiv("adding to missing prop to object! ", currentinheritobject[key], 18);
+                                         object[key] = currentinheritobject[key];
                                      }
-                                 }
-                             }
+                                }
+                           // }
                             
                              proxyprinttodiv("addwid step1 after diff and merge object", object, 18);    
                             

@@ -4097,7 +4097,7 @@ function recurseobjcontainer(obj, dtotable, callback) {
             "wid": "wid1",
             "d":"44",
             "f":"6",
-            "addthis.command":{"inherit":{"data":{"c":"99", "e":"98", "g":"7"}}}
+            "addthis.command":{"inherit":{"data":{"c":"99", "e":"5", "g":"7"}}}
         }], function (err, res1) {
             var inputdto = {
                 "wid": "string",
