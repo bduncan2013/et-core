@@ -133,7 +133,7 @@ exports.geteventlist = geteventlist = function geteventlist(eventname, callback)
             //deletewid
             //executeobject
         }
-    }
+    };
 
 function setdefaultparm() {
 
@@ -164,12 +164,12 @@ function config123() {
     var configuration = {};
 
     configuration.environment = 'local';
-    configuration.widmasterkey = 'widmasterkey'
+    configuration.widmasterkey = 'widmasterkey';
     configuration.defaultcollection = 'dricollection';
     configuration.defaultdb='data';
-    configuration.defaultdatastore = 'localstorage'
-    configuration.defaultkeycollection = 'dricollectionkey'
-    configuration.defaultdatabasetable = 'wikiwallettesting'
+    configuration.defaultdatastore = 'localstorage';
+    configuration.defaultkeycollection = 'dricollectionkey';
+    configuration.defaultdatabasetable = 'wikiwallettesting';
 
     configuration.preExecute = [];
     configuration.preExecute[0] = {};
@@ -367,10 +367,9 @@ exports.server = window.server = server = function server(params, callback) {
         });
     } // end try
     catch (err) {
-        var finalobject =
-            createfinalobject({
-                "result": "server"
-            }, {}, "server", err, inbound_parameters);
+        var finalobject = createfinalobject({"result": "server"}, {}, "server", err, inbound_parameters);
+        console.log('** Error Caught in the server() function in config-local.js ** => ' + JSON.stringify(err));
+        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }
 };
@@ -380,7 +379,7 @@ exports.server2 = window.server2 = server2 = function server2(params, callback) 
     proxyprinttodiv('Function server2 ------', params, 99);
     params.command.server="server2";
     server(params,callback);
-}
+};
 
 exports.getDriApiData = getDriApiData = function getDriApiData(params, callback) {
     // set up object in syntax that driApi is expecting
@@ -448,9 +447,9 @@ exports.mquery = mquery = function mquery(inboundobj, command, callback) {
         var resultlist = [];
         //var collection = "DRI";
         //var keycollection = "DRIKEY";
-        var collection = config.configuration.defaultcollection
-        var keycollection = config.configuration.defaultkeycollection
-        var databasetable = config.configuration.defaultdatabasetable
+        var collection = config.configuration.defaultcollection;
+        var keycollection = config.configuration.defaultkeycollection;
+        var databasetable = config.configuration.defaultdatabasetable;
         var database = {};
         var keydatabase = {};
         var eachwid;
@@ -497,10 +496,9 @@ exports.mquery = mquery = function mquery(inboundobj, command, callback) {
         callback(null, resultlist);
     } // end try
     catch (err) {
-        var finalobject =
-            createfinalobject({
-                "result": "mongoquery"
-            }, {}, "mongoquery", err, inbound_parameters);
+        var finalobject = createfinalobject({"result": "mongoquery"}, {}, "mongoquery", err, inbound_parameters);
+        console.log('** Error Caught in the mquery() function in config-local.js ** => ' + JSON.stringify(err));
+        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }
 };

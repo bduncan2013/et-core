@@ -32,9 +32,9 @@
                                 callback(err, res);
                             })
                         } catch (err) {
-                            var finalobject = createfinalobject({
-                                "result": "executethis"
-                            }, {}, "executethis", err, res);
+                            var finalobject = createfinalobject({"result": "executethis"}, {}, "executethis", err, res);
+                            console.log('** Error Caught in the executethis() function in executethis.js ** => ' + JSON.stringify(err));
+                            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                             callback(finalobject.err, finalobject.res);
                         }
                     }
@@ -340,16 +340,17 @@
                                                                 execute(executeparam, callback);
 
                                                             } else {
-
                                                                 proxyprinttodiv("end postexecute -- postResults", postResults, 11);
                                                                 callback(null, postResults);
-
                                                             }
                                                         } // end try
                                                         catch (err) {
                                                             var finalobject = createfinalobject({
                                                                 "result": "execute_post"
                                                             }, {}, "execute_post", err, postResults);
+                                                            console.log('** Error Caught during the postexecute doThis() call'
+                                                                + ' in the execute() function of executethis.js ** => ' + JSON.stringify(err));
+                                                            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                             callback(finalobject.err, finalobject.res);
                                                         }
                                                     } // end else
@@ -360,6 +361,9 @@
                                                 var finalobject = createfinalobject({
                                                     "result": "execute_mid"
                                                 }, {}, "execute_mid", err, midResults);
+                                                console.log('** Error Caught during the midexecute doThis() call'
+                                                    + ' in the execute() function in executethis.js ** => ' + JSON.stringify(err));
+                                                console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                 callback(finalobject.err, finalobject.res);
                                             }
                                         } // end else
@@ -370,6 +374,9 @@
                                     var finalobject = createfinalobject({
                                         "result": "execute_pre"
                                     }, {}, "execute_pre", err, preResults);
+                                    console.log('** Error Caught during the preexecute doThis() call'
+                                        + 'in the execute() function in executethis.js ** => ' + JSON.stringify(err));
+                                    console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                     callback(finalobject.err, finalobject.res);
                                 }
                             } // end else
@@ -381,6 +388,8 @@
             var finalobject = createfinalobject({
                 "result": "execute"
             }, {}, "execute", err, inboundparms_111);
+            console.log('** Error Caught in the execute() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -495,9 +504,10 @@
                         output.push(resp);
                         callback(err, output); //callback(err, output[0]);
                     } catch (err) {
-                        var finalobject = createfinalobject({
-                            "result": "executeone"
-                        }, {}, "executeone", err, resp);
+                        var finalobject = createfinalobject({"result": "executeone"}, {}, "executeone", err, resp);
+                        console.log('** Error Caught in the fncallbck() function which exists '
+                            + 'in the executeone() function in executethis.js ** => ' + JSON.stringify(err));
+                        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                         callback(finalobject.err, finalobject.res);
                     }
                 }
@@ -520,9 +530,9 @@
             window[fn].apply(window, fnparams);
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({
-                "result": "executeone"
-            }, {}, "executeone", err, inboundparms_112);
+            var finalobject = createfinalobject({"result": "executeone"}, {}, "executeone", err, inboundparms_112);
+            console.log('** Error Caught in the executeone() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -640,7 +650,6 @@
                                                     callback(err, res);
                                                 } else {
                                                     try {
-
                                                         // proxyprinttodiv("executethismultiple - iteration - eachtodo  ", eachtodo, 11);
                                                         output.push(res);
                                                         cbMap(null);
@@ -648,6 +657,9 @@
                                                         var finalobject = createfinalobject({
                                                             "result": "executethismultiple_executethismultiple"
                                                         }, {}, "executethismultiple_executethismultiple", err, res);
+                                                        console.log('** Error Caught in attempt to push "res" into the'
+                                                            + ' output array when eachtodo was an Array ** => ' + JSON.stringify(err));
+                                                        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                         cbMap(finalobject.err, finalobject.res);
                                                     }
                                                 }
@@ -671,6 +683,9 @@
                                                         var finalobject = createfinalobject({
                                                             "result": "executethismultiple_executethismultiple_II"
                                                         }, {}, "executethismultiple_executethismultiple_II", err, res);
+                                                        console.log('** Error Caught in attempt to push "res" into the'
+                                                            + ' output array when eachtodo was not an Array ** => ' + JSON.stringify(err));
+                                                        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                         callback(finalobject.err, finalobject.res);
                                                     }
                                                 }
@@ -680,6 +695,9 @@
                                         var finalobject = createfinalobject({
                                             "result": "executethismultiple_executethismultiple_wrapper"
                                         }, {}, "executethismultiple_executethismultiple_wrapper", err, filteredParams);
+                                        console.log('** Error Caught in the executethismultiple() function in'
+                                            + ' executethis.js during mapSeries call on "filteredParams" ** => ' + JSON.stringify(err));
+                                        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                         callback(finalobject.err, finalobject.res);
                                     }
                                 });
@@ -761,9 +779,9 @@
             //
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({
-                "result": "executethismultiple"
-            }, {}, "executethismultiple", err, inboundparms_113);
+            var finalobject = createfinalobject({"result": "executethismultiple"}, {}, "executethismultiple", err, inboundparms_113);
+            console.log('** Error Caught in the executethismultiple() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -933,9 +951,9 @@
             }
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({
-                "result": "dothisprocessor"
-            }, {}, "dothisprocessor", err, inboundparms_114);
+            var finalobject = createfinalobject({"result": "dothisprocessor"}, {}, "dothisprocessor", err, inboundparms_114);
+            console.log('** Error Caught in the dothisprocessor() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     } // fn
@@ -1106,9 +1124,9 @@
             return list;
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({
-                "result": "CreateDoList"
-            }, {}, "CreateDoList", err, inboundparms_115);
+            var finalobject = createfinalobject({"result": "CreateDoList"}, {}, "CreateDoList", err, inboundparms_115);
+            console.log('** Error Caught in the createDoList() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             return (finalobject);
         }
     } // end CreateDolist
@@ -1271,126 +1289,101 @@
                                                                     if (err && Object.keys(err).length > 0) {
                                                                         callback(err, securitycheck);
                                                                     } else {
-                                                                        try {
-                                                                            err = null; // Do not leave in the code
-                                                                            securitycheck = true;
-                                                                            if (securitycheck) {
-                                                                                executeobject.targetfn(executeobject.params, function (err, res) {
+                                                                        err = null; // Do not leave in the code
+                                                                        securitycheck = true;
+                                                                        if (securitycheck) {
+                                                                            executeobject.targetfn(executeobject.params, function (err, res) {
 
-                                                                                    // If error, bounce out
-                                                                                    if (err && Object.keys(err).length > 0) {
-                                                                                        callback(err, res);
-                                                                                    } else {
-                                                                                        try {
-                                                                                            proxyprinttodiv("executelist err from execution ", err, 11);
-                                                                                            proxyprinttodiv("executelist result from execution ", res, 11);
-                                                                                            proxyprinttodiv("executelist result from execution executeobject", executeobject.executeflag, 11);
+                                                                                // If error, bounce out
+                                                                                if (err && Object.keys(err).length > 0) {
+                                                                                    callback(err, res);
+                                                                                } else {
+                                                                                    proxyprinttodiv("executelist err from execution ", err, 11);
+                                                                                    proxyprinttodiv("executelist result from execution ", res, 11);
+                                                                                    proxyprinttodiv("executelist result from execution executeobject", executeobject.executeflag, 11);
 
-                                                                                            // This section helps control the iteration -- Joe
-                                                                                            // ***********************************************
-                                                                                            whatallowexecute = false;
-                                                                                            howallowexecute = false;
+                                                                                    // This section helps control the iteration -- Joe
+                                                                                    // ***********************************************
+                                                                                    whatallowexecute = false;
+                                                                                    howallowexecute = false;
 
-                                                                                            // if we come back with [{}] go to the next case,usally server
-                                                                                            if (executeobject.executeflag === true) {
-                                                                                                if (
-                                                                                                    (res === undefined) ||
+                                                                                    // if we come back with [{}] go to the next case,usally server
+                                                                                    if (executeobject.executeflag === true) {
+                                                                                        if (
+                                                                                            (res === undefined) ||
 
-                                                                                                    (
-                                                                                                        isArray(res) && res[0]['metadata'] && res[0]['metadata']['expirationdate'] &&
-                                                                                                        new Date(res[0]['metadata']['expirationdate']) < new Date()
-                                                                                                    ) ||
+                                                                                            (
+                                                                                                isArray(res) && res[0]['metadata'] && res[0]['metadata']['expirationdate'] &&
+                                                                                                new Date(res[0]['metadata']['expirationdate']) < new Date()
+                                                                                            ) ||
 
-                                                                                                    (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)
-                                                                                                )
+                                                                                            (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)
+                                                                                        )
 
-                                                                                                {
-                                                                                                    proxyprinttodiv("Try again hit wit res", res, 11);
-                                                                                                    whatallowexecute = true;
-                                                                                                    howallowexecute = true;
-                                                                                                    executeobject.executeflag = false;
-                                                                                                }
+                                                                                        {
+                                                                                            proxyprinttodiv("Try again hit wit res", res, 11);
+                                                                                            whatallowexecute = true;
+                                                                                            howallowexecute = true;
+                                                                                            executeobject.executeflag = false;
+                                                                                        }
+                                                                                    }
+
+                                                                                    // Remove expiration date on return
+                                                                                    // ------------------------------------------------
+                                                                                    // AG1 example res: {"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-03-17T13:55:26.832Z","expirationdate":"2014-03-17T13:55:26.832Z"}}
+                                                                                    if ((res) && (Object.keys(res).length > 0) && (res['metadata']) && (res['metadata']['expirationdate'])) {
+                                                                                        delete res['metadata']['expirationdate'];
+                                                                                    }
+                                                                                    // ************************************************
+
+                                                                                    // temp .. take out
+                                                                                    if (res && res.js) {
+                                                                                        executeobject.executeflag = true
+                                                                                    }
+                                                                                    // for an addthis situation
+                                                                                    if (executeobject.executeflag === true) {
+                                                                                        if ((res) && (res.js)) {
+                                                                                            // TODO: do not leave this in production as is
+                                                                                            var fnstring = res.js;
+                                                                                            if (fnstring.indexOf("function") === 0) {
+                                                                                                fnstring = "(" + fnstring + ")()"
                                                                                             }
-
-                                                                                            // Remove expiration date on return
-                                                                                            // ------------------------------------------------
-                                                                                            // AG1 example res: {"data":{"note":"string"},"wid":"sounddto","metadata":{"method":"sounddto","date":"2014-03-17T13:55:26.832Z","expirationdate":"2014-03-17T13:55:26.832Z"}}
-                                                                                            if ((res) && (Object.keys(res).length > 0) && (res['metadata']) && (res['metadata']['expirationdate'])) {
-                                                                                                delete res['metadata']['expirationdate'];
-                                                                                            }
-                                                                                            // ************************************************
-
-                                                                                            // temp .. take out
-                                                                                            if (res && res.js) {
-                                                                                                executeobject.executeflag = true
-                                                                                            }
-                                                                                            // for an addthis situation
-                                                                                            if (executeobject.executeflag === true) {
-                                                                                                if ((res) && (res.js)) {
-                                                                                                    // TODO: do not leave this in production as is
-                                                                                                    var fnstring = res.js;
-                                                                                                    if (fnstring.indexOf("function") === 0) {
-                                                                                                        fnstring = "(" + fnstring + ")()"
-                                                                                                    }
-                                                                                                    proxyprinttodiv("execute fnstring", fnstring, 11);
-                                                                                                    eval(fnstring);
+                                                                                            proxyprinttodiv("execute fnstring", fnstring, 11);
+                                                                                            eval(fnstring);
+                                                                                        } else {
+                                                                                            execute(res, function (err, res) {
+                                                                                                // If error, bounce out
+                                                                                                if (err && Object.keys(err).length > 0) {
+                                                                                                    callback(err, res);
                                                                                                 } else {
-                                                                                                    execute(res, function (err, res) {
-                                                                                                        // If error, bounce out
-                                                                                                        if (err && Object.keys(err).length > 0) {
-                                                                                                            callback(err, res);
-                                                                                                        } else {
-                                                                                                            try {
-                                                                                                                // if executegetwid then execute with the results
-                                                                                                                proxyprinttodiv("Return from nested execution: ", res, 11);
-                                                                                                                outputResultsArr.push(res);
-                                                                                                                cbMapW(null, "What Iteration");
-                                                                                                                // cbMapW(err, "What Iteration");
-
-                                                                                                            } // end try
-                                                                                                            catch (err) {
-                                                                                                                var finalobject = createfinalobject({
-                                                                                                                    "result": "executelist_executeobject.executeflag"
-                                                                                                                }, {}, "executelist_executeobject.executeflag", err, res);
-                                                                                                                cbMapW(finalobject.err, finalobject.res);
-                                                                                                            }
-                                                                                                        } // end else
-                                                                                                    });
-                                                                                                }
-                                                                                            } else {
-                                                                                                // executeflag=false
-                                                                                                // temp answer for a bug, if empty do not push onto ouputresultarray - joe
-                                                                                                if ((isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
-                                                                                                    cbMapW(null, "What Iteration");
-                                                                                                } else {
+                                                                                                    // if executegetwid then execute with the results
+                                                                                                    proxyprinttodiv("Return from nested execution: ", res, 11);
                                                                                                     outputResultsArr.push(res);
                                                                                                     cbMapW(null, "What Iteration");
-                                                                                                }
-
-                                                                                                //cbMapW(err, "What Iteration");
-                                                                                            }
-                                                                                        } // end try
-                                                                                        catch (err) {
-                                                                                            var finalobject = createfinalobject({
-                                                                                                "result": "executelist_executeobject.targetfn"
-                                                                                            }, {}, "executelist_executeobject.targetfn", err, res);
-                                                                                            cbMapW(finalobject.err, finalobject.res);
+                                                                                                    // cbMapW(err, "What Iteration");
+                                                                                                } // end else
+                                                                                            });
                                                                                         }
-                                                                                    } // end else
-                                                                                });
-                                                                            } else {
-                                                                                // security check failed
-                                                                                callback(err, {
-                                                                                    'etstatus': 'unauthorized call.'
-                                                                                });
-                                                                                cbMapW(null, "What Iteration");
-                                                                            }
-                                                                        } // end try
-                                                                        catch (err) {
-                                                                            var finalobject = createfinalobject({
-                                                                                "result": "executelist_authcall"
-                                                                            }, {}, "executelist_authcall", err, securitycheck);
-                                                                            cbMapW(finalobject.err, finalobject.res);
+                                                                                    } else {
+                                                                                        // executeflag=false
+                                                                                        // temp answer for a bug, if empty do not push onto ouputresultarray - joe
+                                                                                        if ((isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
+                                                                                            cbMapW(null, "What Iteration");
+                                                                                        } else {
+                                                                                            outputResultsArr.push(res);
+                                                                                            cbMapW(null, "What Iteration");
+                                                                                        }
+
+                                                                                        //cbMapW(err, "What Iteration");
+                                                                                    }
+                                                                                } // end else
+                                                                            });
+                                                                        } else {
+                                                                            // security check failed
+                                                                            callback(err, {
+                                                                                'etstatus': 'unauthorized call.'
+                                                                            });
+                                                                            cbMapW(null, "What Iteration");
                                                                         }
                                                                     } // end else
 //                                                                }); // end authcall
@@ -1418,6 +1411,9 @@
                                                             var finalobject = createfinalobject({
                                                                 "result": "executelist_getexecuteobject(jsonConcat"
                                                             }, {}, "executelist_getexecuteobject(jsonConcat", err, executeobject);
+                                                            console.log('** Error Caught in the executelist() function in executethis.js'
+                                                                + ' during processing of results from getexecuteobject() call ** => ' + JSON.stringify(err));
+                                                            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                             cbMapW(finalobject.err, finalobject.res);
                                                         }
                                                     } // end else
@@ -1439,9 +1435,10 @@
                                 });
                         } // end try
                         catch (err) {
-                            var finalobject = createfinalobject({
-                                "result": "executelist_async_nextTick"
-                            }, {}, "executelist_async_nextTick", err, h);
+                            var finalobject = createfinalobject({"result": "executelist_async_nextTick"}, {}, "executelist_async_nextTick", err, h);
+                            console.log('** Error Caught in the executelist() function in'
+                                + ' executethis.js during mapSeries call on "howToDoList" ** => ' + JSON.stringify(err));
+                            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                             cbMapH(finalobject.err, finalobject.res);
                         }
                         // map w,
@@ -1459,13 +1456,13 @@
                     callback(err, outputResultsArr);
                 });
             // debugcolor--;
-            var x = getglobal("debugcolor") - 1;
+            x = getglobal("debugcolor") - 1;
             saveglobal("debugcolor", x);
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({
-                "result": "executelist"
-            }, {}, "executelist", err, inboundparms_116);
+            var finalobject = createfinalobject({"result": "executelist"}, {}, "executelist", err, inboundparms_116);
+            console.log('** Error Caught in the executelist() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     } // end executelist
@@ -1577,9 +1574,9 @@
 
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({
-                "result": "getexecuteobject"
-            }, {}, "getexecuteobject", err, inboundparms_117);
+            var finalobject = createfinalobject({"result": "getexecuteobject"}, {}, "getexecuteobject", err, inboundparms_117);
+            console.log('** Error Caught in the getexecuteobject() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     } // fn
@@ -1588,7 +1585,6 @@
         try {
             var inboundparms_118 = arguments;
 
-            var err;
             var output;
             if (!output) {
                 output = {};
@@ -1601,9 +1597,9 @@
             callback(output, output);
         } // end try
         catch (err) {
-            var finalobject = createfinalobject({
-                "result": "executeerror"
-            }, {}, "executeerror", err, inboundparms_118);
+            var finalobject = createfinalobject({"result": "executeerror"}, {}, "executeerror", err, inboundparms_118);
+            console.log('** Error Caught in the executeerror() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     };
