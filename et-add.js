@@ -483,7 +483,7 @@
                             // If error, bounce out
                             if (err && Object.keys(err).length > 0) {
 
-                                // alert("Hi" + JSON.stringify(err));
+                                // alert("Hi" + err);
 
                                 callback(err, res);
                             } else {

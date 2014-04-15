@@ -368,7 +368,7 @@ exports.server = window.server = server = function server(params, callback) {
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result": "server"}, {}, "server", err, inbound_parameters);
-        console.log('** Error Caught in the server() function in config-local.js ** => ' + JSON.stringify(err));
+        console.log('** Error Caught in the server() function in config-local.js ** => ' + err);
         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }
@@ -497,7 +497,7 @@ exports.mquery = mquery = function mquery(inboundobj, command, callback) {
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result": "mongoquery"}, {}, "mongoquery", err, inbound_parameters);
-        console.log('** Error Caught in the mquery() function in config-local.js ** => ' + JSON.stringify(err));
+        console.log('** Error Caught in the mquery() function in config-local.js ** => ' + err);
         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }

@@ -33,7 +33,7 @@
                             })
                         } catch (err) {
                             var finalobject = createfinalobject({"result": "executethis"}, {}, "executethis", err, res);
-                            console.log('** Error Caught in the executethis() function in executethis.js ** => ' + JSON.stringify(err));
+                            console.log('** Error Caught in the executethis() function in executethis.js ** => ' + err);
                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                             callback(finalobject.err, finalobject.res);
                         }
@@ -349,7 +349,7 @@
                                                                 "result": "execute_post"
                                                             }, {}, "execute_post", err, postResults);
                                                             console.log('** Error Caught during the postexecute doThis() call'
-                                                                + ' in the execute() function of executethis.js ** => ' + JSON.stringify(err));
+                                                                + ' in the execute() function of executethis.js ** => ' + err);
                                                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                             callback(finalobject.err, finalobject.res);
                                                         }
@@ -362,7 +362,7 @@
                                                     "result": "execute_mid"
                                                 }, {}, "execute_mid", err, midResults);
                                                 console.log('** Error Caught during the midexecute doThis() call'
-                                                    + ' in the execute() function in executethis.js ** => ' + JSON.stringify(err));
+                                                    + ' in the execute() function in executethis.js ** => ' + err);
                                                 console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                 callback(finalobject.err, finalobject.res);
                                             }
@@ -375,7 +375,7 @@
                                         "result": "execute_pre"
                                     }, {}, "execute_pre", err, preResults);
                                     console.log('** Error Caught during the preexecute doThis() call'
-                                        + 'in the execute() function in executethis.js ** => ' + JSON.stringify(err));
+                                        + 'in the execute() function in executethis.js ** => ' + err);
                                     console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                     callback(finalobject.err, finalobject.res);
                                 }
@@ -388,7 +388,7 @@
             var finalobject = createfinalobject({
                 "result": "execute"
             }, {}, "execute", err, inboundparms_111);
-            console.log('** Error Caught in the execute() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the execute() function in executethis.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -506,7 +506,7 @@
                     } catch (err) {
                         var finalobject = createfinalobject({"result": "executeone"}, {}, "executeone", err, resp);
                         console.log('** Error Caught in the fncallbck() function which exists '
-                            + 'in the executeone() function in executethis.js ** => ' + JSON.stringify(err));
+                            + 'in the executeone() function in executethis.js ** => ' + err);
                         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                         callback(finalobject.err, finalobject.res);
                     }
@@ -531,7 +531,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "executeone"}, {}, "executeone", err, inboundparms_112);
-            console.log('** Error Caught in the executeone() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the executeone() function in executethis.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -658,7 +658,7 @@
                                                             "result": "executethismultiple_executethismultiple"
                                                         }, {}, "executethismultiple_executethismultiple", err, res);
                                                         console.log('** Error Caught in attempt to push "res" into the'
-                                                            + ' output array when eachtodo was an Array ** => ' + JSON.stringify(err));
+                                                            + ' output array when eachtodo was an Array ** => ' + err);
                                                         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                         cbMap(finalobject.err, finalobject.res);
                                                     }
@@ -684,7 +684,7 @@
                                                             "result": "executethismultiple_executethismultiple_II"
                                                         }, {}, "executethismultiple_executethismultiple_II", err, res);
                                                         console.log('** Error Caught in attempt to push "res" into the'
-                                                            + ' output array when eachtodo was not an Array ** => ' + JSON.stringify(err));
+                                                            + ' output array when eachtodo was not an Array ** => ' + err);
                                                         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                         callback(finalobject.err, finalobject.res);
                                                     }
@@ -696,7 +696,7 @@
                                             "result": "executethismultiple_executethismultiple_wrapper"
                                         }, {}, "executethismultiple_executethismultiple_wrapper", err, filteredParams);
                                         console.log('** Error Caught in the executethismultiple() function in'
-                                            + ' executethis.js during mapSeries call on "filteredParams" ** => ' + JSON.stringify(err));
+                                            + ' executethis.js during mapSeries call on "filteredParams" ** => ' + err);
                                         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                         callback(finalobject.err, finalobject.res);
                                     }
@@ -780,7 +780,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "executethismultiple"}, {}, "executethismultiple", err, inboundparms_113);
-            console.log('** Error Caught in the executethismultiple() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the executethismultiple() function in executethis.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -952,7 +952,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "dothisprocessor"}, {}, "dothisprocessor", err, inboundparms_114);
-            console.log('** Error Caught in the dothisprocessor() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the dothisprocessor() function in executethis.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -1125,7 +1125,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "CreateDoList"}, {}, "CreateDoList", err, inboundparms_115);
-            console.log('** Error Caught in the createDoList() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the createDoList() function in executethis.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             return (finalobject);
         }
@@ -1412,7 +1412,7 @@
                                                                 "result": "executelist_getexecuteobject(jsonConcat"
                                                             }, {}, "executelist_getexecuteobject(jsonConcat", err, executeobject);
                                                             console.log('** Error Caught in the executelist() function in executethis.js'
-                                                                + ' during processing of results from getexecuteobject() call ** => ' + JSON.stringify(err));
+                                                                + ' during processing of results from getexecuteobject() call ** => ' + err);
                                                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                             cbMapW(finalobject.err, finalobject.res);
                                                         }
@@ -1437,7 +1437,7 @@
                         catch (err) {
                             var finalobject = createfinalobject({"result": "executelist_async_nextTick"}, {}, "executelist_async_nextTick", err, h);
                             console.log('** Error Caught in the executelist() function in'
-                                + ' executethis.js during mapSeries call on "howToDoList" ** => ' + JSON.stringify(err));
+                                + ' executethis.js during mapSeries call on "howToDoList" ** => ' + err);
                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                             cbMapH(finalobject.err, finalobject.res);
                         }
@@ -1461,7 +1461,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "executelist"}, {}, "executelist", err, inboundparms_116);
-            console.log('** Error Caught in the executelist() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the executelist() function in executethis.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -1575,7 +1575,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "getexecuteobject"}, {}, "getexecuteobject", err, inboundparms_117);
-            console.log('** Error Caught in the getexecuteobject() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the getexecuteobject() function in executethis.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -1598,7 +1598,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "executeerror"}, {}, "executeerror", err, inboundparms_118);
-            console.log('** Error Caught in the executeerror() function in executethis.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the executeerror() function in executethis.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }

@@ -309,7 +309,7 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result": "updatewid"}, {}, "updatewid", err, originalarguments);
-        console.log('** Error Caught in the updatewid() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** Error Caught in the updatewid() function in et-utils.js ** => ' + err);
         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }
@@ -438,7 +438,7 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result": "updatewid"}, {}, "updatewid", err, originalarguments);
-        console.log('** Error Caught in the getwid() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** Error Caught in the getwid() function in et-utils.js ** => ' + err);
         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }
@@ -546,7 +546,7 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result":"printToDiv"}, {}, "printToDiv", err, inbound_parameters);
-        console.log('** Error Caught in the printToDiv() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** Error Caught in the printToDiv() function in et-utils.js ** => ' + err);
         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }
@@ -579,7 +579,7 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
-        console.log('** Error Caught in the proxyprinttodiv() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** Error Caught in the proxyprinttodiv() function in et-utils.js ** => ' + err);
         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
     }
 };
@@ -1101,7 +1101,7 @@ function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
                     } // end try
                     catch (err) {
                         var finalobject = createfinalobject({"result": "recurseModObj_async_nextTick"}, {}, "recurseModObj_async_nextTick", err, inpKey);
-                        console.log('** Error Caught in the recurseModObj() function in et-utils.js during mapSeries call on "todolist" ** => ' + JSON.stringify(err));
+                        console.log('** Error Caught in the recurseModObj() function in et-utils.js during mapSeries call on "todolist" ** => ' + err);
                         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                        cbMap(finalobject.err, finalobject.res);
                     }
@@ -1119,7 +1119,7 @@ function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result": "recurseModObj"}, {}, "recurseModObj", err, inbound_parameters_110);
-        console.log('** Error Caught in the recurseModObj() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** Error Caught in the recurseModObj() function in et-utils.js ** => ' + err);
         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }
@@ -1502,7 +1502,7 @@ function getRandomNumberByLength(length) {
                     catch (err) {
                         var finalobject = createfinalobject({"result": "getnewwid_execute"}, {}, "getnewwid_execute", err, result);
                         console.log('** Error Caught in the getnewwid() function in'
-                            + ' et-utils.js during processing of execute() results ** => ' + JSON.stringify(err));
+                            + ' et-utils.js during processing of execute() results ** => ' + err);
                         console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                         callback(finalobject.err, finalobject.res);
                     }
@@ -1511,7 +1511,7 @@ function getRandomNumberByLength(length) {
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "getnewwid"}, {}, "getnewwid", err, result);
-            console.log('** Error Caught in the getnewwid() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the getnewwid() function in et-utils.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -1606,7 +1606,7 @@ function getRandomNumberByLength(length) {
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "remove"}, {}, "remove", err, inbound_parameters);
-            console.log('** Error Caught in the remove() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the remove() function in et-utils.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             return finalobject;
         }
@@ -1695,7 +1695,7 @@ function getRandomNumberByLength(length) {
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "tolowerparameters"}, {}, "tolowerparameters", err, inbound_parameters);
-            console.log('** Error Caught in the getcommand() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the getcommand() function in et-utils.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             return finalobject;
         }
@@ -1772,7 +1772,7 @@ function getRandomNumberByLength(length) {
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "tolowerparameters"}, {}, "tolowerparameters", err, inbound_parameters);
-            console.log('** Error Caught in the tolowerparameters() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the tolowerparameters() function in et-utils.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             return finalobject;
         }
@@ -3045,7 +3045,7 @@ function getRandomNumberByLength(length) {
         }
         catch (err) {
             var finalobject = createfinalobject({"result": "master_test_and_verify"}, {}, "master_test_and_verify", err, result);
-            console.log('** Error Caught in the master_test_and_verify() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the master_test_and_verify() function in et-utils.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -3091,7 +3091,7 @@ function getRandomNumberByLength(length) {
         }
         catch (err) {
             var finalobject = createfinalobject({"result": "test_and_verify"}, {}, "test_and_verify", err, result);
-            console.log('** Error Caught in the test_and_verify() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the test_and_verify() function in et-utils.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }

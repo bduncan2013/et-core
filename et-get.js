@@ -256,7 +256,7 @@
         } // end try 
         catch (err) {
             var finalobject = createfinalobject({"result": "getwidmaster"}, {}, "getwidmaster", err, inbound_parameters);
-            console.log('** Error Caught in the getwidmaster() function in et-get.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the getwidmaster() function in et-get.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -561,7 +561,7 @@
         catch (err) {
             //callback ({"status":"there was an error"}, {"function":"getdtoobject"}); 
             var finalobject = createfinalobject({"result": "getdtoobject"}, {}, "getdtoobject", err, inbound_parameters);
-            console.log('** Error Caught in the getdtoobject() function in et-get.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the getdtoobject() function in et-get.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -675,7 +675,7 @@
                             var finalobject = createfinalobject({
                                 "result": "getWidMongo_async_step1"
                             }, {}, "getWidMongo_async_step1", err, res);
-                            console.log('** Error Caught in the getWidMongo() function in et-get.js during getWidMongo_async_step1 ** => ' + JSON.stringify(err));
+                            console.log('** Error Caught in the getWidMongo() function in et-get.js during getWidMongo_async_step1 ** => ' + err);
                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                             cb(finalobject.err, finalobject.res);
                         }
@@ -764,7 +764,7 @@
                                                 "result": "getclean_async_nexttick getwidmong"
                                             }, {}, "getclean_async_nexttick", err, res);
                                             console.log('** Error Caught in the getWidMongo() function'
-                                                + ' in et-get.js during getclean)async_nexttick ** => ' + JSON.stringify(err));
+                                                + ' in et-get.js during getclean)async_nexttick ** => ' + err);
                                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                             cbMap(finalobject.err, finalobject.res);
                                         }
@@ -827,7 +827,7 @@
                                                         "result": "getWidMongo_processoverride_execute_II"
                                                     }, {}, "getWidMongo_processoverride_execute_II", err, 'step2n1');
                                                     console.log('** Error Caught in the getWidMongo() function in'
-                                                        + ' et-get.js during getWidMongo_processoveride_execute_II ** => ' + JSON.stringify(err));
+                                                        + ' et-get.js during getWidMongo_processoveride_execute_II ** => ' + err);
                                                     console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                                     cb1(finalobject.err, finalobject.res);
                                                 }
@@ -1076,7 +1076,7 @@
                                                 "result": "getWidMongo_async_nexttick"
                                             }, {}, "getWidMongo_async_nexttick", err, eachresult);
                                             console.log('** Error Caught in the getWidMongo() function in'
-                                                + ' et-get.js during getWidMongo_async_nexttick ** => ' + JSON.stringify(err));
+                                                + ' et-get.js during getWidMongo_async_nexttick ** => ' + err);
                                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                             cbMap(finalobject.err, finalobject.res);
                                         }
@@ -1252,7 +1252,7 @@
                         } // end try
                         catch (err) {
                             var finalobject = createfinalobject({"result": "getWidMongo_end_async"}, {}, "getWidMongo_end_async", err, results);
-                            console.log('** Error Caught in the getWidMongo() function in et-get.js during getWidMongo_end_async ** => ' + JSON.stringify(err));
+                            console.log('** Error Caught in the getWidMongo() function in et-get.js during getWidMongo_end_async ** => ' + err);
                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                             callback(finalobject.err, finalobject.res);
                         }
@@ -1261,7 +1261,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "getWidMongo"}, {}, "getWidMongo", err, inbound_parameters);
-            console.log('** Error Caught in the getWidMongo() function in et-get.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the getWidMongo() function in et-get.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
@@ -1455,7 +1455,7 @@
                                             var finalobject = createfinalobject({
                                                 "result": "getclean_async_nexttick"
                                             }, {}, "getclean_async_nexttick", err, inbound_parameters);
-                                            console.log('** Error Caught in the getclean() function in et-get.js during getclean_async_nexttick ** => ' + JSON.stringify(err));
+                                            console.log('** Error Caught in the getclean() function in et-get.js during getclean_async_nexttick ** => ' + err);
                                             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                             cbMap(finalobject.err, finalobject.res);
                                         }
@@ -1538,7 +1538,7 @@
                             } // end try
                             catch (err) {
                                 var finalobject = createfinalobject({"result": "getclean_deepfilter"}, {}, "getclean_deepfilter", err, resultObj);
-                                console.log('** Error Caught in the getclean() function in et-get.js during getclean_deepfilter ** => ' + JSON.stringify(err));
+                                console.log('** Error Caught in the getclean() function in et-get.js during getclean_deepfilter ** => ' + err);
                                 console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                                 callback(finalobject.err, finalobject.res);
                             }
@@ -1549,7 +1549,7 @@
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "getclean"}, {}, "getclean", err, inbound_parameters);
-            console.log('** Error Caught in the getclean() function in et-get.js ** => ' + JSON.stringify(err));
+            console.log('** Error Caught in the getclean() function in et-get.js ** => ' + err);
             console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
