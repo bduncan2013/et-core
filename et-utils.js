@@ -66,9 +66,7 @@ exports.getfromlocal = getfromlocal = function getfromlocal(inputWidgetObject) {
     //         output = {};
     //     }
     output = localStore.get(inputWidgetObject);
-        if (output == null) {
-            output = {};
-        }
+    if (output == null) { output = {}; }
     proxyprinttodiv('getfromlocal output', output, 38);
     return output;
 };
@@ -77,22 +75,9 @@ exports.clearLocal = clearLocal = function clearLocal() {
     // widMasterKey = "widmaster_";
     localStore.clear();
     potentialwid = 0;
-    // addToLocal("maincollection", [{
-    //     "wid": "initialwid",
-    //     "initialwid": "hello from bootprocess"
-    // }]);
-    // addToLocal("maincollectionkey", {
-    //     "initialwid": {
-    //         "wid": "initialwid",
-    //         "initialwid": "for key hello from bootprocess"
-    //     }
-    // });
 };
 
-
 function getdatabaseinfo(command, datastore, collection, keycollection, db, databasetable) {
-
-   
     proxyprinttodiv('Function getdatabaseinfo collection', collection,12);
     proxyprinttodiv('Function getdatabaseinfo keycollection', keycollection,12);
     proxyprinttodiv('Function getdatabaseinfo datastore', datastore,12);
@@ -189,7 +174,7 @@ exports.copywid = copywid = copywid = function copywid(inputobj, callback) {
         
         //2. call updatewid fn with get result wid, towid, todb, tocollection, todatastore
         var updatewidinput = {"wid":inputobj.towid, "command":{"db":filteredcommandobject.todb, "collection":filteredcommandobject.tocollection, "datastore":filteredcommandobject.todatastore, "databasetable":filteredcommandobject.todatabasetable}};
-        extend(true, updatewidinput, getwidresult)
+        extend(true, updatewidinput, getwidresult);
         proxyprinttodiv('Function copywid updatewidinput', updatewidinput, 18);
         updatewid(updatewidinput, function (err, updatewidresult){
             proxyprinttodiv('Function copywid updatewidresult', updatewidresult, 17);
@@ -208,255 +193,255 @@ exports.copywid = copywid = copywid = function copywid(inputobj, callback) {
             }
         });
     }); 
-}
+};
 
 
 exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject, callback) {
-    //try {
-    var originalarguments = {};
-    extend(true, originalarguments, inputWidgetObject);
+    try {
+        var originalarguments = {};
+        extend(true, originalarguments, inputWidgetObject);
 
-    var err = null;
-    var widName = inputWidgetObject['wid'];
-    var found = false;
-    var getdatabaseinforesult;
-    var database = {};
-    var keydatabase = {};
-    //var defaultdatastore;
-    //if (config.configuration.environment==="local") {defaultdatastore='localstorage';} else {defaultdatastore='mongo';}
-    var filter_data = getcommand(inputWidgetObject, {
-            "command": {
-                "datastore": config.configuration.defaultdatastore,
-                "collection":config.configuration.defaultcollection,
-                "keycollection":config.configuration.defaultkeycollection,
-                "db":config.configuration.defaultdb,
-                "databasetable":config.configuration.defaultdatabasetable,
-                "convertmethod":"toobject"
-            }
-        }, {
-            "command": {
-                "datastore": "",
-                "collection":"",
-                "keycollection":"",
-                "db":"",
-                "databasetable":"",
-                "convertmethod":""
-            }
-        },
-        true);
-
-    var command = filter_data.filteredobject;
-    proxyprinttodiv('Function datastore command', filter_data, 12);
-    var datastore= command.command.datastore;
-    var collection = command.command.collection;
-    var keycollection = command.command.keycollection;
-    var db = command.command.db;
-    var databasetable = command.command.databasetable;
-
-    var addedobject=converttodriformat(filter_data.output, command);
-    proxyprinttodiv('Function datastore command -- add inputWidgetObject addedobject', addedobject, 12);
-
-        if (widName) {
-            proxyprinttodiv('Function addtomongo inputWidgetObject addedobject', addedobject,12);
-            proxyprinttodiv('Function addtomongo widName', widName,12);
-            getdatabaseinforesult=getdatabaseinfo(command, datastore, collection, keycollection, db, databasetable); 
-            proxyprinttodiv('Function getwid getdatabaseinforesult update', getdatabaseinforesult,12);
-            //datastore=getdatabaseinforesult.datastore;
-            //collection=getdatabaseinforesult.collection;
-            //keycollection=getdatabaseinforesult.keycollection;
-
-        if ((datastore==='localstorage') || (datastore==='localstore')) {
-            database=getdatabaseinforesult.database;
-            keydatabase=getdatabaseinforesult.keydatabase;
-
-            proxyprinttodiv('Function addtomongo database', database,12);
-
-            for (var record in database) {
-                proxyprinttodiv('Function addtomongo database[record]', database[record],12);
-                if (database[record]["wid"] == widName) {
-                    database[record] = addedobject;
-                    proxyprinttodiv('Function addtomongo found', database[record],12);
-                    found = true;
-                    break;
+        var err = null;
+        var widName = inputWidgetObject['wid'];
+        var found = false;
+        var getdatabaseinforesult;
+        var database = {};
+        var keydatabase = {};
+        //var defaultdatastore;
+        //if (config.configuration.environment==="local") {defaultdatastore='localstorage';} else {defaultdatastore='mongo';}
+        var filter_data = getcommand(inputWidgetObject, {
+                "command": {
+                    "datastore": config.configuration.defaultdatastore,
+                    "collection":config.configuration.defaultcollection,
+                    "keycollection":config.configuration.defaultkeycollection,
+                    "db":config.configuration.defaultdb,
+                    "databasetable":config.configuration.defaultdatabasetable,
+                    "convertmethod":"toobject"
                 }
-            }
+            }, {
+                "command": {
+                    "datastore": "",
+                    "collection":"",
+                    "keycollection":"",
+                    "db":"",
+                    "databasetable":"",
+                    "convertmethod":""
+                }
+            },
+            true);
 
-            if (!found) {
-                database.push(addedobject);
-            }
-            proxyprinttodiv('Function addtomongo database after push', database,12);
-            keydatabase[widName] = addedobject;
+        var command = filter_data.filteredobject;
+        proxyprinttodiv('Function datastore command', filter_data, 12);
+        var datastore= command.command.datastore;
+        var collection = command.command.collection;
+        var keycollection = command.command.keycollection;
+        var db = command.command.db;
+        var databasetable = command.command.databasetable;
 
-            if  (datastore==="localstorage") {
-                //keydatabase = getFromLocalStorage(keycollection);
-                //keydatabase[widName] = inputWidgetObject;
-                addToLocalStorage(databasetable + collection, database);
-                addToLocalStorage(databasetable + keycollection, keydatabase);
-            }
-            else if (datastore==="localstore") {
-                //keydatabase = getfromlocal(keycollection);
-                //keydatabase[widName] = inputWidgetObject;
-                addtolocal(databasetable + collection, database); // &&& localstorage
-                addtolocal(databasetable + keycollection, keydatabase);
-            }
+        var addedobject=converttodriformat(filter_data.output, command);
+        proxyprinttodiv('Function datastore command -- add inputWidgetObject addedobject', addedobject, 12);
 
-            // addToAngular(widName, inputWidgetObject)
-            // the type of storage below is not needed
-            addToLocalStorage(databasetable+"_"+collection+"_"+ widName, addedobject);
-            //addtoangularstorage
-            proxyprinttodiv('Function datastore command -- add addedobject end', addedobject, 12);
-            callback(err, addedobject);
+            if (widName) {
+                proxyprinttodiv('Function addtomongo inputWidgetObject addedobject', addedobject,12);
+                proxyprinttodiv('Function addtomongo widName', widName,12);
+                getdatabaseinforesult=getdatabaseinfo(command, datastore, collection, keycollection, db, databasetable);
+                proxyprinttodiv('Function getwid getdatabaseinforesult update', getdatabaseinforesult,12);
+                //datastore=getdatabaseinforesult.datastore;
+                //collection=getdatabaseinforesult.collection;
+                //keycollection=getdatabaseinforesult.keycollection;
+
+            if ((datastore==='localstorage') || (datastore==='localstore')) {
+                database=getdatabaseinforesult.database;
+                keydatabase=getdatabaseinforesult.keydatabase;
+
+                proxyprinttodiv('Function addtomongo database', database,12);
+
+                for (var record in database) {
+                    if (database.hasOwnProperty(record)) {
+                        proxyprinttodiv('Function addtomongo database[record]', database[record],12);
+                        if (database[record]["wid"] == widName) {
+                            database[record] = addedobject;
+                            proxyprinttodiv('Function addtomongo found', database[record],12);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!found) {
+                    database.push(addedobject);
+                }
+                proxyprinttodiv('Function addtomongo database after push', database,12);
+                keydatabase[widName] = addedobject;
+
+                if  (datastore==="localstorage") {
+                    //keydatabase = getFromLocalStorage(keycollection);
+                    //keydatabase[widName] = inputWidgetObject;
+                    addToLocalStorage(databasetable + collection, database);
+                    addToLocalStorage(databasetable + keycollection, keydatabase);
+                }
+                else if (datastore==="localstore") {
+                    //keydatabase = getfromlocal(keycollection);
+                    //keydatabase[widName] = inputWidgetObject;
+                    addtolocal(databasetable + collection, database); // &&& localstorage
+                    addtolocal(databasetable + keycollection, keydatabase);
+                }
+
+                // addToAngular(widName, inputWidgetObject)
+                // the type of storage below is not needed
+                addToLocalStorage(databasetable+"_"+collection+"_"+ widName, addedobject);
+                //addtoangularstorage
+                proxyprinttodiv('Function datastore command -- add addedobject end', addedobject, 12);
+                callback(err, addedobject);
+            }
+            // else if (datastore==='angularstorage') { // if datastore == angularstorage
+            //     }
+            else if (datastore==='mongo') { // if datastore == mongo
+                madd(addedobject, command, function (err, res) {
+                    callback(err, res);
+                });
+            }
+            else {callback(null, {});}
         }
-        // else if (datastore==='angularstorage') { // if datastore == angularstorage
-        //     }
-        else if (datastore==='mongo') { // if datastore == mongo
-            madd(addedobject, command, function (err, res) {
-                callback(err, res);
-            });
+        else { // if no widName
+            callback(null, {}); // should have better error here
         }
-        else {callback(null, {});}
+    } // end try
+    catch (err) {
+        var finalobject = createfinalobject({"result": "updatewid"}, {}, "updatewid", err, originalarguments);
+        console.log('** Error Caught in the updatewid() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+        callback(finalobject.err, finalobject.res);
     }
-    else { // if no widName
-        callback(null, {}); // should have better error here
-    }
-    // } // end try
-    // catch (err) {
-    //     var finalobject =
-    //         createfinalobject({
-    //             "result": "updatewid"
-    //         }, {}, "updatewid", err, originalarguments);
-    //     callback(finalobject.err, finalobject.res);
-    // }
 };
 
 //function getfrommongo(inputWidgetObject) {
 exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
-    //try {
-    var originalarguments = {};
-    extend(true, originalarguments, inputWidgetObject);
-    var err = null;
-    var output = {};
-    var getdatabaseinforesult;
-    var widName = inputWidgetObject['wid'];
-    //var defaultdatastore;
-    //if (config.configuration.environment==="local") {defaultdatastore='localstorage';} else {defaultdatastore='mongo';}
+    try {
+        var originalarguments = {};
+        extend(true, originalarguments, inputWidgetObject);
+        var err = null;
+        var output = {};
+        var getdatabaseinforesult;
+        var widName = inputWidgetObject['wid'];
+        //var defaultdatastore;
+        //if (config.configuration.environment==="local") {defaultdatastore='localstorage';} else {defaultdatastore='mongo';}
 
-    var filter_data = getcommand(inputWidgetObject, {
-            "command": {
-                "datastore": config.configuration.defaultdatastore,
-                "collection":config.configuration.defaultcollection,
-                "keycollection":config.configuration.defaultkeycollection,
-                "db":config.configuration.defaultdb,
-                "databasetable":config.configuration.defaultdatabasetable,
-                "convertmethod":"toobject"
-            }
-        }, {
-            "command": {
-                "datastore": "",
-                "collection":"",
-                "keycollection":"",
-                "db":"",
-                "databasetable":"",
-                "convertmethod":""
-            }
-        },
-        true);
-    var command = filter_data.filteredobject;
-    proxyprinttodiv('Function datastore command -- get', filter_data, 12);
-    proxyprinttodiv('Function datastore command -- get inputWidgetObject', inputWidgetObject, 12);
-    var datastore= command.command.datastore;
-    var collection = command.command.collection;
-    var keycollection = command.command.keycollection;
-    var db = command.command.db;
-    var databasetable = command.command.databasetable;
+        var filter_data = getcommand(inputWidgetObject, {
+                "command": {
+                    "datastore": config.configuration.defaultdatastore,
+                    "collection":config.configuration.defaultcollection,
+                    "keycollection":config.configuration.defaultkeycollection,
+                    "db":config.configuration.defaultdb,
+                    "databasetable":config.configuration.defaultdatabasetable,
+                    "convertmethod":"toobject"
+                }
+            }, {
+                "command": {
+                    "datastore": "",
+                    "collection":"",
+                    "keycollection":"",
+                    "db":"",
+                    "databasetable":"",
+                    "convertmethod":""
+                }
+            },
+            true);
+        var command = filter_data.filteredobject;
+        proxyprinttodiv('Function datastore command -- get', filter_data, 12);
+        proxyprinttodiv('Function datastore command -- get inputWidgetObject', inputWidgetObject, 12);
+        var datastore= command.command.datastore;
+        var collection = command.command.collection;
+        var keycollection = command.command.keycollection;
+        var db = command.command.db;
+        var databasetable = command.command.databasetable;
 
-    if (widName) {
-        getdatabaseinforesult = getdatabaseinfo(command, datastore, collection, keycollection, db, databasetable);
-        proxyprinttodiv('Function getwid getdatabaseinforesult', getdatabaseinforesult,12);
-        //var datastore = getdatabaseinforesult.datastore;
-        //var db = getdatabaseinforesult.db;
-        if ((datastore==='localstorage') || (datastore==='localstore')) {
-            var keydatabase=getdatabaseinforesult.keydatabase;
-            proxyprinttodiv('Function getwid keydatabase', keydatabase,12);
-            output = keydatabase[widName];
-
-
-            // if (!keydatabase.hasOwnProperty(widName)) {
-            //     err=createfinalobject(outobject, command, nameoffn, errorobject, initialparameters)
-            //     }
-                // result": "executelist_getexecuteobject(jsonConcat"
-                //                                             }, {}, "executelist_getexecuteobject(jsonConcat", err, executeobject);
-                //                                             cbMapW(finalobject.err, finalobject.res);
-                //                                         }}
+        if (widName) {
+            getdatabaseinforesult = getdatabaseinfo(command, datastore, collection, keycollection, db, databasetable);
+            proxyprinttodiv('Function getwid getdatabaseinforesult', getdatabaseinforesult,12);
+            //var datastore = getdatabaseinforesult.datastore;
+            //var db = getdatabaseinforesult.db;
+            if ((datastore==='localstorage') || (datastore==='localstore')) {
+                var keydatabase=getdatabaseinforesult.keydatabase;
+                proxyprinttodiv('Function getwid keydatabase', keydatabase,12);
+                output = keydatabase[widName];
 
 
-            if (config.configuration.environment==="local") {
-                getfromangular(inputWidgetObject, function (err, resultobject) {
-                    if (!resultobject) { resultobject={}; }
-                    proxyprinttodiv('Function getwid from angularstorage', resultobject,12);
-                    output=extend(true, resultobject, output);
-                    proxyprinttodiv('Function getwid output', output,12);
+                // if (!keydatabase.hasOwnProperty(widName)) {
+                //     err=createfinalobject(outobject, command, nameoffn, errorobject, initialparameters)
+                //     }
+                    // result": "executelist_getexecuteobject(jsonConcat"
+                    //                                             }, {}, "executelist_getexecuteobject(jsonConcat", err, executeobject);
+                    //                                             cbMapW(finalobject.err, finalobject.res);
+                    //                                         }}
 
-                    // make sure data is bundled properly for convertfromdriformat()
-                    for (var prop in output) {
-                        if (output.hasOwnProperty(prop)) {
-                            if (prop !== 'wid' && prop !== 'metadata' && prop !== 'converttodriformat' && prop !== db) {
-                            //if (prop !== 'wid' && prop !== 'metadata' && prop !== 'converttodriformat' && prop !== 'data') {
-                                if (!output[db]) { output[db] = {}; }
-                                output[db][prop] = output[prop];
-                                delete output[prop];
+
+                if (config.configuration.environment==="local") {
+                    getfromangular(inputWidgetObject, function (err, resultobject) {
+                        if (!resultobject) { resultobject={}; }
+                        proxyprinttodiv('Function getwid from angularstorage', resultobject,12);
+                        output=extend(true, resultobject, output);
+                        proxyprinttodiv('Function getwid output', output,12);
+
+                        // make sure data is bundled properly for convertfromdriformat()
+                        for (var prop in output) {
+                            if (output.hasOwnProperty(prop)) {
+                                if (prop !== 'wid' && prop !== 'metadata' && prop !== 'converttodriformat' && prop !== db) {
+                                //if (prop !== 'wid' && prop !== 'metadata' && prop !== 'converttodriformat' && prop !== 'data') {
+                                    if (!output[db]) { output[db] = {}; }
+                                    output[db][prop] = output[prop];
+                                    delete output[prop];
+                                }
                             }
                         }
-                    }
 
+                        output=convertfromdriformat(output, command);
+                        proxyprinttodiv('Function getwid command.convertmethod >> 1', command.convertmethod,12);
+                        if (((Object.keys(output).length) > 0) && (command.convertmethod === 'toobject')) {
+                            output =  ConvertFromDOTdri(output);
+                        }
+                        proxyprinttodiv('Function datastore command -- get output 1', output, 12);
+                        callback(err, output);
+                    });
+                } else {
                     output=convertfromdriformat(output, command);
-                    proxyprinttodiv('Function getwid command.convertmethod >> 1', command.convertmethod,12);
                     if (((Object.keys(output).length) > 0) && (command.convertmethod === 'toobject')) {
                         output =  ConvertFromDOTdri(output);
                     }
-                    proxyprinttodiv('Function datastore command -- get output 1', output, 12);
+                    proxyprinttodiv('Function datastore command -- get output 2', output, 12);
                     callback(err, output);
+                }
+            }
+            else if (datastore==='mongo') {
+                mget(inputWidgetObject, command, function (err, output) {
+                    output=convertfromdriformat(output, command);
+                    if (((Object.keys(output).length) > 0) && (command.convertmethod === 'toobject')) {
+                        output =  ConvertFromDOTdri(output);
+                    }
+                    proxyprinttodiv('Function datastore command -- get output 3', output, 12);
+                    callback(err, output);
+                    //callback(err, resultobject);
                 });
             } else {
                 output=convertfromdriformat(output, command);
                 if (((Object.keys(output).length) > 0) && (command.convertmethod === 'toobject')) {
                     output =  ConvertFromDOTdri(output);
                 }
-                proxyprinttodiv('Function datastore command -- get output 2', output, 12);
+                proxyprinttodiv('Function datastore command -- get output 4', output, 12);
                 callback(err, output);
             }
-        }
-        else if (datastore==='mongo') {
-            mget(inputWidgetObject, command, function (err, output) {
-                output=convertfromdriformat(output, command);
-                if (((Object.keys(output).length) > 0) && (command.convertmethod === 'toobject')) {
-                    output =  ConvertFromDOTdri(output);
-                }
-                proxyprinttodiv('Function datastore command -- get output 3', output, 12);
-                callback(err, output);
-                //callback(err, resultobject);
-            });
-        } else {
-            output=convertfromdriformat(output, command);
-            if (((Object.keys(output).length) > 0) && (command.convertmethod === 'toobject')) {
-                output =  ConvertFromDOTdri(output);
-            }
-            proxyprinttodiv('Function datastore command -- get output 4', output, 12);
+        } else { // if no widname
+            err = {};
             callback(err, output);
         }
-    } else { // if no widname
-        err = {};
-        callback(err, output);
-    }
     //callback(err, output);
-    // } // end try
-    // catch (err) {
-    //     var finalobject =
-    //         createfinalobject({
-    //             "result": "updatewid"
-    //         }, {}, "updatewid", err, originalarguments);
-    //     callback(finalobject.err, finalobject.res);
-    // }
+    } // end try
+    catch (err) {
+        var finalobject = createfinalobject({"result": "updatewid"}, {}, "updatewid", err, originalarguments);
+        console.log('** Error Caught in the getwid() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+        callback(finalobject.err, finalobject.res);
+    }
 }; //End of getfrommongo function
 
 
@@ -540,7 +525,6 @@ exports.convertfromdriformat = convertfromdriformat = function convertfromdrifor
 
 exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, pretty) {
     try {
-
         var inbound_parameters = arguments;
         // if ((g_Debug == 'true') || (g_debuglevel == debugone) || (debugone == 12)) {
         //     printText = '<pre>' + text + '<br/>' + JSON.stringify(obj) + '</pre>';
@@ -562,6 +546,8 @@ exports.printToDiv = printToDiv = function printToDiv(text, obj, debugone, prett
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result":"printToDiv"}, {}, "printToDiv", err, inbound_parameters);
+        console.log('** Error Caught in the printToDiv() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
         callback(finalobject.err, finalobject.res);
     }
 };
@@ -593,7 +579,8 @@ exports.proxyprinttodiv = proxyprinttodiv = function proxyprinttodiv(text, obj, 
     } // end try
     catch (err) {
         var finalobject = createfinalobject({"result":"proxyprinttodiv"}, {}, "proxyprinttodiv", err, inbound_parameters);
-        //callback(finalobject.err, finalobject.res);
+        console.log('** Error Caught in the proxyprinttodiv() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
     }
 };
 
@@ -676,28 +663,30 @@ function getindex(parameterobject, dtoname, indexstring) {
         return "";
     } else {
         for (var eachelement in parameterobject) {
-            proxyprinttodiv('Function getindex eachelement', eachelement, 23);
-            if (eachelement === dtoname) {
-                if (indexstring) {
-                    indexstring = indexstring + '.' + eachelement;
-                } else {
-                    indexstring = eachelement;
-                }
-                proxyprinttodiv('Function indexstring FOUND', indexstring, 23);
-                break;
-            }
-
-            if (parameterobject[eachelement] instanceof Object) {
-                if (indexstring) {
-                    potentialmap = indexstring + '.' + eachelement;
-                } else {
-                    potentialmap = eachelement;
-                }
-                match = getindex(parameterobject[eachelement], dtoname, potentialmap);
-                if (potentialmap !== match) {
-                    indexstring = match;
-                    proxyprinttodiv('Function match inside', match, 23);
+            if (parameterobject.hasOwnProperty(eachelement)) {
+                proxyprinttodiv('Function getindex eachelement', eachelement, 23);
+                if (eachelement === dtoname) {
+                    if (indexstring) {
+                        indexstring = indexstring + '.' + eachelement;
+                    } else {
+                        indexstring = eachelement;
+                    }
+                    proxyprinttodiv('Function indexstring FOUND', indexstring, 23);
                     break;
+                }
+
+                if (parameterobject[eachelement] instanceof Object) {
+                    if (indexstring) {
+                        potentialmap = indexstring + '.' + eachelement;
+                    } else {
+                        potentialmap = eachelement;
+                    }
+                    match = getindex(parameterobject[eachelement], dtoname, potentialmap);
+                    if (potentialmap !== match) {
+                        indexstring = match;
+                        proxyprinttodiv('Function match inside', match, 23);
+                        break;
+                    }
                 }
             }
         }
@@ -781,9 +770,6 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
         return _in_obj;
     } // end fn recurse
 
-
-
-
     //console.log("<< in deepfilter >>");
     var modifiedObj = {};
     extend(true, modifiedObj, inputObj);
@@ -793,21 +779,14 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
     var inbound_parameters_110 = arguments;
     if (command && command.deepfilter && command.deepfilter.convert===undefined) { //if command.deepfilter.convert undefined
         convert = false; //default value
-    } else {
-        convert=command.deepfilter.convert;
-
-    }
+    } else { convert=command.deepfilter.convert; }
     if (command && command.deepfilter && command.deepfilter.totype===undefined) { //if command.deepfilter.totype undefined
         totype = false; //default value
-    } else {
-        totype=command.deepfilter.totype;
-    }
+    } else { totype=command.deepfilter.totype; }
 
     if (command && command.deepfilter && command.deepfilter.keepaddthis===undefined) { //if command.deepfilter.totype undefined
         keepaddthis = false; //default value -- normally will try to remove addthis at add and get
-    } else {
-        keepaddthis=command.deepfilter.keepaddthis;
-    }
+    } else { keepaddthis=command.deepfilter.keepaddthis; }
 
     proxyprinttodiv("deepfilter inputObj", inputObj, 41);
     proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
@@ -828,324 +807,322 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
     }
 };
 
-
-
-
-
-
 function recurseModObj(inputObject, dtoObject, convert, totype, callback) {
     proxyprinttodiv("recurseModObj - inputObject ", inputObject, 41);
     proxyprinttodiv("recurseModObj - dtoObject ", dtoObject, 41);
-//try {   
+    try {
+        var temparray = [];
+        var modifiedObj = {};
+        var todolist = [];
+        Object.keys(dtoObject).forEach(function (inpKey) {
+            //for (eachkey in inputObject) {
+            todolist.push(inpKey);
+            //}
+        });
+        proxyprinttodiv("recurseModObj - todolist ", todolist, 41);
 
-    var temparray = [];
-    var modifiedObj = {};
-    var todolist = [];
-    Object.keys(dtoObject).forEach(function (inpKey) {
-        //for (eachkey in inputObject) {
-        todolist.push(inpKey);
-        //}
-    });
-    proxyprinttodiv("recurseModObj - todolist ", todolist, 41);
-
-    async.mapSeries(todolist, function (inpKey, cbMap) {
-            proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
-            async.nextTick(function () {
-                //try {
-                var inpVal = inputObject[inpKey];
-                if (inpVal && dtoObject.hasOwnProperty(inpKey)) {
-                    var dataType = dtoObject[inpKey];
-                    //if (inpVal instanceof Array) {
-                    if ((isArray(inpVal)) || (isArray(dataType))) {
-                        if (!isArray(inpVal)) {
-                            temparray = [];
-                            temparray.push(inpVal);
-                            inpVal = temparray;
-                        }
-                        if (isArray(dataType)) {
-                            dataType = dataType[0]
-                        }
-                        if (!modifiedObj[inpKey]) {
-                            modifiedObj[inpKey] = [];
-                        }
-                        proxyprinttodiv("recurseModObj - before mapseries inpKey ", inpKey, 41);
-                        proxyprinttodiv("recurseModObj - before mapseries inpVal ", inpVal, 41);
-                        proxyprinttodiv("recurseModObj - before mapseries inpVal isArray", isArray(inpVal), 41);
-                        proxyprinttodiv("recurseModObj - before mapseries dataType ", dataType, 41);
-                        async.mapSeries(inpVal, function (eachinputval, cb1) { // step through each inpVal
-                                async.nextTick(function () {
-                                    proxyprinttodiv("recurseModObj - in mapseries eachinputval ", eachinputval, 41);
-                                    if(eachinputval){
-                                        recurseModObj(eachinputval, dataType, convert, totype, function (err, result) {
-                                            // If error, bounce out
-                                            if (err && Object.keys(err).length > 0) {
-                                                cb1(err, result);
-                                            } else {
-                                                //try {
-                                                proxyprinttodiv("recurseModObj - in mapseries result ", result, 41);
-                                                if (Object.keys(result).length !== 0) {
-                                                    modifiedObj[inpKey].push(result);
-                                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] ", modifiedObj[inpKey], 41);
-                                                    proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
-                                                }
-                                                proxyprinttodiv("recurseModObj - after if ", modifiedObj[inpKey], 41);
+        async.mapSeries(todolist, function (inpKey, cbMap) {
+                proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
+                async.nextTick(function () {
+                    try {
+                        var inpVal = inputObject[inpKey];
+                        if (inpVal && dtoObject.hasOwnProperty(inpKey)) {
+                            var dataType = dtoObject[inpKey];
+                            //if (inpVal instanceof Array) {
+                            if ((isArray(inpVal)) || (isArray(dataType))) {
+                                if (!isArray(inpVal)) {
+                                    temparray = [];
+                                    temparray.push(inpVal);
+                                    inpVal = temparray;
+                                }
+                                if (isArray(dataType)) {
+                                    dataType = dataType[0]
+                                }
+                                if (!modifiedObj[inpKey]) {
+                                    modifiedObj[inpKey] = [];
+                                }
+                                proxyprinttodiv("recurseModObj - before mapseries inpKey ", inpKey, 41);
+                                proxyprinttodiv("recurseModObj - before mapseries inpVal ", inpVal, 41);
+                                proxyprinttodiv("recurseModObj - before mapseries inpVal isArray", isArray(inpVal), 41);
+                                proxyprinttodiv("recurseModObj - before mapseries dataType ", dataType, 41);
+                                async.mapSeries(inpVal, function (eachinputval, cb1) { // step through each inpVal
+                                        async.nextTick(function () {
+                                            proxyprinttodiv("recurseModObj - in mapseries eachinputval ", eachinputval, 41);
+                                            if(eachinputval){
+                                                recurseModObj(eachinputval, dataType, convert, totype, function (err, result) {
+                                                    // If error, bounce out
+                                                    if (err && Object.keys(err).length > 0) {
+                                                        cb1(err, result);
+                                                    } else {
+                                                        //try {
+                                                        proxyprinttodiv("recurseModObj - in mapseries result ", result, 41);
+                                                        if (Object.keys(result).length !== 0) {
+                                                            modifiedObj[inpKey].push(result);
+                                                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] ", modifiedObj[inpKey], 41);
+                                                            proxyprinttodiv("recurseModObj - modifiedObj ", modifiedObj, 41);
+                                                        }
+                                                        proxyprinttodiv("recurseModObj - after if ", modifiedObj[inpKey], 41);
+                                                        cb1(null);
+                                                        //}
+                                                        //catch (err) {
+                                                        //    var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj"}, {}, "recurseModObj_recurseModObj", err, result);
+                                                        //    cb1(finalobject.err, finalobject.res);
+                                                        //}
+                                                    }
+                                                }); // recurse
+                                            }else{
+                                                modifiedObj[inpKey] = null;
+                                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] after undefined input ", modifiedObj[inpKey], 41);
                                                 cb1(null);
-                                                //}
-                                                //catch (err) {
-                                                //    var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj"}, {}, "recurseModObj_recurseModObj", err, result);
-                                                //    cb1(finalobject.err, finalobject.res);
-                                                //}
                                             }
-                                        }); // recurse
-                                    }else{
-                                        modifiedObj[inpKey] = null;
-                                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] after undefined input ", modifiedObj[inpKey], 41);
-                                        cb1(null);
-                                    }
-                                    proxyprinttodiv("recurseModObj - between ", modifiedObj[inpKey], 41);
-                                }); // next tick
-                                proxyprinttodiv("recurseModObj - between II ", modifiedObj[inpKey], 41);
-                            },
-                            function (err, res) {
-                                // If error, bounce out
-                                if (err && Object.keys(err).length > 0) {
-                                    cbMap(err, res);
-                                } else {
-                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] end nextTick ", modifiedObj[inpKey], 41);
-                                    cbMap(null);
-                                }
-                            });
-                    } else if ( dataType === "boolean" || dataType === "string" || dataType === "number" ||
-                        dataType === "date" || dataType === "integer" || dataType === "shortguid" ||
-                        dataType === "guid" || dataType === "hash" || dataType === "phone" ||
-                        dataType === "random4") {
-
-                        /*
-                         For below cases,
-                         if input provided, then no change
-                         if input not provided, then set new values
-                         */
-                        if(inpVal === undefined || inpVal === "undefined") {
-                            switch (dataType) {
-                                case "shortguid":   //to create 5 digit alphanumeric string
-                                    //modifiedObj[inpKey] = createNewShortGuid();
-                                    inpVal = createNewShortGuid();
-                                    break;
-                                case "guid":
-                                    //modifiedObj[inpKey] = createNewGuid();
-                                    inpVal = createNewGuid();
-                                    break;
-                                case "random4": //to create 4 digit number
-                                    //modifiedObj[inpKey] = createNewRandom4DigitNumber();
-                                    inpVal = createNewRandom4DigitNumber();
-                                    break;
-                            }
-                        }
-
-                        switch (dataType) {
-                            // placeholders, these may need to be fleshed out per roger, thats why the set value logic is here and not above
-                            case "shortguid":   //to create 5 digit alphanumeric string
-                                modifiedObj[inpKey] = inpVal;
-                                break;
-                            case "guid":
-                                modifiedObj[inpKey] = inpVal;
-                                break;
-                            case "random4": //to create 4 digit number
-                                modifiedObj[inpKey] = inpVal;
-                                break;
-                            case "boolean":
-                                if (inpVal === true || inpVal == "true") {
-
-                                    if (convert === false) {
-                                        modifiedObj[inpKey] = inpVal;
-                                    } else {
-                                        if (totype===true) {modifiedObj[inpKey] = true;} else {modifiedObj[inpKey] = "true";}
-                                    }
-
-                                    //modifiedObj[inpKey] = true;
-                                } else if (inpVal === false || inpVal == "false") {
-
-                                    if (convert === false) {
-                                        modifiedObj[inpKey] = inpVal;
-                                    } else {
-                                        if (totype===true) {modifiedObj[inpKey] = false;} else {modifiedObj[inpKey] = "false";}
-                                    }
-                                    //modifiedObj[inpKey] = false;
-                                }
-                                break;
-
-                            case "string":
-                                if (isString(inpVal)) {
-                                    if (convert === false) {
-                                        modifiedObj[inpKey] = inpVal;
-                                    } else {
-                                        if (totype===true) {modifiedObj[inpKey] = String(inpVal);} else {modifiedObj[inpKey] = String(inpVal);}
-                                    }
-                                    //modifiedObj[inpKey] = String(inpVal);
-                                }
-                                break;
-                            case "number":
-                            case "integer":
-                                if(parseInt(inpVal)){
-                                    if (convert === false) {
-                                        modifiedObj[inpKey] = inpVal;
-                                    } else {
-                                        if (totype===true) {modifiedObj[inpKey] = parseInt(inpVal);} else {modifiedObj[inpKey] = String(inpVal);}
-                                    }
-                                    //modifiedObj[inpKey] = parseInt(inpVal);
-                                }
-                                break;
-                            case "date":
-                                /*
-                                 var arrD = inpVal.split("/");
-                                 var m = arrD[0];
-                                 m = (m < 38 ? '0' + m : m);
-                                 var d = arrD[1];
-                                 d = (d < 38 ? '0' + d : d);
-                                 var y = arrD[2];
-                                 var date = new Date(y, m - 1, d);
-                                 // add a day
-                                 date.setDate(date.getDate() + 1);
-                                 modifiedObj[inpKey] = date;
-                                 */
-                                if(inpVal){
-                                    var d=new Date(inpVal);
-                                    if(!isNaN(d)){
-                                        if (convert === false) {
-                                            modifiedObj[inpKey] = inpVal;
+                                            proxyprinttodiv("recurseModObj - between ", modifiedObj[inpKey], 41);
+                                        }); // next tick
+                                        proxyprinttodiv("recurseModObj - between II ", modifiedObj[inpKey], 41);
+                                    },
+                                    function (err, res) {
+                                        // If error, bounce out
+                                        if (err && Object.keys(err).length > 0) {
+                                            cbMap(err, res);
                                         } else {
-                                            if (totype===true) {modifiedObj[inpKey] = d.toISOString();} else {modifiedObj[inpKey] = String(inpVal);}
+                                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] end nextTick ", modifiedObj[inpKey], 41);
+                                            cbMap(null);
                                         }
-                                        //modifiedObj[inpKey] = d.toISOString();
-                                    }
-                                }
-                                break;
-                            case "hash":
-                                if(inpVal && inpVal.length>=6){
-                                    if (convert === false) {
-                                        modifiedObj[inpKey] = inpVal;
-                                    } else {
-                                        if (totype===true) {modifiedObj[inpKey] = parseToHashFormat(inpVal);} else {modifiedObj[inpKey] = String(inpVal);}
-                                    }
-                                    //if(inpVal && inpVal.length>=6){
-                                    //    modifiedObj[inpKey] = parseHashFormatToString(inpVal);
-                                    //}          
-                                    //modifiedObj[inpKey] = parseToHashFormat(inpVal); 
-                                }
-                                break;
-                            case "phone":   //+9 129 129 1212
-                                if(inpVal && inpVal.length>=11){
-                                    if (convert === false) {
-                                        modifiedObj[inpKey] = inpVal;
-                                    } else {
-                                        if (totype===true) {modifiedObj[inpKey] = parseToPhoneFormat(inpVal);} else {modifiedObj[inpKey] = String(inpVal);}
-                                    }
-                                    //if(inpVal && inpVal.length>=11){
-                                    //    modifiedObj[inpKey] = parsePhoneFormatToString(inpVal);
-                                    // }
-                                    //modifiedObj[inpKey] = parseToPhoneFormat(inpVal);
-                                }
-                                break;
-                        }
+                                    });
+                            } else if ( dataType === "boolean" || dataType === "string" || dataType === "number" ||
+                                dataType === "date" || dataType === "integer" || dataType === "shortguid" ||
+                                dataType === "guid" || dataType === "hash" || dataType === "phone" ||
+                                dataType === "random4") {
 
-                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
-                        cbMap(null);
-                        //} else if(typeof inpVal === "object" &&  dataType === "object") {
-                        //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {  //Ignoring metadata property in input.
-                    } else if(inpVal instanceof Array) {
-                        async.mapSeries(inpVal, function (eachinputval, cb1) {
-                            async.nextTick(function () {
-                                recurseModObj(eachinputval, dataType, convert, totype, function (err, result) {
-                                    modifiedObj[inpKey] = result;
-                                    cb1(null)
-                                }); // recurse
-                            }); // next tick
-                        }); // mapseries
-                        cbMap(null);
-                    } else if ((typeof inpVal === "object")) {
-                        proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
-                        if (inpKey !== "metadata") {    //Ignoring metadata property in input.
-                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
-                            recurseModObj(inpVal, dataType, convert, totype, function (err, result) {
-                                // If error, bounce out
-                                if (err && Object.keys(err).length > 0) {
-                                    cbMap(err, result);
-                                } else {
-                                    //try {
-                                    //var modObj = recurseModObj(inpVal, dataType, convert, totype,
-                                    modifiedObj[inpKey] = result;
-                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
-                                    cbMap(null);
-                                    //}
-                                    //catch (err) {
-                                    //    var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II"}, {}, "recurseModObj_recurseModObj_II", err, result);
-                                    //    cbMap(finalobject.err, finalobject.res);
-                                    //}
+                                /*
+                                 For below cases,
+                                 if input provided, then no change
+                                 if input not provided, then set new values
+                                 */
+                                if(inpVal === undefined || inpVal === "undefined") {
+                                    switch (dataType) {
+                                        case "shortguid":   //to create 5 digit alphanumeric string
+                                            //modifiedObj[inpKey] = createNewShortGuid();
+                                            inpVal = createNewShortGuid();
+                                            break;
+                                        case "guid":
+                                            //modifiedObj[inpKey] = createNewGuid();
+                                            inpVal = createNewGuid();
+                                            break;
+                                        case "random4": //to create 4 digit number
+                                            //modifiedObj[inpKey] = createNewRandom4DigitNumber();
+                                            inpVal = createNewRandom4DigitNumber();
+                                            break;
+                                    }
                                 }
-                            });
+
+                                switch (dataType) {
+                                    // placeholders, these may need to be fleshed out per roger, thats why the set value logic is here and not above
+                                    case "shortguid":   //to create 5 digit alphanumeric string
+                                        modifiedObj[inpKey] = inpVal;
+                                        break;
+                                    case "guid":
+                                        modifiedObj[inpKey] = inpVal;
+                                        break;
+                                    case "random4": //to create 4 digit number
+                                        modifiedObj[inpKey] = inpVal;
+                                        break;
+                                    case "boolean":
+                                        if (inpVal === true || inpVal == "true") {
+
+                                            if (convert === false) {
+                                                modifiedObj[inpKey] = inpVal;
+                                            } else {
+                                                if (totype===true) {modifiedObj[inpKey] = true;} else {modifiedObj[inpKey] = "true";}
+                                            }
+
+                                            //modifiedObj[inpKey] = true;
+                                        } else if (inpVal === false || inpVal == "false") {
+
+                                            if (convert === false) {
+                                                modifiedObj[inpKey] = inpVal;
+                                            } else {
+                                                if (totype===true) {modifiedObj[inpKey] = false;} else {modifiedObj[inpKey] = "false";}
+                                            }
+                                            //modifiedObj[inpKey] = false;
+                                        }
+                                        break;
+
+                                    case "string":
+                                        if (isString(inpVal)) {
+                                            if (convert === false) {
+                                                modifiedObj[inpKey] = inpVal;
+                                            } else {
+                                                if (totype===true) {modifiedObj[inpKey] = String(inpVal);} else {modifiedObj[inpKey] = String(inpVal);}
+                                            }
+                                            //modifiedObj[inpKey] = String(inpVal);
+                                        }
+                                        break;
+                                    case "number":
+                                    case "integer":
+                                        if(parseInt(inpVal)){
+                                            if (convert === false) {
+                                                modifiedObj[inpKey] = inpVal;
+                                            } else {
+                                                if (totype===true) {modifiedObj[inpKey] = parseInt(inpVal);} else {modifiedObj[inpKey] = String(inpVal);}
+                                            }
+                                            //modifiedObj[inpKey] = parseInt(inpVal);
+                                        }
+                                        break;
+                                    case "date":
+                                        /*
+                                         var arrD = inpVal.split("/");
+                                         var m = arrD[0];
+                                         m = (m < 38 ? '0' + m : m);
+                                         var d = arrD[1];
+                                         d = (d < 38 ? '0' + d : d);
+                                         var y = arrD[2];
+                                         var date = new Date(y, m - 1, d);
+                                         // add a day
+                                         date.setDate(date.getDate() + 1);
+                                         modifiedObj[inpKey] = date;
+                                         */
+                                        if(inpVal){
+                                            var d=new Date(inpVal);
+                                            if(!isNaN(d)){
+                                                if (convert === false) {
+                                                    modifiedObj[inpKey] = inpVal;
+                                                } else {
+                                                    if (totype===true) {modifiedObj[inpKey] = d.toISOString();} else {modifiedObj[inpKey] = String(inpVal);}
+                                                }
+                                                //modifiedObj[inpKey] = d.toISOString();
+                                            }
+                                        }
+                                        break;
+                                    case "hash":
+                                        if(inpVal && inpVal.length>=6){
+                                            if (convert === false) {
+                                                modifiedObj[inpKey] = inpVal;
+                                            } else {
+                                                if (totype===true) {modifiedObj[inpKey] = parseToHashFormat(inpVal);} else {modifiedObj[inpKey] = String(inpVal);}
+                                            }
+                                            //if(inpVal && inpVal.length>=6){
+                                            //    modifiedObj[inpKey] = parseHashFormatToString(inpVal);
+                                            //}
+                                            //modifiedObj[inpKey] = parseToHashFormat(inpVal);
+                                        }
+                                        break;
+                                    case "phone":   //+9 129 129 1212
+                                        if(inpVal && inpVal.length>=11){
+                                            if (convert === false) {
+                                                modifiedObj[inpKey] = inpVal;
+                                            } else {
+                                                if (totype===true) {modifiedObj[inpKey] = parseToPhoneFormat(inpVal);} else {modifiedObj[inpKey] = String(inpVal);}
+                                            }
+                                            //if(inpVal && inpVal.length>=11){
+                                            //    modifiedObj[inpKey] = parsePhoneFormatToString(inpVal);
+                                            // }
+                                            //modifiedObj[inpKey] = parseToPhoneFormat(inpVal);
+                                        }
+                                        break;
+                                }
+
+                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] I ", modifiedObj[inpKey], 41);
+                                cbMap(null);
+                                //} else if(typeof inpVal === "object" &&  dataType === "object") {
+                                //} else if((typeof inpVal === "object") &&  (typeof dataType === "object")) {  //Ignoring metadata property in input.
+                            } else if(inpVal instanceof Array) {
+                                async.mapSeries(inpVal, function (eachinputval, cb1) {
+                                    async.nextTick(function () {
+                                        recurseModObj(eachinputval, dataType, convert, totype, function (err, result) {
+                                            modifiedObj[inpKey] = result;
+                                            cb1(null)
+                                        }); // recurse
+                                    }); // next tick
+                                }); // mapseries
+                                cbMap(null);
+                            } else if ((typeof inpVal === "object")) {
+                                proxyprinttodiv("typeof inpVal (object) - ", inpVal, 41);
+                                if (inpKey !== "metadata") {    //Ignoring metadata property in input.
+                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] II ", modifiedObj[inpKey], 41);
+                                    recurseModObj(inpVal, dataType, convert, totype, function (err, result) {
+                                        // If error, bounce out
+                                        if (err && Object.keys(err).length > 0) {
+                                            cbMap(err, result);
+                                        } else {
+                                            //try {
+                                            //var modObj = recurseModObj(inpVal, dataType, convert, totype,
+                                            modifiedObj[inpKey] = result;
+                                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] III ", modifiedObj[inpKey], 41);
+                                            cbMap(null);
+                                            //}
+                                            //catch (err) {
+                                            //    var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II"}, {}, "recurseModObj_recurseModObj_II", err, result);
+                                            //    cbMap(finalobject.err, finalobject.res);
+                                            //}
+                                        }
+                                    });
+                                } else {
+                                    modifiedObj[inpKey] = inpVal;
+                                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] IV", modifiedObj[inpKey], 41);
+                                    cbMap(null);
+                                }
+                            } else {
+                                // to read wid obj via getwidmaster
+                                execute({
+                                    "executethis": dataType
+                                }, function (err, result) {
+                                    // If error, bounce out
+                                    if (err && Object.keys(err).length > 0) {
+                                        cbMap(err, result);
+                                    } else {
+                                        //try {
+                                        //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
+                                        var widObj = result[0][0];
+                                        if (widObj) {
+                                            if (widObj.hasOwnProperty(inpVal)) {
+                                                modifiedObj[inpKey] = inpVal;
+                                            }
+                                        }
+                                        proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);
+                                        cbMap(null);
+                                        //}
+                                        // catch (err) {
+                                        var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II_execute"}, {}, "recurseModObj_recurseModObj_II_execute", err, result);
+                                        cbMap(finalobject.err, finalobject.res);
+                                        //}
+                                    }
+                                });
+                            }
+                            /*else {
+                             //Doesn't match with dto -- Nullifying the param
+                             modifiedObj[inpKey] = null;
+                             cbMap(null);
+                             }*/
                         } else {
-                            modifiedObj[inpKey] = inpVal;
-                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] IV", modifiedObj[inpKey], 41);
+                            delete modifiedObj[inpKey];
+                            proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
                             cbMap(null);
                         }
-                    } else {
-                        // to read wid obj via getwidmaster
-                        execute({
-                            "executethis": dataType
-                        }, function (err, result) {
-                            // If error, bounce out
-                            if (err && Object.keys(err).length > 0) {
-                                cbMap(err, result);
-                            } else {
-                                //try {
-                                //proxyprinttodiv("getwidmaster result for wid  " + dataType, result, 41);
-                                var widObj = result[0][0];
-                                if (widObj) {
-                                    if (widObj.hasOwnProperty(inpVal)) {
-                                        modifiedObj[inpKey] = inpVal;
-                                    }
-                                }
-                                proxyprinttodiv("recurseModObj - modifiedObj[inpKey] V ", modifiedObj[inpKey], 41);
-                                cbMap(null);
-                                //}
-                                // catch (err) {
-                                var finalobject = createfinalobject({"result": "recurseModObj_recurseModObj_II_execute"}, {}, "recurseModObj_recurseModObj_II_execute", err, result);
-                                cbMap(finalobject.err, finalobject.res);
-                                //}
-                            }
-                        });
+                    } // end try
+                    catch (err) {
+                        var finalobject = createfinalobject({"result": "recurseModObj_async_nextTick"}, {}, "recurseModObj_async_nextTick", err, inpKey);
+                        console.log('** Error Caught in the recurseModObj() function in et-utils.js during mapSeries call on "todolist" ** => ' + JSON.stringify(err));
+                        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+                       cbMap(finalobject.err, finalobject.res);
                     }
-                    /*else {
-                     //Doesn't match with dto -- Nullifying the param
-                     modifiedObj[inpKey] = null;
-                     cbMap(null);
-                     }*/
-                } else {
-                    delete modifiedObj[inpKey];
-                    proxyprinttodiv("recurseModObj - modifiedObj[inpKey] VI ", modifiedObj[inpKey], 41);
-                    cbMap(null);
-                }
-                //} // end try
-                //catch (err) {
-                //    var finalobject = createfinalobject({"result": "recurseModObj_async_nextTick"}, {}, "recurseModObj_async_nextTick", err, inpKey);
-                //   cbMap(finalobject.err, finalobject.res);
-                //}
-            });
-        },
+                });
+            },
 
-        function (err, res) {
-            // If error, bounce out
-            if (err && Object.keys(err).length > 0) {
-                callback(err, res);
-            } else {
-                callback(null, modifiedObj);
-            }
-        });
-//} // end try
-//catch (err) {
-    //var finalobject = createfinalobject({"result": "recurseModObj"}, {}, "recurseModObj", err, inbound_parameters_110);
-    //callback(finalobject.err, finalobject.res);
-//}
+            function (err, res) {
+                // If error, bounce out
+                if (err && Object.keys(err).length > 0) {
+                    callback(err, res);
+                } else {
+                    callback(null, modifiedObj);
+                }
+            });
+    } // end try
+    catch (err) {
+        var finalobject = createfinalobject({"result": "recurseModObj"}, {}, "recurseModObj", err, inbound_parameters_110);
+        console.log('** Error Caught in the recurseModObj() function in et-utils.js ** => ' + JSON.stringify(err));
+        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+        callback(finalobject.err, finalobject.res);
+    }
 }
 
 //deepfilter dataType=shortguid - to create new 5 digit alphanumeric string
@@ -1167,6 +1144,7 @@ function createAlphanumericStringByLength(length){
 function createNewGuid(){
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
+
 function s4(){
     return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 }
@@ -1176,6 +1154,7 @@ function parseToHashFormat(hash) {
     var lastSixChars = hash.substr(hash.length - 6);
     return "#"+lastSixChars;
 }
+
 function parseHashFormatToString(hashStr) {
     var lastSixChars = hashStr.substr(hashStr.length - 6);
     return lastSixChars;
@@ -1199,6 +1178,7 @@ function parsePhoneFormatToString(phoneStr) {
 function createNewRandom4DigitNumber(){
     return getRandomNumberByLength(4);
 }
+
 function getRandomNumberByLength(length) {
     return Math.floor(Math.pow(10, length-1) + Math.random() * 9 * Math.pow(10, length-1));
 
@@ -1365,30 +1345,32 @@ function getRandomNumberByLength(length) {
             if ((options = arguments[i]) != null) {
                 // Extend the base object
                 for (var name in options) {
-                    src = target[name];
-                    copy = options[name];
+                    if (options.hasOwnProperty(name)) {
+                        src = target[name];
+                        copy = options[name];
 
-                    // Prevent never-ending loop
-                    if (target === copy) {
-                        continue;
-                    }
-
-                    // Recurse if we're merging plain objects or arrays
-                    if (deep && copy && (isPlainObject(copy) || (copyIsArray = Array.isArray(copy)))) {
-                        if (copyIsArray) {
-                            copyIsArray = false;
-                            clone = src && Array.isArray(src) ? src : [];
-
-                        } else {
-                            clone = src && isPlainObject(src) ? src : {};
+                        // Prevent never-ending loop
+                        if (target === copy) {
+                            continue;
                         }
 
-                        // Never move original objects, clone them
-                        target[name] = extend(deep, clone, copy);
+                        // Recurse if we're merging plain objects or arrays
+                        if (deep && copy && (isPlainObject(copy) || (copyIsArray = Array.isArray(copy)))) {
+                            if (copyIsArray) {
+                                copyIsArray = false;
+                                clone = src && Array.isArray(src) ? src : [];
 
-                        // Don't bring in undefined values
-                    } else if (copy !== undefined) {
-                        target[name] = copy;
+                            } else {
+                                clone = src && isPlainObject(src) ? src : {};
+                            }
+
+                            // Never move original objects, clone them
+                            target[name] = extend(deep, clone, copy);
+
+                            // Don't bring in undefined values
+                        } else if (copy !== undefined) {
+                            target[name] = copy;
+                        }
                     }
                 }
             }
@@ -1404,17 +1386,19 @@ function getRandomNumberByLength(length) {
             return data;
         var result = {}, cur, prop, idx, last, temp;
         for (var p in data) {
-            cur = result;
-            prop = "";
-            last = 0;
-            do {
-                idx = p.indexOf(".", last);
-                temp = p.substring(last, idx !== -1 ? idx : undefined);
-                cur = cur[prop] || (cur[prop] = (!isNaN(parseInt(temp)) ? [] : {}));
-                prop = temp;
-                last = idx + 1;
-            } while (idx >= 0);
-            cur[prop] = data[p];
+            if (data.hasOwnProperty(p)) {
+                cur = result;
+                prop = "";
+                last = 0;
+                do {
+                    idx = p.indexOf(".", last);
+                    temp = p.substring(last, idx !== -1 ? idx : undefined);
+                    cur = cur[prop] || (cur[prop] = (!isNaN(parseInt(temp)) ? [] : {}));
+                    prop = temp;
+                    last = idx + 1;
+                } while (idx >= 0);
+                cur[prop] = data[p];
+            }
         }
         return result[""];
     };
@@ -1467,8 +1451,10 @@ function getRandomNumberByLength(length) {
             } else {
                 var isEmpty = true;
                 for (var p in cur) {
-                    isEmpty = false;
-                    recurse(cur[p], prop ? prop + "." + p : p);
+                    if (cur.hasOwnProperty(p)) {
+                        isEmpty = false;
+                        recurse(cur[p], prop ? prop + "." + p : p);
+                    }
                 }
                 if (isEmpty)
                     result[prop] = {};
@@ -1515,6 +1501,9 @@ function getRandomNumberByLength(length) {
                     }
                     catch (err) {
                         var finalobject = createfinalobject({"result": "getnewwid_execute"}, {}, "getnewwid_execute", err, result);
+                        console.log('** Error Caught in the getnewwid() function in'
+                            + ' et-utils.js during processing of execute() results ** => ' + JSON.stringify(err));
+                        console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
                         callback(finalobject.err, finalobject.res);
                     }
                 }
@@ -1522,6 +1511,8 @@ function getRandomNumberByLength(length) {
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "getnewwid"}, {}, "getnewwid", err, result);
+            console.log('** Error Caught in the getnewwid() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -1590,7 +1581,7 @@ function getRandomNumberByLength(length) {
             length = parameters.length
         }
         for (var key in parameters) { //rewritten
-            if (key.toLowerCase() == str) {
+            if (parameters.hasOwnProperty(key) && key.toLowerCase() == str) {
                 return true;
             }
         }
@@ -1605,7 +1596,7 @@ function getRandomNumberByLength(length) {
             if (parameters.length === undefined) {
                 length = Object.keys(parameters).length;
                 for (var key in parameters) { //rewritten
-                    if (key.toLowerCase() == str) {
+                    if (parameters.hasOwnProperty(key) && key.toLowerCase() == str) {
                         delete parameters[key];
                     }
                 }
@@ -1615,6 +1606,8 @@ function getRandomNumberByLength(length) {
         } // end try
         catch (err) {
             var finalobject = createfinalobject({"result": "remove"}, {}, "remove", err, inbound_parameters);
+            console.log('** Error Caught in the remove() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             return finalobject;
         }
     };
@@ -1623,89 +1616,89 @@ function getRandomNumberByLength(length) {
     // the key is missing in the data, but found in the rightparameters
     exports.getcommand = getcommand = function getcommand(parameters, defaults_object, filter_object, deleteflag) {
         var inbound_parameters = arguments;
-        // try {
-        //debuglevel=88;
-        var filteredobject = {};
-        var output = {};
-        if (Object.keys(parameters).length > 0) {parameters=ConvertToDOTdri(parameters);}
-        if (Object.keys(defaults_object).length > 0) {defaults_object=ConvertToDOTdri(defaults_object);}
-        if (!filter_object) {
-            filter_object = defaults_object;
-        }
-        else {
-            filter_object=ConvertToDOTdri(filter_object);
-        }
-
-        proxyprinttodiv("tolowerparameters parameters", parameters, 88);
-        proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
-        proxyprinttodiv("tolowerparameters filter_object", filter_object, 88);
-        proxyprinttodiv("tolowerparameters deleteflag", deleteflag, 88);
-
-        for (var eachparm in parameters) {
-            output[eachparm.toLowerCase()] = parameters[eachparm]; // first lower case each parameter
-        }
-
-        proxyprinttodiv("tolowerparameters output", output, 88);
-        if (Object.keys(defaults_object).length > 0) {
-            for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
-                // if (defaults_object.hasOwnProperty(eachparam) && defaults_object[eachparam].length !== 0 && !output[eachparam]) { // if val exists and parm does not, then adopt
-                if (defaults_object.hasOwnProperty(eachparam) && !output[eachparam]) { // if val exists and parm does not, then adopt
-                    output[eachparam] = defaults_object[eachparam];         
-                }
+        try {
+            //debuglevel=88;
+            var filteredobject = {};
+            var output = {};
+            if (Object.keys(parameters).length > 0) {parameters=ConvertToDOTdri(parameters);}
+            if (Object.keys(defaults_object).length > 0) {defaults_object=ConvertToDOTdri(defaults_object);}
+            if (!filter_object) {
+                filter_object = defaults_object;
             }
-        }
+            else {
+                filter_object=ConvertToDOTdri(filter_object);
+            }
 
-        proxyprinttodiv("tolowerparameters filter_object II", output, 88);
-        proxyprinttodiv("tolowerparameters output II", output, 88);
-        //if (Object.keys(output).length > 0) {
-        if (Object.keys(filter_object).length > 0 && Object.keys(output).length > 0) {
-            for (var eachparam in filter_object) { // create filtered results
-                //proxyprinttodiv("tolowerparameters eachparam", eachparam, 88);
-                for (var eachoutput in output) {
-                    //proxyprinttodiv("tolowerparameters eachoutput", eachoutput+' '+eachparam+' '+(eachoutput===eachparam || eachoutput.lastIndexOf(eachparam+'.')===0) , 88);
-                    if (eachoutput===eachparam || eachoutput.lastIndexOf(eachparam+'.') ===0) {
-                        if (output.hasOwnProperty(eachoutput)) { //(output[eachoutput])
-                        //if (output[eachoutput]) {
-                            filteredobject[eachoutput] = output[eachoutput];
-                            if (deleteflag) {delete output[eachoutput];}
-                        }
-                        proxyprinttodiv("tolowerparameters eachoutput created", eachoutput+' '+JSON.stringify(filteredobject[eachoutput]) +' '+
-                            eachparam+' '+JSON.stringify(output[eachoutput]) , 88);
+            proxyprinttodiv("tolowerparameters parameters", parameters, 88);
+            proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
+            proxyprinttodiv("tolowerparameters filter_object", filter_object, 88);
+            proxyprinttodiv("tolowerparameters deleteflag", deleteflag, 88);
 
+            for (var eachparm in parameters) {
+                if (parameters.hasOwnProperty(eachparm)) { output[eachparm.toLowerCase()] = parameters[eachparm]; } // first lower case each parameter
+            }
+
+            proxyprinttodiv("tolowerparameters output", output, 88);
+            if (Object.keys(defaults_object).length > 0) {
+                for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
+                    // if (defaults_object.hasOwnProperty(eachparam) && defaults_object[eachparam].length !== 0 && !output[eachparam]) { // if val exists and parm does not, then adopt
+                    if (defaults_object.hasOwnProperty(eachparam) && !output[eachparam]) { // if val exists and parm does not, then adopt
+                        output[eachparam] = defaults_object[eachparam];
                     }
                 }
             }
-        }
-        proxyprinttodiv("tolowerparameters filteredobject II-III", filteredobject, 88);
-        //         if (output.hasOwnProperty(eachparam)) {
-        //         //if (filter_object.hasOwnProperty(eachparam)) {
-        //             filteredobject[eachparam] = output[eachparam]
-        //             //if (deleteflag) {delete output[eachparam]} // delete filter parms from result
-        //         } // create left over object each iteration
-        //          if (deleteflag) {
-        //              delete output[eachparam]
-        //         } // delete filter parms from result
-        //     }
-        // }
 
-        if (Object.keys(output).length > 0) {output=ConvertFromDOTdri(output);} else {output={};}
-        if (Object.keys(filteredobject).length > 0) {filteredobject=ConvertFromDOTdri(filteredobject);} else {filteredobject={};}
-        proxyprinttodiv("tolowerparameters output III", output, 88);
-        proxyprinttodiv("tolowerparameters filteredobject III", filteredobject, 88);
-        //debuglevel=0;
-        return {
-            output: output,
-            filteredobject: filteredobject
-        };
-        // } // end try
-        // catch (err) {
-        //     //callback ({"status":"there was an error"}, {"function":"tolowerparameters"});        
-        //     var finalobject = createfinalobject({
-        //         "result": "tolowerparameters"
-        //     }, {}, "tolowerparameters", err, inbound_parameters);
-        //     return finalobject;
-        //     //callback(finalobject.err, finalobject.res);         
-        // }
+            proxyprinttodiv("tolowerparameters filter_object II", output, 88);
+            proxyprinttodiv("tolowerparameters output II", output, 88);
+            //if (Object.keys(output).length > 0) {
+            if (Object.keys(filter_object).length > 0 && Object.keys(output).length > 0) {
+                for (var eachparam in filter_object) { // create filtered results
+                    //proxyprinttodiv("tolowerparameters eachparam", eachparam, 88);
+                    for (var eachoutput in output) {
+                        if (output.hasOwnProperty(eachoutput)) {
+                            //proxyprinttodiv("tolowerparameters eachoutput", eachoutput+' '+eachparam+' '+(eachoutput===eachparam || eachoutput.lastIndexOf(eachparam+'.')===0) , 88);
+                            if (eachoutput===eachparam || eachoutput.lastIndexOf(eachparam+'.') ===0) {
+                                if (output.hasOwnProperty(eachoutput)) { //(output[eachoutput])
+                                //if (output[eachoutput]) {
+                                    filteredobject[eachoutput] = output[eachoutput];
+                                    if (deleteflag) {delete output[eachoutput];}
+                                }
+                                proxyprinttodiv("tolowerparameters eachoutput created", eachoutput+' '+JSON.stringify(filteredobject[eachoutput]) +' '+
+                                    eachparam+' '+JSON.stringify(output[eachoutput]) , 88);
+
+                            }
+                        }
+                    }
+                }
+            }
+            proxyprinttodiv("tolowerparameters filteredobject II-III", filteredobject, 88);
+            //         if (output.hasOwnProperty(eachparam)) {
+            //         //if (filter_object.hasOwnProperty(eachparam)) {
+            //             filteredobject[eachparam] = output[eachparam]
+            //             //if (deleteflag) {delete output[eachparam]} // delete filter parms from result
+            //         } // create left over object each iteration
+            //          if (deleteflag) {
+            //              delete output[eachparam]
+            //         } // delete filter parms from result
+            //     }
+            // }
+
+            if (Object.keys(output).length > 0) {output=ConvertFromDOTdri(output);} else {output={};}
+            if (Object.keys(filteredobject).length > 0) {filteredobject=ConvertFromDOTdri(filteredobject);} else {filteredobject={};}
+            proxyprinttodiv("tolowerparameters output III", output, 88);
+            proxyprinttodiv("tolowerparameters filteredobject III", filteredobject, 88);
+            //debuglevel=0;
+            return {
+                output: output,
+                filteredobject: filteredobject
+            };
+        } // end try
+        catch (err) {
+            var finalobject = createfinalobject({"result": "tolowerparameters"}, {}, "tolowerparameters", err, inbound_parameters);
+            console.log('** Error Caught in the getcommand() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+            return finalobject;
+        }
     };
 
 
@@ -1713,133 +1706,77 @@ function getRandomNumberByLength(length) {
     // the key is missing in the data, but found in the rightparameters
     exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, defaults_object, filter_object, deleteflag) {
         var inbound_parameters = arguments;
-        // try {
-        proxyprinttodiv("tolowerparameters parameters", parameters, 88);
-        proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
-        proxyprinttodiv("tolowerparameters filter_object", filter_object, 88);
-        proxyprinttodiv("tolowerparameters deleteflag", deleteflag, 88);
-        var val;
-        var filteredobject = {};
-        var output = {};
-        if (!filter_object) {
-            filter_object = defaults_object;
-        }
+        try {
+            proxyprinttodiv("tolowerparameters parameters", parameters, 88);
+            proxyprinttodiv("tolowerparameters defaults_object", defaults_object, 88);
+            proxyprinttodiv("tolowerparameters filter_object", filter_object, 88);
+            proxyprinttodiv("tolowerparameters deleteflag", deleteflag, 88);
+            var val;
+            var filteredobject = {};
+            var output = {};
+            if (!filter_object) {
+                filter_object = defaults_object;
+            }
 
-        for (var eachparm in parameters) {
-            output[eachparm.toLowerCase()] = parameters[eachparm]; // first lower case each parameter
-        }
+            for (var eachparm in parameters) {
+                if (parameters.hasOwnProperty(eachparm)) { output[eachparm.toLowerCase()] = parameters[eachparm]; } // first lower case each parameter
+            }
 
-        if (Object.keys(defaults_object).length > 0) {
-            for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
-                val = defaults_object[eachparam];
-                if (isObject(val)) {
-                    // eachparam may not exist in the outputobject so we make one here
-                    if (!output[eachparam]) {
-                        output[eachparam] = {};
-                    }
+            if (Object.keys(defaults_object).length > 0) {
+                for (eachparam in defaults_object) { // adopt from rightparam -- for each param check against rightparm
+                    if (defaults_object.hasOwnProperty(eachparam)) {
+                        val = defaults_object[eachparam];
+                        if (isObject(val)) {
+                            // eachparam may not exist in the outputobject so we make one here
+                            if (!output[eachparam]) {
+                                output[eachparam] = {};
+                            }
 
-                    proxyprinttodiv("tolowerparameters output[eachparam] ", output[eachparam], 88);
-                    proxyprinttodiv("tolowerparameters val ", val, 88);
-                    // extend(true, output[eachparam], val);
-                    // do not overwrite an existing property in the parameters
-                    // this fix is only goes one layer deep (which may be an issue)
-                    for (var property in val) {
-                        if (!output[eachparam].hasOwnProperty(property)) {
-                            extend(true, output[eachparam], val);
+                            proxyprinttodiv("tolowerparameters output[eachparam] ", output[eachparam], 88);
+                            proxyprinttodiv("tolowerparameters val ", val, 88);
+                            // extend(true, output[eachparam], val);
+                            // do not overwrite an existing property in the parameters
+                            // this fix is only goes one layer deep (which may be an issue)
+                            for (var property in val) {
+                                if (val.hasOwnProperty(property) && !output[eachparam].hasOwnProperty(property)) {
+                                    extend(true, output[eachparam], val);
+                                }
+                            }
+                        } else {
+                            if (val.length !== 0 && !output[eachparam]) { // if val exists and parm does not, then adopt
+                                output[eachparam] = val;
+                            }
                         }
-                    }
-                } else {
-                    if (val.length !== 0 && !output[eachparam]) { // if val exists and parm does not, then adopt
-                        output[eachparam] = val;
                     }
                 }
             }
-        }
 
-        if (Object.keys(filter_object).length > 0) {
-            for (var eachparam in filter_object) { // create filtered results
-                if (output.hasOwnProperty(eachparam)) {
-                    filteredobject[eachparam] = output[eachparam];
-                } // create left over object each iteration
-                if (deleteflag) {
-                    delete output[eachparam];
-                } // delete filter parms from result
+            if (Object.keys(filter_object).length > 0) {
+                for (var eachparam in filter_object) { // create filtered results
+                    if (filter_object.hasOwnProperty(eachparam)) {
+                        if (output.hasOwnProperty(eachparam)) {
+                            filteredobject[eachparam] = output[eachparam];
+                        } // create left over object each iteration
+                        if (deleteflag) {
+                            delete output[eachparam];
+                        } // delete filter parms from result
+                    }
+                }
             }
+            proxyprinttodiv("tolowerparameters output", output, 88);
+            proxyprinttodiv("tolowerparameters filteredobject", filteredobject, 88);
+            return {
+                output: output,
+                filteredobject: filteredobject
+            };
+        } // end try
+        catch (err) {
+            var finalobject = createfinalobject({"result": "tolowerparameters"}, {}, "tolowerparameters", err, inbound_parameters);
+            console.log('** Error Caught in the tolowerparameters() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+            return finalobject;
         }
-        proxyprinttodiv("tolowerparameters output", output, 88);
-        proxyprinttodiv("tolowerparameters filteredobject", filteredobject, 88);
-        return {
-            output: output,
-            filteredobject: filteredobject
-        };
-        // } // end try
-        // catch (err) {
-        //     //callback ({"status":"there was an error"}, {"function":"tolowerparameters"});        
-        //     var finalobject = createfinalobject({
-        //         "result": "tolowerparameters"
-        //     }, {}, "tolowerparameters", err, inbound_parameters);
-        //     return finalobject;
-        //     //callback(finalobject.err, finalobject.res);         
-        // }
     };
-
-
-
-    // // This will lower parameters, and filter based on data in right parameters, and apply defaults to output if
-    // // the key is missing in the data, but found in the rightparameters
-    // exports.tolowerparameters = tolowerparameters = function tolowerparameters(parameters, rightparameters, should_I_filter, filter_object) {
-    //     if (!filter_object) {
-    //         filter_object = rightparameters;
-    //     }
-
-    //     // Use only the params that apply to the filter and assign to output
-    //     var output = (should_I_filter) ? filter_params(parameters, filter_object) : just_lower_parameters(parameters);
-    //     // Iterate throught the right parameters...if we find a value to assign, do so, but only
-    //     // if it does not exist yet
-    //     for (tmp_key in rightparameters) {
-    //         // Grab the key of the hash
-    //         var key = tmp_key.toLowerCase();
-    //         // Grab the value of the hash
-    //         var val = rightparameters[tmp_key];
-    //         // Grab the value of the key in the data
-    //         var target = output[key.toLowerCase()];
-    //         // Polish the target...it may need it
-    //         // Do not lowercase anything that is not a string
-    //         if (typeof target === "string") {
-    //             target = ( target === undefined ) ? "" : target.toLowerCase();
-    //         }
-    //         // Simply make sure our target is defined
-    //         if (target === undefined) target = "";
-    //         // If there is no value in the filter, skip and move on
-    //         if (val === undefined) continue;
-    //         // if ( val.length > 0 && target.length === 0) {
-    //         // If there is no value in the target data, put in the default that you 
-    //         // find in the right params...it is assigned to 'val'
-    //         if (target.length === 0) {
-    //             // Polish val... it may need it
-    //             val = (val === 'add') ? "" : val;
-    //             // Apply it to the output
-    //             output[key] = val;
-    //         }
-    //     }
-    //     var left_over_object = {};
-    //     for (var p in parameters) {
-    //         // console.log("LLLLLLLLLLLeftovers\n" + JSON.stringify(parameters, '-', 4));
-
-    //         if (!output.hasOwnProperty(p.toLowerCase())) {
-    //             // left_over_object[p.toLowerCase()] = parameters[p].toLowerCase();
-    //             left_over_object[p.toLowerCase()] = parameters[p];
-    //         }
-    //     }
-
-    //     var return_data = {};
-
-    //     return_data["output"] = output;
-    //     return_data["left_over_object"] = left_over_object;
-
-    //     // return_data = output;
-    //     return return_data;
-    // }
 
     exports.filter_params = filter_params = function filter_params(parameters, filter_object) {
         var output = {};
@@ -1847,21 +1784,25 @@ function getRandomNumberByLength(length) {
         // Get just the keys from the filter_object
         var filter_by_keys = [];
         for (var f in filter_object) {
-            filter_by_keys.push(f.toLowerCase());
+            if (filter_object.hasOwnProperty(f)) { filter_by_keys.push(f.toLowerCase()); }
         }
         // Walk throught the data, 1 key at a time
         for (var p in parameters) {
-            // Look at the filter and apply it to the data
-            for (var v in filter_by_keys) {
-                // If a parameterkey equals the filterkey we are looking at, 
-                // put the parameterkey in the output with the lowercase value of the parameter
-                if (p.toLowerCase() === filter_by_keys[v]) {
-                    // Assign the data, but only lowercase strings, not other data types
-                    if (typeof parameters[p] === 'string') {
-                        // output[p.toLowerCase()] = parameters[p].toLowerCase();
-                        output[p.toLowerCase()] = parameters[p];
-                    } else {
-                        output[p] = parameters[p];
+            if (parameters.hasOwnProperty(p)) {
+                // Look at the filter and apply it to the data
+                for (var v in filter_by_keys) {
+                    if (filter_by_keys.hasOwnProperty(v)) {
+                        // If a parameterkey equals the filterkey we are looking at,
+                        // put the parameterkey in the output with the lowercase value of the parameter
+                        if (p.toLowerCase() === filter_by_keys[v]) {
+                            // Assign the data, but only lowercase strings, not other data types
+                            if (typeof parameters[p] === 'string') {
+                                // output[p.toLowerCase()] = parameters[p].toLowerCase();
+                                output[p.toLowerCase()] = parameters[p];
+                            } else {
+                                output[p] = parameters[p];
+                            }
+                        }
                     }
                 }
             }
@@ -1873,16 +1814,14 @@ function getRandomNumberByLength(length) {
     exports.just_lower_parameters = just_lower_parameters = function just_lower_parameters(data) {
         var data_out = {};
         for (var d in data) {
-            data_out[d.toLowerCase()] = data[d];
+            if (data.hasOwnProperty(d)) { data_out[d.toLowerCase()] = data[d]; }
         }
         return data_out;
     };
 
     exports.pack_up_params = pack_up_params = function pack_up_params(parameters, command, com_user) {
         var command_object = {};
-        if (command) {
-            extend(true, command_object, command);
-        }
+        if (command) { extend(true, command_object, command); }
 
         proxyprinttodiv('pack_up_params parameters', parameters, 97);
         proxyprinttodiv('pack_up_params command_object', command_object, 97);
@@ -1979,8 +1918,10 @@ function getRandomNumberByLength(length) {
         extend(true, clonedObject, o1); // clone received params
 
         for (var key in o2) {
-            if ((clonedObject[key] === undefined) || (clonedObject[key] == "")) {
-                clonedObject[key] = o2[key];
+            if (o2.hasOwnProperty(key)) {
+                if ((clonedObject[key] === undefined) || (clonedObject[key] == "")) {
+                    clonedObject[key] = o2[key];
+                }
             }
         }
         return clonedObject;
@@ -1997,10 +1938,7 @@ function getRandomNumberByLength(length) {
     };
 
     exports.isSet = isSet = function isSet(val) {
-        if ((val != undefined) && (val != null)) {
-            return true;
-        }
-        return false;
+        return (val != undefined) && (val != null);
     };
 
 
@@ -2425,25 +2363,29 @@ function getRandomNumberByLength(length) {
                 }
                 var diff = {};
                 for (var key in obj1) {
-                    if (key=="date") {
-                        //console.log("key : " + key);
-                        //console.log("val : " + obj1[key]);
-                        continue;
+                    if (obj1.hasOwnProperty(key)) {
+                        if (key=="date") {
+                            //console.log("key : " + key);
+                            //console.log("val : " + obj1[key]);
+                            continue;
+                        }
+                        if (this.isFunction(obj1[key])) {
+                            continue;
+                        }
+                        var value2 = undefined;
+                        if ('undefined' != typeof (obj2[key])) {
+                            value2 = obj2[key];
+                        }
+                        diff[key] = this.map(obj1[key], value2);
                     }
-                    if (this.isFunction(obj1[key])) {
-                        continue;
-                    }
-                    var value2 = undefined;
-                    if ('undefined' != typeof (obj2[key])) {
-                        value2 = obj2[key];
-                    }
-                    diff[key] = this.map(obj1[key], value2);
                 }
-                for (var key in obj2) {
-                    if (this.isFunction(obj2[key]) || ('undefined' != typeof (diff[key]))) {
-                        continue;
+                for (var key2 in obj2) {
+                    if (obj2.hasOwnProperty(key2)) {
+                        if (this.isFunction(obj2[key2]) || ('undefined' != typeof (diff[key2]))) {
+                            continue;
+                        }
+                        diff[key2] = this.map(undefined, obj2[key2]);
                     }
-                    diff[key] = this.map(undefined, obj2[key]);
                 }
                 return diff;
             },
@@ -2573,45 +2515,46 @@ function getRandomNumberByLength(length) {
             if (statement.constructor == Object) {
 
                 for (var k in statement) {
+                    if (statement.hasOwnProperty(k)) {
+                        //find the apropriate operator. If one doesn't exist, then it's a property, which means
+                        //we create a new statement (traversing)
+                        var operator = !! _testers[k] ? k : '$trav',
 
-                    //find the apropriate operator. If one doesn't exist, then it's a property, which means
-                    //we create a new statement (traversing) 
-                    var operator = !! _testers[k] ? k : '$trav',
+                        //value of given statement (the match)
+                            value = statement[k],
 
-                    //value of given statement (the match)
-                        value = statement[k],
+                        //default = match
+                            exprValue = value;
 
-                    //default = match
-                        exprValue = value;
-
-                    //if we're working with a traversable operator, then set the expr value
-                    if (TRAV_OP[operator]) {
+                        //if we're working with a traversable operator, then set the expr value
+                        if (TRAV_OP[operator]) {
 
 
-                        //using dot notation? convert into a sub-object
-                        if (~k.indexOf(".")) {
-                            var keyParts = k.split(".");
-                            k = keyParts.shift(); //we're using the first key, so remove it
+                            //using dot notation? convert into a sub-object
+                            if (~k.indexOf(".")) {
+                                var keyParts = k.split(".");
+                                k = keyParts.shift(); //we're using the first key, so remove it
 
-                            exprValue = value = _convertDotToSubObject(keyParts, value);
-                        }
-
-                        //*if* the value is an array, then we're dealing with something like: $or, $and
-                        if (value instanceof Array) {
-
-                            exprValue = [];
-
-                            for (var i = value.length; i--;) {
-                                exprValue.push(parse(value[i]));
+                                exprValue = value = _convertDotToSubObject(keyParts, value);
                             }
 
-                            //otherwise we're dealing with $trav
-                        } else {
-                            exprValue = parse(value, k);
-                        }
-                    }
+                            //*if* the value is an array, then we're dealing with something like: $or, $and
+                            if (value instanceof Array) {
 
-                    testers.push(_getExpr(operator, k, exprValue));
+                                exprValue = [];
+
+                                for (var i = value.length; i--;) {
+                                    exprValue.push(parse(value[i]));
+                                }
+
+                                //otherwise we're dealing with $trav
+                            } else {
+                                exprValue = parse(value, k);
+                            }
+                        }
+
+                        testers.push(_getExpr(operator, k, exprValue));
+                    }
 
                 }
 
@@ -3016,7 +2959,7 @@ function getRandomNumberByLength(length) {
 
     sift.useOperators = function (operators) {
         for (var key in operators) {
-            sift.useOperator(key, operators[key]);
+            if (operators.hasOwnProperty(key)) { sift.useOperator(key, operators[key]); }
         }
     };
 
@@ -3075,39 +3018,35 @@ function getRandomNumberByLength(length) {
                 if (err && Object.keys(err).length > 0) {
                     callback(err, result);
                 } else {
-                    try {
+                    // Add res to return data
+                    results.push(res);
+
+                    // Add the config parameters to the default config
+                    extend(true, config.configuration, parameters["configuration"]);
+
+                    // Reload c_parameters and delete the config
+                    c_parameters = extend(true, {}, parameters);
+                    delete c_parameters["configuration"];
+
+                    // Reload the assertion and delete the config
+                    c_assert = extend(true, {}, assert);
+                    delete c_assert[0]["configuration"];
+
+                    // Call test_and_verify with c_ verion -- actual config changed
+                    test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
                         // Add res to return data
-                        results.push(res);
-
-                        // Add the config parameters to the default config
-                        extend(true, config.configuration, parameters["configuration"]);
-
-                        // Reload c_parameters and delete the config
-                        c_parameters = extend(true, {}, parameters);
-                        delete c_parameters["configuration"];
-
-                        // Reload the assertion and delete the config
-                        c_assert = extend(true, {}, assert);
-                        delete c_assert[0]["configuration"];
-
-                        // Call test_and_verify with c_ verion -- actual config changed
-                        test_and_verify("cc_" + testname, "execute", c_parameters, c_assert, database, command, function (err, res_2) {
-                            // Add res to return data
-                            results.push(res_2);
-                            // Set the config back to normal
-                            config = extend(true, {}, temp_config);
-                            callback(null, results);
-                        });
-                    } // end try
-                    catch (err) {
-                        var finalobject = createfinalobject({"result": "master_test_and_verify_to_test_and_verify"}, {}, "master_test_and_verify_to_test_and_verify", err, result);
-                        callback(finalobject.err, finalobject.res);
-                    }
+                        results.push(res_2);
+                        // Set the config back to normal
+                        config = extend(true, {}, temp_config);
+                        callback(null, results);
+                    });
                 } // end else
             });
         }
         catch (err) {
             var finalobject = createfinalobject({"result": "master_test_and_verify"}, {}, "master_test_and_verify", err, result);
+            console.log('** Error Caught in the master_test_and_verify() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -3131,18 +3070,9 @@ function getRandomNumberByLength(length) {
                     if (err && Object.keys(err).length > 0) {
                         cbMap(err, result);
                     } else {
-                        try {
-                            res = logverify(testname, res, assert);
-                            callback(null, res);
-                        }
-                        catch (err) {
-                            var finalobject = createfinalobject({"result": "test_and_verify_parampush"}, {}, "test_and_verify_parampush", err, result);
-                            var ret = [];
-                            ret.push[finalobject.res];
-                            callback(finalobject.err, ret);
-                        }
+                        res = logverify(testname, res, assert);
+                        callback(null, res);
                     }
-
                 });
                 window[fnname].apply(window, parameters);
             } else {
@@ -3153,22 +3083,16 @@ function getRandomNumberByLength(length) {
                         if (err && Object.keys(err).length > 0) {
                             cbMap(err, result);
                         } else {
-                            try {
-                                res = logverify(testname, res, assert);
-                                callback(null, res);
-                            }
-                            catch (err) {
-                                var finalobject = createfinalobject({"result": "test_and_verify_parampush"}, {}, "test_and_verify_parampush", err, result);
-                                var ret = [];
-                                ret.push[finalobject.res];
-                                callback(finalobject.err, ret);
-                            }
+                            res = logverify(testname, res, assert);
+                            callback(null, res);
                         }
                     });
             }
         }
         catch (err) {
             var finalobject = createfinalobject({"result": "test_and_verify"}, {}, "test_and_verify", err, result);
+            console.log('** Error Caught in the test_and_verify() function in et-utils.js ** => ' + JSON.stringify(err));
+            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
             callback(finalobject.err, finalobject.res);
         }
     };
@@ -3212,7 +3136,7 @@ function getRandomNumberByLength(length) {
     exports.getdeepproperty = getdeepproperty = function getdeepproperty(obj, prop) {
         var found=null;
         for (var eachprop in obj) { // try to find match top level
-            if (eachprop===prop) {
+            if (obj.hasOwnProperty(eachprop) && eachprop===prop) {
                 found = obj[eachprop];
             }
         }
@@ -3221,9 +3145,9 @@ function getRandomNumberByLength(length) {
         }
         else // else try next level
         {
-            for (var eachprop in obj) {
-                if (isObject(obj[eachprop])) {
-                    found = getdeepproperty(obj[eachprop], prop);
+            for (var eachprop2 in obj) {
+                if (obj.hasOwnProperty(eachprop2) && isObject(obj[eachprop2])) {
+                    found = getdeepproperty(obj[eachprop2], prop);
                     if (found) {break;}
                 }
             }

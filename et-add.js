@@ -928,11 +928,11 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         proxyprinttodiv("addwid object", object, 18);
         proxyprinttodiv("addwid dtoobject", dtoobject, 18);
         proxyprinttodiv("addwid command", command, 18);
-        var currentobject={}
-        var currentinheritobject = {}
-        var differenceresults = {}
+        var currentobject={};
+        var currentinheritobject = {};
+        var differenceresults = {};
         var err=null;
-        var output={}
+        var output={};
         
         // make sure getwidmaster does not return wids
         async.series([

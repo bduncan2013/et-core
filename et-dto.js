@@ -737,15 +737,13 @@
             }
 			*/
 			);
-    }
+    };
 
 
 
     // This function creates non-critical dtos, e.g. interfacedto. However, some of
     // the critical dtos have relationships with non-critical dtos.
     exports.noncriticaldtos = noncriticaldtos = function noncriticaldtos(callback) {
-
-
         async.series([
                 function (cb1) {
                     execute([{ // viewdto
@@ -1047,7 +1045,7 @@
                 proxyprinttodiv('Function noncriticaldtos -- added all relationships  -- ', res, 39);
                 callback(err, res);
             });
-    }
+    };
 
 
 
