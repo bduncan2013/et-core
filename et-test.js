@@ -916,7 +916,7 @@
                 
                 proxyprinttodiv('The author1 record: ', res[2], 99);
         
-                debuglevel = 38;
+                //debuglevel = 38;
                 execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
                     proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
                     callback(err, res); 
@@ -1821,258 +1821,258 @@ exports.testcommanddtotype = testcommanddtotype = function testcommanddtotype(pa
       });
 }   
 
-    exports.ettestinheritoverride2 = ettestinheritoverride2 = function ettestinheritoverride2(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
+  //   exports.ettestinheritoverride2 = ettestinheritoverride2 = function ettestinheritoverride2(params, callback) {
+  //       eventappinstall();
+  //       debuglevel = 0;
         
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookoverride",
-                    "metadata.method": "bookdto",
-                    "title":"X title", 
-                    "pages":"300"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "title": "string",
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-                    "metadata.inherit.override.0": "bookoverride",
-                    "title": "Book Title1",
-                    "pages":"10"
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookdtowid111",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+  //       execute([{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookoverride",
+  //                   "metadata.method": "bookdto",
+  //                   "title":"X title", 
+  //                   "pages":"300"
+  //               },{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookdto",
+  //                   "metadata.method": "bookdto",
+  //                   "title": "string",
+  //                   "pages": "string"
+  //               },{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookdtowid111",
+  //                   "metadata.method":"bookdto",
+  //                   "metadata.inherit.override.0": "bookoverride",
+  //                   "title": "Book Title1",
+  //                   "pages":"10"
+  //               },{
+  //                   "executethis": "getwidmaster",
+  //                   "wid": "bookdtowid111",
+  //               }
+  //           ], function (err, res) {
+  //               proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
                 
-                proxyprinttodiv('Function bookdtowid111 res[4] ', res[3], 99);
+  //               proxyprinttodiv('Function bookdtowid111 res[4] ', res[3], 99);
                 
-                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
-                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+  //               var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300"}];
+  //               proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
                 
-                res = logverify("bookdtowid111_result", res[3], expectedResult);
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
-  // fails : bookdefault fields chapters & publishers not displaying for bookwid1
-    exports.ettestinheritdefault2 = ettestinheritdefault2 = function ettestinheritdefault2(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
+  //               res = logverify("bookdtowid111_result", res[3], expectedResult);
+  //               debuglevel = 0;
+  //               execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+  //                   proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+  //                   callback(err, res); 
+  //               })
+  //       });
+  //   }
+  // // fails : bookdefault fields chapters & publishers not displaying for bookwid1
+  //   exports.ettestinheritdefault2 = ettestinheritdefault2 = function ettestinheritdefault2(params, callback) {
+  //       eventappinstall();
+  //       debuglevel = 0;
         
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdefault",
-                    "metadata.method": "bookdto",
-                    "title":"X title",
-                    "pages":"300",
-                    "chapters":"10",
-                    "publisher":"Blank publishing"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "title": "string",
-                    "pages": "string",
-                    "chapters":"string",
-                    "publisher":"string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookwid1",
-                    "metadata.method":"bookdto",
-                    "metadata.inherit.default.0": "bookdefault",
-                    "title": "Book Title1",
-                    "pages":"10"
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookwid1",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookwid1 result Full res', res, 17);
+  //       execute([{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookdefault",
+  //                   "metadata.method": "bookdto",
+  //                   "title":"X title",
+  //                   "pages":"300",
+  //                   "chapters":"10",
+  //                   "publisher":"Blank publishing"
+  //               },{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookdto",
+  //                   "metadata.method": "bookdto",
+  //                   "title": "string",
+  //                   "pages": "string",
+  //                   "chapters":"string",
+  //                   "publisher":"string"
+  //               },{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookwid1",
+  //                   "metadata.method":"bookdto",
+  //                   "metadata.inherit.default.0": "bookdefault",
+  //                   "title": "Book Title1",
+  //                   "pages":"10"
+  //               },{
+  //                   "executethis": "getwidmaster",
+  //                   "wid": "bookwid1",
+  //               }
+  //           ], function (err, res) {
+  //               proxyprinttodiv('Function bookwid1 result Full res', res, 17);
                 
-                proxyprinttodiv('Function bookwid1 res[4] ', res[3], 99);
+  //               proxyprinttodiv('Function bookwid1 res[4] ', res[3], 99);
                 
-                var expectedResult = [{"title":"Book Title1","wid":"bookwid1", "chapters":"10",
-                    "publisher":"Blank publishing", "pages":"10", "metadata.method":"bookdto"}];
-                proxyprinttodiv('Function bookwid1 expectedResult ', expectedResult, 17);
+  //               var expectedResult = [{"title":"Book Title1","wid":"bookwid1", "chapters":"10",
+  //                   "publisher":"Blank publishing", "pages":"10", "metadata.method":"bookdto"}];
+  //               proxyprinttodiv('Function bookwid1 expectedResult ', expectedResult, 17);
                 
-                res = logverify("bookwid1_result", res[3], expectedResult);
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "bookwid1"}, function (err, res1) {
-                    proxyprinttodiv('Function bookwid1 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
-  // fails, same as previous test : bookdefault fields chapters & publisher not being grabbed
-     exports.ettestinheritdefault31 = ettestinheritdefault31 = function ettestinheritdefault31(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
+  //               res = logverify("bookwid1_result", res[3], expectedResult);
+  //               debuglevel = 0;
+  //               execute({"executethis": "getwidmaster","wid": "bookwid1"}, function (err, res1) {
+  //                   proxyprinttodiv('Function bookwid1 result LAST ', res1, 17); 
+  //                   callback(err, res); 
+  //               })
+  //       });
+  //   }
+  // // fails, same as previous test : bookdefault fields chapters & publisher not being grabbed
+  //    exports.ettestinheritdefault31 = ettestinheritdefault31 = function ettestinheritdefault31(params, callback) {
+  //       eventappinstall();
+  //       debuglevel = 0;
         
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdefault",
-                    "metadata.method": "bookdto",
-                    "title":"X title",
-                    "pages":"300",
-                    "chapters":"10",
-                    "publisher":"Blank publishing"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "title": "string",
-                    "pages": "string",
-                    "chapters":"string",
-                    "publisher":"string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookwid1",
-                    "metadata.method":"bookdto",
-                    "metadata.inherit.default.0": "bookdefault",
-                    "title": "Book Title1",
-                    "pages":"10"
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookwid1",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookwid1 result Full res', res, 17);
+  //       execute([{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookdefault",
+  //                   "metadata.method": "bookdto",
+  //                   "title":"X title",
+  //                   "pages":"300",
+  //                   "chapters":"10",
+  //                   "publisher":"Blank publishing"
+  //               },{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookdto",
+  //                   "metadata.method": "bookdto",
+  //                   "title": "string",
+  //                   "pages": "string",
+  //                   "chapters":"string",
+  //                   "publisher":"string"
+  //               },{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookwid1",
+  //                   "metadata.method":"bookdto",
+  //                   "metadata.inherit.default.0": "bookdefault",
+  //                   "title": "Book Title1",
+  //                   "pages":"10"
+  //               },{
+  //                   "executethis": "getwidmaster",
+  //                   "wid": "bookwid1",
+  //               }
+  //           ], function (err, res) {
+  //               proxyprinttodiv('Function bookwid1 result Full res', res, 17);
                 
-                proxyprinttodiv('Function bookwid1 res[4] ', res[3], 99);
+  //               proxyprinttodiv('Function bookwid1 res[4] ', res[3], 99);
                 
-                var expectedResult = [{"title":"Book Title1","wid":"bookwid1", "chapters":"10",
-                    "publisher":"Blank publishing", "pages":"10", "metadata.method":"bookdto"}];
-                proxyprinttodiv('Function bookwid1 expectedResult ', expectedResult, 17);
+  //               var expectedResult = [{"title":"Book Title1","wid":"bookwid1", "chapters":"10",
+  //                   "publisher":"Blank publishing", "pages":"10", "metadata.method":"bookdto"}];
+  //               proxyprinttodiv('Function bookwid1 expectedResult ', expectedResult, 17);
                 
-                res = logverify("bookwid1_result", res[3], expectedResult);
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "bookwid1"}, function (err, res1) {
-                    proxyprinttodiv('Function bookwid1 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
-  // works
-    exports.ettestinheritoverride31 = ettestinheritoverride31 = function ettestinheritoverride31(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
+  //               res = logverify("bookwid1_result", res[3], expectedResult);
+  //               debuglevel = 0;
+  //               execute({"executethis": "getwidmaster","wid": "bookwid1"}, function (err, res1) {
+  //                   proxyprinttodiv('Function bookwid1 result LAST ', res1, 17); 
+  //                   callback(err, res); 
+  //               })
+  //       });
+  //   }
+  // // works
+  //   exports.ettestinheritoverride31 = ettestinheritoverride31 = function ettestinheritoverride31(params, callback) {
+  //       eventappinstall();
+  //       debuglevel = 0;
         
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookoverride",
-                    "metadata.method": "bookdto",
-                    "title":"X title", 
-                    "pages":"300"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "title": "string",
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-                    "metadata.inherit.override.0": "bookoverride",
-                    "title": "Book Title1",
-                    "pages":"10"
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookdtowid111",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+  //       execute([{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookoverride",
+  //                   "metadata.method": "bookdto",
+  //                   "title":"X title", 
+  //                   "pages":"300"
+  //               },{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookdto",
+  //                   "metadata.method": "bookdto",
+  //                   "title": "string",
+  //                   "pages": "string"
+  //               },{
+  //                   "executethis": "addwidmaster",
+  //                   "wid": "bookdtowid111",
+  //                   "metadata.method":"bookdto",
+  //                   "metadata.inherit.override.0": "bookoverride",
+  //                   "title": "Book Title1",
+  //                   "pages":"10"
+  //               },{
+  //                   "executethis": "getwidmaster",
+  //                   "wid": "bookdtowid111",
+  //               }
+  //           ], function (err, res) {
+  //               proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
                 
-                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+  //               proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
                 
-                var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdtoextra","pages":"300"}];
-                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+  //               var expectedResult = [{"title":"X title","wid":"bookdtowid111","metadata.method":"bookdtoextra","pages":"300"}];
+  //               proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
                 
-                res = logverify("bookdtowid111_result", res[4], expectedResult);
-                debuglevel=0;
-                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
+  //               res = logverify("bookdtowid111_result", res[4], expectedResult);
+  //               debuglevel=0;
+  //               execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+  //                   proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+  //                   callback(err, res); 
+  //               })
+  //       });
+  //   }
   // fails
-    exports.ettestinheritdefault = ettestinheritdefault = function ettestinheritdefault(params, callback) {
-        eventappinstall();
-        debuglevel = 0;
+    // exports.ettestinheritdefault = ettestinheritdefault = function ettestinheritdefault(params, callback) {
+    //     eventappinstall();
+    //     debuglevel = 0;
         
-        execute([{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtoextra",
-                    "metadata.method": "bookdtoextra",
-                    "title": "string", 
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdefault",
-                    "metadata.method": "bookdefaultdto",
-                    "chapters": "12", 
-                    "publisher": "Blank publisher"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdefaultdto",
-                    "metadata.method": "bookdefaultdto",
-                    "chapters": "string", 
-                    "publisher": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdefaultdto",
-                    "metadata.method": "bookdtoextra",
-                    "title":"X title", 
-                    "pages":"300"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdto",
-                    "metadata.method": "bookdto",
-                    "metadata.inherit.default.0": "bookdefaultdto",
-                    "metadata.inherit.default.1": "bookdefaultdto2",
-                    "title": "string",
-                    "pages": "string"
-                },{
-                    "executethis": "addwidmaster",
-                    "wid": "bookdtowid111",
-                    "metadata.method":"bookdto",
-                    "metadata.inherit.default.0": "bookdefault",
-                    "title": "Book Title1"
-                    // notice no pages -- should get it from wid inherit
-                    // notice no chapters -- should get it from dto inherit
-                    // notice no publisher -- should get it from dto inherit
-                },{
-                    "executethis": "getwidmaster",
-                    "wid": "bookdtowid111",
-                }
-            ], function (err, res) {
-                proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
+    //     execute([{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdtoextra",
+    //                 "metadata.method": "bookdtoextra",
+    //                 "title": "string", 
+    //                 "pages": "string"
+    //             },{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdefault",
+    //                 "metadata.method": "bookdefaultdto",
+    //                 "chapters": "12", 
+    //                 "publisher": "Blank publisher"
+    //             },{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdefaultdto",
+    //                 "metadata.method": "bookdefaultdto",
+    //                 "chapters": "string", 
+    //                 "publisher": "string"
+    //             },{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdefaultdto",
+    //                 "metadata.method": "bookdtoextra",
+    //                 "title":"X title", 
+    //                 "pages":"300"
+    //             },{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdto",
+    //                 "metadata.method": "bookdto",
+    //                 "metadata.inherit.default.0": "bookdefaultdto",
+    //                 "metadata.inherit.default.1": "bookdefaultdto2",
+    //                 "title": "string",
+    //                 "pages": "string"
+    //             },{
+    //                 "executethis": "addwidmaster",
+    //                 "wid": "bookdtowid111",
+    //                 "metadata.method":"bookdto",
+    //                 "metadata.inherit.default.0": "bookdefault",
+    //                 "title": "Book Title1"
+    //                 // notice no pages -- should get it from wid inherit
+    //                 // notice no chapters -- should get it from dto inherit
+    //                 // notice no publisher -- should get it from dto inherit
+    //             },{
+    //                 "executethis": "getwidmaster",
+    //                 "wid": "bookdtowid111",
+    //             }
+    //         ], function (err, res) {
+    //             proxyprinttodiv('Function bookdtowid111 result Full res', res, 17);
                 
-                proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
+    //             proxyprinttodiv('Function bookdtowid111 res[4] ', res[4], 99);
                 
-                var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300",
-                                        "chapters": "12", "publisher": "Blank publisher"}];
-                proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
+    //             var expectedResult = [{"title":"Book Title1","wid":"bookdtowid111","metadata.method":"bookdto","pages":"300",
+    //                                     "chapters": "12", "publisher": "Blank publisher"}];
+    //             proxyprinttodiv('Function bookdtowid111 expectedResult ', expectedResult, 17);
                 
-                res = logverify("bookdtowid111_result", res[4], expectedResult);
-                debuglevel=0;
-                execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
-                    proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
-                    callback(err, res); 
-                })
-        });
-    }
+    //             res = logverify("bookdtowid111_result", res[4], expectedResult);
+    //             debuglevel=0;
+    //             execute({"executethis": "getwidmaster","wid": "bookdtowid111"}, function (err, res1) {
+    //                 proxyprinttodiv('Function bookdtowid111 result LAST ', res1, 17); 
+    //                 callback(err, res); 
+    //             })
+    //     });
+    // }
   
     exports.add999 = add999 = function add999(params, callback) {
         var d="";

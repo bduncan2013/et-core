@@ -921,10 +921,10 @@
     //     }
     // }; // end of addwid
 exports.addwid = addwid = function addwid(object, dtoobject, command, callback) {
-        debuglevel = 18;
-        if (!object["wid"]){
-            debuglevel = 18;
-        }
+        // debuglevel = 18;
+        // if (!object["wid"]){
+        //     debuglevel = 18;
+        // }
         proxyprinttodiv("addwid object", object, 18);
         proxyprinttodiv("addwid dtoobject", dtoobject, 18);
         proxyprinttodiv("addwid command", command, 18);
@@ -962,38 +962,36 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                              proxyprinttodiv("addwid step1 getwidmaster currentinheritobject", currentinheritobject, 18);
                              differenceresults = deepDiffMapper.map(object,currentinheritobject);// fn in utils
                              proxyprinttodiv("addwid step1 getwidmaster differenceresults", differenceresults, 18);
-                             //
-                             // use the differenceresults to create a new object
-                             // ***** create code here
-                                 for(key in differenceresults){
-                                     if(differenceresults[key]["type"] === "updated"){
-                                        
-                                        object[key] = differenceresults[key]["data"];
-                                     }
-                                 }
-                            
-                             //To merge object with getwidmaster result
-                             // if(typeof getwidmasterres === 'object' && Object.keys(getwidmasterres).length !== 0){
-                             //     for(key in getwidmasterres){
-                             //         if(!object[key]){
-                             //            proxyprinttodiv("adding to missing prop to object! ", getwidmasterres[key], 18);
-                             //             object[key] = getwidmasterres[key];
-                             //         }
-                             //     }
-                             // }
-
-                                //if(typeof getwidmasterres === 'object' && Object.keys(getwidmasterres).length !== 0){
-                                 for(key in currentinheritobject){
-                                     if(!object[key]){
-                                        proxyprinttodiv("adding to missing prop to object! ", currentinheritobject[key], 18);
-                                         object[key] = currentinheritobject[key];
-                                     }
+                            //
+                            // use the differenceresults to create a new object
+                                for(key in differenceresults){
+                                    if(differenceresults[key]["type"] === "updated"){ // may not be updated(may need tweaks), could also be "deleted"
+                                       object[key] = differenceresults[key]["data"];
+                                    }
                                 }
-                           // }
                             
-                             proxyprinttodiv("addwid step1 after diff and merge object", object, 18);    
-                            
-                             }
+                            //To merge object with getwidmaster result
+                            // if(typeof getwidmasterres === 'object' && Object.keys(getwidmasterres).length !== 0){
+                            //     for(key in getwidmasterres){
+                            //         if(!object[key]){
+                            //            proxyprinttodiv("adding to missing prop to object! ", getwidmasterres[key], 18);
+                            //             object[key] = getwidmasterres[key];
+                            //         }
+                            //     }
+                            // }
+
+                            // add missing props from the currentinheritobject
+                            // this will add them to the object, if they are not in the dtoobject
+                            // they will be filtered out
+                             for(key in currentinheritobject){
+                                 if(!object[key]){
+                                    proxyprinttodiv("adding to missing prop to object! ", currentinheritobject[key], 18);
+                                    object[key] = currentinheritobject[key];
+                                }
+                            }
+                           
+                            proxyprinttodiv("addwid step1 after diff and merge object", object, 18);    
+                            }
                              step1_callback(null);
                          });
                 
@@ -1018,7 +1016,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                     object["wid"] = "undefined";
                 }
                 // set wid = guid if its missing in dto
-                if(!dtoobject["wid"]){
+                if(!dtoobject["wid"] || dtoobject["wid"] === 'string'){
                     dtoobject["wid"]="guid";
                 }
 
