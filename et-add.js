@@ -952,7 +952,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                          //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":44,"command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];      
                          //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":4, "f":6, "command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];       
                          if (typeof res[0] === 'object' && Object.keys(res[0]).length !== 0) {
-                             if (res[0].command.inherit.data) {
+                             if (res[0].command && res[0].command.inherit && res[0].command.inherit.data) {
                                  currentinheritobject= res[0].command.inherit.data;
                                  delete res[0].command.inherit.data;
                              }

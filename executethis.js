@@ -171,7 +171,7 @@
                                 if (stagedata.overallerror && Object.keys(stagedata.overallerror).length > 0) {
                                     callback(stagedata.overallerror, stagedata.overallresult)
                                 } else {
-                                    try {
+//                                    try {
                                     preResults=stagedata.currentresult;
                                 
                                     // // If error, bounce out
@@ -215,7 +215,7 @@
                                         if (err && Object.keys(err).length > 0) {
                                             callback(err, midResults);
                                         } else {
-                                            try {
+//                                            try {
 
                                                 proxyprinttodiv("post midexecute -- midResults", midResults, 11);
 
@@ -253,7 +253,7 @@
                                                     if (err && Object.keys(err).length > 0) {
                                                         callback(err, postResults);
                                                     } else {
-                                                        try {
+//                                                        try {
 
                                                             if (!postResults) {
                                                                 postResults = {}
@@ -343,42 +343,42 @@
                                                                 proxyprinttodiv("end postexecute -- postResults", postResults, 11);
                                                                 callback(null, postResults);
                                                             }
-                                                        } // end try
-                                                        catch (err) {
-                                                            var finalobject = createfinalobject({
-                                                                "result": "execute_post"
-                                                            }, {}, "execute_post", err, postResults);
-                                                            console.log('** Error Caught during the postexecute doThis() call'
-                                                                + ' in the execute() function of executethis.js ** => ' + err);
-                                                            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
-                                                            callback(finalobject.err, finalobject.res);
-                                                        }
+//                                                        } // end try
+//                                                        catch (err) {
+//                                                            var finalobject = createfinalobject({
+//                                                                "result": "execute_post"
+//                                                            }, {}, "execute_post", err, postResults);
+//                                                            console.log('** Error Caught during the postexecute doThis() call'
+//                                                                + ' in the execute() function of executethis.js ** => ' + err);
+//                                                            console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+//                                                            callback(finalobject.err, finalobject.res);
+//                                                        }
                                                     } // end else
                                                 }); // end do this processor post
 
-                                            } // end try
-                                            catch (err) {
-                                                var finalobject = createfinalobject({
-                                                    "result": "execute_mid"
-                                                }, {}, "execute_mid", err, midResults);
-                                                console.log('** Error Caught during the midexecute doThis() call'
-                                                    + ' in the execute() function in executethis.js ** => ' + err);
-                                                console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
-                                                callback(finalobject.err, finalobject.res);
-                                            }
+//                                            } // end try
+//                                            catch (err) {
+//                                                var finalobject = createfinalobject({
+//                                                    "result": "execute_mid"
+//                                                }, {}, "execute_mid", err, midResults);
+//                                                console.log('** Error Caught during the midexecute doThis() call'
+//                                                    + ' in the execute() function in executethis.js ** => ' + err);
+//                                                console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+//                                                callback(finalobject.err, finalobject.res);
+//                                            }
                                         } // end else
                                     }); // end do this processor mid
 
-                                } // end try
-                                catch (err) {
-                                    var finalobject = createfinalobject({
-                                        "result": "execute_pre"
-                                    }, {}, "execute_pre", err, preResults);
-                                    console.log('** Error Caught during the preexecute doThis() call'
-                                        + 'in the execute() function in executethis.js ** => ' + err);
-                                    console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
-                                    callback(finalobject.err, finalobject.res);
-                                }
+//                                } // end try
+//                                catch (err) {
+//                                    var finalobject = createfinalobject({
+//                                        "result": "execute_pre"
+//                                    }, {}, "execute_pre", err, preResults);
+//                                    console.log('** Error Caught during the preexecute doThis() call'
+//                                        + 'in the execute() function in executethis.js ** => ' + err);
+//                                    console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
+//                                    callback(finalobject.err, finalobject.res);
+//                                }
                             } // end else
                         }); // end do this processor pre
                 } // added for command.server
