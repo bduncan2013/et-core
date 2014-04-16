@@ -967,7 +967,7 @@
         callback(err, result);
       });
   };
-  
+
   // This tests inherit.default at the wid level with 1 field already existing. Only age=42 should be accepted from authordefault as name=Tom is already
   // present in the wid. author1 should return name=Tom & age=42.
   // NOTE: This is not working. The age field is not being returned from the default, only the pre-existing name=Tom. It seems like there is a conflict
@@ -1801,7 +1801,7 @@ exports.testcommanddtotype = testcommanddtotype = function testcommanddtotype(pa
       "primarymethod": "authordto",
       "secondarywid": "spousedto",
       "secondarymethod": "spousedto"
-            },{
+        },{
       "executethis":"addwidmaster",
       "wid":"spouse1",
       "metadata.method":"spousedto",
@@ -4152,7 +4152,7 @@ function recurseobjcontainer(obj, dtotable, callback) {
         To add wid to db(default "data")
     */
     exports.etaddwidtodbdata = etaddwidtodbdata = function etaddwidtodbdata(parameters, callback) {
-        debuglevel = 17;
+        //debuglevel = 17;
         //eventappinstall();
 
     execute([{
@@ -4188,7 +4188,7 @@ function recurseobjcontainer(obj, dtotable, callback) {
         }, {
              "executethis": "getwidmaster",
              "wid": "wid2",
-             "command":{"db":"data"}
+             "command":{"db":"test"}
         }, {
              "executethis": "getwidmaster",
              "wid": "wid3",
