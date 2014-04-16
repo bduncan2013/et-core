@@ -888,7 +888,8 @@
 /*************   INHERIT DEFAULT TESTS ***************/
 /*************       Single Level      ***************/
 	
-  // This tests inherit.default at the dto level. authordto inherits from authordefault and so author1 should be returned with name=Alex & age=42
+  // This tests inherit.default at the dto level. authordto inherits from authordefault 
+  // and so author1 should be returned with name=Alex & age=42
   // works.
   exports.testinheritdefault0 = testinheritdefault0 = function testinheritdefault0(params,callback){
     execute([{
@@ -897,68 +898,76 @@
       "metadata.method":"authordto",
       "name":"Alex",
       "age":"42"
-      },{
+    },{
       "executethis":"addwidmaster",
       "wid":"authordto",
       "metadata.method":"authordto",
       "name":"string",
       "age":"string",
       "metadata.inherit.0": {"wid" : "authordefault", "command" : { "dtotype":"", "adopt":"default"}}
-      //"metadata.inherit.default":[{"widname" : "authordefault"}]
-      },{
+    },{
       "executethis":"addwidmaster",
       "wid":"author1",
       "age" : "10",
       "metadata.method":"authordto"
-      }],
-      function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                //debuglevel = 38;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99); 
-                    callback(err, res); 
-                });
-      });
-}; 
-  
-  // This tests inherit.default at the wid level. author1 inherits from authordefault and should be returned with name=Alex & age=42
+    },{
+      "executethis": "getwidmaster",
+      "wid": "author1"
+    }],
+    function (err, res) {
+      proxyprinttodiv('Full results: ', res, 99);
+      proxyprinttodiv('The author1 record: ', res[3], 99);
+
+      var result = logverify("testinheritdefault0_result", res[3], [{
+        "wid": "author1",
+        "metadata.method": "authordto",
+        "name": "Alex",
+        "age": "42"
+      }]);
+
+      callback(err, result);
+    });
+  };
+    
+  // This tests inherit.default at the wid level. author1 inherits from authordefault and 
+  // should be returned with name=Alex & age=42
   // works.
   exports.testinheritdefault1 = testinheritdefault1 = function testinheritdefault1(params,callback){
     execute([{
-      "executethis":"addwidmaster",
-      "wid":"authordefault",
-      "metadata.method":"authordto",
-      "name":"Alex",
-      "age":"42"
+        "executethis":"addwidmaster",
+        "wid":"authordefault",
+        "metadata.method":"authordto",
+        "name":"Alex",
+        "age":"42"
       },{
-      "executethis":"addwidmaster",
-      "wid":"authordto",
-      "metadata.method":"authordto",
-      "name":"string",
-      "age":"string"
+        "executethis":"addwidmaster",
+        "wid":"authordto",
+        "metadata.method":"authordto",
+        "name":"string",
+        "age":"string"
       },{
-      "executethis":"addwidmaster",
-      "wid":"author1",
-      "metadata.method":"authordto",
-	  "metadata.inherit.0": {"wid" : "authordefault", "command" : { "dtotype":"", "adopt":"default"}}
-      //"metadata.inherit.default":[{"widname" : "authordefault"}]
+        "executethis":"addwidmaster",
+        "wid":"author1",
+        "metadata.method":"authordto",
+        "metadata.inherit.0": {"wid" : "authordefault", "command" : { "dtotype":"", "adopt":"default"}}
+      },{
+        "executethis": "getwidmaster",
+        "wid": "author1"
       }],
       function (err, res) {
-                proxyprinttodiv('Full results: ', res, 99);
-                
-                proxyprinttodiv('The author1 record: ', res[2], 99);
-        
-                debuglevel = 0;
-                execute({"executethis": "getwidmaster","wid": "author1"}, function (err, res1) {
-                    proxyprinttodiv("getwidmaster author1 result: ", res1, 99);
-                    callback(err, res);
-                });
-      });
-}
+        proxyprinttodiv('Full results: ', res, 99);
+        proxyprinttodiv('The author1 record: ', res[3], 99);
+        var result = logverify("testinheritdefault0_result", res[3], [{
+          "wid": "author1",
+          "metadata.method": "authordto",
+          "name": "Alex",
+          "age": "42"
+        }]);
 
+        callback(err, result);
+      });
+  };
+  
   // This tests inherit.default at the wid level with 1 field already existing. Only age=42 should be accepted from authordefault as name=Tom is already
   // present in the wid. author1 should return name=Tom & age=42.
   // NOTE: This is not working. The age field is not being returned from the default, only the pre-existing name=Tom. It seems like there is a conflict
