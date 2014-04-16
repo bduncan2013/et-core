@@ -12,22 +12,25 @@ exports.server = 'server1';
 
 (function (window) {
 
-//     exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
-// //        proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
-//         //widMasterKey = "widmaster_";
-//         localStore.clear();
-//         //potentialwid = 0;
-//         localStore.push("DRI", [{
-//             "wid": "initialwid",
-//             "initialwid": "hello from bootprocess"
-//         }]);
-//         localStore.push("DRIKEY", {
-//             "initialwid": {
-//                 "wid": "initialwid",
-//                 "initialwid": "for key hello from bootprocess"
-//             }
-//         });
-//     };
+
+
+
+    //     exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = function clearLocalStorage() {
+    // //        proxyprinttodiv('clear clearLocalStorage', 'hi', 38);
+    //         //widMasterKey = "widmaster_";
+    //         localStore.clear();
+    //         //potentialwid = 0;
+    //         localStore.push("DRI", [{
+    //             "wid": "initialwid",
+    //             "initialwid": "hello from bootprocess"
+    //         }]);
+    //         localStore.push("DRIKEY", {
+    //             "initialwid": {
+    //                 "wid": "initialwid",
+    //                 "initialwid": "for key hello from bootprocess"
+    //             }
+    //         });
+    //     };
 
 
     // *********** EVENTS **************************************************
@@ -154,6 +157,7 @@ exports.server = 'server1';
     //     //displayAllWids();
     // }
 
+
 })(typeof window == "undefined" ? global : window);
 
 
@@ -236,27 +240,44 @@ var config123 = function () {
     // configuration.postExecute[3].params = {};
 
 
-//    configuration.getwid = [];
-//    configuration.getwid[0] = {};
-//    configuration.getwid[0].executeorder = 0;
-//    configuration.getwid[0].tryorder = 0;
-//    configuration.getwid[0].dothis = 'getwid';
-//    configuration.getwid[0].params = {};
-//
-//    configuration.updatewid = [];
-//    configuration.updatewid[0] = {};
-//    configuration.updatewid[0].executeorder = 0;
-//    configuration.updatewid[0].tryorder = 0;
-//    configuration.updatewid[0].dothis = 'updatewid';
-//    configuration.updatewid[0].params = {};
-//
-//    configuration.getfrommongo = [];
-//    configuration.getfrommongo[0] = {};
-//    configuration.getfrommongo[0].executeorder = 0;
-//    configuration.getfrommongo[0].tryorder = 0;
-//    configuration.getfrommongo[0].dothis = 'getfrommongo';
-//    configuration.getfrommongo[0].params = {};
 
+
+    //    configuration.getwid = [];
+    //    configuration.getwid[0] = {};
+    //    configuration.getwid[0].executeorder = 0;
+    //    configuration.getwid[0].tryorder = 0;
+    //    configuration.getwid[0].dothis = 'getwid';
+    //    configuration.getwid[0].params = {};
+    //
+    //    configuration.updatewid = [];
+    //    configuration.updatewid[0] = {};
+    //    configuration.updatewid[0].executeorder = 0;
+    //    configuration.updatewid[0].tryorder = 0;
+    //    configuration.updatewid[0].dothis = 'updatewid';
+    //    configuration.updatewid[0].params = {};
+    //
+    //    configuration.getfrommongo = [];
+    //    configuration.getfrommongo[0] = {};
+    //    configuration.getfrommongo[0].executeorder = 0;
+    //    configuration.getfrommongo[0].tryorder = 0;
+    //    configuration.getfrommongo[0].dothis = 'getfrommongo';
+    //    configuration.getfrommongo[0].params = {};
+
+
+
+
+
+    // configuration.MONGODB_URL = 'mongodb://trugate:tempalte-77@ds045627.mongolab.com:45627/';
+    // configuration.MONGODB_URL = 'mongodb://localhost:27017/'
+    // configuration.MONGODB_OPTIONS = {
+    //     'safe': true,
+    //     'server': true,
+    //     'auto_reconnect': true,
+    //     'pool': 5
+    // };
+    configuration.LOOKUP_DIR = '../dripoint/';
+    // configuration.LOOKUP_DIR = '../html/';// for testing
+    configuration.SERVICE_URL = 'http://localhost:3000/';
 
     return {
         "configuration": configuration
@@ -311,17 +332,15 @@ function executeAjax(allConfig, executeItem, callback, returnCallback) {
 exports.test2 = test2 = function test2(name, callback) {
     var default_name = 'stranger';
     var use_name = name || default_name;
-    
+
     callback(
-        null,
-        {
-            "test": 
-            "test2 on server called, modified by " + JSON.stringify( use_name )
+        null, {
+            "test": "test2 on server called, modified by " + JSON.stringify(use_name)
         }
     );
 }
 
-exports.sayHello = sayHello = function(params, callback) {
+exports.sayHello = sayHello = function (params, callback) {
 
 }
 
@@ -342,22 +361,22 @@ var querystring = require('querystring');
 var https = require('https');
 var fs = require('fs');
 
-exports.twilioPassThrough = function(params, callback) {
-//    proxyprinttodiv('twilioPassThrough started', 99);
+exports.twilioPassThrough = function (params, callback) {
+    //    proxyprinttodiv('twilioPassThrough started', 99);
 
     // Twilio Credentials 
-    var accountSid = 'AC909f1981261f4461abbc7985bd202897'; 
+    var accountSid = 'AC909f1981261f4461abbc7985bd202897';
     var authToken = '7bb26fabe1f818f11f4a178359e0f19a';
 
     // Twilio constants used in all functions
     var twilioHost = 'api.twilio.com';
     var twilioApiVersion = '2010-04-01';
     var twilioPort = 443;
-    var twilioBasePath = '/' + twilioApiVersion + '/Accounts/' + accountSid     
+    var twilioBasePath = '/' + twilioApiVersion + '/Accounts/' + accountSid
     var callerFrom = '+12312259665'; // Who will this call appear to originate from?
-                                    // this number MUST be registered with our
-                                   // twilio account or the call will fail
-                                  // leave AS-IS or update twilio
+    // this number MUST be registered with our
+    // twilio account or the call will fail
+    // leave AS-IS or update twilio
 
     // Pull out the parameters from the function
     var twilioFunction = params['twilioFunction'];
@@ -366,8 +385,7 @@ exports.twilioPassThrough = function(params, callback) {
 
 
     // Override parameters for testing
-    if (false) 
-    {
+    if (false) {
         twilioFunction = 'Messages.json';
         callerTo = '+12313133930';
         messageBody = 'Hello russ';
@@ -375,7 +393,7 @@ exports.twilioPassThrough = function(params, callback) {
     var twilioURI = twilioBasePath + '/' + twilioFunction;
     var callHTML = 'https://' + twilioHost + twilioURI;
 
-//    proxuprinttodiv('Calling twilio function ' + twilioURI );
+    //    proxuprinttodiv('Calling twilio function ' + twilioURI );
 
     //// Maximum size of the message is 1600 characters
     //if (messageBody)
@@ -398,11 +416,11 @@ exports.twilioPassThrough = function(params, callback) {
     // Pass through the paramters
     var twilioParameters = params['twilioParameters'];
     twilioParameters.From = callerFrom;
-    var post_data = querystring.stringify( params['twilioParameters'] );
+    var post_data = querystring.stringify(params['twilioParameters']);
 
     // Build the post options
-//    proxyprinttodiv('URI = ' + twilioURI);
-//    proxyprinttodiv('HOST = ' + twilioHost);
+    //    proxyprinttodiv('URI = ' + twilioURI);
+    //    proxyprinttodiv('HOST = ' + twilioHost);
     var post_options = {
         host: twilioHost,
         port: twilioPort,
@@ -418,13 +436,15 @@ exports.twilioPassThrough = function(params, callback) {
     };
 
     // Setup the request
-    var post_request = https.request(post_options, function(res) {
+    var post_request = https.request(post_options, function (res) {
         res.setEncoding('utf8');
-        res.on('data', function(chunk) {
-//            proxyprinttodiv('Response: ' + chunk);
+        res.on('data', function (chunk) {
+            //            proxyprinttodiv('Response: ' + chunk);
 
             // assumes response is 1 chunk
-            callback(null, {"test":"success"});
+            callback(null, {
+                "test": "success"
+            });
         });
     });
 
@@ -432,7 +452,7 @@ exports.twilioPassThrough = function(params, callback) {
     post_request.write(post_data);
     post_request.end();
 
-    
+
 };
 
 
@@ -440,18 +460,20 @@ exports.gitPullEtCore = gitPullEtCore = function gitPullEtCore(params, cb) {
     var cmd = 'git';
     var cwd = '/Code/Dri/server-code/nodejsmtapi';
     var args = ['pull'];
-    var options = {'cwd': cwd};
+    var options = {
+        'cwd': cwd
+    };
 
 
-    console.log('calling ' + cmd + args.join(' ')  );
+    console.log('calling ' + cmd + args.join(' '));
 
     var git = spawn(cmd, args, options);
 
-    git.stdout.on('data', function(data) {
+    git.stdout.on('data', function (data) {
         console.log('git output: ' + data);
     });
 
-    git.on('close', function(return_code) {
+    git.on('close', function (return_code) {
         console.log('gitPullEtCore has completed');
         cb(return_code, return_code);
     });
@@ -464,15 +486,15 @@ exports.gitPullEtCore = gitPullEtCore = function gitPullEtCore(params, cb) {
 // - parameters -
 //  To: phone number of who to send message to in +12315551212 format
 //  Body: text of the message to send, max 1600 characters
-exports.sendsms = sendsms = function(params, cb) {
+exports.sendsms = sendsms = function (params, cb) {
     var twilioFunction = 'Messages.json';
     var twilioParameters = {
         'To': params['to'],
         'Body': params['body']
     }
     exports.twilioPassThrough({
-        'twilioFunction': twilioFunction,
-        'twilioParameters': twilioParameters
+            'twilioFunction': twilioFunction,
+            'twilioParameters': twilioParameters
         },
         function (err, result) {
             cb(err, result);
@@ -495,9 +517,9 @@ exports.server = server = function server(params, callback) {
     console.log('>>> server');
     var serverUrl = 'http://wiziapi.drillar.com/ButtonServe.svc/GetData/getalldata?accessToken=2afe5025-1964-4c50-abcf-bcd558188e74',
         driExecuteObj = {
-        actionQueryString: params.dri_action,
-        parameterDTOs: []
-    };
+            actionQueryString: params.dri_action,
+            parameterDTOs: []
+        };
 
     // convert passed in object to parameterdto list
     for (var prop in params) {
@@ -510,15 +532,15 @@ exports.server = server = function server(params, callback) {
     }
 
     // if params has an executethis value but no wid value then use executethis as the wid
-    if (params.hasOwnProperty('executethis') && !params.hasOwnProperty('wid')){
+    if (params.hasOwnProperty('executethis') && !params.hasOwnProperty('wid')) {
         params.wid = params.executethis;
         delete params['executethis'];
     }
 
-//    driExecuteObj = [{
-//        "ParameterName": "wid",
-//        "ParameterValue": "eq:GetCodyTestSMS"
-//    }];
+    //    driExecuteObj = [{
+    //        "ParameterName": "wid",
+    //        "ParameterValue": "eq:GetCodyTestSMS"
+    //    }];
 
     var options = {
         headers: {
@@ -542,7 +564,7 @@ exports.server2 = server2 = function server2(params, callback) {
     // also get getdata/<action> action from params object
     console.log('>>> server 2');
     var serverUrl = 'http://95.85.55.218/executethis';
-   
+
     var options = {
         headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -676,8 +698,16 @@ exports.server2 = server2 = function server2(params, callback) {
 //     return saveobject;
 // };
 
-sendsms( {'tonumber': '+12313133930', 'msgbody':'This the server- I just restarted '}, function (err, result) {
+
+ eventdeviceready({},function(err,res){
+
+
+    
+ });
+
+sendsms({
+    'tonumber': '+12313133930',
+    'msgbody': 'This the server- I just restarted '
+}, function (err, result) {
     //console.log('running');
 });
-
-

@@ -21,6 +21,8 @@ if (typeof angular !== 'undefined') {
                 console.log(obj);
                 console.log('********************************************');
 
+                if (!obj.hasOwnProperty('wid')) { obj.wid = thisWid; }
+
                 if (phase !== '$apply' && phase !== '$digest') {
                     scope.$apply(function() { scope[thisWid] = obj; });
                 } else { scope[thisWid] = obj; }
@@ -286,10 +288,9 @@ if (typeof angular !== 'undefined') {
                         var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
                         if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
 
-                        // store inwid data in model
-                        $scope.inwid = inwidResults;
-
                         processParams = extend(true, inwidResults, processParams);
+
+                        // TODO : clear inwid wid here
 
                         if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
 
@@ -808,20 +809,6 @@ if (typeof angular !== 'undefined') {
 exports.getfromangular = getfromangular = function getfromangular(parameters, callback) {
     if ($ && $('body').scope) { callback(null, $('body').scope()[parameters.wid]); }
     else { callback(null); }
-
-//    var propName = parameters.wid || '',
-//        modelObj;
-
-//    if ($ && $('body').scope) { modelObj = $('body').scope()[propName]; }
-//
-//    if (modelObj) {
-//        callback(null, modelObj);
-//    }
-//    else {
-//        offlinegetwid(parameters, function (err, results) {
-//            callback(err, results);
-//        });
-//    }
 };
 
 exports.gethtmlbyid = gethtmlbyid = function gethtmlbyid(params, callback) {

@@ -230,22 +230,24 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
             },
             true);
 
-        var command = filter_data.filteredobject;
-        proxyprinttodiv('Function datastore command', filter_data, 12);
-        var datastore= command.command.datastore;
-        var collection = command.command.collection;
-        var keycollection = command.command.keycollection;
-        var db = command.command.db;
-        var databasetable = command.command.databasetable;
+        var command = filter_data.filteredobject.command;
+        proxyprinttodiv('Function datastore filter_data', filter_data, 12);
+        proxyprinttodiv('Function datastore command', command, 12);
+        var datastore= command.datastore;
+        var collection = command.collection;
+        var keycollection = command.keycollection;
+        var db = command.db;
+        var databasetable = command.databasetable;
 
+        delete filter_data.output.command;
         var addedobject=converttodriformat(filter_data.output, command);
         proxyprinttodiv('Function datastore command -- add inputWidgetObject addedobject', addedobject, 12);
 
             if (widName) {
-                proxyprinttodiv('Function addtomongo inputWidgetObject addedobject', addedobject,12);
+                proxyprinttodiv('Function addtomongo inputWidgetObject addedobject', addedobject, 12);
                 proxyprinttodiv('Function addtomongo widName', widName,12);
                 getdatabaseinforesult=getdatabaseinfo(command, datastore, collection, keycollection, db, databasetable);
-                proxyprinttodiv('Function getwid getdatabaseinforesult update', getdatabaseinforesult,12);
+                proxyprinttodiv('Function getwid getdatabaseinforesult update', getdatabaseinforesult, 12);
                 //datastore=getdatabaseinforesult.datastore;
                 //collection=getdatabaseinforesult.collection;
                 //keycollection=getdatabaseinforesult.keycollection;
@@ -256,17 +258,24 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
 
                 proxyprinttodiv('Function addtomongo database', database,12);
 
-                for (var record in database) {
-                    if (database.hasOwnProperty(record)) {
-                        proxyprinttodiv('Function addtomongo database[record]', database[record],12);
-                        if (database[record]["wid"] == widName) {
-                            database[record] = addedobject;
-                            proxyprinttodiv('Function addtomongo found', database[record],12);
-                            found = true;
-                            break;
-                        }
-                    }
+            for (var record in database) {
+                proxyprinttodiv('Function addtomongo database[record]', database[record],12);
+                if (database[record]["wid"] == widName) {
+
+//  this is so we can have multiple db in one record—i.e read the record, delete only the db we are updating,
+ // extend, save
+
+
+                    var currentrecord = database[record]
+                    delete currentrecord.db;
+                    extend(true, addedobject, currentrecord);
+
+                    database[record] = addedobject;
+                    proxyprinttodiv('Function addtomongo found', database[record],12);
+                    found = true;
+                    break;
                 }
+            }
 
                 if (!found) {
                     database.push(addedobject);

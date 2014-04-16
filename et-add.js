@@ -88,12 +88,30 @@
             var inbound_parameters_102 = JSON.parse(JSON.stringify(arguments));
             object = ConvertFromDOTdri(object);
             proxyprinttodiv("addwidmaster before", object, 17);
-            var filter_data = tolowerparameters(object, {}, {
-                "command": ""
-            }, true);
+
+            var filter_data = getcommand(object, {
+                "command": {
+                    "datastore": config.configuration.defaultdatastore,
+                    "collection":config.configuration.defaultcollection,
+                    "keycollection":config.configuration.defaultkeycollection,
+                    "db":config.configuration.defaultdb,
+                    "databasetable":config.configuration.defaultdatabasetable,
+                    "convertmethod":"toobject"
+                }
+            }, {
+                "command": {
+                    "datastore": "",
+                    "collection":"",
+                    "keycollection":"",
+                    "db":"",
+                    "databasetable":"",
+                    "convertmethod":""
+                }
+            },
+            true);
             proxyprinttodiv("addwidmaster filter_data", filter_data, 17);
             var _object = filter_data.output;
-            var command = filter_data.output.filteredobject;
+            var command = filter_data.filteredobject;
             var _dto_object;
 
             proxyprinttodiv("addwidmaster _object", _object, 17);
@@ -1071,6 +1089,8 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
             },
             function step4(step4_callback) {
                 object["executethis"] = "updatewid";
+                // readd command params back in
+                extend(true, object, {"command": command});
                 proxyprinttodiv("addwid before updatewid ", object, 18);
                 execute(object, function (err, res) {
                     output = res; // or res[0]?
