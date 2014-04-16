@@ -236,11 +236,41 @@
                                                     //     }
                                                     // proxyprinttodiv("end postResults", postResults, 11);
 
+                                                    // added by joe to handle all the inherit processing in one block here
+                                                    if (command.adopt) {
+                                                      var copyOfInheritData = {};
+                                                      extend(true, copyOfInheritData, command.overallresult);
 
-                                                    if (command.overallresult && Object.keys(command.overallresult).length > 0) {
-                                                        var copyOfInheritData = {};
-                                                        extend(true, copyOfInheritData, command.overallresult);
+                                                      proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
+                                                      delete incomingparams.command; // may have to be un-enabled - joe
+                                                      if (command.adopt === "override") {
+                                                          command.overallresult = extend(true, inboundparms, command.overallresult);
+                                                      }
+                                                      if (command.adopt === "default") {
+                                                          command.overallresult = extend(true, command.overallresult, inboundparms);
+                                                      }
+
+                                                      // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
+                                                      if (!command.overallresult.command) {
+                                                          command.overallresult.command = {};
+                                                      }
+                                                      if (!command.overallresult.command.inherit) {
+                                                          command.overallresult.command.inherit = {};
+                                                      }
+                                                      if (!command.overallresult.command.inherit.data) {
+                                                          command.overallresult.command.inherit.data = {};
+                                                      }
+                                                      // load a copy of the what was inherited
+                                                      command.overallresult.command.inherit.data = copyOfInheritData;
+                                                      proxyprinttodiv("execute - resultparameters B", command.overallresult, 11);
+                                                      //###
+                                                      incomingparams = extend(true, incomingparams, command.overallresult);
+                                                      proxyprinttodiv("execute - resultparameters B incomingparams", incomingparams, 11);
                                                     }
+                                                    // if (command.overallresult && Object.keys(command.overallresult).length > 0) {
+                                                    //     var copyOfInheritData = {};
+                                                    //     extend(true, copyOfInheritData, command.overallresult);
+                                                    // }
 
                                                     // if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
                                                     //     var copyOfInheritData = {};
@@ -248,16 +278,16 @@
                                                     // }
 
                                                     // process inherit
-                                                    if (command.adopt) {
-                                                        proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
-                                                        //delete incomingparams.command;
-                                                        if (command.adopt === "override") {
-                                                            command.overallresult = extend(true, inboundparms, command.overallresult);
-                                                        }
-                                                        if (command.adopt === "default") {
-                                                            command.overallresult = extend(true, command.overallresult, inboundparms);
-                                                        }
-                                                    }
+                                                    // if (command.adopt) {
+                                                    //     proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
+                                                    //     //delete incomingparams.command;
+                                                    //     if (command.adopt === "override") {
+                                                    //         command.overallresult = extend(true, inboundparms, command.overallresult);
+                                                    //     }
+                                                    //     if (command.adopt === "default") {
+                                                    //         command.overallresult = extend(true, command.overallresult, inboundparms);
+                                                    //     }
+                                                    // }
                                                     // process inherit
                                                     // if (command.adopt) {
                                                     //     proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
@@ -271,23 +301,23 @@
                                                     // }
 
                                                     // process command.resultparamters, deals with loading a copy of inherit data along with incomingparams
-                                                    if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
-                                                        // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
-                                                        if (!command.overallresult.command) {
-                                                            command.overallresult.command = {};
-                                                        }
-                                                        if (!command.overallresult.command.inherit) {
-                                                            command.overallresult.command.inherit = {};
-                                                        }
-                                                        if (!command.overallresult.command.inherit.data) {
-                                                            command.overallresult.command.inherit.data = {};
-                                                        }
-                                                        // load a copy of the what was inherited
-                                                        command.overallresult.command.inherit.data = copyOfInheritData;
-                                                        proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
-                                                        //###
-                                                        //incomingparams = extend(true, incomingparams, command.resultparameters);
-                                                    }
+                                                    // if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
+                                                    //     // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
+                                                    //     if (!command.overallresult.command) {
+                                                    //         command.overallresult.command = {};
+                                                    //     }
+                                                    //     if (!command.overallresult.command.inherit) {
+                                                    //         command.overallresult.command.inherit = {};
+                                                    //     }
+                                                    //     if (!command.overallresult.command.inherit.data) {
+                                                    //         command.overallresult.command.inherit.data = {};
+                                                    //     }
+                                                    //     // load a copy of the what was inherited
+                                                    //     command.overallresult.command.inherit.data = copyOfInheritData;
+                                                    //     proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
+                                                    //     //###
+                                                    //     //incomingparams = extend(true, incomingparams, command.resultparameters);
+                                                    // }
                                                     // if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
                                                     //     // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
                                                     //     if (!postResults.command) {
