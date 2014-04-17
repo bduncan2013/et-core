@@ -1,5 +1,4 @@
 // copyright (c) 2014 DRI
-(function (window) {
 
         // test to see if a call to getwidmaster gets passed through security check
         exports.testauth = testauth = function testauth(inboundparams, callback) {
@@ -800,4 +799,3 @@
         callback(null, query);
     }
 
-})(typeof window == "undefined" ? global : window);

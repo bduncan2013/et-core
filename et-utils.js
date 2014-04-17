@@ -3,7 +3,6 @@
 if (!exports) {
     var exports = {};
 }
-// (function (window) {
 
 exports.localStore = localStore = function () {
     var json = {};
@@ -3164,6 +3163,3 @@ function getRandomNumberByLength(length) {
         return found;
     }
 })();
-
-
-// })(typeof window == "undefined" ? global : window);

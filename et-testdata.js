@@ -12,7 +12,6 @@
 //
 
 
-(function (window) {
     // {"executefilter" : {"query":{"$eq":{"type":"minute"}}}}
     exports.filter1 = filter1 = function filter1(params, callback) {
         debuglevel = 37;
@@ -2448,4 +2447,3 @@
 
 
 
-})(typeof window == "undefined" ? global : window);
