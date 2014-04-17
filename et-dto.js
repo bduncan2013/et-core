@@ -728,7 +728,12 @@
 
 
 
-
+                        var x = {
+                            "wid": "systemdto"
+                        };
+                        x['executethis'] = "updatewid"
+                        x['command.db'] = 'cache'
+                        execute(x, function (err, res) {
                     execute({
                         "executethis": "getwidmaster", // <-- this wid might not be needed
                         "wid": "defaultuser"

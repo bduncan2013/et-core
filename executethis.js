@@ -860,39 +860,62 @@
                         // so we check to see if there is something on the right hand side for the target (pre, mid, post)
                         if (params[target] !== undefined) {
 
-                            // it is possible the function sent in is a string or an actual function...we need to convert to string for config lookup
-                            if (params[target] instanceof Function) {
-                                targetname = params[target].name; // get the targetname
-                                targetfunction = params[target]; // get targetfunction (whole function)
-                            } // function was passed in
-                            else {
-                                targetname = params[target]; // get the targetname 
-                                targetfunction = window[params[target]]; // get targetfunction (whole function)
-                            } // function name was passed in as string
 
-                            delete params[target]; // ** moved by Roger
-                            delete params[targetfunction]; // ** added by Roger
 
-                            howToDoList = CreateDoList(params, target, targetfunction); // generate list based on pre, mid, post
-                            // howToDoList = extend(howToDoList, tempHowToDoList);
+                            getwid({
+                                "wid": params[target],
+                                "command.db": "cache"
+                            }, function (err, res) {
+                                // if found then callback(null, res)
+                                //     else continue with normal processing
 
-                            // check for err on the 'return' of an object from CreateDoList
-                            if (howToDoList.err) {
-                                throw (howToDoList.err.error);
-                            }
+                                if (res && Object.keys(res).length > 0) {
+                                    // return results from cache
+                                    console.log(" from cache " + res);
+                                    callback(null, res)
 
-                            proxyprinttodiv("dothis - howToDoList ", howToDoList, 11);
+                                } else {
 
-                            whatToDoList = CreateDoList(params, targetname, targetfunction); // generate list based on fn name
-                            // whatToDoList = extend(whatToDoList, tempWhatToDoList);
+                                    // it is possible the function sent in is a string or an actual function...we need to convert to string for config lookup
+                                    if (params[target] instanceof Function) {
+                                        targetname = params[target].name; // get the targetname
+                                        targetfunction = params[target]; // get targetfunction (whole function)
+                                    } // function was passed in
+                                    else {
+                                        targetname = params[target]; // get the targetname 
+                                        targetfunction = window[params[target]]; // get targetfunction (whole function)
+                                    } // function name was passed in as string
 
-                            // check for err on the 'return' of an object from CreateDoList
-                            if (whatToDoList.err) {
-                                throw (whatToDoList.err.error);
-                            }
+                                    delete params[target]; // ** moved by Roger
+                                    delete params[targetfunction]; // ** added by Roger
 
-                            proxyprinttodiv("dothis - whatToDoList ", whatToDoList, 11);
-                            executelist(howToDoList, whatToDoList, callback); // execute list
+                                    howToDoList = CreateDoList(params, target, targetfunction); // generate list based on pre, mid, post
+                                    // howToDoList = extend(howToDoList, tempHowToDoList);
+
+                                    // check for err on the 'return' of an object from CreateDoList
+                                    if (howToDoList.err) {
+                                        throw (howToDoList.err.error);
+                                    }
+
+                                    proxyprinttodiv("dothis - howToDoList ", howToDoList, 11);
+
+                                    whatToDoList = CreateDoList(params, targetname, targetfunction); // generate list based on fn name
+                                    // whatToDoList = extend(whatToDoList, tempWhatToDoList);
+
+                                    // check for err on the 'return' of an object from CreateDoList
+                                    if (whatToDoList.err) {
+                                        throw (whatToDoList.err.error);
+                                    }
+
+                                    proxyprinttodiv("dothis - whatToDoList ", whatToDoList, 11);
+                                    executelist(howToDoList, whatToDoList, callback); // execute list
+                                }
+
+
+                            });
+
+
+
 
                         } // params[target] undefined
                         else { // execute the nextstage (mid or post), may need to remove target out of params
