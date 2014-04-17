@@ -56,14 +56,14 @@ exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, 
     //     function (err, res) {
     //         callback(err, res);
     // });
-    createalldtos({}, function (err, res) {
-        updatewid({
-            "wid": "initialwid",
-            "date": new Date()
-        }, function (err, res) {
-            callback(err, res);
-        });
+    // createalldtos({}, function (err, res) {
+    updatewid({
+        "wid": "initialwid",
+        "date": new Date()
+    }, function (err, res) {
+        callback(err, res);
     });
+    // });
 };
 
 exports.eventnewpage = eventnewpage = function eventnewpage() {};

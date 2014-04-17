@@ -1,5 +1,6 @@
 // copyright (c) 2014 DRI
 
+    (function (window) {
     // exports.updatewid = window.updatewid = updatewid = function updatewid(inputObject, callback) {
     //     //try {
     //     var originalarguments = {};
@@ -1110,3 +1111,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         });
         //}
     }//end of addwid
+
+    
+
+    })(typeof window == "undefined" ? global : window);
