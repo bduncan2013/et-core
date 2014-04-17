@@ -5116,3 +5116,30 @@ exports.datastore2 = datastore2 = function datastore2(params, callback) {
             callback(err, res);
         }); 
     }
+
+    exports.maincollection1test = maincollection1test = function maincollection1test(params,callback){
+    execute([{
+      "executethis":"addwidmaster",
+      "wid":"wid1",
+      "a":"b",
+      "b":"2",
+      "command":{"db":"", "collection":"maincollection1", "datastore":""}
+      //"command":{"db":"test"}
+    },{
+      "executethis": "getwidmaster",
+      "wid": "wid1"
+    }],
+    function (err, res) {
+      proxyprinttodiv('Full results: ', res, 99);
+      proxyprinttodiv('The wid1 record: ', res[1], 99);
+
+      var result = logverify("testinheritdefault0_result", res[1], [{
+        "wid": "author1",
+        "metadata.method": "authordto",
+        "name": "Alex",
+        "age": "42"
+      }]);
+
+      callback(err, result);
+    });
+  };

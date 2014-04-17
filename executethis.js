@@ -49,7 +49,7 @@
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
         try {
             var inboundparms_111 = arguments;
-
+            var inboundparms;
             var result, commandmultiple;
             var executeend;
             var parametersend;
@@ -195,6 +195,7 @@
 
                         //process beforepreexecute
                         command.currentresult = inboundparms; // these will flow to currentparameters
+                        //command.currentresult = extend(true, {}, inboundparms); // these will flow to currentparameters
                         processstage(command, "beforepreexecute");
 
                         dothisprocessor(command.currentparameters, 'preexecute', function (err, preResults) {
@@ -221,6 +222,7 @@
                                         dothisprocessor(command.currentparameters, 'postexecute', function (err, postResults) {
                                             proxyprinttodiv("before postResults", command.currentparameters, 11);
                                             proxyprinttodiv("end postResults", postResults, 11);
+                                            proxyprinttodiv("end inboundparms", inboundparms, 11);
                                             command.currenterror = err;
                                             command.currentresult = postResults;
                                             processstage(command, "beforeendexecute");
@@ -242,6 +244,8 @@
                                                     extend(true, copyOfInheritData, command.overallresult);
 
                                                     proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
+                                                    proxyprinttodiv("execute - command.overallresult ****", command.overallresult, 11);
+                                                    proxyprinttodiv("execute - inboundparms ****", inboundparms, 11);
                                                     delete incomingparams.command; // may have to be un-enabled - joe
                                                     if (command.adopt === "override") {
                                                         command.overallresult = extend(true, inboundparms, command.overallresult);
@@ -262,7 +266,7 @@
                                                     }
                                                     // load a copy of the what was inherited
                                                     command.overallresult.command.inherit.data = copyOfInheritData;
-                                                    proxyprinttodiv("execute - resultparameters B", command.overallresult, 11);
+                                                    proxyprinttodiv("execute - adopt - command.overallresult B", command.overallresult, 11);
                                                     //###
                                                     incomingparams = extend(true, incomingparams, command.overallresult);
                                                     proxyprinttodiv("execute - resultparameters B incomingparams", incomingparams, 11);
@@ -335,7 +339,7 @@
                                                 //     //###
                                                 //     //incomingparams = extend(true, incomingparams, command.resultparameters);
                                                 // }
-                                                proxyprinttodiv("end postResults command.result", command, 11);
+                                                proxyprinttodiv("end postResults command.result", command.result, 11);
 
                                                 if (command.result) {
                                                     var json = {};

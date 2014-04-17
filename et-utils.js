@@ -212,7 +212,7 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
                 "command": {
                     "datastore": config.configuration.defaultdatastore,
                     "collection":config.configuration.defaultcollection,
-                    "keycollection":config.configuration.defaultkeycollection,
+                    "keycollection":config.configuration.defaultcollection + "key",
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
                     "convertmethod":"toobject"
@@ -234,7 +234,9 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
         proxyprinttodiv('Function datastore command', command, 12);
         var datastore= command.datastore;
         var collection = command.collection;
-        var keycollection = command.keycollection;
+        var keycollection = collection + "key";
+        command["keycollection"] = keycollection;
+        proxyprinttodiv('Function datastore command -- add', command, 12);
         var db = command.db;
         var databasetable = command.databasetable;
 
@@ -339,7 +341,7 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                 "command": {
                     "datastore": config.configuration.defaultdatastore,
                     "collection":config.configuration.defaultcollection,
-                    "keycollection":config.configuration.defaultkeycollection,
+                    "keycollection":config.configuration.defaultcollection + "key",
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
                     "convertmethod":"toobject"
@@ -360,7 +362,10 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
         proxyprinttodiv('Function datastore command -- get inputWidgetObject', inputWidgetObject, 12);
         var datastore= command.command.datastore;
         var collection = command.command.collection;
-        var keycollection = command.command.keycollection;
+        // var keycollection = command.command.keycollection;
+        var keycollection = collection + "key";
+        command["keycollection"] = keycollection;
+        proxyprinttodiv('Function datastore command -- get', command, 12);
         var db = command.command.db;
         var databasetable = command.command.databasetable;
 
