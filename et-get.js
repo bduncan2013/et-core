@@ -697,8 +697,8 @@
 
                             listToDo = parameterobject.metadata.inherit;
                             listToDo.reverse(); // they are processed in reverse order
-                            var wid = parameterobject.wid;
-                            var mm = parameterobject.metadata;
+                            var wid = extend(true, {}, parameterobject.wid);
+                            var mm = extend(true, {}, parameterobject.metadata);
 
                             if (listToDo.length > 0 && command && command.getwidmaster && command.getwidmaster.inheritflag === "true") {
                                 proxyprinttodiv('<<< Get_Clean step3 resultObj after >>xx', parameterobject, 38);
@@ -1389,8 +1389,8 @@
                             delete dtoobject.command;
                             delete bigdto.command; // added by joe to delete the command obj so we do not get a blank command object after deep filter
 
-                            var wid = resultObj.wid;
-                            var mm = resultObj.metadata;
+                            var wid = extend(true, {}, resultObj.wid);
+                            var mm = extend(true, {}, resultObj.metadata);
 
                             if (listToDo.length > 0 && command && command.getwidmaster && command.getwidmaster.inheritflag === "true") {
                                 proxyprinttodiv('the starting value of resultObj', resultObj, 38);

@@ -323,6 +323,15 @@
                                 debugfn("querywid before mQueryString1", "querywid", "query", "mid", getglobal("debugcolor"), getglobal("debugindent"), debugvars([5]));
                                 proxyprinttodiv('querywid mQueryString second', mQueryString, 28);
 
+                                // if we are not dealing with the default collection then 
+                                // preform a find and replace in the query string
+                                // this may need to be moved
+                                if(environmentdb !== "data") {
+                                    var s = JSON.stringify(mQueryString);
+                                    s.replace("data", environmentdb);
+                                    mQueryString = JSON.parse(s);
+                                } 
+
                                 // if (validParams(mQueryString)) {
                                 mquery(mQueryString, commandParams, function (err, res) {
                                     // If error, bounce out
