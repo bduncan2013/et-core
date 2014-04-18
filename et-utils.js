@@ -3168,18 +3168,35 @@ function getRandomNumberByLength(length) {
         return found;
     };
 
-    //filterobject returns an object of only the differences
-    exports.filterobject = window.filterobject = function filterobject(obj1, obj2, callback){
-        proxyprinttodiv("filterobject obj1", obj1, 17);
-        proxyprinttodiv("filterobject obj2", obj2, 17);
-
-        var diffMap = deepDiffMapper.map(obj1, obj2);
-        proxyprinttodiv("diff object map", diffMap, 17);
+    //filterobject returns an object of based on a type of diffrence
+    exports.filterobject = window.filterobject = function filterobject(obj1, obj2, command, callback) {
+        var type = "default";
         var diffObj = {};
-        for (var key in diffMap) {
-            if (diffMap[key]["type"] === "created" || diffMap[key]["type"] === "deleted") {
-                diffObj[key] = diffMap[key]["data"];
-            }
+        var diffMap = deepDiffMapper.map(obj1, obj2);
+        // set the type
+        if(command && command.filterobject && command.filterobject.type) {
+            type = command.filterobject.type;
+        }
+
+        proxyprinttodiv("diff object map", diffMap, 17);
+        proxyprinttodiv("diff object map type", type, 17);
+        proxyprinttodiv("diff object map command", command, 17);
+        
+        switch(type) {
+            case "default": // returns any difference found between two objects
+                for (var key in diffMap) {
+                    if (diffMap[key]["type"] === "created" || diffMap[key]["type"] === "updated") {
+                        diffObj[key] = diffMap[key]["data"];
+                    }
+                }
+            break;
+            case "match": // returns a property only if it matches in both objects
+                for (var key in diffMap) {
+                    if (diffMap[key]["type"] === "unchanged") {
+                        diffObj[key] = diffMap[key]["data"];
+                    }
+                }
+            break;
         }
 
         proxyprinttodiv("diff object to return", diffObj, 17);
