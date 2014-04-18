@@ -3169,7 +3169,7 @@ function getRandomNumberByLength(length) {
     };
 
     //filterobject returns an object of based on a type of diffrence
-    exports.filterobject = window.filterobject = function filterobject(obj1, obj2, command, callback) {
+    exports.filterobject = function filterobject(obj1, obj2, command, callback) {
         var type = "default";
         var diffObj = {};
         var diffMap = deepDiffMapper.map(obj1, obj2);
