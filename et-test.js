@@ -5148,7 +5148,7 @@ exports.datastore2 = datastore2 = function datastore2(params, callback) {
         filterobjecttest1
         filterobject returns an object of only the differences
     */
-    exports.filterobjecttest1 = window.filterobjecttest1 = function filterobjecttest1(parameters, callback) {
+    exports.filterobjecttest1 = function filterobjecttest1(parameters, callback) {
         debuglevel = 17;
         eventappinstall();
 
@@ -5166,7 +5166,7 @@ exports.datastore2 = datastore2 = function datastore2(params, callback) {
         });
     }
 
-    exports.filterobjecttest2 = window.filterobjecttest2 = function filterobjecttest2(parameters, callback) {
+    exports.filterobjecttest2 = function filterobjecttest2(parameters, callback) {
         debuglevel = 17;
         eventappinstall();
 
@@ -5187,7 +5187,7 @@ exports.datastore2 = datastore2 = function datastore2(params, callback) {
         });
     }
 
-    exports.filterobjecttest3 = window.filterobjecttest3 = function filterobjecttest3(parameters, callback) {
+    exports.filterobjecttest3 = function filterobjecttest3(parameters, callback) {
         debuglevel = 17;
         eventappinstall();
 
