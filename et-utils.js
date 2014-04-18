@@ -2010,7 +2010,7 @@ function getRandomNumberByLength(length) {
         var temp_string = JSON.stringify(result);
         // If there is a value of 'unchanged', there IS data that has passed,
         // so for now, set the 'test_results' to PASS.
-        if (temp_string.indexOf("unchanged") !== -1) test_results = "PASS";
+        if (temp_string.indexOf("unchanged") !== -1 || temp_string === "{}") test_results = "PASS";
         // If there are any of 'created', 'updated', 'deleted', the tests now fails, even if
         // it passed before...if none of the 4 strings are found, the test_results will 
         // remain 'UNKNOWN'
@@ -3166,5 +3166,28 @@ function getRandomNumberByLength(length) {
             }
         }
         return found;
-    }
+    };
+
+    //filterobject returns an object of only the differences
+    exports.filterobject = window.filterobject = function filterobject(obj1, obj2, callback){
+        proxyprinttodiv("filterobject obj1", obj1, 17);
+        proxyprinttodiv("filterobject obj2", obj2, 17);
+
+        var diffMap = deepDiffMapper.map(obj1, obj2);
+        proxyprinttodiv("diff object map", diffMap, 17);
+        var diffObj = {};
+        for (var key in diffMap) {
+            if (diffMap[key]["type"] === "created" || diffMap[key]["type"] === "deleted") {
+                diffObj[key] = diffMap[key]["data"];
+            }
+        }
+
+        proxyprinttodiv("diff object to return", diffObj, 17);
+        if (callback){
+            callback(null, diffObj);
+        } else {
+            return diffObj;
+        }
+    };
+
 })();

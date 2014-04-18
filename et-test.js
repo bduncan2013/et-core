@@ -5143,3 +5143,83 @@ exports.datastore2 = datastore2 = function datastore2(params, callback) {
       callback(err, result);
     });
   };
+
+  /*
+        filterobjecttest1
+        filterobject returns an object of only the differences
+    */
+    exports.filterobjecttest1 = window.filterobjecttest1 = function filterobjecttest1(parameters, callback) {
+        debuglevel = 17;
+        eventappinstall();
+
+        var obj1 = {"a":"1","b":"2"}; 
+        var obj2 = {"a":"1","b":"2"};
+
+        filterobject(obj1, obj2, function(err, res){
+            proxyprinttodiv("filterobjecttest1 filterobject res", res, 17);
+            var actual_result = res;
+            proxyprinttodiv("actual_result --", actual_result, 17);                           
+            var expected_result = {};
+            proxyprinttodiv("expected_result --", expected_result, 17);
+            var result = logverify("filterobjecttest1_result", actual_result, expected_result);
+            callback(err, result);
+        });
+    }
+
+    exports.filterobjecttest2 = window.filterobjecttest2 = function filterobjecttest2(parameters, callback) {
+        debuglevel = 17;
+        eventappinstall();
+
+        var obj1 = {"a":"1","b":"2"}; 
+        var obj2 = {"a":"1","b":"2", "c":"3"};
+
+        filterobject(obj1, obj2, function(err, res){
+            proxyprinttodiv("filterobjecttest1 filterobject res", res, 17);
+            var actual_result = res;
+            proxyprinttodiv("actual_result --", actual_result, 17);                           
+            var expected_result = {"c":"3"};
+            proxyprinttodiv("expected_result --", expected_result, 17);
+            var result = logverify("filterobjecttest1_result", actual_result, expected_result);
+            callback(err, result);
+        });
+    }
+
+    exports.filterobjecttest3 = window.filterobjecttest3 = function filterobjecttest3(parameters, callback) {
+        debuglevel = 17;
+        eventappinstall();
+
+        var obj1 = {"a":"1","b":"2"}; 
+        var obj2 = {"b":"2", "c":"3"};
+
+        filterobject(obj1, obj2, function(err, res){
+            proxyprinttodiv("filterobjecttest1 filterobject res", res, 17);
+            var actual_result = res;
+            proxyprinttodiv("actual_result --", actual_result, 17);                           
+            var expected_result = {"a":"1","c":"3"};
+            proxyprinttodiv("expected_result --", expected_result, 17);
+            var result = logverify("filterobjecttest1_result", actual_result, expected_result);
+            callback(err, result);
+        });
+    }
+
+    //filterobject returns an object of only the differences
+    exports.filterobject = window.filterobject = function filterobject(obj1, obj2, callback){
+        proxyprinttodiv("filterobject obj1", obj1, 17);
+        proxyprinttodiv("filterobject obj2", obj2, 17);
+
+        var diffMap = deepDiffMapper.map(obj1, obj2);
+        proxyprinttodiv("diff object map", diffMap, 17);
+        var diffObj = {};
+        for (var key in diffMap) {
+            if (diffMap[key]["type"] === "created" || diffMap[key]["type"] === "deleted") {
+                diffObj[key] = diffMap[key]["data"];
+            }
+        }
+
+        proxyprinttodiv("diff object to return", diffObj, 17);
+        if (callback){
+            callback(null, diffObj);
+        } else {
+            return diffObj;
+        }
+    }
