@@ -3,7 +3,6 @@
 if (!exports) {
     var exports = {};
 }
-// (function (window) {
 
 exports.localStore = localStore = function () {
     var json = {};
@@ -213,7 +212,7 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
                 "command": {
                     "datastore": config.configuration.defaultdatastore,
                     "collection":config.configuration.defaultcollection,
-                    "keycollection":config.configuration.defaultkeycollection,
+                    "keycollection":config.configuration.defaultcollection + "key",
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
                     "convertmethod":"toobject"
@@ -235,7 +234,9 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
         proxyprinttodiv('Function datastore command', command, 12);
         var datastore= command.datastore;
         var collection = command.collection;
-        var keycollection = command.keycollection;
+        var keycollection = collection + "key";
+        command["keycollection"] = keycollection;
+        proxyprinttodiv('Function datastore command -- add', command, 12);
         var db = command.db;
         var databasetable = command.databasetable;
 
@@ -340,7 +341,7 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                 "command": {
                     "datastore": config.configuration.defaultdatastore,
                     "collection":config.configuration.defaultcollection,
-                    "keycollection":config.configuration.defaultkeycollection,
+                    "keycollection":config.configuration.defaultcollection + "key",
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
                     "convertmethod":"toobject"
@@ -361,7 +362,10 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
         proxyprinttodiv('Function datastore command -- get inputWidgetObject', inputWidgetObject, 12);
         var datastore= command.command.datastore;
         var collection = command.command.collection;
-        var keycollection = command.command.keycollection;
+        // var keycollection = command.command.keycollection;
+        var keycollection = collection + "key";
+        command["keycollection"] = keycollection;
+        proxyprinttodiv('Function datastore command -- get', command, 12);
         var db = command.command.db;
         var databasetable = command.command.databasetable;
 
@@ -2006,7 +2010,7 @@ function getRandomNumberByLength(length) {
         var temp_string = JSON.stringify(result);
         // If there is a value of 'unchanged', there IS data that has passed,
         // so for now, set the 'test_results' to PASS.
-        if (temp_string.indexOf("unchanged") !== -1) test_results = "PASS";
+        if (temp_string.indexOf("unchanged") !== -1 || temp_string === "{}") test_results = "PASS";
         // If there are any of 'created', 'updated', 'deleted', the tests now fails, even if
         // it passed before...if none of the 4 strings are found, the test_results will 
         // remain 'UNKNOWN'
@@ -3162,8 +3166,45 @@ function getRandomNumberByLength(length) {
             }
         }
         return found;
-    }
+    };
+
+    //filterobject returns an object of based on a type of diffrence
+    exports.filterobject = window.filterobject = function filterobject(obj1, obj2, command, callback) {
+        var type = "default";
+        var diffObj = {};
+        var diffMap = deepDiffMapper.map(obj1, obj2);
+        // set the type
+        if(command && command.filterobject && command.filterobject.type) {
+            type = command.filterobject.type;
+        }
+
+        proxyprinttodiv("diff object map", diffMap, 17);
+        proxyprinttodiv("diff object map type", type, 17);
+        proxyprinttodiv("diff object map command", command, 17);
+        
+        switch(type) {
+            case "default": // returns any difference found between two objects
+                for (var key in diffMap) {
+                    if (diffMap[key]["type"] === "created" || diffMap[key]["type"] === "updated") {
+                        diffObj[key] = diffMap[key]["data"];
+                    }
+                }
+            break;
+            case "match": // returns a property only if it matches in both objects
+                for (var key in diffMap) {
+                    if (diffMap[key]["type"] === "unchanged") {
+                        diffObj[key] = diffMap[key]["data"];
+                    }
+                }
+            break;
+        }
+
+        proxyprinttodiv("diff object to return", diffObj, 17);
+        if (callback){
+            callback(null, diffObj);
+        } else {
+            return diffObj;
+        }
+    };
+
 })();
-
-
-// })(typeof window == "undefined" ? global : window);

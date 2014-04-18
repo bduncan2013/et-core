@@ -1,5 +1,4 @@
 // copyright (c) 2014 DRI
-(function (window) {
     // require('../utils/addget.js');
     // require('../config.js');
 
@@ -1695,4 +1694,3 @@
             return finalobject;
         }
     }
-})(typeof window == "undefined" ? global : window);

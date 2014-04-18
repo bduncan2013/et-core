@@ -26,6 +26,7 @@ exports.eventappinstall = eventappinstall = function eventappinstall() {
 };
 exports.everyMinuteInterval = 0;
 exports.everyTenMinuteInterval = 0;
+
 exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, callback) {
     setdefaultparm();
     if (!getFromLocalStorage(config.configuration.defaultkeycollection)) {
@@ -35,30 +36,34 @@ exports.eventdeviceready = eventdeviceready = function eventdeviceready(params, 
     // start eventonemin, eventtenmin and save the interval value so 
     // you can use "clearInterval" in the future if desired to stop things
     var minutes = 60 * 1000;
-    exports.everyMinuteInterval = setInterval(exports.eventonemin,12 * minutes);
-    exports.everyTenMinuteInterval = setInterval(exports.eventtenmin,120 * minutes);
+    exports.everyMinuteInterval = setInterval(exports.eventonemin, 12 * minutes);
+    exports.everyTenMinuteInterval = setInterval(exports.eventtenmin, 120 * minutes);
 
-    execute([{"executethis":"addwidmaster", 
-                "metadata.method":"systemdto",
-                "wid":"systemdto",
-                "expirationtimer":"string",
-                "expirationdate":"string",
-                "metadata.inherit.0": {"wid" : "systemdefault", "command" : { "dtotype":"", "adopt":"default"}}
-        },{
-            "executethis":"addwidmaster",
-            "wid":"systemdefault",
-            "metadata.method":"systemdto",
-            "expirationtimer":"90",
-            "expirationdate":"6/14/14"
-        }
-        ],
-        function (err, res) {
-            callback(err, res);
-    });
-
-    updatewid({"wid":"initialwid", "date": new Date()}, function (err, res) {
+    // execute([{"executethis":"addwidmaster", 
+    //             "metadata.method":"systemdto",
+    //             "wid":"systemdto",
+    //             "expirationtimer":"string",
+    //             "expirationdate":"string",
+    //             "metadata.inherit.0": {"wid" : "systemdefault", "command" : { "dtotype":"", "adopt":"default"}}
+    //     },{
+    //         "executethis":"addwidmaster",
+    //         "wid":"systemdefault",
+    //         "metadata.method":"systemdto",
+    //         "expirationtimer":"90",
+    //         "expirationdate":"6/14/14"
+    //     }
+    //     ],
+    //     function (err, res) {
+    //         callback(err, res);
+    // });
+    // createalldtos({}, function (err, res) {
+    updatewid({
+        "wid": "initialwid",
+        "date": new Date()
+    }, function (err, res) {
         callback(err, res);
     });
+    // });
 };
 
 exports.eventnewpage = eventnewpage = function eventnewpage() {};
@@ -86,54 +91,59 @@ exports.eventexecuteend = eventexecuteend = function eventexecuteend(parameters,
 };
 
 exports.processevent = processevent = function processevent(eventname, callback) {
-    var widlist=[];
-    var executelist=[];
+    var widlist = [];
+    var executelist = [];
     geteventlist(eventname, function (err, eventlist) {
         if (eventlist.length > 0) {
             for (var eachexecute in eventlist) {
                 widlist.push(eachexecute)
                 executelist.push(eventlist[eachexecute])
-                }
+            }
             execute(executelist, function (err, res) {
                 // maybe res has widlist results?
                 markasdone(widlist, eventname, function (err, res) {
                     callback(err, res)
                 })
             })
+        } else {
+            callback(null, {});
         }
-        else {callback(null, {});}
     })
 };
 
 exports.geteventlist = geteventlist = function geteventlist(eventname, callback) {
-    var executeobject = 
+    var executeobject =
 
-    executeobject = {"command":{"result":"queryresult"}};
-    executeobject.command.collection="queuecollection";
-    executeobject.command.db="queuedata";
-    executeobject.command.result="queueresult";
+    executeobject = {
+        "command": {
+            "result": "queryresult"
+        }
+    };
+    executeobject.command.collection = "queuecollection";
+    executeobject.command.db = "queuedata";
+    executeobject.command.result = "queueresult";
     executeobject["executethis"] = "querywid";
-    executeobject["mongorawquery"] = { 
+    executeobject["mongorawquery"] = {
         "$and": [{
             "metadata": eventname
         }]
     };
-        execute(executeobject, function (err, eventlist) {
-            if (eventlist.length === 0) {
-                eventlist=[]
-                }
-            callback(null, eventlist)
-        })
-    };
-
-    exports.markasdone = markasdone = function markasdone(widlist, callback) {
-        var executelist=[];
-        var executeobject={};
-        for (eachwid in widlist) {
-            //deletewid
-            //executeobject
+    execute(executeobject, function (err, eventlist) {
+        if (eventlist.length === 0) {
+            eventlist = []
         }
+        callback(null, eventlist)
+    })
+};
+
+exports.markasdone = markasdone = function markasdone(widlist, callback) {
+    var executelist = [];
+    var executeobject = {};
+    for (eachwid in widlist) {
+        //deletewid
+        //executeobject
     }
+}
 
 function setdefaultparm() {
 
@@ -148,10 +158,10 @@ function setdefaultparm() {
     saveglobal("debugsubcat", "");
     saveglobal("debugcat", "");
     saveglobal("debugfilter", "");
-    saveglobal("debugdestination",12);
+    saveglobal("debugdestination", 12);
     saveglobal("debugcolor", 0);
     saveglobal("debugindent", 0);
-    saveglobal("debuglinenum",12);
+    saveglobal("debuglinenum", 12);
 
     exports.environment = "local";
     exports.Debug = Debug;
@@ -166,7 +176,7 @@ function config123() {
     configuration.environment = 'local';
     configuration.widmasterkey = 'widmasterkey'
     configuration.defaultcollection = 'dricollection';
-    configuration.defaultdb='data';
+    configuration.defaultdb = 'data';
     configuration.defaultdatastore = 'localstorage'
     configuration.defaultkeycollection = 'dricollectionkey'
     configuration.defaultdatabasetable = 'wikiwallettesting'
@@ -237,23 +247,23 @@ function config123() {
     configuration.postExecute[3].dothis = 'server';
     configuration.postExecute[3].params = {};
 
-//     configuration.getwid = [];
-//     configuration.getwid[0] = {};
-//     configuration.getwid[0].executeorder = 1;
-//     configuration.getwid[0].tryorder = 1;
-//     configuration.getwid[0].dothis = 'getfromangular';
-// //    configuration.getwid[0].dothis = 'offlinegetwid';
-//     configuration.getwid[0].server = 'getwid';
-//     configuration.getwid[0].params = {};
+    //     configuration.getwid = [];
+    //     configuration.getwid[0] = {};
+    //     configuration.getwid[0].executeorder = 1;
+    //     configuration.getwid[0].tryorder = 1;
+    //     configuration.getwid[0].dothis = 'getfromangular';
+    // //    configuration.getwid[0].dothis = 'offlinegetwid';
+    //     configuration.getwid[0].server = 'getwid';
+    //     configuration.getwid[0].params = {};
 
-//     configuration.updatewid = [];
-//     configuration.updatewid[0] = {};
-//     configuration.updatewid[0].executeorder = 1;
-//     configuration.updatewid[0].tryorder = 1;
-//     configuration.updatewid[0].dothis = 'offlineupdatewid';
-//     configuration.updatewid[0].server = 'updatewid';
-//     configuration.updatewid[0].dofn = offlineupdatewid;
-//     configuration.updatewid[0].params = {};
+    //     configuration.updatewid = [];
+    //     configuration.updatewid[0] = {};
+    //     configuration.updatewid[0].executeorder = 1;
+    //     configuration.updatewid[0].tryorder = 1;
+    //     configuration.updatewid[0].dothis = 'offlineupdatewid';
+    //     configuration.updatewid[0].server = 'updatewid';
+    //     configuration.updatewid[0].dofn = offlineupdatewid;
+    //     configuration.updatewid[0].params = {};
 
     return {
         "configuration": configuration
@@ -273,16 +283,26 @@ exports.clearLocalStorage = window.clearLocalStorage = clearLocalStorage = funct
     localStorage.clear();
     //potentialwid = 0;
     // items below can probably be cleared now
-    addToLocalStorage(config.configuration.defaultdatabasetable+config.configuration.defaultcollection, [
-                                        {"wid": "initialwid", 
-                                        "metadata": {"date": new Date()}, 
-                                        "data":{"system generated": "clearLocalStorage10"}
-                                        }
-                                        ]);
-    addToLocalStorage(config.configuration.defaultdatabasetable+config.configuration.defaultkeycollection, {"initialwid": {"wid": "initialwid", 
-                                        "metadata": {"date": new Date()}, 
-                                        "data":{"system generated": "clearLocalStorage12"}
-                                        }});
+    addToLocalStorage(config.configuration.defaultdatabasetable + config.configuration.defaultcollection, [{
+        "wid": "initialwid",
+        "metadata": {
+            "date": new Date()
+        },
+        "data": {
+            "system generated": "clearLocalStorage10"
+        }
+    }]);
+    addToLocalStorage(config.configuration.defaultdatabasetable + config.configuration.defaultkeycollection, {
+        "initialwid": {
+            "wid": "initialwid",
+            "metadata": {
+                "date": new Date()
+            },
+            "data": {
+                "system generated": "clearLocalStorage12"
+            }
+        }
+    });
 };
 
 exports.removeFromLocalStorage = window.removeFromLocalStorage = removeFromLocalStorage = function removeFromLocalStorage(key) {
@@ -378,8 +398,8 @@ exports.server = window.server = server = function server(params, callback) {
 
 exports.server2 = window.server2 = server2 = function server2(params, callback) {
     proxyprinttodiv('Function server2 ------', params, 99);
-    params.command.server="server2";
-    server(params,callback);
+    params.command.server = "server2";
+    server(params, callback);
 }
 
 exports.getDriApiData = getDriApiData = function getDriApiData(params, callback) {
@@ -486,7 +506,7 @@ exports.mquery = mquery = function mquery(inboundobj, command, callback) {
             return Date.parse(aObj["metadata"]["date"]) - Date.parse(bObj["metadata"]["date"]);
         });
 
-// not sure if stuff below needed
+        // not sure if stuff below needed
         keydatabase = getFromLocalStorage(databasetable + keycollection);
         for (var eachrecord in outlist) {
             eachwid = keydatabase[outlist[eachrecord]["wid"]];
@@ -504,4 +524,3 @@ exports.mquery = mquery = function mquery(inboundobj, command, callback) {
         callback(finalobject.err, finalobject.res);
     }
 };
-

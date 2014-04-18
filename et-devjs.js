@@ -10,7 +10,6 @@
     // config dofn
     // 
 
-    (function (window) {
             // 'use strict';
 
             var execute, executethis, etexecute;
@@ -1622,4 +1621,3 @@
     // call bootprocess() for the first time after all dependencies have been loaded
     //bootprocess();
 
-    })(typeof window == "undefined" ? global : window);

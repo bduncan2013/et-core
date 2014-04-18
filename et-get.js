@@ -1,6 +1,7 @@
 // copyright (c) 2014 DRI
-(function (window) {
-    // copyright (c) 2014 DRI 
+  
+
+    (function (window) {
     // *** GetWid ***
     // Purpose: Converts data to and from dri standards
 
@@ -1557,4 +1558,6 @@
 
 
 
-})(typeof window === "undefined" ? global : window); //
+    })(typeof window == "undefined" ? global : window);
+
+

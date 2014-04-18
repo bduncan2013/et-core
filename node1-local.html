@@ -16,8 +16,8 @@ copyright (c) 2014 DRI
     <script src="./bootstrap/js/bootstrap.min.js"></script>
 
     <script src="./async.js"></script>
-    <script src="et-utils.js"></script>
     <script src="config-local.js"></script>
+    <script src="et-utils.js"></script>
     <script src="et-dto.js"></script>
     <script src="et-testdata.js"></script>
     <script src="et-security.js"></script>
@@ -266,16 +266,19 @@ copyright (c) 2014 DRI
     //clearLocalStorage()
     $(document).ready(function() {
         // page loaded, on ready  >>     function etappstarted()
-        eventdeviceready({}, function (err, res) {
+
         Debug = 'false';
         //bootprocess();
         
         $('#function_to_run').val(sessionStorage.getItem("function"));
         $('#function_to_run').focus();
+
+        //eventdeviceready({}, function (err, res) {
+
         // $('dest_print').prop("checked", true);
         // alert(document.URL);
             
-        });
+        //});
 
     });
 
