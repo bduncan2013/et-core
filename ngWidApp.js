@@ -31,14 +31,14 @@ if (typeof angular !== 'undefined') {
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
                     if (obj[prop] instanceof Object) {
-                        console.log('********************************************');
-                        console.log('**ngModelData** bind-able data for ' + prop + ' :');
-                        console.log(obj[prop]);
-                        console.log('********************************************');
-
-                        if (phase !== '$apply' && phase !== '$digest') {
-                            scope.$apply(function() { scope[prop] = obj[prop]; });
-                        } else { scope[prop] = obj[prop]; }
+//                        console.log('********************************************');
+//                        console.log('**ngModelData** bind-able data for ' + prop + ' :');
+//                        console.log(obj[prop]);
+//                        console.log('********************************************');
+//
+//                        if (phase !== '$apply' && phase !== '$digest') {
+//                            scope.$apply(function() { scope[prop] = obj[prop]; });
+//                        } else { scope[prop] = obj[prop]; }
 
                         storeAllData(obj[prop], scope, prop);
                     } else {
@@ -258,53 +258,65 @@ if (typeof angular !== 'undefined') {
             $scope.data = {};
             $scope.ajax = {};
             var querystring = window.location.search,
-                parameters = widAppHelper.queryStrToObj(querystring.substring(1)),
-                currentUser = dataService.user.getLocal(),
-                processParams = {};
+                urlParameters = widAppHelper.queryStrToObj(querystring.substring(1)),
+                currentUser = dataService.user.getLocal();
+//                processParams = {};
 
-            // save url parameters to 'urlparams' wid
-            if (parameters.wid) { parameters.addthis = {wid:parameters.wid}; delete parameters['wid']; }
-            if (parameters.executethis) {
-                if (!parameters.addthis) { parameters.addthis = {executethis:parameters.executethis}; }
-                else { parameters.addthis.executethis = parameters.executethis; }
-                delete parameters['executethis'];
-            }
+            gatherParamsAndExecute(urlParameters, $scope);
 
-            var urlExecuteObj = extend(true, parameters, {executethis:'updatewid', wid:'urlparams'});
-
-            // get urlparams and inwid parameters and call executeThis with them
-            // executeThis will check for screenwids to display
-            execute(urlExecuteObj, function (err, addUrlResults) {
-                execute({executethis:'urlparams'}, function (err, urlResultArr) {
-                    var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
-
-                    if (urlResultObj.addthis) { urlResultObj = widAppHelper.removeAddThis(urlResultObj); }
-
-                    $scope.urlparams = urlResultObj;
-
-                    processParams = extend(true, urlResultObj, processParams);
-
-                    execute({executethis:'inwid'}, function (err, inwidResultArr) {
-                        var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
-                        if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
-
-                        processParams = extend(true, inwidResults, processParams);
-
-                        // TODO : clear inwid wid here
-
-                        if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
-
-                        if (processParams.wid) {
-                            processParams.executethis = processParams.wid;
-                            delete processParams['wid'];
-                        }
-
-                        if (processParams.metadata) { delete processParams['metadata']; }
-
-                        executeService.executeThis(processParams, $scope);
-                    });
-                });
-            });
+//            // save url parameters to 'urlparams' wid
+//            if (urlParameters.wid) {
+//                if (!urlParameters.addthis) { urlParameters.addthis = {wid:urlParameters.wid}; }
+//                else { urlParameters.addthis.wid = urlParameters.wid; }
+//                delete urlParameters['wid'];
+//            }
+//
+//            if (urlParameters.executethis) {
+//                if (!urlParameters.addthis) { urlParameters.addthis = {executethis:urlParameters.executethis}; }
+//                else { urlParameters.addthis.executethis = urlParameters.executethis; }
+//                delete urlParameters['executethis'];
+//            }
+//
+//            var urlExecuteObj = extend(true, urlParameters, {executethis:'updatewid', wid:'urlparams'});
+//
+//            // TODO: make these execute calls their own function and all it from the callExecute() function
+//
+//            // get urlparams and inwid parameters and call executeThis with them
+//            // executeThis will check for screenwids to display
+//            execute(urlExecuteObj, function (err, addUrlResults) {
+//                execute({executethis:'urlparams'}, function (err, urlResultArr) {
+//                    var urlResultObj = widAppHelper.mergeNestedArray(urlResultArr);
+//
+//                    if (urlResultObj.addthis) { urlResultObj = widAppHelper.removeAddThis(urlResultObj); }
+//
+//                    $scope.urlparams = urlResultObj;
+//
+//                    processParams = extend(true, urlResultObj, processParams);
+//
+//                    execute({executethis:'inwid'}, function (err, inwidResultArr) {
+//                        var inwidResults = widAppHelper.mergeNestedArray(inwidResultArr);
+//                        if (inwidResults.wid && inwidResults.wid === 'inwid') { delete inwidResults['wid']; }
+//
+//                        processParams = extend(true, inwidResults, processParams);
+//
+//                        // TODO : clear inwid wid here
+//
+//                        if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
+//
+//                        if (processParams.wid) {
+//                            processParams.executethis = processParams.wid;
+//                            delete processParams['wid'];
+//                        }
+//
+//                        if (processParams.metadata) { delete processParams['metadata']; }
+//
+//                        //TODO: after this execute call, add to the 'wid' (whatever is the wid in this next execute call
+//                        //TODO: in the data model, add what came back from widdata call and also what is in urlparams
+//                        //TODO: also add a 'urlparams' property to the wid in the model and add the urlparams to it as well
+//                        executeService.executeThis(processParams, $scope);
+//                    });
+//                });
+//            });
 
 //            // package url parameters into model
 //            if (Object.size(widAppHelper.queryStrToObj(location.search)) > 0) {
@@ -326,38 +338,38 @@ if (typeof angular !== 'undefined') {
                 });
             }
 
-            //<editor-fold desc='addDataWid section'>
-
-            $scope.addWidName = "";
-            $scope.deleteWid = false;
-
-            $scope.addWid = function () {
-                var pNames = $('.pname');
-                var pValues = $('.pvalue');
-                var updateParams = {wid:$scope.addWidName,executethis:'addwidmaster'};
-
-                for (var i = 0; i < pNames.length; i++) { updateParams[pNames[i].value] = pValues[i].value; }
-
-                if ($scope.deleteWid) { updateParams.metadata.status = '5'; }
-
-                executeService.executeThis(updateParams, $scope, function () {
-                    $scope.clearAddWidForm();
-                    $('#successlog').html("The wid has been successfully added or updated!");
-                    //            self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
-                });
-            };
-
-            $scope.newPropRow = function() {
-                $('#propertyList').append(widAppHelper.newPropRowHtml);
-                $('.pname').last().focus();
-            };
-
-            $scope.clearAddWidForm = function() {
-                $('.added').remove();
-                $('#widname,.pname,.pvalue').val('');
-            };
-
-            //</editor-fold>
+//            //<editor-fold desc='addDataWid section'>
+//
+//            $scope.addWidName = "";
+//            $scope.deleteWid = false;
+//
+//            $scope.addWid = function () {
+//                var pNames = $('.pname');
+//                var pValues = $('.pvalue');
+//                var updateParams = {wid:$scope.addWidName,executethis:'addwidmaster'};
+//
+//                for (var i = 0; i < pNames.length; i++) { updateParams[pNames[i].value] = pValues[i].value; }
+//
+//                if ($scope.deleteWid) { updateParams.metadata.status = '5'; }
+//
+//                executeService.executeThis(updateParams, $scope, function () {
+//                    $scope.clearAddWidForm();
+//                    $('#successlog').html("The wid has been successfully added or updated!");
+//                    //            self.location = "widForViewRepeatExample.html?wid=" + $scope.addWidName;
+//                });
+//            };
+//
+//            $scope.newPropRow = function() {
+//                $('#propertyList').append(widAppHelper.newPropRowHtml);
+//                $('.pname').last().focus();
+//            };
+//
+//            $scope.clearAddWidForm = function() {
+//                $('.added').remove();
+//                $('#widname,.pname,.pvalue').val('');
+//            };
+//
+//            //</editor-fold>
 
             //<editor-fold desc='login section'>
 
@@ -643,6 +655,64 @@ if (typeof angular !== 'undefined') {
         }
     };
 
+    exports.gatherParamsAndExecute = gatherParamsAndExecute = function gatherParamsAndExecute(urlParameters, scope) {
+        var ogUrlParams = extend(true, {}, urlParameters);
+
+        function finishProcess(parameters) {
+            if (parameters.addthis) { parameters = widAppHelper.removeAddThis(parameters); }
+
+            if (parameters.wid) {
+                parameters.executethis = parameters.wid;
+                delete parameters['wid'];
+            }
+
+            if (parameters.metadata) { delete parameters['metadata']; }
+
+            //TODO: after this execute call, add to the 'wid' (whatever is the wid in this next execute call
+            //TODO: in the data model, add what came back from widdata call and also what is in urlparams
+            //TODO: also add a 'urlparams' property to the wid in the model and add the urlparams to it as well
+            angular.injector(['ng', 'widApp'])
+                .get('executeService')
+                .executeThis(parameters, scope, function (err, results) {
+                    scope[parameters.wid || parameters.executethis].urlparams = ogUrlParams;
+                });
+        }
+
+        // save url parameters to 'urlparams' wid
+        // hide 'wid' and 'executethis' parameters behind addthis if found
+        if (urlParameters.wid) {
+            if (!urlParameters.addthis) { urlParameters.addthis = {wid:urlParameters.wid}; }
+            else { urlParameters.addthis.wid = urlParameters.wid; }
+            delete urlParameters['wid'];
+        }
+
+        if (urlParameters.executethis) {
+            if (!urlParameters.addthis) { urlParameters.addthis = {executethis:urlParameters.executethis}; }
+            else { urlParameters.addthis.executethis = urlParameters.executethis; }
+            delete urlParameters['executethis'];
+        }
+
+        var addUrlParamsObj = extend(true, urlParameters, {executethis:'updatewid', wid:'urlparams'});
+
+        // get urlparams and inwid parameters and call executeThis with them
+        // executeThis will check for screenwids to display
+        execute(addUrlParamsObj, function (addUrlErr, addUrlResults) {
+            execute({executethis:'urlparams'}, function (err, urlResultArr) {
+                var processParams = widAppHelper.mergeNestedArray(urlResultArr);
+
+                if (processParams.addthis) { processParams = widAppHelper.removeAddThis(processParams); }
+
+                if (processParams.widdata) {
+                    execute({executethis:processParams.widdata}, function (err, widdataResults) {
+                        delete processParams['widdata'];
+                        processParams = extend(true, widAppHelper.mergeNestedArray(widdataResults), processParams);
+                        finishProcess(processParams);
+                    });
+                } else { finishProcess(processParams); }
+            });
+        });
+    };
+
     function callExecute(ele) {
         var attrObj = NNMtoObj(ele.attributes),
             parameters = extend(true, {command:{parameters:{eventdata:{}}}}, JSON.parse(attrObj.etparams)),
@@ -654,6 +724,9 @@ if (typeof angular !== 'undefined') {
 
         // add urlparameters and inwid data to parameters
 //        parameters = extend(true, scope.inwid, scope.urlparams, parameters);
+
+        // TODO : get inwid everytime to always get the latest, don't store in data model
+
         parameters = extend(true, scope.inwid, parameters); // not using urlparams for now as it causes conflicting wid properties at times.
 
         angular.injector(['ng', 'widApp'])
