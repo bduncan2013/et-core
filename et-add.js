@@ -957,66 +957,46 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
             function step1(step1_callback) { // getwidmaster
                  proxyprinttodiv("addwid step1 getwidmaster output", output, 18);
                  if (object['wid']) {
-                 execute({
-                     "executethis": "getwidmaster",
-                     "wid": object['wid'],
-                     "command.getwidmaster.execute": "ConvertFromDOTdri",
-                     "command.getwidmaster.convertmethod": "nowid"
-                     }, function (err, res) {
-                         proxyprinttodiv("addwid step1 getwidmaster result", res, 18);
-                         var getwidmasterres = {};
-                         extend(true, getwidmasterres, res[0]);
-                         proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", getwidmasterres, 18);
-                         //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":44,"command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];      
-                         //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":4, "f":6, "command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];       
-                         if (typeof res[0] === 'object' && Object.keys(res[0]).length !== 0) {
-                             if (res[0].command && res[0].command.inherit && res[0].command.inherit.data) {
-                                 currentinheritobject= res[0].command.inherit.data;
-                                 delete res[0].command.inherit.data;
-                             }
-                             currentobject=res[0];
-                             object = extend(true, currentobject, object);
-                             proxyprinttodiv("addwid step1 getwidmaster currentobject", currentobject, 18);
-                             proxyprinttodiv("addwid step1 getwidmaster currentinheritobject", currentinheritobject, 18);
-                             differenceresults = deepDiffMapper.map(object,currentinheritobject);// fn in utils
-                             proxyprinttodiv("addwid step1 getwidmaster differenceresults", differenceresults, 18);
-                            //
-                            // use the differenceresults to create a new object
-                                for(key in differenceresults){
-                                    if(differenceresults[key]["type"] === "updated"){ // may not be updated(may need tweaks), could also be "deleted"
-                                       object[key] = differenceresults[key]["data"];
+                     execute({
+                         "executethis": "getwidmaster",
+                         "wid": object['wid'],
+                         "command.getwidmaster.execute": "ConvertFromDOTdri",
+                         "command.getwidmaster.convertmethod": "nowid"
+                         }, function (err, res) {
+                             proxyprinttodiv("addwid step1 getwidmaster result", res, 18);
+                             var getwidmasterres = {};
+                             extend(true, getwidmasterres, res[0]); // master copy
+                             proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", getwidmasterres, 99);
+                             //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":44,"command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];      
+                             //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":4, "f":6, "command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];       
+                             if (typeof res[0] === 'object' && Object.keys(res[0]).length !== 0) {
+                                // if we have inherit data
+                                if (res[0].command && res[0].command.inherit && res[0].command.inherit.data) {
+                                    currentinheritobject = res[0].command.inherit.data;
+                                    delete res[0].command.inherit.data;
+                                    var command = {"filterobject": {"type":"match"}};
+                                    var matches = filterobject(getwidmasterres, currentinheritobject, command);
+                                    // may need a recursive delete here
+                                    if(Object.keys(matches).length > 0) {
+                                        for (var key in matches) {
+                                            delete getwidmasterres[key];
+                                        }
                                     }
                                 }
-                            
-                            //To merge object with getwidmaster result
-                            // if(typeof getwidmasterres === 'object' && Object.keys(getwidmasterres).length !== 0){
-                            //     for(key in getwidmasterres){
-                            //         if(!object[key]){
-                            //            proxyprinttodiv("adding to missing prop to object! ", getwidmasterres[key], 18);
-                            //             object[key] = getwidmasterres[key];
-                            //         }
-                            //     }
-                            // }
+                                
+                                object = extend(true, object, getwidmasterres);
+                                proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", object, 99);
 
-                            // add missing props from the currentinheritobject
-                            // this will add them to the object, if they are not in the dtoobject
-                            // they will be filtered out
-                             for(key in currentinheritobject){
-                                 if(!object[key]){
-                                    proxyprinttodiv("adding to missing prop to object! ", currentinheritobject[key], 18);
-                                    object[key] = currentinheritobject[key];
-                                }
+                                step1_callback(null);
+
+                            } else {
+                                step1_callback(null);
                             }
-                           
-                            proxyprinttodiv("addwid step1 after diff and merge object", object, 18);    
-                            }
-                             step1_callback(null);
-                         });
+                    }); // end execute
                 
-                    
-                 } else { // if no object['wid']
-                    step1_callback(null);
-                 }
+                } else { // if no object['wid']
+                            step1_callback(null);
+                        }
             },
             function step2(step2_callback) { // deepfilter step...should create a guid for an empty wid
                 if (!command) {
