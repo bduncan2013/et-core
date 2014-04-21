@@ -45,7 +45,17 @@
             return JSON.stringify( result )
         }
 
-    
+        function checkenviornment(environment, cb) {
+            if (Object.keys(environment).length === 0) {
+                getwid({"wid":"environment"}, function (err, res) {
+                    cb(null, res)
+                })
+                }
+            else {
+                cb(null, environment)
+            }
+        }
+
 
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
         try {
@@ -195,6 +205,9 @@
                     command = filter_data.filteredobject.command;
                     proxyprinttodiv('>>>> execute command', command, 11, true);
                     proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11, true);
+
+                    checkenviornment(command.environment, function (err, res) {
+                    command.environment=res
 
                     if (command.multipleexecute.length > 0) {
                         proxyprinttodiv("execute - array params received ", inboundparms, 11);
@@ -354,6 +367,7 @@
                             } // end else
                         }); // end do this processor pre
                     } // multiple
+                    }) // environment
                 } // added for command.server
             }
         } // end try

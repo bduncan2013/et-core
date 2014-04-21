@@ -205,7 +205,7 @@
                 if (err && Object.keys(err).length > 0) {
                     callback(err, res);
                 } else {
-                    try {
+                    //try {
                         dtoobject = res;
                         proxyprinttodiv("cleanadd getdtoobject res-------", dtoobject, 17);
 
@@ -214,15 +214,28 @@
                         var result_obj = {};
                         var output = {};
 
-                        if (!command) {
-                            command = {};
-                        }
-                        if (!command.deepfilter) {
-                            command.deepfilter = {};
-                        }
-                        if (!command.deepfilter.convert) {
-                            command.deepfilter.convert = false;
-                        }
+                        // if (!command) {
+                        //     command = {};
+                        // }
+                        // if (!command.deepfilter) {
+                        //     command.deepfilter = {};
+                        // }
+                        // if (!command.deepfilter.convert) {
+                        //     command.deepfilter.convert = false;
+                        // }
+
+                if (!command) {
+                    command = {};
+                }
+                if (!command.command) {
+                    command.command = {};
+                }
+                if (!command.command.deepfilter) {
+                    command.command.deepfilter = {};
+                }
+                if (!command.command.deepfilter.convert) {
+                    command.command.deepfilter.convert = false;
+                }
 
                         output.obj = object;
                         output.dtoobj = dtoobject;
@@ -276,19 +289,20 @@
                                 } // end else
                             });// end execute
                         } else { // if ==string
+                            proxyprinttodiv("cleanadd command", command, 99);
                             deepfilter(object, dtoobject, command, function (err, result_obj) {
                                 output.obj = result_obj;
                                 output.dtoobj = dtoobject;
                                 callback(null, output);
                             });
                         } //  end if (dto_to_get !== "string") 
-                    } // end try
-                    catch (err) {
-                        var finalobject = createfinalobject({
-                            "result": "cleanadd"
-                        }, {}, "cleanadd", err, inbound_parameters);
-                        callback(finalobject.err, finalobject.res);
-                    }
+                    //} // end try
+                    // catch (err) {
+                    //     var finalobject = createfinalobject({
+                    //         "result": "cleanadd"
+                    //     }, {}, "cleanadd", err, inbound_parameters);
+                    //     callback(finalobject.err, finalobject.res);
+                    // }
                 } // end else
             }); // end getdtoobject
         } // end try
@@ -1002,12 +1016,15 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                 if (!command) {
                     command = {};
                 }
-                if (!command.deepfilter) {
-                    command.deepfilter = {};
+                if (!command.command) {
+                    command.command = {};
                 }
-                command.deepfilter.convert = true;
+                if (!command.command.deepfilter) {
+                    command.command.deepfilter = {};
+                }
+                command.command.deepfilter.convert = true;
 
-                if (!command.deepfilter.keepaddthis) { command.deepfilter.keepaddthis = true; }
+                if (!command.command.deepfilter.keepaddthis) { command.command.deepfilter.keepaddthis = true; }
                 
                 // add wid = guid if its missing in input
                 if (!object.hasOwnProperty("wid")) {
@@ -1071,7 +1088,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                 object["executethis"] = "updatewid";
                 // readd command params back in
                 var temp = {}
-                temp.command=command
+                temp=command
                 extend(true, object, temp);
                 proxyprinttodiv("addwid before updatewid ", object, 18);
                 execute(object, function (err, res) {

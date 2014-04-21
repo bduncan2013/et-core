@@ -246,7 +246,7 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
             true);
 
         var command = filter_data.filteredobject.command;
-        proxyprinttodiv('Function datastore filter_data', filter_data, 12);
+        proxyprinttodiv('Function datastore filter_data', filter_data, 99);
         proxyprinttodiv('Function datastore command', command, 12);
         var datastore= command.datastore;
         var collection = command.collection;
@@ -811,16 +811,16 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
     var totype;
     var keepaddthis;
     var inbound_parameters_110 = arguments;
-    if (command && command.deepfilter && command.deepfilter.convert===undefined) { //if command.deepfilter.convert undefined
+    if (command && command.command && command.command.deepfilter && command.command.deepfilter.convert===undefined) { //if command.deepfilter.convert undefined
         convert = false; //default value
-    } else { convert=command.deepfilter.convert; }
-    if (command && command.deepfilter && command.deepfilter.totype===undefined) { //if command.deepfilter.totype undefined
+    } else { convert=command.command.deepfilter.convert}
+    if (command && command.command && command.command.deepfilter && command.command.deepfilter.totype===undefined) { //if command.deepfilter.totype undefined
         totype = false; //default value
-    } else { totype=command.deepfilter.totype; }
+    } else { totype=command.command.deepfilter.totype; }
 
-    if (command && command.deepfilter && command.deepfilter.keepaddthis===undefined) { //if command.deepfilter.totype undefined
+    if (command && command.command && command.command.deepfilter && command.command.deepfilter.keepaddthis===undefined) { //if command.deepfilter.totype undefined
         keepaddthis = false; //default value -- normally will try to remove addthis at add and get
-    } else { keepaddthis=command.deepfilter.keepaddthis; }
+    } else { keepaddthis=command.command.deepfilter.keepaddthis; }
 
     proxyprinttodiv("deepfilter inputObj", inputObj, 41);
     proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
