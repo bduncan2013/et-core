@@ -986,7 +986,8 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                                     }
                                 }
                                 
-                                object = extend(true, object, getwidmasterres);
+                                // object = extend(true, object, getwidmasterres); // wrong order
+                                object = extend(true, getwidmasterres, object);
                                 proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", object, 99);
 
                                 step1_callback(null);
