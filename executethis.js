@@ -1318,7 +1318,7 @@
                                                                                 } else {
                                                                                     // executeflag=false
                                                                                     // temp answer for a bug, if empty do not push onto ouputresultarray - joe
-                                                                                    if ((isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)) {
+                                                                                    if (res && (isArray(res)) && (res.length === 1) && res[0] && (Object.keys(res[0]).length === 0)) {
                                                                                         cbMapW(null, "What Iteration");
                                                                                     } else {
                                                                                         outputResultsArr.push(res);
