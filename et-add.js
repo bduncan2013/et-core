@@ -974,8 +974,10 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                                 if (res[0].command && res[0].command.inherit && res[0].command.inherit.data) {
                                     currentinheritobject = res[0].command.inherit.data;
                                     delete res[0].command.inherit.data;
-                                    var command = {"filterobject": {"type":"match"}};
-                                    var matches = filterobject(getwidmasterres, currentinheritobject, command);
+                                    //var command = {"filterobject": {"type":"match"}};
+                                    var matches = compareobjects(getwidmasterres, currentinheritobject, "equal");
+				                    matches = matches.andobj;
+                                    proxyprinttodiv("compareobjects return -- matches", matches, 18);
                                     // may need a recursive delete here
                                     if(Object.keys(matches).length > 0) {
                                         for (var key in matches) {
@@ -984,7 +986,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                                     }
                                 }
                                 
-                                object = extend(true, getwidmasterres, object);
+                                object = extend(true, object, getwidmasterres);
                                 proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", object, 99);
 
                                 step1_callback(null);
