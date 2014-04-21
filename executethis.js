@@ -13,50 +13,50 @@
 (function (window) {
     // 'use strict';
 
-    var execute, executethis, etexecute;
+    var execute;
 
-    exports.executethis = window.executethis = executethis = function executethis(incomingparams, callback, overallError) {
-        // get environment -- user id
-        // executeid
-
-        execute(incomingparams, function (err, res) {
-            // If error, bounce out
-            if (err && Object.keys(err).length > 0) {
-                callback(err, res);
-            } else {
-                try {
-                    processevent("eventexecuteend", function (err, res) {
-                        overallError.push(err);
-                        callback(err, res);
-                    });
-                } catch (err) {
-                    var finalobject = createfinalobject({"result": "executethis"}, {}, "executethis", err, res);
-                    console.log('** Error Caught in the executethis() function in executethis.js ** => ' + err);
-                    console.log('** finalobject created from error => ' + JSON.stringify(finalobject));
-                    callback(finalobject.err, finalobject.res);
+//##
+        function sortObj( obj , callback ) {
+            var r = [] ;
+            for ( var i in obj ){
+                if ( obj.hasOwnProperty( i ) ) {
+                     r.push( { key: i , value : obj[i] } );
                 }
             }
-        })
-    };
 
+            return r.sort( callback ).reduce( function( obj , n ){
+                obj[ n.key ] = n.value ;
+                return obj;
+            },{});
+        }
 
-    // pre, mid, post tries to combine results
-    // if pre = array (query) then
-    exports.internalexecute = window.internalexecute = internalexecute = function internalexecute(incomingparams, callback) {
-        callback(null, incomingparams);
-    };
+//##
+        function hashobj(inobj) {
+            var obj={};
+            extend(true, obj, inobj)
+            delete inobj.executethis
+            delete inobj.preexecute
+            delete inobj.postexecute
+            ///////delete inobj.command
+
+            var result = sortObj( obj , function( a, b ){
+                return a.key < b.key  ;    
+            });
+            return JSON.stringify( result )
+        }
+
+    
 
     exports.execute = window.execute = execute = function execute(incomingparams, callback) {
         try {
             var inboundparms_111 = arguments;
             var inboundparms;
             var result, commandmultiple;
-            var executeend;
-            var parametersend;
             var inarray = [];
             var command = {};
             //debuglevel = 11
             proxyprinttodiv("execute - hello from execute", incomingparams, 11);
+            if (!incomingparams.command) {incomingparams.command={}}
 
             if (isString(incomingparams)) {
                 var temp = {};
@@ -64,15 +64,16 @@
                 proxyprinttodiv("execute - array params received I", temp, 11);
                 incomingparams = temp;
                 proxyprinttodiv("execute - array params received I", incomingparams, 11);
-            }
+                }
+
             proxyprinttodiv("execute - hello from execute  II", incomingparams, 11);
 
             proxyprinttodiv("execute - incomingparams 1", incomingparams, 11);
             if ((incomingparams instanceof Array)) {
                 proxyprinttodiv("execute - array params received ", incomingparams, 11);
                 executethismultiple(incomingparams, command, callback);
-
-            } else {
+                } 
+            else {
 
                 proxyprinttodiv("execute - incomingparams 2", incomingparams, 11);
                 if (incomingparams.command && incomingparams.command.server) {
@@ -80,67 +81,76 @@
                     delete incomingparams.command.server;
                     window[fn](incomingparams, function (err, res) {
                         callback(err, res);
-                    })
-                } else {
+                        })
+                    } 
+                else {
                     proxyprinttodiv('>>>> execute incomingparams ', incomingparams, 11);
-
+                    proxyprinttodiv('>>>> execute incomingparams ', incomingparams, 11);
+                    if (!incomingparams.command.bundle) {incomingparams.command.bundle=true}
+                    if (!incomingparams.command.level) {incomingparams.command.level=0}
+                    if (incomingparams.command.level === 0) {incomingparams.command.bundle=true}
+                    if (incomingparams.command.bundle === true) {}
+                    
+                    proxyprinttodiv('>>>> execute incomingparams ', incomingparams, 11);
                     var filter_data = getcommand(incomingparams, {
                             "command": {
+                                "bundle":false,
+                                "level":0,
                                 "internalcall": true,
-                                "adopt": "",
-                                "resultparameters": "",
+                                "adopt": null,
+                                "resultparameters": {},
                                 "result": "",
-                                "execute": "",
-                                "environment": "",
-                                "inherit": "",
+                                "execute": null,
+                                "environment": {},
+                                "inherit": null,
                                 "executefilter": "",
                                 "executelimit": 15,
                                 "executemethod": "execute",
                                 "executeorder": "series",
                                 "beforemultiple": {
-                                    "overallresultrule": "clearresults",
-                                    "overallerrorrule": "waterfall",
+                                    "overallresultparametersrule": "clearresults",
+                                    "queueparametersrule": "waterfall",
                                     "resultrule": "waterfall",
                                     "errorrule": "nullwaterfall"
                                 },
                                 "duringmultiple": {
-                                    "overallresultrule": "pusharray",
-                                    "overallerrorrule": "waterfall",
+                                    "overallresultparametersrule": "pusharray",
+                                    "queueparametersrule": "waterfall",
                                     "resultrule": "waterfall",
                                     "errorrule": "nullwaterfall"
                                 },
                                 "beforeendmultiple": {
-                                    "overallresultrule": "waterfall",
-                                    "overallerrorrule": "waterfall",
+                                    "overallresultparametersrule": "waterfall",
+                                    "queueparametersrule": "waterfall",
                                     "resultrule": "waterfall",
                                     "errorrule": "nullwaterfall"
                                 },
                                 "beforepreexecute": {
-                                    "overallresultrule": "waterfall",
-                                    "overallerrorrule": "waterfall",
+                                    "overallresultparametersrule": "waterfall",
+                                    "queueparametersrule": "waterfall",
                                     "resultrule": "waterfall",
                                     "errorrule": "nullwaterfall"
                                 },
                                 "beforemidexecute": {
-                                    "overallresultrule": "waterfall",
-                                    "overallerrorrule": "waterfall",
+                                    "overallresultparametersrule": "waterfall",
+                                    "queueparametersrule": "waterfall",
                                     "resultrule": "waterfall",
                                     "errorrule": "nullwaterfall"
                                 },
                                 "beforepostexecute": {
-                                    "overallresultrule": "waterfall",
-                                    "overallerrorrule": "waterfall",
+                                    "overallresultparametersrule": "waterfall",
+                                    "queueparametersrule": "waterfall",
                                     "resultrule": "waterfall",
                                     "errorrule": "nullwaterfall"
                                 },
                                 "beforeendexecute": {
-                                    "overallresultrule": "objectwaterfall",
-                                    "overallerrorrule": "waterfall",
+                                    "overallresultparametersrule": "objectwaterfall",
+                                    "queueparametersrule": "waterfall",
                                     "resultrule": "waterfall",
                                     "errorrule": "nullwaterfall"
                                 },
-                                "overallerror": [{}],
-                                "overallresult": [{}],
+                                "queueparameters": [{}],
+                                "overallresultparameters": [{}],
                                 "currenterror": null,
                                 "currentresult": {},
                                 "currentparameters": {},
@@ -149,43 +159,45 @@
                             }
                         }, {
                             "command": {
-                                "internalcall": "",
-                                "adopt": "",
-                                "resultparameters": "",
-                                "result": "",
-                                "execute": "",
-                                "environment": "",
-                                "inherit": "",
-                                "executefilter": "",
-                                "executelimit": "",
-                                "executemethod": "",
-                                "executeorder": "",
-                                "beforemultiple": "",
-                                "duringmultiple": "",
-                                "beforeendmultiple": "",
-                                "beforepreexecute": "",
-                                "beforemidexecute": "",
-                                "beforepostexecute": "",
-                                "beforeendexecute": "",
-                                "overallerror": "",
-                                "overallresult": "",
-                                "currenterror": "",
-                                "currentresult": "",
-                                "currentparameters": "",
-                                "multipleexecute": "",
-                                "parameters": ""
+                                "bundle":"x",
+                                "level":"x",
+                                "internalcall": "x",
+                                "adopt": "x",
+                                "resultparameters": "x",
+                                "result": "x",
+                                "execute": "x",
+                                "environment": "x",
+                                "inherit": "x",
+                                "executefilter": "x",
+                                "executelimit": "x",
+                                "executemethod": "x",
+                                "executeorder": "x",
+                                "beforemultiple": "x",
+                                "duringmultiple": "x",
+                                "beforeendmultiple": "x",
+                                "beforepreexecute": "x",
+                                "beforemidexecute": "x",
+                                "beforepostexecute": "x",
+                                "beforeendexecute": "x",
+                                "queueparameters": "x",
+                                "overallresultparameters": "x",
+                                "currenterror": "x",
+                                "currentresult": "x",
+                                "currentparameters": "x",
+                                "multipleexecute": "x",
+                                "parameters": "x"
                             }
                         },
                         true);
 
-                    proxyprinttodiv('>>>> execute filter_data', filter_data, 11);
+                    proxyprinttodiv('>>>> execute filter_data', filter_data, 11, true);
                     inboundparms = extend(true, filter_data.output, command.parameters);
                     command = filter_data.filteredobject.command;
-                    proxyprinttodiv('>>>> execute command', command, 11);
-                    proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11);
+                    proxyprinttodiv('>>>> execute command', command, 11, true);
+                    proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11, true);
 
                     if (command.multipleexecute.length > 0) {
-                        proxyprinttodiv("execute - array params received ", incomingparams, 11);
+                        proxyprinttodiv("execute - array params received ", inboundparms, 11);
                         executethismultiple(inboundparms, command, callback);
 
                     } else {
@@ -193,194 +205,148 @@
                         inboundparms['midexecute'] = inboundparms['executethis'];
                         delete inboundparms['executethis'];
 
-                        //process beforepreexecute
-                        command.currentresult = inboundparms; // these will flow to currentparameters
-                        //command.currentresult = extend(true, {}, inboundparms); // these will flow to currentparameters
-                        processstage(command, "beforepreexecute");
+// ##
+                            var objkey = hashobj(inboundparms)
+                            proxyprinttodiv("execute objkey", objkey, 11);
 
-                        dothisprocessor(command.currentparameters, 'preexecute', function (err, preResults) {
-                            proxyprinttodiv("before preResults", command.currentparameters, 11);
-                            proxyprinttodiv("end preResults", preResults, 11);
-                            command.currenterror = err;
-                            command.currentresult = preResults;
-                            processstage(command, "beforemidexecute");
-                            if (command.currenterror && Object.keys(command.currenterror).length > 0) {
-                                callback(command.overallerror, command.overallresult)
-                            } else {
-                                proxyprinttodiv('command preResults', preResults, 11);
 
-                                dothisprocessor(command.currentparameters, 'midexecute', function (err, midResults) {
-                                    proxyprinttodiv("before midResults", command.currentparameters, 11);
-                                    proxyprinttodiv("end midResults", midResults, 11);
-                                    command.currenterror = err;
-                                    command.currentresult = midResults;
-                                    processstage(command, "beforepostexecute");
-                                    if (command.currenterror && Object.keys(command.currenterror).length > 0) {
-                                        callback(command.overallerror, command.overallresult)
-                                    } else {
+                            //process beforepreexecute
+                            command.currentresult = inboundparms; // these will flow to currentparameters
+                            processstage(command, "beforepreexecute");
 
-                                        dothisprocessor(command.currentparameters, 'postexecute', function (err, postResults) {
-                                            proxyprinttodiv("before postResults", command.currentparameters, 11);
-                                            proxyprinttodiv("end postResults", postResults, 11);
-                                            proxyprinttodiv("end inboundparms", inboundparms, 11);
-                                            command.currenterror = err;
-                                            command.currentresult = postResults;
-                                            processstage(command, "beforeendexecute");
+//##
+                            dothisprocessor(command.currentparameters, 'preexecute', objkey, function (err, preResults) {
+                                proxyprinttodiv("before preResults", command.currentparameters, 11);
+                                proxyprinttodiv("end preResults", preResults, 11);
+                                command.currenterror = err;
+                                command.currentresult = preResults;
+                                processstage(command, "beforemidexecute");
+                                if (command.currenterror && Object.keys(command.currenterror).length > 0) {
+                                    callback(command.queueparameters, command.overallresultparameters)
+                                } else {
+                                    proxyprinttodiv('command preResults', preResults, 11);
+//##
+                                    dothisprocessor(command.currentparameters, 'midexecute', objkey, function (err, midResults) {
+                                        proxyprinttodiv("before midResults", command.currentparameters, 11);
+                                        proxyprinttodiv("end midResults", midResults, 11);
+                                        command.currenterror = err;
+                                        command.currentresult = midResults;
+                                        processstage(command, "beforepostexecute");
+                                        if (command.currenterror && Object.keys(command.currenterror).length > 0) {
+                                            callback(command.queueparameters, command.overallresultparameters)
+                                        } else {
+//##
+                                            dothisprocessor(command.currentparameters, 'postexecute', objkey, function (err, postResults) {
+                                                proxyprinttodiv("before postResults", command.currentparameters, 11);
+                                                proxyprinttodiv("end postResults", postResults, 11);
+                                                command.currenterror = err;
+                                                command.currentresult = postResults;
+                                                processstage(command, "beforeendexecute");
 
-                                            if (command.currenterror && Object.keys(command.currenterror).length > 0) {
-                                                callback(command.overallerror, command.overallresult);
-                                            } else {
-                                                // if (isArray(command.currentresult)) {
-                                                //     postResults=command.currentresult[0]
-                                                //     }
-                                                // else {
-                                                //     postResults=command.currentresult
-                                                //     }
-                                                // proxyprinttodiv("end postResults", postResults, 11);
+                                                if (command.currenterror && Object.keys(command.currenterror).length > 0) {
+                                                    callback(command.queueparameters, command.overallresultparameters);
+                                                } else {
 
-                                                // added by joe to handle all the inherit processing in one block here
+                                                // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
                                                 if (command.adopt) {
                                                     var copyOfInheritData = {};
-                                                    extend(true, copyOfInheritData, command.overallresult);
+                                                    extend(true, copyOfInheritData, command.overallresultparameters);
 
                                                     proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
-                                                    proxyprinttodiv("execute - command.overallresult ****", command.overallresult, 11);
+                                                    proxyprinttodiv("execute - command.overallresult ****", command.overallresultparameters, 11);
                                                     proxyprinttodiv("execute - inboundparms ****", inboundparms, 11);
                                                     delete incomingparams.command; // may have to be un-enabled - joe
                                                     if (command.adopt === "override") {
-                                                        command.overallresult = extend(true, inboundparms, command.overallresult);
+                                                        command.overallresultparameters = extend(true, inboundparms, command.resultparameters);
+                                                        // command.overallresult = extend(true, inboundparms, command.overallresult);
                                                     }
                                                     if (command.adopt === "default") {
-                                                        command.overallresult = extend(true, command.overallresult, inboundparms);
+                                                        command.overallresultparameters = extend(true, command.resultparameters, inboundparms);
+                                                        //command.overallresult = extend(true, command.overallresult, inboundparms);
                                                     }
 
-                                                    // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
-                                                    if (!command.overallresult.command) {
-                                                        command.overallresult.command = {};
+                                                    if (!command.overallresultparameters.command) {
+                                                        command.overallresultparameters.command = {};
                                                     }
-                                                    if (!command.overallresult.command.inherit) {
-                                                        command.overallresult.command.inherit = {};
+                                                    if (!command.overallresultparameters.command.inherit) {
+                                                        command.overallresultparameters.command.inherit = {};
                                                     }
-                                                    if (!command.overallresult.command.inherit.data) {
-                                                        command.overallresult.command.inherit.data = {};
+                                                    if (!command.overallresultparameters.command.inherit.data) {
+                                                        command.overallresultparameters.command.inherit.data = {};
                                                     }
                                                     // load a copy of the what was inherited
-                                                    command.overallresult.command.inherit.data = copyOfInheritData;
-                                                    proxyprinttodiv("execute - adopt - command.overallresult B", command.overallresult, 11);
+                                                    command.overallresultparameters.command.inherit.data = copyOfInheritData;
+                                                    proxyprinttodiv("execute - adopt - command.overallresult B", command.overallresultparameters, 11);
                                                     //###
-                                                    incomingparams = extend(true, incomingparams, command.overallresult);
-                                                    proxyprinttodiv("execute - resultparameters B incomingparams", incomingparams, 11);
+                                                    //incomingparams = extend(true, incomingparams, command.overallresultparameters);
+                                                    //proxyprinttodiv("execute - resultparameters B incomingparams", incomingparams, 11);
                                                 }
-                                                // if (command.overallresult && Object.keys(command.overallresult).length > 0) {
-                                                //     var copyOfInheritData = {};
-                                                //     extend(true, copyOfInheritData, command.overallresult);
-                                                // }
 
-                                                // if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
-                                                //     var copyOfInheritData = {};
-                                                //     extend(true, copyOfInheritData, postResults);
-                                                // }
-
-                                                // process inherit
-                                                // if (command.adopt) {
-                                                //     proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
-                                                //     //delete incomingparams.command;
-                                                //     if (command.adopt === "override") {
-                                                //         command.overallresult = extend(true, inboundparms, command.overallresult);
-                                                //     }
-                                                //     if (command.adopt === "default") {
-                                                //         command.overallresult = extend(true, command.overallresult, inboundparms);
-                                                //     }
-                                                // }
-                                                // process inherit
-                                                // if (command.adopt) {
-                                                //     proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
-                                                //     delete incomingparams.command;
-                                                //     if (command.adopt === "override") {
-                                                //         postResults = extend(true, incomingparams, postResults);
-                                                //     }
-                                                //     if (command.adopt === "default") {
-                                                //         postResults = extend(true, postResults, incomingparams);
-                                                //     }
-                                                // }
-
-                                                // process command.resultparamters, deals with loading a copy of inherit data along with incomingparams
-                                                // if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
-                                                //     // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
-                                                //     if (!command.overallresult.command) {
-                                                //         command.overallresult.command = {};
-                                                //     }
-                                                //     if (!command.overallresult.command.inherit) {
-                                                //         command.overallresult.command.inherit = {};
-                                                //     }
-                                                //     if (!command.overallresult.command.inherit.data) {
-                                                //         command.overallresult.command.inherit.data = {};
-                                                //     }
-                                                //     // load a copy of the what was inherited
-                                                //     command.overallresult.command.inherit.data = copyOfInheritData;
-                                                //     proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
-                                                //     //###
-                                                //     //incomingparams = extend(true, incomingparams, command.resultparameters);
-                                                // }
-                                                // if (command.resultparameters && Object.keys(command.resultparameters).length > 0) {
-                                                //     // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
-                                                //     if (!postResults.command) {
-                                                //         postResults.command = {};
-                                                //     }
-                                                //     if (!postResults.command.inherit) {
-                                                //         postResults.command.inherit = {};
-                                                //     }
-                                                //     if (!postResults.command.inherit.data) {
-                                                //         postResults.command.inherit.data = {};
-                                                //     }
-                                                //     // load a copy of the what was inherited
-                                                //     postResults.command.inherit.data = copyOfInheritData;
-                                                //     proxyprinttodiv("execute - resultparameters B", command.resultparameters, 11);
-                                                //     //###
-                                                //     //incomingparams = extend(true, incomingparams, command.resultparameters);
-                                                // }
                                                 proxyprinttodiv("end postResults command.result", command.result, 11);
 
                                                 if (command.result) {
                                                     var json = {};
-                                                    // if (isArray(postResults)) {
-                                                    //     postResults = postResults[0];
-                                                    // }
-                                                    json[command.result] = command.overallresult;
-                                                    command.overallresult = json;
+                                                    json[command.result] = command.overallresultparameters;
+                                                    command.overallresultparameters = json;
                                                 }
-                                                // proxyprinttodiv("end postResults command.result", command, 11);
 
-                                                // if (command.result) {
-                                                //     var json = {};
-                                                //     // if (isArray(postResults)) {
-                                                //     //     postResults = postResults[0];
-                                                //     // }
-                                                //     json[command.result] = postResults;
-                                                //     postResults = json;
-                                                // }
-                                                //proxyprinttodiv("end postResults III", postResults, 11);
-                                                if (Object.prototype.toString.call(command.overallresult) !== '[object Array]') {
+                                                if (Object.prototype.toString.call(command.overallresultparameters) !== '[object Array]') {
                                                     var tempArray = [];
-                                                    tempArray.push(command.overallresult);
-                                                    command.overallresult = tempArray;
+                                                    tempArray.push(command.overallresultparameters);
+                                                    command.overallresultparameters = tempArray;
                                                 }
 
                                                 proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11);
-                                                //proxyprinttodiv("end postexecute -- postResults", postResults, 11);
-                                                callback(null, command.overallresult);
 
-                                                // proxyprinttodiv("end postResults III", postResults, 11);
-                                                // if (Object.prototype.toString.call(postResults) !== '[object Array]') {
-                                                //     var tempArray = [];
-                                                //     tempArray.push(postResults);
-                                                //     postResults = tempArray;
-                                                // }
 
-                                                //     proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11);
-                                                //     proxyprinttodiv("end postexecute -- postResults", postResults, 11);
-                                                //     callback(null, postResults);
-                                                //}
+                                                async.mapSeries(command.overallresultparameters, function (eachresult, cbMap) {
+                                                    async.nextTick(function () {
+                                                                 
+                                                        var expirationdate = new Date() + 2;
+
+                                                        var recorddef = {
+                                                                            "command" : {
+                                                                                "datastore": config.configuration.defaultdatastore,
+                                                                                "collection":"cache",
+                                                                                "keycollection":"cachekey",
+                                                                                "db" : expirationdate,
+                                                                                "databasetable":"cache"
+                                                                                }
+                                                                            }
+
+                                                        extend(true, recorddef, eachresult)
+                                                        updatewid(recorddef, cbMap)                
+
+                                                        }) // nexttick
+                                                    }, // end of mapseries
+                                                    function (err, res) {
+                                                    callback(null, command.overallresultparameters);
+                                                    })  
+
+//                                                         // if (comand.queueparameters)  { // if not normal
+//                                                         //     if (command.bundle) {
+//                                                         //         command.queueparameters=inboundparms
+//                                                         //         }
+//                                                         //     else { // !bundle
+//                                                         //         // leave overall error alone
+//                                                         //         }
+//                                                         //     if (command.level===1) {
+//                                                         //         server(queueparameters)
+//                                                         //         add to resultparameters
+//                                                         //         }
+//                                                         //     else { //level !==1, 
+//                                                         //         // send back failure and parameters
+//                                                         //         clear out currenterror
+//                                                         //         }
+
+//                                                         // if command.resultparameters {
+//                                                         //         updatecache(command.resultparameters)
+//                                                         //     }  
+//                                                         // extend(true, command.resultparameters, command)
+//                                                         // // we do not want to replicate command.bundle
+//                                                         // // some commands are sent in as defautls or overrides
+//                                                         //delete coomandsa
+
                                             } // end else
                                         }); // end do this processor post
                                     } // end else
@@ -406,15 +372,25 @@
         proxyprinttodiv('stagename begin--', stagename, 11);
         proxyprinttodiv('command begin--', command, 11);
 
-        command.overallresult = processrule(
-            command[stagename].overallresultrule,
+        command.overallresultparameters = processrule(
+            command[stagename].overallresultparametersrule,
             command.currentresult,
-            command.overallresult);
+            command.overallresultparameters);
 
-        command.overallerror = processrule(
-            command[stagename].overallerrorrule,
-            command.currenterror,
-            command.overallerror);
+        if (command.currenterror) {
+            command.queueparameters = processrule(
+                command[stagename].queueparametersrule,
+                command.currentparameters,
+                command.queueparameters)
+                //command.currenterror,
+                //command.queueparameters)
+            }
+
+                
+        // command.queueparameters = processrule(
+        //     command[stagename].queueparametersrule,
+        //     command.currenterror,
+        //     command.queueparameters);
 
         command.currentparameters = processrule(
             command[stagename].resultrule,
@@ -610,20 +586,20 @@
                     "executeorder": "series",
                     "multipleexecute": [],
                     "beforemultiple": {
-                        "overallresultrule": "clearresults",
-                        "overallerrorrule": "waterfall",
+                        "overallresultparametersrule": "clearresults",
+                        "queueparametersrule": "waterfall",
                         "resultrule": "waterfall",
                         "errorrule": "nullwaterfall"
                     },
                     "duringmultiple": {
-                        "overallresultrule": "pusharray",
-                        "overallerrorrule": "waterfall",
+                        "overallresultparametersrule": "pusharray",
+                        "queueparametersrule": "waterfall",
                         "resultrule": "waterfall",
                         "errorrule": "nullwaterfall"
                     },
                     "beforeendmultiple": {
-                        "overallresultrule": "waterfall",
-                        "overallerrorrule": "waterfall",
+                        "overallresultparametersrule": "waterfall",
+                        "queueparametersrule": "waterfall",
                         "resultrule": "waterfall",
                         "errorrule": "nullwaterfall"
                     }
@@ -708,7 +684,7 @@
                                             processstage(command, "duringmultiple");
 
                                             if (command.currenterror && Object.keys(command.currenterror).length > 0) {
-                                                cbMap(command.overallerror, command.overallresult);
+                                                cbMap(command.queueparameters, command.overallresultparameters);
                                             } else {
                                                 try {
                                                     // // If error, bounce out
@@ -754,17 +730,17 @@
             ],
                 function (err, resp) {
                     proxyprinttodiv("executethismultiple - **output", output, 11);
-                    proxyprinttodiv("executethismultiple - **overallresult", command.overallresult, 11);
+                    proxyprinttodiv("executethismultiple - **overallresultparameters", command.overallresultparameters, 11);
                     command.currenterror = err;
                     //command.currentresult = output;
-                    command.currentresult = command.overallresult;
+                    command.currentresult = command.overallresultparameters;
                     processstage(command, "beforeendmultiple");
 
-                    proxyprinttodiv("executethismultiple - **overallresult II", command.overallresult, 11);
+                    proxyprinttodiv("executethismultiple - **overallresultparameters II", command.overallresultparameters, 11);
                     proxyprinttodiv("executethismultiple - **output II", output, 11);
                     //callback(err, output);
-                    //callback(command.overallerror, output);
-                    callback(command.overallerror, command.overallresult);
+                    //callback(command.queueparameters, output);
+                    callback(command.queueparameters, command.overallresultparameters);
                 });
             //});
         } // end try
@@ -840,7 +816,9 @@
 
 
 
-    function dothisprocessor(params, target, callback) {
+
+
+    function dothisprocessor(params, target, objkey, callback) {
         try {
             var inboundparms_114 = arguments;
             //var err = {};
@@ -1494,8 +1472,8 @@
                     targetfn = execute;
                     executeflag = true; // so caller gets wid and then executes with the results
                     //params = {};
-                    params["executethis"] = "getwid";
-                    //params["executethis"] = "getwidmaster";
+                    //params["executethis"] = "getwid";
+                    params["executethis"] = "getwidmaster";
                     //params["command.convertmethod"] = "nowid";
                     params["wid"] = whatToDo;
 

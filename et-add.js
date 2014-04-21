@@ -1090,7 +1090,9 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
             function step4(step4_callback) {
                 object["executethis"] = "updatewid";
                 // readd command params back in
-                extend(true, object, {"command": command});
+                var temp = {}
+                temp.command=command
+                extend(true, object, temp);
                 proxyprinttodiv("addwid before updatewid ", object, 18);
                 execute(object, function (err, res) {
                     output = res; // or res[0]?
