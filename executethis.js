@@ -1261,7 +1261,7 @@
                                                                                     if ((res === undefined) ||
                                                                                         (isArray(res) && res[0]['metadata'] && res[0]['metadata']['expirationdate'] &&
                                                                                             new Date(res[0]['metadata']['expirationdate']) < new Date()) ||
-                                                                                        (isArray(res)) && (res.length === 1) && (Object.keys(res[0]).length === 0)
+                                                                                        (res && isArray(res)) && (res.length === 1) && res[0] && (Object.keys(res[0]).length === 0)
                                                                                         ) {
                                                                                         proxyprinttodiv("Try again hit wit res", res, 11);
                                                                                         whatallowexecute = true;
