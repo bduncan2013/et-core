@@ -289,7 +289,7 @@
                                 } // end else
                             });// end execute
                         } else { // if ==string
-                            proxyprinttodiv("cleanadd command", command, 99);
+                            proxyprinttodiv("cleanadd command", command, 17);
                             deepfilter(object, dtoobject, command, function (err, result_obj) {
                                 output.obj = result_obj;
                                 output.dtoobj = dtoobject;
@@ -959,6 +959,8 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
         // }
         proxyprinttodiv("addwid object", object, 18);
         proxyprinttodiv("addwid dtoobject", dtoobject, 18);
+        proxyprinttodiv("addwid object", object, 18);
+        proxyprinttodiv("addwid dtoobject", dtoobject, 18);
         proxyprinttodiv("addwid command", command, 18);
         var currentobject={};
         var currentinheritobject = {};
@@ -980,7 +982,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                              proxyprinttodiv("addwid step1 getwidmaster result", res, 18);
                              var getwidmasterres = {};
                              extend(true, getwidmasterres, res[0]); // master copy
-                             proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", getwidmasterres, 99);
+                             proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", getwidmasterres, 18);
                              //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":44,"command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];      
                              //res = [{"wid":"wid1","metadata":{"method":"defaultdto"},"d":4, "f":6, "command":{"inherit":{"data":{"c":99, "e":98, "g":7}}}}];       
                              if (typeof res[0] === 'object' && Object.keys(res[0]).length !== 0) {
@@ -1002,7 +1004,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                                 
                                 // object = extend(true, object, getwidmasterres); // wrong order
                                 object = extend(true, getwidmasterres, object);
-                                proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", object, 99);
+                                proxyprinttodiv("addwid step1 getwidmaster getwidmasterres", object, 18);
 
                                 step1_callback(null);
 
@@ -1088,11 +1090,10 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                 step3_callback(null);   
             },
             function step4(step4_callback) {
+                delete command.command.deepfilter.convert
                 object["executethis"] = "updatewid";
                 // readd command params back in
-                var temp = {}
-                temp=command
-                extend(true, object, temp);
+                extend(true, object, command);
                 proxyprinttodiv("addwid before updatewid ", object, 18);
                 execute(object, function (err, res) {
                     output = res; // or res[0]?
