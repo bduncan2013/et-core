@@ -229,8 +229,8 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
                     "convertmethod":"toobject",
-                    "datamethod":"upsert",
-                    "deepfilter" : {"keepaddthis":false}
+                    "datamethod":"upsert"
+                    // "deepfilter" : {"keepaddthis":false}
                 }
             }, {
                 "command": {
@@ -240,8 +240,8 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
                     "db":"",
                     "databasetable":"",
                     "convertmethod":"",
-                    "datamethod":"",
-                    "deepfilter" : {"keepaddthis":""}
+                    "datamethod":""
+                    // "deepfilter" : {"keepaddthis":""}
                 }
             },
             true);
@@ -402,7 +402,8 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
                     "convertmethod":"toobject",
-                    "deepfilter" : {"keepaddthis":false}
+                    // "deepfilter" : {"keepaddthis":false}
+                    "keepaddthis":true
                 }
             }, {
                 "command": {
@@ -412,7 +413,8 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                     "db":"",
                     "databasetable":"",
                     "convertmethod":"",
-                    "deepfilter" : {"keepaddthis":""}
+                    // "deepfilter" : {"keepaddthis":""}
+                    "keepaddthis":""
                 }
             },
             true);
@@ -437,9 +439,10 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                 var keydatabase=getdatabaseinforesult.keydatabase;
                 proxyprinttodiv('Function getwid keydatabase', keydatabase,12);
                 output = keydatabase[widName];
-                //if (!command.command.keepaddthis) {
-                  //  output = find_and_replace_addthis(output) 
-                    //}
+
+                if (!command.keepaddthis) {
+                   output = find_and_replace_addthis(output) 
+                }
 
                 // if (!keydatabase.hasOwnProperty(widName)) {
                 //     err=createfinalobject(outobject, command, nameoffn, errorobject, initialparameters)
@@ -809,47 +812,47 @@ function setbyindex(obj, str, val) {
 
 
 exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, command, callback) {
-    function find_and_replace_addthis(obj) {
-        proxyprinttodiv('<<< Get_Clean find_and_replace_addthis obj >>>', obj, 38);
-        var _in_obj;
+    // function find_and_replace_addthis(obj) {
+    //     proxyprinttodiv('<<< Get_Clean find_and_replace_addthis obj >>>', obj, 38);
+    //     var _in_obj;
 
-        if (obj instanceof Array) {
-            _in_obj = [];
-            extend(true, _in_obj, obj);
-        } else {
-            _in_obj = {};
-            extend(true, _in_obj, obj);
-        }
+    //     if (obj instanceof Array) {
+    //         _in_obj = [];
+    //         extend(true, _in_obj, obj);
+    //     } else {
+    //         _in_obj = {};
+    //         extend(true, _in_obj, obj);
+    //     }
 
-        proxyprinttodiv('<<< Get_Clean find_and_replace_addthis _in_obj >>>', _in_obj, 38);
+    //     proxyprinttodiv('<<< Get_Clean find_and_replace_addthis _in_obj >>>', _in_obj, 38);
 
-        if (_in_obj.hasOwnProperty("addthis")) {
-            var _add_this = _in_obj["addthis"];
-            delete _in_obj["addthis"];
-            for (var i in _add_this) {
-                if (_add_this.hasOwnProperty(i)) {
-                    _in_obj[i] = _add_this[i];
-                }
-            }
-        }
+    //     if (_in_obj.hasOwnProperty("addthis")) {
+    //         var _add_this = _in_obj["addthis"];
+    //         delete _in_obj["addthis"];
+    //         for (var i in _add_this) {
+    //             if (_add_this.hasOwnProperty(i)) {
+    //                 _in_obj[i] = _add_this[i];
+    //             }
+    //         }
+    //     }
 
-        for (var each_param in _in_obj) {
-            if (_in_obj.hasOwnProperty(each_param)) {
-                if (isObject(_in_obj[each_param])) {
-                    _in_obj[each_param] = find_and_replace_addthis(_in_obj[each_param]);
-                }
-            }
-        } // for each_param
+    //     for (var each_param in _in_obj) {
+    //         if (_in_obj.hasOwnProperty(each_param)) {
+    //             if (isObject(_in_obj[each_param])) {
+    //                 _in_obj[each_param] = find_and_replace_addthis(_in_obj[each_param]);
+    //             }
+    //         }
+    //     } // for each_param
 
-        return _in_obj;
-    } // end fn recurse
+    //     return _in_obj;
+    // } // end fn recurse
 
     //console.log("<< in deepfilter >>");
     var modifiedObj = {};
     extend(true, modifiedObj, inputObj);
     var convert;
     var totype;
-    var keepaddthis;
+    // var keepaddthis;
     var inbound_parameters_110 = arguments;
     if (command && command.command && command.command.deepfilter && command.command.deepfilter.convert===undefined) { //if command.deepfilter.convert undefined
         convert = false; //default value
@@ -858,15 +861,16 @@ exports.deepfilter = deepfilter = function deepfilter(inputObj, dtoObjOpt, comma
         totype = false; //default value
     } else { totype=command.command.deepfilter.totype; }
 
-    if (command && command.command && command.command.deepfilter && command.command.deepfilter.keepaddthis===undefined) { //if command.deepfilter.totype undefined
-        keepaddthis = false; //default value -- normally will try to remove addthis at add and get
-    } else { keepaddthis=command.command.deepfilter.keepaddthis; }
+    // if (command && command.command && command.command.deepfilter && command.command.deepfilter.keepaddthis===undefined) { //if command.deepfilter.totype undefined
+    //     keepaddthis = false; //default value -- normally will try to remove addthis at add and get
+    // } else { keepaddthis=command.command.deepfilter.keepaddthis; }
 
     proxyprinttodiv("deepfilter inputObj", inputObj, 41);
     proxyprinttodiv("deepfilter dtoObjOpt", dtoObjOpt, 41);
+
     if (dtoObjOpt) {
         recurseModObj(modifiedObj, dtoObjOpt, convert, totype, function (err, res) {
-            if (!keepaddthis) {res = find_and_replace_addthis(res)}
+            // if (!keepaddthis) {res = find_and_replace_addthis(res)}
             // If error, bounce out
             if (err && Object.keys(err).length > 0) {
                 callback(err, res);

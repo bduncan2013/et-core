@@ -1029,7 +1029,7 @@ exports.addwid = addwid = function addwid(object, dtoobject, command, callback) 
                 }
                 command.command.deepfilter.convert = true;
 
-                if (!command.command.deepfilter.keepaddthis) { command.command.deepfilter.keepaddthis = true; }
+                // if (!command.command.deepfilter.keepaddthis) { command.command.deepfilter.keepaddthis = true; }
                 
                 // add wid = guid if its missing in input
                 if (!object.hasOwnProperty("wid")) {

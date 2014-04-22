@@ -1510,9 +1510,9 @@
                         command.command.deepfilter.convert = true;
                     }
 
-                    if (!command.command.deepfilter.keepaddthis) {
-                        command.command.deepfilter.keepaddthis = false;
-                    }
+                    // if (!command.command.deepfilter.keepaddthis) {
+                    //     command.command.deepfilter.keepaddthis = false;
+                    // }
 
                     deepfilter(resultObj, dtoobject, command, function (err, resultObj) { // changed by joe
                         // If error, bounce out
