@@ -276,81 +276,82 @@
                                                     callback(command.queueparameters, command.overallresultparameters);
                                                 } else {
 
-                                                // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
-                                                if (command.adopt) {
-                                                    var copyOfInheritData = {};
-                                                    extend(true, copyOfInheritData, command.overallresultparameters);
+                                                    // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
+                                                    if (command.adopt) {
+                                                        var copyOfInheritData = {};
+                                                        extend(true, copyOfInheritData, command.overallresultparameters);
 
-                                                    proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
-                                                    proxyprinttodiv("execute - command.overallresult ****", command.overallresultparameters, 11);
-                                                    proxyprinttodiv("execute - inboundparms ****", inboundparms, 99);
-                                                    delete incomingparams.command; // may have to be un-enabled - joe
-                                                    if (command.adopt === "override") {
-                                                        command.overallresultparameters = extend(true, inboundparms, command.resultparameters);
-                                                        // command.overallresult = extend(true, inboundparms, command.overallresult);
+                                                        proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
+                                                        proxyprinttodiv("execute - command.overallresult ****", command.overallresultparameters, 11);
+                                                        proxyprinttodiv("execute - inboundparms ****", inboundparms, 99);
+                                                        delete incomingparams.command; // may have to be un-enabled - joe
+                                                        if (command.adopt === "override") {
+                                                            command.overallresultparameters = extend(true, inboundparms, command.resultparameters);
+                                                            // command.overallresult = extend(true, inboundparms, command.overallresult);
+                                                        }
+                                                        if (command.adopt === "default") {
+                                                            command.overallresultparameters = extend(true, command.resultparameters, inboundparms);
+                                                            // command.overallresult = extend(true, command.overallresult, inboundparms);
+                                                        }
+
+                                                        if (!command.overallresultparameters.command) {
+                                                            command.overallresultparameters.command = {};
+                                                        }
+                                                        if (!command.overallresultparameters.command.inherit) {
+                                                            command.overallresultparameters.command.inherit = {};
+                                                        }
+                                                        if (!command.overallresultparameters.command.inherit.data) {
+                                                            command.overallresultparameters.command.inherit.data = {};
+                                                        }
+                                                        // load a copy of the what was inherited
+                                                        command.overallresultparameters.command.inherit.data = copyOfInheritData;
+                                                        proxyprinttodiv("execute - adopt - command.overallresult B", command.overallresultparameters, 99);
+                                                        //###
+                                                        //incomingparams = extend(true, incomingparams, command.overallresultparameters);
+                                                        //proxyprinttodiv("execute - resultparameters B incomingparams", incomingparams, 11);
                                                     }
-                                                    if (command.adopt === "default") {
-                                                        command.overallresultparameters = extend(true, command.resultparameters, inboundparms);
-                                                        // command.overallresult = extend(true, command.overallresult, inboundparms);
+
+                                                    proxyprinttodiv("end postResults command.result", command.result, 11);
+
+                                                    if (command.result) {
+                                                        var json = {};
+                                                        json[command.result] = command.overallresultparameters;
+                                                        command.overallresultparameters = json;
                                                     }
-                                                    
-                                                    if (!command.overallresultparameters.command) {
-                                                        command.overallresultparameters.command = {};
+
+                                                    if (Object.prototype.toString.call(command.overallresultparameters) !== '[object Array]') {
+                                                        var tempArray = [];
+                                                        tempArray.push(command.overallresultparameters);
+                                                        command.overallresultparameters = tempArray;
                                                     }
-                                                    if (!command.overallresultparameters.command.inherit) {
-                                                        command.overallresultparameters.command.inherit = {};
-                                                    }
-                                                    if (!command.overallresultparameters.command.inherit.data) {
-                                                        command.overallresultparameters.command.inherit.data = {};
-                                                    }
-                                                    // load a copy of the what was inherited
-                                                    command.overallresultparameters.command.inherit.data = copyOfInheritData;
-                                                    proxyprinttodiv("execute - adopt - command.overallresult B", command.overallresultparameters, 99);
-                                                    //###
-                                                    //incomingparams = extend(true, incomingparams, command.overallresultparameters);
-                                                    //proxyprinttodiv("execute - resultparameters B incomingparams", incomingparams, 11);
-                                                }
 
-                                                proxyprinttodiv("end postResults command.result", command.result, 11);
+                                                    proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11);
 
-                                                if (command.result) {
-                                                    var json = {};
-                                                    json[command.result] = command.overallresultparameters;
-                                                    command.overallresultparameters = json;
-                                                }
+                                                    callback(null, command.overallresultparameters);
 
-                                                if (Object.prototype.toString.call(command.overallresultparameters) !== '[object Array]') {
-                                                    var tempArray = [];
-                                                    tempArray.push(command.overallresultparameters);
-                                                    command.overallresultparameters = tempArray;
-                                                }
-
-                                                proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11);
-
-
-                                                async.mapSeries(command.overallresultparameters, function (eachresult, cbMap) {
-                                                    async.nextTick(function () {
-                                                                 
-                                                        var expirationdate = new Date() + 2;
-
-                                                        var recorddef = {
-                                                                            "command" : {
-                                                                                "datastore": config.configuration.defaultdatastore,
-                                                                                "collection":"cache",
-                                                                                "keycollection":"cachekey",
-                                                                                "db" : expirationdate,
-                                                                                "databasetable":"cache"
-                                                                                }
-                                                                            };
-
-                                                        extend(true, recorddef, eachresult);
-                                                        updatewid(recorddef, cbMap)                
-
-                                                        }); // nexttick
-                                                    }, // end of mapseries
-                                                    function (err, res) {
-                                                        callback(null, command.overallresultparameters);
-                                                    });
+//                                                async.mapSeries(command.overallresultparameters, function (eachresult, cbMap) {
+//                                                    async.nextTick(function () {
+//
+//                                                        var expirationdate = new Date() + 2;
+//
+//                                                        var recorddef = {
+//                                                                            "command" : {
+//                                                                                "datastore": config.configuration.defaultdatastore,
+//                                                                                "collection":"cache",
+//                                                                                "keycollection":"cachekey",
+//                                                                                "db" : expirationdate,
+//                                                                                "databasetable":"cache"
+//                                                                                }
+//                                                                            };
+//
+//                                                        extend(true, recorddef, eachresult);
+//                                                        updatewid(recorddef, cbMap)
+//
+//                                                        }); // nexttick
+//                                                    }, // end of mapseries
+//                                                    function (err, res) {
+//                                                        callback(null, command.overallresultparameters);
+//                                                    });
 
 //                                                         // if (comand.queueparameters)  { // if not normal
 //                                                         //     if (command.bundle) {
@@ -1502,8 +1503,8 @@
                     targetfn = execute;
                     executeflag = true; // so caller gets wid and then executes with the results
                     //params = {};
-                    //params["executethis"] = "getwid";
-                    params["executethis"] = "getwidmaster";
+                    params["executethis"] = "getwid";
+//                    params["executethis"] = "getwidmaster";
                     //params["command.convertmethod"] = "nowid";
                     params["wid"] = whatToDo;
 
