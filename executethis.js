@@ -33,26 +33,42 @@
 //##
         function hashobj(inobj) {
             var obj={};
-            extend(true, obj, inobj)
-            delete inobj.executethis
-            delete inobj.preexecute
-            delete inobj.postexecute
-            ///////delete inobj.command
+            extend(true, obj, inobj);
+            delete inobj.executethis;
+            delete inobj.preexecute;
+            delete inobj.postexecute;
+            ///////delete inobj.command;
 
             var result = sortObj( obj , function( a, b ){
                 return a.key < b.key  ;    
             });
-            return JSON.stringify( result )
+            return JSON.stringify( result );
         }
 
+//&&
         function checkenviornment(environment, cb) {
             if (Object.keys(environment).length === 0) {
-                getwid({"wid":"environment"}, function (err, res) {
-                    cb(null, res)
-                })
+                if (config.configuration.environment==="local") {
+                    getwid({"wid":"environment"}, function (err, res) {
+                        if (Object.keys(res).length === 0) {
+                            var newenvironment={};
+                            newenvironment.wid="environment";
+                            newenvironment.accesstoken=createNewGuid();
+                            updatewid(newenvironment, function (err, res) {
+                                cb(null, newenvironment)
+                            });
+                        }
+                        else {
+                            cb(null, res);
+                        }
+                    });
                 }
+                else {
+                    cb(null, {});
+                }
+            }
             else {
-                cb(null, environment)
+                cb(null, environment);
             }
         }
 
@@ -66,7 +82,7 @@
             var command = {};
             //debuglevel = 11
             proxyprinttodiv("execute - hello from execute", incomingparams, 11);
-            if (!incomingparams.command) {incomingparams.command={}}
+            if (!incomingparams.command) {incomingparams.command={};}
 
             if (isString(incomingparams)) {
                 var temp = {};
@@ -91,8 +107,8 @@
                     delete incomingparams.command.server;
                     window[fn](incomingparams, function (err, res) {
                         callback(err, res);
-                        })
-                    } 
+                    });
+                }
                 else {
                     proxyprinttodiv('>>>> execute incomingparams ', incomingparams, 11);
                     proxyprinttodiv('>>>> execute incomingparams ', incomingparams, 11);
@@ -207,7 +223,7 @@
                     proxyprinttodiv('>>>> execute inboundparms', inboundparms, 11, true);
 
                     checkenviornment(command.environment, function (err, res) {
-                    command.environment=res
+                    command.environment=res;
 
                     if (command.multipleexecute.length > 0) {
                         proxyprinttodiv("execute - array params received ", inboundparms, 11);
@@ -219,7 +235,7 @@
                         delete inboundparms['executethis'];
 
 // ##
-                            var objkey = hashobj(inboundparms)
+                            var objkey = hashobj(inboundparms);
                             proxyprinttodiv("execute objkey", objkey, 11);
 
 
@@ -325,16 +341,16 @@
                                                                                 "db" : expirationdate,
                                                                                 "databasetable":"cache"
                                                                                 }
-                                                                            }
+                                                                            };
 
-                                                        extend(true, recorddef, eachresult)
+                                                        extend(true, recorddef, eachresult);
                                                         updatewid(recorddef, cbMap)                
 
-                                                        }) // nexttick
+                                                        }); // nexttick
                                                     }, // end of mapseries
                                                     function (err, res) {
-                                                    callback(null, command.overallresultparameters);
-                                                    })  
+                                                        callback(null, command.overallresultparameters);
+                                                    });
 
 //                                                         // if (comand.queueparameters)  { // if not normal
 //                                                         //     if (command.bundle) {
@@ -367,7 +383,7 @@
                             } // end else
                         }); // end do this processor pre
                     } // multiple
-                    }) // environment
+                    }); // environment
                 } // added for command.server
             }
         } // end try
@@ -395,7 +411,7 @@
             command.queueparameters = processrule(
                 command[stagename].queueparametersrule,
                 command.currentparameters,
-                command.queueparameters)
+                command.queueparameters);
                 //command.currenterror,
                 //command.queueparameters)
             }

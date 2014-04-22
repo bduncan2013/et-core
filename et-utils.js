@@ -348,6 +348,40 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
 };
 //function getfrommongo(inputWidgetObject) {
 exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
+        function find_and_replace_addthis(obj) {
+        proxyprinttodiv('<<< Get_Clean find_and_replace_addthis obj >>>', obj, 38);
+        var _in_obj;
+
+        if (obj instanceof Array) {
+            _in_obj = [];
+            extend(true, _in_obj, obj);
+        } else {
+            _in_obj = {};
+            extend(true, _in_obj, obj);
+        }
+
+        proxyprinttodiv('<<< Get_Clean find_and_replace_addthis _in_obj >>>', _in_obj, 38);
+
+        if (_in_obj.hasOwnProperty("addthis")) {
+            var _add_this = _in_obj["addthis"];
+            delete _in_obj["addthis"];
+            for (var i in _add_this) {
+                if (_add_this.hasOwnProperty(i)) {
+                    _in_obj[i] = _add_this[i];
+                }
+            }
+        }
+
+        for (var each_param in _in_obj) {
+            if (_in_obj.hasOwnProperty(each_param)) {
+                if (isObject(_in_obj[each_param])) {
+                    _in_obj[each_param] = find_and_replace_addthis(_in_obj[each_param]);
+                }
+            }
+        } // for each_param
+
+        return _in_obj;
+    } // end fn recurse
     try {
         var originalarguments = {};
         extend(true, originalarguments, inputWidgetObject);
@@ -365,7 +399,7 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                     "keycollection":config.configuration.defaultcollection + "key",
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
-                    "convertmethod":"toobject"
+                    "convertmethod":"toobject",
                 }
             }, {
                 "command": {
@@ -399,7 +433,7 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                 var keydatabase=getdatabaseinforesult.keydatabase;
                 proxyprinttodiv('Function getwid keydatabase', keydatabase,12);
                 output = keydatabase[widName];
-
+                output = find_and_replace_addthis(output)
 
                 // if (!keydatabase.hasOwnProperty(widName)) {
                 //     err=createfinalobject(outobject, command, nameoffn, errorobject, initialparameters)
@@ -1175,7 +1209,7 @@ function createAlphanumericStringByLength(length){
 
 //deepfilter dataType=guid - to create new guid
 //ref : http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
-function createNewGuid(){
+exports.createNewGuid = createNewGuid = function createNewGuid(){
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
