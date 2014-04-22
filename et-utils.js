@@ -247,7 +247,7 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
             true);
 
         var command = filter_data.filteredobject.command;
-        proxyprinttodiv('Function datastore filter_data', filter_data, 99);
+        proxyprinttodiv('Function datastore filter_data', filter_data, 12);
         proxyprinttodiv('Function datastore command', command, 12);
         var datastore= command.datastore;
         var collection = command.collection;

@@ -949,7 +949,6 @@ execute([{
     },{
       "executethis":"addwidmaster",
       "wid":"author1",
-      "age" : "10",
       "metadata.method":"authordto"
     },{
       "executethis": "getwidmaster",

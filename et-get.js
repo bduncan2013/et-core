@@ -375,7 +375,7 @@
                     // extend(true, dtolist, dtolistdefault)
 
                     if (!dtoobj.command) { dtoobj.command = {}; }
-                    // section below goes through each property and recurse
+                    // section below goes through each property and recurses
                     proxyprinttodiv("getdtoobject createdtotable -- dtotable ", dtotable, 98, true);
                     //proxyprinttodiv("getdtoobject inheritlist", inheritlist, 98);
                     proxyprinttodiv("getdtoobject dtolist", dtolist, 98);
@@ -698,7 +698,7 @@
 
                             listToDo = parameterobject.metadata.inherit;
                             listToDo.reverse(); // they are processed in reverse order
-                            var wid = extend(true, {}, parameterobject.wid);
+                            var wid = parameterobject.wid;
                             var mm = extend(true, {}, parameterobject.metadata);
 
                             if (listToDo.length > 0 && command && command.getwidmaster && command.getwidmaster.inheritflag === "true") {
@@ -1390,8 +1390,10 @@
                             delete dtoobject.command;
                             delete bigdto.command; // added by joe to delete the command obj so we do not get a blank command object after deep filter
 
-                            var wid = extend(true, {}, resultObj.wid);
+                            proxyprinttodiv('<<< Get_Clean before call to execute wid A >>>', resultObj.wid, 38);
+                            var wid = resultObj.wid; // should be string "name" here not a wid object
                             var mm = extend(true, {}, resultObj.metadata);
+                            proxyprinttodiv('<<< Get_Clean before call to execute wid B >>>', wid, 38);
 
                             if (listToDo.length > 0 && command && command.getwidmaster && command.getwidmaster.inheritflag === "true") {
                                 proxyprinttodiv('the starting value of resultObj', resultObj, 38);

@@ -276,21 +276,27 @@
                                                     callback(command.queueparameters, command.overallresultparameters);
                                                 } else {
 
-                                                    // proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
+                                                    proxyprinttodiv("execute - command.resultparameters ****", command.resultparameters, 11);
                                                     if (command.adopt) {
                                                         var copyOfInheritData = {};
-                                                        extend(true, copyOfInheritData, command.overallresultparameters);
+                                                        extend(true, copyOfInheritData, command.currentresult[0]);
 
+                                                        proxyprinttodiv("execute - command ****", command, 11);
+                                                        proxyprinttodiv("execute - command ****", command.resultparameters, 11);
                                                         proxyprinttodiv("execute - command.adopt ****", command.adopt, 11);
                                                         proxyprinttodiv("execute - command.overallresult ****", command.overallresultparameters, 11);
-                                                        proxyprinttodiv("execute - inboundparms ****", inboundparms, 99);
+                                                        proxyprinttodiv("execute - inboundparms ****", inboundparms, 11);
                                                         delete incomingparams.command; // may have to be un-enabled - joe
                                                         if (command.adopt === "override") {
-                                                            command.overallresultparameters = extend(true, inboundparms, command.resultparameters);
+                                                            command.overallresultparameters = extend(true, command.resultparameters, command.currentresult[0]);
+                                                            // command.overallresultparameters = extend(true, inboundparms, command.overallresultparameters);
+                                                            // command.overallresultparameters = extend(true, inboundparms, command.resultparameters);
                                                             // command.overallresult = extend(true, inboundparms, command.overallresult);
                                                         }
                                                         if (command.adopt === "default") {
-                                                            command.overallresultparameters = extend(true, command.resultparameters, inboundparms);
+                                                            command.overallresultparameters = extend(true, command.currentresult[0], command.resultparameters);
+                                                            // command.overallresultparameters = extend(true, command.overallresultparameters, inboundparms);
+                                                            // command.overallresultparameters = extend(true, command.resultparameters, inboundparms);
                                                             // command.overallresult = extend(true, command.overallresult, inboundparms);
                                                         }
 
@@ -305,7 +311,7 @@
                                                         }
                                                         // load a copy of the what was inherited
                                                         command.overallresultparameters.command.inherit.data = copyOfInheritData;
-                                                        proxyprinttodiv("execute - adopt - command.overallresult B", command.overallresultparameters, 99);
+                                                        proxyprinttodiv("execute - adopt - command.overallresult B", command.overallresultparameters, 11);
                                                         //###
                                                         //incomingparams = extend(true, incomingparams, command.overallresultparameters);
                                                         //proxyprinttodiv("execute - resultparameters B incomingparams", incomingparams, 11);
