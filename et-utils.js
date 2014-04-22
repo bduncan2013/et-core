@@ -247,6 +247,7 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
             true);
 
         var command = filter_data.filteredobject.command;
+        proxyprinttodiv('Function datastore inputWidgetObject', inputWidgetObject, 12);
         proxyprinttodiv('Function datastore filter_data', filter_data, 12);
         proxyprinttodiv('Function datastore command', command, 12);
         var datastore= command.datastore;
@@ -436,9 +437,9 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                 var keydatabase=getdatabaseinforesult.keydatabase;
                 proxyprinttodiv('Function getwid keydatabase', keydatabase,12);
                 output = keydatabase[widName];
-                if (!command.command.keepaddthis) {
-                    output = find_and_replace_addthis(output) 
-                    }
+                //if (!command.command.keepaddthis) {
+                  //  output = find_and_replace_addthis(output) 
+                    //}
 
                 // if (!keydatabase.hasOwnProperty(widName)) {
                 //     err=createfinalobject(outobject, command, nameoffn, errorobject, initialparameters)
@@ -1796,11 +1797,11 @@ function getRandomNumberByLength(length) {
 
         if (deleteflag) {
             output=splitobj.xorobj1
-            filteredobject = splitobj.orobj
+            filteredobject = splitobj.andobj
         }
         else { // if !deleteflag
             // output= // nothing to do to output
-            filteredobject = splitobj.orobj
+            filteredobject = splitobj.andobj
         }
 
         return {
