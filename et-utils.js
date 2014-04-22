@@ -229,7 +229,8 @@ exports.updatewid = updatewid = updatewid = function updatewid(inputWidgetObject
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
                     "convertmethod":"toobject",
-                    "datamethod":"upsert"
+                    "datamethod":"upsert",
+                    "deepfilter" : {"keepaddthis":false}
                 }
             }, {
                 "command": {
@@ -400,6 +401,7 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                     "db":config.configuration.defaultdb,
                     "databasetable":config.configuration.defaultdatabasetable,
                     "convertmethod":"toobject",
+                    "deepfilter" : {"keepaddthis":false}
                 }
             }, {
                 "command": {
@@ -408,7 +410,8 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                     "keycollection":"",
                     "db":"",
                     "databasetable":"",
-                    "convertmethod":""
+                    "convertmethod":"",
+                    "deepfilter" : {"keepaddthis":""}
                 }
             },
             true);
@@ -433,7 +436,9 @@ exports.getwid = getwid = function getwid(inputWidgetObject, callback) {
                 var keydatabase=getdatabaseinforesult.keydatabase;
                 proxyprinttodiv('Function getwid keydatabase', keydatabase,12);
                 output = keydatabase[widName];
-                output = find_and_replace_addthis(output)
+                if (!command.command.keepaddthis) {
+                    output = find_and_replace_addthis(output) 
+                    }
 
                 // if (!keydatabase.hasOwnProperty(widName)) {
                 //     err=createfinalobject(outobject, command, nameoffn, errorobject, initialparameters)
