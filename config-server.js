@@ -1,5 +1,5 @@
 var needle = require('needle');
-var twilio = require('twilio')('AC909f1981261f4461abbc7985bd202897', '7bb26fabe1f818f11f4a178359e0f19a');
+
 
 if (!exports) {
     var exports = {};
